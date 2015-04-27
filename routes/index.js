@@ -37,11 +37,28 @@ router.get('/posts', function(req, res, next) {
 router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
   post.author = req.payload.username;
+  var id = req.payload._id;
 
-  post.save(function(err, post){
-    if(err){ return next(err); }
-
-    res.json(post);
+  gfs.findOne({ _id: id}, function(err,file){
+    if(file){
+      var readStream = gfs.createReadStream({
+        _id: id
+      });
+      readStream.on('data',function(data){
+        var data_uri_prefix = "data:" + file.contentType +";base64,";
+        var image = data.toString("base64");
+        image = data_uri_prefix + image;
+        post.image = image;
+        post.save(function(err, post){
+          if(err){ return next(err); }
+          res.json(post);
+        });
+      })
+    }
+    readStream.on('error',function(err){
+      console.log('An error occurred!',err);
+      throw err;
+    });
   });
 });
 
@@ -201,7 +218,7 @@ router.get('/profile',auth,function(req,res,next){
           message: 'File not found'
         });
       }
-      // res.writeHead(200, {'Content-Type': file.contentType});
+      // res.writeHead(200, {'Content-Type': 'application/json'});
 
       var readStream = gfs.createReadStream({
         _id: id
@@ -228,37 +245,37 @@ router.get('/profile',auth,function(req,res,next){
   })
 
 })
-router.get('/getpic',auth,function(req,res,next){
-  var id = req.payload._id;
+// router.get('/getpic',auth,function(req,res,next){
+//   var id = req.payload._id;
 
-  gfs.findOne({ _id: id}, function(err,file){
-    if(!file){
-      return res.status(400).send({
-        message: 'File not found'
-      });
-    }
-    res.writeHead(200, {'Content-Type': file.contentType});
+//   gfs.findOne({ _id: id}, function(err,file){
+//     if(!file){
+//       return res.status(400).send({
+//         message: 'File not found'
+//       });
+//     }
+//     res.writeHead(200, {'Content-Type': file.contentType});
 
-    var readStream = gfs.createReadStream({
-      _id: id
-    });
+//     var readStream = gfs.createReadStream({
+//       _id: id
+//     });
 
-    readStream.on('data',function(data){
-      var data_uri_prefix = "data:" + file.contentType +";base64,";
-      var image = data.toString("base64");
-      image = data_uri_prefix + image;
-      res.write(image);
-    })
-    readStream.on('end',function(){
-      res.end();
-    });
+//     readStream.on('data',function(data){
+//       var data_uri_prefix = "data:" + file.contentType +";base64,";
+//       var image = data.toString("base64");
+//       image = data_uri_prefix + image;
+//       res.write(image);
+//     })
+//     readStream.on('end',function(){
+//       res.end();
+//     });
 
-    readStream.on('error',function(err){
-      console.log('An error occurred!',err);
-      throw err;
-    });
-  });
-});
+//     readStream.on('error',function(err){
+//       console.log('An error occurred!',err);
+//       throw err;
+//     });
+//   });
+// });
 
 
 module.exports = router;

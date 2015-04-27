@@ -8,6 +8,7 @@ var PostSchema = new mongoose.Schema({
   description: String,
   rate: String,
   location: String,
+  image: String,
   startDate: String,
   endDate: String,
   timestamp: String

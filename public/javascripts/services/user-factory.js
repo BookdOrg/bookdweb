@@ -22,6 +22,7 @@ angular.module('oddjob.user-factory',[])
 			headers:{Authorization: 'Bearer '+auth.getToken()}
 		})
 		.success(function(data){
+			return data;
 		})
 	}
 	return o;

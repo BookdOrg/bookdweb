@@ -8,17 +8,17 @@ angular.module('oddjob.profile-controller',[])
 			});
 		}
 		loadProfile();
+
 		var uploader = $scope.uploader = new FileUploader({
 			url: '/upload',
 			queueLimit: 1,
 			headers:{
 				Authorization: 'Bearer '+auth.getToken()
 			}
-		},function(item){
-			item.onSuccessItem(function(item,response,status,headers){
-				console.log("fired");
-			})
 		});
+		uploader.onSuccessItem = function(item){
+			loadProfile();
+		}
 
 		uploader.filters.push({
             name: 'imageFilter',
