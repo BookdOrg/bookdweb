@@ -5,6 +5,7 @@ var CommentSchema = new mongoose.Schema({
   body: String,
   author: String,
   timestamp: String,
+  image: String,
   post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }
 });
 

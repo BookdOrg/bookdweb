@@ -128,8 +128,9 @@
 
   <script type="text/ng-template" id="/posts.html">
     <div class="page-header">
+    
       <h3>
-          {{post.title}}
+          <img height="50px" width="50px" src="{{post.image}}"> {{post.title}}
       </h3>
       <div>Start Date: {{post.startDate}}</div>
       <div>End Date: {{post.endDate}}</div>
@@ -142,6 +143,9 @@
     </div>
 
     <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+      <span>
+        <img height="50px" width="50px" src="{{comment.image}}"/>
+      </span>
       <span style="font-size:20px; margin-left:10px;">
         {{comment.body}}
       </span>

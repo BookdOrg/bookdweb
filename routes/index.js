@@ -114,13 +114,13 @@ router.get('/posts/:post', function(req, res, next) {
 // })
 
 // upvote a post
-router.put('/posts/:post/upvote', auth, function(req, res, next) {
-  req.post.upvote(function(err, post){
-    if (err) { return next(err); }
+// router.put('/posts/:post/upvote', auth, function(req, res, next) {
+//   req.post.upvote(function(err, post){
+//     if (err) { return next(err); }
 
-    res.json(post);
-  });
-});
+//     res.json(post);
+//   });
+// });
 
 
 // create a new comment
@@ -128,27 +128,43 @@ router.post('/posts/:post/comments', auth, function(req, res, next) {
   var comment = new Comment(req.body);
   comment.post = req.post;
   comment.author = req.payload.username;
+  var id = req.payload._id;
 
-  comment.save(function(err, comment){
-    if(err){ return next(err); }
-
-    req.post.comments.push(comment);
-    req.post.save(function(err, post) {
-      if(err){ return next(err); }
-
-      res.json(comment);
+  gfs.findOne({ _id: id}, function(err,file){
+    if(file){
+      var readStream = gfs.createReadStream({
+        _id: id
+      });
+      readStream.on('data',function(data){
+        var data_uri_prefix = "data:" + file.contentType +";base64,";
+        var image = data.toString("base64");
+        image = data_uri_prefix + image;
+        comment.image = image;
+        comment.save(function(err, comment){
+        if(err){ return next(err); }
+          req.post.comments.push(comment);
+          req.post.save(function(err, post) {
+            if(err){ return next(err); }
+            res.json(comment);
+          });
+        });
+      })
+    }
+    readStream.on('error',function(err){
+      console.log('An error occurred!',err);
+      throw err;
     });
   });
 });
 
 // upvote a comment
-router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
-  req.comment.upvote(function(err, comment){
-    if (err) { return next(err); }
+// router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
+//   req.comment.upvote(function(err, comment){
+//     if (err) { return next(err); }
     
-    res.json(comment);
-  });
-});
+//     res.json(comment);
+//   });
+// });
 
 
 router.post('/login', function(req, res, next){
