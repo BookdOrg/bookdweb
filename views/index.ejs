@@ -1,0 +1,324 @@
+<html>
+<head>
+  <title>Odd Job</title>
+
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.js"></script>
+  <script src="/javascripts/angularApp.js"></script>
+  <script src="/javascripts/controllers/main-controller.js"></script>
+  <script src="/javascripts/controllers/auth-controller.js"></script>
+  <script src="/javascripts/controllers/nav-controller.js"></script>
+  <script src="/javascripts/controllers/post-controller.js"></script>
+  <script src="/javascripts/controllers/profile-controller.js"></script>
+  <script src="/javascripts/services/auth-factory.js"></script>
+  <script src="/javascripts/services/post-factory.js"></script>
+  <script src="/javascripts/services/user-factory.js"></script>
+  <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
+  <script src="/javascripts/directives/thumb-directive.js"></script>
+
+</head>
+<body ng-app="oddJob">
+  <nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+    <ul class="nav navbar-nav">
+      <li ng-show="isLoggedIn()"><a href="#/user/{{currentUser()._id}}/profile">{{ currentUser().username }}</a></li>
+      <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
+      <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+      <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+      <li></li>
+    </ul>
+  </nav>
+  <nav class="navbar navbar-default pull-left" ng-controller="NavCtrl">
+    <ul class="nav navbar-nav">
+      <li><a href="#/home">Home</a></li>
+      <li></li>
+    </ul>
+  </nav>
+
+    <div class="row" ng-controller="NavCtrl">
+      <div ng-show="isLoggedIn()" class="col-md-5 col-md-offset-2" style="margin-top:10px;">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-primary glyphicon glyphicon-search" type="button">
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  <div class="row">
+    <div class="col-md-9 col-md-offset-1">
+      <ui-view></ui-view>
+    </div>
+  </div>
+
+  <script type="text/ng-template" id="/home.html">
+    <div class="page-header">
+      <h1 class="text-center">Job Postings</h1>
+    </div>
+
+    <div ng-repeat="post in posts | orderBy:'timestamp':true">
+      <span>
+        <img src="" height="25px" width:"25px" style="" class="img-rounded"></img>
+      </span>
+      <span style="font-size:20px; margin-left:10px;">
+        <a href="#/posts/{{post._id}}">
+          {{post.title | limitTo:32}} ...
+        </a>
+      </span>
+      <span ng-show="post.author">
+        posted by {{post.author}} on {{post.timestamp}} |
+      </span>
+      <span>
+       {{post.comments.length}} Comments
+      </span>
+    </div>
+
+    <form ng-submit="addPost()" style="margin-top:30px;" ng-show="isLoggedIn()">
+      <h3 class="text-center page-header">Add a new post</h3>
+
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control"
+          placeholder="Title" ng-model="title"></input>
+      </div>
+
+      <div class="form-group col-md-3">
+        <select class="form-control"
+           ng-model="location">
+           <option value="">Select City</option>
+           <option value="Newark">Newark</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-3">
+        <input type="text" class="form-control"
+          placeholder="Rate" ng-model="rate"></input>
+      </div>
+
+      <div class="form-group col-md-10">
+        <textarea type="text" class="form-control"
+          placeholder="Description" ng-model="description"></textarea>
+      </div>
+
+      <div class="form-group col-md-5">
+        <label for="startDate">Start Date</label>
+        <input id="startDate" type="date" class="form-control"
+          placeholder="" ng-model="startDate"></input>
+      </div>
+      <div class="form-group col-md-5">
+      <label for="endDate">End Date</label>
+        <input id="endDate" type="date" class="form-control"
+          placeholder="" ng-model="endDate"></input>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary">Post</button>
+      </div>
+    </form>
+
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="/posts.html">
+    <div class="page-header">
+      <h3>
+          {{post.title}}
+      </h3>
+      <div>Start Date: {{post.startDate}}</div>
+      <div>End Date: {{post.endDate}}</div>
+      <div>Rate: {{post.rate}}</div>
+      <div>Posted: {{post.timestamp}}</div>
+      <div>Location: {{post.location}}</div>
+      <div>Description: {{post.description}}</div>
+      <div>Author: {{post.author}}</div>
+
+    </div>
+
+    <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+      <span style="font-size:20px; margin-left:10px;">
+        {{comment.body}}
+      </span>
+      - by <a>{{comment.author}}</a>
+    </div>
+    <form ng-submit="addComment()"
+      style="margin-top:30px;" ng-show="isLoggedIn()">
+      <h3>Add a new comment</h3>
+
+      <div class="form-group">
+        <input type="text"
+        class="form-control"
+        placeholder="Comment"
+        ng-model="body"></input>
+      </div>
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+    </div>
+  </script>
+
+  <<script type="text/ng-template" id="/login.html">
+    <div class="page-header">
+      <h1>Odd Job</h1>
+    </div>
+
+    <div ng-show="error" class="alert alert-danger row">
+      <span>{{ error.message }}</span>
+    </div>
+
+    <form ng-submit="logIn()"
+      style="margin-top:30px;">
+      <h3>Log In</h3>
+
+      <div class=row>
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control" placeholder="Username"
+            ng-model="user.username"></input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="password" class="form-control"
+            placeholder="Password" ng-model="user.password"></input>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </div>
+    </form>
+  </script>
+
+  <script type="text/ng-template" id="/register.html">
+    <div class="page-header">
+      <h1>Odd Job</h1>
+    </div>
+
+    <div ng-show="error" class="alert alert-danger row">
+      <span>{{ error.message }}</span>
+    </div>
+
+    <form ng-submit="register()"
+      style="margin-top:30px;">
+      <h3>Register</h3>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="First Name" ng-model="user.firstName"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="Last Name" ng-model="user.lastName"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="Username" ng-model="user.username"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="password" class="form-control"
+           placeholder="Password" ng-model="user.password"></input>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>
+  </script>
+  <script type="text/ng-template" id="/user.html">
+    <div class="page-header">
+      <h1 class="text-center">Hello {{currentUser.firstName}}</h1>
+    </div>
+
+    <form style="margin-top:30px;">
+      <div class="row">
+        <div class="form-group col-md-2">
+          <img src="{{profilePic}}" height="100px" width="100px">
+        </div>
+        <div class="col-md-3">
+          First Name : {{currentUser.firstName}} 
+          <br>
+          Last Name: {{currentUser.lastName}}
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="form-group col-md-4">
+          <label for="picture">Profile Picture</label>
+          <input type="file" name="profilePic" nv-file-select uploader="uploader"><br>
+          </input>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="50%">Name</th>
+              <th ng-show="uploader.isHTML5">Size</th>
+              <th ng-show="uploader.isHTML5">Progress</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in uploader.queue">
+                  <td>
+                      <strong>{{ item.file.name }}</strong>
+                      <!-- <div ng-thumb="{ file: item.file, width: 100 }"></div> -->
+                      <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                      <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                  </td>
+                  <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                  <td ng-show="uploader.isHTML5">
+                      <div class="progress" style="margin-bottom: 0;">
+                          <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td>
+                  <td nowrap>
+                      <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                          <span class="glyphicon glyphicon-upload"></span> Upload
+                      </button>
+                      <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                          <span class="glyphicon glyphicon-trash"></span> Remove
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-6 text-center">
+          <button type="submit" ng-click="updateProfile()" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </script>
+
+</body>
+</html>
