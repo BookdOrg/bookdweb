@@ -2,9 +2,10 @@ angular.module('oddjob.user-factory',[])
 .factory('user',['$http','auth',function($http,auth){
 	var o = {};
 
-	o.get = function(){
-		return $http.get('/profile',{
-			headers:{Authorization: 'Bearer '+auth.getToken()}
+	o.get = function(id){
+		return $http.get('/'+id+'/profile',{
+			id:id,
+			headers:{Authorization: 'Bearer '+auth.getToken(),'Content-Type':'application/x-www-form-urlencoded'}
 		})
 		.success(function(res){
 			// angular.copy(res.data, o.user)

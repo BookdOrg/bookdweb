@@ -1,0 +1,44 @@
+<div class="page-header">
+      <h1>Handi</h1>
+    </div>
+
+    <div ng-show="error" class="alert alert-danger row">
+      <span>{{ error.message }}</span>
+    </div>
+
+    <form ng-submit="register()"
+      style="margin-top:30px;">
+      <h3>Register</h3>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="First Name" ng-model="user.firstName"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="Last Name" ng-model="user.lastName"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="text" class="form-control"
+            placeholder="Username" ng-model="user.username"></input>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input type="password" class="form-control"
+           placeholder="Password" ng-model="user.password"></input>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </form>

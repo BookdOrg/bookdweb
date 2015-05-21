@@ -28,7 +28,6 @@ router.get('/posts',auth, function(req, res, next) {
       posts[i].image = cloudinary.image("profile/"+posts[i].authorId,{
         width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
       })
-      console.log(posts[i].image);
     }
     res.json(posts);
   });
@@ -181,7 +180,6 @@ router.post('/register', function(req, res, next){
 })
 
 router.post('/upload', auth, function(req,res,next){
-    // var part = req.files.file;
     var id = req.payload._id;
     var busboy = new Busboy({headers:req.headers});
 
@@ -199,10 +197,10 @@ router.post('/upload', auth, function(req,res,next){
     req.pipe(busboy);
 
 });
-
-router.get('/profile',auth,function(req,res,next){
-  var id = req.payload._id;
-
+router.get('/:id/profile',auth,function(req,res,next){
+  var id = req.params.id;
+  console.log(req);
+  console.log(id);
   User.findOne({'_id':id},function(err,user){
     if(err){return handleError(err)};
       var profile = {};
