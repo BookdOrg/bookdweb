@@ -9,7 +9,8 @@ angular.module('oddJob', ['ui.router',
   'oddjob.profile-controller',
   'oddjob.user-factory',
   'angularFileUpload',
-  'oddjob.thumb-directive'
+  'oddjob.thumb-directive',
+  'oddjob.landing-controller',
   ])
 .config([
 '$stateProvider',
@@ -17,8 +18,13 @@ angular.module('oddJob', ['ui.router',
 function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
+    .state('landing',{
+      url:'/',
+      templateUrl: '/landing.html',
+      controller: 'landingCtrl',
+    })
     .state('home', {
-      url: '/home',
+      url: '/jobs',
       templateUrl: '/home.html',
       controller: 'MainCtrl',
       resolve: {
@@ -63,10 +69,10 @@ function($stateProvider, $urlRouterProvider) {
       controller:'ProfileCtrl',
       onEnter: ['$state','auth',function($state,auth){
         if(!auth.isLoggedIn()){
-          $state.go('home');
+          $state.go('landing');
         }
       }]
     });
 
-  $urlRouterProvider.otherwise('home');
+  $urlRouterProvider.otherwise('/');
 }]);

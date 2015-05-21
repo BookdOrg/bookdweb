@@ -1,14 +1,11 @@
 angular.module('oddjob.profile-controller',[])
-.controller('ProfileCtrl',['$scope','auth','user','$location','FileUploader',
-	function($scope,auth,user,$location, FileUploader){
+.controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state',
+	function($scope,auth,user,$location,$sce,FileUploader,$state){
 		$scope.currentUser = auth.currentUser();
-		function loadProfile(){
-			user.get().then(function(data){
-				$scope.profilePic = data.image;
-			});
-		}
-		loadProfile();
 
+		user.get().then(function(data){
+			$scope.currentUser.image= $sce.trustAsHtml(data.data.image);
+		});
 		var uploader = $scope.uploader = new FileUploader({
 			url: '/upload',
 			queueLimit: 1,
@@ -16,9 +13,9 @@ angular.module('oddjob.profile-controller',[])
 				Authorization: 'Bearer '+auth.getToken()
 			}
 		});
-		uploader.onSuccessItem = function(item){
-			loadProfile();
-		}
+		// uploader.onCompleteItem = function(item){
+		// 	window.location.reload();
+		// }
 
 		uploader.filters.push({
             name: 'imageFilter',

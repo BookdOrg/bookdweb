@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var busboy = require('connect-busboy');
-var busboyBodyParser = require('busboy-body-parser');
+var cloudinary = require('cloudinary');
+
 
 mongoose.connect('mongodb://localhost/news');
 
@@ -21,6 +21,14 @@ var routes = require('./routes/index');
 
 var app = express();
 
+cloudinary.config({
+    cloud_name:'dvvtn4u9h',
+    api_key: '357545475786479',
+    api_secret: 'oPwyFfDS9Zhprx3NibKbFoFanjw'
+});
+
+app.locals.api_key = cloudinary.config().api_key;
+app.locals.cloud_name = cloudinary.config().cloud_name;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -33,8 +41,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
-app.use(busboy());
-app.use(busboyBodyParser());
 
 app.use('/', routes);
 

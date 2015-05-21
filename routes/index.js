@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('express-jwt');
 var passport = require('passport');
+var cloudinary = require('cloudinary');
+var fs = require('fs');
+var Busboy = require('busboy');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -9,27 +12,24 @@ router.get('/', function(req, res) {
 });
 
 
-var mongoose = require('mongoose'),
-    _ = require('lodash');
+var mongoose = require('mongoose');
 
-var Grid = require('gridfs-stream');
-Grid.mongo = mongoose.mongo;
-
-var gfs = new Grid(mongoose.connection.db);
-
-var fs = require('fs');
-var busboy = require('connect-busboy');
-var busboyBodyParser = require('busboy-body-parser');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
-router.get('/posts', function(req, res, next) {
+router.get('/posts',auth, function(req, res, next) {
+  var id = req.payload._id;
   Post.find(function(err, posts){
     if(err){ return next(err); }
-
+    for(var i = 0; i<posts.length; i++){
+      posts[i].image = cloudinary.image("profile/"+posts[i].authorId,{
+        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
+      })
+      console.log(posts[i].image);
+    }
     res.json(posts);
   });
 });
@@ -38,27 +38,11 @@ router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
   post.author = req.payload.username;
   var id = req.payload._id;
+  post.authorId = id;
 
-  gfs.findOne({ _id: id}, function(err,file){
-    if(file){
-      var readStream = gfs.createReadStream({
-        _id: id
-      });
-      readStream.on('data',function(data){
-        var data_uri_prefix = "data:" + file.contentType +";base64,";
-        var image = data.toString("base64");
-        image = data_uri_prefix + image;
-        post.image = image;
-        post.save(function(err, post){
-          if(err){ return next(err); }
-          res.json(post);
-        });
-      })
-    }
-    readStream.on('error',function(err){
-      console.log('An error occurred!',err);
-      throw err;
-    });
+  post.save(function(err, post){
+    if(err){ return next(err); }
+    res.json(post);
   });
 });
 
@@ -105,6 +89,14 @@ router.param('comment', function(req, res, next, id) {
 // return a post
 router.get('/posts/:post', function(req, res, next) {
   req.post.populate('comments', function(err, post) {
+    for(var i = 0; i<post.comments.length; i++){
+      post.comments[i].image = cloudinary.image("profile/"+post.comments[i].authorId,{
+        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
+      })
+    }
+    post.image = cloudinary.image("profile/"+post.authorId,{
+        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
+      })
     res.json(post);
   });
 });
@@ -129,30 +121,14 @@ router.post('/posts/:post/comments', auth, function(req, res, next) {
   comment.post = req.post;
   comment.author = req.payload.username;
   var id = req.payload._id;
+  comment.authorId = id;
 
-  gfs.findOne({ _id: id}, function(err,file){
-    if(file){
-      var readStream = gfs.createReadStream({
-        _id: id
-      });
-      readStream.on('data',function(data){
-        var data_uri_prefix = "data:" + file.contentType +";base64,";
-        var image = data.toString("base64");
-        image = data_uri_prefix + image;
-        comment.image = image;
-        comment.save(function(err, comment){
-        if(err){ return next(err); }
-          req.post.comments.push(comment);
-          req.post.save(function(err, post) {
-            if(err){ return next(err); }
-            res.json(comment);
-          });
-        });
-      })
-    }
-    readStream.on('error',function(err){
-      console.log('An error occurred!',err);
-      throw err;
+  comment.save(function(err, comment){
+    if(err){ return next(err); }
+    req.post.comments.push(comment);
+    req.post.save(function(err, post) {
+      if(err){ return next(err); }
+      res.json(comment);
     });
   });
 });
@@ -203,95 +179,39 @@ router.post('/register', function(req, res, next){
     return res.json({token: user.generateJWT()})
   });
 })
+
 router.post('/upload', auth, function(req,res,next){
-    var part = req.files.file;
+    // var part = req.files.file;
     var id = req.payload._id;
-      var writeStream = gfs.createWriteStream({
-        _id: id,
-        filename: part.name,
-        mode:'w',
-        content_type:part.mimetype
-      });
+    var busboy = new Busboy({headers:req.headers});
 
-      writeStream.on('close',function(){
-        return res.status(200).send({
-          message: 'Success'
-        });
-      });
+    busboy.on('file',function(fieldname,file,filename,encoding,mimetype){
 
-      writeStream.write(part.data);
-      writeStream.end();
+      var stream = cloudinary.uploader.upload_stream(function(result){
+        console.log('result ' +result);
+      }, {public_id: "profile/"+id});
+
+      file.pipe(stream);
+    })
+    busboy.on('finish',function(){
+      res.end();
+    })
+    req.pipe(busboy);
+
 });
+
 router.get('/profile',auth,function(req,res,next){
   var id = req.payload._id;
 
   User.findOne({'_id':id},function(err,user){
     if(err){return handleError(err)};
-
-    gfs.findOne({ _id: id}, function(err,file){
-      if(!file){
-        return res.status(400).send({
-          message: 'File not found'
-        });
-      }
-      // res.writeHead(200, {'Content-Type': 'application/json'});
-
-      var readStream = gfs.createReadStream({
-        _id: id
-      });
-
-      readStream.on('data',function(data){
-        var data_uri_prefix = "data:" + file.contentType +";base64,";
-        var image = data.toString("base64");
-        image = data_uri_prefix + image;
-        var profile = {};
-        profile.user = user;
-        profile.image = image;
-        res.json(profile);
+      var profile = {};
+      profile.user= user;
+      profile.image = cloudinary.image("profile/"+id,{
+        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
       })
-      readStream.on('end',function(){
-        res.end();
-      });
-
-      readStream.on('error',function(err){
-        console.log('An error occurred!',err);
-        throw err;
-      });
-    });
+      res.json(profile);
   })
-
-})
-// router.get('/getpic',auth,function(req,res,next){
-//   var id = req.payload._id;
-
-//   gfs.findOne({ _id: id}, function(err,file){
-//     if(!file){
-//       return res.status(400).send({
-//         message: 'File not found'
-//       });
-//     }
-//     res.writeHead(200, {'Content-Type': file.contentType});
-
-//     var readStream = gfs.createReadStream({
-//       _id: id
-//     });
-
-//     readStream.on('data',function(data){
-//       var data_uri_prefix = "data:" + file.contentType +";base64,";
-//       var image = data.toString("base64");
-//       image = data_uri_prefix + image;
-//       res.write(image);
-//     })
-//     readStream.on('end',function(){
-//       res.end();
-//     });
-
-//     readStream.on('error',function(err){
-//       console.log('An error occurred!',err);
-//       throw err;
-//     });
-//   });
-// });
-
+});
 
 module.exports = router;

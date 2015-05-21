@@ -22,7 +22,6 @@ angular.module('oddjob.auth-factory',[])
       if(auth.isLoggedIn()){
         var token = auth.getToken();
         var payload = JSON.parse($window.atob(token.split('.')[1]));
-
         return payload;
       }
     },
@@ -38,7 +37,7 @@ angular.module('oddjob.auth-factory',[])
     },
     logOut: function(){
       $window.localStorage.removeItem('oddjob-token');
-      $state.go('home');
+      $state.go('landing');
     }
   };
 

@@ -4,7 +4,12 @@ angular.module('oddjob.post-controller',[])
 'posts',
 'post',
 'auth',
-function($scope, posts, post, auth){
+'$sce',
+function($scope, posts, post, auth,$sce){
+  post.image = $sce.trustAsHtml(post.image);
+  for(var i=0; i<post.comments.length;i++){
+    post.comments[i].image = $sce.trustAsHtml(post.comments[i].image);
+  }
   $scope.post = post;
   $scope.isLoggedIn = auth.isLoggedIn;
 
@@ -19,5 +24,6 @@ function($scope, posts, post, auth){
       $scope.post.comments.push(comment);
     });
     $scope.body = '';
+    window.location.reload();
   };
 }])

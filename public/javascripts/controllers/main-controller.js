@@ -3,8 +3,13 @@ angular.module('oddjob.main-controller',[])
 '$scope',
 'posts',
 'auth',
-function($scope, posts, auth){
+'$sce',
+function($scope, posts, auth,$sce){
+  for(var i =0; i<posts.posts.length; i++){
+    posts.posts[i].image = $sce.trustAsHtml(posts.posts[i].image);
+  }
   $scope.posts = posts.posts;
+
   $scope.isLoggedIn = auth.isLoggedIn;
 
   $scope.addPost = function(){
@@ -26,6 +31,8 @@ function($scope, posts, auth){
     $scope.rate = '';
     $scope.startDate = '';
     $scope. endDate = '';
+
+    window.location.reload();
   };
 
   // $scope.incrementUpvotes = function(post) {

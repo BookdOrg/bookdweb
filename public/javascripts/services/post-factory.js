@@ -5,15 +5,18 @@ angular.module('oddjob.post-factory',[])
   };
 
   o.get = function(id) {
-    return $http.get('/posts/' + id).then(function(res){
+    return $http.get('/posts/' + id, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).then(function(res){
       return res.data;
     });
   };
 
   o.getAll = function() {
-    return $http.get('/posts').success(function(data){
+    return $http.get('/posts',{
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
       angular.copy(data, o.posts);
-      console.log(data);
     });
   };
 

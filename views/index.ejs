@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Odd Job</title>
+  <title>Handi</title>
 
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -15,17 +15,23 @@
   <script src="/javascripts/controllers/nav-controller.js"></script>
   <script src="/javascripts/controllers/post-controller.js"></script>
   <script src="/javascripts/controllers/profile-controller.js"></script>
+  <script src="/javascripts/controllers/landing-controller.js"></script>
   <script src="/javascripts/services/auth-factory.js"></script>
   <script src="/javascripts/services/post-factory.js"></script>
   <script src="/javascripts/services/user-factory.js"></script>
   <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
   <script src="/javascripts/directives/thumb-directive.js"></script>
 
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+
+  <link href='http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600' rel='stylesheet'>
+  <link href="/stylesheets/style.css" rel="stylesheet">
+
 </head>
 <body ng-app="oddJob">
   <nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
     <ul class="nav navbar-nav">
-      <li ng-show="isLoggedIn()"><a href="#/user/{{currentUser()._id}}/profile">{{ currentUser().username }}</a></li>
+      <li ng-show="isLoggedIn()"><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
       <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
       <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
       <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
@@ -34,22 +40,12 @@
   </nav>
   <nav class="navbar navbar-default pull-left" ng-controller="NavCtrl">
     <ul class="nav navbar-nav">
-      <li><a href="#/home">Home</a></li>
-      <li></li>
+      <li><a href="#/">Home</a></li>
+      <li ng-if="isLoggedIn()"><a href="#/jobs">Jobs</a></li>
+      <li><a href="">About</a></li>
+      <li><a href="">Contact</a></li>
     </ul>
   </nav>
-
-    <div class="row" ng-controller="NavCtrl">
-      <div ng-show="isLoggedIn()" class="col-md-5 col-md-offset-2" style="margin-top:10px;">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
-          <span class="input-group-btn">
-            <button class="btn btn-primary glyphicon glyphicon-search" type="button">
-            </button>
-          </span>
-        </div>
-      </div>
-    </div>
 
   <div class="row">
     <div class="col-md-9 col-md-offset-1">
@@ -57,15 +53,71 @@
     </div>
   </div>
 
+  <script type="text/ng-template" id="/landing.html">
+  <style>
+    body{
+      background: url('images/landscape.jpg') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    #landingBody{
+      padding-top:20px;
+      font-size: 16px;
+      font-family: "Open Sans",serif;
+    }
+    .panel {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    h1{
+      font-family: "Abel", Arial, sans-serif;
+      font-weight: 400;
+      font-size: 40px;
+    }
+    h3{
+      font-family: "Abel", Arial, sans-serif;
+      font-weight: 400;
+    }
+    .margin-base-vertical{
+      margin: 40px 0;
+    }
+  </style>
+    <div id="landingBody">
+      <div class="container"
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 panel panel-default">
+            <h1 class="text-center">Handi</h1>
+            <h3 class="margin-base-vertical"> You need work finished, we've got people who can help </h3>
+
+            <p>Something about Handi!</p>
+            <p> More text about Handi! Be clever</p>
+
+            <p>So come and get the work done with Handi!</p>
+
+            <form class="margin-base-vertical"> 
+              <p class="input-group">
+                <span class="input-group-addon">@</span>
+                <input type="text" class="form-control input-lg" name="email" placeholder="johnnyappleseed@me.com" />
+              </p>
+              <p class="help-block text-center"><small> We won't spam you. Unsub at any time</small></p>
+              <p class="text-center">
+                <button type="submit" class="btn btn-success btn-lg">Keep me posted!</button>
+              </p>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
   <script type="text/ng-template" id="/home.html">
     <div class="page-header">
       <h1 class="text-center">Job Postings</h1>
     </div>
 
     <div ng-repeat="post in posts | orderBy:'timestamp':true">
-      <span>
-        <img src="{{post.image}}" height="25px" width:"25px" style="" class="img-rounded"></img>
-      </span>
+       <span ng-bind-html="post.image"></span>
       <span style="font-size:20px; margin-left:10px;">
         <a href="#/posts/{{post._id}}">
           {{post.title | limitTo:32}} ...
@@ -130,7 +182,7 @@
     <div class="page-header">
     
       <h3>
-          <img height="50px" width="50px" src="{{post.image}}"> {{post.title}}
+          <span ng-bind-html="post.image"></span> {{post.title}}
       </h3>
       <div>Start Date: {{post.startDate}}</div>
       <div>End Date: {{post.endDate}}</div>
@@ -144,7 +196,7 @@
 
     <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
       <span>
-        <img height="50px" width="50px" src="{{comment.image}}"/>
+        <span ng-bind-html="comment.image"></span>
       </span>
       <span style="font-size:20px; margin-left:10px;">
         {{comment.body}}
@@ -171,7 +223,7 @@
 
   <script type="text/ng-template" id="/login.html">
     <div class="page-header">
-      <h1>Odd Job</h1>
+      <h1>Handi</h1>
     </div>
 
     <div ng-show="error" class="alert alert-danger row">
@@ -202,7 +254,7 @@
 
   <script type="text/ng-template" id="/register.html">
     <div class="page-header">
-      <h1>Odd Job</h1>
+      <h1>Handi</h1>
     </div>
 
     <div ng-show="error" class="alert alert-danger row">
@@ -254,7 +306,9 @@
     <form style="margin-top:30px;">
       <div class="row">
         <div class="form-group col-md-2">
-          <img src="{{profilePic}}" height="100px" width="100px">
+          <span ng-bind-html="currentUser.image"></span>
+          {{image}}
+          <!-- <img src="https://res.cloudinary.com/dvvtn4u9h/image/upload/v1432180297/{{currentUser._id}}" height="100px" width="100px"> -->
         </div>
         <div class="col-md-3">
           First Name : {{currentUser.firstName}} 
@@ -265,7 +319,7 @@
       <div class="row"> 
         <div class="form-group col-md-4">
           <label for="picture">Profile Picture</label>
-          <input type="file" name="profilePic" nv-file-select uploader="uploader"><br>
+          <input type="file" name="image" nv-file-select uploader="uploader"><br>
           </input>
         </div>
         <div class="col-md-6">
