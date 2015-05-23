@@ -20,9 +20,11 @@ angular.module('oddjob.profile-controller',[])
 				Authorization: 'Bearer '+auth.getToken()
 			}
 		});
-		// uploader.onCompleteItem = function(item){
-		// 	window.location.reload();
-		// }
+		uploader.onSuccessItem = function(item){
+			setTimeout(function(){
+				window.location.reload();
+			},300)
+		}
 
 		uploader.filters.push({
             name: 'imageFilter',

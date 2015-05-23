@@ -5,6 +5,7 @@ var passport = require('passport');
 var cloudinary = require('cloudinary');
 var fs = require('fs');
 var Busboy = require('busboy');
+var async = require('async');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -15,30 +16,32 @@ router.get('/', function(req, res) {
 var mongoose = require('mongoose');
 
 var Post = mongoose.model('Post');
-var Comment = mongoose.model('Comment');
+var Review = mongoose.model('Review');
 var User = mongoose.model('User');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 router.get('/posts',auth, function(req, res, next) {
   var id = req.payload._id;
-  Post.find(function(err, posts){
+
+  Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
     if(err){ return next(err); }
-    for(var i = 0; i<posts.length; i++){
-      posts[i].image = cloudinary.image("profile/"+posts[i].authorId,{
-        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
+    var updatedPosts = [];
+    posts.forEach(function(post){
+      post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
+          width:50, height:50,crop:'thumb',radius:'10'
       })
-    }
-    res.json(posts);
-  });
+      updatedPosts.push(post);
+    })
+    res.json(updatedPosts);
+  })
 });
 
 router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
-  post.author = req.payload.username;
   var id = req.payload._id;
-  post.authorId = id;
-
+  post.author = id;
+  
   post.save(function(err, post){
     if(err){ return next(err); }
     res.json(post);
@@ -53,21 +56,20 @@ router.param('post', function(req, res, next, id) {
   query.exec(function (err, post){
     if (err) { return next(err); }
     if (!post) { return next(new Error("can't find post")); }
-
     req.post = post;
     return next();
   });
 });
 
-// Preload comment objects on routes with ':comment'
-router.param('comment', function(req, res, next, id) {
-  var query = Comment.findById(id);
+// Preload review objects on routes with ':review'
+router.param('review', function(req, res, next, id) {
+  var query = Review.findById(id);
 
-  query.exec(function (err, comment){
+  query.exec(function (err, review){
     if (err) { return next(err); }
-    if (!comment) { return next(new Error("can't find comment")); }
+    if (!review) { return next(new Error("can't find review")); }
 
-    req.comment = comment;
+    req.review = review;
     return next();
   });
 });
@@ -87,16 +89,29 @@ router.param('comment', function(req, res, next, id) {
 
 // return a post
 router.get('/posts/:post', function(req, res, next) {
-  req.post.populate('comments', function(err, post) {
-    for(var i = 0; i<post.comments.length; i++){
-      post.comments[i].image = cloudinary.image("profile/"+post.comments[i].authorId,{
-        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
-      })
-    }
-    post.image = cloudinary.image("profile/"+post.authorId,{
-        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
-      })
-    res.json(post);
+  req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
+    post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
+      width:100, height:100,crop:'thumb',radius:'20'
+    })
+    var updatedPost = [];
+
+    async.each(post.reviews,function(currentReview,postCallback){
+      currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
+        console.log(review)
+        if(err){
+          return postCallback(err);
+        }
+        review.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
+          width:75, height:75,crop:'thumb',radius:'20'
+        });
+        postCallback();
+      });
+    }, function(err){
+      if(err){
+        return next(error);
+      }
+      res.json(post)
+    })
   });
 });
 
@@ -114,20 +129,19 @@ router.get('/posts/:post', function(req, res, next) {
 // });
 
 
-// create a new comment
-router.post('/posts/:post/comments', auth, function(req, res, next) {
-  var comment = new Comment(req.body);
-  comment.post = req.post;
-  comment.author = req.payload.username;
+// create a new review
+router.post('/posts/:post/reviews', auth, function(req, res, next) {
+  var review = new Review(req.body);
+  review.post = req.post;
   var id = req.payload._id;
-  comment.authorId = id;
-
-  comment.save(function(err, comment){
+  review.author = id;
+  console.log(review)
+  review.save(function(err, review){
     if(err){ return next(err); }
-    req.post.comments.push(comment);
+    req.post.reviews.push(review);
     req.post.save(function(err, post) {
       if(err){ return next(err); }
-      res.json(comment);
+      res.json(review);
     });
   });
 });
@@ -186,7 +200,13 @@ router.post('/upload', auth, function(req,res,next){
     busboy.on('file',function(fieldname,file,filename,encoding,mimetype){
 
       var stream = cloudinary.uploader.upload_stream(function(result){
-        console.log('result ' +result);
+        User.findOne({'_id':id},function(err,user){
+          if(err){return handleError(err)};
+          user.avatarVersion = result.version;
+          user.save(function(err){
+            if(err){ return next(err); }
+          }) 
+        })
       }, {public_id: "profile/"+id});
 
       file.pipe(stream);
@@ -195,18 +215,15 @@ router.post('/upload', auth, function(req,res,next){
       res.end();
     })
     req.pipe(busboy);
-
 });
 router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
-  console.log(req);
-  console.log(id);
   User.findOne({'_id':id},function(err,user){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;
-      profile.image = cloudinary.image("profile/"+id,{
-        width:100, height:100,crop:'thumb',gravity:'face',radius:'max'
+      profile.image = cloudinary.image("v"+user.avatarVersion+"/profile/"+id,{
+        width:100, height:100,crop:'thumb',radius:'20'
       })
       res.json(profile);
   })

@@ -12,7 +12,7 @@ var cloudinary = require('cloudinary');
 mongoose.connect('mongodb://localhost/news');
 
 require('./models/Posts');
-require('./models/Comments');
+require('./models/Reviews');
 require('./models/Users');
 
 require('./config/passport');
@@ -30,8 +30,8 @@ cloudinary.config({
 app.locals.api_key = cloudinary.config().api_key;
 app.locals.cloud_name = cloudinary.config().cloud_name;
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(favicon());
 app.use(logger('dev'));

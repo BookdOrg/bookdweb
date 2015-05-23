@@ -5,11 +5,11 @@ var mongoose = require('mongoose');
 
 var PostSchema = new mongoose.Schema({
   title: String,
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-  author: String,
-  authorId: String,
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+  author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: String,
   rate: String,
+  rating: Number,
   location: String,
   image: String,
   startDate: String,
@@ -17,28 +17,6 @@ var PostSchema = new mongoose.Schema({
   timestamp: String
 });
 
-  // PostSchema.methods.getAvatar = function(posts,id){
-  //   for(var i = 0; i<posts.length; i++){
-  //     gfs.findOne({_id:posts[i].id},function(err,file){
-  //       if(file){
-  //         var readstream = gfs.createReadStream({
-  //           _id:id
-  //         });
-  //         readStream.on('data',function(data){
-  //           var data_uri_prefix = "data:" + file.contentType + ";base64,";
-  //           var image = data.tostring("base64");
-  //           image = data_uri_prefix +image;
-  //           posts[i].image = image;
-  //         });
-  //       };
-  //       readStream.on('error',function(err){
-  //         console.log('An error occured!',err);
-  //         throw err;
-  //       })
-  //     });
-  //   };
-  //   return posts;
-  // };
 // PostSchema.methods.upvote = function(cb) {
 //   this.upvotes += 1;
 //   this.save(cb);

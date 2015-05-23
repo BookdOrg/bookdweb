@@ -11,6 +11,8 @@ angular.module('oddJob', ['ui.router',
   'angularFileUpload',
   'oddjob.thumb-directive',
   'oddjob.landing-controller',
+  'ui.bootstrap',
+  'oddjob.modalInstance'
   ])
 .config([
 '$stateProvider',
@@ -65,14 +67,23 @@ function($stateProvider, $urlRouterProvider) {
     })
     .state('user',{
       url:'/user/:id/profile',
-      templateUrl:'partials/user.html',
+      templateUrl:'partials/profile.html',
       controller:'ProfileCtrl',
       onEnter: ['$state','auth',function($state,auth){
         if(!auth.isLoggedIn()){
           $state.go('landing');
         }
       }]
-    });
+    })
+    .state('about',{
+      url:'/about',
+      templateUrl:'partials/about.html'
+    })
+    .state('contact',{
+      url:'/contactUs',
+      templateUrl:'partials/contact.html'
+    })
+
 
   $urlRouterProvider.otherwise('/');
 }]);

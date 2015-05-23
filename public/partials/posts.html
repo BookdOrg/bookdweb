@@ -9,32 +9,32 @@
       <div>Posted: {{post.timestamp}}</div>
       <div>Location: {{post.location}}</div>
       <div>Description: {{post.description}}</div>
-      <div>Author: {{post.author}}</div>
+      <div>Author: {{post.author.username}}</div>
 
     </div>
 
-    <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+    <div ng-repeat="review in post.reviews | orderBy:'-upvotes'">
       <span>
-        <span ng-bind-html="comment.image"></span>
+        <span ng-bind-html="review.image"></span>
       </span>
       <span style="font-size:20px; margin-left:10px;">
-        {{comment.body}}
+        {{review.body}}
       </span>
-      - by <a href="#/user/{{comment.authorId}}/profile">{{comment.author}}</a>
+      - by <a href="#/user/{{review.authorId}}/profile">{{review.author.username}}</a>
     </div>
-    <form ng-submit="addComment()"
+    <form ng-submit="addReview()"
       style="margin-top:30px;" ng-show="isLoggedIn()">
-      <h3>Add a new comment</h3>
+      <h3>Add a new review</h3>
 
       <div class="form-group">
         <input type="text"
         class="form-control"
-        placeholder="Comment"
+        placeholder="Review"
         ng-model="body"></input>
       </div>
       <button type="submit" class="btn btn-primary">Post</button>
     </form>
 
     <div ng-hide="isLoggedIn()">
-      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can review.</h3>
     </div>

@@ -36,8 +36,8 @@ angular.module('oddjob.post-factory',[])
   //   });
   // };
 
-  o.addComment = function(id, comment) {
-    return $http.post('/posts/' + id + '/comments', comment, {
+  o.addReview = function(id, review) {
+    return $http.post('/posts/' + id + '/reviews', review,{
       headers: {Authorization: 'Bearer '+auth.getToken()}
     });
   };

@@ -1,9 +1,9 @@
 
 var mongoose = require('mongoose');
 
-var CommentSchema = new mongoose.Schema({
+var ReviewSchema = new mongoose.Schema({
   body: String,
-  author: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   authorId: String,
   timestamp: String,
   image: String,
@@ -15,4 +15,4 @@ var CommentSchema = new mongoose.Schema({
 //   this.save(cb);
 // };
 
-mongoose.model('Comment', CommentSchema);
+mongoose.model('Review', ReviewSchema);

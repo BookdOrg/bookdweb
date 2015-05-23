@@ -11,3 +11,8 @@ h1{
       font-weight: 400;
       font-size: 40px;
 }
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
