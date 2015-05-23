@@ -49,6 +49,15 @@
           <li><a href="#/about">About</a></li>
           <li><a href="#/contactUs">Contact</a></li>
         </ul>
+        <ul ng-if="isLoggedIn()"class="nav navbar-nav">
+          <div class="input-group" style="width:300px; margin-top:8px; margin-left:100px;">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span  class="input-group-btn">
+              <button style="margin-left:5px;" class="btn btn-success glyphicon glyphicon-search" type="button">
+            </button>
+            </span>
+          </div>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
             <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Welcome, {{currentUser().username}} <span class="caret"></span></a>

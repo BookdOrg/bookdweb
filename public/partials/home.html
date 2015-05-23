@@ -1,29 +1,32 @@
 <div class="container-fluid">
 <div class="row">
-  <div class="col-xs-10 col-sm-6 col-md-5 col-lg-4 col-centered">
-    <form>
-      <div class="input-group">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
-          <span  class="input-group-btn">
-            <button style="margin-left:5px;" tooltip="Search!" class="btn btn-success glyphicon glyphicon-search" type="button">
-            </button>
-            <button style="margin-left:50px;" tooltip="Add Job!" class="btn btn-success glyphicon glyphicon-plus" ng-click="open()"></button>
-          </span>
-        </div>
-      </div>
-    </form>
+  <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered">
+    <div style="height: 305px">
+      <carousel interval="myInterval">
+        <slide ng-repeat="slide in slides" active="slide.active">
+          <img ng-src="{{slide.image}}" style="margin:auto;">
+          <div class="carousel-caption">
+            <h4>Slide {{$index}}</h4>
+            <p>{{slide.text}}</p>
+          </div>
+        </slide>
+      </carousel>
+    </div>
   </div>
 </div>
 <div class="row">
   <div class="page-header">
-        <h1 class="text-center">Job Postings</h1>
-      </div>
+      <h1 class="text-center">Job Postings
+        <span>
+          <button tooltip="Add Job!" class="btn btn-success glyphicon glyphicon-plus" ng-click="open()"> </button>
+        </span>
+      </h1>   
+    </div>
 </div>
 <div class="row">
-  <div class="col col-xs-12 col-sm-12 col-md-9 col-lg-8 col-centered">
-    <div ng-repeat="post in posts | orderBy:'timestamp':true" style="margin-top:5px;">
-       <span ng-bind-html="post.image"></span>
+  <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered">
+    <div class="text-center"ng-repeat="post in posts | orderBy:'timestamp':true" style="margin-top:5px;">
+      <span ng-bind-html="post.image"></span>
       <span style="font-size:20px; margin-left:10px;">
         <a href="#/posts/{{post._id}}">
           {{post.title | limitTo:32}} ...
@@ -97,4 +100,5 @@
       <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
     </div>
   </div>
+</div>
 </div>

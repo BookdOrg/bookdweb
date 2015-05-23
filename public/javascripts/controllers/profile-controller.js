@@ -2,12 +2,11 @@ angular.module('oddjob.profile-controller',[])
 .controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 
-		var authUser = auth.currentUser();
 		$scope.myProfile = false;
 		user.get($stateParams.id).then(function(data){
 			$scope.currentUser = data.data.user;
 			$scope.currentUser.image= $sce.trustAsHtml(data.data.image);
-			if($scope.currentUser._id === authUser._id){
+			if($scope.currentUser._id === auth.currentUser()._id){
 				$scope.myProfile = true;
 			}
 
