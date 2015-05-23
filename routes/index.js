@@ -110,13 +110,13 @@ router.get('/posts/:post', function(req, res, next) {
     var updatedPost = [];
     async.each(post.reviews,function(currentReview,postCallback){
       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-        console.log(review)
         if(err){
           return postCallback(err);
         }
-        review.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
+        review.image = cloudinary.image("v"+review.author.avatarVersion+"/profile/"+review.author._id,{
           width:75, height:75,crop:'thumb',radius:'20'
         });
+        console.log(review)
         postCallback();
       });
     }, function(err){
@@ -136,11 +136,10 @@ router.get('/api/posts/:post', function(req, res, next) {
     var updatedPost = [];
     async.each(post.reviews,function(currentReview,postCallback){
       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-        console.log(review)
         if(err){
-          return postCallback(err);
+          return postCallback(err);ß
         }
-        review.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
+        review.image = cloudinary.image("v"+review.author.avatarVersion+"/profile/"+review.author._id,{
           width:75, height:75,crop:'thumb',radius:'20'
         });
         postCallback();
@@ -256,7 +255,7 @@ router.post('/upload', auth, function(req,res,next){
 });
 router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion image').exec(function(err,user){
+  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;
@@ -268,7 +267,7 @@ router.get('/:id/profile',auth,function(req,res,next){
 });
 router.get('/api/:id/profile',function(req,res,next){
   var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion image').exec(function(err,user){
+  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;

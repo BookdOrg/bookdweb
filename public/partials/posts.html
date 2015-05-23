@@ -20,7 +20,7 @@
       <span style="font-size:20px; margin-left:10px;">
         {{review.body}}
       </span>
-      - by <a href="#/user/{{review.authorId}}/profile">{{review.author.username}}</a>
+      - by <a href="#/user/{{review.author._id}}/profile">{{review.author.username}}</a>
     </div>
     <form ng-submit="addReview()"
       style="margin-top:30px;" ng-show="isLoggedIn()">
