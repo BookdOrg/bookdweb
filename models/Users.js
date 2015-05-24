@@ -10,7 +10,8 @@ var UserSchema = new mongoose.Schema({
   avatarVersion: String,
   rating: Number,
   hash: String,
-  salt: String
+  salt: String,
+  posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
 });
 
 UserSchema.methods.validPassword = function(password) {

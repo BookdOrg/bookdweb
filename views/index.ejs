@@ -18,6 +18,7 @@
   <script src="/javascripts/controllers/profile-controller.js"></script>
   <script src="/javascripts/controllers/landing-controller.js"></script>
   <script src="/javascripts/controllers/modal-controller.js"></script>
+  <script src="/javascripts/controllers/account-controller.js"></script>
   <script src="/javascripts/services/auth-factory.js"></script>
   <script src="/javascripts/services/post-factory.js"></script>
   <script src="/javascripts/services/user-factory.js"></script>
@@ -65,7 +66,7 @@
               <ul class="dropdown-menu">
                 <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
                 <hr>
-                <li><a href="#">Account</a></li>
+                <li><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
                 <li><a href="#">Preferences</a></li>
                 <li><a href="#">Stuff</a></li>
                 <hr>

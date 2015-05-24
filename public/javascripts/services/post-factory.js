@@ -1,7 +1,8 @@
 angular.module('oddjob.post-factory',[])
 .factory('posts', ['$http', 'auth', function($http, auth){
   var o = {
-    posts: []
+    posts: [],
+    myPosts: []
   };
 
   o.get = function(id) {
@@ -19,7 +20,13 @@ angular.module('oddjob.post-factory',[])
       angular.copy(data, o.posts);
     });
   };
-
+  o.getUserPosts = function(id){
+    return $http.get('/user/posts/'+ id,{
+      headers: {Authorization: 'Bearer'+auth.getToken()}
+    }).success(function(data){
+      angular.copy(data, o.myPosts)
+    })
+  }
   o.create = function(post) {
     return $http.post('/posts', post, {
       headers: {Authorization: 'Bearer '+auth.getToken()}

@@ -4,6 +4,7 @@ angular.module('oddJob', ['ui.router',
   'oddjob.auth-controller',
   'oddjob.nav-controller',
   'oddjob.post-controller',
+  'oddjob.account-controller',
   'oddjob.auth-factory',
   'oddjob.post-factory',
   'oddjob.profile-controller',
@@ -69,6 +70,21 @@ function($stateProvider, $urlRouterProvider) {
       url:'/user/:id/profile',
       templateUrl:'partials/profile.html',
       controller:'ProfileCtrl',
+      onEnter: ['$state','auth',function($state,auth){
+        if(!auth.isLoggedIn()){
+          $state.go('landing');
+        }
+      }],
+      resolve:{
+        myPosts:['$stateParams','posts',function($stateParams,posts){
+          return posts.getUserPosts($stateParams.id);
+        }]
+      }
+    })
+    .state('account',{
+      url:'/user/:id/account',
+      templateUrl:'partials/account.html',
+      controller:'AccountCtrl',
       onEnter: ['$state','auth',function($state,auth){
         if(!auth.isLoggedIn()){
           $state.go('landing');

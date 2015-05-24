@@ -10,7 +10,7 @@ function($scope, posts, auth,$sce,$modal,$log){
 
   var safeImage = function(posts){
     for(var i =0; i<posts.posts.length; i++){
-      if(posts.posts[i].avatarVersion == undefined){
+      if(posts.posts[i].author.avatarVersion == undefined){
        posts.posts[i].image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg'>");
       }else{
         posts.posts[i].image = $sce.trustAsHtml(posts.posts[i].image.toString());

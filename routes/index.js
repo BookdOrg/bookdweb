@@ -55,13 +55,53 @@ router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
   var id = req.payload._id;
   post.author = id;
-  
+
+  User.findOne({"_id":id}).exec(function(err,user){
+    user.posts.push(post);
+    user.save(function(err,post){
+      if(err){return next(err);}
+    })
+  })
+
   post.save(function(err, post){
     if(err){ return next(err); }
     res.json(post);
   });
 });
+router.param('user',function(req,res,next,id){
+  var query = User.findById(id);
+  query.exec(function(err,user){
+    if (err) { return next(err); }
+    if (!user) { return next(new Error("can't find user")); }
+    req.user = user;
+    return next();
+  })
+})
 
+
+/**
+ADD AUTH HEADER TO THIS ROUTE. CURRENTLY UNSAFE
+**/
+router.get('/user/posts/:user',function(req,res,next){
+  var id = req.params.id;
+
+  // User.findOne({"_id":id}).populate({path:'posts',select:''}).exec(function(err,user){
+  //   res.json(user);
+  // })
+
+  req.user.populate({path:'posts',select:''},function(err,user){
+    res.json(user);
+  })
+})
+
+
+
+router.get('/api/posts/:user',function(req,res,next){
+  var id = req.params.id;
+  req.user.populate({path:'posts',select:''},function(err,user){
+    res.json(user);
+  })
+})
 
 // Preload post objects on routes with ':post'
 router.param('post', function(req, res, next, id) {
@@ -116,7 +156,6 @@ router.get('/posts/:post', function(req, res, next) {
         review.image = cloudinary.image("v"+review.author.avatarVersion+"/profile/"+review.author._id,{
           width:75, height:75,crop:'thumb',radius:'20'
         });
-        console.log(review)
         postCallback();
       });
     }, function(err){
