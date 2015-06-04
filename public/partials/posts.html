@@ -1,7 +1,13 @@
 <div class="page-header">
     
       <h3>
-          <span ng-bind-html="post.image"></span> {{post.title}}
+          <span ng-if="post.author.avatarVersion">
+          <image ng-src="{{cloudinaryBaseUrl}}{{authorImgTrans}}{{post.author.avatarVersion}}/profile/{{post.author._id}} ">
+        </span>
+        <span ng-if="!post.author.avatarVersion">
+          <image ng-src="{{cloudinaryDefaultPic}}">
+        </span> 
+        {{post.title}}
       </h3>
       <div>Start Date: {{post.startDate}}</div>
       <div>End Date: {{post.endDate}}</div>
@@ -14,9 +20,12 @@
     </div>
 
     <div ng-repeat="review in post.reviews | orderBy:'-upvotes'">
-      <span>
-        <span ng-bind-html="review.image"></span>
-      </span>
+      <span ng-if="review.author.avatarVersion">
+          <image ng-src="{{cloudinaryBaseUrl}}{{reviewImgTrans}}{{review.author.avatarVersion}}/profile/{{review.author._id}} ">
+        </span>
+        <span ng-if="!review.author.avatarVersion">
+          <image ng-src="{{cloudinaryDefaultPic}}">
+        </span>
       <span style="font-size:20px; margin-left:10px;">
         {{review.body}}
       </span>

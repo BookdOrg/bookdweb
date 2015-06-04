@@ -2,11 +2,15 @@
     <div class="page-header">
       <h1 class="text-center">{{currentUser.firstName}}'s Profile</h1>
     </div>
-
     <form style="margin-top:30px;">
       <div class="row">
         <div class="form-group col-md-2">
-          <span ng-bind-html="currentUser.image"></span>
+          <span ng-if="currentUser.avatarVersion">
+          <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}">
+        </span>
+        <span ng-if="!currentUser.avatarVersion">
+          <image ng-src="{{cloudinaryDefaultPic}}">
+        </span>
         </div>
         <div class="col-md-3">
           First Name : {{currentUser.firstName}} 

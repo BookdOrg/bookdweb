@@ -3,7 +3,8 @@ angular.module('oddjob.auth-controller',[])
 '$scope',
 '$state',
 'auth',
-function($scope, $state, auth){
+'$geolocation',
+function($scope, $state, auth, $geolocation){
   $scope.user = {};
 
   $scope.register = function(){

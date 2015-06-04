@@ -18,9 +18,21 @@
   <div class="page-header">
       <h1 class="text-center">Job Postings
         <span>
-          <button tooltip="Add Job!" class="btn btn-success glyphicon glyphicon-plus" ng-click="open()"> </button>
+          <button tooltip="Add Job!" class="btn btn-success glyphicon glyphicon-plus" ng-click="open('lg')"> </button>
         </span>
-      </h1>   
+      </h1>
+      <h3>Location Info: <i ng-if="loadingLocation" class="fa fa-spinner fa-pulse"></i><br>         
+        Latitude:{{myPosition.coords.latitude}} <br>
+        Longitude: {{myPosition.coords.longitude}} <br>
+        Address: {{currLocation.address}}<br>
+        City: {{currLocation.city}}<br>
+        State: {{currLocation.state}}<br>
+        Country: {{currLocation.country}}<br>
+        Postal Code: {{currLocation.zip}}<br>
+        <p ng-show="myPosition.error">
+          Error ({{myPosition.error.code}}): {{myPosition.error.message}}
+        </p>
+      </h3>
     </div>
 </div>
 <div class="row">
@@ -28,7 +40,13 @@
     <h3 class="text-center">Most Recent</h3>
     <div class="well">
       <div class="text-center"ng-repeat="post in posts | orderBy:'timestamp':true" style="margin-top:5px;">
-        <span ng-bind-html="post.image"></span>
+        <!-- <span ng-bind-html="post.image"></span> -->
+        <span ng-if="post.author.avatarVersion">
+          <image ng-src="{{cloudinaryBaseUrl}}{{post.author.avatarVersion}}/profile/{{post.author._id}} ">
+        </span>
+        <span ng-if="!post.author.avatarVersion">
+          <image ng-src="{{cloudinaryDefaultPic}}">
+        </span>
         <span style="font-size:20px; margin-left:10px;">
           <a href="#/posts/{{post._id}}">
             {{post.title | limitTo:32}} ...
@@ -47,7 +65,12 @@
     <h3 class="text-center">Some Other Category</h3>
     <div class="well">
       <div class="text-center"ng-repeat="post in posts | orderBy:'timestamp':true" style="margin-top:5px;">
-        <span ng-bind-html="post.image"></span>
+        <span ng-if="post.author.avatarVersion">
+          <image ng-src="{{cloudinaryBaseUrl}}{{post.author.avatarVersion}}/profile/{{post.author._id}} ">
+        </span>
+        <span ng-if="!post.author.avatarVersion">
+          <image ng-src="{{cloudinaryDefaultPic}}">
+        </span>
         <span style="font-size:20px; margin-left:10px;">
           <a href="#/posts/{{post._id}}">
             {{post.title | limitTo:32}} ...
@@ -64,6 +87,7 @@
   </div>
 </div>
 <script type="text/ng-template" id="myModalContent.html">
+  <span ng-bind="currentLocation.city"></span>
       <div>
           <h3 class="text-center page-header">Add a new post</h3>
       </div>
@@ -76,12 +100,34 @@
 
         <div class="form-group col-md-3">
           <select class="form-control"
-             ng-model="location">
+             ng-model="currLocation.city">
              <option value="">Select City</option>
              <option value="Newark">Newark</option>
+             <option value="Piscataway Township">Piscataway</option>
           </select>
         </div>
-
+        <div class="form-group col-md-3">
+          <select class="form-control"
+             ng-model="currLocation.state">
+             <option value="">Select State</option>
+             <option value="NJ">New Jersey</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <select class="form-control"
+             ng-model="currLocation.country">
+             <option value="">Select City</option>
+             <option value="US">United States</option>
+             <option value="Afghanistan">Afghanistan</option>
+          </select>
+        </div>
+        <div class="form-group col-md-5">
+          <input ng-if="currLocation.zip" id="zipCode" class="form-control"
+             ng-model="currLocation.zip"></input>
+          
+          <input ng-if="!currLocation.zip" id="zipCode" class="form-control"
+            placeholder="Postal Code" ng-model="zipCode"></input>
+        </div>
         <div class="form-group col-md-3">
           <div class="input-group">
             <span class="input-group-addon" id="hrAddon">$</span>
@@ -106,7 +152,6 @@
           <input id="endDate" type="date" class="form-control"
             placeholder="" ng-model="endDate"></input>
         </div>
-
         <div class="col-md-12 text-center">
           <button type="submit" class="btn btn-primary" ng-click="addPost()">Post</button>
           <button class="btn btn-warning" ng-click="cancel()">Cancel</button>

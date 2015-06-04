@@ -2,8 +2,9 @@
 // It is not the same as the $modal service used above.
 
 angular.module('oddjob.modalInstance',[])
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance,posts, auth, $sce,$controller,$state) {
+.controller('ModalInstanceCtrl', function ($scope, $modalInstance,auth,$state,userLoc) {
   $scope.isLoggedIn = auth.isLoggedIn;
+  $scope.currLocation = userLoc;
 
   $scope.addPost = function(){
     var now = moment().format('MMM Do YYYY, h:mm:ss a');

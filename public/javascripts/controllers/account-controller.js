@@ -2,18 +2,11 @@ angular.module('oddjob.account-controller',[])
 .controller('AccountCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 
-		$scope.myProfile = false;
+		$scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
+  		$scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/home-cat.jpg";
+  		
 		user.get($stateParams.id).then(function(data){
 			$scope.currentUser = data.data.user;
-			if(data.data.user.avatarVersion == undefined){
-				$scope.currentUser.image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg'>");
-			}else{
-				$scope.currentUser.image= $sce.trustAsHtml(data.data.image);
-			}
-			if($scope.currentUser._id === auth.currentUser()._id){
-				$scope.myProfile = true;
-			}
-
 		});
 
 		var uploader = $scope.uploader = new FileUploader({

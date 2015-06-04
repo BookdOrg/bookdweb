@@ -13,7 +13,10 @@ angular.module('oddJob', ['ui.router',
   'oddjob.thumb-directive',
   'oddjob.landing-controller',
   'ui.bootstrap',
-  'oddjob.modalInstance'
+  'oddjob.modalInstance',
+  'ngGeolocation',
+  'cloudinary',
+  'oddjob.location-factory'
   ])
 .config([
 '$stateProvider',

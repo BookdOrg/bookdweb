@@ -6,19 +6,11 @@ angular.module('oddjob.post-controller',[])
 'auth',
 '$sce',
 function($scope, posts, post, auth,$sce){
-  if(post.author.avatarVersion == undefined){
-    post.image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg'>");
-  }else{
-    post.image = $sce.trustAsHtml(post.image);
-  }
+  $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/";
+  $scope.authorImgTrans = "c_thumb,h_100,r_10,w_100/v";
+  $scope.reviewImgTrans = "c_thumb,h_50,r_10,w_50/v";
+  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg";
 
-  for(var i=0; i<post.reviews.length;i++){
-    if(post.reviews[i].author.avatarVersion == undefined){
-        post.reviews[i].image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg'>");
-      }else{
-        post.reviews[i].image = $sce.trustAsHtml(post.reviews[i].image);
-      }
-  }
   $scope.post = post;
   $scope.isLoggedIn = auth.isLoggedIn;
 

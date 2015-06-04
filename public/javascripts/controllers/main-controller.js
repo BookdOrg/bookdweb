@@ -3,21 +3,35 @@ angular.module('oddjob.main-controller',[])
 '$scope',
 'posts',
 'auth',
-'$sce',
 '$modal',
 '$log',
-function($scope, posts, auth,$sce,$modal,$log){
+'$geolocation',
+'$http',
+'location',
+function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
 
-  var safeImage = function(posts){
-    for(var i =0; i<posts.posts.length; i++){
-      if(posts.posts[i].author.avatarVersion == undefined){
-       posts.posts[i].image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg'>");
-      }else{
-        posts.posts[i].image = $sce.trustAsHtml(posts.posts[i].image.toString());
-      }
+  $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
+  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg";
+  
+  $geolocation.watchPosition({
+        timeout: 60000,
+        maximumAge: 250,
+        enableHighAccuracy: true
+      });
+  $scope.myPosition = $geolocation.position;
+  $scope.loadingLocation = true;
+  $scope.$watch('myPosition.coords',function(newVal,oldVal){
+    if(newVal !== oldVal){
+      $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+newVal.latitude+","+newVal.longitude+"&sensor=true")
+        .success(function(data){
+          $scope.loadingLocation = false;
+          location.setPosition(data.results[0]);
+      });
+      console.log(newVal)
     }
-  }
-  safeImage(posts);
+  })
+
+  $scope.currLocation = location.getPosition();
   $scope.posts = posts.posts;
 
   $scope.isLoggedIn = auth.isLoggedIn;
@@ -25,19 +39,22 @@ function($scope, posts, auth,$sce,$modal,$log){
   $scope.animationsEnabled = true;
 
   $scope.open = function (size) {
-
     var modalInstance = $modal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'myModalContent.html',
       controller: 'ModalInstanceCtrl',
       size: size,
-      resolve: {}
+      resolve: {
+        userLoc: function(){
+          return $scope.currLocation;
+        }
+      }
     });
 
     modalInstance.result.then(function (selectedItem) {
 
     }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+      // $log.info('Modal dismissed at: ' + new Date());
     });
   };
 

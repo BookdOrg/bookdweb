@@ -4,6 +4,7 @@
 
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <script src="/javascripts/vendor/jquery-2.1.4.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
@@ -25,6 +26,11 @@
   <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
   <script src="/javascripts/directives/thumb-directive.js"></script>
   <script src="/javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
+  <script src="/javascripts/vendor/jquery.cloudinary.js"></script>
+  <script src="/javascripts/vendor/angular.cloudinary.js"></script>
+  <script src="/javascripts/services/location-factory.js"></script>
+
+  <script src="/javascripts/vendor/ngGeolocation.min.js"></script>
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
 
@@ -32,6 +38,11 @@
   <link href="/stylesheets/style.css" rel="stylesheet">
 
 </head>
+<script>
+$.cloudinary.config({
+    cloud_name:'dvvtn4u9h'
+})
+</script>
 <body ng-app="oddJob">
   <div id="wrap">
     <nav class="navbar navbar-default navbar-static-top" style="height:5px;" ng-controller="NavCtrl">
@@ -52,12 +63,14 @@
             <li><a href="#/contactUs">Contact</a></li>
 
             <div ng-if="isLoggedIn()" class="input-group" style="width:300px; margin-top:8px; margin-left:65%;">
-              <input type="text" class="form-control" placeholder="Search for...">
-              <span  class="input-group-btn">
-                <button style="margin-left:5px;" class="btn btn-success glyphicon glyphicon-search" type="button">
-              </button>
-              </span>
-            </div>
+              <div class="input-group">
+                <input class="form-control" placeholder="Search">
+                <span class="input-group-btn">
+                  <button class="btn btn-success" type="button">
+                    <i style="height:20px; line-height:18px;"class="fa fa-search fa-fw"></i>
+                  </button>
+                </span>
+              </div>
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -67,8 +80,8 @@
                 <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
                 <hr>
                 <li><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
-                <li><a href="#">Preferences</a></li>
-                <li><a href="#">Stuff</a></li>
+                <li class="disabled"><a  href="#">Preferences</a></li>
+                <li class="disabled"><a href="#">Stuff</a></li>
                 <hr>
                 <li><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
               </ul>

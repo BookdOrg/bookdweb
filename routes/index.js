@@ -28,9 +28,6 @@ router.get('/posts',auth, function(req, res, next) {
     if(err){ return next(err); }
     var updatedPosts = [];
     posts.forEach(function(post){
-      post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
-          width:50, height:50,crop:'thumb',radius:'10'
-      })
       updatedPosts.push(post);
     })
     res.json(updatedPosts);
@@ -42,9 +39,6 @@ router.get('/api/posts', function(req, res, next) {
     if(err){ return next(err); }
     var updatedPosts = [];
     posts.forEach(function(post){
-      post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
-          width:50, height:50,crop:'thumb',radius:'10'
-      })
       updatedPosts.push(post);
     })
     res.json(updatedPosts);
@@ -77,24 +71,15 @@ router.param('user',function(req,res,next,id){
     return next();
   })
 })
-
-
 /**
 ADD AUTH HEADER TO THIS ROUTE. CURRENTLY UNSAFE
 **/
 router.get('/user/posts/:user',function(req,res,next){
   var id = req.params.id;
-
-  // User.findOne({"_id":id}).populate({path:'posts',select:''}).exec(function(err,user){
-  //   res.json(user);
-  // })
-
   req.user.populate({path:'posts',select:''},function(err,user){
     res.json(user);
   })
-})
-
-
+});
 
 router.get('/api/posts/:user',function(req,res,next){
   var id = req.params.id;
@@ -128,34 +113,15 @@ router.param('review', function(req, res, next, id) {
   });
 });
 
-//Preload user objects on routes with ':user'
-// router.param('user', function(req,res,next,id){
-//   var query = User.findById(id);
-
-//   query.exec(function(err,user){
-//     if(err){return next(err); }
-//     if(!user){return next(new Error("user not found")); }
-
-//     req.user = user;
-//     return next();
-//   })
-// })
-
 // return a post
 router.get('/posts/:post', function(req, res, next) {
   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-    post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
-      width:100, height:100,crop:'thumb',radius:'20'
-    })
     var updatedPost = [];
     async.each(post.reviews,function(currentReview,postCallback){
       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
         if(err){
           return postCallback(err);
         }
-        review.image = cloudinary.image("v"+review.author.avatarVersion+"/profile/"+review.author._id,{
-          width:75, height:75,crop:'thumb',radius:'20'
-        });
         postCallback();
       });
     }, function(err){
@@ -169,18 +135,12 @@ router.get('/posts/:post', function(req, res, next) {
 
 router.get('/api/posts/:post', function(req, res, next) {
   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-    post.image = cloudinary.image("v"+post.author.avatarVersion+"/profile/"+post.author._id,{
-      width:100, height:100,crop:'thumb',radius:'20'
-    })
     var updatedPost = [];
     async.each(post.reviews,function(currentReview,postCallback){
       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
         if(err){
           return postCallback(err);ß
         }
-        review.image = cloudinary.image("v"+review.author.avatarVersion+"/profile/"+review.author._id,{
-          width:75, height:75,crop:'thumb',radius:'20'
-        });
         postCallback();
       });
     }, function(err){
@@ -191,20 +151,6 @@ router.get('/api/posts/:post', function(req, res, next) {
     })
   });
 });
-
-// router.get('/user/:user',auth, function(req,res,next){
-//   res.json(req.user);
-// })
-
-// upvote a post
-// router.put('/posts/:post/upvote', auth, function(req, res, next) {
-//   req.post.upvote(function(err, post){
-//     if (err) { return next(err); }
-
-//     res.json(post);
-//   });
-// });
-
 
 // create a new review
 router.post('/posts/:post/reviews', auth, function(req, res, next) {
@@ -221,16 +167,6 @@ router.post('/posts/:post/reviews', auth, function(req, res, next) {
     });
   });
 });
-
-// upvote a comment
-// router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
-//   req.comment.upvote(function(err, comment){
-//     if (err) { return next(err); }
-    
-//     res.json(comment);
-//   });
-// });
-
 
 router.post('/login', function(req, res, next){
   if(!req.body.username || !req.body.password){
@@ -298,9 +234,6 @@ router.get('/:id/profile',auth,function(req,res,next){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;
-      profile.image = cloudinary.image("v"+user.avatarVersion+"/profile/"+id,{
-        width:100, height:100,crop:'thumb',radius:'20'
-      })
       res.json(profile);
   })
 });
@@ -310,9 +243,6 @@ router.get('/api/:id/profile',function(req,res,next){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;
-      profile.image = cloudinary.image("v"+user.avatarVersion+"/profile/"+id,{
-        width:100, height:100,crop:'thumb',radius:'20'
-      })
       res.json(profile);
   })
 });
