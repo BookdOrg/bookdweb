@@ -4,6 +4,13 @@ var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function() {
+var server = require('socket.io').listen(app.listen(app.get('port')), function() {
   debug('Express server listening on port ' + server.address().port);
+});
+
+server.sockets.on('connection',function(socket){
+	socket.emit('message',{message: 'welcome to the server'});
+	socket.on('send',function(data){
+		server.sockets.emit('message',data);
+	});
 });

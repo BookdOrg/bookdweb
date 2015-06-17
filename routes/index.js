@@ -247,4 +247,8 @@ router.get('/api/:id/profile',function(req,res,next){
   })
 });
 
+router.get('/sockettest',function(req,res){
+  res.render("page");
+})
+
 module.exports = router;
