@@ -2,7 +2,7 @@
 // It is not the same as the $modal service used above.
 
 angular.module('oddjob.modalInstance',[])
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance,auth,$state,userLoc) {
+.controller('ModalInstanceCtrl', function ($scope,posts, $modalInstance,auth,$state,userLoc) {
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currLocation = userLoc;
 

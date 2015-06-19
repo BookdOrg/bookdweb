@@ -9,7 +9,7 @@ var passport = require('passport');
 var cloudinary = require('cloudinary');
 
 
-mongoose.connect('mongodb://localhost/news');
+mongoose.connect('mongodb://localhost/handi:27018');
 
 require('./models/Posts');
 require('./models/Reviews');
@@ -46,7 +46,7 @@ app.use('/', routes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found, find me khalil');
     err.status = 404;
     next(err);
 });
