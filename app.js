@@ -9,7 +9,7 @@ var passport = require('passport');
 var cloudinary = require('cloudinary');
 
 
-mongoose.connect('mongodb://localhost/handi:27018');
+mongoose.connect('mongodb://localhost/handi');
 
 require('./models/Posts');
 require('./models/Reviews');
@@ -24,7 +24,7 @@ var app = express();
 cloudinary.config({
     cloud_name:'dvvtn4u9h',
     api_key: '357545475786479',
-    api_secret: 'oPwyFfDS9Zhprx3NibKbFoFanjw'
+    api_secret: process.env.devcloudinarySecret
 });
 
 app.locals.api_key = cloudinary.config().api_key;
@@ -52,7 +52,6 @@ app.use(function(req, res, next) {
 });
 
 /// error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {

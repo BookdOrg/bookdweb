@@ -2,9 +2,9 @@
 var debug = require('debug')('odd-job');
 var app = require('../app');
 
-app.set('port',8080);
+app.set('port',process.env.devlocalPort);
 
-var server = require('socket.io').listen(app.listen(app.get('port'),'10.132.227.58'), function() {
+var server = require('socket.io').listen(app.listen(app.get('port'),process.env.devhost), function() {
   debug('Express server listening on port ' + server.address().port);
 });
 
