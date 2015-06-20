@@ -11,7 +11,7 @@ angular.module('oddjob.main-controller',[])
 function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
 
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
-  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/home-cat.jpg";
+  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/placeholder.jpg";
   
   $geolocation.watchPosition({
         timeout: 60000,

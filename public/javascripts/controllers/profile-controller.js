@@ -5,7 +5,7 @@ angular.module('oddjob.profile-controller',[])
 		// $scope.myProfile = false;
 
 		$scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
-  		$scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/home-cat.jpg";
+  		$scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
 
 		user.get($stateParams.id).then(function(data){
 			$scope.currentUser = data.data.user;
