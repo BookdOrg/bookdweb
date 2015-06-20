@@ -46,7 +46,7 @@ $.cloudinary.config({
 </script>
 <body ng-app="oddJob">
   <div id="wrap">
-    <nav class="navbar navbar-default navbar-static-top" style="height:5px;" ng-controller="NavCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top" style="height:5px;" ng-controller="NavCtrl">
       <div class="container-fluid" style="height:5px;">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -94,7 +94,7 @@ $.cloudinary.config({
        </div>
       </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:60px;">
         <ui-view></ui-view>
     </div>
   </div>
