@@ -99,33 +99,22 @@
         </div>
 
         <div class="form-group col-md-3">
-          <select class="form-control"
-             ng-model="currLocation.city">
-             <option value="">Select City</option>
-             <option value="Newark">Newark</option>
-             <option value="Piscataway Township">Piscataway</option>
-          </select>
+          <input class="form-control" ng-if="jobLocation.city" ng-model="jobLocation.city"></input>
+          <input class="form-control" ng-if="!jobLocation.city" ng-model="jobLocation.city" placeholder="City"></input>
         </div>
         <div class="form-group col-md-3">
-          <select class="form-control"
-             ng-model="currLocation.state">
-             <option value="">Select State</option>
-             <option value="NJ">New Jersey</option>
-          </select>
+          <input class="form-control" ng-if="jobLocation.state" ng-model="jobLocation.state"></input>
+          <input class="form-control" ng-if="!jobLocation.state" ng-model="jobLocation.state" placeholder="State"></input>
         </div>
         <div class="form-group col-md-3">
-          <select class="form-control"
-             ng-model="currLocation.country">
-             <option value="">Select City</option>
-             <option value="US">United States</option>
-             <option value="Afghanistan">Afghanistan</option>
-          </select>
+          <input class="form-control" ng-if="jobLocation.country" ng-model="jobLocation.country"></input>
+          <input class="form-control" ng-if="!jobLocation.country" ng-model="jobLocation.country" placeholder="Country"></input>
         </div>
         <div class="form-group col-md-5">
-          <input ng-if="currLocation.zip" id="zipCode" class="form-control"
-             ng-model="currLocation.zip"></input>
+          <input ng-if="jobLocation.zip" id="zipCode" class="form-control"
+             ng-model="jobLocation.zip"></input>
           
-          <input ng-if="!currLocation.zip" id="zipCode" class="form-control"
+          <input ng-if="!jobLocation.zip" id="zipCode" class="form-control"
             placeholder="Postal Code" ng-model="zipCode"></input>
         </div>
         <div class="form-group col-md-3">

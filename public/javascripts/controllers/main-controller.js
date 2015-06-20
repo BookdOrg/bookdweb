@@ -26,8 +26,8 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
         .success(function(data){
           $scope.loadingLocation = false;
           location.setPosition(data.results[0]);
+          console.log(data.results[0])
       });
-      console.log(newVal)
     }
   })
 
@@ -44,11 +44,11 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
       templateUrl: 'myModalContent.html',
       controller: 'ModalInstanceCtrl',
       size: size,
-      resolve: {
-        userLoc: function(){
-          return $scope.currLocation;
-        }
-      }
+      // resolve: {
+      //   userLoc: function(){
+      //     return $scope.currLocation;
+      //   }
+      // }
     });
 
     modalInstance.result.then(function (selectedItem) {
