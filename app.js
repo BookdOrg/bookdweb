@@ -75,5 +75,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
+console.log('Server started using settings: Port' +process.env.devlocalPort + "/n host: " 
+    + process.env.devhost + "/n environment: " + process.env.NODE_ENV);
 module.exports = app;
