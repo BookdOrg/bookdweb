@@ -7,6 +7,12 @@ var fs = require('fs');
 var Busboy = require('busboy');
 var async = require('async');
 
+var GooglePlaces = require('googleplaces');
+
+var placesKey = process.env.GOOGLE_PLACES_API_KEY;
+var outputFormat = process.env.GOOGLE_PLACES_OUTPUT_FORMAT;
+
+var googlePlaces = new GooglePlaces(placesKey,outputFormat);
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
@@ -246,7 +252,14 @@ router.get('/api/:id/profile',function(req,res,next){
       res.json(profile);
   })
 });
-
+// router.get('/autosuggest',auth,function(req,res){
+//   console.log(req.params.id)
+//   // res.json("cool")
+//   googlePlaces.placeAutocomplete(req.params.input,function(error,response){
+//     if(error)throw error;
+//     res.json(response);
+//   })
+// })
 router.get('/sockettest',function(req,res){
   res.render("page");
 })
