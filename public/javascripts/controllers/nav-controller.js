@@ -1,4 +1,4 @@
-angular.module('oddjob.nav-controller',[])
+angular.module('oddjob.nav-controller',["google.places"])
 .controller('NavCtrl', [
 '$scope',
 'auth',
@@ -8,5 +8,9 @@ function($scope, auth, $state){
   $scope.currentUser = auth.currentUser;
   $scope.logOut = auth.logOut;
 
+  $scope.autocompleteOptions = {
+    componentRestrictions: {country: 'us'},
+    types:['geocode']
+  }
   
 }])

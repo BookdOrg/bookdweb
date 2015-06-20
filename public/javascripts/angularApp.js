@@ -17,7 +17,7 @@ angular.module('oddJob', ['ui.router',
   'ngGeolocation',
   'cloudinary',
   'oddjob.location-factory',
-  'oddjob.places-factory'
+  'google.places'
   ])
 .config([
 '$stateProvider',

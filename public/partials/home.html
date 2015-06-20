@@ -95,12 +95,12 @@
       <form style="margin-top:30px;" ng-show="isLoggedIn()">
         <div class="form-group col-md-4">
           <input type="text" class="form-control"
-            placeholder="Title" ng-model="title"></input>
+            placeholder="Title" g-places-autocomplete options="autocompleteOptions" ng-model="title"></input>
         </div>
 
         <div class="form-group col-md-3">
-          <input class="form-control" ng-if="jobLocation.city" ng-model="jobLocation.city"></input>
-          <input class="form-control" ng-if="!jobLocation.city" ng-model="jobLocation.city" placeholder="City"></input>
+          <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-if="jobLocation.city" ng-model="test"></input>
+          <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-if="test" ng-model="jobLocation.city" placeholder="City"></input>
         </div>
         <div class="form-group col-md-3">
           <input class="form-control" ng-if="jobLocation.state" ng-model="jobLocation.state"></input>

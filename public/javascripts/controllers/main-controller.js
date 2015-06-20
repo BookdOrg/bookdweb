@@ -1,4 +1,4 @@
-angular.module('oddjob.main-controller',[])
+angular.module('oddjob.main-controller',["google.places"])
 .controller('MainCtrl', [
 '$scope',
 'posts',
@@ -8,12 +8,16 @@ angular.module('oddjob.main-controller',[])
 '$geolocation',
 '$http',
 'location',
-'places',
-function($scope, posts, auth,$modal,$log,$geolocation,$http,location,places){
+function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
 
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/placeholder.jpg";
   
+
+  $scope.autocompleteOptions = {
+    componentRestrictions: {country: 'us'},
+    types:['geocode']
+  }
   $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
@@ -27,12 +31,9 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location,places){
         .success(function(data){
           $scope.loadingLocation = false;
           location.setPosition(data.results[0]);
-          console.log(data.results[0])
       });
     }
   })
-
-  places.getSuggestion("pisca");
 
   $scope.currLocation = location.getPosition();
   $scope.posts = posts.posts;
