@@ -16,7 +16,7 @@
     position: relative;
     bottom: 0%;
     left: 0%;
-    height: 100%;
+    height: 70%;
     width: 100%;
     overflow: hidden;
     background: #000;
@@ -46,7 +46,7 @@
       font-size: 16px;
       font-family: "Open Sans",serif;
       position: relative;
-      top: 50%;
+      top: 35%;
       transform: translateY(-50%);
     }
     .panel {
@@ -55,11 +55,13 @@
     h1{
       font-family: "Abel", Arial, sans-serif;
       font-weight: 400;
-      font-size: 40px;
+      font-size: 50px;
+      color:white;
     }
     h3{
       font-family: "Abel", Arial, sans-serif;
       font-weight: 400;
+      color:white;
     }
     .margin-base-vertical{
       margin: 40px 0;
@@ -109,8 +111,6 @@ function scaleBannerVideoSize(element){
     videoWidth,
     videoHeight;
 
-    console.log(windowHeight);
-
     $(element).each(function(){
         var videoAspectRatio = $(this).data('height')/$(this).data('width');
 
@@ -129,7 +129,6 @@ function scaleBannerVideoSize(element){
     });
 }
 </script>
-
 <div class="homepage-hero-module">
     <div class="video-container">
         <div class="filter"></div>
@@ -141,30 +140,13 @@ function scaleBannerVideoSize(element){
             <img src="/video/Traffic-blurred2.jpg" alt="">
         </div>
         <div id="landingBody">
-          <div class="container"
-            <div class="row">
-              <div class="col-md-6 col-md-offset-3 panel panel-default">
-                <h1 class="text-center">Handi</h1>
-                <h3 class="margin-base-vertical"> You need work finished, we've got people who can help </h3>
-
-                <p>Something about Handi!</p>
-                <p> More text about Handi! Be clever</p>
-
-                <p>So come and get the work done with Handi!</p>
-
-                <form class="margin-base-vertical"> 
-                  <p class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input type="text" class="form-control input-lg" name="email" placeholder="johnnyappleseed@me.com" />
-                  </p>
-                  <p class="help-block text-center"><small> We won't spam you. Unsub at any time</small></p>
-                  <p class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg disabled">Keep me posted!</button>
-                  </p>
-                  </span>
-              </div>
-            </div>
-          </div>
+        <h1 class="text-center">Handi<h1>
+        <h3 class="text-center">Let's get it done together ...?</h3>
         </div>
+
+    </div>
+    <div id="firstSection">
+      Information about Handi will be down here.
     </div>
 </div>
+
