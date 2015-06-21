@@ -49,7 +49,7 @@ $.cloudinary.config({
 </script>
 <body ng-app="oddJob">
   <div id="wrap">
-    <nav class="navbar navbar-default navbar-fixed-top" style="height:5px;" ng-controller="NavCtrl">
+    <nav class="navbar navbar-default center navbar-fixed-top" style="height:5px;" ng-controller="NavCtrl">
       <div class="container-fluid" style="height:5px;">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -65,36 +65,39 @@ $.cloudinary.config({
             <li ng-if="isLoggedIn()"><a href="#/jobs">Jobs</a></li>
             <li><a href="#/about">About</a></li>
             <li><a href="#/contactUs">Contact</a></li>
-
-            <div ng-if="isLoggedIn()" class="input-group" style="width:300px; margin-top:8px; margin-left:65%;">
-              <div class="input-group">
-                <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-model="place" placeholder="Search">
-                <span class="input-group-btn">
-                  <button class="btn btn-success" type="button">
-                    <i style="height:20px; line-height:18px;"class="fa fa-search fa-fw"></i>
-                  </button>
-                </span>
+          </ul>
+          <div class="navbar-inner">
+            <ul class="nav navbar-nav">
+              <div ng-if="isLoggedIn()" class="input-group" style="width:300px; margin-top:8px;">
+                <div class="input-group">
+                  <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-model="place" placeholder="Search">
+                  <span class="input-group-btn">
+                    <button class="btn btn-success" type="button">
+                      <i style="height:20px; line-height:18px;"class="fa fa-search fa-fw"></i>
+                    </button>
+                  </span>
+                </div>
               </div>
-
-          </ul>
-          <span>{{place}}</span>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Welcome, {{currentUser().username}} <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
-                <hr>
-                <li><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
-                <li class="disabled"><a  href="#">Preferences</a></li>
-                <li class="disabled"><a href="#">Stuff</a></li>
-                <hr>
-                <li><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
-              </ul>
-            </li>
-  <!--           <li ng-show="isLoggedIn()"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li> -->
-            <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
-            <li ng-hide="isLoggedIn()"><a href="/#/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-          </ul>
+            </ul>
+            <span>{{place}}</span>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Welcome, {{currentUser().username}} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
+                  <hr>
+                  <li><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
+                  <li class="disabled"><a  href="#">Preferences</a></li>
+                  <li class="disabled"><a href="#">Stuff</a></li>
+                  <hr>
+                  <li><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                </ul>
+              </li>
+    <!--           <li ng-show="isLoggedIn()"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li> -->
+              <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+              <li ng-hide="isLoggedIn()"><a href="/#/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+            </ul>
+          </div>
        </div>
       </div>
     </nav>

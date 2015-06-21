@@ -34,3 +34,11 @@ h1{
   height: 60px;
   background-color: #f5f5f5;
 }
+
+.navbar.center .navbar-inner{
+  text-align: center;
+}
+.navbar.center .navbar-inner .nav{
+  float:none;
+  display:inline-block;
+}
