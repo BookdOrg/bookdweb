@@ -66,15 +66,11 @@
     .margin-base-vertical{
       margin: 40px 0;
     }
-    #firstSection{
-        margin-top:10px;
+    .landingSection{
         height:200px;
     }
-    #secondSection{
-        height:200px;
-    }
-    #thirdSection{
-        height:200px;
+    .landingSection #firstSection{
+        margin-top: 10px;
     }
 </style>
 <script>
@@ -169,8 +165,8 @@ function scaleBannerVideoSize(element){
     </div>
   </div>
 </div> 
-<div class="jumbotron" style="margin-top:20px; margin-bottom:30px;">
-    <div class="row" id="firstSection">
+<div class="well" style="margin-top:20px; margin-bottom:30px;">
+    <div class="row landingSection" id="firstSection">
             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%" src="http://placehold.it/150x150" alt="...">
         </div>
@@ -179,7 +175,7 @@ function scaleBannerVideoSize(element){
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
     </div>
-    <div class="row" id="secondSection">
+    <div class="row landingSection" id="secondSection">
         <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10 clearfix">
             <h4 class="text-center"> Heading 2 </h4>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
@@ -188,7 +184,7 @@ function scaleBannerVideoSize(element){
           <img class="pull-right" style="border-radius:50%;" src="http://placehold.it/150x150" alt="...">
         </div>
     </div>
-    <div class="row" id="thirdSection">
+    <div class="row landingSection" id="thirdSection">
         <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%;" src="http://placehold.it/150x150" alt="...">
         </div>
