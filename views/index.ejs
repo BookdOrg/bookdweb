@@ -82,15 +82,15 @@ $.cloudinary.config({
             <span>{{place}}</span>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Welcome, {{currentUser().username}} <span class="caret"></span></a>
+                <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome, {{currentUser().username}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
                   <hr>
-                  <li><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
-                  <li class="disabled"><a  href="#">Preferences</a></li>
-                  <li class="disabled"><a href="#">Stuff</a></li>
+                  <li><a href="#/user/{{currentUser()._id}}/account"><i class="fa fa-cog"></i> Account</a></li>
+                  <li class="disabled"><a  href="#"><i class="fa fa-reorder"></i> Preferences</a></li>
+                  <li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages</a></li>
                   <hr>
-                  <li><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                  <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Sign Out</a></li>
                 </ul>
               </li>
               <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
