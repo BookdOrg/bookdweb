@@ -137,7 +137,7 @@ router.param('review', function(req, res, next, id) {
 });
 
 // return a post
-router.get('/posts/:post', function(req, res, next) {
+router.get('/posts/:post',auth, function(req, res, next) {
   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
     var updatedPost = [];
     async.each(post.reviews,function(currentReview,postCallback){
