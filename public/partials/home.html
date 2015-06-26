@@ -87,20 +87,20 @@
 
           <div class="form-group col-md-5">
             <label for="city"> City: </label>
-            <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-if="jobLocation.city" ng-model="jobLocation.city"></input>
-            <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-if="test" ng-model="jobLocation.city" placeholder="City"></input>
+            <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-show="jobLocation.city" ng-model="jobLocation.city"></input>
+            <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-show="!jobLocation.city" ng-model="jobLocation.city" placeholder="City"></input>
           </div>
 
           <div class="form-group col-md-5">
             <label for="state"> State: </label>
-            <input class="form-control" ng-if="jobLocation.state" ng-model="jobLocation.state"></input>
-            <input class="form-control" ng-if="!jobLocation.state" ng-model="jobLocation.state" placeholder="State"></input>
+            <input class="form-control" ng-show="jobLocation.state" ng-model="jobLocation.state"></input>
+            <input class="form-control" ng-show="!jobLocation.state" ng-model="jobLocation.state" placeholder="State"></input>
           </div>
 
           <div class="form-group col-md-5">
             <label for="country"> Country: </label>
-            <input class="form-control" ng-if="jobLocation.country" ng-model="jobLocation.country"></input>
-            <input class="form-control" ng-if="!jobLocation.country" ng-model="jobLocation.country" placeholder="Country"></input>
+            <input class="form-control" ng-show="jobLocation.country" ng-model="jobLocation.country"></input>
+            <input class="form-control" ng-show="!jobLocation.country" ng-model="jobLocation.country" placeholder="Country"></input>
           </div>
 
           <div class="form-group col-md-5">
