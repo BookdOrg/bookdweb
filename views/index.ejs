@@ -61,8 +61,8 @@ $.cloudinary.config({
         </div>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">
-            <li><a href="#/">Home</a></li>
-            <li ng-if="isLoggedIn()"><a href="#/jobs">Jobs</a></li>
+            <li ng-if="isLoggedIn()"><a href="#/home">Home</a></li>
+            <!-- <li ng-if="isLoggedIn()"><a href="#/jobs">Jobs</a></li> -->
             <li><a href="#/about">About</a></li>
             <li><a href="#/contactUs">Contact</a></li>
           </ul>
@@ -93,7 +93,6 @@ $.cloudinary.config({
                   <li><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                 </ul>
               </li>
-    <!--           <li ng-show="isLoggedIn()"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li> -->
               <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
               <li ng-hide="isLoggedIn()"><a href="/#/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
             </ul>

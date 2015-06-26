@@ -1,69 +1,26 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'install',
-1 verbose cli   'angular-google-places-autocomplete' ]
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
 2 info using npm@1.4.3
 3 info using node@v0.11.12-pre
-4 verbose readDependencies using package.json deps
-5 verbose cache add [ 'angular-google-places-autocomplete', null ]
-6 verbose cache add name=undefined spec="angular-google-places-autocomplete" args=["angular-google-places-autocomplete",null]
-7 verbose parsed url { protocol: null,
-7 verbose parsed url   slashes: null,
-7 verbose parsed url   auth: null,
-7 verbose parsed url   host: null,
-7 verbose parsed url   port: null,
-7 verbose parsed url   hostname: null,
-7 verbose parsed url   hash: null,
-7 verbose parsed url   search: null,
-7 verbose parsed url   query: null,
-7 verbose parsed url   pathname: 'angular-google-places-autocomplete',
-7 verbose parsed url   path: 'angular-google-places-autocomplete',
-7 verbose parsed url   href: 'angular-google-places-autocomplete' }
-8 silly lockFile 813fd40f-gular-google-places-autocomplete angular-google-places-autocomplete
-9 verbose lock angular-google-places-autocomplete /Users/khalilbrown/.npm/813fd40f-gular-google-places-autocomplete.lock
-10 silly lockFile 813fd40f-gular-google-places-autocomplete angular-google-places-autocomplete
-11 silly lockFile 813fd40f-gular-google-places-autocomplete angular-google-places-autocomplete
-12 verbose addNamed [ 'angular-google-places-autocomplete', '' ]
-13 verbose addNamed [ null, '*' ]
-14 silly lockFile 47b0f132-gular-google-places-autocomplete angular-google-places-autocomplete@
-15 verbose lock angular-google-places-autocomplete@ /Users/khalilbrown/.npm/47b0f132-gular-google-places-autocomplete.lock
-16 silly addNameRange { name: 'angular-google-places-autocomplete',
-16 silly addNameRange   range: '*',
-16 silly addNameRange   hasData: false }
-17 verbose url raw angular-google-places-autocomplete
-18 verbose url resolving [ 'https://registry.npmjs.org/',
-18 verbose url resolving   './angular-google-places-autocomplete' ]
-19 verbose url resolved https://registry.npmjs.org/angular-google-places-autocomplete
-20 info trying registry request attempt 1 at 23:42:49
-21 http GET https://registry.npmjs.org/angular-google-places-autocomplete
-22 http 404 https://registry.npmjs.org/angular-google-places-autocomplete
-23 silly registry.get cb [ 404,
-23 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-23 silly registry.get     'content-type': 'application/json',
-23 silly registry.get     'cache-control': 'max-age=0',
-23 silly registry.get     'content-length': '51',
-23 silly registry.get     'accept-ranges': 'bytes',
-23 silly registry.get     date: 'Sat, 20 Jun 2015 03:42:49 GMT',
-23 silly registry.get     via: '1.1 varnish',
-23 silly registry.get     age: '0',
-23 silly registry.get     connection: 'close',
-23 silly registry.get     'x-served-by': 'cache-jfk1029-JFK',
-23 silly registry.get     'x-cache': 'MISS',
-23 silly registry.get     'x-cache-hits': '0',
-23 silly registry.get     'x-timer': 'S1434771769.854818,VS0,VE21' } ]
-24 silly lockFile 47b0f132-gular-google-places-autocomplete angular-google-places-autocomplete@
-25 silly lockFile 47b0f132-gular-google-places-autocomplete angular-google-places-autocomplete@
-26 error 404 'angular-google-places-autocomplete' is not in the npm registry.
-26 error 404 You should bug the author to publish it
-26 error 404 It was specified as a dependency of 'odd-job'
-26 error 404
-26 error 404 Note that you can also install from a
-26 error 404 tarball, folder, or http url, or git url.
-27 error System Darwin 14.0.0
-28 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "angular-google-places-autocomplete"
-29 error cwd /Users/khalilbrown/Documents/handi-staging
-30 error node -v v0.11.12-pre
-31 error npm -v 1.4.3
-32 error code E404
-33 verbose exit [ 1, true ]
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart odd-job@0.0.1
+6 info start odd-job@0.0.1
+7 verbose unsafe-perm in lifecycle true
+8 info odd-job@0.0.1 Failed to exec start script
+9 error odd-job@0.0.1 start: `node ./bin/www`
+9 error Exit status 1
+10 error Failed at the odd-job@0.0.1 start script.
+10 error This is most likely a problem with the odd-job package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     node ./bin/www
+10 error You can get their info via:
+10 error     npm owner ls odd-job
+10 error There is likely additional logging output above.
+11 error System Darwin 14.0.0
+12 error command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+13 error cwd /Users/khalilbrown/Documents/handi-staging
+14 error node -v v0.11.12-pre
+15 error npm -v 1.4.3
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

@@ -22,7 +22,7 @@ angular.module('oddjob.post-factory',[])
   };
   o.getUserPosts = function(id){
     return $http.get('/user/posts/'+ id,{
-      headers: {Authorization: 'Bearer'+auth.getToken()}
+      headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       angular.copy(data, o.myPosts)
     })

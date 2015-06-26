@@ -31,7 +31,7 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'landingCtrl',
     })
     .state('home', {
-      url: '/jobs',
+      url: '/home',
       templateUrl: 'partials/home.html',
       controller: 'MainCtrl',
       resolve: {

@@ -33,6 +33,30 @@ router.get('/posts',auth, function(req, res, next) {
   })
 });
 
+router.get('/posts/most-recent',auth,function(req, res, next) {
+  var id = req.payload._id;
+
+  Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+    if(err){ return next(err); }
+    var updatedPosts = [];
+    posts.forEach(function(post){
+      updatedPosts.push(post);
+    })
+    res.json(updatedPosts);
+  })
+});
+
+router.get('/api/posts/most-recent',function(req, res, next) {
+  Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+    if(err){ return next(err); }
+    var updatedPosts = [];
+    posts.forEach(function(post){
+      updatedPosts.push(post);
+    })
+    res.json(updatedPosts);
+  })
+});
+
 router.get('/api/posts', function(req, res, next) {
   Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
     if(err){ return next(err); }
@@ -73,7 +97,7 @@ router.param('user',function(req,res,next,id){
 /**
 ADD AUTH HEADER TO THIS ROUTE. CURRENTLY UNSAFE
 **/
-router.get('/user/posts/:user',function(req,res,next){
+router.get('/user/posts/:user',auth,function(req,res,next){
   var id = req.params.id;
   req.user.populate({path:'posts',select:''},function(err,user){
     res.json(user);
