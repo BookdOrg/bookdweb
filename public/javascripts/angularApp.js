@@ -36,7 +36,9 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'MainCtrl',
       resolve: {
         postPromise: ['posts', function(posts){
-          return posts.getAll();
+          posts.getRecent();
+          posts.getAll();
+          return posts;
         }]
       }
     })

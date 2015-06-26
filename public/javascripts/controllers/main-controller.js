@@ -37,7 +37,7 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
 
   $scope.currLocation = location.getPosition();
   $scope.posts = posts.posts;
-
+  $scope.recentPosts = posts.recentPosts;
   $scope.isLoggedIn = auth.isLoggedIn;
 
   $scope.animationsEnabled = true;
