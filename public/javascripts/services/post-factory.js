@@ -17,7 +17,6 @@ angular.module('oddjob.post-factory',[])
     return $http.get('/most-recent', {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
-      console.log(data);
       angular.copy(data,o.recentPosts);
     });
   }
