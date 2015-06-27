@@ -1,4 +1,5 @@
 var express = require('express');
+var app = require('express')();
 var router = express.Router();
 var jwt = require('express-jwt');
 var passport = require('passport');
@@ -6,13 +7,28 @@ var cloudinary = require('cloudinary');
 var fs = require('fs');
 var Busboy = require('busboy');
 var async = require('async');
+var acl = require('acl');
+
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+io.on('connection',function(socket){
+  socket.emit('welcome', {message:"Welcome to Handi"})
+  socket.on('send',function(data){
+    server.sockets.emit('welcome',data);
+  });
+});
+
+server.listen(3001);
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: '' });
 });
 
 
 var mongoose = require('mongoose');
+acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
+
 
 var Post = mongoose.model('Post');
 var Review = mongoose.model('Review');
@@ -33,27 +49,44 @@ router.get('/posts',auth, function(req, res, next) {
   })
 });
 
-router.get('/posts/most-recent',auth,function(req, res, next) {
+router.get('/most-recent',auth,function(req, res, next) {
   var id = req.payload._id;
-
   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
     if(err){ return next(err); }
     var updatedPosts = [];
     posts.forEach(function(post){
       updatedPosts.push(post);
     })
-    res.json(updatedPosts);
+    Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
+      var updatedReviews = [];
+      reviews.forEach(function(review){
+        updatedReviews.push(review);
+      })
+      var recentPosts = updatedPosts.concat(updatedReviews);
+      res.json(recentPosts);
+    })
+    // res.json(updatedPosts);
   })
 });
 
-router.get('/api/posts/most-recent',function(req, res, next) {
+router.get('/api/most-recent',function(req, res, next) {
   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
     if(err){ return next(err); }
     var updatedPosts = [];
     posts.forEach(function(post){
       updatedPosts.push(post);
     })
-    res.json(updatedPosts);
+    Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
+      var updatedReviews = [];
+      reviews.forEach(function(review){
+        updatedReviews.push(review);
+      })
+      res.json({
+        updatedPosts:updatedPosts,
+        updatedReviews:updatedReviews
+      })
+    })
+    // res.json(updatedPosts);
   })
 });
 
@@ -82,6 +115,7 @@ router.post('/posts', auth, function(req, res, next) {
 
   post.save(function(err, post){
     if(err){ return next(err); }
+    io.emit('newPost', {post:post});
     res.json(post);
   });
 });
@@ -162,7 +196,7 @@ router.get('/api/posts/:post', function(req, res, next) {
     async.each(post.reviews,function(currentReview,postCallback){
       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
         if(err){
-          return postCallback(err);ß
+          return postCallback(err);
         }
         postCallback();
       });
@@ -186,6 +220,7 @@ router.post('/posts/:post/reviews', auth, function(req, res, next) {
     req.post.reviews.push(review);
     req.post.save(function(err, post) {
       if(err){ return next(err); }
+      io.emit('newReview', {review:review});
       res.json(review);
     });
   });

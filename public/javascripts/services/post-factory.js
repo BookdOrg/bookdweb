@@ -13,10 +13,11 @@ angular.module('oddjob.post-factory',[])
       return res.data;
     });
   };
-  o.getRecent = function(id){
-    return $http.get('/posts/most-recent', {
+  o.getRecent = function(){
+    return $http.get('/most-recent', {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
+      console.log(data);
       angular.copy(data,o.recentPosts);
     });
   }

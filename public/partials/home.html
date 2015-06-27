@@ -27,27 +27,36 @@
   <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <h3 class="text-center">Recent Acitivity</h3>
     <div class="well contentBox">
-      <div class="text-left"ng-repeat="post in recentPosts" style="margin-top:5px;">
-        <!-- <span ng-bind-html="post.image"></span> -->
+
+      <div class="text-left"ng-repeat="post in recentPosts | orderBy:'timestamp':true" style="margin-top:5px;">
         <span ng-if="post.author.avatarVersion">
           <image ng-src="{{cloudinaryBaseUrl}}{{post.author.avatarVersion}}/profile/{{post.author._id}} ">
         </span>
         <span ng-if="!post.author.avatarVersion">
           <image ng-src="{{cloudinaryDefaultPic}}">
         </span>
-        <span style="font-size:20px; margin-left:10px;">
+        <span ng-if="post.title" style="font-size:20px; margin-left:10px;">
           <a href="#/posts/{{post._id}}">
             {{post.title | limitTo:32}}          
           </a>
         </span>
-        <br>
-        <span ng-show="post.author">
-          Author: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a> on {{post.timestamp}} |
+        <span ng-if="!post.title">
+          {{post.body}}
         </span>
-        <span>
-         {{post.reviews.length}} Comments <i class="fa fa-comments"></i>
+        <br>
+        <span ng-if="post.title">
+          Author: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a> on {{post.timestamp}} 
+        </span>
+        <span ng-if="!post.title">
+          Comment posted by: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a>
+        </span>
+        <span ng-if="post.reviews">
+         | {{post.reviews.length}} Comments <i class="fa fa-comments"></i>
+        </span>
+        <span ng-if="!post.reviews">
         </span>
       </div>
+
     </div>
   </div>
   <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">

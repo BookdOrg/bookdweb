@@ -7,10 +7,3 @@ app.set('port',process.env.devlocalPort);
 var server = require('socket.io').listen(app.listen(app.get('port'),process.env.devhost), function() {
   debug('Express server listening on port ' + server.address().port);
 });
-
-server.sockets.on('connection',function(socket){
-	socket.emit('message',{message: 'welcome to the server'});
-	socket.on('send',function(data){
-		server.sockets.emit('message',data);
-	});
-});

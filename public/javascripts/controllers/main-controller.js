@@ -40,6 +40,21 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
   $scope.recentPosts = posts.recentPosts;
   $scope.isLoggedIn = auth.isLoggedIn;
 
+
+  var socket = io.connect('http://localhost:3001');
+
+  socket.on('newPost', function (data) {
+        if(data.post) {
+          posts.getRecent();
+          posts.getAll();
+        }
+  });
+  socket.on('newReview',function (data){
+    if(data.review){
+      posts.getRecent();
+    }
+  })
+
   $scope.animationsEnabled = true;
 
   $scope.open = function (size) {
