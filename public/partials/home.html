@@ -48,7 +48,7 @@
           Author: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a> on {{post.timestamp}} 
         </span>
         <span ng-if="!post.title">
-          Comment posted by: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a>
+          Comment posted by: <a href="#/user/{{post.author._id}}/profile">{{post.author.username}}</a> on {{post.timestamp}}
         </span>
         <span ng-if="post.reviews">
          | {{post.reviews.length}} Comments <i class="fa fa-comments"></i>
