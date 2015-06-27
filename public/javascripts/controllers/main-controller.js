@@ -24,7 +24,7 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
         enableHighAccuracy: true
       });
   $scope.myPosition = $geolocation.position;
-  $scope.loadingLocation = true;
+  // $scope.loadingLocation = true;
   $scope.$watch('myPosition.coords',function(newVal,oldVal){
     if(newVal !== oldVal){
       $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+newVal.latitude+","+newVal.longitude+"&sensor=true")

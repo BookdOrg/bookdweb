@@ -1,19 +1,8 @@
 <div class="container-fluid">
 <div class="row">
   <div class="page-header">
-      <h1 class="text-center">Job Postings
-        <span>
-          
-        </span>
+      <h1 class="text-center">Job Postings <i ng-if="!currLocation" class="fa fa-spinner fa-pulse"></i> <i ng-if="currLocation" tooltip="{{currLocation.address}}" class="fa fa-map-marker"></i>
       </h1>
-      <h3>Location Info: <i ng-if="loadingLocation" class="fa fa-spinner fa-pulse"></i><br>         
-        Latitude:{{myPosition.coords.latitude}} <br>
-        Longitude: {{myPosition.coords.longitude}} <br>
-        Address: {{currLocation.address}}<br>
-        City: {{currLocation.city}}<br>
-        State: {{currLocation.state}}<br>
-        Country: {{currLocation.country}}<br>
-        Postal Code: {{currLocation.zip}}<br>
         <p ng-show="myPosition.error">
           Error ({{myPosition.error.code}}): {{myPosition.error.message}}
         </p>
@@ -25,7 +14,7 @@
 </div>
 <div class="row">
   <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
-    <h3 class="text-center">Recent Acitivity</h3>
+    <h3 class="text-center">Recent Activity</h3>
     <div class="well contentBox">
 
       <div class="text-left"ng-repeat="post in recentPosts | orderBy:'timestamp':true" style="margin-top:5px;">
