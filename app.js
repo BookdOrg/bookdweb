@@ -9,7 +9,7 @@ var passport = require('passport');
 var cloudinary = require('cloudinary');
 
 
-mongoose.connect('mongodb://localhost/handi');
+mongoose.connect('mongodb://localhost/clientconnect');
 
 require('./models/Posts');
 require('./models/Reviews');
