@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('oddjob.thumb-directive',[])
+angular.module('cc.thumb-directive',[])
     /**
     * The ng-thumb directive
     * @author: nerv

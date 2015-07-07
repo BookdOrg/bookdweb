@@ -1,23 +1,25 @@
 
-angular.module('oddJob', ['ui.router',
-  'oddjob.main-controller',
-  'oddjob.auth-controller',
-  'oddjob.nav-controller',
-  'oddjob.post-controller',
-  'oddjob.account-controller',
-  'oddjob.auth-factory',
-  'oddjob.post-factory',
-  'oddjob.profile-controller',
-  'oddjob.user-factory',
+angular.module('cc', ['ui.router',
+  'cc.main-controller',
+  'cc.auth-controller',
+  'cc.nav-controller',
+  // 'cc.post-controller',
+  'cc.account-controller',
+  'cc.auth-factory',
+  'cc.business-factory',
+  'cc.profile-controller',
+  'cc.user-factory',
   'angularFileUpload',
-  'oddjob.thumb-directive',
-  'oddjob.landing-controller',
+  'cc.thumb-directive',
+  'cc.landing-controller',
   'ui.bootstrap',
-  'oddjob.modalInstance',
+  'cc.modalInstance',
   'ngGeolocation',
   'cloudinary',
-  'oddjob.location-factory',
-  'google.places'
+  'cc.location-factory',
+  'google.places',
+  'cc.bizlist-controller',
+  'cc.business-controller'
   ])
 .config([
 '$stateProvider',
@@ -35,12 +37,33 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: 'partials/home.html',
       controller: 'MainCtrl',
       resolve: {
-        postPromise: ['posts', function(posts){
-          posts.getRecent();
-          posts.getAll();
-          return posts;
+        categories: ['business',function(business){
+          return business.getCategories();
         }]
       }
+    })
+    .state('bizlist',{
+      url:'/category/{cat}/{location}/{cll}',
+      templateUrl:'partials/bizlist.html',
+      controller:'bizlistCtrl'
+      // resolve: {
+      //   businesses:['$http','$stateParams','MyYelpAPI', function($http,$stateParams,MyYelpAPI){
+      //     // $http.jsonp('//api.yelp.com/v2/search?category_filter='+$stateParams.cat)
+      //     //   .then(function(data){
+      //     //     console.log(data);
+      //     //   })
+      //     // MyYelpAPI.retrieveYelp('',function(data) {
+      //     //   console.log(data.businesses)
+      //     //   return data.businesses;
+
+      //     // });
+      //   }]
+      // }
+    })
+    .state('business',{
+      url:'/business/{cat}/{businessid}',
+      templateUrl:'partials/business.html',
+      controller:'businessCtrl'
     })
     .state('posts', {
       url: '/posts/{id}',

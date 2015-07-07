@@ -1,4 +1,4 @@
-angular.module('oddjob.user-factory',[])
+angular.module('cc.user-factory',[])
 .factory('user',['$http','auth',function($http,auth){
 	var o = {};
 

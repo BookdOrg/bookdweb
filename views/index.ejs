@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Handi</title>
+  <title>ClientConnect</title>
 
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
@@ -16,13 +16,14 @@
   <script src="/javascripts/controllers/main-controller.js"></script>
   <script src="/javascripts/controllers/auth-controller.js"></script>
   <script src="/javascripts/controllers/nav-controller.js"></script>
-  <script src="/javascripts/controllers/post-controller.js"></script>
   <script src="/javascripts/controllers/profile-controller.js"></script>
   <script src="/javascripts/controllers/landing-controller.js"></script>
   <script src="/javascripts/controllers/modal-controller.js"></script>
   <script src="/javascripts/controllers/account-controller.js"></script>
+  <script src="/javascripts/controllers/bizlist-controller.js"></script>
+  <script src="/javascripts/controllers/business-controller.js"></script>
   <script src="/javascripts/services/auth-factory.js"></script>
-  <script src="/javascripts/services/post-factory.js"></script>
+  <script src="/javascripts/services/business-factory.js"></script>
   <script src="/javascripts/services/user-factory.js"></script>
   <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
   <script src="/javascripts/directives/thumb-directive.js"></script>
@@ -32,6 +33,7 @@
   <script src="/javascripts/services/location-factory.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
   <script src="/javascripts/vendor/autocomplete.min.js"></script>
+  <script src="//rawgit.com/bettiolo/oauth-signature-js/master/dist/oauth-signature.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/autocomplete.min.css"/>
 
   <script src="/javascripts/vendor/ngGeolocation.min.js"></script>
@@ -47,7 +49,7 @@ $.cloudinary.config({
     cloud_name:'dvvtn4u9h'
 })
 </script>
-<body ng-app="oddJob">
+<body ng-app="cc">
   <div id="wrap">
     <nav class="navbar navbar-default center navbar-fixed-top" ng-controller="NavCtrl">
       <div class="container-fluid">
@@ -57,7 +59,7 @@ $.cloudinary.config({
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
           </button>
-          <a class="navbar-brand" href="#/">Handi</a>
+          <a class="navbar-brand" href="#/">ClientConnect</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">

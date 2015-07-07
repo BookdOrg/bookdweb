@@ -1,4 +1,4 @@
-angular.module('oddjob.auth-controller',[])
+angular.module('cc.auth-controller',[])
 .controller('AuthCtrl', [
 '$scope',
 '$state',

@@ -11,7 +11,8 @@ var UserSchema = new mongoose.Schema({
   rating: Number,
   hash: String,
   salt: String,
-  posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
+  appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
+  interests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}]
 });
 
 UserSchema.methods.validPassword = function(password) {

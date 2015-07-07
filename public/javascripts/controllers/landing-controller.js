@@ -1,4 +1,4 @@
-angular.module('oddjob.landing-controller',[])
+angular.module('cc.landing-controller',[])
 .controller('landingCtrl', [
 '$scope',
 function($scope){

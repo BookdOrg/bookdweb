@@ -1,4 +1,4 @@
-angular.module('oddjob.account-controller',[])
+angular.module('cc.account-controller',[])
 .controller('AccountCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 

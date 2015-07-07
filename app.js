@@ -11,9 +11,11 @@ var cloudinary = require('cloudinary');
 
 mongoose.connect('mongodb://localhost/clientconnect');
 
-require('./models/Posts');
+require('./models/Business');
 require('./models/Reviews');
 require('./models/Users');
+require('./models/Categories');
+require('./models/Appointments');
 
 require('./config/passport');
 

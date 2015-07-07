@@ -30,201 +30,220 @@ var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
 
 
-var Post = mongoose.model('Post');
 var Review = mongoose.model('Review');
 var User = mongoose.model('User');
+var Business = mongoose.model('Business');
+var Appointment = mongoose.model('Appointment');
+var Category = mongoose.model('Category');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
-router.get('/posts',auth, function(req, res, next) {
-  var id = req.payload._id;
-
-  Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-    if(err){ return next(err); }
-    var updatedPosts = [];
-    posts.forEach(function(post){
-      updatedPosts.push(post);
-    })
-    res.json(updatedPosts);
-  })
-});
-
-router.get('/most-recent',auth,function(req, res, next) {
-  var id = req.payload._id;
-  Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-    if(err){ return next(err); }
-    var updatedPosts = [];
-    posts.forEach(function(post){
-      updatedPosts.push(post);
-    })
-    Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
-      var updatedReviews = [];
-      reviews.forEach(function(review){
-        updatedReviews.push(review);
-      })
-      var recentPosts = updatedPosts.concat(updatedReviews);
-      res.json(recentPosts);
-    })
-    // res.json(updatedPosts);
-  })
-});
-
-router.get('/api/most-recent',function(req, res, next) {
-  Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-    if(err){ return next(err); }
-    var updatedPosts = [];
-    posts.forEach(function(post){
-      updatedPosts.push(post);
-    })
-    Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
-      var updatedReviews = [];
-      reviews.forEach(function(review){
-        updatedReviews.push(review);
-      })
-      res.json({
-        updatedPosts:updatedPosts,
-        updatedReviews:updatedReviews
-      })
-    })
-    // res.json(updatedPosts);
-  })
-});
-
-router.get('/api/posts', function(req, res, next) {
-  Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-    if(err){ return next(err); }
-    var updatedPosts = [];
-    posts.forEach(function(post){
-      updatedPosts.push(post);
-    })
-    res.json(updatedPosts);
-  })
-});
-
-router.post('/posts', auth, function(req, res, next) {
-  var post = new Post(req.body);
-  var id = req.payload._id;
-  post.author = id;
-
-  User.findOne({"_id":id}).exec(function(err,user){
-    user.posts.push(post);
-    user.save(function(err,post){
+  router.get('/categories',auth,function(req,res,next){
+    Category.findOne("beautysvc").exec(function(err,categories){
       if(err){return next(err);}
+      res.json(categories);
     })
   })
 
-  post.save(function(err, post){
-    if(err){ return next(err); }
-    io.emit('newPost', {post:post});
-    res.json(post);
-  });
-});
-router.param('user',function(req,res,next,id){
-  var query = User.findById(id);
-  query.exec(function(err,user){
-    if (err) { return next(err); }
-    if (!user) { return next(new Error("can't find user")); }
-    req.user = user;
-    return next();
+  router.get('/api/categories',function(req,res,next){
+    Category.findOne("beautysvc").exec(function(err,categories){
+      if(err){return next(err);}
+      console.log(categories)
+      res.json(categories);
+    })
   })
-})
-/**
-ADD AUTH HEADER TO THIS ROUTE. CURRENTLY UNSAFE
-**/
-router.get('/user/posts/:user',auth,function(req,res,next){
-  var id = req.params.id;
-  req.user.populate({path:'posts',select:''},function(err,user){
-    res.json(user);
-  })
-});
 
-router.get('/api/posts/:user',function(req,res,next){
-  var id = req.params.id;
-  req.user.populate({path:'posts',select:''},function(err,user){
-    res.json(user);
-  })
-})
+// router.get('/posts',auth, function(req, res, next) {
+//   var id = req.payload._id;
+
+//   Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+//     if(err){ return next(err); }
+//     var updatedPosts = [];
+//     posts.forEach(function(post){
+//       updatedPosts.push(post);
+//     })
+//     res.json(updatedPosts);
+//   })
+// });
+
+// router.get('/most-recent',auth,function(req, res, next) {
+//   var id = req.payload._id;
+//   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+//     if(err){ return next(err); }
+//     var updatedPosts = [];
+//     posts.forEach(function(post){
+//       updatedPosts.push(post);
+//     })
+//     Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
+//       var updatedReviews = [];
+//       reviews.forEach(function(review){
+//         updatedReviews.push(review);
+//       })
+//       var recentPosts = updatedPosts.concat(updatedReviews);
+//       res.json(recentPosts);
+//     })
+//     // res.json(updatedPosts);
+//   })
+// });
+
+// router.get('/api/most-recent',function(req, res, next) {
+//   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+//     if(err){ return next(err); }
+//     var updatedPosts = [];
+//     posts.forEach(function(post){
+//       updatedPosts.push(post);
+//     })
+//     Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
+//       var updatedReviews = [];
+//       reviews.forEach(function(review){
+//         updatedReviews.push(review);
+//       })
+//       res.json({
+//         updatedPosts:updatedPosts,
+//         updatedReviews:updatedReviews
+//       })
+//     })
+//     // res.json(updatedPosts);
+//   })
+// });
+
+// router.get('/api/posts', function(req, res, next) {
+//   Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
+//     if(err){ return next(err); }
+//     var updatedPosts = [];
+//     posts.forEach(function(post){
+//       updatedPosts.push(post);
+//     })
+//     res.json(updatedPosts);
+//   })
+// });
+
+// router.post('/posts', auth, function(req, res, next) {
+//   var post = new Post(req.body);
+//   var id = req.payload._id;
+//   post.author = id;
+
+//   User.findOne({"_id":id}).exec(function(err,user){
+//     user.posts.push(post);
+//     user.save(function(err,post){
+//       if(err){return next(err);}
+//     })
+//   })
+
+//   post.save(function(err, post){
+//     if(err){ return next(err); }
+//     io.emit('newPost', {post:post});
+//     res.json(post);
+//   });
+// });
+// router.param('user',function(req,res,next,id){
+//   var query = User.findById(id);
+//   query.exec(function(err,user){
+//     if (err) { return next(err); }
+//     if (!user) { return next(new Error("can't find user")); }
+//     req.user = user;
+//     return next();
+//   })
+// })
+
+
+// router.get('/user/appts/:user',auth,function(req,res,next){
+//   var id = req.params.id;
+//   req.user.populate({path:'posts',select:''},function(err,user){
+//     res.json(user);
+//   })
+// });
+
+// router.get('/api/appts/:user',function(req,res,next){
+//   var id = req.params.id;
+//   req.user.populate({path:'posts',select:''},function(err,user){
+//     res.json(user);
+//   })
+// })
 
 // Preload post objects on routes with ':post'
-router.param('post', function(req, res, next, id) {
-  var query = Post.findById(id);
 
-  query.exec(function (err, post){
-    if (err) { return next(err); }
-    if (!post) { return next(new Error("can't find post")); }
-    req.post = post;
-    return next();
-  });
-});
+// router.param('biz', function(req, res, next, id) {
+//   var query = Post.findById(id);
+
+//   query.exec(function (err, post){
+//     if (err) { return next(err); }
+//     if (!post) { return next(new Error("can't find post")); }
+//     req.post = post;
+//     return next();
+//   });
+// });
 
 // Preload review objects on routes with ':review'
-router.param('review', function(req, res, next, id) {
-  var query = Review.findById(id);
 
-  query.exec(function (err, review){
-    if (err) { return next(err); }
-    if (!review) { return next(new Error("can't find review")); }
+// router.param('review', function(req, res, next, id) {
+//   var query = Review.findById(id);
 
-    req.review = review;
-    return next();
-  });
-});
+//   query.exec(function (err, review){
+//     if (err) { return next(err); }
+//     if (!review) { return next(new Error("can't find review")); }
+
+//     req.review = review;
+//     return next();
+//   });
+// });
 
 // return a post
-router.get('/posts/:post',auth, function(req, res, next) {
-  req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-    var updatedPost = [];
-    async.each(post.reviews,function(currentReview,postCallback){
-      currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-        if(err){
-          return postCallback(err);
-        }
-        postCallback();
-      });
-    }, function(err){
-      if(err){
-        return next(error);
-      }
-      res.json(post)
-    })
-  });
-});
+// router.get('/biz/:biz',auth, function(req, res, next) {
+//   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
+//     var updatedPost = [];
+//     async.each(post.reviews,function(currentReview,postCallback){
+//       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
+//         if(err){
+//           return postCallback(err);
+//         }
+//         postCallback();
+//       });
+//     }, function(err){
+//       if(err){
+//         return next(error);
+//       }
+//       res.json(post)
+//     })
+//   });
+// });
 
-router.get('/api/posts/:post', function(req, res, next) {
-  req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-    var updatedPost = [];
-    async.each(post.reviews,function(currentReview,postCallback){
-      currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-        if(err){
-          return postCallback(err);
-        }
-        postCallback();
-      });
-    }, function(err){
-      if(err){
-        return next(error);
-      }
-      res.json(post)
-    })
-  });
-});
+// router.get('/api/posts/:post', function(req, res, next) {
+//   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
+//     var updatedPost = [];
+//     async.each(post.reviews,function(currentReview,postCallback){
+//       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
+//         if(err){
+//           return postCallback(err);
+//         }
+//         postCallback();
+//       });
+//     }, function(err){
+//       if(err){
+//         return next(error);
+//       }
+//       res.json(post)
+//     })
+//   });
+// });
 
-// create a new review
-router.post('/posts/:post/reviews', auth, function(req, res, next) {
-  var review = new Review(req.body);
-  review.post = req.post;
-  var id = req.payload._id;
-  review.author = id;
-  review.save(function(err, review){
-    if(err){ return next(err); }
-    req.post.reviews.push(review);
-    req.post.save(function(err, post) {
-      if(err){ return next(err); }
-      io.emit('newReview', {review:review});
-      res.json(review);
-    });
-  });
-});
+// create a new review associated with a business
+
+// router.post('/biz/:biz/reviews', auth, function(req, res, next) {
+//   var review = new Review(req.body);
+//   review.post = req.post;
+//   var id = req.payload._id;
+//   review.author = id;
+//   review.save(function(err, review){
+//     if(err){ return next(err); }
+//     req.post.reviews.push(review);
+//     req.post.save(function(err, post) {
+//       if(err){ return next(err); }
+//       io.emit('newReview', {review:review});
+//       res.json(review);
+//     });
+//   });
+// });
 
 router.post('/login', function(req, res, next){
   if(!req.body.username || !req.body.password){

@@ -1,11 +1,11 @@
-angular.module('oddjob.auth-factory',[])
+angular.module('cc.auth-factory',[])
 .factory('auth', ['$http', '$window', '$rootScope','$state', function($http, $window, $rootScope,$state){
    var auth = {
     saveToken: function (token){
-      $window.localStorage['oddjob-token'] = token;
+      $window.localStorage['cc-token'] = token;
     },
     getToken: function (){
-      return $window.localStorage['oddjob-token'];
+      return $window.localStorage['cc-token'];
     },
     isLoggedIn: function(){
       var token = auth.getToken();
@@ -36,7 +36,7 @@ angular.module('oddjob.auth-factory',[])
       });
     },
     logOut: function(){
-      $window.localStorage.removeItem('oddjob-token');
+      $window.localStorage.removeItem('cc-token');
       $state.go('landing');
     }
   };

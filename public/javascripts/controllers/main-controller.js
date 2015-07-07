@@ -1,19 +1,19 @@
-angular.module('oddjob.main-controller',["google.places"])
+angular.module('cc.main-controller',["google.places"])
 .controller('MainCtrl', [
 '$scope',
-'posts',
+'business',
 'auth',
 '$modal',
 '$log',
 '$geolocation',
 '$http',
 'location',
-function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
+'categories',
+function($scope,business,auth,$modal,$log,$geolocation,$http,location,categories){
 
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/placeholder.jpg";
-  
-
+  $scope.categories = business.categories.beautysvc;
   $scope.autocompleteOptions = {
     componentRestrictions: {country: 'us'},
     types:['geocode']
@@ -29,6 +29,7 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
     if(newVal !== oldVal){
       $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+newVal.latitude+","+newVal.longitude+"&sensor=true")
         .success(function(data){
+          console.log("changed")
           $scope.loadingLocation = false;
           location.setPosition(data.results[0]);
       });
@@ -36,23 +37,21 @@ function($scope, posts, auth,$modal,$log,$geolocation,$http,location){
   })
 
   $scope.currLocation = location.getPosition();
-  $scope.posts = posts.posts;
-  $scope.recentPosts = posts.recentPosts;
   $scope.isLoggedIn = auth.isLoggedIn;
 
 
-  var socket = io.connect('http://localhost:3001');
+  var socket = io.connect('http://localhost:3002');
 
   socket.on('newPost', function (data) {
-        if(data.post) {
-          posts.getRecent();
-          posts.getAll();
-        }
+        // if(data.post) {
+        //   posts.getRecent();
+        //   posts.getAll();
+        // }
   });
   socket.on('newReview',function (data){
-    if(data.review){
-      posts.getRecent();
-    }
+    // if(data.review){
+    //   posts.getRecent();
+    // }
   })
 
   $scope.animationsEnabled = true;

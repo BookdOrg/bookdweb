@@ -1,4 +1,4 @@
-angular.module('oddjob.profile-controller',[])
+angular.module('cc.profile-controller',[])
 .controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams','posts','myPosts',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams,posts,myPosts){
 

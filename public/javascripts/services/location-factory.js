@@ -1,4 +1,4 @@
-angular.module('oddjob.location-factory',[])
+angular.module('cc.location-factory',[])
 .factory('location', ['$http', function($http){
 	var currPosition = {};
 	var location = {
@@ -12,6 +12,9 @@ angular.module('oddjob.location-factory',[])
 		  	currPosition.country = position.address_components[5].long_name;
 
 		  	currPosition.zip = position.address_components[6].long_name;
+
+		  	currPosition.lat = position.geometry.location.lat;
+		  	currPosition.lng = position.geometry.location.lng;
 		},
 		getPosition:function(){
 			return currPosition;

@@ -1,4 +1,4 @@
-angular.module('oddjob.nav-controller',["google.places"])
+angular.module('cc.nav-controller',["google.places"])
 .controller('NavCtrl', [
 '$scope',
 'auth',
