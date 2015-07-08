@@ -1,6 +1,6 @@
 angular.module('cc.profile-controller',[])
-.controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams','posts','myPosts',
-	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams,posts,myPosts){
+.controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
+	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 
 		// $scope.myProfile = false;
 
@@ -9,7 +9,7 @@ angular.module('cc.profile-controller',[])
 
 		user.get($stateParams.id).then(function(data){
 			$scope.currentUser = data.data.user;
-			$scope.currentUser.posts = myPosts.data.posts;
+			// $scope.currentUser.posts = myPosts.data.posts;
 			// if(data.data.user.avatarVersion == undefined){
 			// 	$scope.currentUser.image = $sce.trustAsHtml("<img src='http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/home-cat.jpg'>");
 			// }else{

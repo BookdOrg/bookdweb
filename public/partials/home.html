@@ -14,7 +14,10 @@
     </div>
 </div>
 <div class="well col-md-3" ng-repeat="category in categories | orderBy:category.longname">
-  <a href="#/category/{{category.shortname}}/{{currLocation.city}}/{{currLocation.lat}},{{currLocation.lng}}">{{category.longname}}</a>
+  <a href="#/category/{{category.shortname}}/{{currLocation.city}}">{{category.longname}}</a>
+  <span ng-repeat="subCat in category.types">
+    <br> <a href="#/category/{{subCat.shortname}}/{{currLocation.city}}">{{subCat.longname}}</a>
+  </span>
 </div>
 <!-- <div class="row">
   <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">

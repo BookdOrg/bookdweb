@@ -1,7 +1,7 @@
 <div class="well col-md-4" ng-repeat="business in businesses">
-	<img src="{{business.image_url}}"></img>
-	<a href="#/business/{{cat}}/{{business.id}}">{{business.name}}</a>
-	<br><span>Rating:</span><span ng-repeat="i in getNumber(business.rating) track by $index"><i class="fa fa-star"></i></span>
+	<img ng-src="{{business.image_url}}" style="border-radius:20%"></img>
+	<a href="#/business/{{business.id}}">{{business.name}}</a>
+	<br><span>Rating: <img ng-src="{{business.rating_img_url}}"></image></span>
 	<br><span>Location: {{business.location.address[0]}}</span>
 	<br><span>Description: {{business.snippet_text}}</span>
 </div>

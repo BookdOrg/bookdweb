@@ -19,7 +19,8 @@ angular.module('cc', ['ui.router',
   'cc.location-factory',
   'google.places',
   'cc.bizlist-controller',
-  'cc.business-controller'
+  'cc.business-controller',
+  'cc.yelp-service'
   ])
 .config([
 '$stateProvider',
@@ -43,38 +44,38 @@ function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('bizlist',{
-      url:'/category/{cat}/{location}/{cll}',
+      url:'/category/{cat}/{location}',
       templateUrl:'partials/bizlist.html',
-      controller:'bizlistCtrl'
-      // resolve: {
-      //   businesses:['$http','$stateParams','MyYelpAPI', function($http,$stateParams,MyYelpAPI){
-      //     // $http.jsonp('//api.yelp.com/v2/search?category_filter='+$stateParams.cat)
-      //     //   .then(function(data){
-      //     //     console.log(data);
-      //     //   })
-      //     // MyYelpAPI.retrieveYelp('',function(data) {
-      //     //   console.log(data.businesses)
-      //     //   return data.businesses;
-
-      //     // });
-      //   }]
-      // }
-    })
-    .state('business',{
-      url:'/business/{cat}/{businessid}',
-      templateUrl:'partials/business.html',
-      controller:'businessCtrl'
-    })
-    .state('posts', {
-      url: '/posts/{id}',
-      templateUrl: 'partials/posts.html',
-      controller: 'PostsCtrl',
+      controller:'bizlistCtrl',
       resolve: {
-        post: ['$stateParams', 'posts', function($stateParams, posts) {
-          return posts.get($stateParams.id);
+        businesses:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
+          var cat = $stateParams.cat;
+          var location = $stateParams.location;
+          return businesses = yelpService.search(cat,location);
         }]
       }
     })
+    .state('business',{
+      url:'/business/{businessid}',
+      templateUrl:'partials/business.html',
+      controller:'businessCtrl',
+      resolve:{
+        business:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
+          var id = $stateParams.businessid;
+          return businesses = yelpService.business(id);
+        }]
+      }
+    })
+    // .state('posts', {
+    //   url: '/posts/{id}',
+    //   templateUrl: 'partials/posts.html',
+    //   controller: 'PostsCtrl',
+    //   resolve: {
+    //     post: ['$stateParams', 'posts', function($stateParams, posts) {
+    //       return posts.get($stateParams.id);
+    //     }]
+    //   }
+    // })
     .state('login', {
       url: '/login',
       templateUrl: 'partials/login.html',
@@ -103,12 +104,7 @@ function($stateProvider, $urlRouterProvider) {
         if(!auth.isLoggedIn()){
           $state.go('landing');
         }
-      }],
-      resolve:{
-        myPosts:['$stateParams','posts',function($stateParams,posts){
-          return posts.getUserPosts($stateParams.id);
-        }]
-      }
+      }]
     })
     .state('account',{
       url:'/user/:id/account',

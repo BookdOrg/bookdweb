@@ -1,3 +1,18 @@
-<div>
-	information about dah business
+<div class="page-header">
+	<h1 class='text-center'>{{business.name}}</h1>
+	<img ng-src="{{business.image_url}}"></image>
+	<!-- {{business.name}} -->
+	{{business.display_phone}}
+	<br>
+	Rating: <img ng-src="{{business.rating_img_url}}"></image>
+	<br>
+	Url: <a href="{{business.url}}">{{business.url}}</a>
 </div>
+<h3>Reviews</h3>
+<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
+	<img ng-src="{{review.user.image_url}}"></img>User: <span>{{review.user.name}}</span>
+	<br>
+	Rating: <img ng-src="{{review.rating_image_url}}"></img>
+	<br>
+	{{review.excerpt}}
+</div> 

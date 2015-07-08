@@ -25,6 +25,12 @@ router.get('/', function(req, res) {
   res.render('index', { title: '' });
 });
 
+var yelp = require("yelp").createClient({
+  consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
+  consumer_secret: "0p5OnO_XT-Qfwtl_TIVCrG_lPpU",
+  token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
+  token_secret: "-k-uGXRUaO14iTrFTQqpG1HztMc"
+});
 
 var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
@@ -37,6 +43,58 @@ var Appointment = mongoose.model('Appointment');
 var Category = mongoose.model('Category');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
+
+router.get('/search',auth,function(req,res,next){
+  /**
+  * Yelp Parameters - limit, offset, sort, category_filter, 
+  * radius_filter, deals_filter
+  *
+  **/
+  var limit = '',
+      location = '',
+      sort  = '',
+      offset = '',
+      category = '',
+      radius = '',
+      deals = '';
+
+  if(req.param('limit')){
+    var limit = req.param('limit');
+  }
+  if(req.param('offset')){
+    var offset = req.param('offset');
+  }
+  if(req.param('sort')){
+    var sort = req.param('sort');
+  }
+  if(req.param('category')){
+    var category = req.param('category');
+  }
+  if(req.param('radius')){
+    var radius = req.param('radius');
+  }
+  if(req.param('deals')){
+    var deals = req.param('deals');
+  }
+  if(req.param('location')){
+    var location = req.param('location');
+  }
+  yelp.search({category_filter:category,location:location},function(err,data){
+    if(err){console.log(err); return next(err);}
+    console.log(data);
+    res.json(data);
+  })
+})
+router.get('/business',auth,function(req,res,next){
+  /**
+  * Yelp Parameters - id
+  *
+  **/
+  yelp.business(req.param('id'),function(err,data){
+    if(err){return next(err);}
+    res.json(data);
+  })
+})
 
   router.get('/categories',auth,function(req,res,next){
     Category.findOne("beautysvc").exec(function(err,categories){

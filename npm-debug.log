@@ -16,7 +16,7 @@
 9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1049:5)
 10 verbose pkgid odd-job@0.0.1
 11 verbose cwd /Users/khalilbrown/Development/client-connect
-12 error Darwin 14.0.0
+12 error Darwin 14.4.0
 13 error argv "node" "/usr/local/bin/npm" "start"
 14 error node v0.11.12-pre
 15 error npm  v2.12.0
