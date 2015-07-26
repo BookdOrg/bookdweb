@@ -39,8 +39,8 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: 'partials/home.html',
       controller: 'MainCtrl',
       resolve: {
-        categories: ['business',function(business){
-          return business.getCategories();
+        categories: ['businessFactory',function(businessFactory){
+          return businessFactory.getCategories();
         }]
       }
     })
@@ -61,7 +61,7 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl:'partials/business.html',
       controller:'businessCtrl',
       resolve:{
-        business:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
+        business:['$http','$stateParams','yelpService','businessFactory',function($http,$stateParams,yelpService,businessFactory){
           var id = $stateParams.businessid;
           return businesses = yelpService.business(id);
         }]

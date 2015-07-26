@@ -1,7 +1,8 @@
 angular.module('cc.business-factory',[])
-.factory('business', ['$http', 'auth', function($http, auth){
+.factory('businessFactory', ['$http', 'auth', function($http, auth){
   var o = {
-    categories: []
+    categories: [],
+    business: {}
   };
 
   o.get = function(id) {
@@ -25,6 +26,16 @@ angular.module('cc.business-factory',[])
       console.log(data);
     });
   };
+  o.getBusiness = function(id){
+    return $http.get('/business-detail', {
+      params:{
+        'id':id
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).then(function(data,err){
+      angular.copy(data.data, o.business);
+    });
+  }
   // o.getRecent = function(){
   //   return $http.get('/most-recent', {
   //     headers: {Authorization: 'Bearer '+auth.getToken()}

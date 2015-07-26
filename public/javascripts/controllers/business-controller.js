@@ -6,6 +6,17 @@ angular.module('cc.business-controller',[])
 'location',
 '$stateParams',
 'business',
-function($scope, auth, $state,location,$stateParams,business){
+'businessFactory',
+function($scope, auth, $state,location,$stateParams,business,businessFactory){
+	$scope.currentUser = auth.currentUser();
 	$scope.business = business.data;
+
+	businessFactory.getBusiness($scope.business.id);
+	$scope.lbusiness = businessFactory.business;
+
+	// if($scope.currentUser._id === $scope.lbusiness.owner._id){
+	// 	$scope.canEdit = true;
+	// }else{
+	// 	$scope.canEdit = false;
+	// }
 }])

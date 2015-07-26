@@ -10,6 +10,7 @@ var BusinessSchema = new mongoose.Schema({
   photos: String,
   hours: String,
   email: String,
+  id: String,
   phoneNumber: String,
   description: String,
   rating: Number,

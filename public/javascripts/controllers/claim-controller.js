@@ -5,16 +5,16 @@ angular.module('cc.claim-controller',[])
 '$state',
 'location',
 '$stateParams',
-'business',
+'businessFactory',
 'claimInfo',
-function($scope, auth, $state,location,$stateParams,business,claimInfo){
+function($scope, auth, $state,location,$stateParams,businessFactory,claimInfo){
 	$scope.currentUser = auth.currentUser();
 	$scope.business = claimInfo.data;
 
 	$scope.createClaim = function(){
 	    var now = moment().format('MMM Do YYYY, h:mm:ss a');
 	    // if(!$scope.title) {console.log("empty"); return; }
-	    business.create({
+	    businessFactory.create({
 	      firstName: $scope.currentUser.firstName,
 	      lastName: $scope.currentUser.lastName,
 	      id: $scope.business.id,

@@ -101,6 +101,14 @@ router.get('/business',auth,function(req,res,next){
     res.json(data);
   })
 })
+router.get('/business-detail',auth,function(req,res,next){
+  var id = req.param('id');
+  Business.findOne({"id":id}).populate({path:'owner'}).exec(function(err,business){
+    console.log(business)
+    if(err){return next(err);}
+    res.json(business);
+  })
+})
 
   router.get('/categories',auth,function(req,res,next){
     Category.findOne("beautysvc").exec(function(err,categories){
@@ -149,6 +157,7 @@ router.get('/business',auth,function(req,res,next){
 
     business.name = req.body.businessName;
     business.phoneNumber = req.body.bPhoneNumber;
+    business.id = req.body.id;
     // business.description = req.params.description;
     business.rating = req.body.rating;
     business.location = req.body.location;
