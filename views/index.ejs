@@ -23,6 +23,7 @@
   <script src="/javascripts/controllers/account-controller.js"></script>
   <script src="/javascripts/controllers/bizlist-controller.js"></script>
   <script src="/javascripts/controllers/business-controller.js"></script>
+  <script src="/javascripts/controllers/claim-controller.js"></script>
 
   <script src="/javascripts/services/auth-factory.js"></script>
   <script src="/javascripts/services/business-factory.js"></script>
@@ -79,6 +80,7 @@ $.cloudinary.config({
             <li class="hidden-sm hidden-md hidden-lg"><a href="#/user/{{currentUser()._id}}/account">Account</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a href="#">Messages <span class="badge">1</span></a></li>
+            <li class="disabled hidden-sm hidden-md hidden-lg"><a href="#"><i class="fa fa-tachometer"></i> Manage</a></li>
             <hr>
             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut()">Sign Out</a></li>
           </ul>
@@ -104,6 +106,7 @@ $.cloudinary.config({
                   <li><a href="#/user/{{currentUser()._id}}/account"><i class="fa fa-cog"></i> Account</a></li>
                   <li class="disabled"><a  href="#"><i class="fa fa-reorder"></i> Preferences</a></li>
                   <li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages <span class="badge">1</span></a></li>
+                  <li class="disabled"><a  href="#"><i class="fa fa-tachometer"></i> Manage</a></li>
                   <hr>
                   <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Sign Out</a></li>
                 </ul>

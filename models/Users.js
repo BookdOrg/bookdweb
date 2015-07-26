@@ -9,6 +9,8 @@ var UserSchema = new mongoose.Schema({
   lastName: String,
   avatarVersion: String,
   rating: Number,
+  businessOwner: Boolean,
+  businessPage: String, 
   hash: String,
   salt: String,
   appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],

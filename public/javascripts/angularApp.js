@@ -20,7 +20,8 @@ angular.module('cc', ['ui.router',
   'cc.bizlist-controller',
   'cc.business-controller',
   'cc.yelp-service',
-  'ui.calendar'
+  'ui.calendar',
+  'cc.claim-controller'
   ])
 .config([
 '$stateProvider',
@@ -110,6 +111,16 @@ function($stateProvider, $urlRouterProvider) {
       url:'/user/:id/account',
       templateUrl:'partials/account.html',
       controller:'AccountCtrl',
+      onEnter: ['$state','auth',function($state,auth){
+        if(!auth.isLoggedIn()){
+          $state.go('landing');
+        }
+      }]
+    })
+    .state('claim',{
+      url:'/claim/:business',
+      templateUrl:'partials/claim.html',
+      controller:'claimController',
       onEnter: ['$state','auth',function($state,auth){
         if(!auth.isLoggedIn()){
           $state.go('landing');

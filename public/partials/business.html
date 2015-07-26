@@ -1,18 +1,70 @@
-<div class="page-header">
-	<h1 class='text-center'>{{business.name}}</h1>
-	<img ng-src="{{business.image_url}}"></image>
-	<!-- {{business.name}} -->
-	{{business.display_phone}}
-	<br>
-	Rating: <img ng-src="{{business.rating_img_url}}"></image>
-	<br>
-	Url: <a href="{{business.url}}">{{business.url}}</a>
+<div class="container">
+	<div class="page-header">
+		<h1 class='text-center'>{{business.name}}</h1>
+		<img ng-src="{{business.image_url}}"></image>
+		<!-- {{business.name}} -->
+		
+		<br>
+		Rating: <img ng-src="{{business.rating_img_url}}"></image>
+		<br>
+		Url: <a href="{{business.url}}">{{business.url}}</a>
+		<br>
+		Hours:
+		<br>
+		Phone: {{business.display_phone}}
+	</div>
+	<h3 class="text-center">Services</h3>
+	<div class="row">
+		<div class="well col-md-3">
+				<div class="">
+					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
+				</div>
+				<div class="col-md-1 text-center">
+					<button class="btn btn-primary text-center">Schedule</button>
+				</div>
+		</div>
+		<div class="well col-md-3">
+				<div class="">
+					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
+				</div>
+				<div class="col-md-1">
+					<button class="btn btn-primary">Schedule</button>
+				</div>
+		</div>
+		<div class="well col-md-3">
+				<div class="">
+					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
+				</div>
+				<div class="col-md-1">
+					<button class="btn btn-primary">Schedule</button>
+				</div>
+		</div>
+		<div class="well col-md-3">
+				<div class="">
+					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
+				</div>
+				<div class="col-md-1">
+					<button class="btn btn-primary">Schedule</button>
+				</div>
+		</div>
+	</div>
+	<div class="row">
+		<h3>Reviews</h3>
+		<div class="row">
+			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
+				<img ng-src="{{review.user.image_url}}"></img>User: <span>{{review.user.name}}</span>
+				<br>
+				Rating: <img ng-src="{{review.rating_image_url}}"></img>
+				<br>
+				{{review.excerpt}}
+			</div>
+		</div>
+	</div>
+	<div class="row text-center">
+		<a href="#/claim/{{business.name}}">Claim Business</a>
+	</div>
 </div>
-<h3>Reviews</h3>
-<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
-	<img ng-src="{{review.user.image_url}}"></img>User: <span>{{review.user.name}}</span>
-	<br>
-	Rating: <img ng-src="{{review.rating_image_url}}"></img>
-	<br>
-	{{review.excerpt}}
-</div> 
