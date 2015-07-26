@@ -16,6 +16,11 @@ function($scope,business,auth,$modal,$log,$geolocation,$http,location,categories
   $scope.categories = business.categories.beautysvc;
 
   $scope.currLocation = location.getPosition();
+
+  if(!$scope.currLocation.lat){
+    $scope.loadingLocation = true;
+  }
+
   $scope.autocompleteOptions = {
     componentRestrictions: {country: 'us'},
     types:['geocode']
@@ -26,18 +31,22 @@ function($scope,business,auth,$modal,$log,$geolocation,$http,location,categories
         enableHighAccuracy: true
       });
   $scope.myPosition = $geolocation.position;
-  // $scope.loadingLocation = true;
-  $scope.$watch('myPosition.coords',function(newVal,oldVal){
+  
+  $scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
     if(newVal !== oldVal){
-      $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+newVal.latitude+","+newVal.longitude+"&sensor=true")
+      $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","+$scope.myPosition.coords.longitude+"&sensor=true")
         .success(function(data){
-          console.log("changed")
           $scope.loadingLocation = false;
           location.setPosition(data.results[0]);
       });
     }
   })
 
+  // $scope.$watch('currLocation.lat',function(newVal,oldVal){
+  //   if(newVal !== oldVal){
+  //     $scope.
+  //   }
+  // })
   
   $scope.isLoggedIn = auth.isLoggedIn;
 

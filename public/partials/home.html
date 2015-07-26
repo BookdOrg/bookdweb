@@ -1,7 +1,8 @@
 <div class="container-fluid">
 <div class="row">
   <div class="page-header">
-    <h1 class="text-center"> Categories </h2>
+    <h1 class="text-center"> Categories <i ng-if="loadingLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
+      <i ng-if="!loadingLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
 
 <!--       <h1 class="text-center">Job Postings <i ng-if="!currLocation" class="fa fa-spinner fa-pulse"></i> <i ng-if="currLocation" tooltip="{{currLocation.address}}" class="fa fa-map-marker"></i>
       </h1>
