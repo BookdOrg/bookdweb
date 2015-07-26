@@ -27,9 +27,9 @@ router.get('/', function(req, res) {
 
 var yelp = require("yelp").createClient({
   consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
-  consumer_secret: "0p5OnO_XT-Qfwtl_TIVCrG_lPpU",
+  consumer_secret: yelpconsumersecret,
   token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
-  token_secret: "-k-uGXRUaO14iTrFTQqpG1HztMc"
+  token_secret: process.env.yelptokensecret
 });
 
 var mongoose = require('mongoose');
@@ -47,7 +47,7 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 
 router.get('/foursquare-test',function(req,res,next){
-  
+
 })
 
 
