@@ -134,9 +134,41 @@ function scaleBannerVideoSize(element){
 
     });
 }
+var windowWidth = $(window).width(), windowHeight = $(window).height() + 5, videoWidth, videoHeight;
+console.log(windowHeight);
+
+$(element).each(function(){
+    var videoAspectRatio = $(this).data('height')/$(this).data('width');
+
+    $(this).width(windowWidth);
+
+    if (windowWidth >= 1000) {
+        if (windowHeight > windowWidth * 0.5625) {
+            videoHeight = windowHeight;
+            videoWidth = videoHeight / videoAspectRatio;
+            $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+
+            $(this).width(videoWidth).height(videoHeight);
+        }   else {
+
+            $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
+        }
+    }
+
+    if(windowWidth < 1000){
+        videoHeight = windowHeight;
+        videoWidth = videoHeight / videoAspectRatio;
+        $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+
+        $(this).width(videoWidth).height(videoHeight);
+
+        if (windowHeight < windowWidth * 0.5625) {
+            $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
+        }
+    }
 </script>
 <div class="homepage-hero-module">
-    <div class="video-container hidden-sm hidden-xs">
+    <div class="video-container ">
         <div class="filter"></div>
         <video autoplay loop class="fillWidth">
             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
@@ -146,12 +178,12 @@ function scaleBannerVideoSize(element){
             <img src="/video/Traffic-blurred2.jpg" alt="">
         </div>
     <div id="landingBody" class="text-center">
-        <h1>Client Connect<h1>
-        <h3>Let's get it done together ...?</h3>
+        <h1>Book'd<h1>
+        <h3>Never worry about appointments again.</h3>
         <a href="#/register" class="btn btn-primary">Create Account</a>
     </div>
 </div>
-<div class="row hidden-md hidden-lg">
+<!-- <div class="row hidden-md hidden-lg">
   <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered">
     <div id="carousel" style="height: 305px">
       <carousel interval="myInterval">
@@ -165,7 +197,7 @@ function scaleBannerVideoSize(element){
       </carousel>
     </div>
   </div>
-</div>
+</div> -->
 <div class="well" style="margin-top:20px; margin-bottom:30px;">
     <div class="row landingSection" id="firstSection">
             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
