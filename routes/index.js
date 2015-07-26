@@ -44,6 +44,13 @@ var Category = mongoose.model('Category');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
+
+
+router.get('/foursquare-test',function(req,res,next){
+  
+})
+
+
 router.get('/search',auth,function(req,res,next){
   /**
   * Yelp Parameters - limit, offset, sort, category_filter, 

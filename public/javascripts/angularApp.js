@@ -3,7 +3,6 @@ angular.module('cc', ['ui.router',
   'cc.main-controller',
   'cc.auth-controller',
   'cc.nav-controller',
-  // 'cc.post-controller',
   'cc.account-controller',
   'cc.auth-factory',
   'cc.business-factory',
@@ -20,7 +19,8 @@ angular.module('cc', ['ui.router',
   'google.places',
   'cc.bizlist-controller',
   'cc.business-controller',
-  'cc.yelp-service'
+  'cc.yelp-service',
+  'ui.calendar'
   ])
 .config([
 '$stateProvider',
