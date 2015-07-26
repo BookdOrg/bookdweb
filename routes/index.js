@@ -27,7 +27,7 @@ router.get('/', function(req, res) {
 
 var yelp = require("yelp").createClient({
   consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
-  consumer_secret: yelpconsumersecret,
+  consumer_secret: process.env.yelpconsumersecret,
   token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
   token_secret: process.env.yelptokensecret
 });
