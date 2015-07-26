@@ -9,12 +9,15 @@ var BusinessSchema = new mongoose.Schema({
   employees: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
   photos: String,
   hours: String,
+  email: String,
   phoneNumber: String,
   description: String,
   rating: Number,
   location: String,
   image: String,
-  timestamp: String
+  dateCreated: String,
+  pending: Boolean,
+  claimed: Boolean
 });
 
 mongoose.model('Business', BusinessSchema);

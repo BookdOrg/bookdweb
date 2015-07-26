@@ -23,8 +23,8 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 col-md-offset-1">
-						<label for="business">Business</label>
-						<input id="business" class="form-control" ng-model="business">
+						<label for="business">Business Name</label>
+						<input id="business" class="form-control" disabled ng-model="business.name">
 					</div>
 				</div>
 				<div class="row">
@@ -38,12 +38,24 @@
 				</div>
 				<div class="row">
 					<div class="form-group col-md-4 col-md-offset-1">
-						<label for="phone">Phone #</label>
-						<input id="phone" class="form-control" ng-model="currentUser.phone">
+						<label for="pphone">Personal Phone #</label>
+						<input id="pphone" class="form-control" ng-model="currentUser.phone">
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 col-md-offset-1">
+						<label for="bphone">Business Phone #</label>
+						<input id="bphone" class="form-control" disabled ng-model="business.phone">
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4 col-md-offset-1">
+						<label for="url">Book'd Url</label>
+						<input id="url" class="form-control" placeholder="" disabled value="http://khalilbrown.com/#/business/{{business.id}}">
 					</div>
 				</div>
 				<div class="col-md-offset-6">
-					<button class="btn btn-primary" ng-subimt="">Submit</button>
+					<button class="btn btn-primary" ng-click="createClaim()">Submit</button>
 				</div>
 			</form>
 		</div>

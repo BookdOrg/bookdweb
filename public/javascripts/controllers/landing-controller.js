@@ -1,8 +1,11 @@
 angular.module('cc.landing-controller',[])
 .controller('landingCtrl', [
 '$scope',
-function($scope){
-	  $scope.myInterval = 5000;
+'auth',
+function($scope,auth){
+  $scope.currentUser = auth.currentUser();
+  
+	$scope.myInterval = 5000;
   var slides = $scope.slides = [];
   $scope.addSlide = function() {
     var newWidth = 600 + slides.length + 1;
@@ -14,4 +17,5 @@ function($scope){
   for (var i=0; i<4; i++) {
     $scope.addSlide();
   }
+
 }])

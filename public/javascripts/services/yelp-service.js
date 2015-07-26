@@ -1,7 +1,8 @@
 angular.module('cc.yelp-service',[])
 .factory('yelpService', ['$http', 'auth', function($http, auth){
   var o = {
-    businesses: []
+    businesses: [],
+    business:{}
   };
 
   o.search = function(category,location,limit,sort,offset,radius,deals) {
@@ -27,7 +28,6 @@ angular.module('cc.yelp-service',[])
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
-      console.log(data)
       angular.copy(data, o.business);
     });
   }

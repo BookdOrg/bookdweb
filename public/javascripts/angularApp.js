@@ -1,4 +1,3 @@
-
 angular.module('cc', ['ui.router',
   'cc.main-controller',
   'cc.auth-controller',
@@ -21,13 +20,14 @@ angular.module('cc', ['ui.router',
   'cc.business-controller',
   'cc.yelp-service',
   'ui.calendar',
-  'cc.claim-controller'
+  'cc.claim-controller',
+  'cc.admin-controller',
+  'cc.admin-service'
   ])
 .config([
 '$stateProvider',
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
-
   $stateProvider
     .state('landing',{
       url:'/',
@@ -125,7 +125,28 @@ function($stateProvider, $urlRouterProvider) {
         if(!auth.isLoggedIn()){
           $state.go('landing');
         }
-      }]
+      }],
+      resolve:{
+        claimInfo:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
+          var id = $stateParams.business;
+          return claimInfo = yelpService.business(id);
+        }]
+      }
+    })
+    .state('admin',{
+      url:'/admin',
+      templateUrl:'partials/admin.html',
+      controller:'AdminCtrl',
+      onEnter: ['$state','auth',function($state,auth){
+        if(!auth.currentUser().isAdmin){
+          $state.go('landing');
+        }
+      }],
+      resolve:{
+        pendingRequests:['$http','adminService', function($http,adminService){
+          return pendingRequests = adminService.getRequests();
+        }]
+      }
     })
     .state('about',{
       url:'/about',

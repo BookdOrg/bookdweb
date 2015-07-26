@@ -88,7 +88,6 @@ router.get('/search',auth,function(req,res,next){
   }
   yelp.search({category_filter:category,location:location},function(err,data){
     if(err){console.log(err); return next(err);}
-    console.log(data);
     res.json(data);
   })
 })
@@ -113,8 +112,54 @@ router.get('/business',auth,function(req,res,next){
   router.get('/api/categories',function(req,res,next){
     Category.findOne("beautysvc").exec(function(err,categories){
       if(err){return next(err);}
-      console.log(categories)
       res.json(categories);
+    })
+  })
+
+  router.get('/claim-requests',auth,function(req,res,next){
+    Business.find({pending:true}).populate('owner').exec(function(err,businesses){
+      if(err){return next(err);}
+      res.json(businesses)
+    })
+  })
+
+  router.post('/claim-status',auth,function(req,res,next){
+    var id = req.payload._id;
+    User.findOne(id).exec(function(err,user){
+      if(err){return handleError(err)};
+      Business.findOne({"_id":req.body._id}).exec(function(err,business){
+        business.pending = req.body.pending;
+        business.claimed = true;
+        business.save(function(err){
+            if(err){ return next(err); }
+            res.json({success:'success'})
+          }) 
+      })
+    })
+  })
+
+  router.post('/business/claim',auth,function(req,res,next){
+    var business = new Business();
+    var id = req.payload._id;
+    business.owner = id;
+    business.owner.firstName = req.body.firstName;
+    business.owner.lastName = req.body.lastName;
+    business.owner.phoneNumber = req.body.pPhoneNumber;
+    business.owner.email = req.body.email;
+
+    business.name = req.body.businessName;
+    business.phoneNumber = req.body.bPhoneNumber;
+    // business.description = req.params.description;
+    business.rating = req.body.rating;
+    business.location = req.body.location;
+    business.image = req.body.image;
+    business.dateCreated = req.body.timestamp;
+    business.pending = true;
+    business.claimed = false;
+
+    business.save(function(err,business){
+      if(err){return next(err);}
+      res.json({success:'success'});
     })
   })
 

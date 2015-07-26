@@ -18,6 +18,13 @@ angular.module('cc.business-factory',[])
       angular.copy(data.data, o.categories)
     });
   };
+  o.create = function(business) {
+    return $http.post('/business/claim', business, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+      console.log(data);
+    });
+  };
   // o.getRecent = function(){
   //   return $http.get('/most-recent', {
   //     headers: {Authorization: 'Bearer '+auth.getToken()}
@@ -40,13 +47,7 @@ angular.module('cc.business-factory',[])
   //     angular.copy(data, o.myPosts)
   //   })
   // }
-  // o.create = function(post) {
-  //   return $http.post('/posts', post, {
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     o.posts.push(data);
-  //   });
-  // };
+
 
   // o.upvote = function(post) {
   //   return $http.put('/posts/' + post._id + '/upvote', {
