@@ -19,7 +19,7 @@ io.on('connection',function(socket){
   });
 });
 
-server.listen(process.env.devlocalPort);
+// server.listen(process.env.devlocalPort);
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: '' });
