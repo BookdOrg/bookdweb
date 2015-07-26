@@ -4,15 +4,17 @@
 	</div>
 	<h3>Pending Queue</h3>
 	<div ng-repeat="request in pendingRequests">
-		<div class="col-md-4">
-			Business Name: {{request.name}}
-			<br>Phone Number: {{request.phoneNumber}}
-			<br>Date Created: {{request.dateCreated}}
-			<br>Owner:
-		</div>
-		<div class="col-md-3">
-			<button class="btn btn-success" ng-click="updateRequest(request,false,true)">Approve</button>
-			<button class="btn btn-danger" disabled ng-click="updateRequest(request,true,false)">Deny</button>
+		<div class="row">
+			<div class="col-md-6">
+				Business Name: {{request.name}}
+				<br>Phone Number: {{request.phoneNumber}}
+				<br>Date Created: {{request.dateCreated}}
+				<br>Owner:{{request.owner.firstName}} {{request.owner.lastName}}
+			</div>
+			<div class="col-md-6">
+				<button class="btn btn-success" ng-click="updateRequest(request,false,true)">Approve</button>
+				<button class="btn btn-danger" disabled ng-click="updateRequest(request,true,false)">Deny</button>
+			</div>
 		</div>
 	</div>
 </div>
