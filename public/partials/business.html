@@ -1,7 +1,7 @@
 <div ng-if="currentUser._id !== lbusiness.owner._id" class="container">
 	<div class="page-header">
 		<h1 class='text-center'>{{business.name}}</h1>
-		<img ng-src="{{business.image_url}}"></image>
+		<img ng-src="{{business.image_url}}" style="border-radius:20%"></image>
 		<!-- {{business.name}} -->
 		
 		<br>
@@ -17,7 +17,8 @@
 	<div class="row">
 		<div class="well col-md-3">
 				<div class="">
-					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<h4>Service Name </h4>
+					<h2>Price: $25</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
 				</div>
 				<div class="col-md-1 text-center">
@@ -53,10 +54,11 @@
 		</div>
 	</div>
 	<div class="row">
-		<h3>Reviews</h3>
+		<h3>Yelp Reviews</h3>
 		<div class="row">
 			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
-				<img ng-src="{{review.user.image_url}}"></img>User: <span>{{review.user.name}}</span>
+				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
+				<br>User: <span>{{review.user.name}}</span>
 				<br>
 				Rating: <img ng-src="{{review.rating_image_url}}"></img>
 				<br>
@@ -71,9 +73,9 @@
 
 <div ng-if="currentUser._id == lbusiness.owner._id" class="container">
 	<div class="page-header">
-		<button class="btn btn-primary col-md-offset-10">Edit</button>
+		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button>
 		<h1 class='text-center'>{{business.name}}</h1>
-		<img ng-src="{{business.image_url}}"></image>
+		<img ng-src="{{business.image_url}}" style="border-radius:20%"></image>
 		<!-- {{business.name}} -->
 		
 		<br>
@@ -86,12 +88,17 @@
 		Phone: {{business.display_phone}}
 	</div>
 	<div class="row">
+		<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<button ng-click="open()" class="btn btn-primary">Add Service</button>
+			<button class="btn btn-warning">Edit Services</button>
+		</div>
 		<h3 class="text-center ">Services</h3>
 	</div>
 	<div class="row">
 		<div class="well col-md-3">
 				<div class="">
-					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
+					<h4>Service Name</h4>
+					<h5>Price: $25</h5>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
 				</div>
 				<div class="col-md-1 text-center">
@@ -127,10 +134,11 @@
 		</div>
 	</div>
 	<div class="row">
-		<h3>Reviews</h3>
+		<h3>Yelp Reviews</h3>
 		<div class="row">
 			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
-				<img ng-src="{{review.user.image_url}}"></img>User: <span>{{review.user.name}}</span>
+				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
+				<br>User: <span>{{review.user.name}}</span>
 				<br>
 				Rating: <img ng-src="{{review.rating_image_url}}"></img>
 				<br>
@@ -142,3 +150,33 @@
 		<a href="#/claim/{{business.id}}">Claim Business</a>
 	</div>
 </div>
+<script type="text/ng-template" id="addServiceModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-center">New Service</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+            	<form>
+            		<div class="form-group col-md-12">
+	            		<label for="serviceName">Service Name:</label>
+	            		<input class="form-control" id="serviceName" ng-model="serviceName">
+	            	</div>
+	            	<div class="form-group col-md-12">
+	            		<label for="price">Price:</label>
+	            		<select class="form-control" id="price" ng-model="serviceName" placeholder="$0">
+	            			<option value="" disabled selected>Select Service Price</option>
+	            			<option value="test">Test</option>
+	            		</select>
+	            	</div>
+	            	<div class="form-group col-md-12">
+	            		<label for="serviceDescription">Description:</label>
+	            		<textarea class="form-control" id="serviceDescription" ng-model="serviceName"></textarea>
+	            	</div>
+            	</form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Create</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
