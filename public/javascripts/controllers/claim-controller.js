@@ -22,7 +22,17 @@ function($scope, auth, $state,location,$stateParams,businessFactory,claimInfo){
 	      pPhoneNumber: $scope.currentUser.phone,
 	      bPhoneNumber:$scope.business.phone,
 	      email: $scope.currentUser.email,
-	      location: $scope.business.location,
+	      location: {
+	      	address: $scope.business.location.address[0],
+	      	city: $scope.business.location.city,
+	      	country_code: $scope.business.location.country_code,
+	      	postal_code: $scope.business.location.postal_code,
+	      	state_code: $scope.business.location.state_code,
+	      	coordinate:{
+	      		latitude: $scope.business.location.coordinate.latitude,
+	      		longitude: $scope.business.location.coordinate.longitude
+	      	}
+	      },
 	      image: $scope.business.image_url,
 	      rating: $scope.business.rating,
 	      timestamp: now

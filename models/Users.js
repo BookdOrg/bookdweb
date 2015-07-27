@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   isAdmin: Boolean,
+  businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
   appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
   interests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}]
 });
@@ -43,6 +44,7 @@ UserSchema.methods.generateJWT = function() {
     firstName: this.firstName,
     lastName: this.lastName,
     isAdmin: this.isAdmin,
+    businessPage: this.businessPage,
     exp: parseInt(exp.getTime() / 1000),
   }, 'SECRET');
 };

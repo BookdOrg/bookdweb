@@ -138,6 +138,12 @@ router.get('/business-detail',auth,function(req,res,next){
       Business.findOne({"_id":req.body._id}).exec(function(err,business){
         business.pending = req.body.pending;
         business.claimed = true;
+        user.businesses.push(business._id);
+        user.businessPage = business.id;
+        user.save(function(err){
+          if(err){return next(err); }
+
+        })
         business.save(function(err){
             if(err){ return next(err); }
             res.json({success:'success'})
@@ -165,7 +171,7 @@ router.get('/business-detail',auth,function(req,res,next){
     business.dateCreated = req.body.timestamp;
     business.pending = true;
     business.claimed = false;
-
+    console.log(business);
     business.save(function(err,business){
       if(err){return next(err);}
       res.json({success:'success'});
@@ -426,7 +432,7 @@ router.post('/upload', auth, function(req,res,next){
 });
 router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
+  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion businesses').populate({path:'businesses'}).exec(function(err,user){
     if(err){return handleError(err)};
       var profile = {};
       profile.user= user;

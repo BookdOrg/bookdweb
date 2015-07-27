@@ -14,7 +14,7 @@ var BusinessSchema = new mongoose.Schema({
   phoneNumber: String,
   description: String,
   rating: Number,
-  location: String,
+  location: Object,
   image: String,
   dateCreated: String,
   pending: Boolean,
