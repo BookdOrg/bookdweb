@@ -9,15 +9,16 @@ angular.module('cc.main-controller',["google.places"])
 '$http',
 'location',
 'categories',
-function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,categories){
+'$rootScope',
+function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,categories,$rootScope){
 
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/placeholder.jpg";
   $scope.categories = businessFactory.categories.beautysvc;
 
-  $scope.currLocation = location.getPosition();
+  $rootScope.currLocation = location.getPosition();
 
-  if(!$scope.currLocation.lat){
+  if(!$rootScope.currLocation.lat){
     $scope.loadingLocation = true;
   }
 

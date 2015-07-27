@@ -7,9 +7,13 @@ angular.module('cc.business-controller',[])
 '$stateParams',
 'business',
 'businessFactory',
-function($scope, auth, $state,location,$stateParams,business,businessFactory){
+'location',
+'$rootScope',
+function($scope, auth, $state,location,$stateParams,business,businessFactory,location,$rootScope){
 	$scope.currentUser = auth.currentUser();
 	$scope.business = business.data;
+
+
 
 	businessFactory.getBusiness($scope.business.id);
 	$scope.lbusiness = businessFactory.business;
