@@ -11,7 +11,7 @@ angular.module('cc.bizlist-controller',[])
 function($scope, auth, $state,location,yelpService,businesses,location,$rootScope){
 	$scope.businesses = businesses.data.businesses;
 	$scope.cat = $scope.businesses[0].categories[0][0];
-	console.log($scope.cat)
+
 		for(var i=0; i<$scope.businesses.length; i++){
 			if($rootScope.currLocation){
 				$scope.businesses[i].distance = location.calculateDistance($scope.businesses[i].location.coordinate.longitude,
