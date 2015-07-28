@@ -94,6 +94,23 @@
 		<h1>This business has not been claimed and does not offer services through Book'd yet.</h1>
 	</div>	
 	<div class="row">
+		<div class="btn-group col-xs-10 col-sm-5 col-md-5 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<button ng-click="openEmployee()" class="btn btn-primary">Add Employee</button>
+			<button class="btn btn-warning">Edit Employee's</button>
+		</div>
+		<h3 class="text-center ">Employee's</h3>
+	</div>
+	<div class="row">
+		<div class="well col-md-3" ng-repeat="employee in lbusiness.employees">
+			<div class="">
+				<h4>{{employee.name}}</h4>
+			</div>
+		</div>
+		<div class="row" ng-if="!lbusiness.employees.name">
+		<h1 class="text-center">This business does not have any employee's registered yet.</h1>
+	</div>	
+	</div>
+	<div class="row">
 		<h3>Yelp Reviews</h3>
 		<div class="row">
 			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
@@ -137,6 +154,28 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok(service)">Create</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
+<script type="text/ng-template" id="addEmployeeModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-center">New Employee</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+            	<form>
+            		<div class="form-group col-md-12">
+	            		<label for="employeeId">Employee Id:</label>
+	            		<input class="form-control" id="employeeId" ng-model="employee.id">
+	            	</div>
+	            	<div class="col-md-12">
+	            		<button class="btn btn-success col-sm-offset-6 col-md-offset-6">Search</button>
+            		</div>
+            	</form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok(employee)">Create</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>

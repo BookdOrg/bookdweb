@@ -35,6 +35,19 @@ function($scope, auth, $state,location,$stateParams,business,businessFactory,loc
       }
     });
    };
+ 	$scope.openEmployee = function (size) {
+	    var modalInstance = $modal.open({
+	      animation: $scope.animationsEnabled,
+	      templateUrl: 'addEmployeeModal.html',
+	      controller: 'addEmployeeModalCtrl',
+	      size: size
+	      // resolve:{
+	      // 	id: function(){
+	      // 		return $scope.employee.id;
+	      // 	}
+	      // }
+	    });
+   	};
   $scope.toggleAnimation = function () {
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
@@ -49,6 +62,17 @@ function($scope, auth, $state,location,$stateParams,business,businessFactory,loc
   $scope.ok = function (service) {
   	service.id = id;
   	businessFactory.addService(service);
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+})
+.controller('addEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory) {
+
+  $scope.ok = function (employee) {
+  	// businessFactory.addEmployee(id);
     $modalInstance.close();
   };
 
