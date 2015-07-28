@@ -7,7 +7,7 @@
         <span class="col-md-3 alert alert-danger">{{ error.message }}</span>
       </div>
 
-      <form ng-submit="register()"
+      <form 
         style="margin-top:30px;">
         <h3>Register</h3>
 
@@ -40,7 +40,7 @@
         </div>
 
         <div class="col-md-12">
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button ng-click="register()" class="btn btn-primary">Register</button>
         </div>
       </form>
 </div>
