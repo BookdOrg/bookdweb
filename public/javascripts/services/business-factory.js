@@ -36,6 +36,16 @@ angular.module('cc.business-factory',[])
       angular.copy(data.data, o.business);
     });
   }
+  o.addService = function(service){
+    return $http.post('/business/service', {
+      params:{
+        'service':service
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+      angular.copy(data.data, o.business);
+    });
+  }
   // o.getRecent = function(){
   //   return $http.get('/most-recent', {
   //     headers: {Authorization: 'Bearer '+auth.getToken()}

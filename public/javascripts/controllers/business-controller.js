@@ -27,7 +27,12 @@ function($scope, auth, $state,location,$stateParams,business,businessFactory,loc
       animation: $scope.animationsEnabled,
       templateUrl: 'addServiceModal.html',
       controller: 'addServiceModalCtrl',
-      size: size
+      size: size,
+      resolve:{
+      	id: function(){
+      		return $scope.lbusiness.id;
+      	}
+      }
     });
    };
   $scope.toggleAnimation = function () {
@@ -39,9 +44,11 @@ function($scope, auth, $state,location,$stateParams,business,businessFactory,loc
 	// 	$scope.canEdit = false;
 	// }
 }])
-.controller('addServiceModalCtrl', function ($scope, $modalInstance) {
+.controller('addServiceModalCtrl', function ($scope, $modalInstance, businessFactory,id) {
 
-  $scope.ok = function () {
+  $scope.ok = function (service) {
+  	service.id = id;
+  	businessFactory.addService(service);
     $modalInstance.close();
   };
 

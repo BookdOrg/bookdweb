@@ -104,7 +104,6 @@ router.get('/business',auth,function(req,res,next){
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('id');
   Business.findOne({"id":id}).populate({path:'owner'}).exec(function(err,business){
-    console.log(business)
     if(err){return next(err);}
     res.json(business);
   })
@@ -132,23 +131,22 @@ router.get('/business-detail',auth,function(req,res,next){
   })
 
   router.post('/claim-status',auth,function(req,res,next){
-    var id = req.payload._id;
-    User.findOne(id).exec(function(err,user){
-      if(err){return handleError(err)};
       Business.findOne({"_id":req.body._id}).exec(function(err,business){
         business.pending = req.body.pending;
         business.claimed = true;
-        user.businesses.push(business._id);
-        user.businessPage = business.id;
-        user.save(function(err){
-          if(err){return next(err); }
+        User.findOne(business.owner).exec(function(err,user){
+
+          if(err){return handleError(err)};
+          user.businesses.push(business._id);
+          user.businessPage = business.id;
+          user.save(function(err,user){
 
         })
         business.save(function(err){
             if(err){ return next(err); }
             res.json({success:'success'})
           }) 
-      })
+        })
     })
   })
 
@@ -164,17 +162,42 @@ router.get('/business-detail',auth,function(req,res,next){
     business.name = req.body.businessName;
     business.phoneNumber = req.body.bPhoneNumber;
     business.id = req.body.id;
-    // business.description = req.params.description;
+
     business.rating = req.body.rating;
     business.location = req.body.location;
     business.image = req.body.image;
     business.dateCreated = req.body.timestamp;
     business.pending = true;
     business.claimed = false;
-    console.log(business);
+
     business.save(function(err,business){
       if(err){return next(err);}
       res.json({success:'success'});
+    })
+  })
+  router.post('/business/service',auth,function(req,res,next){
+    var id = req.payload._id;
+
+    var service = req.param('service');
+
+    var business = service.id;
+    
+
+
+
+    User.findOne(id).exec(function(err,user){
+      if(err){return next(err);}
+      Business.findOne(business).populate('owner').exec(function(err,business){
+        if(err){return next(err);}
+        if(user._id == business.owner._id){
+          business.service.push(service);
+          business.save(function(err,business){
+            if(err){return next(err);}
+
+            res.json(business);
+          })
+        }
+      })
     })
   })
 

@@ -95,18 +95,18 @@
 		<h3 class="text-center ">Services</h3>
 	</div>
 	<div class="row">
-		<div class="well col-md-3">
+		<div class="well col-md-3" ng-repeat="service in business.services">
 				<div class="">
-					<h4>Service Name</h4>
-					<h5>Price: $25</h5>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
+					<h4>{{service.name}}</h4>
+					<h5>Price: {{service.price}}</h5>
+					<p>{{service.description}}</p>
 				</div>
 				<div class="col-md-1 text-center">
 					<button class="btn btn-primary text-center">Schedule</button>
 				</div>
 		</div>
-		<div class="well col-md-3">
-				<div class="">
+		<!-- <div class="well col-md-3"> -->
+<!-- 				<div class="">
 					<h4>Service Name <span class="tab-space">Price: $25</span></h4>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ligula lacus, quis sagittis tortor pulvinar a. Suspendisse interdum ante vel congue auctor. Quisque ut quam gravida velit pulvinar dignissim et a elit.</p>
 				</div>
@@ -131,7 +131,7 @@
 				<div class="col-md-1">
 					<button class="btn btn-primary">Schedule</button>
 				</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="row">
 		<h3>Yelp Reviews</h3>
@@ -159,24 +159,24 @@
             	<form>
             		<div class="form-group col-md-12">
 	            		<label for="serviceName">Service Name:</label>
-	            		<input class="form-control" id="serviceName" ng-model="serviceName">
+	            		<input class="form-control" id="serviceName" ng-model="service.name">
 	            	</div>
 	            	<div class="form-group col-md-12">
 	            		<label for="price">Price:</label>
-	            		<select class="form-control" id="price" ng-model="serviceName" placeholder="$0">
+	            		<select class="form-control" id="price" ng-model="service.price" placeholder="$0">
 	            			<option value="" disabled selected>Select Service Price</option>
-	            			<option value="test">Test</option>
+	            			<option value="0">$0</option>
 	            		</select>
 	            	</div>
 	            	<div class="form-group col-md-12">
 	            		<label for="serviceDescription">Description:</label>
-	            		<textarea class="form-control" id="serviceDescription" ng-model="serviceName"></textarea>
+	            		<textarea class="form-control" id="serviceDescription" ng-model="service.description"></textarea>
 	            	</div>
             	</form>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">Create</button>
+            <button class="btn btn-primary" ng-click="ok(service)">Create</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>

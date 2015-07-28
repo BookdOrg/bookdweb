@@ -4,7 +4,7 @@ var BusinessSchema = new mongoose.Schema({
   name: String,
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  services: Object,
+  services: Array,
   categories: [{type: mongoose.Schema.Types.ObjectId, ref:'Categories'}],
   employees: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
   photos: String,
