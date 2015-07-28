@@ -103,7 +103,7 @@ router.get('/business',auth,function(req,res,next){
 })
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('id');
-  Business.findOne({"id":id}).populate({path:'owner'}).exec(function(err,business){
+  Business.findOne({"id":id}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,business){
     if(err){return next(err);}
     res.json(business);
   })
@@ -124,7 +124,7 @@ router.get('/business-detail',auth,function(req,res,next){
   })
 
   router.get('/claim-requests',auth,function(req,res,next){
-    Business.find({pending:true}).populate('owner').exec(function(err,businesses){
+    Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
       if(err){return next(err);}
       res.json(businesses)
     })
@@ -159,12 +159,8 @@ router.get('/business-detail',auth,function(req,res,next){
 
     User.findOne(id).exec(function(err,user){
       if(err){return next(err);}
-      console.log(user);
-      Business.findOne(req.body.id).populate('owner').exec(function(err,business){
-        console.log(business)
+      Business.findOne(req.body.id).populate({path:'owner',select:'id'}).exec(function(err,business){
         if(err){return next(err);}
-        console.log("user" + user._id);
-        console.log("")
         if(user._id == business.owner.id){
           business.services.push(service);
           business.save(function(err,business){
