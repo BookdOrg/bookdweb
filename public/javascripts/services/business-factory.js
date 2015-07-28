@@ -37,15 +37,23 @@ angular.module('cc.business-factory',[])
     });
   }
   o.addService = function(service){
-    return $http.post('/business/service', {
-      params:{
-        'service':service
-      },
+    return $http.post('/business/service',service,{
       headers: {Authorization: 'Bearer '+auth.getToken()}
-    }).success(function(data){
+    }).then(function(data,err){
       angular.copy(data.data, o.business);
     });
   }
+  // o.addService = function(service){
+  //   console.log(auth.getToken())
+  //   return $http.post('/business/service', {
+  //     params:{
+  //       'service':service
+  //     },
+  //     headers: {Authorization: 'Bearer '+auth.getToken()}
+  //   }).success(function(data){
+  //     angular.copy(data.data, o.business);
+  //   });
+  // }
   // o.getRecent = function(){
   //   return $http.get('/most-recent', {
   //     headers: {Authorization: 'Bearer '+auth.getToken()}

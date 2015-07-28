@@ -1,44 +1,46 @@
-<div class="page-header">
-      <h1>Book'd</h1>
-    </div>
+<div class="container">
+  <div class="page-header">
+        <h1 class="text-center">Book'd</h1>
+  </div>
 
-    <div ng-show="error" class="alert alert-danger row">
-      <span>{{ error.message }}</span>
-    </div>
+      <div ng-show="error" class="row">
+        <span class="col-md-3 alert alert-danger">{{ error.message }}</span>
+      </div>
 
-    <form ng-submit="register()"
-      style="margin-top:30px;">
-      <h3>Register</h3>
+      <form ng-submit="register()"
+        style="margin-top:30px;">
+        <h3>Register</h3>
 
-      <div class="row">
-        <div class="form-group col-md-3">
-          <input type="text" class="form-control"
-            placeholder="First Name" ng-model="user.firstName"></input>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <input type="text" class="form-control"
+              placeholder="First Name" ng-model="user.firstName"></input>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="form-group col-md-3">
-          <input type="text" class="form-control"
-            placeholder="Last Name" ng-model="user.lastName"></input>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <input type="text" class="form-control"
+              placeholder="Last Name" ng-model="user.lastName"></input>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="form-group col-md-3">
-          <input type="text" class="form-control"
-            placeholder="Username" ng-model="user.username"></input>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <input type="text" class="form-control"
+              placeholder="Username" ng-model="user.username"></input>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="form-group col-md-3">
-          <input type="password" class="form-control"
-           placeholder="Password" ng-model="user.password"></input>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <input type="password" class="form-control"
+             placeholder="Password" ng-model="user.password"></input>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-    </form>
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+</div>

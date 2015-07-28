@@ -150,6 +150,32 @@ router.get('/business-detail',auth,function(req,res,next){
     })
   })
 
+  router.post('/business/service',auth,function(req,res,next){
+    var id = req.payload._id;
+    var service = {};
+    service.name = req.body.name;
+    service.description = req.body.description;
+    service.price = req.body.price;
+
+    User.findOne(id).exec(function(err,user){
+      if(err){return next(err);}
+      console.log(user);
+      Business.findOne(req.body.id).populate('owner').exec(function(err,business){
+        console.log(business)
+        if(err){return next(err);}
+        console.log("user" + user._id);
+        console.log("")
+        if(user._id == business.owner.id){
+          business.services.push(service);
+          business.save(function(err,business){
+            if(err){return next(err);}
+            res.json(business);
+          })
+        }
+      })
+    })
+  })
+
   router.post('/business/claim',auth,function(req,res,next){
     var business = new Business();
     var id = req.payload._id;
@@ -175,31 +201,8 @@ router.get('/business-detail',auth,function(req,res,next){
       res.json({success:'success'});
     })
   })
-  router.post('/business/service',auth,function(req,res,next){
-    var id = req.payload._id;
 
-    var service = req.param('service');
-
-    var business = service.id;
-    
-
-
-
-    User.findOne(id).exec(function(err,user){
-      if(err){return next(err);}
-      Business.findOne(business).populate('owner').exec(function(err,business){
-        if(err){return next(err);}
-        if(user._id == business.owner._id){
-          business.service.push(service);
-          business.save(function(err,business){
-            if(err){return next(err);}
-
-            res.json(business);
-          })
-        }
-      })
-    })
-  })
+  
 
 // router.get('/posts',auth, function(req, res, next) {
 //   var id = req.payload._id;
@@ -424,7 +427,7 @@ router.post('/register', function(req, res, next){
   user.lastName = req.body.lastName;
 
   user.save(function (err){
-    if(err){ return next(err); }
+    if(err){ return res.status(400).json({message:"Username taken, please choose another."}); }
 
     return res.json({token: user.generateJWT()})
   });
