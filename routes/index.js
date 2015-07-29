@@ -156,10 +156,9 @@ router.get('/business-detail',auth,function(req,res,next){
     service.name = req.body.name;
     service.description = req.body.description;
     service.price = req.body.price;
-
-    User.findOne(id).exec(function(err,user){
+    User.findOne({"_id": id}).exec(function(err,user){
       if(err){return next(err);}
-      Business.findOne(req.body.id).populate({path:'owner',select:'id'}).exec(function(err,business){
+      Business.findOne({"id":req.body.id}).populate({path:'owner',select:'id'}).exec(function(err,business){
         if(err){return next(err);}
         if(user._id == business.owner.id){
           business.services.push(service);
