@@ -54,6 +54,7 @@ router.get('/query',auth,function(req,res,next){
   var query = req.param('query');
 
   googleplaces.textSearch({query:query},function(error,response){
+    if(error){return next(error);}
     res.json(response);
   })
 })
