@@ -86,7 +86,7 @@ router.get('/search',auth,function(req,res,next){
   if(req.param('location')){
     var location = req.param('location');
   }
-  yelp.search({category_filter:category,location:location},function(err,data){
+  yelp.search({category_filter:category,location:location,limit:limit},function(err,data){
     if(err){console.log(err); return next(err);}
     res.json(data);
   })
@@ -392,6 +392,7 @@ router.get('/business-detail',auth,function(req,res,next){
 // });
 
 router.post('/login', function(req, res, next){
+  console.log("here"+ req.body);
   if(!req.body.username || !req.body.password){
     return res.status(400).json({message: 'Please fill out all fields'});
   }

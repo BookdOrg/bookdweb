@@ -52,7 +52,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
   $scope.isLoggedIn = auth.isLoggedIn;
 
 
-  var socket = io.connect('http://localhost:3002');
+  var socket = io.connect('http://khalilbrown.com:8112');
 
   socket.on('newPost', function (data) {
         // if(data.post) {
