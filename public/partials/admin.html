@@ -7,9 +7,10 @@
 		<div class="row">
 			<div class="col-md-6">
 				Business Name: {{request.name}}
-				<br>Phone Number: {{request.phoneNumber}}
-				<br>Date Created: {{request.dateCreated}}
-				<br>Owner:{{request.owner.firstName}} {{request.owner.lastName}}
+				<br>Address: {{request.formatted_address}}
+				<br>Phone Number: {{request.formatted_phone_number}}
+				<br>Date Created: {{request.info.dateCreated}}
+				<br>Owner:{{request.info.owner.firstName}} {{request.info.owner.lastName}}
 			</div>
 			<div class="col-md-6">
 				<button class="btn btn-success" ng-click="updateRequest(request,false,true)">Approve</button>

@@ -108,9 +108,25 @@ router.get('/business-detail',auth,function(req,res,next){
     })
   })
   router.get('/claim-requests',auth,function(req,res,next){
+    var updatedBusinesses = [];
     Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
       if(err){return next(err);}
-      res.json(businesses)
+      async.each(businesses,function(currBusiness,businessCallback){
+        // console.log(currBusiness);
+        googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
+          if(error){
+            return businessCallback(error);
+          }
+          response.result.info = currBusiness;
+          updatedBusinesses.push(response.result)
+          businessCallback();
+        });
+      }, function(err){
+          if(err){
+            return next(error);
+          }
+        res.json(updatedBusinesses)
+      })
     })
   })
 
@@ -158,17 +174,22 @@ router.get('/business-detail',auth,function(req,res,next){
   router.post('/business/claim',auth,function(req,res,next){
     var business = new Business();
     var id = req.payload._id;
-    
+
     business.owner = id; 
-    business.category = req.params('category');
-    business.placesId = req.params('id');
-    business.dateCreated = req.params('timestamp');
+    business.category = req.body.category;
+    business.placesId = req.body.placesId;
+    business.dateCreated = req.body.timestamp;
     business.pending = true;
     business.claimed = false;
 
-    business.save(function(err,business){
-      if(err){return next(err);}
-      res.json({success:'success'});
+    Business.findOne({"placesId":req.body.placesId}).exec(function(err,response){
+      if(response){
+        return res.status(400).json({message: 'This business has already been claimed or has a request pending.'});
+      }
+      business.save(function(err,business){
+        if(err){return next(err);}
+          res.json(business);
+        })
     })
   })
 

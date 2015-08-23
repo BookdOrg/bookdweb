@@ -32,7 +32,7 @@
     	</div>
     	<br>
     	<div class="col col-md-12 col-md-offset-6">
-    		<button class="btn btn-success">Claim</button>
+    		<button class="btn btn-success" ng-click="claim(selectedQuery)" >Claim</button>
     	</div>
     </div>
     <div class="row well" ng-if="queryResults">
@@ -49,9 +49,23 @@
     		</span>
     		<br>
     		<div class="form-group">
-    			<br>Category: <select class="form-control col-md-3" ng-model="selectedQuery.category" ng-options="categoryOptions.id as categoryOptions.title for categoryOptions in categoryOptions"></select>
+    			<br>Category: <select class="form-control col-md-3" ng-model="query.category" ng-options="categoryOptions.id as categoryOptions.title for categoryOptions in categoryOptions"></select>
     		</div>
-    		<button class="btn btn-success col-md-offset-3">Claim</button>
+    		<button class="btn btn-success col-md-offset-3" ng-click="claim(query)">Claim</button>
     	</div>
     </div>
 </div>
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title text-center">{{business.info.name}}</h3>
+        </div>
+        <div ng-if="status === 400"class="modal-body">
+            {{business.message}}
+        </div>
+        <div ng-if="status === 200" class="modal-body">
+            You request has gone through successfully, we will review the request and contact you with x time frame. Thank you. 
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>
+    </script>

@@ -29,15 +29,13 @@ angular.module('cc.business-factory',[])
       angular.copy(data, o.categories)
     });
   };
-  o.claim = function(id,category) {
-    return $http.post('/business/claim',{
-      params:{
-        'placesId':id,
-        'category':category
-      },
+  o.claim = function(claim) {
+    return $http.post('/business/claim',claim, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
-      console.log(data);
+
+    },function(err){
+
     });
   };
   o.getBusiness = function(id){

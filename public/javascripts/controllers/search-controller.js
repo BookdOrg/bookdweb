@@ -4,17 +4,18 @@ angular.module('cc.search-controller',[])
 '$state',
 'auth',
 'businessFactory',
-function($scope, $state, auth,businessFactory){
+'$modal',
+function($scope, $state, auth,businessFactory,$modal){
 
 	$scope.$watch('query',function(newVal,oldVal){
 		if(newVal !== oldVal){
 			$scope.selectedQuery = $scope.query;
 		}
 		if(!newVal && oldVal){
-			console.log("here")
 			$scope.selectedQuery = oldVal;
 		}
 	})
+
 	businessFactory.getCategories().then(function(data){
 		$scope.categoryOptions = data.data;
 	})
@@ -24,6 +25,43 @@ function($scope, $state, auth,businessFactory){
 			.then(function(data){
 				$scope.queryResults = data.data.results;
 		})
+	}
+	$scope.claim = function(request){
+		var claimRequest = {};
+
+		claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
+		claimRequest.category = request.category;
+		claimRequest.placesId = request.place_id;
+		businessFactory.claim(claimRequest)
+			.then(function(data){
+				$modal.open({
+					templateUrl: 'myModalContent.html',
+					controller: 'ModalInstanceCtrl',
+					resolve:{
+						message:function(){
+							return data;
+						},
+						info:function(){
+							return request;
+						}
+					}
+				});
+			},
+			function(error){
+				$modal.open({
+					templateUrl: 'myModalContent.html',
+					controller: 'ModalInstanceCtrl',
+					resolve:{
+						message:function(){
+							return error;
+						},
+						info:function(){
+							return request;
+						}
+					}
+				});
+			}
+		)
 	}
 
 }])
