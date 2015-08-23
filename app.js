@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var cloudinary = require('cloudinary');
-
+var places = require('googleplaces');
 
 mongoose.connect('mongodb://localhost/clientconnect');
 

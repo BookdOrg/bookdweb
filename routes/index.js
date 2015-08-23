@@ -9,6 +9,10 @@ var Busboy = require('busboy');
 var async = require('async');
 var acl = require('acl');
 
+var GooglePlaces = require('googleplaces');
+
+var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.env.GOOGLE_PLACES_OUTPUT_FORMAT); 
+
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
@@ -46,49 +50,11 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 
 
-router.get('/foursquare-test',function(req,res,next){
+router.get('/query',auth,function(req,res,next){
+  var query = req.param('query');
 
-})
-
-
-router.get('/search',auth,function(req,res,next){
-  /**
-  * Yelp Parameters - limit, offset, sort, category_filter, 
-  * radius_filter, deals_filter
-  *
-  **/
-  var limit = '',
-      location = '',
-      sort  = '',
-      offset = '',
-      category = '',
-      radius = '',
-      deals = '';
-
-  if(req.param('limit')){
-    var limit = req.param('limit');
-  }
-  if(req.param('offset')){
-    var offset = req.param('offset');
-  }
-  if(req.param('sort')){
-    var sort = req.param('sort');
-  }
-  if(req.param('category')){
-    var category = req.param('category');
-  }
-  if(req.param('radius')){
-    var radius = req.param('radius');
-  }
-  if(req.param('deals')){
-    var deals = req.param('deals');
-  }
-  if(req.param('location')){
-    var location = req.param('location');
-  }
-  yelp.search({category_filter:category,location:location},function(err,data){
-    if(err){console.log(err); return next(err);}
-    res.json(data);
+  googleplaces.textSearch({query:query},function(error,response){
+    res.json(response);
   })
 })
 router.get('/business',auth,function(req,res,next){
@@ -192,20 +158,11 @@ router.get('/business-detail',auth,function(req,res,next){
   router.post('/business/claim',auth,function(req,res,next){
     var business = new Business();
     var id = req.payload._id;
-    business.owner = id;
-    business.owner.firstName = req.body.firstName;
-    business.owner.lastName = req.body.lastName;
-    business.owner.phoneNumber = req.body.pPhoneNumber;
-    business.owner.email = req.body.email;
-
-    business.name = req.body.businessName;
-    business.phoneNumber = req.body.bPhoneNumber;
-    business.id = req.body.id;
-
-    business.rating = req.body.rating;
-    business.location = req.body.location;
-    business.image = req.body.image;
-    business.dateCreated = req.body.timestamp;
+    
+    business.owner = id; 
+    business.category = req.params('category');
+    business.placesId = req.params('id');
+    business.dateCreated = req.params('timestamp');
     business.pending = true;
     business.claimed = false;
 

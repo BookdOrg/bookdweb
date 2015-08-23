@@ -22,7 +22,8 @@ angular.module('cc', ['ui.router',
   'ui.calendar',
   'cc.claim-controller',
   'cc.admin-controller',
-  'cc.admin-service'
+  'cc.admin-service',
+  'cc.search-controller',
   ])
 .config([
 '$stateProvider',
@@ -147,6 +148,11 @@ function($stateProvider, $urlRouterProvider) {
           return pendingRequests = adminService.getRequests();
         }]
       }
+    })
+    .state('search',{
+      url:'/search',
+      templateUrl:'partials/search.html',
+      controller:'searchCtrl'
     })
     .state('about',{
       url:'/about',

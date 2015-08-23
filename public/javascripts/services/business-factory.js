@@ -12,15 +12,29 @@ angular.module('cc.business-factory',[])
       return res.data;
     });
   };
+  o.query = function(query){
+    return $http.get('/query',{
+      params:{
+        'query':query
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+
+    })
+  }
   o.getCategories = function() {
     return $http.get('/categories', {
       headers: {Authorization: 'Bearer '+auth.getToken()}
-    }).then(function(data){
-      angular.copy(data.data, o.categories)
+    }).success(function(data){
+      angular.copy(data, o.categories)
     });
   };
-  o.create = function(business) {
-    return $http.post('/business/claim', business, {
+  o.claim = function(id,category) {
+    return $http.post('/business/claim',{
+      params:{
+        'placesId':id,
+        'category':category
+      },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       console.log(data);

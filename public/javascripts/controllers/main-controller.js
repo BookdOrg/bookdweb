@@ -43,12 +43,6 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
     }
   })
 
-  // $scope.$watch('currLocation.lat',function(newVal,oldVal){
-  //   if(newVal !== oldVal){
-  //     $scope.
-  //   }
-  // })
-  
   $scope.isLoggedIn = auth.isLoggedIn;
 
 

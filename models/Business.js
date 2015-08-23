@@ -1,21 +1,11 @@
 var mongoose = require('mongoose');
 
 var BusinessSchema = new mongoose.Schema({
-  name: String,
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   services: Array,
-  categories: [{type: mongoose.Schema.Types.ObjectId, ref:'Categories'}],
+  category: String,
   employees: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
-  photos: String,
-  hours: String,
-  email: String,
-  id: String,
-  phoneNumber: String,
-  description: String,
-  rating: Number,
-  location: Object,
-  image: String,
+  placesId: String,
   dateCreated: String,
   pending: Boolean,
   claimed: Boolean
