@@ -29,12 +29,12 @@ router.get('/', function(req, res) {
   res.render('index', { title: '' });
 });
 
-var yelp = require("yelp").createClient({
-  consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
-  consumer_secret: process.env.yelpconsumersecret,
-  token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
-  token_secret: process.env.yelptokensecret
-});
+// var yelp = require("yelp").createClient({
+//   consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
+//   consumer_secret: process.env.yelpconsumersecret,
+//   token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
+//   token_secret: process.env.yelptokensecret
+// });
 
 var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
@@ -57,15 +57,54 @@ router.get('/query',auth,function(req,res,next){
     res.json(response);
   })
 })
-router.get('/business',auth,function(req,res,next){
-  /**
-  * Yelp Parameters - id
-  *
-  **/
-  yelp.business(req.param('id'),function(err,data){
-    if(err){return next(err);}
-    res.json(data);
+router.get('/business-list',auth,function(req,res,next){
+  var category = req.param('category');
+  var location = req.param('location');
+
+  var updatedBusinesses = [];
+  Business.find({"category":category}).exec(function(error,businesses){
+    if(error){return next(error);}
+    async.each(businesses,function(currBusiness,businessCallback){
+        // console.log(currBusiness);
+        googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
+          if(error){
+            return businessCallback(error);
+          }
+          response.result.info = currBusiness;
+          updatedBusinesses.push(response.result)
+          businessCallback();
+        });
+      }, function(err){
+          if(err){
+            return next(error);
+          }
+        res.json(updatedBusinesses)
+      })
   })
+
+  // var updatedBusinesses = [];
+
+  // googleplaces.placeSearch({location:location,keyword:category,radius:'30000'},function(error,response){
+  //   async.each(response.results,function(currResponse,responseCallback){
+  //     console.log(currResponse.place_id)
+  //     Business.findOne({'placesId':currResponse.place_id}).exec(function(err,business){
+  //       if(err){
+  //         return responseCallback(err);
+  //       }
+  //       if(business !== null){
+  //         currResponse.info = business;
+  //         updatedBusinesses.push(currResponse); 
+  //       }
+  //       responseCallback();
+        
+  //     })
+  //   },function(err){
+  //         if(err){
+  //           return next(error);
+  //         }
+  //     res.json(updatedBusinesses)
+  //   })
+  // })
 })
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('id');

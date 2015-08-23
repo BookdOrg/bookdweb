@@ -1,11 +1,11 @@
 <div class="page-header">
-	<h1 class="text-center">{{cat}}</h1>
+	<h1 class="text-center">{{cat |uppercase}}</h1>
 </div>
 <div class="well col-md-4" style="height:300px;" ng-repeat="business in businesses">
-	<img ng-src="{{business.image_url}}" style="border-radius:20%"></img>
+	<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
 	<a href="#/business/{{business.id}}">{{business.name}}</a>
-	<br><span>Rating: <img ng-src="{{business.rating_img_url}}"></image></span>
-	<br><span>Location: {{business.location.city}}, {{business.location.state_code}}</span>
+	<br><span>Rating: {{business.rating}}</span>
+	<br><span>Location: {{business.formatted_address}}</span>
 	<br><span>Description: {{business.snippet_text}}</span>
-	<br><span>Distance: {{business.distance}}</span>
+	<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>
 </div>

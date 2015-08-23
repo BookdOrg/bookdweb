@@ -22,6 +22,17 @@ angular.module('cc.business-factory',[])
 
     })
   }
+  o.getBusinessList = function(category,location){
+    return $http.get('/business-list', {
+      params:{
+        'category':category,
+        'location':location
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+
+    });
+  }
   o.getCategories = function() {
     return $http.get('/categories', {
       headers: {Authorization: 'Bearer '+auth.getToken()}

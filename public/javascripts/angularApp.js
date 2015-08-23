@@ -49,13 +49,13 @@ function($stateProvider, $urlRouterProvider) {
       url:'/category/{cat}/{location}',
       templateUrl:'partials/bizlist.html',
       controller:'bizlistCtrl',
-      resolve: {
-        businesses:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
-          var cat = $stateParams.cat;
-          var location = $stateParams.location;
-          return businesses = yelpService.search(cat,location);
-        }]
-      }
+      // resolve: {
+      //   businesses:['$http','$stateParams',function($http,$stateParams){
+      //     var cat = $stateParams.cat;
+      //     var location = $stateParams.location;
+      //     return businesses = yelpService.search(cat,location);
+      //   }]
+      // }
     })
     .state('business',{
       url:'/business/{businessid}',
