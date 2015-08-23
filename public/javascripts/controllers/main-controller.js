@@ -14,7 +14,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
 
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_50,r_10,w_50/v1432411957/profile/placeholder.jpg";
-  $scope.categories = businessFactory.categories.beautysvc;
+  $scope.categories = businessFactory.categories;
 
   $rootScope.currLocation = location.getPosition();
 

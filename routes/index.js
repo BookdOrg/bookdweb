@@ -86,7 +86,7 @@ router.get('/search',auth,function(req,res,next){
   if(req.param('location')){
     var location = req.param('location');
   }
-  yelp.search({category_filter:category,location:location,limit:limit},function(err,data){
+  yelp.search({category_filter:category,location:location},function(err,data){
     if(err){console.log(err); return next(err);}
     res.json(data);
   })
@@ -110,19 +110,37 @@ router.get('/business-detail',auth,function(req,res,next){
 })
 
   router.get('/categories',auth,function(req,res,next){
-    Category.findOne("beautysvc").exec(function(err,categories){
+    Category.find({}).exec(function(err,categories){
       if(err){return next(err);}
       res.json(categories);
     })
   })
 
-  router.get('/api/categories',function(req,res,next){
-    Category.findOne("beautysvc").exec(function(err,categories){
-      if(err){return next(err);}
-      res.json(categories);
+  // router.get('/api/categories',function(req,res,next){
+  //   Category.findOne("beautysvc").exec(function(err,categories){
+  //     if(err){return next(err);}
+  //     res.json(categories);
+  //   })
+  // })
+  router.post('/category',auth,function(req,res,next){
+    var category = new Category();
+
+    category.id = req.body.id;
+    category.name = req.body.name;
+    category.description = req.body.description;
+    category.image = req.body.image;
+
+    Category.findOne(req.body.name).exec(function(err,tempCat){
+      if(err){return next(err)};
+      if(category){
+        return res.status(400).json({message: 'That Category already exsists!'});
+      }else{
+        category.save(function(err,category){
+          res.json({message: "Success"})
+        })
+      }
     })
   })
-
   router.get('/claim-requests',auth,function(req,res,next){
     Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
       if(err){return next(err);}
@@ -392,7 +410,6 @@ router.get('/business-detail',auth,function(req,res,next){
 // });
 
 router.post('/login', function(req, res, next){
-  console.log("here"+ req.body);
   if(!req.body.username || !req.body.password){
     return res.status(400).json({message: 'Please fill out all fields'});
   }

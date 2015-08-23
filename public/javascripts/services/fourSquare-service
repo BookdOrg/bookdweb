@@ -1,0 +1,21 @@
+angular.module('cc.fourSquare',[])
+.factory('fourSquare', ['$http', 'auth', function($http, auth){
+  // var o = {};
+
+  var fourSquare = {
+    saveToken: function (token){
+      $window.localStorage['fourSquare-token'] = token;
+    },
+    getToken: function (){
+      return $window.localStorage['fourSquare-token'];
+    },
+    requestSecret:function(){
+      return $http.get('/foursquare-test', {
+        headers: {Authorization: 'Bearer '+auth.getToken()}
+      }).success(function(data){
+        fourSquare.saveToken(data.token)
+      });
+    }
+  }
+  return fourSquare;
+}])
