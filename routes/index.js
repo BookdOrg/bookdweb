@@ -108,11 +108,11 @@ router.get('/business-list',auth,function(req,res,next){
   // })
 })
 router.get('/business-detail',auth,function(req,res,next){
-  var id = req.param('id');
-  Business.findOne({"id":id}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,business){
-    if(err){return next(err);}
-    res.json(business);
-  })
+  var id = req.param('placeId');
+  googleplaces.placeDetailsRequest({placeid:id},function(error,response){
+          if(error){return next(error);}
+          res.json(response);
+    });
 })
 
   router.get('/categories',auth,function(req,res,next){
