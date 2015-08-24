@@ -1,8 +1,8 @@
-<div ng-if="currentUser._id !== lbusiness.owner._id" class="container">
+<div ng-if="currentUser._id !== business.info.owner" class="container">
 	<div class="page-header">
 		<h1 class='text-center'>{{business.name}}</h1>
-		<img ng-if="lbusiness.claimed" ng-src="{{lbusiness.image}}" style="border-radius:20%"></image>
-		<img ng-if="!lbusiness.claimed" ng-src="{{business.image_url}}" style="border-radius:20%"></image>
+		<img ng-if="business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
+		<img ng-if="!business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
 		<!-- {{business.name}} -->
 		
 		<br>
@@ -21,7 +21,7 @@
 	<h3 class="text-center">Services</h3>
 	<div class="row">
 		<div class="row">
-		<div class="well col-md-3" style="height:200px;" ng-repeat="service in lbusiness.services">
+		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
 				<h5>Price: ${{service.price}}</h5>
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	</div>
-	<div class="row" ng-if="!business.claimed">
+	<div class="row" ng-if="!business.info.claimed">
 		<h1 class="text-center">This business has not been claimed and does not offer services through Book'd yet.</h1>
 	</div>	
 	<div class="row">
@@ -54,26 +54,26 @@
 	</div> -->
 </div>
 
-<div ng-if="currentUser._id == lbusiness.owner._id" class="container">
+<div ng-if="currentUser._id == business.info.owner" class="container">
 	<div class="page-header">
 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button>
 		<h1 class='text-center'>{{business.name}}</h1>
-		<img ng-if="lbusiness.claimed" ng-src="{{lbusiness.image}}" style="border-radius:20%"></image>
-		<img ng-if="!lbusiness.claimed" ng-src="{{business.image_url}}" style="border-radius:20%"></image>
+		<img ng-if="business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
+		<img ng-if="!business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
 		<!-- {{business.name}} -->
 		
 		<br>
 		Rating: <img ng-src="{{business.rating_img_url}}"></image>
 		<br>
-		Yelp Url: <a href="{{business.url}}">{{business.url}}</a>
+		Google Places: <a href="{{business.url}}">{{business.url}}</a>
 		<br>
-		Business Website: {{lbusiness.url}}
+		Business Website: <a href="{{business.website}}">{{business.website}}</a>
 		<br>
 		Hours:
 		<br>
-		Location: {{lbusiness.location.address}} {{lbusiness.location.city}}
+		Location: {{business.formatted_address}}
 		<br>
-		Phone: {{business.display_phone}}
+		Phone: {{business.formatted_phone}}
 	</div>
 	<div class="row">
 		<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
@@ -83,7 +83,7 @@
 		<h3 class="text-center ">Services</h3>
 	</div>
 	<div class="row">
-		<div class="well col-md-3" style="height:200px;" ng-repeat="service in lbusiness.services">
+		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
 				<h5>Price: ${{service.price}}</h5>
@@ -94,8 +94,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-if="!lbusiness.services">
-		<h1>This business has not been claimed and does not offer services through Book'd yet.</h1>
+	<div class="row" ng-if="!business.info.services">
+		<h1>Your business has not been claimed and does not offer services through Book'd yet.</h1>
 	</div>	
 	<div class="row">
 		<div class="btn-group col-xs-10 col-sm-5 col-md-5 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
@@ -105,29 +105,29 @@
 		<h3 class="text-center ">Employee's</h3>
 	</div>
 	<div class="row">
-		<div class="well col-md-3" ng-repeat="employee in lbusiness.employees">
+		<div class="well col-md-3" ng-repeat="employee in business.info.employees">
 			<div class="">
 				<h4>{{employee.name}}</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="!lbusiness.employees.name">
-		<h1 class="text-center">This business does not have any employee's registered yet.</h1>
+		<div class="row" ng-if="!business.info.employees.name">
+		<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
 	</div>	
 	</div>
 	<div class="row">
-		<h3>Yelp Reviews</h3>
+		<h3>Reviews</h3>
 		<div class="row">
 			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
 				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
-				<br>User: <span>{{review.user.name}}</span>
+				<br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
 				<br>
-				Rating: <img ng-src="{{review.rating_image_url}}"></img>
+				Rating: {{review.rating}}
 				<br>
-				{{review.excerpt}}
+				{{review.text}}
 			</div>
 		</div>
 	</div>
-	<div ng-if="!lbusiness.claimed" class="row text-center">
+	<div ng-if="!business.info.claimed" class="row text-center">
 		<a href="#/claim/{{business.id}}">Claim Business</a>
 	</div>
 </div>

@@ -31,7 +31,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       size: size,
       resolve:{
       	id: function(){
-      		return $scope.lbusiness.id;
+      		return $scope.business.info._id;
       	}
       }
     });

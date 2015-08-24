@@ -86,7 +86,7 @@ router.get('/business-list',auth,function(req,res,next){
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
   console.log(id);
-  Business.findOne({'placesId':id}).populate('services').exec(function(error,business){
+  Business.findOne({'placesId':id}).exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
           response.info = business;
@@ -181,15 +181,20 @@ router.get('/business-detail',auth,function(req,res,next){
     service.price = req.body.price;
     User.findOne({"_id": id}).exec(function(err,user){
       if(err){return next(err);}
-      Business.findOne({"id":req.body.id}).populate({path:'owner',select:'id'}).exec(function(err,business){
+      console.log(user)
+      Business.findOne({"_id":req.body.id}).populate({path:'owner',select:'_id'}).exec(function(err,business){
+
         if(err){return next(err);}
-        if(user._id == business.owner.id){
+        console.log(user._id)
+        console.log(business.owner._id)
+        // if(user._id === business.owner._id){
+          console.log("here")
           business.services.push(service);
           business.save(function(err,business){
             if(err){return next(err);}
             res.json(business);
           })
-        }
+        // }
       })
     })
   })
