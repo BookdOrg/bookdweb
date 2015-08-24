@@ -52,11 +52,10 @@ angular.module('cc.business-factory',[])
   o.getBusiness = function(id){
     return $http.get('/business-detail', {
       params:{
-        'id':id
+        'placeId':id
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
-    }).then(function(data,err){
-      angular.copy(data.data, o.business);
+    }).success(function(data,err){
     });
   }
   o.addService = function(service){

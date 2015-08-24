@@ -61,12 +61,12 @@ function($stateProvider, $urlRouterProvider) {
       url:'/business/{businessid}',
       templateUrl:'partials/business.html',
       controller:'businessCtrl',
-      resolve:{
-        business:['$http','$stateParams','yelpService','businessFactory',function($http,$stateParams,yelpService,businessFactory){
-          var id = $stateParams.businessid;
-          return businesses = yelpService.business(id);
-        }]
-      }
+      // resolve:{
+      //   business:['$http','$stateParams','yelpService','businessFactory',function($http,$stateParams,yelpService,businessFactory){
+      //     var id = $stateParams.businessid;
+      //     return businesses = yelpService.business(id);
+      //   }]
+      // }
     })
     // .state('posts', {
     //   url: '/posts/{id}',

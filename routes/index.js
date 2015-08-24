@@ -63,7 +63,7 @@ router.get('/business-list',auth,function(req,res,next){
   var location = req.param('location');
 
   var updatedBusinesses = [];
-  Business.find({"category":category}).exec(function(error,businesses){
+  Business.find({"category":category,"claimed":true}).exec(function(error,businesses){
     if(error){return next(error);}
     async.each(businesses,function(currBusiness,businessCallback){
         // console.log(currBusiness);
@@ -82,37 +82,16 @@ router.get('/business-list',auth,function(req,res,next){
         res.json(updatedBusinesses)
       })
   })
-
-  // var updatedBusinesses = [];
-
-  // googleplaces.placeSearch({location:location,keyword:category,radius:'30000'},function(error,response){
-  //   async.each(response.results,function(currResponse,responseCallback){
-  //     console.log(currResponse.place_id)
-  //     Business.findOne({'placesId':currResponse.place_id}).exec(function(err,business){
-  //       if(err){
-  //         return responseCallback(err);
-  //       }
-  //       if(business !== null){
-  //         currResponse.info = business;
-  //         updatedBusinesses.push(currResponse); 
-  //       }
-  //       responseCallback();
-        
-  //     })
-  //   },function(err){
-  //         if(err){
-  //           return next(error);
-  //         }
-  //     res.json(updatedBusinesses)
-  //   })
-  // })
 })
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
-  Business.findOne({'placesId':id}).exec(function(error,business){
+  console.log(id);
+  Business.findOne({'placesId':id}).populate('services').exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
           response.info = business;
+          console.log(response)
+          console.log(business);
           res.json(response);
     });
   })
@@ -175,7 +154,7 @@ router.get('/business-detail',auth,function(req,res,next){
   })
 
   router.post('/claim-status',auth,function(req,res,next){
-      Business.findOne({"_id":req.body._id}).exec(function(err,business){
+      Business.findOne({"_id":req.body.info._id}).exec(function(err,business){
         business.pending = req.body.pending;
         business.claimed = true;
         User.findOne(business.owner).exec(function(err,user){

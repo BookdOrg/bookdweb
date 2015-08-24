@@ -5,19 +5,20 @@ angular.module('cc.business-controller',[])
 '$state',
 'location',
 '$stateParams',
-'business',
 'businessFactory',
 'location',
 '$rootScope',
 '$modal',
-function($scope, auth, $state,location,$stateParams,business,businessFactory,location,$rootScope,$modal){
+function($scope, auth, $state,location,$stateParams,businessFactory,location,$rootScope,$modal){
 	$scope.currentUser = auth.currentUser();
-	$scope.business = business.data;
+	// $scope.business = business.data;
 
 
-
-	businessFactory.getBusiness($scope.business.id);
-	$scope.lbusiness = businessFactory.business;
+	businessFactory.getBusiness($stateParams.businessid)
+    .then(function(data){
+      $scope.business = data.data.result;
+      $scope.business.info = data.data.info;
+    })
 
 	$scope.animationsEnabled = true;
 
