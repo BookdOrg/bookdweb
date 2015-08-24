@@ -109,11 +109,10 @@ router.get('/business-list',auth,function(req,res,next){
 })
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
-  Business.findOne(id).exec(function(error,business){
+  Business.findOne({'placesId':id}).exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
           response.info = business;
-          console.log(response);
           res.json(response);
     });
   })
