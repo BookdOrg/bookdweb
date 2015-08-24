@@ -109,10 +109,15 @@ router.get('/business-list',auth,function(req,res,next){
 })
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
-  googleplaces.placeDetailsRequest({placeid:id},function(error,response){
+  Business.findOne(id).exec(function(error,business){
+    googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
+          response.info = business;
+          console.log(response);
           res.json(response);
     });
+  })
+  
 })
 
   router.get('/categories',auth,function(req,res,next){
