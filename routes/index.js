@@ -77,10 +77,9 @@ router.get('/business-list',auth,function(req,res,next){
   var location = req.param('location');
 
   var updatedBusinesses = [];
-  Business.find({"category":category,"claimed":true}).exec(function(error,businesses){
+  Business.find({"category":category,"claimed":true}).populate({path:"employees",select:'_id appointments firstName lastName username'}).exec(function(error,businesses){
     if(error){return next(error);}
     async.each(businesses,function(currBusiness,businessCallback){
-        // console.log(currBusiness);
         googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
           if(error){
             return businessCallback(error);
