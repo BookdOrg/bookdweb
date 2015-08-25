@@ -16,6 +16,20 @@ var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.en
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+Array.prototype.inArray = function(comparer) { 
+    for(var i=0; i < this.length; i++) { 
+        if(comparer(this[i])) return true; 
+    }
+    return false; 
+}; 
+
+Array.prototype.pushIfNotExist = function(element, comparer) { 
+    if (!this.inArray(comparer)) {
+        this.push(element);
+    }
+};
+
+
 io.on('connection',function(socket){
   socket.emit('welcome', {message:"Welcome to Handi"})
   socket.on('send',function(data){
@@ -83,337 +97,159 @@ router.get('/business-list',auth,function(req,res,next){
       })
   })
 })
+router.get('/search/employees',auth,function(req,res,next){
+  var id = req.param('id');
+  User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion').exec(function(error,user){
+    if(error){return next(error);}
+    res.json(user);
+  })
+})
+
+router.post('/business/employee',auth,function(req,res,next){
+  var businessId = req.body.businessId;
+  var employeeId = req.body.employeeId;
+
+  Business.findOne({"_id":businessId}).exec(function(err,response){
+    response.employees.pushIfNotExist(employeeId,function(e){
+      return e == employeeId;
+    })
+    response.save(function(err){
+      if(err){return next(err);}
+    })
+    Business.populate(response,{path:"employees",select:'_id appointments firstName lastName username'},function(err,busResponse){
+      if(err){return next(err);}
+      res.json(busResponse);
+    })
+  })
+})
+
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
-  console.log(id);
-  Business.findOne({'placesId':id}).exec(function(error,business){
+  Business.findOne({'placesId':id}).populate({path:"employees",select:'_id appointments firstName lastName username'}).exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
           response.info = business;
-          console.log(response)
-          console.log(business);
           res.json(response);
     });
   })
-  
 })
 
-  router.get('/categories',auth,function(req,res,next){
-    Category.find({}).exec(function(err,categories){
-      if(err){return next(err);}
-      res.json(categories);
-    })
+router.get('/categories',auth,function(req,res,next){
+  Category.find({}).exec(function(err,categories){
+    if(err){return next(err);}
+    res.json(categories);
   })
+})
 
-  // router.get('/api/categories',function(req,res,next){
-  //   Category.findOne("beautysvc").exec(function(err,categories){
-  //     if(err){return next(err);}
-  //     res.json(categories);
-  //   })
-  // })
-  router.post('/category',auth,function(req,res,next){
-    var category = new Category();
+router.post('/category',auth,function(req,res,next){
+  var category = new Category();
 
-    category.id = req.body.id;
-    category.name = req.body.name;
-    category.description = req.body.description;
-    category.image = req.body.image;
+  category.id = req.body.id;
+  category.name = req.body.name;
+  category.description = req.body.description;
+  category.image = req.body.image;
 
-    Category.findOne(req.body.name).exec(function(err,tempCat){
-      if(err){return next(err)};
-      if(category){
-        return res.status(400).json({message: 'That Category already exsists!'});
-      }else{
-        category.save(function(err,category){
-          res.json({message: "Success"})
-        })
-      }
-    })
-  })
-  router.get('/claim-requests',auth,function(req,res,next){
-    var updatedBusinesses = [];
-    Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
-      if(err){return next(err);}
-      async.each(businesses,function(currBusiness,businessCallback){
-        // console.log(currBusiness);
-        googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
-          if(error){
-            return businessCallback(error);
-          }
-          response.result.info = currBusiness;
-          updatedBusinesses.push(response.result)
-          businessCallback();
-        });
-      }, function(err){
-          if(err){
-            return next(error);
-          }
-        res.json(updatedBusinesses)
+  Category.findOne(req.body.name).exec(function(err,tempCat){
+    if(err){return next(err)};
+    if(category){
+      return res.status(400).json({message: 'That Category already exsists!'});
+    }else{
+      category.save(function(err,category){
+        res.json({message: "Success"})
       })
+    }
+  })
+})
+router.get('/claim-requests',auth,function(req,res,next){
+  var updatedBusinesses = [];
+  Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
+    if(err){return next(err);}
+    async.each(businesses,function(currBusiness,businessCallback){
+      // console.log(currBusiness);
+      googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
+        if(error){
+          return businessCallback(error);
+        }
+        response.result.info = currBusiness;
+        updatedBusinesses.push(response.result)
+        businessCallback();
+      });
+    }, function(err){
+        if(err){
+          return next(error);
+        }
+      res.json(updatedBusinesses)
     })
   })
+})
 
-  router.post('/claim-status',auth,function(req,res,next){
-      Business.findOne({"_id":req.body.info._id}).exec(function(err,business){
-        business.pending = req.body.pending;
-        business.claimed = true;
-        User.findOne(business.owner).exec(function(err,user){
+router.post('/claim-status',auth,function(req,res,next){
+    Business.findOne({"_id":req.body.info._id}).exec(function(err,business){
+      business.pending = req.body.pending;
+      business.claimed = true;
+      User.findOne(business.owner).exec(function(err,user){
 
-          if(err){return handleError(err)};
-          user.businesses.push(business._id);
-          user.businessPage = business.id;
-          user.save(function(err,user){
+        if(err){return handleError(err)};
+        user.businesses.push(business._id);
+        user.businessPage = business.placesId;
+        user.save(function(err,user){
 
-        })
-        business.save(function(err){
-            if(err){ return next(err); }
-            res.json({success:'success'})
-          }) 
-        })
-    })
-  })
-
-  router.post('/business/service',auth,function(req,res,next){
-    var id = req.payload._id;
-    var service = {};
-    service.name = req.body.name;
-    service.description = req.body.description;
-    service.price = req.body.price;
-    User.findOne({"_id": id}).exec(function(err,user){
-      if(err){return next(err);}
-      console.log(user)
-      Business.findOne({"_id":req.body.id}).populate({path:'owner',select:'_id'}).exec(function(err,business){
-
-        if(err){return next(err);}
-        console.log(user._id)
-        console.log(business.owner._id)
-        // if(user._id === business.owner._id){
-          console.log("here")
-          business.services.push(service);
-          business.save(function(err,business){
-            if(err){return next(err);}
-            res.json(business);
-          })
-        // }
       })
-    })
+      business.save(function(err){
+          if(err){ return next(err); }
+          res.json({success:'success'})
+        }) 
+      })
   })
+})
 
-  router.post('/business/claim',auth,function(req,res,next){
-    var business = new Business();
-    var id = req.payload._id;
+router.post('/business/service',auth,function(req,res,next){
+  var id = req.payload._id;
+  var service = {};
+  service.name = req.body.name;
+  service.description = req.body.description;
+  service.price = req.body.price;
+  User.findOne({"_id": id}).exec(function(err,user){
+    if(err){return next(err);}
+    console.log(user)
+    Business.findOne({"_id":req.body.id}).populate({path:'owner',select:'_id'}).exec(function(err,business){
 
-    business.owner = id; 
-    business.category = req.body.category;
-    business.placesId = req.body.placesId;
-    business.dateCreated = req.body.timestamp;
-    business.pending = true;
-    business.claimed = false;
-
-    Business.findOne({"placesId":req.body.placesId}).exec(function(err,response){
-      if(response){
-        return res.status(400).json({message: 'This business has already been claimed or has a request pending.'});
-      }
-      business.save(function(err,business){
-        if(err){return next(err);}
+      if(err){return next(err);}
+      console.log(user._id)
+      console.log(business.owner._id)
+      // if(user._id === business.owner._id){
+        console.log("here")
+        business.services.push(service);
+        business.save(function(err,business){
+          if(err){return next(err);}
           res.json(business);
         })
+      // }
     })
   })
+})
 
-  
+router.post('/business/claim',auth,function(req,res,next){
+  var business = new Business();
+  var id = req.payload._id;
 
-// router.get('/posts',auth, function(req, res, next) {
-//   var id = req.payload._id;
+  business.owner = id; 
+  business.category = req.body.category;
+  business.placesId = req.body.placesId;
+  business.dateCreated = req.body.timestamp;
+  business.pending = true;
+  business.claimed = false;
 
-//   Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-//     if(err){ return next(err); }
-//     var updatedPosts = [];
-//     posts.forEach(function(post){
-//       updatedPosts.push(post);
-//     })
-//     res.json(updatedPosts);
-//   })
-// });
-
-// router.get('/most-recent',auth,function(req, res, next) {
-//   var id = req.payload._id;
-//   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-//     if(err){ return next(err); }
-//     var updatedPosts = [];
-//     posts.forEach(function(post){
-//       updatedPosts.push(post);
-//     })
-//     Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
-//       var updatedReviews = [];
-//       reviews.forEach(function(review){
-//         updatedReviews.push(review);
-//       })
-//       var recentPosts = updatedPosts.concat(updatedReviews);
-//       res.json(recentPosts);
-//     })
-//     // res.json(updatedPosts);
-//   })
-// });
-
-// router.get('/api/most-recent',function(req, res, next) {
-//   Post.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-//     if(err){ return next(err); }
-//     var updatedPosts = [];
-//     posts.forEach(function(post){
-//       updatedPosts.push(post);
-//     })
-//     Review.find({}).sort('-timestamp').populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,reviews){
-//       var updatedReviews = [];
-//       reviews.forEach(function(review){
-//         updatedReviews.push(review);
-//       })
-//       res.json({
-//         updatedPosts:updatedPosts,
-//         updatedReviews:updatedReviews
-//       })
-//     })
-//     // res.json(updatedPosts);
-//   })
-// });
-
-// router.get('/api/posts', function(req, res, next) {
-//   Post.find({}).populate({path:'author',select:'_id avatarVersion username'}).exec(function(err,posts){
-//     if(err){ return next(err); }
-//     var updatedPosts = [];
-//     posts.forEach(function(post){
-//       updatedPosts.push(post);
-//     })
-//     res.json(updatedPosts);
-//   })
-// });
-
-// router.post('/posts', auth, function(req, res, next) {
-//   var post = new Post(req.body);
-//   var id = req.payload._id;
-//   post.author = id;
-
-//   User.findOne({"_id":id}).exec(function(err,user){
-//     user.posts.push(post);
-//     user.save(function(err,post){
-//       if(err){return next(err);}
-//     })
-//   })
-
-//   post.save(function(err, post){
-//     if(err){ return next(err); }
-//     io.emit('newPost', {post:post});
-//     res.json(post);
-//   });
-// });
-// router.param('user',function(req,res,next,id){
-//   var query = User.findById(id);
-//   query.exec(function(err,user){
-//     if (err) { return next(err); }
-//     if (!user) { return next(new Error("can't find user")); }
-//     req.user = user;
-//     return next();
-//   })
-// })
-
-
-// router.get('/user/appts/:user',auth,function(req,res,next){
-//   var id = req.params.id;
-//   req.user.populate({path:'posts',select:''},function(err,user){
-//     res.json(user);
-//   })
-// });
-
-// router.get('/api/appts/:user',function(req,res,next){
-//   var id = req.params.id;
-//   req.user.populate({path:'posts',select:''},function(err,user){
-//     res.json(user);
-//   })
-// })
-
-// Preload post objects on routes with ':post'
-
-// router.param('biz', function(req, res, next, id) {
-//   var query = Post.findById(id);
-
-//   query.exec(function (err, post){
-//     if (err) { return next(err); }
-//     if (!post) { return next(new Error("can't find post")); }
-//     req.post = post;
-//     return next();
-//   });
-// });
-
-// Preload review objects on routes with ':review'
-
-// router.param('review', function(req, res, next, id) {
-//   var query = Review.findById(id);
-
-//   query.exec(function (err, review){
-//     if (err) { return next(err); }
-//     if (!review) { return next(new Error("can't find review")); }
-
-//     req.review = review;
-//     return next();
-//   });
-// });
-
-// return a post
-// router.get('/biz/:biz',auth, function(req, res, next) {
-//   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-//     var updatedPost = [];
-//     async.each(post.reviews,function(currentReview,postCallback){
-//       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-//         if(err){
-//           return postCallback(err);
-//         }
-//         postCallback();
-//       });
-//     }, function(err){
-//       if(err){
-//         return next(error);
-//       }
-//       res.json(post)
-//     })
-//   });
-// });
-
-// router.get('/api/posts/:post', function(req, res, next) {
-//   req.post.populate([{path:'reviews',select:''},{path:'author',select:'_id username avatarVersion'}], function(err, post) {
-//     var updatedPost = [];
-//     async.each(post.reviews,function(currentReview,postCallback){
-//       currentReview.populate({path:'author',select:'_id username avatarVersion'},function(err,review){
-//         if(err){
-//           return postCallback(err);
-//         }
-//         postCallback();
-//       });
-//     }, function(err){
-//       if(err){
-//         return next(error);
-//       }
-//       res.json(post)
-//     })
-//   });
-// });
-
-// create a new review associated with a business
-
-// router.post('/biz/:biz/reviews', auth, function(req, res, next) {
-//   var review = new Review(req.body);
-//   review.post = req.post;
-//   var id = req.payload._id;
-//   review.author = id;
-//   review.save(function(err, review){
-//     if(err){ return next(err); }
-//     req.post.reviews.push(review);
-//     req.post.save(function(err, post) {
-//       if(err){ return next(err); }
-//       io.emit('newReview', {review:review});
-//       res.json(review);
-//     });
-//   });
-// });
+  Business.findOne({"placesId":req.body.placesId}).exec(function(err,response){
+    if(response){
+      return res.status(400).json({message: 'This business has already been claimed or has a request pending.'});
+    }
+    business.save(function(err,business){
+      if(err){return next(err);}
+        res.json(business);
+      })
+  })
+})
 
 router.post('/login', function(req, res, next){
   if(!req.body.username || !req.body.password){

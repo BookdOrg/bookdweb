@@ -1,3 +1,10 @@
+<!-- 
+#########################################
+
+	Regular View
+
+########################################
+-->
 <div ng-if="currentUser._id !== business.info.owner" class="container">
 	<div class="page-header">
 		<h1 class='text-center'>{{business.name}}</h1>
@@ -54,6 +61,13 @@
 	</div> -->
 </div>
 
+<!-- 
+#########################################
+
+	Business Owner View
+
+########################################
+-->
 <div ng-if="currentUser._id == business.info.owner" class="container">
 	<div class="page-header">
 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button>
@@ -103,14 +117,17 @@
 			<button class="btn btn-warning">Edit Employee's</button>
 		</div>
 		<h3 class="text-center ">Employee's</h3>
+		<span class="text-center">
+			<alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">{{employeeError.message}}</alert>
+		</span>
 	</div>
 	<div class="row">
 		<div class="well col-md-3" ng-repeat="employee in business.info.employees">
 			<div class="">
-				<h4>{{employee.name}}</h4>
+				<h4>{{employee.firstName}}</h4>
 			</div>
 		</div>
-		<div class="row" ng-if="!business.info.employees.name">
+		<div class="row" ng-if="!business.info.employees">
 		<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
 	</div>	
 	</div>
@@ -131,6 +148,14 @@
 		<a href="#/claim/{{business.id}}">Claim Business</a>
 	</div>
 </div>
+
+<!-- 
+#########################################
+
+	New service Modal
+
+########################################
+-->
 <script type="text/ng-template" id="addServiceModal.html">
         <div class="modal-header">
             <h3 class="modal-title text-center">New Service</h3>
@@ -161,6 +186,14 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
 </script>
+
+<!-- 
+#########################################
+
+	New Employee Modal
+
+########################################
+-->
 <script type="text/ng-template" id="addEmployeeModal.html">
         <div class="modal-header">
             <h3 class="modal-title text-center">New Employee</h3>
@@ -170,16 +203,25 @@
             	<form>
             		<div class="form-group col-md-12">
 	            		<label for="employeeId">Employee Id:</label>
-	            		<input class="form-control" id="employeeId" ng-model="employee.id">
+	            		<input class="form-control" id="employeeId" ng-model="id">
 	            	</div>
 	            	<div class="col-md-12">
-	            		<button class="btn btn-success col-sm-offset-6 col-md-offset-6">Search</button>
+	            		<button class="btn btn-success col-sm-offset-6 col-md-offset-6" ng-click="findEmployee(id)">Search</button>
+            		</div>
+            		<div class="col-md-12" ng-if="employee">
+            			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}"
+            				style="height:100px;width:100px;"></img>
+            			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
+            				style="height:100px;width:100px;"></img>
+            			<br>Id: {{employee._id}}
+            			<br>Name: {{employee.firstName}} {{employee.lastName}}
+            			<br>Username: {{employee.username}}
             		</div>
             	</form>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok(employee)">Create</button>
+            <button class="btn btn-primary" ng-click="create(employee._id)">Register Employee</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>

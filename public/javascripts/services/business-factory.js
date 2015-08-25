@@ -2,7 +2,12 @@ angular.module('cc.business-factory',[])
 .factory('businessFactory', ['$http', 'auth', function($http, auth){
   var o = {
     categories: [],
-    business: {}
+    business: {
+      info:{}
+    },
+    error:{
+      
+    }
   };
 
   o.get = function(id) {
@@ -31,6 +36,25 @@ angular.module('cc.business-factory',[])
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
 
+    });
+  }
+  o.searchEmployee = function(id){
+    return $http.get('/search/employees', {
+      params:{
+        'id':id
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+      angular.copy(data, o.categories)
+    });
+  }
+  o.addEmployee = function(employee){
+    return $http.post('/business/employee',employee, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+      angular.copy(data,o.business.info);
+    }).error(function(err){
+      angular.copy(err,o.error)
     });
   }
   o.getCategories = function() {
@@ -65,62 +89,6 @@ angular.module('cc.business-factory',[])
       angular.copy(data.data, o.business);
     });
   }
-  // o.addService = function(service){
-  //   console.log(auth.getToken())
-  //   return $http.post('/business/service', {
-  //     params:{
-  //       'service':service
-  //     },
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     angular.copy(data.data, o.business);
-  //   });
-  // }
-  // o.getRecent = function(){
-  //   return $http.get('/most-recent', {
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     angular.copy(data,o.recentPosts);
-  //   });
-  // };
-  // o.getAll = function() {
-  //   return $http.get('/businesses',{
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     angular.copy(data, o.posts);
-  //   });
-  // };
-
-  // o.getUserPosts = function(id){
-  //   return $http.get('/user/appointments/'+ id,{
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     angular.copy(data, o.myPosts)
-  //   })
-  // }
-
-
-  // o.upvote = function(post) {
-  //   return $http.put('/posts/' + post._id + '/upvote', {
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     post.upvotes += 1;
-  //   });
-  // };
-
-  // o.addReview = function(id, review) {
-  //   return $http.post('/posts/' + id + '/reviews', review,{
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   });
-  // };
-
-  // o.upvoteComment = function(post, comment) {
-  //   return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', {
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).success(function(data){
-  //     comment.upvotes += 1;
-  //   });
-  // };
 
   return o;
 }])
