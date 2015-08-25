@@ -8,6 +8,7 @@ var fs = require('fs');
 var Busboy = require('busboy');
 var async = require('async');
 var acl = require('acl');
+var _ = require('underscore');
 
 var GooglePlaces = require('googleplaces');
 
@@ -29,6 +30,13 @@ Array.prototype.pushIfNotExist = function(element, comparer) {
     }
 };
 
+Array.prototype.getIndexBy = function (name, value) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i][name] == value) {
+            return i;
+        }
+    }
+}
 
 io.on('connection',function(socket){
   socket.emit('welcome', {message:"Welcome to Handi"})
@@ -210,12 +218,8 @@ router.post('/business/service',auth,function(req,res,next){
   service.price = req.body.price;
   User.findOne({"_id": id}).exec(function(err,user){
     if(err){return next(err);}
-    console.log(user)
     Business.findOne({"_id":req.body.id}).populate({path:'owner',select:'_id'}).exec(function(err,business){
-
       if(err){return next(err);}
-      console.log(user._id)
-      console.log(business.owner._id)
       // if(user._id === business.owner._id){
         console.log("here")
         business.services.push(service);
@@ -314,9 +318,25 @@ router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
   User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion businesses').populate({path:'businesses'}).exec(function(err,user){
     if(err){return handleError(err)};
-      var profile = {};
-      profile.user= user;
+    var profile = {};
+    profile.user= user;
+    var updatedBusinesses = [];
+    async.each(user.businesses,function(businessObj,employeeCallBack){
+      googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
+        if(error){
+          return employeeCallBack(error);
+        }
+        response.result.info = businessObj;
+        // Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
+        profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
+      // });
+        employeeCallBack();
+      })
+    },function(err){
+      if(err){return next(err);}
+      console.log(profile)
       res.json(profile);
+    })
   })
 });
 router.get('/api/:id/profile',function(req,res,next){
