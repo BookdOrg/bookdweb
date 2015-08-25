@@ -327,10 +327,11 @@ router.get('/:id/profile',auth,function(req,res,next){
           return employeeCallBack(error);
         }
         response.result.info = businessObj;
-        // Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
-        profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
-      // });
-        employeeCallBack();
+        Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
+          profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
+          employeeCallBack();
+        });
+        
       })
     },function(err){
       if(err){return next(err);}
