@@ -6,7 +6,7 @@ angular.module('cc.business-factory',[])
       info:{}
     },
     error:{
-      
+
     }
   };
 
@@ -86,7 +86,7 @@ angular.module('cc.business-factory',[])
     return $http.post('/business/service',service,{
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).then(function(data,err){
-      angular.copy(data.data, o.business);
+      angular.copy(data.data, o.business.info);
     });
   }
 
