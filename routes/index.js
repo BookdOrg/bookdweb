@@ -77,7 +77,7 @@ router.get('/business-list',auth,function(req,res,next){
   var location = req.param('location');
 
   var updatedBusinesses = [];
-  Business.find({"category":category,"claimed":true}).populate({path:"employees",select:'_id appointments firstName lastName username'}).exec(function(error,businesses){
+  Business.find({"category":category,"claimed":true}).populate({path:"employees",select:'_id appointments firstName lastName username avatarVersion'}).exec(function(error,businesses){
     if(error){return next(error);}
     async.each(businesses,function(currBusiness,businessCallback){
         googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
@@ -115,7 +115,7 @@ router.post('/business/employee',auth,function(req,res,next){
     response.save(function(err){
       if(err){return next(err);}
     })
-    Business.populate(response,{path:"employees",select:'_id appointments firstName lastName username'},function(err,busResponse){
+    Business.populate(response,{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},function(err,busResponse){
       if(err){return next(err);}
       res.json(busResponse);
     })
@@ -124,7 +124,7 @@ router.post('/business/employee',auth,function(req,res,next){
 
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
-  Business.findOne({'placesId':id}).populate({path:"employees",select:'_id appointments firstName lastName username'}).exec(function(error,business){
+  Business.findOne({'placesId':id}).populate({path:"employees",select:'_id appointments firstName lastName username avatarVersion'}).exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
           if(error){return next(error);}
           response.info = business;
