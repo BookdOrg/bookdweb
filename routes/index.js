@@ -96,9 +96,12 @@ router.get('/business-list',auth,function(req,res,next){
   var location = req.param('location');
 
   var updatedBusinesses = [];
-  Business.find({"category":category,"claimed":true}).populate({path:"employees",select:'_id appointments firstName lastName username avatarVersion'}).exec(function(error,businesses){
+  Business.find({"category":category,"claimed":true}).populate({path:'services',select:''}).exec(function(error,businesses){
     if(error){return next(error);}
     async.each(businesses,function(currBusiness,businessCallback){
+      console.log(currBusiness)
+      Service.populate(currBusiness.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,newBusiness){
+        if(err){return next(err);}
         googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
           if(error){
             return businessCallback(error);
@@ -107,7 +110,8 @@ router.get('/business-list',auth,function(req,res,next){
           updatedBusinesses.push(response.result)
           businessCallback();
         });
-      }, function(err){
+      })
+    }, function(err){
           if(err){
             return next(error);
           }
