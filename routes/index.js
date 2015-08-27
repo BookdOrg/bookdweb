@@ -62,15 +62,21 @@ var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
 
 
-var Review = mongoose.model('Review');
+// var Review = mongoose.model('Review');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
 var Category = mongoose.model('Category');
+var Service = mongoose.model('Service');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 
+/**
+*   Queries google places for a business based on a 
+*   text search.
+*
+**/
 
 router.get('/query',auth,function(req,res,next){
   var query = req.param('query');
@@ -80,6 +86,11 @@ router.get('/query',auth,function(req,res,next){
     res.json(response);
   })
 })
+
+/**
+*   Returns a list of all businesses in a specific category
+*
+**/
 router.get('/business-list',auth,function(req,res,next){
   var category = req.param('category');
   var location = req.param('location');
@@ -104,6 +115,11 @@ router.get('/business-list',auth,function(req,res,next){
       })
   })
 })
+
+/**
+*   Returns an employee object.
+*
+**/
 router.get('/search/employees',auth,function(req,res,next){
   var id = req.param('id');
   User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion').exec(function(error,user){
@@ -111,6 +127,11 @@ router.get('/search/employees',auth,function(req,res,next){
     res.json(user);
   })
 })
+
+/**
+*   Adds a new employee to a Business.
+*
+**/
 
 router.post('/business/employee',auth,function(req,res,next){
   var businessId = req.body.businessId;
@@ -130,16 +151,35 @@ router.post('/business/employee',auth,function(req,res,next){
   })
 })
 
+/**
+*   Returns all information about a specific Business.
+*
+**/
+
 router.get('/business-detail',auth,function(req,res,next){
   var id = req.param('placeId');
   Business.findOne({'placesId':id}).populate({path:"employees",select:'_id appointments firstName lastName username avatarVersion'}).exec(function(error,business){
-    googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
-          if(error){return next(error);}
-          response.info = business;
-          res.json(response);
-    });
+    // Service.populate(business.services,{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},function(err,businessDetail){
+      // console.log(businessDetail)
+      // console.log(business)
+      Business.populate(business,{path:'services',select:''},function(err,newobj){
+        Service.populate(newobj.employees,{path:'employees',select:''},function(err,finalobj){
+          // console.log(finalobj)
+        })
+      })
+      googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
+        if(error){return next(error);}
+        response.info = business;
+        res.json(response);
+      });
+    // })
   })
 })
+
+/**
+*   Returns all categories that Bookd offers
+*
+**/
 
 router.get('/categories',auth,function(req,res,next){
   Category.find({}).exec(function(err,categories){
@@ -147,6 +187,11 @@ router.get('/categories',auth,function(req,res,next){
     res.json(categories);
   })
 })
+
+/**
+*   Adds a new category to the Bookd System.
+*
+**/
 
 router.post('/category',auth,function(req,res,next){
   var category = new Category();
@@ -158,7 +203,7 @@ router.post('/category',auth,function(req,res,next){
 
   Category.findOne(req.body.name).exec(function(err,tempCat){
     if(err){return next(err)};
-    if(category){
+    if(tempCat){
       return res.status(400).json({message: 'That Category already exsists!'});
     }else{
       category.save(function(err,category){
@@ -167,6 +212,11 @@ router.post('/category',auth,function(req,res,next){
     }
   })
 })
+
+/**
+*   Returns all businesses that have requested to be claimed.
+*
+**/
 router.get('/claim-requests',auth,function(req,res,next){
   var updatedBusinesses = [];
   Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
@@ -189,6 +239,10 @@ router.get('/claim-requests',auth,function(req,res,next){
     })
   })
 })
+/**
+*   Changes the status of a business to approved
+*
+**/
 
 router.post('/claim-status',auth,function(req,res,next){
     Business.findOne({"_id":req.body.info._id}).exec(function(err,business){
@@ -210,28 +264,48 @@ router.post('/claim-status',auth,function(req,res,next){
   })
 })
 
+/**
+*   Adds a Service to a Business 
+*
+**/
 router.post('/business/service',auth,function(req,res,next){
   var id = req.payload._id;
-  var service = {};
+  var service = new Service();
+
   service.name = req.body.name;
+  service.duration = req.body.duration;
+  service.employees = req.body.employees;
   service.description = req.body.description;
   service.price = req.body.price;
+  service.businessId = req.body.businessId;
+
   User.findOne({"_id": id}).exec(function(err,user){
     if(err){return next(err);}
-    Business.findOne({"_id":req.body.id}).populate({path:'owner',select:'_id'}).exec(function(err,business){
+    Business.findOne({"_id":req.body.businessId}).exec(function(err,business){
       if(err){return next(err);}
+      //Implement a way to check that the user requesting the new
+      //service is indeed the owner of the business. May need to happen
+      //on the front end.
       // if(user._id === business.owner._id){
-        console.log("here")
-        business.services.push(service);
-        business.save(function(err,business){
+        service.save(function(err,service){
           if(err){return next(err);}
-          res.json(business);
+          business.services.push(service);
+          business.save(function(err,business){
+            if(err){return next(err);}
+          })
+        })
+        Business.populate(business,[{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},{path:'services',selet:''}],function(err,responseBusiness){
+          if(err){return next(err);}
+          res.json(responseBusiness);
         })
       // }
     })
   })
 })
-
+/**
+*   Submits a claim request to Bookd 
+*
+**/
 router.post('/business/claim',auth,function(req,res,next){
   var business = new Business();
   var id = req.payload._id;
@@ -253,6 +327,10 @@ router.post('/business/claim',auth,function(req,res,next){
       })
   })
 })
+/**
+*   Logs in a valid user
+*
+**/
 
 router.post('/login', function(req, res, next){
   if(!req.body.username || !req.body.password){
@@ -270,6 +348,10 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
+/**
+*   Registers a new account
+*
+**/
 router.post('/register', function(req, res, next){
   if(!req.body.username || !req.body.password){
     return res.status(400).json({message: 'Please fill out all fields'});
@@ -290,7 +372,10 @@ router.post('/register', function(req, res, next){
     return res.json({token: user.generateJWT()})
   });
 })
-
+/**
+*   Upload a users profile picture
+*
+**/
 router.post('/upload', auth, function(req,res,next){
     var id = req.payload._id;
     var busboy = new Busboy({headers:req.headers});
@@ -314,6 +399,11 @@ router.post('/upload', auth, function(req,res,next){
     })
     req.pipe(busboy);
 });
+
+/**
+*   Returns the profile of a specified user. 
+*
+**/
 router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
   User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion businesses').populate({path:'businesses'}).exec(function(err,user){
@@ -335,20 +425,25 @@ router.get('/:id/profile',auth,function(req,res,next){
       })
     },function(err){
       if(err){return next(err);}
-      console.log(profile)
+      // console.log(profile)
       res.json(profile);
     })
   })
 });
-router.get('/api/:id/profile',function(req,res,next){
-  var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
-    if(err){return handleError(err)};
-      var profile = {};
-      profile.user= user;
-      res.json(profile);
-  })
-});
+
+/**
+*   
+*
+**/
+// router.get('/api/:id/profile',function(req,res,next){
+//   var id = req.params.id;
+//   User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
+//     if(err){return handleError(err)};
+//       var profile = {};
+//       profile.user= user;
+//       res.json(profile);
+//   })
+// });
 router.get('/sockettest',function(req,res){
   res.render("page");
 })

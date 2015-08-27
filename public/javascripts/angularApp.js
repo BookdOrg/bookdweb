@@ -24,6 +24,7 @@ angular.module('cc', ['ui.router',
   'cc.admin-controller',
   'cc.admin-service',
   'cc.search-controller',
+  'angularjs-dropdown-multiselect'
   ])
 .config([
 '$stateProvider',

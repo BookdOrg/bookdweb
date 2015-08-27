@@ -32,6 +32,7 @@
 			<div class="">
 				<h4>{{service.name}}</h4>
 				<h5>Price: ${{service.price}}</h5>
+				<p>Duration: {{service.duration}} minutes</p>
 				<p>{{service.description}}</p>
 			</div>
 			<div>
@@ -101,6 +102,7 @@
 			<div class="">
 				<h4>{{service.name}}</h4>
 				<h5>Price: ${{service.price}}</h5>
+				<p>Duration: {{service.duration}} minutes</p>
 				<p>{{service.description}}</p>
 			</div>
 			<div>
@@ -124,7 +126,7 @@
 	<div class="row">
 		<div class="well col-md-3" ng-repeat="employee in business.info.employees">
 			<div class="">
-				<h4>{{employee.firstName}}</h4>
+				<h4><a href="#/user/{{employee._id}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
 			</div>
 		</div>
 		<div class="row" ng-if="!business.info.employees">
@@ -167,11 +169,26 @@
 	            		<label for="serviceName">Service Name:</label>
 	            		<input class="form-control" id="serviceName" ng-model="service.name">
 	            	</div>
+	            	<div class="col-md-12">
+	            		<label>Employees:</label>
+	            	</div>
+	            	<div class="col-md-12">
+	            		<div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings" selected-model="serviceEmployees"></div>
+	            	</div>
 	            	<div class="form-group col-md-12">
 	            		<label for="price">Price:</label>
 	            		<select class="form-control" id="price" ng-model="service.price" placeholder="$0">
 	            			<option value="" disabled selected>Select Service Price</option>
 	            			<option value="0">$0</option>
+	            		</select>
+	            	</div>
+	            	<div class="form-group col-md-12">
+	            		<label>Duration:</label>
+	            		<select class="form-control" ng-model="service.duration">
+	            			<option value="">Select a Duration</option>
+	            			<option value="15">15 Minutes</option>
+	            			<option value="30">30 Minutes</option>
+	            			<option value="60">60 Minutes</option>
 	            		</select>
 	            	</div>
 	            	<div class="form-group col-md-12">

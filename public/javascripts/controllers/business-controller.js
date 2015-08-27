@@ -34,8 +34,8 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       controller: 'addServiceModalCtrl',
       size: size,
       resolve:{
-      	id: function(){
-      		return $scope.business.info._id;
+      	business: function(){
+      		return $scope.business.info;
       	}
       }
     });
@@ -62,10 +62,26 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 	// 	$scope.canEdit = false;
 	// }
 }])
-.controller('addServiceModalCtrl', function ($scope, $modalInstance, businessFactory,id) {
+.controller('addServiceModalCtrl', function ($scope, $modalInstance, businessFactory,business) {
 
+  $scope.business = business;
+
+  // $scope.service = {
+  //   employees: []
+  // }
+  $scope.serviceEmployees = [];
+    $scope.settings = {
+    displayProp: 'firstName',
+    idProp: '_id',
+    externalIdProp: '_id',
+    smartButtonMaxItems: 3,
+    smartButtonTextConverter: function(itemText, originalItem) {
+        return itemText;
+    }
+  }
   $scope.ok = function (service) {
-  	service.id = id;
+  	service.businessId = business._id;
+    service.employees = _.pluck($scope.serviceEmployees,'_id');
   	businessFactory.addService(service);
     $modalInstance.close();
   };

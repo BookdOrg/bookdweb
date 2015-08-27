@@ -16,6 +16,7 @@ require('./models/Reviews');
 require('./models/Users');
 require('./models/Categories');
 require('./models/Appointments');
+require('./models/Service');
 
 require('./config/passport');
 
