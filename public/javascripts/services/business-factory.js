@@ -27,11 +27,12 @@ angular.module('cc.business-factory',[])
 
     })
   }
-  o.getBusinessList = function(category,location){
+  o.getBusinessList = function(category,location,radius){
     return $http.get('/business-list', {
       params:{
         'category':category,
-        'location':location
+        'location':location,
+        'radius':radius
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){

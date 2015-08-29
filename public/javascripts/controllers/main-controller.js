@@ -47,20 +47,21 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
 
   $scope.isLoggedIn = auth.isLoggedIn;
 
+  //Commented out.. potentially use for the future. 
+  
+  // var socket = io.connect('http://khalilbrown.com:8112');
 
-  var socket = io.connect('http://khalilbrown.com:8112');
-
-  socket.on('newPost', function (data) {
-        // if(data.post) {
-        //   posts.getRecent();
-        //   posts.getAll();
-        // }
-  });
-  socket.on('newReview',function (data){
-    // if(data.review){
-    //   posts.getRecent();
-    // }
-  })
+  // socket.on('newPost', function (data) {
+  //       // if(data.post) {
+  //       //   posts.getRecent();
+  //       //   posts.getAll();
+  //       // }
+  // });
+  // socket.on('newReview',function (data){
+  //   // if(data.review){
+  //   //   posts.getRecent();
+  //   // }
+  // })
 
   $scope.animationsEnabled = true;
 
