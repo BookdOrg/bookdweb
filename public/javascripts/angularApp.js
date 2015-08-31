@@ -69,16 +69,6 @@ function($stateProvider, $urlRouterProvider) {
       //   }]
       // }
     })
-    // .state('posts', {
-    //   url: '/posts/{id}',
-    //   templateUrl: 'partials/posts.html',
-    //   controller: 'PostsCtrl',
-    //   resolve: {
-    //     post: ['$stateParams', 'posts', function($stateParams, posts) {
-    //       return posts.get($stateParams.id);
-    //     }]
-    //   }
-    // })
     .state('login', {
       url: '/login',
       templateUrl: 'partials/login.html',
@@ -151,7 +141,7 @@ function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('search',{
-      url:'/search',
+      url:'/join',
       templateUrl:'partials/search.html',
       controller:'searchCtrl'
     })

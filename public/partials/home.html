@@ -3,15 +3,6 @@
   <div class="page-header">
     <h1 class="text-center"> Categories <i ng-if="loadingLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
       <i ng-if="!loadingLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
-
-<!--       <h1 class="text-center">Job Postings <i ng-if="!currLocation" class="fa fa-spinner fa-pulse"></i> <i ng-if="currLocation" tooltip="{{currLocation.address}}" class="fa fa-map-marker"></i>
-      </h1>
-        <p ng-show="myPosition.error">
-          Error ({{myPosition.error.code}}): {{myPosition.error.message}}
-        </p>
-      <div class="text-center">
-        <button class="btn btn-success" ng-click="open('lg')">Request A Service</button>
-      </div> -->
     </div>
 </div>
 <div class="well col-md-3" ng-repeat="category in categories | orderBy:category.longname">
@@ -21,92 +12,7 @@
 <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
 <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">AgendaMonth</button> -->
 
-<div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar" ng-model="eventSources"></div> 
-
-<!-- <script type="text/ng-template" id="myModalContent.html">
-      <div class="modal-header">
-          <h3 class="text-center">Add a new post</h3>
-      </div>
-      <div class="modal-body container">
-
-        <form style="margin-top:30px;" ng-show="isLoggedIn()">
-
-          <div class="row">
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="title"> Title: </label>
-              <input type="text" id="title" class="form-control"
-                placeholder="Title" g-places-autocomplete options="autocompleteOptions" ng-model="title"></input>
-            </div>
-
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="city"> City: </label>
-              <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-show="jobLocation.city" ng-model="jobLocation.city"></input>
-              <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-show="!jobLocation.city" ng-model="jobLocation.city" placeholder="City"></input>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="state"> State: </label>
-              <input class="form-control" ng-show="jobLocation.state" ng-model="jobLocation.state"></input>
-              <input class="form-control" ng-show="!jobLocation.state" ng-model="jobLocation.state" placeholder="State"></input>
-            </div>
-
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="country"> Country: </label>
-              <input class="form-control" ng-show="jobLocation.country" ng-model="jobLocation.country"></input>
-              <input class="form-control" ng-show="!jobLocation.country" ng-model="jobLocation.country" placeholder="Country"></input>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="zipcode"> Zipcode: </label>
-              <input ng-if="jobLocation.zip" id="zipCode" class="form-control"
-                 ng-model="jobLocation.zip"></input>
-              
-              <input ng-if="!jobLocation.zip" id="zipCode" class="form-control"
-                placeholder="Postal Code" ng-model="zipCode"></input>
-            </div>
-
-            <div class="form-group col-sm-7 col-md-5 col-lg-4">
-              <label for="rate"> Hourly Rate: </label>
-              <div class="input-group">
-                <span class="input-group-addon" id="hrAddon">$</span>
-                <input type="text" class="form-control"
-                placeholder="Rate" ng-model="rate" describedby="hrAddon"></input>
-                <span class="input-group-addon" id="hrAddon">/hr</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-sm-7 col-md-10 col-lg-8">
-              <label for="description"> Description: </label>
-              <textarea type="text" class="form-control"
-                placeholder="Description" ng-model="description"></textarea>
-            </div>
-          </div>
-        <div class="row">
-          <div class="form-group col-sm-7 col-md-5 col-lg-4">
-            <label for="startDate">Start Date: </label>
-            <input id="startDate" type="date" class="form-control"
-              placeholder="" ng-model="startDate"></input>
-          </div>
-          <div class="form-group col-sm-7 col-md-5 col-lg-4">
-          <label for="endDate">End Date: </label>
-            <input id="endDate" type="date" class="form-control"
-              placeholder="" ng-model="endDate"></input>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-          <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary" ng-click="addPost()">Post</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-          </div>
-        </form>
-      </div>
-</script> -->
+<!-- <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar" ng-model="eventSources"></div>  -->
   </div>
 </div>
 </div>

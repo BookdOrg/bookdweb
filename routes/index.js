@@ -92,45 +92,14 @@ router.get('/query',auth,function(req,res,next){
 *   Returns a list of all businesses in a specific category
 *
 **/
-// var updatedBusinesses = [];
-// googleplaces.radarSearch({location:"40.5278139,-74.4891696",radius:"10000",keyword:"barber"},function(err,response){
-//   if(err){return next(err);}
-//   async.each(response.results,function(currResponse,responseCallback){
-//     Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate({path:'services',select:''}).exec(function(err,business){
-//       if(err){return next(err);}
-//       if(business !== null){
-//         console.log("BUSINESS:"+business)
-//         Service.populate(business.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,newBusiness){
-//           if(err){return next(err);}
-//           googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,placesResult){
-//             if(error){return responseCallback(error);}
-//             console.log("RESULT OF THE GOOGLE PLACES DETAIL SEARCH")
-//             placesResult.result.info = business;
-//             updatedBusinesses.push(placesResult.result);
-//             console.log(updatedBusinesses)
-//             responseCallback();
-//           });
-//         })
-//       }else{
-//         console.log("not found")
-//       }
-//     })
-//   },function(err){
-//     if(err){return console.log(err);}
-//     console.log(updatedBusinesses)
-
-//   })
-// })
 router.get('/business-list',auth,function(req,res,next){
   var keyword = req.param('category');
   var location = req.param('location');
   var radius = req.param('radius');
-  console.log(location)
   var updatedBusinesses = [];
 
   googleplaces.radarSearch({location:location,radius:radius,keyword:keyword},function(err,response){
     if(err){return next(err);}
-
     async.each(response.results,function(currResponse,responseCallback){
         Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate({path:'services',select:''}).exec(function(err,business){
             if(err){

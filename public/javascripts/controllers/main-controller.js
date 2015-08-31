@@ -102,8 +102,8 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
     //         currentTimezone: 'America/Chicago' // an option!
     // };
     /* event source that contains custom events on the scope */
-    console.log(d,m,y)
-    console.log(moment())
+    // console.log(d,m,y)
+    // console.log(moment())
     $scope.events = [
       {title: 'Hello Khalil',start: moment().format()},
       {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
