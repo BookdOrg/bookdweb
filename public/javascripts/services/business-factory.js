@@ -7,7 +7,8 @@ angular.module('cc.business-factory',[])
     },
     error:{
 
-    }
+    },
+    service:{}
   };
 
   o.get = function(id) {
@@ -21,6 +22,17 @@ angular.module('cc.business-factory',[])
     return $http.get('/query',{
       params:{
         'query':query
+      },
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+
+    })
+  }
+  o.getEmployeeAppts = function(object){
+    return $http.get('/appointments/employee',{
+      params:{
+        'startDate':object.startDate,
+        'employeeId':object.employeeId
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){

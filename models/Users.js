@@ -13,9 +13,11 @@ var UserSchema = new mongoose.Schema({
   businessPage: String, 
   hash: String,
   salt: String,
+  isEmployee: Boolean,
   isAdmin: Boolean,
   businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
-  appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
+  personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
+  businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
   interests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}]
 });
 

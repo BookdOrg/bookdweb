@@ -6,7 +6,7 @@
 </div>
 <div class="well col-md-4" style="height:300px;" ng-repeat="business in businesses">
 	<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
-	<a href="#/business/{{business.place_id}}">{{business.name}}</a>
+	<a ng-click="setBusiness(business)" href="#/business/{{business.place_id}}">{{business.name}}</a>
 	<br><span>Rating: {{business.rating}}</span>
 	<br><span>Location: {{business.formatted_address}}</span>
 	<br><span>Description: {{business.snippet_text}}</span>

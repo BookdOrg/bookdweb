@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 
 var AppointmentsSchema = new mongoose.Schema({
   businessId: String,
-  employee: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  employee: String,
   customer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  start: String,
-  end: String,
+  start: Object,
+  end: Object,
   title: String,
   service: {type: mongoose.Schema.Types.ObjectId, ref:'Service'},
   type: String,

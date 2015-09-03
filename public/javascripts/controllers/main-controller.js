@@ -49,7 +49,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
 
   //Commented out.. potentially use for the future. 
   
-  // var socket = io.connect('http://khalilbrown.com:8112');
+  // var socket = io.connect('//localhost:8112');
 
   // socket.on('newPost', function (data) {
   //       // if(data.post) {
@@ -61,6 +61,22 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
   //   // if(data.review){
   //   //   posts.getRecent();
   //   // }
+  // })
+
+
+  // var object = {
+  //   employeeId:'55dbd00c4f5384e661290aad',
+  //   startDate:'09/10/2015'
+  // }
+  // console.log(object);
+  // socket.emit('joinApptRoom',object);
+  // console.log(socket)
+  // socket.on('employeeAppts',function(data){
+  //   console.log(data);
+  //   $scope.employeeAppts = data;
+  // })
+  // socket.on('welcome',function(data){
+  //   console.log(data.message)
   // })
 
   $scope.animationsEnabled = true;

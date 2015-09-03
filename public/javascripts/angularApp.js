@@ -18,13 +18,14 @@ angular.module('cc', ['ui.router',
   'google.places',
   'cc.bizlist-controller',
   'cc.business-controller',
-  'cc.yelp-service',
   'ui.calendar',
   'cc.claim-controller',
   'cc.admin-controller',
   'cc.admin-service',
   'cc.search-controller',
-  'angularjs-dropdown-multiselect'
+  'cc.socket-service',
+  'angularjs-dropdown-multiselect',
+  'angularMoment'
   ])
 .config([
 '$stateProvider',
@@ -156,4 +157,6 @@ function($stateProvider, $urlRouterProvider) {
 
 
   $urlRouterProvider.otherwise('/');
-}]);
+}]).run(function(){
+  var socket = io.connect('//localhost:8112');
+});

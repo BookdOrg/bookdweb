@@ -9,6 +9,8 @@ var Busboy = require('busboy');
 var async = require('async');
 var acl = require('acl');
 var _ = require('underscore');
+var moment = require('moment');
+require('moment-range');
 
 var GooglePlaces = require('googleplaces');
 
@@ -16,6 +18,8 @@ var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.en
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+
+// var socket = io.listen(8112);
 
 Array.prototype.inArray = function(comparer) { 
     for(var i=0; i < this.length; i++) { 
@@ -37,15 +41,36 @@ Array.prototype.getIndexBy = function (name, value) {
         }
     }
 }
-
+server.listen(8112);
 io.on('connection',function(socket){
   socket.emit('welcome', {message:"Welcome to Handi"})
-  socket.on('send',function(data){
-    server.sockets.emit('welcome',data);
+  socket.on('joinApptRoom',function(data){
+    socket.join(data.startDate);
   });
+  // socket.on('receiveAppts',function(){
+  //   Appointment.find({"start":data.startDate,"employee":data.employeeId}).exec(function(err,appointments){
+  //     io.sockets.in(data.startDate).emit('employeeAppts',appointments);
+  //   })
+  // })
 });
+router.get('/appointments/employee',function(req,res,next){
+  var startDate = req.param('startDate');
+  var employeeId = req.param('employeeId');
+  Appointment.find({"start.date":startDate,"employee":employeeId}).exec(function(err,appointments){
+    if(err){return next(err);}
+    res.json(appointments);
+  })
 
-server.listen(process.env.devsocketPort);
+})
+// socket.on('joinApptRoom',function(data){
+//     socket.join(data.employeeId);
+//     console.log(data);
+//     Appointments.find({"startDate":data.startDate,"userId":data.employeeId}).exec(function(err,appointments){
+//       io.sockets.in(data.employeeId).emit('employeeAppts',appointments);
+//     })
+//   });
+
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: '' });
@@ -97,11 +122,12 @@ router.get('/business-list',auth,function(req,res,next){
   var location = req.param('location');
   var radius = req.param('radius');
   var updatedBusinesses = [];
+  var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
 
   googleplaces.radarSearch({location:location,radius:radius,keyword:keyword},function(err,response){
     if(err){return next(err);}
     async.each(response.results,function(currResponse,responseCallback){
-        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate({path:'services',select:''}).exec(function(err,business){
+        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
             if(err){
               return responseCallback(err);// <== calling responseCallback instead of next() 
             } 
@@ -112,7 +138,7 @@ router.get('/business-list',auth,function(req,res,next){
                // call responseCallback to continue on with async.each()
                 return responseCallback();
             }
-            Service.populate(business.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,newBusiness){
+            Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,newBusiness){
                 if(err){
                   return responseCallback(err);
                 }
@@ -129,8 +155,80 @@ router.get('/business-list',auth,function(req,res,next){
         res.json(updatedBusinesses);
     });
   }); 
-})
+});
 
+/**
+*   Returns all information about a specific Business.
+*
+**/
+router.get('/business-detail',auth,function(req,res,next){
+  var id = req.param('placeId');
+  Business.findOne({'placesId':id}).populate([{path:"employees",select:'_id businessAppointments firstName lastName username avatarVersion'},{path:'services',select:''}]).exec(function(error,business){
+    googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
+        if(error){return next(error);}
+        Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,finalobj){
+          response.info = business;
+          res.json(response);
+        })
+    });  
+  })
+})
+// router.get('/appointments/employee',auth,function(req,res,next){
+//    var userId = req.body.id;
+//    var startDate = req.body.startDate;
+
+//   Appointment.find({"user":userId,"start.date":startDate}).exec(function(err,appointments){
+//     appointments.forEach(function(appt){
+//       *
+//       *
+//       * Check to see if the appointment in the request is in the range of any 
+//       * appointments happening on the same day as it. 
+//       *
+//       * Look at the day first and then the minute and hour of the appointment.
+//       * If it is in the range, respond to the client with 400 and state that the appointment is taken. 
+//       * Also may want to return the updated list of appointments incase someone has already taken it. 
+      
+//     })
+//   })
+// })
+
+/**
+*
+* Can I use socket.io to keep the available appointment times in sync, 
+* stopping users from scheduling appointments that have already been taken?
+* 
+* If this works will we still need to check the range on the POST request? Yes.
+*
+*/
+
+// router.post('/appointments/employee',auth,function(req,res,next){
+//   var appointment = new Appointment();
+
+
+//   User.findOne({"_id":employeeId}).populate({path:"businessAppointments",select:""}).exec(function(err,user){
+//     async.each(user.appointments,function(currAppointment,appointmentCallback){
+//       *
+//       *
+//       * Check to see if the appointment in the request is in the range of any 
+//       * appointments happening on the same day as it. 
+//       *
+//       * Look at the day first and then the minute and hour of the appointment.
+//       * If it is in the range, respond to the client with 400 and state that the appointment is taken. 
+//       * Also may want to return the updated list of appointments incase someone has already taken it. 
+      
+//     },function(err){
+
+//     })
+//   })
+
+
+// })
+router.get('/appointments/business',auth,function(req,res,next){
+
+})
+router.get('/appointments/user',auth,function(req,res,next){
+
+})
 /**
 *   Returns an employee object.
 *
@@ -166,30 +264,7 @@ router.post('/business/employee',auth,function(req,res,next){
   })
 })
 
-/**
-*   Returns all information about a specific Business.
-*
-**/
 
-router.get('/business-detail',auth,function(req,res,next){
-  var id = req.param('placeId');
-  Business.findOne({'placesId':id}).populate({path:"employees",select:'_id appointments firstName lastName username avatarVersion'}).exec(function(error,business){
-    // Service.populate(business.services,{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},function(err,businessDetail){
-      // console.log(businessDetail)
-      // console.log(business)
-      Business.populate(business,{path:'services',select:''},function(err,newobj){
-        Service.populate(newobj.employees,{path:'employees',select:''},function(err,finalobj){
-          // console.log(finalobj)
-        })
-      })
-      googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
-        if(error){return next(error);}
-        response.info = business;
-        res.json(response);
-      });
-    // })
-  })
-})
 
 /**
 *   Returns all categories that Bookd offers

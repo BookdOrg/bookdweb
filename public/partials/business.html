@@ -25,9 +25,15 @@
 		<br>
 		Address: {{business.formatted_address}}
 	</div>
+		<!-- 
+	#########################################
+
+		Services Block
+
+	########################################
+	-->
 	<h3 class="text-center">Services</h3>
 	<div class="row">
-		<div class="row">
 		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
@@ -36,25 +42,56 @@
 				<p>{{service.description}}</p>
 			</div>
 			<div>
-			<button class="btn btn-primary text-center">Book Appointment</button>
+			<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book Appointment</button>
 			</div>
 		</div>
 	</div>
-	</div>
 	<div class="row" ng-if="!business.info.claimed">
 		<h1 class="text-center">This business has not been claimed and does not offer services through Book'd yet.</h1>
-	</div>	
+	</div>
+	<!-- 
+	#########################################
+
+		Employee Block
+
+	########################################
+	-->
 	<div class="row">
-		<h3>Reviews</h3>
-		<div class="row">
-			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
-				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
-				<br>User: <a href="{{review.author_url}}">{{review.author_name}}</a></span>
-				<br>
-				Rating: {{review.rating}}
-				<br>
-				{{review.text}}
+		<h3 class="text-center ">Employee's</h3>
+		<span class="text-center">
+			<alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">{{employeeError.message}}</alert>
+		</span>
+	</div>
+	<div class="row">
+		<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
+			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+          	<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+			<div class="">
+				<h4><a href="#/user/{{employee._id}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
+				<h5>Rating:</h5>
+				<h5>Snippet:</h5>
 			</div>
+		</div>
+		<div class="row" ng-if="!business.info.employees">
+			<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
+		</div>
+	</div>
+		<!-- 
+	#########################################
+
+		Reviews Block
+
+	########################################
+	-->	
+	<div class="row">
+		<h3 class="text-center">Reviews</h3>
+		<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
+			<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
+			<br>User: <a href="{{review.author_url}}">{{review.author_name}}</a></span>
+			<br>
+			Rating: {{review.rating}}
+			<br>
+			{{review.text}}
 		</div>
 	</div>
 <!-- 	<div ng-if="!lbusiness.claimed" class="row text-center">
@@ -90,6 +127,13 @@
 		<br>
 		Phone: {{business.formatted_phone}}
 	</div>
+		<!-- 
+	#########################################
+
+		Services Block
+
+	########################################
+	-->
 	<div class="row">
 		<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 			<button ng-click="open()" class="btn btn-primary">Add Service</button>
@@ -112,7 +156,14 @@
 	</div>
 	<div class="row" ng-if="!business.info.services">
 		<h1>Your business has not been claimed and does not offer services through Book'd yet.</h1>
-	</div>	
+	</div>
+		<!-- 
+	#########################################
+
+		Employee Block
+
+	########################################
+	-->	
 	<div class="row">
 		<div class="btn-group col-xs-10 col-sm-5 col-md-5 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 			<button ng-click="openEmployee()" class="btn btn-primary">Add Employee</button>
@@ -124,15 +175,24 @@
 		</span>
 	</div>
 	<div class="row">
-		<div class="well col-md-3" ng-repeat="employee in business.info.employees">
+		<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
+			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+          	<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
 			<div class="">
 				<h4><a href="#/user/{{employee._id}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
 			</div>
 		</div>
 		<div class="row" ng-if="!business.info.employees">
-		<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
-	</div>	
+			<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
+		</div>
 	</div>
+	<!-- 
+	#########################################
+
+		Reviews Block
+
+	########################################
+	-->	
 	<div class="row">
 		<h3>Reviews</h3>
 		<div class="row">
@@ -150,7 +210,77 @@
 		<a href="#/claim/{{business.id}}">Claim Business</a>
 	</div>
 </div>
+<!-- 
+#########################################
 
+	Schedule service Modal
+
+########################################
+-->
+
+<script type="text/ng-template" id="scheduleServiceModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title text-center">{{service.name}}</h3>
+    </div>
+    <div class="modal-body container-fluid">
+      <ul class="nav nav-tabs" id="tabContent">
+        <li class="active"><a data-target="#details" data-toggle="tab">Details</a></li>
+        <li><a data-target="#employees" data-toggle="tab">Employees</a></li>
+        <li><a data-target="#schedule" data-toggle="tab">Schedule</a></li>
+      </ul>
+  
+  		<div class="tab-content">
+	        <div class="tab-pane active" id="details">
+	          <div class="control-group">
+	            <div class="row text-center">
+	            	<h5>Price: ${{service.price}}</h5>
+	            	<h5>Duration: {{service.duration}} minutes.</h5>
+	            	<h5>{{service.description}}</h5>
+	            </div>
+	          </div>
+	        </div>
+	        <div class="tab-pane" id="employees">
+	          	<div class="row text-center" style="margin-left:10px;margin-right:10px;">
+	            	<h3>Select an Associate</h3>
+	            	<div class="col col-md-3 well" ng-repeat="employee in service.employees">
+	            		<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+	          			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+	            		<h5>{{employee.firstName}} {{employee.lastName}}</h5>
+	            		<br>
+	            		<label for="selectEmployee">Select</label>
+	            		<input name="selectEmployee" ng-click="selectEmployee(employee)" type="radio">
+	            	</div>
+	            </div>
+	        </div> 
+	        <div class="tab-pane" id="schedule">
+	        	<div class="row">
+	        		<div class="col col-md-6 text-center">
+		          		<h4>Choose a Date.</h4>
+		          		<div style="display:inline-block; min-height:290px;">
+					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+					    </div>
+				    </div>
+				    <div class="col col-md-6 text-center">
+				    	<h4>Available Times</h4>
+				    	<div class="col col-md-3" ng-repeat="time in availableTimes">
+				    		<button ng-class="{disabled: !time.available}" class="btn btn-primary" style="margin-bottom:5px;">
+				    		{{time.time}}
+				    		<!-- <span ng-if="!time.booked">Available</span> -->
+				    		</button>
+				    	</div>
+					</div>
+	          	</div>
+	          	<!-- <div class="row text-center"> -->
+	          		
+	          	<!-- </div> -->
+	        </div>
+		</div>
+   </div>
+    <div class="modal-footer">
+    	<button class="btn btn-warning" ng-show="appointment" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
 <!-- 
 #########################################
 

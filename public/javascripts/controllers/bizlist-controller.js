@@ -13,4 +13,8 @@ function($scope, auth, $stateParams,businessFactory){
 		.then(function(data){
 			$scope.businesses = data.data;
 		})
+
+	$scope.setBusiness = function(business){
+		businessFactory.business = business;
+	}
 }])
