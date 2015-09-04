@@ -37,7 +37,7 @@
 		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
-				<h5>Price: ${{service.price}}</h5>
+				<h5>Price:{{service.price | currency}}</h5>
 				<p>Duration: {{service.duration}} minutes</p>
 				<p>{{service.description}}</p>
 			</div>
@@ -108,7 +108,7 @@
 -->
 <div ng-if="currentUser._id == business.info.owner" class="container">
 	<div class="page-header">
-		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button>
+<!-- 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button> -->
 		<h1 class='text-center'>{{business.name}}</h1>
 		<img ng-if="business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
 		<img ng-if="!business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
@@ -145,13 +145,13 @@
 		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
-				<h5>Price: ${{service.price}}</h5>
+				<h5>Price:{{service.price | currency}}</h5>
 				<p>Duration: {{service.duration}} minutes</p>
 				<p>{{service.description}}</p>
 			</div>
 			<div>
-			<button class="btn btn-primary text-center">Book Appointment</button>
-			</div>
+<!-- 			<button class="btn btn-primary text-center">Book Appointment</button>
+			</div> -->
 		</div>
 	</div>
 	<div class="row" ng-if="!business.info.services">
@@ -213,29 +213,32 @@
 <!-- 
 #########################################
 
-	Schedule service Modal
+	Schedule Appointment Modal
 
 ########################################
 -->
 
 <script type="text/ng-template" id="scheduleServiceModal.html">
     <div class="modal-header">
+    	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
         <h3 class="modal-title text-center">{{service.name}}</h3>
     </div>
     <div class="modal-body container-fluid">
-      <ul class="nav nav-tabs" id="tabContent">
-        <li class="active"><a data-target="#details" data-toggle="tab">Details</a></li>
-        <li><a data-target="#employees" data-toggle="tab">Employees</a></li>
-        <li><a data-target="#schedule" data-toggle="tab">Schedule</a></li>
+      <ul class="hide nav nav-tabs" id="tabContent">
+        <li class="active"><a data-target="#details" data-toggle="tab"></a></li>
+        <li><a data-target="#employees" data-toggle="tab"></a></li>
+        <li><a data-target="#schedule" data-toggle="tab"></a></li>
+        <li><a data-target="#pay" data-toggle="tab"></a></li>
       </ul>
   
   		<div class="tab-content">
 	        <div class="tab-pane active" id="details">
 	          <div class="control-group">
 	            <div class="row text-center">
-	            	<h5>Price: ${{service.price}}</h5>
+	            	<h5>Price:{{service.price |currency}}</h5>
 	            	<h5>Duration: {{service.duration}} minutes.</h5>
 	            	<h5>{{service.description}}</h5>
+	            	<a data-target="#employees" data-toggle="tab" class="btn btn-primary">Next</a>
 	            </div>
 	          </div>
 	        </div>
@@ -251,34 +254,62 @@
 	            		<input name="selectEmployee" ng-click="selectEmployee(employee)" type="radio">
 	            	</div>
 	            </div>
+	            <div class="row text-center">
+	            	<a data-target="#details" data-toggle="tab"  class="btn btn-warning">Back</a>
+	            	<a data-target="#schedule" data-toggle="tab" ng-show="employee" class="btn btn-primary">Next</a>
+	            </div>
 	        </div> 
 	        <div class="tab-pane" id="schedule">
 	        	<div class="row">
 	        		<div class="col col-md-6 text-center">
-		          		<h4>Choose a Date.</h4>
+		          		<h4>Choose a Date</h4>
 		          		<div style="display:inline-block; min-height:290px;">
 					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
 					    </div>
 				    </div>
 				    <div class="col col-md-6 text-center">
-				    	<h4>Available Times</h4>
-				    	<div class="col col-md-3" ng-repeat="time in availableTimes">
-				    		<button ng-class="{disabled: !time.available}" class="btn btn-primary" style="margin-bottom:5px;">
+				    	<h4>{{employee.firstName}}'s Available Times</h4>
+				    	<div class="col col-md-3" ng-repeat="time in availableTimes track by $index">
+				    		<button ng-class="{hide: !time.available}" ng-click="createAppointmentObj(time)" class="btn btn-success" style="margin-bottom:5px;">
 				    		{{time.time}}
-				    		<!-- <span ng-if="!time.booked">Available</span> -->
 				    		</button>
 				    	</div>
 					</div>
 	          	</div>
-	          	<!-- <div class="row text-center"> -->
-	          		
-	          	<!-- </div> -->
+	          	<div class="row">
+	          		<div class="col col-md-2">
+						<a data-target="#employees" data-toggle="tab"  class="btn btn-warning text-left">Back</a>
+					</div>
+					<!-- <a data-target="#pay" data-toggle="tab"  ng-show="appointment" class="btn btn-primary">Next</a> -->
+					<a class="text-center" ng-show="appointment">
+						<form action="" method="POST">
+						  <script
+						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+						    data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
+						    data-amount="{{service.price + 000}}"
+						    data-name="Bookd"
+						    data-description="{{service.name}}"
+						    data-image="/images/icon.png"
+						    data-locale="auto">
+						  </script>
+						</form>
+					</a>
+	          	</div>
+	        </div>
+	        <div class="tab-pane" id="pay">
+	        	<div class="row text-center">
+	          		<h3>Payment Information</h3>
+	          	</div>
+
+	          	<div class="row text-center">
+					<a data-target="#schedule" data-toggle="tab"  class="btn btn-warning">Back</a>
+	          	</div>
 	        </div>
 		</div>
    </div>
     <div class="modal-footer">
-    	<button class="btn btn-warning" ng-show="appointment" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    	<button class="btn btn-success" ng-show="" ng-click="ok()">Book</button>
+        <!-- <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
     </div>
 </script>
 <!-- 

@@ -43,7 +43,6 @@ Array.prototype.getIndexBy = function (name, value) {
 }
 server.listen(8112);
 io.on('connection',function(socket){
-  socket.emit('welcome', {message:"Welcome to Handi"})
   socket.on('joinApptRoom',function(data){
     socket.join(data.startDate);
   });
@@ -53,15 +52,7 @@ io.on('connection',function(socket){
   //   })
   // })
 });
-router.get('/appointments/employee',function(req,res,next){
-  var startDate = req.param('startDate');
-  var employeeId = req.param('employeeId');
-  Appointment.find({"start.date":startDate,"employee":employeeId}).exec(function(err,appointments){
-    if(err){return next(err);}
-    res.json(appointments);
-  })
 
-})
 // socket.on('joinApptRoom',function(data){
 //     socket.join(data.employeeId);
 //     console.log(data);
@@ -96,6 +87,40 @@ var Service = mongoose.model('Service');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
+
+
+router.get('/employee/appointments',auth,function(req,res,next){
+  var startDate = req.param('startDate');
+  var employeeId = req.param('id');
+  var userId = req.payload._id;
+  var responseArray = [];
+  User.findOne({"_id":employeeId}).populate({path:"businessAppointments",match:{'start.date':startDate}}).exec(function(err,employee){
+    if(err){return next(err);}
+    responseArray.push(employee.businessAppointments);
+    User.findOne({"_id":userId}).populate({path:"personalAppointments",match:{'start.date':startDate}}).exec(function(err,customer){
+      if(err){return next(err);}
+      responseArray.push(customer.personalAppointments);
+      res.json(responseArray);
+    })
+  })
+})
+
+router.post("/appointment",auth,function(req,res,next){
+  var appointment = new Appointment();
+
+  var data = req.param('appointment');
+
+  console.log(data);
+})
+
+// router.get('/user/appointments',auth, function(req,res,next){
+//   var startDate = req.param('startDate');
+//   var userId = req.payload._id;
+//   User.findOne({"_id":userId}).populate({path:"personalAppointments",match:{'start.date':startDate}}).exec(function(err,user){
+//     if(err){return next(err);}
+//     res.json(user.personalAppointments);
+//   })
+// })
 
 // console.log(googleplaces)
 /**
@@ -201,7 +226,7 @@ router.get('/business-detail',auth,function(req,res,next){
 *
 */
 
-// router.post('/appointments/employee',auth,function(req,res,next){
+// router.post('/appointments',auth,function(req,res,next){
 //   var appointment = new Appointment();
 
 
@@ -224,9 +249,6 @@ router.get('/business-detail',auth,function(req,res,next){
 
 // })
 router.get('/appointments/business',auth,function(req,res,next){
-
-})
-router.get('/appointments/user',auth,function(req,res,next){
 
 })
 /**
@@ -515,7 +537,6 @@ router.get('/:id/profile',auth,function(req,res,next){
       })
     },function(err){
       if(err){return next(err);}
-      // console.log(profile)
       res.json(profile);
     })
   })

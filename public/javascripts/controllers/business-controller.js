@@ -29,17 +29,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   $scope.employeeError = businessFactory.error;
 	$scope.animationsEnabled = true;
 
-  // var object = {
-  //   employeeId:'55dbd00c4f5384e661290aad',
-  //   startDate:'09/10/2015'
-  // }
-  // console.log(object);
-  
-
-  // socket.on('employeeAppts',function(data){
-  //   // console.log(data);
-  //   $scope.employeeAppts = data;
-  // })
   $scope.removeAlert=function(){
     $scope.employeeError.message = null;
   }
@@ -84,19 +73,14 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   $scope.toggleAnimation = function () {
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
-	// if($scope.currentUser._id === $scope.lbusiness.owner._id){
-	// 	$scope.canEdit = true;
-	// }else{
-	// 	$scope.canEdit = false;
-	// }
 }])
-.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment) {
+.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth) {
 
   $scope.service = businessFactory.service;
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
   $scope.minDate = $scope.minDate ? null : moment();
-
+  $scope.currentUser = auth.currentUser();
   $scope.$watch('selectedDate',function(newVal,oldVal){
     if(newVal){
       getAvailableTimes(newVal,$scope.employee._id);
@@ -106,85 +90,82 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.employee = employee;
   }
 
+
   function getAvailableTimes(date,employeeId){
     var newDate = moment(date).format('MM/DD/YYYY');
-    var apptObj = {
+    var employeeApptObj = {
       startDate: newDate,
-      employeeId:employeeId
+      id:employeeId
     }
-    socket.emit('joinApptRoom',apptObj);
-    businessFactory.getEmployeeAppts(apptObj)
+    socket.emit('joinApptRoom',employeeApptObj);
+    businessFactory.getEmployeeAppts(employeeApptObj)
       .then(function(data){
-        // $scope.appointments = data;
         calculateAppointments(data.data);
       });
   }
   function calculateAppointments(data){
-
     var duration = $scope.service.duration;
     var startTime = moment('6:00 am', "hh:mm a");
     var endTime = moment('7:00 pm', "hh:mm a");
-
-    // var rangesArray = [];
-    // for(var i =0; i<data.length; i++){
-    //   var start = moment(data[i].start.full);
-    //   var end = moment(data[i].end.full);
-    //   var newRange = moment.range(start,end)
-      
-    //   rangesArray.push(newRange);
-    // }
     $scope.availableTimes = [];
+    
     for (var m = startTime; startTime.isBefore(endTime); m.add(duration,'minutes')) {
-      var appointmentObj = {
+      var timeObj = {
         time:m.format('hh:mm a'),
         available:true
       }
-      $scope.availableTimes.push(appointmentObj);
+      $scope.availableTimes.push(timeObj);
     }
-
-    for(var availableTimesIndex=0; availableTimesIndex<$scope.availableTimes.length;availableTimesIndex++){
-      // console.log(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').format())
-      for(var appointmentsIndex=0; appointmentsIndex<data.length;appointmentsIndex++){
-
-        // console.log(moment(data[appointmentsIndex].start.time,'hh:mm a').format())
-        // console.log(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isSame(moment(data[appointmentsIndex].start.time,'hh:mm a')))
-        if(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isSame(moment(data[appointmentsIndex].start.time,'hh:mm a'))){
-          $scope.availableTimes[availableTimesIndex].available = false;
+      data.forEach(function(array){
+        for(var availableTimesIndex=0; availableTimesIndex<$scope.availableTimes.length;availableTimesIndex++){
+          for(var appointmentsIndex=0; appointmentsIndex<array.length;appointmentsIndex++){
+            if(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isSame(moment(array[appointmentsIndex].start.time,'hh:mm a'))){
+              $scope.availableTimes[availableTimesIndex].available = false;
+            }
+            if(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isBetween(moment(array[appointmentsIndex].start.time,'hh:mm a'),moment(array[appointmentsIndex].end.time,'hh:mm a'),'minute')){
+              $scope.availableTimes[availableTimesIndex].available = false;
+            }
+          }
         }
-        // console.log(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isBetween(moment(data[appointmentsIndex].start.time,'hh:mm a'),moment(data[appointmentsIndex].end.time,'hh:mm a'),'minute'))
-        if(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').isBetween(moment(data[appointmentsIndex].start.time,'hh:mm a'),moment(data[appointmentsIndex].end.time,'hh:mm a'),'minute')){
-          $scope.availableTimes[availableTimesIndex].available = false;
-        }
-      }
-      // for(var rangesArrayIndex=0; rangesArrayIndex<rangesArray.length;rangesArrayIndex++){
-      //   // console.log(rangesArray[rangesArrayIndex].start)
-      //   // console.log(rangesArray[rangesArrayIndex])
-      //   // console.log(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').format());
-      //   // var when = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
-      //   // console.log(when.within(rangesArray[rangesArrayIndex]))
-      //   console.log(rangesArray[rangesArrayIndex].contains(moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a').format(),'minutes'))
-      //   if(rangesArray[rangesArrayIndex].contains(moment($scope.availableTimes[availableTimesIndex].time).format())){
-      //     $scope.availableTimes[availableTimesIndex].available = false;
-      //   }
-      // }
-    }
-
-    // console.log($scope.availableTimes);
-
-    var dr = moment.range(startTime, endTime);
+      })
   }
-
-
-
   socket.on('employeeAppts',function(data){
     console.log(data);
     $scope.appointments = data;
   })
-  $scope.ok = function (service) {
-    // service.businessId = business._id;
-    // service.employees = _.pluck($scope.serviceEmployees,'_id');
-    // businessFactory.addService(service);
-    $modalInstance.close();
+
+  $scope.createAppointmentObj = function(time,index){
+    var apptDay = moment($scope.selectedDate).format('dddd');
+    var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
+    var apptTime = moment(time.time,'hh:mm a').format('hh:mm a');
+    var endTime = moment(time.time,'hh:mm a').add($scope.service.duration,'minutes').format('hh:mm a');
+
+    $scope.appointment = {
+      businessid:$scope.service.businessId,
+      employee:$scope.employee._id,
+      customer:$scope.currentUser._id,
+      start:{
+        date:apptDate,
+        time:apptTime,
+        day:apptDay,
+      },
+      end:{
+        date:apptDate,
+        time:endTime,
+        day:apptDay,
+      },
+      title:$scope.service.name,
+      timestamp: moment()
+
+    }
+    
+  }
+  $scope.ok = function() {
+    // businessFactory.addAppointment($scope.appointment);
+    //   .then(function(data){
+    //     $modalInstance.close();
+    //   })
+    
   };
 
   $scope.cancel = function () {

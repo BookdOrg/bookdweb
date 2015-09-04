@@ -29,16 +29,35 @@ angular.module('cc.business-factory',[])
     })
   }
   o.getEmployeeAppts = function(object){
-    return $http.get('/appointments/employee',{
+    return $http.get('/employee/appointments',{
       params:{
         'startDate':object.startDate,
-        'employeeId':object.employeeId
+        'id':object.id
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
 
     })
   }
+  o.addAppointment = function(appt){
+    return $http.post('/appointment',appt, {
+      headers: {Authorization: 'Bearer '+auth.getToken()}
+    }).success(function(data){
+
+    },function(err){
+
+    });
+  }
+  // o.getUserAppts = function(object){
+  //   return $http.get('/user/appointments',{
+  //     params:{
+  //       'startDate':object.startDate
+  //     },
+  //     headers: {Authorization: 'Bearer '+auth.getToken()}
+  //   }).success(function(data){
+
+  //   })
+  // }
   o.getBusinessList = function(category,location,radius){
     return $http.get('/business-list', {
       params:{
