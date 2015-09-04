@@ -77,6 +77,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 .controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth) {
 
   $scope.service = businessFactory.service;
+  $scope.stripePrice = $scope.service.price * 100;
   $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
   $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
   $scope.minDate = $scope.minDate ? null : moment();
