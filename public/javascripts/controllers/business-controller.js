@@ -63,7 +63,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     var modalIsntance = $modal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'scheduleServiceModal.html',
-      controller: 'scheduleServiceModalCtrl',
+      controller: 'scheduleServiceModalCtrl as ctrl',
       size: size
     });
   }
@@ -74,7 +74,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
 }])
-.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth) {
+.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state) {
 
   $scope.service = businessFactory.service;
   $scope.stripePrice = $scope.service.price * 100;
@@ -90,7 +90,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   $scope.selectEmployee = function(employee){
     $scope.employee = employee;
   }
-
 
   function getAvailableTimes(date,employeeId){
     var newDate = moment(date).format('MM/DD/YYYY');
@@ -157,9 +156,17 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       },
       title:$scope.service.name,
       timestamp: moment()
-
     }
-    
+  }
+  this.checkOut = function(token){
+    $scope.appointment.card = token.card;
+    console.log($scope.appointment)
+    businessFactory.addAppointment($scope.appointment)
+      .then(function(data){
+        $modalInstance.close();
+        $state.go('home');
+      })
+
   }
   $scope.ok = function() {
     // businessFactory.addAppointment($scope.appointment);

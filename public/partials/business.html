@@ -219,6 +219,7 @@
 -->
 
 <script type="text/ng-template" id="scheduleServiceModal.html">
+
     <div class="modal-header">
     	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
         <h3 class="modal-title text-center">{{service.name}}</h3>
@@ -228,6 +229,7 @@
         <li class="active"><a data-target="#details" data-toggle="tab"></a></li>
         <li><a data-target="#employees" data-toggle="tab"></a></li>
         <li><a data-target="#schedule" data-toggle="tab"></a></li>
+        <li><a data-target="#pay" data-toggle="tab"></a></li>
       </ul>
   
   		<div class="tab-content">
@@ -279,9 +281,9 @@
 	          		<div class="col col-md-2">
 						<a data-target="#employees" data-toggle="tab"  class="btn btn-warning text-left">Back</a>
 					</div>
-					<!-- <a data-target="#pay" data-toggle="tab"  ng-show="appointment" class="btn btn-primary">Next</a> -->
-					<a class="text-center" ng-show="appointment">
-						<form action="" method="POST">
+<!-- 					<a data-target="#pay" data-toggle="tab"  ng-show="appointment" class="btn btn-primary">Next</a> -->
+<!-- 					<a class="text-center" ng-show="appointment">
+						<form action="/payment" method="POST">
 						  <script
 						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 						    data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
@@ -289,12 +291,69 @@
 						    data-name="Bookd"
 						    data-description="{{service.name}}"
 						    data-image="/images/icon.png"
+						    data-label="Book Appointment"
+						    data-panel-label="Book"
 						    data-locale="auto">
 						  </script>
 						</form>
-					</a>
+					</a> -->
+					<button class="btn btn-primary text-center" ng-show="appointment" stripe-checkout="ctrl.checkOut"
+				            data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
+				            data-name="Bookd"
+				            data-description="{{service.name}}"
+				            data-amount="{{stripePrice}}"
+				            data-image="/images/icon.png"
+				            data-label="Book Appointment"
+						    data-panel-label="Book">
+				      	Book Appointment
+				    </button>
 	          	</div>
 	        </div>
+<!-- 	        <div class="tab-pane" id="pay">
+	        	<div class="row">
+	        		<div class="col col-md-6 text-center">
+		          		<h4>Payment</h4>
+		          		<div class="row">
+					        <div class="span4 offset4">
+					          <div class="row">
+					            
+					            <div class="span4">
+					              <h3>Shut up and take my money!</h3>
+					            </div>
+					            
+					            <form stripe-form="handleStripe" name="myForm">
+
+					              <div class="span3">
+					                <label for="">Card number</label>
+					                <input type="text" class="input-block-level" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
+					              </div>
+					              
+					              <div class="span1">
+					                <label for="">Expiry</label>
+					                <input type="text" class="input-block-level" ng-model="expiry" payments-validate="expiry" payments-format="expiry" />
+					              </div>
+					              
+					              <div class="span3">
+					                <label for="">Name on card </label>
+					                <input type="text" class="input-block-level">
+					              </div>
+					              
+					              <div class="span1">
+					                <label for="">CVC</label>
+					                <input type="text" class="input-block-level" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
+					              </div>
+					              
+					              <div class="span4">
+					                <button type="submit" class="btn btn-primary btn-large">Submit</button>
+					              </div>
+					            </form>
+
+					          </div>
+					        </div>
+					      </div>
+				    </div>
+	          	</div>
+	        </div> -->
 		</div>
    </div>
     <div class="modal-footer">
@@ -366,33 +425,33 @@
 ########################################
 -->
 <script type="text/ng-template" id="addEmployeeModal.html">
-        <div class="modal-header">
-            <h3 class="modal-title text-center">New Employee</h3>
+    <div class="modal-header">
+        <h3 class="modal-title text-center">New Employee</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+        	<form>
+        		<div class="form-group col-md-12">
+            		<label for="employeeId">Employee Id:</label>
+            		<input class="form-control" id="employeeId" ng-model="id">
+            	</div>
+            	<div class="col-md-12">
+            		<button class="btn btn-success col-sm-offset-6 col-md-offset-6" ng-click="findEmployee(id)">Search</button>
+        		</div>
+        		<div class="col-md-12" ng-if="employee">
+        			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}"
+        				style="height:100px;width:100px;"></img>
+        			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
+        				style="height:100px;width:100px;"></img>
+        			<br>Id: {{employee._id}}
+        			<br>Name: {{employee.firstName}} {{employee.lastName}}
+        			<br>Username: {{employee.username}}
+        		</div>
+        	</form>
         </div>
-        <div class="modal-body">
-            <div class="row">
-            	<form>
-            		<div class="form-group col-md-12">
-	            		<label for="employeeId">Employee Id:</label>
-	            		<input class="form-control" id="employeeId" ng-model="id">
-	            	</div>
-	            	<div class="col-md-12">
-	            		<button class="btn btn-success col-sm-offset-6 col-md-offset-6" ng-click="findEmployee(id)">Search</button>
-            		</div>
-            		<div class="col-md-12" ng-if="employee">
-            			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}"
-            				style="height:100px;width:100px;"></img>
-            			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
-            				style="height:100px;width:100px;"></img>
-            			<br>Id: {{employee._id}}
-            			<br>Name: {{employee.firstName}} {{employee.lastName}}
-            			<br>Username: {{employee.username}}
-            		</div>
-            	</form>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="create(employee._id)">Register Employee</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="create(employee._id)">Register Employee</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

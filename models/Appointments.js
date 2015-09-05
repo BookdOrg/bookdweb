@@ -8,8 +8,8 @@ var AppointmentsSchema = new mongoose.Schema({
   end: Object,
   title: String,
   service: {type: mongoose.Schema.Types.ObjectId, ref:'Service'},
-  type: String,
-  timestamp: String
+  timestamp: String,
+  card:Object
 });
 
 mongoose.model('Appointment', AppointmentsSchema);

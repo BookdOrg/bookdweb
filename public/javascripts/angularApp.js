@@ -25,7 +25,8 @@ angular.module('cc', ['ui.router',
   'cc.search-controller',
   'cc.socket-service',
   'angularjs-dropdown-multiselect',
-  'angularMoment'
+  'angularMoment',
+  'stripe.checkout',
   ])
 .config([
 '$stateProvider',

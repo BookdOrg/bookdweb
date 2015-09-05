@@ -107,10 +107,35 @@ router.get('/employee/appointments',auth,function(req,res,next){
 
 router.post("/appointment",auth,function(req,res,next){
   var appointment = new Appointment();
+  appointment.businessId = req.body.businessid;
+  appointment.employee = req.body.employee;
+  appointment.customer = req.payload._id;
 
-  var data = req.param('appointment');
+  appointment.start = req.body.start;
+  appointment.end = req.body.end;
+  appointment.title = req.body.title;
+  appointment.timestamp = req.body.timestamp;
+  appointment.card = req.body.card;
 
-  console.log(data);
+  appointment.save(function(err,appointment){
+    if(err){return next(err);}
+    User.findOne({"_id":appointment.employee}).exec(function(err,user){
+      if(err){return next(err);}
+      console.log(user)
+      user.businessAppointments.push(appointment);
+      user.save(function(err,response){
+        if(err){return next(err);}
+      }) 
+    })
+    User.findOne({"_id":appointment.customer}).exec(function(err,user){
+      if(err){return next(err);}
+      user.personalAppointments.push(appointment);
+      user.save(function(err,response){
+        if(err){return next(err);}
+      })  
+    })
+      res.status(200).json({message: 'Success!'})
+  })
 })
 
 // router.get('/user/appointments',auth, function(req,res,next){
