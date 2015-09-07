@@ -88,8 +88,6 @@ $.cloudinary.config({
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">
             <li ng-if="isLoggedIn()"><a href="#/home">Home</a></li>
-            <!-- <li ng-if="isLoggedIn()"><a href="#/search">Search</a></li> -->
-            <!-- <li ng-if="isLoggedIn()"><a href="#/jobs">Jobs</a></li> -->
             <li><a href="#/about">About</a></li>
             <li><a href="#/contactUs">Contact</a></li>
             <li class="hidden-sm hidden-md hidden-lg"><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
@@ -102,21 +100,9 @@ $.cloudinary.config({
             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut()">Sign Out</a></li>
           </ul>
           <div class="navbar-inner">
-<!--             <ul class="nav navbar-nav hidden-xs">
-              <div ng-if="isLoggedIn()" class="input-group" style="width:300px; margin-top:8px;">
-                <div class="input-group">
-                  <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-model="place" placeholder="Location">
-                  <span class="input-group-btn">
-                    <button class="btn btn-success" type="button">
-                      <i style="height:20px; line-height:18px;"class="fa fa-search fa-fw"></i>
-                    </button>
-                  </span>
-                </div>
-              </div>
-            </ul> -->
             <ul class="nav navbar-nav navbar-right hidden-xs">
               <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome, {{currentUser().username}} <span class="caret"></span></a>
+                <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome, {{currentUser().firstName}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#/user/{{currentUser()._id}}/profile">My Profile</a></li>
                   <hr>

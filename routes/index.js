@@ -19,8 +19,6 @@ var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.en
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-// var socket = io.listen(8112);
-
 Array.prototype.inArray = function(comparer) { 
     for(var i=0; i < this.length; i++) { 
         if(comparer(this[i])) return true; 
@@ -67,13 +65,6 @@ router.get('/', function(req, res) {
   res.render('index', { title: '' });
 });
 
-// var yelp = require("yelp").createClient({
-//   consumer_key: "hRcCQYnLQ6pJAhMW1kqIxQ", 
-//   consumer_secret: process.env.yelpconsumersecret,
-//   token: "YL6ONt-_YNjOmyrz7BWm8zN-9FCUNcBq",
-//   token_secret: process.env.yelptokensecret
-// });
-
 var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
 
@@ -87,7 +78,12 @@ var Service = mongoose.model('Service');
 
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
-
+/**
+*  Returns all appointments for both the employee and the user trying to schedule an appointment,
+*  Takes in the ID of the employee & the startDate to search for. User ID is grabbed from  
+*  auth middleware. 
+*
+**/
 
 router.get('/employee/appointments',auth,function(req,res,next){
   var startDate = req.param('startDate');
@@ -104,6 +100,21 @@ router.get('/employee/appointments',auth,function(req,res,next){
     })
   })
 })
+
+/**
+*   Creates a new appointment on both the Employee and User. 
+*   Takes in the appointment object. 
+*   
+*    Parameters: 
+*               businessId - 
+                employee - 
+                customer - 
+                start - 
+                end - 
+                title -
+                timestamp - 
+                card - 
+**/
 
 router.post("/appointment",auth,function(req,res,next){
   var appointment = new Appointment();
@@ -147,7 +158,7 @@ router.post("/appointment",auth,function(req,res,next){
 //   })
 // })
 
-// console.log(googleplaces)
+
 /**
 *   Queries google places for a business based on a 
 *   text search.
@@ -164,7 +175,18 @@ router.get('/query',auth,function(req,res,next){
 })
 
 /**
-*   Returns a list of all businesses in a specific category
+*   Returns a list of all businesses in a specific category that are within the defined 
+*   search radius. Radar Search returns a list of 200 businesses maximum. 
+
+    Update this route to remote the google places detail request. Instead of caching results
+    from the Business List page on the front/end just make a second call for details when they
+    click which business they want details for. 
+
+
+    Parameters:
+            category -
+            location - 
+            radius - 
 *
 **/
 router.get('/business-list',auth,function(req,res,next){
@@ -209,6 +231,9 @@ router.get('/business-list',auth,function(req,res,next){
 
 /**
 *   Returns all information about a specific Business.
+
+    Parameters:
+              placeId -
 *
 **/
 router.get('/business-detail',auth,function(req,res,next){
@@ -251,34 +276,14 @@ router.get('/business-detail',auth,function(req,res,next){
 *
 */
 
-// router.post('/appointments',auth,function(req,res,next){
-//   var appointment = new Appointment();
-
-
-//   User.findOne({"_id":employeeId}).populate({path:"businessAppointments",select:""}).exec(function(err,user){
-//     async.each(user.appointments,function(currAppointment,appointmentCallback){
-//       *
-//       *
-//       * Check to see if the appointment in the request is in the range of any 
-//       * appointments happening on the same day as it. 
-//       *
-//       * Look at the day first and then the minute and hour of the appointment.
-//       * If it is in the range, respond to the client with 400 and state that the appointment is taken. 
-//       * Also may want to return the updated list of appointments incase someone has already taken it. 
-      
-//     },function(err){
-
-//     })
-//   })
-
+// router.get('/appointments/business',auth,function(req,res,next){
 
 // })
-router.get('/appointments/business',auth,function(req,res,next){
-
-})
 /**
-*   Returns an employee object.
+*   Returns an employee object
 *
+    Parameters: 
+            id - The id of the employee. 
 **/
 router.get('/search/employees',auth,function(req,res,next){
   var id = req.param('id');
@@ -290,6 +295,10 @@ router.get('/search/employees',auth,function(req,res,next){
 
 /**
 *   Adds a new employee to a Business.
+
+    Parameters:
+              businessId - 
+              employeeId -
 *
 **/
 
@@ -304,9 +313,13 @@ router.post('/business/employee',auth,function(req,res,next){
     response.save(function(err){
       if(err){return next(err);}
     })
-    Business.populate(response,{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},function(err,busResponse){
+    Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){
       if(err){return next(err);}
-      res.json(busResponse);
+      Service.populate(busResponse.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+        if(err){return next(err);}
+        busResponse.services = services;
+        res.json(busResponse);
+      })
     })
   })
 })
@@ -327,6 +340,12 @@ router.get('/categories',auth,function(req,res,next){
 
 /**
 *   Adds a new category to the Bookd System.
+
+    Parameters:
+              id-
+              name-
+              description-
+              image- cloudinary id
 *
 **/
 
@@ -359,7 +378,6 @@ router.get('/claim-requests',auth,function(req,res,next){
   Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
     if(err){return next(err);}
     async.each(businesses,function(currBusiness,businessCallback){
-      // console.log(currBusiness);
       googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,response){
         if(error){
           return businessCallback(error);
@@ -378,6 +396,10 @@ router.get('/claim-requests',auth,function(req,res,next){
 })
 /**
 *   Changes the status of a business to approved
+
+
+    Parameters:
+              id - The BOOKD id of a business.
 *
 **/
 
@@ -403,6 +425,15 @@ router.post('/claim-status',auth,function(req,res,next){
 
 /**
 *   Adds a Service to a Business 
+
+
+    Parameters:
+              name-
+              duration-
+              employees-
+              description-
+              price-
+              businessId-
 *
 **/
 router.post('/business/service',auth,function(req,res,next){
@@ -441,6 +472,14 @@ router.post('/business/service',auth,function(req,res,next){
 })
 /**
 *   Submits a claim request to Bookd 
+
+
+    Parameters:
+              id-
+              category-
+              placesId-
+              dateCreated-
+              timestamp-
 *
 **/
 router.post('/business/claim',auth,function(req,res,next){
@@ -465,7 +504,7 @@ router.post('/business/claim',auth,function(req,res,next){
   })
 })
 /**
-*   Logs in a valid user
+*   Logs in a valid user using passport.
 *
 **/
 
@@ -473,7 +512,6 @@ router.post('/login', function(req, res, next){
   if(!req.body.username || !req.body.password){
     return res.status(400).json({message: 'Please fill out all fields'});
   }
-
   passport.authenticate('local', function(err, user, info){
     if(err){ return next(err); }
 

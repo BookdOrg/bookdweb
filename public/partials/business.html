@@ -19,11 +19,14 @@
 		<br>
 		Website: <a href="{{business.website}}">{{business.website}}</a>
 		<br>
-		Hours:
-		<br>
 		Phone: {{business.formatted_phone_number}}
 		<br>
 		Address: {{business.formatted_address}}
+		<br>
+		Hours:
+		<span ng-repeat="hours in business.opening_hours.weekday_text">
+    			<br>{{hours}}
+		</span>
 	</div>
 		<!-- 
 	#########################################
@@ -33,7 +36,7 @@
 	########################################
 	-->
 	<h3 class="text-center">Services</h3>
-	<div class="row">
+	<div class="row text-center">
 		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
@@ -42,7 +45,8 @@
 				<p>{{service.description}}</p>
 			</div>
 			<div>
-			<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book Appointment</button>
+			<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">	Book Appointment
+			</button>
 			</div>
 		</div>
 	</div>
@@ -121,11 +125,14 @@
 		<br>
 		Business Website: <a href="{{business.website}}">{{business.website}}</a>
 		<br>
-		Hours:
-		<br>
 		Location: {{business.formatted_address}}
 		<br>
-		Phone: {{business.formatted_phone}}
+		Phone: {{business.formatted_phone_number}}
+		<br>
+		Hours:
+		<span ng-repeat="hours in business.opening_hours.weekday_text">
+    			<br>{{hours}}
+		</span>
 	</div>
 		<!-- 
 	#########################################
@@ -141,7 +148,7 @@
 		</div>
 		<h3 class="text-center ">Services</h3>
 	</div>
-	<div class="row">
+	<div class="row text-center">
 		<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 			<div class="">
 				<h4>{{service.name}}</h4>
@@ -150,8 +157,8 @@
 				<p>{{service.description}}</p>
 			</div>
 			<div>
-<!-- 			<button class="btn btn-primary text-center">Book Appointment</button>
-			</div> -->
+				<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book Appointment</button>
+			</div>
 		</div>
 	</div>
 	<div class="row" ng-if="!business.info.services">
@@ -194,7 +201,7 @@
 	########################################
 	-->	
 	<div class="row">
-		<h3>Reviews</h3>
+		<h3 class="text-center">Reviews</h3>
 		<div class="row">
 			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
 				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
@@ -206,9 +213,9 @@
 			</div>
 		</div>
 	</div>
-	<div ng-if="!business.info.claimed" class="row text-center">
+<!-- 	<div ng-if="!business.info.claimed" class="row text-center">
 		<a href="#/claim/{{business.id}}">Claim Business</a>
-	</div>
+	</div> -->
 </div>
 <!-- 
 #########################################
@@ -236,6 +243,7 @@
 	        <div class="tab-pane active" id="details">
 	          <div class="control-group">
 	            <div class="row text-center">
+	            	<h2>Copy informing the user that they won't be charged until the time of their appointment</h2>
 	            	<h5>Price:{{service.price |currency}}</h5>
 	            	<h5>Duration: {{service.duration}} minutes.</h5>
 	            	<h5>{{service.description}}</h5>
@@ -271,33 +279,16 @@
 				    <div class="col col-md-6 text-center">
 				    	<h4>{{employee.firstName}}'s Available Times</h4>
 				    	<div class="col col-md-3" ng-repeat="time in availableTimes track by $index">
-				    		<button ng-class="{hide: !time.available}" ng-click="createAppointmentObj(time)" class="btn btn-success" style="margin-bottom:5px;">
+				    		<button ng-disabled="!time.available" ng-class="{'btn-danger': !time.available, 'btn-success':time.available}" ng-click="createAppointmentObj(time)" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
 				    		</button>
 				    	</div>
 					</div>
 	          	</div>
-	          	<div class="row">
-	          		<div class="col col-md-2">
-						<a data-target="#employees" data-toggle="tab"  class="btn btn-warning text-left">Back</a>
-					</div>
-<!-- 					<a data-target="#pay" data-toggle="tab"  ng-show="appointment" class="btn btn-primary">Next</a> -->
-<!-- 					<a class="text-center" ng-show="appointment">
-						<form action="/payment" method="POST">
-						  <script
-						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-						    data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
-						    data-amount="{{stripePrice}}"
-						    data-name="Bookd"
-						    data-description="{{service.name}}"
-						    data-image="/images/icon.png"
-						    data-label="Book Appointment"
-						    data-panel-label="Book"
-						    data-locale="auto">
-						  </script>
-						</form>
-					</a> -->
-					<button class="btn btn-primary text-center" ng-show="appointment" stripe-checkout="ctrl.checkOut"
+	          	<div class="row text-center">
+						<a data-target="#employees" data-toggle="tab"  class="btn btn-warning">	Back
+						</a>
+					<button class="btn btn-primary" ng-show="appointment" stripe-checkout="ctrl.checkOut"
 				            data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
 				            data-name="Bookd"
 				            data-description="{{service.name}}"
@@ -309,57 +300,12 @@
 				    </button>
 	          	</div>
 	        </div>
-<!-- 	        <div class="tab-pane" id="pay">
-	        	<div class="row">
-	        		<div class="col col-md-6 text-center">
-		          		<h4>Payment</h4>
-		          		<div class="row">
-					        <div class="span4 offset4">
-					          <div class="row">
-					            
-					            <div class="span4">
-					              <h3>Shut up and take my money!</h3>
-					            </div>
-					            
-					            <form stripe-form="handleStripe" name="myForm">
-
-					              <div class="span3">
-					                <label for="">Card number</label>
-					                <input type="text" class="input-block-level" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
-					              </div>
-					              
-					              <div class="span1">
-					                <label for="">Expiry</label>
-					                <input type="text" class="input-block-level" ng-model="expiry" payments-validate="expiry" payments-format="expiry" />
-					              </div>
-					              
-					              <div class="span3">
-					                <label for="">Name on card </label>
-					                <input type="text" class="input-block-level">
-					              </div>
-					              
-					              <div class="span1">
-					                <label for="">CVC</label>
-					                <input type="text" class="input-block-level" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
-					              </div>
-					              
-					              <div class="span4">
-					                <button type="submit" class="btn btn-primary btn-large">Submit</button>
-					              </div>
-					            </form>
-
-					          </div>
-					        </div>
-					      </div>
-				    </div>
-	          	</div>
-	        </div> -->
 		</div>
    </div>
-    <div class="modal-footer">
+<!--     <div class="modal-footer">
     	<button class="btn btn-success" ng-show="" ng-click="ok()">Book</button>
-        <!-- <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
-    </div>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div> -->
 </script>
 <!-- 
 #########################################
@@ -439,7 +385,7 @@
             		<button class="btn btn-success col-sm-offset-6 col-md-offset-6" ng-click="findEmployee(id)">Search</button>
         		</div>
         		<div class="col-md-12" ng-if="employee">
-        			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}"
+        			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
         				style="height:100px;width:100px;"></img>
         			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
         				style="height:100px;width:100px;"></img>
