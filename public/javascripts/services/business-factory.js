@@ -108,7 +108,7 @@ angular.module('cc.business-factory',[])
   o.getBusiness = function(id){
     return $http.get('/business-detail', {
       params:{
-        'placeId':id
+        'placesId':id
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data,err){

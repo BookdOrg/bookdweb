@@ -237,7 +237,7 @@ router.get('/business-list',auth,function(req,res,next){
 *
 **/
 router.get('/business-detail',auth,function(req,res,next){
-  var id = req.param('placeId');
+  var id = req.param('placesId');
   Business.findOne({'placesId':id}).populate([{path:"employees",select:'_id businessAppointments firstName lastName username avatarVersion'},{path:'services',select:''}]).exec(function(error,business){
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
         if(error){return next(error);}
@@ -462,9 +462,15 @@ router.post('/business/service',auth,function(req,res,next){
             if(err){return next(err);}
           })
         })
-        Business.populate(business,[{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},{path:'services',selet:''}],function(err,responseBusiness){
+        Business.populate(business,[{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},{path:'services',select:''}],function(err,responseBusiness){
           if(err){return next(err);}
-          res.json(responseBusiness);
+          Service.populate(responseBusiness.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+            if(err){return next(err);}
+            console.log(services)
+            responseBusiness.services = services;
+            console.log(responseBusiness)
+            res.json(responseBusiness);
+          })      
         })
       // }
     })
