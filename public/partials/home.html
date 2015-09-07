@@ -1,18 +1,13 @@
 <div class="container-fluid">
 <div class="row">
   <div class="page-header">
-    <h1 class="text-center"> Categories <i ng-if="loadingLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
-      <i ng-if="!loadingLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
+    <h1 class="text-center"> Categories <i ng-if="!currLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
+      <i ng-if="currLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
     </div>
 </div>
-<div class="well col-md-3" ng-repeat="category in categories | orderBy:category.longname">
-  <a href="#/category/{{category.id}}/{{currLocation.lat}},{{currLocation.lng}}">{{category.title}}</a>
+<div class="well col-md-3 text-center" ng-repeat="category in categories | orderBy:category.longname">
+  <a class="btn btn-primary" ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">{{category.title}}</a>
 </div>
-<!-- <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
-<button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
-<button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">AgendaMonth</button> -->
-
-<!-- <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar" ng-model="eventSources"></div>  -->
   </div>
 </div>
 </div>

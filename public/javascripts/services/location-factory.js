@@ -1,6 +1,6 @@
 angular.module('cc.location-factory',[])
-.factory('location', ['$http','$geolocation', function($http,$geolocation){
-	var currPosition = {};
+.factory('location', ['$http','$geolocation','$window', function($http,$geolocation,$window){
+	
 	if (typeof(Number.prototype.toRad) === "undefined") {
 	  Number.prototype.toRad = function() {
 	    return this * Math.PI / 180;
@@ -8,20 +8,18 @@ angular.module('cc.location-factory',[])
 	}
 	var location = {
 		setPosition:function(position){
-			// currPosition = position;
-			currPosition.address = position.formatted_address;
-  			currPosition.city = position.address_components[2].long_name;
-
-	 	 	currPosition.state = position.address_components[4].long_name;
-
-		  	currPosition.country = position.address_components[5].long_name;
-
-		  	currPosition.zip = position.address_components[6].long_name;
-
-		  	currPosition.lat = position.geometry.location.lat;
-		  	currPosition.lng = position.geometry.location.lng;
+			var currPosition = {
+				latitude:null,
+				longitude:null
+			};
+		  	$window.localStorage['latitude'] = position.latitude;
+		  	$window.localStorage['longitude'] = position.longitude;
 		},
 		getPosition:function(){
+			currPosition = {
+				latitude:$window.localStorage['latitude'],
+				longitude:$window.localStorage['longitude']
+			}
 			return currPosition;
 		},
 		calculateDistance:function(lon1, lat1, lon2, lat2) {

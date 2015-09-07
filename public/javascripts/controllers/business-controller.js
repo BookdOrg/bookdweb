@@ -13,9 +13,6 @@ angular.module('cc.business-controller',[])
 function($scope, auth, $state,location,$stateParams,businessFactory,location,$rootScope,$modal,socket){
 	$scope.currentUser = auth.currentUser();
 	// $scope.business = business.data;
-  $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
-  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
-
 	
   $scope.business = businessFactory.business;
   if(!businessFactory.business.info._id){
@@ -78,8 +75,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 
   $scope.service = businessFactory.service;
   $scope.stripePrice = $scope.service.price * 100;
-  $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
-  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
+
   $scope.minDate = $scope.minDate ? null : moment();
   $scope.currentUser = auth.currentUser();
   $scope.$watch('selectedDate',function(newVal,oldVal){
@@ -209,8 +205,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   };
 })
 .controller('addEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory) {
-  $scope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
-  $scope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
 
   $scope.create = function (id) {
     var business = businessFactory.business;

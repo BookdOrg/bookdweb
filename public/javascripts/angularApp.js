@@ -158,6 +158,8 @@ function($stateProvider, $urlRouterProvider) {
 
 
   $urlRouterProvider.otherwise('/');
-}]).run(function(){
+}]).run(function($rootScope){
+  $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v";
+  $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
   var socket = io.connect('//localhost:8112');
 });
