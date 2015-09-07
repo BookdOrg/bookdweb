@@ -28,15 +28,18 @@ angular.module('cc.auth-factory',[])
     register: function(user){
       return $http.post('/register', user).success(function(data){
         auth.saveToken(data.token);
+        $rootScope.currentUser = auth.currentUser();
       });
     },
     logIn: function(user){
       return $http.post('/login', user).success(function(data){
         auth.saveToken(data.token);
+        $rootScope.currentUser = auth.currentUser();
       });
     },
     logOut: function(){
       $window.localStorage.removeItem('cc-token');
+      $rootScope.currentUser = null;
       $state.go('landing');
     }
   };

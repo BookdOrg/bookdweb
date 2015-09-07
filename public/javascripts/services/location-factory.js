@@ -33,29 +33,7 @@ angular.module('cc.location-factory',[])
 		  var d = R * c; // Distance in km
 		  var m = d*0.000621371192; //Distance in miles
 		  return m;
-		},
-		watchPosition:function($scope){
-			$geolocation.watchPosition({
-		        timeout: 60000,
-		        maximumAge: 250,
-		        enableHighAccuracy: true
-	      	});
-
-	      	$scope.myPosition = $geolocation.position;
-
-	      	$scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
-	      		if(newVal !== oldVal){
-      				$http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","+$scope.myPosition.coords.longitude+"&sensor=true")
-        				.success(function(data){
-          					$scope.loadingLocation = false;
-          					location.setPosition(data.results[0]);
-      					}
-      				);
-    			}
-	      	})
-
 		}
-
 		// /** Converts numeric degrees to radians */
 		// if (typeof(Number.prototype.toRad) === "undefined") {
 		//   Number.prototype.toRad = function() {

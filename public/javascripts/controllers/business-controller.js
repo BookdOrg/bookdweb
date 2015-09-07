@@ -11,8 +11,6 @@ angular.module('cc.business-controller',[])
 '$modal',
 'socket',
 function($scope, auth, $state,location,$stateParams,businessFactory,location,$rootScope,$modal,socket){
-	$scope.currentUser = auth.currentUser();
-	// $scope.business = business.data;
 	
   $scope.business = businessFactory.business;
   if(!businessFactory.business.info._id){
@@ -71,13 +69,13 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
 }])
-.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state) {
+.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state,$rootScope) {
 
   $scope.service = businessFactory.service;
   $scope.stripePrice = $scope.service.price * 100;
 
   $scope.minDate = $scope.minDate ? null : moment();
-  $scope.currentUser = auth.currentUser();
+  // $scope.currentUser = auth.currentUser();
   $scope.$watch('selectedDate',function(newVal,oldVal){
     if(newVal){
       getAvailableTimes(newVal,$scope.employee._id);
@@ -126,7 +124,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       })
   }
   socket.on('employeeAppts',function(data){
-    console.log(data);
     $scope.appointments = data;
   })
 
@@ -139,7 +136,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.appointment = {
       businessid:$scope.service.businessId,
       employee:$scope.employee._id,
-      customer:$scope.currentUser._id,
+      customer:$rootScope.currentUser._id,
       start:{
         date:apptDate,
         time:apptTime,
@@ -156,7 +153,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   }
   this.checkOut = function(token){
     $scope.appointment.card = token.card;
-    console.log($scope.appointment)
     businessFactory.addAppointment($scope.appointment)
       .then(function(data){
         $modalInstance.close();

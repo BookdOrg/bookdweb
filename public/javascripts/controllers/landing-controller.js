@@ -3,7 +3,6 @@ angular.module('cc.landing-controller',[])
 '$scope',
 'auth',
 function($scope,auth){
-  $scope.currentUser = auth.currentUser();
   
 	$scope.myInterval = 5000;
   var slides = $scope.slides = [];

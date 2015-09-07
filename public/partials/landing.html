@@ -74,99 +74,99 @@
     }
 </style>
 <script>
-$( document ).ready(function() {
+// $( document ).ready(function() {
 
-    scaleVideoContainer();
+//     scaleVideoContainer();
 
-    initBannerVideoSize('.video-container .poster img');
-    initBannerVideoSize('.video-container .filter');
-    initBannerVideoSize('.video-container video');
+//     initBannerVideoSize('.video-container .poster img');
+//     initBannerVideoSize('.video-container .filter');
+//     initBannerVideoSize('.video-container video');
 
-    $(window).on('resize', function() {
-        scaleVideoContainer();
-        scaleBannerVideoSize('.video-container .poster img');
-        scaleBannerVideoSize('.video-container .filter');
-        scaleBannerVideoSize('.video-container video');
-    });
+//     $(window).on('resize', function() {
+//         scaleVideoContainer();
+//         scaleBannerVideoSize('.video-container .poster img');
+//         scaleBannerVideoSize('.video-container .filter');
+//         scaleBannerVideoSize('.video-container video');
+//     });
 
-});
+// });
 
-function scaleVideoContainer() {
+// function scaleVideoContainer() {
 
-    var height = $(window).height() + 5;
-    var unitHeight = parseInt(height) + 'px';
-    $('.homepage-hero-module').css('height',unitHeight);
+//     var height = $(window).height() + 5;
+//     var unitHeight = parseInt(height) + 'px';
+//     $('.homepage-hero-module').css('height',unitHeight);
 
-}
+// }
 
-function initBannerVideoSize(element){
+// function initBannerVideoSize(element){
 
-    $(element).each(function(){
-        $(this).data('height', $(this).height());
-        $(this).data('width', $(this).width());
-    });
+//     $(element).each(function(){
+//         $(this).data('height', $(this).height());
+//         $(this).data('width', $(this).width());
+//     });
 
-    scaleBannerVideoSize(element);
+//     scaleBannerVideoSize(element);
 
-}
+// }
 
-function scaleBannerVideoSize(element){
+// function scaleBannerVideoSize(element){
 
-    var windowWidth = $(window).width(),
-    windowHeight = $(window).height() + 5,
-    videoWidth,
-    videoHeight;
+//     var windowWidth = $(window).width(),
+//     windowHeight = $(window).height() + 5,
+//     videoWidth,
+//     videoHeight;
 
-    $(element).each(function(){
-        var videoAspectRatio = $(this).data('height')/$(this).data('width');
+//     $(element).each(function(){
+//         var videoAspectRatio = $(this).data('height')/$(this).data('width');
 
-        $(this).width(windowWidth);
+//         $(this).width(windowWidth);
 
-        if(windowWidth < 1000){
-            videoHeight = windowHeight;
-            videoWidth = videoHeight / videoAspectRatio;
-            $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+//         if(windowWidth < 1000){
+//             videoHeight = windowHeight;
+//             videoWidth = videoHeight / videoAspectRatio;
+//             $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
 
-            $(this).width(videoWidth).height(videoHeight);
-        }
+//             $(this).width(videoWidth).height(videoHeight);
+//         }
 
-        $('.homepage-hero-module .video-container video').addClass('fadeIn animated');
+//         $('.homepage-hero-module .video-container video').addClass('fadeIn animated');
 
-    });
-}
-var windowWidth = $(window).width(), windowHeight = $(window).height() + 5, videoWidth, videoHeight;
-console.log(windowHeight);
+//     });
+// }
+// var windowWidth = $(window).width(), windowHeight = $(window).height() + 5, videoWidth, videoHeight;
+// console.log(windowHeight);
 
-$(element).each(function(){
-    var videoAspectRatio = $(this).data('height')/$(this).data('width');
+// $(element).each(function(){
+//     var videoAspectRatio = $(this).data('height')/$(this).data('width');
 
-    $(this).width(windowWidth);
+//     $(this).width(windowWidth);
 
-    if (windowWidth >= 1000) {
-        if (windowHeight > windowWidth * 0.5625) {
-            videoHeight = windowHeight;
-            videoWidth = videoHeight / videoAspectRatio;
-            $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+//     if (windowWidth >= 1000) {
+//         if (windowHeight > windowWidth * 0.5625) {
+//             videoHeight = windowHeight;
+//             videoWidth = videoHeight / videoAspectRatio;
+//             $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
 
-            $(this).width(videoWidth).height(videoHeight);
-        }   else {
+//             $(this).width(videoWidth).height(videoHeight);
+//         }   else {
 
-            $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
-        }
-    }
+//             $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
+//         }
+//     }
 
-    if(windowWidth < 1000){
-        videoHeight = windowHeight;
-        videoWidth = videoHeight / videoAspectRatio;
-        $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+//     if(windowWidth < 1000){
+//         videoHeight = windowHeight;
+//         videoWidth = videoHeight / videoAspectRatio;
+//         $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
 
-        $(this).width(videoWidth).height(videoHeight);
+//         $(this).width(videoWidth).height(videoHeight);
 
-        if (windowHeight < windowWidth * 0.5625) {
-            $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
-        }
-    }
-</script>
+//         if (windowHeight < windowWidth * 0.5625) {
+//             $(this).css({'margin-top' : 0, 'margin-left' : 0, 'width' : windowWidth, 'height' : windowWidth * 0.5625});
+//         }
+//     }
+// </script>
 <div class="homepage-hero-module">
     <div class="video-container hidden-xs">
         <div class="filter"></div>
@@ -177,11 +177,10 @@ $(element).each(function(){
         <div class="poster hidden">
             <img src="/video/Traffic-blurred2.jpg" alt="">
         </div>
-    <div id="landingBody" class="text-center">
+    <div id="landingBody" class="text-center"  ng-controller="landingCtrl">
         <h1>Book'd<h1>
         <h3>Never worry about appointments again.</h3>
-        <a href="#/register"class="btn btn-primary">Create Account</a>
-        
+        <a href="#/register" ng-if="!currentUser || currentUser == null" class="btn btn-primary">Create Account {{currentUser.firstName}}</a>
     </div>
 </div>
 <div class="row hidden-sm hidden-md hidden-lg">
@@ -205,7 +204,7 @@ $(element).each(function(){
             <img style="border-radius:50%" src="http://placehold.it/200x200" alt="...">
         </div>
         <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10 clearfix">
-            <h4 class="text-center"> Register your Business! </h4>
+            <h4 class="text-center"> Register your Business!</h4>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. <a href="#/join"> Registering is as easy as clicking this line.</a> Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
     </div>
