@@ -14,7 +14,7 @@ angular.module('cc.main-controller',["google.places"])
 function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,categories,$rootScope,$window){
 
   $scope.categories = businessFactory.categories;
-
+  $scope.businesses = businessFactory.businesses;
   $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
@@ -29,5 +29,16 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
         $scope.loadingLocation = false;
     }
   })
+  $scope.search = function(query){
+    $scope.fetchingQuery = true;
+    var formattedQuery = query.term + " " + query.location;
+    businessFactory.query(formattedQuery)
+      .then(function(data){
+        $scope.fetchingQuery = false;
+      })
+  }
+  $scope.setBusiness = function(business){
+    businessFactory.business = business;
+  }
 
 }])

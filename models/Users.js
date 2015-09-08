@@ -15,6 +15,7 @@ var UserSchema = new mongoose.Schema({
   salt: String,
   isEmployee: Boolean,
   isAdmin: Boolean,
+  settings:Object,
   businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
   personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
   businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],

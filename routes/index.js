@@ -167,10 +167,39 @@ router.post("/appointment",auth,function(req,res,next){
 
 router.get('/query',auth,function(req,res,next){
   var query = req.param('query');
-
+  var updatedBusinesses = [];
+  var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
   googleplaces.textSearch({query:query},function(error,response){
     if(error){return next(error);}
-    res.json(response);
+    async.each(response.results,function(currResponse,responseCallback){
+        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
+            if(err){
+              return responseCallback(err);// <== calling responseCallback instead of next() 
+            } 
+            // in case of business === null/undefined, I'm not seeing any 
+            // callback getting called, it needs to be called inside 
+            // async.each() no matter which condition it is
+            if (!business) {
+               // call responseCallback to continue on with async.each()
+                return responseCallback();
+            }
+            Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,newBusiness){
+                if(err){
+                  return responseCallback(err);
+                }
+                googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,placesResult){
+                    if(error){return responseCallback(error);}
+                    placesResult.result.info = business;
+                    updatedBusinesses.push(placesResult.result);
+                    responseCallback();
+                });
+            })
+        })
+    },function(err){
+        if(err){return next(err);}
+        res.json(updatedBusinesses);
+    });
+    // res.json(response);
   })
 })
 
@@ -196,7 +225,7 @@ router.get('/business-list',auth,function(req,res,next){
   var updatedBusinesses = [];
   var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
 
-  googleplaces.radarSearch({location:location,radius:radius,keyword:keyword},function(err,response){
+  googleplaces.placeSearch({location:location,radius:radius,keyword:keyword},function(err,response){
     if(err){return next(err);}
     async.each(response.results,function(currResponse,responseCallback){
         Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){

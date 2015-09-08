@@ -1,13 +1,43 @@
 <div class="container-fluid">
-<div class="row">
-  <div class="page-header">
-    <h1 class="text-center"> Categories <i ng-if="!currLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
-      <i ng-if="currLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
-    </div>
-</div>
-<div class="well col-md-3 text-center" ng-repeat="category in categories | orderBy:category.longname">
-  <a class="btn btn-primary" ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">{{category.title}}</a>
-</div>
-  </div>
-</div>
+	<div class="row">
+	  <div class="page-header">
+	    <h1 class="text-center"> Categories <i ng-if="!currLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
+	      <i ng-if="currLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
+	  </div>
+	</div>
+	<div class="row">
+		<div class="well col-md-3 text-center" ng-repeat="category in categories | orderBy:category.longname">
+		  <a class="btn btn-primary" ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">{{category.title}}</a>
+		</div>
+  	</div>
+  	<div class="row">
+  		<div class="page-header">
+  			<h1 class="text-center">Need Something Specific? Try a Search<i ng-if="fetchingQuery == true" class="fa fa-spinner fa-pulse" tooltip="Searching for {{query.term}}"></i> 
+  				<i ng-if="fetchingQuery == false" class="fa fa-check"></i></h1>
+  		</div>
+  	</div>
+  	<div class="row form-inline">
+  		<div class="col col-md-8 col-md-offset-4">
+  			<input class="form-control" placeholder="Search for..." ng-model="query.term">
+  			<span class=" input-group">
+				<input class="form-control" placeholder="Near" ng-model="query.location">
+	      		<span class="input-group-btn">
+	    			<button class="btn btn-success" ng-click="search(query)" type="button">
+	      				<i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+	    			</button>
+	  			</span>
+  			</span>
+  		</div>
+  	</div>
+  	<br>
+  	<div class="row text-center">
+	  	<div class="well col-md-4" style="height:300px;" ng-repeat="business in businesses">
+			<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
+			<a ng-click="setBusiness(business)" href="#/business/{{business.place_id}}">{{business.name}}</a>
+			<br><span>Rating: {{business.rating}}</span>
+			<br><span>Location: {{business.formatted_address}}</span>
+			<br><span>Description: {{business.snippet_text}}</span>
+			<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>
+		</div>
+	</div>
 </div>

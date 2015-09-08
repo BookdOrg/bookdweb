@@ -8,7 +8,8 @@ angular.module('cc.business-factory',[])
     error:{
 
     },
-    service:{}
+    service:{},
+    businesses:[]
   };
 
   o.get = function(id) {
@@ -25,7 +26,7 @@ angular.module('cc.business-factory',[])
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
-
+      angular.copy(data,o.businesses)
     })
   }
   o.getEmployeeAppts = function(object){
