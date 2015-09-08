@@ -85,7 +85,9 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
+app.use('/*', function(req, res){
+  res.sendfile(__dirname + '/views/index.ejs');
+});
 console.log('Server started using settings: Port' +process.env.devlocalPort + "/n host: " 
     + process.env.devhost + "/n environment: " + process.env.NODE_ENV);
 module.exports = app;
