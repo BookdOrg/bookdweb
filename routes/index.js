@@ -132,7 +132,6 @@ router.post("/appointment",auth,function(req,res,next){
     if(err){return next(err);}
     User.findOne({"_id":appointment.employee}).exec(function(err,user){
       if(err){return next(err);}
-      console.log(user)
       user.businessAppointments.push(appointment);
       user.save(function(err,response){
         if(err){return next(err);}
@@ -497,9 +496,7 @@ router.post('/business/service',auth,function(req,res,next){
           if(err){return next(err);}
           Service.populate(responseBusiness.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
             if(err){return next(err);}
-            console.log(services)
             responseBusiness.services = services;
-            console.log(responseBusiness)
             res.json(responseBusiness);
           })      
         })

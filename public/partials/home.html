@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-center" ng-repeat="category in categories | orderBy:'category.title'">
-		  <a ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">
+		  <a ng-disabled="currLocation == null" href="/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">
 		  <img ng-src="{{cloudinaryBaseUrl}}1440373787/profile/{{category.image}}">
 		  <br>{{category.title}}</a>
 		</div>
@@ -35,7 +35,7 @@
   	<div class="row text-center">
 	  	<div class="well col-md-4" style="height:300px;" ng-repeat="business in businesses">
 			<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
-			<a ng-click="setBusiness(business)" href="#/business/{{business.place_id}}">{{business.name}}</a>
+			<a ng-click="setBusiness(business)" href="/business/{{business.place_id}}">{{business.name}}</a>
 			<br><span>Rating: {{business.rating}}</span>
 			<br><span>Location: {{business.formatted_address}}</span>
 			<br><span>Description: {{business.snippet_text}}</span>

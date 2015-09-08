@@ -31,7 +31,9 @@ angular.module('cc', ['ui.router',
 .config([
 '$stateProvider',
 '$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
+'$locationProvider',
+function($stateProvider, $urlRouterProvider,$locationProvider) {
+  $locationProvider.html5Mode(true);
   $stateProvider
     .state('landing',{
       url:'/',
@@ -157,6 +159,7 @@ function($stateProvider, $urlRouterProvider) {
     })
   $urlRouterProvider.otherwise('/');
 }]).run(function($rootScope,auth,$templateCache){
+  
   $rootScope.currentUser = auth.currentUser();
   $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v";
   $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
