@@ -6,8 +6,10 @@
 	  </div>
 	</div>
 	<div class="row">
-		<div class="well col-md-3 text-center" ng-repeat="category in categories | orderBy:category.longname">
-		  <a class="btn btn-primary" ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">{{category.title}}</a>
+		<div class="col-md-3 text-center" ng-repeat="category in categories | orderBy:'category.title'">
+		  <a ng-disabled="currLocation == null" href="#/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">
+		  <img ng-src="{{cloudinaryBaseUrl}}1440373787/profile/{{category.image}}">
+		  <br>{{category.title}}</a>
 		</div>
   	</div>
   	<div class="row">

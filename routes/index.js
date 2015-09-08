@@ -618,27 +618,27 @@ router.post('/upload', auth, function(req,res,next){
 **/
 router.get('/:id/profile',auth,function(req,res,next){
   var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion businesses').populate({path:'businesses'}).exec(function(err,user){
+  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion personalAppointments businessAppointments').populate({path:'businessAppointments personalAppointments'}).exec(function(err,user){
     if(err){return handleError(err)};
     var profile = {};
     profile.user= user;
     var updatedBusinesses = [];
-    async.each(user.businesses,function(businessObj,employeeCallBack){
-      googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
-        if(error){
-          return employeeCallBack(error);
-        }
-        response.result.info = businessObj;
-        Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
-          profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
-          employeeCallBack();
-        });
+    // async.each(user.businesses,function(businessObj,employeeCallBack){
+    //   googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
+    //     if(error){
+    //       return employeeCallBack(error);
+    //     }
+    //     response.result.info = businessObj;
+    //     Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
+    //       profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
+    //       employeeCallBack();
+    //     });
         
-      })
-    },function(err){
-      if(err){return next(err);}
+    //   })
+    // },function(err){
+    //   if(err){return next(err);}
       res.json(profile);
-    })
+    // })
   })
 });
 
