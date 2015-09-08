@@ -266,11 +266,14 @@ router.get('/business-list',auth,function(req,res,next){
 *
 **/
 router.get('/business-detail',auth,function(req,res,next){
+   res.header('Access-Control-Allow-Origin', '*');
   var id = req.param('placesId');
   Business.findOne({'placesId':id}).populate([{path:"employees",select:'_id businessAppointments firstName lastName username avatarVersion'},{path:'services',select:''}]).exec(function(error,business){
+    if(error){return next(error);}
     googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,response){
         if(error){return next(error);}
         Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,finalobj){
+          if(error){return next(error);}
           response.info = business;
           res.json(response);
         })
