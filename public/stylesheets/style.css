@@ -6,9 +6,9 @@
 html,body{
 	height:100%;
 }
-.body-wrap{
+/*.body-wrap{
   padding-top:65px;
-}
+}*/
 a {
   color: #00B7FF;
 }
@@ -55,8 +55,11 @@ h1{
   float:none;
   display:inline-block;
 }
-.contentBox{
+.navbar{
+  margin-bottom: 0px;
+}
+/*.contentBox{
   height:250px;
   overflow: scroll;
-}
+}*/
 span.tab-space {padding-left:1em;}
