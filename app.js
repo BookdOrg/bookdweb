@@ -52,8 +52,10 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 app.use(passport.initialize());
-
 app.use('/', routes);
+app.all('/*',function(req, res){
+  res.render('index.ejs',{root:__dirname});
+});
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -84,9 +86,6 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
-});
-app.use('/*', function(req, res){
-  res.sendfile(__dirname + '/views/index.ejs');
 });
 console.log('Server started using settings: Port' +process.env.devlocalPort + "/n host: " 
     + process.env.devhost + "/n environment: " + process.env.NODE_ENV);

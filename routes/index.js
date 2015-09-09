@@ -61,9 +61,9 @@ io.on('connection',function(socket){
 
 
 /* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: '' });
-});
+//router.get('/*', function(req, res) {
+  //res.render('index', { title: '' });
+//});
 
 var mongoose = require('mongoose');
 acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
