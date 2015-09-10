@@ -2,7 +2,7 @@ angular.module('cc.account-controller',[])
 .controller('AccountCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 	  		
-		user.get($stateParams.id).then(function(data){
+		user.get($stateParams.username).then(function(data){
 			$scope.currentUser = data.data.user;
 		});
 

@@ -2,7 +2,7 @@ angular.module('cc.profile-controller',[])
 .controller('ProfileCtrl',['$scope','auth','user','$location','$sce','FileUploader','$state','$stateParams',
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams){
 
-		user.get($stateParams.id).then(function(data){
+		user.get($stateParams.username).then(function(data){
 			$scope.currentUser = data.data.user;
 			// $scope.currentUser.posts = myPosts.data.posts;
 			// if(data.data.user.avatarVersion == undefined){

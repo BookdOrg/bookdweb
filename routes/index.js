@@ -613,9 +613,9 @@ router.post('/upload', auth, function(req,res,next){
 *   Returns the profile of a specified user. 
 *
 **/
-router.get('/:id/profile',auth,function(req,res,next){
-  var id = req.params.id;
-  User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion personalAppointments businessAppointments').populate({path:'businessAppointments personalAppointments'}).exec(function(err,user){
+router.get('/profile',auth,function(req,res,next){
+  var username = req.param('username');
+  User.findOne({"username": username}).select('_id lastName firstName username avatarVersion personalAppointments businessAppointments').populate({path:'businessAppointments personalAppointments'}).exec(function(err,user){
     if(err){return handleError(err)};
     var profile = {};
     profile.user= user;

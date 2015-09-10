@@ -2,7 +2,7 @@
 	<div class="row">
 	  <div class="page-header">
 	    <h1 class="text-center"> Categories <i ng-if="!currLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
-	      <i ng-if="currLocation" class="fa fa-compass" tooltip="{{currLocation.address}}"></i> </h2>
+	      <i ng-if="currLocation" class="fa fa-compass"></i> </h2>
 	  </div>
 	</div>
 	<div class="row">
@@ -24,7 +24,7 @@
   			<span class=" input-group">
 				<input class="form-control" placeholder="Near" ng-model="query.location">
 	      		<span class="input-group-btn">
-	    			<button class="btn btn-success" ng-click="search(query)" type="button">
+	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="button">
 	      				<i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
 	    			</button>
 	  			</span>

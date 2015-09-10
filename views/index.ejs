@@ -91,8 +91,8 @@ $.cloudinary.config({
             <li ng-if="isLoggedIn()"><a href="/home">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contactUs">Contact</a></li>
-            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser()._id}}/profile">My Profile</a></li>
-            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser()._id}}/account">Account</a></li>
+            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>
+            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/account">Account</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a href="#">Messages <span class="badge">1</span></a></li>
             <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li>
@@ -105,9 +105,9 @@ $.cloudinary.config({
               <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome, {{currentUser().firstName}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/user/{{currentUser()._id}}/profile">My Profile</a></li>
+                  <li><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>
                   <hr>
-                  <li><a href="/user/{{currentUser()._id}}/account"><i class="fa fa-cog"></i> Account</a></li>
+                  <li><a href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Account</a></li>
                   <li class="disabled"><a  href="#"><i class="fa fa-reorder"></i> Preferences</a></li>
                   <li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages <span class="badge">1</span></a></li>
                   <li><a  ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li>

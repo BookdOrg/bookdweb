@@ -94,7 +94,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       }]
     })
     .state('user',{
-      url:'/user/:id/profile',
+      url:'/user/:username/profile',
       templateUrl:'partials/profile.html',
       controller:'ProfileCtrl',
       onEnter: ['$state','auth',function($state,auth){
@@ -104,7 +104,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       }]
     })
     .state('account',{
-      url:'/user/:id/account',
+      url:'/user/:username/account',
       templateUrl:'partials/account.html',
       controller:'AccountCtrl',
       onEnter: ['$state','auth',function($state,auth){
@@ -144,6 +144,12 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
         }]
       }
     })
+    .state('dashboard',{
+      url:'/dashboard',
+      templateUrl:'',
+      controller:'',
+      
+    })
     .state('search',{
       url:'/join',
       templateUrl:'partials/search.html',
@@ -159,7 +165,6 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     })
   $urlRouterProvider.otherwise('/');
 }]).run(function($rootScope,auth,$templateCache){
-  
   $rootScope.currentUser = auth.currentUser();
   $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v";
   $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";

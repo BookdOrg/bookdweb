@@ -72,7 +72,7 @@
 				<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
 	          	<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
 				<div class="">
-					<h4><a href="/user/{{employee._id}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
+					<h4><a href="/user/{{employee.username}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
 					<h5>Rating:</h5>
 					<h5>Snippet:</h5>
 				</div>
