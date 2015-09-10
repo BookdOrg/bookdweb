@@ -23,6 +23,7 @@ angular.module('cc', ['ui.router',
   'cc.admin-controller',
   'cc.admin-service',
   'cc.search-controller',
+  'cc.dashboard-controller',
   'cc.socket-service',
   'angularjs-dropdown-multiselect',
   'angularMoment',
@@ -146,9 +147,8 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     })
     .state('dashboard',{
       url:'/dashboard',
-      templateUrl:'',
-      controller:'',
-      
+      templateUrl:'partials/dashboard.html',
+      controller:'dashboardCtrl'
     })
     .state('search',{
       url:'/join',

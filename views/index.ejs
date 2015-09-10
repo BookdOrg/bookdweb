@@ -31,7 +31,8 @@
   <script src="/javascripts/controllers/claim-controller.js"></script>
   <script src="/javascripts/controllers/admin-controller.js"></script>
   <script src="/javascripts/controllers/search-controller.js"></script>
-
+  <script src="/javascripts/controllers/dashboard-controller.js"></script>
+  
   <script src="/javascripts/services/auth-factory.js"></script>
   <script src="/javascripts/services/business-factory.js"></script>
   <script src="/javascripts/services/user-factory.js"></script>
@@ -95,7 +96,8 @@ $.cloudinary.config({
             <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/account">Account</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a href="#">Messages <span class="badge">1</span></a></li>
-            <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li>
+<!--             <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li> -->
+            <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessPage" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
             <li class="hidden-sm hidden-md hidden-lg" ng-if="currentUser().isAdmin"><a  href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
             <hr>
             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut()">Sign Out</a></li>
@@ -110,7 +112,8 @@ $.cloudinary.config({
                   <li><a href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Account</a></li>
                   <li class="disabled"><a  href="#"><i class="fa fa-reorder"></i> Preferences</a></li>
                   <li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages <span class="badge">1</span></a></li>
-                  <li><a  ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li>
+<!--                   <li><a  ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li> -->
+                  <li><a  ng-if="currentUser().businessPage" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                   <li ng-if="currentUser().isAdmin"><a  href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
                   <hr>
                   <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Sign Out</a></li>

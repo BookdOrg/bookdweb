@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 text-center" ng-repeat="category in categories | orderBy:'category.title'">
-		  <a ng-disabled="currLocation == null" href="/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}">
+		  <a  href="/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}" ng-class="{disabled: !currLocation}">
 		  <img ng-src="{{cloudinaryBaseUrl}}1440373787/profile/{{category.image}}">
 		  <br>{{category.title}}</a>
 		</div>
