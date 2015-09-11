@@ -5,5 +5,16 @@ var app = require('../app');
 app.set('port',process.env.devlocalPort);
 
 var server = require('socket.io').listen(app.listen(app.get('port'),process.env.devhost), function() {
-  debug('Express server listening on port ' + server.address().port);
+  	if(process.send){
+		process.send('online');
+	}
+	process.on('message',function(message){
+		if(message === 'shutdown'){
+			performCleanup();
+			process.exit(0);
+		}
+	});
+	debug('Express server listening on port ' + server.address().port);
 });
+
+
