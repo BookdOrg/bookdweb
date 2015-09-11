@@ -15,6 +15,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
 
   $scope.categories = businessFactory.categories;
   $scope.businesses = businessFactory.businesses;
+
   $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
@@ -29,6 +30,14 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
         $scope.loadingLocation = false;
     }
   })
+
+
+  /*
+  * Function that will submit a search query to the /query route
+  *
+  *Takes in 1 paramater
+  */
+
   $scope.search = function(query){
     $scope.fetchingQuery = true;
     var formattedQuery = query.term + " " + query.location;
