@@ -35,7 +35,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
   /*
   * Function that will submit a search query to the /query route
   *
-  *
+  *Takes in 1 paramater
   */
 
   $scope.search = function(query){
