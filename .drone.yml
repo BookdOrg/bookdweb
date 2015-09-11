@@ -1,3 +1,2 @@
-image: dockerfile/node
 script:
   - echo hello world
