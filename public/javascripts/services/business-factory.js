@@ -1,3 +1,9 @@
+/*
+ * Created by: Khalil Brown
+ *
+ * Business Factory - Responsible for interacting with all routes related to businesses & querying
+ *
+ */
 angular.module('cc.business-factory',[])
 .factory('businessFactory', ['$http', 'auth', function($http, auth){
   var o = {

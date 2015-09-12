@@ -1,3 +1,7 @@
+/*
+ * Created by: Khalil Brown
+ *
+ */
 angular.module('cc.socket-service',[])
 .factory('socket', function ($rootScope) {
   var socket = io.connect('//localhost:8112');

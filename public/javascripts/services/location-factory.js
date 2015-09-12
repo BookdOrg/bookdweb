@@ -1,3 +1,9 @@
+/*
+ * Created by: Khalil Brown
+ *
+ *
+ *
+ */
 angular.module('cc.location-factory',[])
 .factory('location', ['$http','$geolocation','$window', function($http,$geolocation,$window){
 	

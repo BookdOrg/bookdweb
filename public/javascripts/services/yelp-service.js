@@ -1,3 +1,8 @@
+/*
+ * Created by: Khalil Brown
+ *
+ * Need to be removed unless keeping YELP
+ */
 angular.module('cc.yelp-service',[])
 .factory('yelpService', ['$http', 'auth', function($http, auth){
   var o = {

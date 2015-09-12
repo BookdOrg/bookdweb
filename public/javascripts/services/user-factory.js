@@ -1,3 +1,7 @@
+/*
+ * Created by: Khalil Brown
+ *
+ */
 angular.module('cc.user-factory',[])
 .factory('user',['$http','auth',function($http,auth){
 	var o = {};

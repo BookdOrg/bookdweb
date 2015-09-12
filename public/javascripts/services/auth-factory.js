@@ -1,3 +1,11 @@
+/*
+*
+* Created by: Khalil Brown
+*
+* AUTH Factory - Handles user authentication, login, registration, tokens.
+*
+*/
+
 angular.module('cc.auth-factory',[])
 .factory('auth', ['$http', '$window', '$rootScope','$state', function($http, $window, $rootScope,$state){
    var auth = {

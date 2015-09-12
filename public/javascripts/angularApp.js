@@ -1,4 +1,5 @@
 angular.module('cc', ['ui.router',
+  'cc.config',
   'cc.main-controller',
   'cc.auth-controller',
   'cc.nav-controller',
@@ -164,11 +165,11 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       templateUrl:'partials/contact.html'
     })
   $urlRouterProvider.otherwise('/');
-}]).run(function($rootScope,auth,$templateCache){
+}]).run(function($rootScope,auth,$templateCache,devHost){
   $rootScope.currentUser = auth.currentUser();
   $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v";
   $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
-  var socket = io.connect('//localhost:8112');
+//  var socket = io.connect('//'+devHost+':8112');
   $rootScope.$on('$routeChangeStart', function(event, next, current) {
         if (typeof(current) !== 'undefined'){
             $templateCache.remove(current.templateUrl);
