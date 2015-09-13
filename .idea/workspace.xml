@@ -29,8 +29,8 @@
       <file leaf-file-name="landing.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.505618" vertical-offset="2235" max-vertical-offset="3525">
-              <caret line="176" column="16" selection-start-line="176" selection-start-column="16" selection-end-line="176" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.33707866" vertical-offset="2430" max-vertical-offset="3525">
+              <caret line="180" column="75" selection-start-line="180" selection-start-column="75" selection-end-line="180" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -379,7 +379,11 @@
       <created>1442177579462</created>
       <updated>1442177579462</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="first CI test">
+      <created>1442177688863</created>
+      <updated>1442177688863</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -672,8 +676,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.505618" vertical-offset="2235" max-vertical-offset="3525">
-          <caret line="176" column="16" selection-start-line="176" selection-start-column="16" selection-end-line="176" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.33707866" vertical-offset="2430" max-vertical-offset="3525">
+          <caret line="180" column="75" selection-start-line="180" selection-start-column="75" selection-end-line="180" selection-end-column="75" />
           <folding />
         </state>
       </provider>
