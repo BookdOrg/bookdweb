@@ -3,11 +3,11 @@
 2 info using npm@2.11.2
 3 info using node@v0.12.5
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart odd-job@0.0.1
-6 info start odd-job@0.0.1
+5 info prestart bookd@0.0.1
+6 info start bookd@0.0.1
 7 verbose unsafe-perm in lifecycle true
-8 info odd-job@0.0.1 Failed to exec start script
-9 verbose stack Error: odd-job@0.0.1 start: `node ./bin/www`
+8 info bookd@0.0.1 Failed to exec start script
+9 verbose stack Error: bookd@0.0.1 start: `naught start --worker-count 2 --ipc-file ~/naught/run/bookd.ipc --log ~/naught/log/bookd.log --stdout ~/naught/log/bookd_stdout.log --stderr ~/naught/log/bookd_stderr.log ~/bookdweb/bin/www`
 9 verbose stack Exit status 1
 9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
 9 verbose stack     at EventEmitter.emit (events.js:110:17)
@@ -15,21 +15,21 @@
 9 verbose stack     at ChildProcess.emit (events.js:110:17)
 9 verbose stack     at maybeClose (child_process.js:1015:16)
 9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
-10 verbose pkgid odd-job@0.0.1
-11 verbose cwd /root/client-connect
+10 verbose pkgid bookd@0.0.1
+11 verbose cwd /root/bookdweb
 12 error Linux 3.13.0-57-generic
 13 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 14 error node v0.12.5
 15 error npm  v2.11.2
 16 error code ELIFECYCLE
-17 error odd-job@0.0.1 start: `node ./bin/www`
+17 error bookd@0.0.1 start: `naught start --worker-count 2 --ipc-file ~/naught/run/bookd.ipc --log ~/naught/log/bookd.log --stdout ~/naught/log/bookd_stdout.log --stderr ~/naught/log/bookd_stderr.log ~/bookdweb/bin/www`
 17 error Exit status 1
-18 error Failed at the odd-job@0.0.1 start script 'node ./bin/www'.
-18 error This is most likely a problem with the odd-job package,
+18 error Failed at the bookd@0.0.1 start script 'naught start --worker-count 2 --ipc-file ~/naught/run/bookd.ipc --log ~/naught/log/bookd.log --stdout ~/naught/log/bookd_stdout.log --stderr ~/naught/log/bookd_stderr.log ~/bookdweb/bin/www'.
+18 error This is most likely a problem with the bookd package,
 18 error not with npm itself.
 18 error Tell the author that this fails on your system:
-18 error     node ./bin/www
+18 error     naught start --worker-count 2 --ipc-file ~/naught/run/bookd.ipc --log ~/naught/log/bookd.log --stdout ~/naught/log/bookd_stdout.log --stderr ~/naught/log/bookd_stderr.log ~/bookdweb/bin/www
 18 error You can get their info via:
-18 error     npm owner ls odd-job
+18 error     npm owner ls bookd
 18 error There is likely additional logging output above.
 19 verbose exit [ 1, true ]

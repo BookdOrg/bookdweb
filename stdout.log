@@ -1,0 +1,158 @@
+{ [Error: Cannot find module '../build/Release/bson'] code: 'MODULE_NOT_FOUND' }
+[33m
+##############################################################
+#
+#   !!! MONGOOSE WARNING !!!
+#
+#   This is an UNSTABLE release of Mongoose.
+#   Unstable releases are available for preview/testing only.
+#   DO NOT run this in production.
+#
+##############################################################
+[0m
+Server started using settings: Port8111/n host: 10.132.219.4/n environment: production
+Server started using settings: Port8113/n host: 10.132.219.4/n environment: production
+[90mGET / [32m200 [90m23ms - 8.81kb[0m
+[90mGET /javascripts/vendor/jquery-2.1.4.min.js [36m304 [90m6ms[0m
+[90mGET /javascripts/vendor/moment.min.js [36m304 [90m2ms[0m
+[90mGET /javascripts/angularApp.js [36m304 [90m1ms[0m
+[90mGET /javascripts/config.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/main-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/fullcalendar.min.css [36m304 [90m2ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m2ms[0m
+[90mGET /stylesheets/autocomplete.min.css [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/auth-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/profile-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/nav-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/landing-controller.js [36m304 [90m2ms[0m
+[90mGET /javascripts/controllers/modal-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/account-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/admin-controller.js [36m304 [90m2ms[0m
+[90mGET /javascripts/controllers/bizlist-controller.js [36m304 [90m3ms[0m
+[90mGET /javascripts/controllers/claim-controller.js [36m304 [90m2ms[0m
+[90mGET /javascripts/controllers/business-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/search-controller.js [36m304 [90m2ms[0m
+[90mGET /javascripts/controllers/dashboard-controller.js [36m304 [90m0ms[0m
+[90mGET /javascripts/services/auth-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/business-factory.js [36m304 [90m2ms[0m
+[90mGET /javascripts/services/user-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/location-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/socket-service.js [36m304 [90m3ms[0m
+[90mGET /javascripts/services/admin-service.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/angular-file-upload.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/directives/thumb-directive.js [36m304 [90m2ms[0m
+[90mGET /javascripts/vendor/jquery.cloudinary.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js [36m304 [90m0ms[0m
+[90mGET /javascripts/vendor/angular.cloudinary.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/lodash.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/calendar.js [36m304 [90m0ms[0m
+[90mGET /javascripts/vendor/angularjs-dropdown-multiselect.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/autocomplete.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/angular-stripe-checkout.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/ngGeolocation.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/fullcalendar.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/fullcalendar.print.css [36m304 [90m1ms[0m
+[90mGET /partials/landing.html [36m304 [90m5ms[0m
+[90mGET /video/Traffic-blurred2.jpg [36m304 [90m1ms[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m55ms - 4.67mb[0m
+[90mGET /images/favicon.ico [36m304 [90m1ms[0m
+[90mGET / [32m200 [90m6ms - 8.81kb[0m
+[90mGET /javascripts/vendor/moment.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/jquery-2.1.4.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/config.js [36m304 [90m1ms[0m
+[90mGET /javascripts/angularApp.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/main-controller.js [36m304 [90m0ms[0m
+[90mGET /javascripts/controllers/auth-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/nav-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/profile-controller.js [36m304 [90m3ms[0m
+[90mGET /javascripts/controllers/account-controller.js [36m304 [90m3ms[0m
+[90mGET /javascripts/controllers/landing-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/modal-controller.js [36m304 [90m0ms[0m
+[90mGET /javascripts/vendor/fullcalendar.min.css [36m304 [90m1ms[0m
+[90mGET /stylesheets/autocomplete.min.css [36m304 [90m1ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/bizlist-controller.js [36m304 [90m3ms[0m
+[90mGET /javascripts/controllers/business-controller.js [36m304 [90m4ms[0m
+[90mGET /javascripts/controllers/claim-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/admin-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/search-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/controllers/dashboard-controller.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/auth-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/user-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/business-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/location-factory.js [36m304 [90m1ms[0m
+[90mGET /javascripts/services/admin-service.js [36m304 [90m0ms[0m
+[90mGET /javascripts/services/socket-service.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/angular-file-upload.min.js [36m304 [90m0ms[0m
+[90mGET /javascripts/directives/thumb-directive.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/jquery.cloudinary.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js [36m304 [90m2ms[0m
+[90mGET /javascripts/vendor/angular.cloudinary.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/calendar.js [36m304 [90m0ms[0m
+[90mGET /javascripts/vendor/lodash.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/angular-stripe-checkout.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/angularjs-dropdown-multiselect.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/autocomplete.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/fullcalendar.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/ngGeolocation.min.js [36m304 [90m1ms[0m
+[90mGET /javascripts/vendor/fullcalendar.print.css [36m304 [90m1ms[0m
+[90mGET /partials/landing.html [36m304 [90m1ms[0m
+[90mGET /video/Traffic-blurred2.jpg [36m304 [90m1ms[0m
+[90mGET /video/Traffic-blurred2.webm [36m304 [90m2ms[0m
+[90mGET /partials/home.html [32m200 [90m14ms - 2.18kb[0m
+[90mGET /categories [32m200 [90m25ms - 339b[0m
+[90mGET /partials/about.html [32m200 [90m4ms - 96b[0m
+[90mGET /partials/contact.html [32m200 [90m3ms - 90b[0m
+[90mGET /categories [36m304 [90m7ms[0m
+[90mGET /javascripts/vendor/fullcalendar.print.css [36m304 [90m2ms[0m
+[90mGET /javascripts/vendor/fullcalendar.min.css [36m304 [90m1ms[0m
+[90mGET /stylesheets/style.css [36m304 [90m1ms[0m
+[90mGET /stylesheets/autocomplete.min.css [36m304 [90m0ms[0m
+[90mGET /javascripts/vendor/angular-file-upload.min.map [32m200 [90m2ms - 18.49kb[0m
+[90mGET /home [32m200 [90m2ms - 8.81kb[0m
+[90mGET /javascripts/vendor/jquery-2.1.4.min.js [32m200 [90m2ms - 82.37kb[0m
+[90mGET /javascripts/vendor/moment.min.js [32m200 [90m1ms - 34.58kb[0m
+[90mGET /javascripts/config.js [32m200 [90m3ms - 443b[0m
+[90mGET /javascripts/angularApp.js [32m200 [90m3ms - 5.17kb[0m
+[90mGET /javascripts/controllers/main-controller.js [32m200 [90m4ms - 1.27kb[0m
+[90mGET /javascripts/controllers/auth-controller.js [32m200 [90m6ms - 528b[0m
+[90mGET /javascripts/controllers/nav-controller.js [32m200 [90m5ms - 360b[0m
+[90mGET /javascripts/controllers/profile-controller.js [32m200 [90m5ms - 804b[0m
+[90mGET /javascripts/controllers/landing-controller.js [32m200 [90m4ms - 470b[0m
+[90mGET /javascripts/controllers/modal-controller.js [32m200 [90m2ms - 534b[0m
+[90mGET /javascripts/vendor/fullcalendar.min.css [32m200 [90m1ms - 11.49kb[0m
+[90mGET /stylesheets/autocomplete.min.css [32m200 [90m12ms - 1.65kb[0m
+[90mGET /javascripts/controllers/account-controller.js [32m200 [90m11ms - 925b[0m
+[90mGET /javascripts/controllers/bizlist-controller.js [32m200 [90m8ms - 509b[0m
+[90mGET /stylesheets/style.css [32m200 [90m7ms - 1.23kb[0m
+[90mGET /javascripts/controllers/business-controller.js [32m200 [90m4ms - 6.53kb[0m
+[90mGET /javascripts/controllers/claim-controller.js [32m200 [90m5ms - 1.59kb[0m
+[90mGET /javascripts/controllers/admin-controller.js [32m200 [90m5ms - 409b[0m
+[90mGET /javascripts/controllers/search-controller.js [32m200 [90m5ms - 1.37kb[0m
+[90mGET /javascripts/controllers/dashboard-controller.js [32m200 [90m6ms - 141b[0m
+[90mGET /javascripts/services/auth-factory.js [32m200 [90m4ms - 1.44kb[0m
+[90mGET /javascripts/services/business-factory.js [32m200 [90m1ms - 3.24kb[0m
+[90mGET /javascripts/services/user-factory.js [32m200 [90m3ms - 727b[0m
+[90mGET /javascripts/services/location-factory.js [32m200 [90m0ms - 1.47kb[0m
+[90mGET /javascripts/services/admin-service.js [32m200 [90m1ms - 954b[0m
+[90mGET /javascripts/services/socket-service.js [32m200 [90m4ms - 684b[0m
+[90mGET /javascripts/vendor/angular-file-upload.min.js [32m200 [90m2ms - 14.58kb[0m
+[90mGET /javascripts/directives/thumb-directive.js [32m200 [90m7ms - 1.81kb[0m
+[90mGET /javascripts/vendor/jquery.cloudinary.js [32m200 [90m7ms - 39.38kb[0m
+[90mGET /javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js [32m200 [90m18ms - 73.49kb[0m
+[90mGET /javascripts/vendor/angular.cloudinary.js [32m200 [90m12ms - 4.12kb[0m
+[90mGET /javascripts/vendor/calendar.js [32m200 [90m15ms - 12.89kb[0m
+[90mGET /javascripts/vendor/lodash.min.js [32m200 [90m12ms - 49.62kb[0m
+[90mGET /javascripts/vendor/angularjs-dropdown-multiselect.min.js [32m200 [90m8ms - 8.2kb[0m
+[90mGET /javascripts/vendor/angular-stripe-checkout.min.js [32m200 [90m1ms - 2.09kb[0m
+[90mGET /javascripts/vendor/autocomplete.min.js [32m200 [90m1ms - 6.04kb[0m
+[90mGET /javascripts/vendor/ngGeolocation.min.js [32m200 [90m3ms - 1.15kb[0m
+[90mGET /javascripts/vendor/fullcalendar.min.js [32m200 [90m4ms - 96.17kb[0m
+[90mGET /javascripts/vendor/angular-file-upload.min.map [36m304 [90m5ms[0m
+[90mGET /javascripts/vendor/fullcalendar.print.css [32m200 [90m1ms - 5.26kb[0m
+[90mGET /categories [32m200 [90m6ms - 339b[0m
+[90mGET /partials/home.html [32m200 [90m2ms - 2.18kb[0m
+[90mGET /partials/landing.html [32m200 [90m2ms - 9.02kb[0m
+[90mGET /video/Traffic-blurred2.jpg [32m200 [90m3ms - 207.8kb[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m32ms - 4.67mb[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m28ms - 4.67mb[0m
