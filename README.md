@@ -3,10 +3,16 @@
 ##Build Status##
 [![Build Status](https://drone.io/bitbucket.org/knb6/bookdweb/status.png)](https://drone.io/bitbucket.org/knb6/bookdweb/latest)
 
-#Import categories json into your DB
+##Link to build CI status#
+
+* https://drone.io/bitbucket.org/knb6/bookdweb
+
+#Install NodeJS & MongoDB#
+
+#Import categories json into your DB##
 *mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
 
-#SET ENVIRONMENT VARIABLES
+##SET ENVIRONMENT VARIABLES##
 * alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
 * export NODE_ENV=development
@@ -22,3 +28,6 @@
 Finally in your terminal type:
 
 * source ~/.bash_profile
+
+#Download MongoHub as a MONGODB GUI interface#
+* https://github.com/jeromelebel/MongoHub-Mac

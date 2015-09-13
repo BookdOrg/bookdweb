@@ -4,7 +4,7 @@
  */
 angular.module('cc.socket-service',[])
 .factory('socket', function ($rootScope) {
-  var socket = io.connect('//localhost:8112');
+  var socket = io.connect('//localhost:3001');
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  

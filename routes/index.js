@@ -39,7 +39,7 @@ Array.prototype.getIndexBy = function (name, value) {
         }
     }
 }
-//server.listen(8112);
+server.listen(process.env.devsocketPort);
 io.on('connection',function(socket){
   socket.on('joinApptRoom',function(data){
     socket.join(data.startDate);
