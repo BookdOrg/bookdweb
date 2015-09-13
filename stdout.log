@@ -156,3 +156,6 @@ Server started using settings: Port8113/n host: 10.132.219.4/n environment: prod
 [90mGET /video/Traffic-blurred2.jpg [32m200 [90m3ms - 207.8kb[0m
 [90mGET /video/Traffic-blurred2.webm [32m206 [90m32ms - 4.67mb[0m
 [90mGET /video/Traffic-blurred2.webm [32m206 [90m28ms - 4.67mb[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m35ms - 4.67mb[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m37ms - 4.67mb[0m
+[90mGET /video/Traffic-blurred2.webm [32m206 [90m43ms - 4.67mb[0m
