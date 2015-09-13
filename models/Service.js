@@ -6,8 +6,7 @@ var ServiceSchema = new mongoose.Schema({
   name: String,
   duration: String,
   description: String,
-  price: String,
-  options: Object
+  price: String
 });
 
 mongoose.model('Service', ServiceSchema);

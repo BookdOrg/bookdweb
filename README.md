@@ -2,7 +2,7 @@
 
 ##Build Status##
 *
-[![Build Status](http://drone.bookd.me:8080/api/badge/bitbucket.org/knb6/bookdweb/status.svg?branch=master)](http://drone.bookd.me:8080/bitbucket.org/knb6/bookdweb)
+[![Build Status](https://drone.io/bitbucket.org/knb6/bookdweb/status.png)](https://drone.io/bitbucket.org/knb6/bookdweb/latest)
 
 *This README would normally document whatever steps are necessary to get your application up and running.
 
