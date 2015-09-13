@@ -29,8 +29,8 @@
       <file leaf-file-name="landing.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44244605" vertical-offset="2541" max-vertical-offset="3525">
-              <caret line="194" column="34" selection-start-line="194" selection-start-column="34" selection-end-line="194" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.29856116" vertical-offset="2646" max-vertical-offset="3510">
+              <caret line="193" column="21" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -504,7 +504,11 @@
       <created>1442178002714</created>
       <updated>1442178002714</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="copy update">
+      <created>1442179232186</created>
+      <updated>1442179232186</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -549,7 +553,8 @@
     <MESSAGE value="update package, test webstorm" />
     <MESSAGE value="naught test" />
     <MESSAGE value="first CI test" />
-    <option name="LAST_COMMIT_MESSAGE" value="first CI test" />
+    <MESSAGE value="copy update" />
+    <option name="LAST_COMMIT_MESSAGE" value="copy update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -797,8 +802,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44244605" vertical-offset="2541" max-vertical-offset="3525">
-          <caret line="194" column="34" selection-start-line="194" selection-start-column="34" selection-end-line="194" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.29856116" vertical-offset="2646" max-vertical-offset="3510">
+          <caret line="193" column="21" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="21" />
           <folding />
         </state>
       </provider>
