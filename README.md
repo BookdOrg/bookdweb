@@ -20,4 +20,5 @@
 * export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc
 
 Finally in your terminal type:
+
 * source ~/.bash_profile
