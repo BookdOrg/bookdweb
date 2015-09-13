@@ -3,10 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-	"start": "naught start ~/bookdweb/bin/www --worker-count 2 --ipc-file ~/naught/run/bookd.ipc --log ~/naught/log/bookd.log --stdout ~/naught/log/bookd_stdout.log --stderr ~/naught/log/bookd_stderr.log",
-      "stop": "naught stop --timeout 1 ~/bookdweb/naught.ipc",
-      "status": "naught status ~/bookdweb/naught.ipc",
-      "deploy": "naught deploy --timeout 15 ~/bookdwed/naught.ipc"
+	"start": "node bin/www"
   },
 "dependencies": {
     "body-parser": "~1.0.0",
