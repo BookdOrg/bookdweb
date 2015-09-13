@@ -8,7 +8,7 @@
 *mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
 
 #SET ENVIRONMENT VARIABLES
-**alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
+* alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
 *export NODE_ENV=development
 *export devhost=localhost
