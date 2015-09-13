@@ -1,0 +1,4 @@
+{"_id":{"$oid":"55d94292e5ef87c018255fd1"},"id":"barbers","title":"Barbers","image":""}
+{"_id":{"$oid":"55d942e2e5ef87c018255fd2"},"id":"hairSalon","title":"Hair Salon","image":""}
+{"_id":{"$oid":"55d94308e5ef87c018255fd3"},"id":"nailSalon","title":"Nail Salon","image":""}
+{"_id":{"$oid":"55d9432ae5ef87c018255fd4"},"id":"miscellaneous","title":"Miscellaneous","image":""}
