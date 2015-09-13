@@ -13,7 +13,7 @@
 
     // First application
     {
-      name      : "Bookd",
+      name      : "www",
       script    : "bin/www",
       env_production : {
         NODE_ENV: "production"
