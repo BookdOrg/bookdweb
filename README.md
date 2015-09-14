@@ -22,6 +22,7 @@ Create a bash script to update environment variables or modify .bash_profile
 
 * Paste this into your .bash_profile or script
 
+
     alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
     export NODE_ENV=development
