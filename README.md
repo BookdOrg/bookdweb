@@ -16,6 +16,11 @@
 * mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
 
 ##SET ENVIRONMENT VARIABLES##
+Create a bash script to update environment variables or modify .bash_profile
+
+###Script Example###
+
+''''
 * alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
 * export NODE_ENV=development
@@ -27,7 +32,7 @@
 * export devsocketPort=3001
 * export yelpconsumersecret=0p5OnO_XT-Qfwtl_TIVCrG_lPpU
 * export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc
-
+''''
 Finally in your terminal type:
 
 * source ~/.bash_profile
