@@ -20,8 +20,7 @@ Create a bash script to update environment variables or modify .bash_profile
 
 ###Script Example###
 
-''''
-* alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
+'''* alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
 * export NODE_ENV=development
 * export devhost=localhost
@@ -31,8 +30,7 @@ Create a bash script to update environment variables or modify .bash_profile
 * export GOOGLE_PLACES_OUTPUT_FORMAT=json
 * export devsocketPort=3001
 * export yelpconsumersecret=0p5OnO_XT-Qfwtl_TIVCrG_lPpU
-* export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc
-''''
+* export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc'''
 Finally in your terminal type:
 
 * source ~/.bash_profile
