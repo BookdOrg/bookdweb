@@ -13,7 +13,7 @@
 * MongoDB tutorial: http://docs.mongodb.org/manual/tutorials/install-mongodb-on-os-x/
 
 #Import categories json into your DB##
-* mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
+`mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json`
 
 ##SET ENVIRONMENT VARIABLES##
 Create a bash script to update environment variables or modify .bash_profile
