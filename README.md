@@ -20,20 +20,23 @@ Create a bash script to update environment variables or modify .bash_profile
 
 ###Script Example###
 
-'''* alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
+* Paste this into your .bash_profile or script
 
-* export NODE_ENV=development
-* export devhost=localhost
-* export devcloudinarySecret=oPwyFfDS9Zhprx3NibKbFoFanjw
-* export devlocalPort=3002
-* export GOOGLE_PLACES_API_KEY=AIzaSyB-hJk0rUSYf1V_Yf_XXxdOJPpeTiodFTo
-* export GOOGLE_PLACES_OUTPUT_FORMAT=json
-* export devsocketPort=3001
-* export yelpconsumersecret=0p5OnO_XT-Qfwtl_TIVCrG_lPpU
-* export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc'''
+    alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
+
+    export NODE_ENV=development
+    export devhost=localhost
+    export devcloudinarySecret=oPwyFfDS9Zhprx3NibKbFoFanjw
+    export devlocalPort=3002
+    export GOOGLE_PLACES_API_KEY=AIzaSyB-hJk0rUSYf1V_Yf_XXxdOJPpeTiodFTo
+    export GOOGLE_PLACES_OUTPUT_FORMAT=json
+    export devsocketPort=3001
+    export yelpconsumersecret=0p5OnO_XT-Qfwtl_TIVCrG_lPpU
+    export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc'''
+
 Finally in your terminal type:
 
-* source ~/.bash_profile
+`source ~/.bash_profile`
 
 #Fire up the server#
 * npm start
