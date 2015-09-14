@@ -8,9 +8,12 @@
 * https://drone.io/bitbucket.org/knb6/bookdweb
 
 #Install NodeJS & MongoDB#
+##OSX##
+* Node tutorial: http://blog.teamtreehouse.com/install-node-js-npm-mac
+* MongoDB tutorial: http://docs.mongodb.org/manual/tutorials/install-mongodb-on-os-x/
 
 #Import categories json into your DB##
-*mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
+* mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json
 
 ##SET ENVIRONMENT VARIABLES##
 * alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
@@ -28,6 +31,9 @@
 Finally in your terminal type:
 
 * source ~/.bash_profile
+
+#Fire up the server#
+* npm start
 
 #Download MongoHub as a MONGODB GUI interface#
 * https://github.com/jeromelebel/MongoHub-Mac
