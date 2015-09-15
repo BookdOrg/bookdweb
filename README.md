@@ -3,9 +3,12 @@
 ##Build Status##
 [![Build Status](https://drone.io/bitbucket.org/knb6/bookdweb/status.png)](https://drone.io/bitbucket.org/knb6/bookdweb/latest)
 
-##Link to build CI status#
+##Link to build CI status##
 
 * https://drone.io/bitbucket.org/knb6/bookdweb
+
+##Hip Chat##
+* https://bookd.hipchat.com/chat
 
 #Install NodeJS & MongoDB#
 ##OSX##

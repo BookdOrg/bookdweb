@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-	"start": "node bin/www"
+    "start": "node bin/www",
+    "tests": "grunt mochaTest"
   },
-"dependencies": {
+  "dependencies": {
     "body-parser": "~1.0.0",
     "busboy-body-parser": "0.0.9",
     "cookie-parser": "~1.0.1",
@@ -15,6 +16,10 @@
     "express-jwt": "~1.0.0",
     "geofire": "~3.2.2",
     "gridfs-stream": "~1.1.1",
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0",
     "jsonwebtoken": "~3.2.2",
     "mongoose": "~3.8.12",
     "morgan": "~1.0.0",
@@ -22,10 +27,17 @@
     "nodemon": "~1.2.1",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
+    "request": "^2.61.0",
     "static-favicon": "~1.0.0",
     "yelp": "~0.2.0"
   },
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.3.2",
     "moment": "*",
     "moment-range": "*"
   }
