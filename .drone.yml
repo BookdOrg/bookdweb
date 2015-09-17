@@ -1,3 +1,4 @@
 image: bradrydzewski/base
 script:
-  - echo hello world
+  - npm install
+  - npm run-script tests
