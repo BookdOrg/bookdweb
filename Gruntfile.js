@@ -23,7 +23,12 @@ module.exports = function(grunt) {
                     quiet: false,
                     clearRequireCache: false
                 },
-                src:['test/**/*.js']
+                src:['testSpecs/backendSpecs/**/*.js']
+            }
+        },
+        karma:{
+            unit:{
+                configFile:'karma.conf.js'
             }
         }
     });
@@ -31,8 +36,9 @@ module.exports = function(grunt) {
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-karma');
 
     // Default task(s).
-    grunt.registerTask('default', ['uglify','mochaTest']);
+    grunt.registerTask('default', ['uglify','mochaTest','karma']);
 
 };

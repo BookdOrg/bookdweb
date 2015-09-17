@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node bin/www",
-    "test": "grunt mochaTest"
+    "backend-test": "grunt mochaTest",
+    "frontend-test": "grunt karma"
   },
   "dependencies": {
     "body-parser": "~1.0.0",
+    "bower": "^1.5.2",
     "busboy-body-parser": "0.0.9",
     "chai": "^3.2.0",
     "cookie-parser": "~1.0.1",
@@ -21,8 +23,13 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
+    "grunt-karma": "^0.12.1",
     "grunt-mocha-test": "^0.12.7",
     "jsonwebtoken": "~3.2.2",
+    "karma": "^0.13.9",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
     "mocha": "^2.3.2",
     "mongoose": "~3.8.12",
     "morgan": "~1.0.0",
@@ -30,14 +37,17 @@
     "nodemon": "~1.2.1",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
+    "phantomjs": "^1.9.18",
     "request": "^2.62.0",
     "should": "^7.1.0",
     "static-favicon": "~1.0.0",
     "yelp": "~0.2.0"
   },
   "devDependencies": {
+    "karma-requirejs": "^0.2.2",
     "moment": "*",
     "moment-range": "*",
+    "requirejs": "^2.1.20",
     "supertest": "^1.1.0"
   }
 }
