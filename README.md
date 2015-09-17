@@ -18,6 +18,9 @@
 #Import categories json into your DB##
 `mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json`
 
+##Create testAccount for Unit Tests, and Admin Account##
+`mongoimport --db clientconnect --collection users --file baseUser --type json`
+
 ##SET ENVIRONMENT VARIABLES##
 Create a bash script to update environment variables or modify .bash_profile
 

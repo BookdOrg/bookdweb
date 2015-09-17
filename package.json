@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node bin/www",
-    "tests": "grunt mochaTest"
+    "test": "grunt mochaTest"
   },
   "dependencies": {
     "body-parser": "~1.0.0",
