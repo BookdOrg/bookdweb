@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "moment": "*",
-    "moment-range": "*"
+    "moment-range": "*",
+    "supertest": "^1.1.0"
   }
 }
