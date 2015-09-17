@@ -24,11 +24,4 @@ describe("Routes",function(){
             done();
         })
     });
-//    it("returns categories in Bookd",function(){
-//        request(url,function(err,response,body){
-//            console.log(body)
-//            done();
-////            expect(body).to.equal(200);
-//        })
-//    })
 })
