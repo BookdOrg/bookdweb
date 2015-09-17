@@ -24,7 +24,7 @@ describe("Routes",function(){
         request(url)
             .post('/login')
             .send({username:'testaccount',password:'1234'})
-            .expect(200,done)
+            .expect(400,done)
     })
     it("/categories returns status 200",function(done){
         request(url)
