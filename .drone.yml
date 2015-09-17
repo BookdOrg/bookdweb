@@ -1,4 +1,5 @@
 image: bradrydzewski/base
 script:
+  - cd ~/bookdweb
   - npm install
   - npm run-script tests
