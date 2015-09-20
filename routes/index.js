@@ -79,13 +79,13 @@ var Service = mongoose.model('Service');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 /**
-*  Returns all appointments for both the employee and the user trying to schedule an appointment,
+*  Returns all appointments for both the employee and the customers trying to schedule an appointment,
 *  Takes in the ID of the employee & the startDate to search for. User ID is grabbed from  
 *  auth middleware. 
 *
 **/
 
-router.get('/employee/appointments',auth,function(req,res,next){
+router.get('/user/appointments',auth,function(req,res,next){
   var startDate = req.param('startDate');
   var employeeId = req.param('id');
   var userId = req.payload._id;
@@ -102,7 +102,7 @@ router.get('/employee/appointments',auth,function(req,res,next){
 })
 
 /**
-*   Creates a new appointment on both the Employee and User. 
+*   Creates a new appointment for both the Employee and Customer. 
 *   Takes in the appointment object. 
 *   
 *    Parameters: 
@@ -116,7 +116,7 @@ router.get('/employee/appointments',auth,function(req,res,next){
                 card - 
 **/
 
-router.post("/appointment",auth,function(req,res,next){
+router.post("/appointments/create",auth,function(req,res,next){
   var appointment = new Appointment();
   appointment.businessId = req.body.businessid;
   appointment.employee = req.body.employee;
@@ -159,12 +159,12 @@ router.post("/appointment",auth,function(req,res,next){
 
 
 /**
-*   Queries google places for a business based on a 
+*   Queries & returns google places for a business based on a 
 *   text search.
 *
 **/
 
-router.get('/query',auth,function(req,res,next){
+router.get('/business/search',auth,function(req,res,next){
   var query = req.param('query');
   var updatedBusinesses = [];
   var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
@@ -217,7 +217,9 @@ router.get('/query',auth,function(req,res,next){
             radius - 
 *
 **/
-router.get('/business-list',auth,function(req,res,next){
+// TO DO: combine with the business/search route
+
+router.get('/business/nearby',auth,function(req,res,next){
   var keyword = req.param('category');
   var location = req.param('location');
   var radius = req.param('radius');
@@ -264,7 +266,7 @@ router.get('/business-list',auth,function(req,res,next){
               placeId -
 *
 **/
-router.get('/business-detail',auth,function(req,res,next){
+router.get('/business/details',auth,function(req,res,next){
   var id = req.param('placesId');
   Business.findOne({'placesId':id}).populate([{path:"employees",select:'_id businessAppointments firstName lastName username avatarVersion'},{path:'services',select:''}]).exec(function(error,business){
     if(error){return next(error);}
@@ -315,7 +317,7 @@ router.get('/business-detail',auth,function(req,res,next){
     Parameters: 
             id - The id of the employee. 
 **/
-router.get('/search/employees',auth,function(req,res,next){
+router.get('/user/search',auth,function(req,res,next){
   var id = req.param('id');
   User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion').exec(function(error,user){
     if(error){return next(error);}
@@ -332,7 +334,7 @@ router.get('/search/employees',auth,function(req,res,next){
 *
 **/
 
-router.post('/business/employee',auth,function(req,res,next){
+router.post('/business/add-employee',auth,function(req,res,next){
   var businessId = req.body.businessId;
   var employeeId = req.body.employeeId;
 
@@ -361,7 +363,7 @@ router.post('/business/employee',auth,function(req,res,next){
 *
 **/
 
-router.get('/categories',auth,function(req,res,next){
+router.get('/categories/all',auth,function(req,res,next){
   Category.find({}).exec(function(err,categories){
     if(err){return next(err);}
     res.json(categories);
@@ -379,7 +381,7 @@ router.get('/categories',auth,function(req,res,next){
 *
 **/
 
-router.post('/category',auth,function(req,res,next){
+router.post('/categories/add-category',auth,function(req,res,next){
   var category = new Category();
 
   category.id = req.body.id;
@@ -403,7 +405,7 @@ router.post('/category',auth,function(req,res,next){
 *   Returns all businesses that have requested to be claimed.
 *
 **/
-router.get('/claim-requests',auth,function(req,res,next){
+router.get('/business/pending-requests',auth,function(req,res,next){
   var updatedBusinesses = [];
   Business.find({pending:true}).populate({path:'owner',select:'id firstName lastName'}).exec(function(err,businesses){
     if(err){return next(err);}
@@ -433,7 +435,7 @@ router.get('/claim-requests',auth,function(req,res,next){
 *
 **/
 
-router.post('/claim-status',auth,function(req,res,next){
+router.post('/business/update-request',auth,function(req,res,next){
     Business.findOne({"_id":req.body.info._id}).exec(function(err,business){
       business.pending = req.body.pending;
       business.claimed = true;
@@ -466,7 +468,7 @@ router.post('/claim-status',auth,function(req,res,next){
               businessId-
 *
 **/
-router.post('/business/service',auth,function(req,res,next){
+router.post('/business/add-service',auth,function(req,res,next){
   var id = req.payload._id;
   var service = new Service();
 
@@ -516,7 +518,7 @@ router.post('/business/service',auth,function(req,res,next){
               timestamp-
 *
 **/
-router.post('/business/claim',auth,function(req,res,next){
+router.post('/business/claim-request',auth,function(req,res,next){
   var business = new Business();
   var id = req.payload._id;
 
@@ -652,8 +654,9 @@ router.get('/profile',auth,function(req,res,next){
 //       res.json(profile);
 //   })
 // });
-router.get('/sockettest',function(req,res){
-  res.render("page");
-})
+
+// router.get('/sockettest',function(req,res){
+//   res.render("page");
+// })
 
 module.exports = router;
