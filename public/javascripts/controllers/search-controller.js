@@ -21,7 +21,7 @@ function($scope, $state, auth,businessFactory,$modal){
 	})
 
 	$scope.search =function(){
-		businessFactory.query($scope.query)
+		businessFactory.search($scope.query)
 			.then(function(data){
 				$scope.queryResults = data.data.results;
 		})

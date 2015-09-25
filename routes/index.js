@@ -10,17 +10,25 @@ var Busboy = require('busboy');
 var async = require('async');
 var acl = require('acl');
 var _ = require('underscore');
-var moment = require('moment');
-require('moment-range');
-
+//var moment = require('moment');
+//require('moment-range');
 var GooglePlaces = require('googleplaces');
+var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
+var mongoose = require('mongoose');
+acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
 
-var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.env.GOOGLE_PLACES_OUTPUT_FORMAT); 
+var User = mongoose.model('User');
+var Business = mongoose.model('Business');
+var Appointment = mongoose.model('Appointment');
+var Category = mongoose.model('Category');
+var Service = mongoose.model('Service');
+
+var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-Array.prototype.inArray = function(comparer) { 
+Array.prototype.inArray = function(comparer) {
     for(var i=0; i < this.length; i++) { 
         if(comparer(this[i])) return true; 
     }
@@ -61,23 +69,7 @@ io.on('connection',function(socket){
 //   });
 
 
-/* GET home page. */
-//router.get('/*', function(req, res) {
-  //res.render('index', { title: '' });
-//});
 
-var mongoose = require('mongoose');
-acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
-
-
-// var Review = mongoose.model('Review');
-var User = mongoose.model('User');
-var Business = mongoose.model('Business');
-var Appointment = mongoose.model('Appointment');
-var Category = mongoose.model('Category');
-var Service = mongoose.model('Service');
-
-var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 /**
 *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
@@ -103,6 +95,162 @@ router.get('/user/appointments',auth,function(req,res,next){
 })
 
 /**
+ *   Returns the profile of a specified user.
+ *
+ **/
+router.get('/user/profile',auth,function(req,res,next){
+    var username = req.param('username');
+    User.findOne({"username": username}).select('_id lastName firstName username avatarVersion personalAppointments businessAppointments').populate({path:'businessAppointments personalAppointments'}).exec(function(err,user){
+        if(err){return handleError(err)};
+        var profile = {};
+        profile.user= user;
+        var updatedBusinesses = [];
+        // async.each(user.businesses,function(businessObj,employeeCallBack){
+        //   googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
+        //     if(error){
+        //       return employeeCallBack(error);
+        //     }
+        //     response.result.info = businessObj;
+        //     Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
+        //       profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
+        //       employeeCallBack();
+        //     });
+
+        //   })
+        // },function(err){
+        //   if(err){return next(err);}
+        res.json(profile);
+        // })
+    })
+});
+
+/**
+ *   Returns a user object
+ *
+ *  Parameters:
+ *  id - The id of the employee.
+ **/
+router.get('/user/search',auth,function(req,res,next){
+    var id = req.param('id');
+    User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion').exec(function(error,user){
+        if(error){return next(error);}
+        res.json(user);
+    })
+})
+/**
+ *   Logs in a valid user using passport.
+ *
+ **/
+
+router.post('/login', function(req, res, next){
+    if(!req.body.username || !req.body.password){
+        return res.status(400).json({message: 'Please fill out all fields'});
+    }
+    passport.authenticate('local', function(err, user, info){
+        if(err){ return next(err); }
+
+        if(user){
+            return res.json({token: user.generateJWT()});
+        } else {
+            return res.status(401).json(info);
+        }
+    })(req, res, next);
+});
+
+/**
+ *   Registers a new account
+ *
+ **/
+router.post('/register', function(req, res, next){
+    if(!req.body.username || !req.body.password){
+        return res.status(400).json({message: 'Please fill out all fields'});
+    }
+
+    var user = new User();
+
+    user.username = req.body.username;
+
+    user.setPassword(req.body.password);
+
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+
+    user.save(function (err){
+        if(err){ return res.status(400).json({message:"Username taken, please choose another."}); }
+
+        return res.json({token: user.generateJWT()})
+    });
+})
+/**
+ *   Upload a users profile picture
+ *
+ **/
+router.post('/upload', auth, function(req,res,next){
+    var id = req.payload._id;
+    var busboy = new Busboy({headers:req.headers});
+
+    busboy.on('file',function(fieldname,file,filename,encoding,mimetype){
+
+        var stream = cloudinary.uploader.upload_stream(function(result){
+            User.findOne({'_id':id},function(err,user){
+                if(err){return handleError(err)};
+                user.avatarVersion = result.version;
+                user.save(function(err){
+                    if(err){ return next(err); }
+                })
+            })
+        }, {public_id: "profile/"+id});
+
+        file.pipe(stream);
+    })
+    busboy.on('finish',function(){
+        res.end();
+    })
+    req.pipe(busboy);
+});
+/**
+ *   Returns all categories that Bookd offers
+ *
+ **/
+
+router.get('/categories/all',auth,function(req,res,next){
+    Category.find({}).exec(function(err,categories){
+        if(err){return next(err);}
+        res.json(categories);
+    })
+})
+
+/**
+ *   Adds a new category to the Bookd System.
+
+ Parameters:
+ id-
+ name-
+ description-
+ image- cloudinary id
+ *
+ **/
+
+router.post('/categories/add-category',auth,function(req,res,next){
+    var category = new Category();
+
+    category.id = req.body.id;
+    category.name = req.body.name;
+    category.description = req.body.description;
+    category.image = req.body.image;
+
+    Category.findOne(req.body.name).exec(function(err,tempCat){
+        if(err){return next(err)};
+        if(tempCat){
+            return res.status(400).json({message: 'That Category already exsists!'});
+        }else{
+            category.save(function(err,category){
+                res.json({message: "Success"})
+            })
+        }
+    })
+})
+/**
 *   Creates a new appointment for both the Employee and Customer. 
 *   Takes in the appointment object. 
 *   
@@ -117,7 +265,7 @@ router.get('/user/appointments',auth,function(req,res,next){
                 card - 
 **/
 
-router.post("/appointments/create",auth,function(req,res,next){
+router.post("/business/appointments/create",auth,function(req,res,next){
   var appointment = new Appointment();
   appointment.businessId = req.body.businessid;
   appointment.employee = req.body.employee;
@@ -312,19 +460,7 @@ router.get('/business/details',auth,function(req,res,next){
 // router.get('/appointments/business',auth,function(req,res,next){
 
 // })
-/**
-*   Returns an employee object
-*
-    Parameters: 
-            id - The id of the employee. 
-**/
-router.get('/user/search',auth,function(req,res,next){
-  var id = req.param('id');
-  User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion').exec(function(error,user){
-    if(error){return next(error);}
-    res.json(user);
-  })
-})
+
 
 /**
 *   Adds a new employee to a Business.
@@ -357,50 +493,6 @@ router.post('/business/add-employee',auth,function(req,res,next){
   })
 })
 
-
-
-/**
-*   Returns all categories that Bookd offers
-*
-**/
-
-router.get('/categories/all',auth,function(req,res,next){
-  Category.find({}).exec(function(err,categories){
-    if(err){return next(err);}
-    res.json(categories);
-  })
-})
-
-/**
-*   Adds a new category to the Bookd System.
-
-    Parameters:
-              id-
-              name-
-              description-
-              image- cloudinary id
-*
-**/
-
-router.post('/categories/add-category',auth,function(req,res,next){
-  var category = new Category();
-
-  category.id = req.body.id;
-  category.name = req.body.name;
-  category.description = req.body.description;
-  category.image = req.body.image;
-
-  Category.findOne(req.body.name).exec(function(err,tempCat){
-    if(err){return next(err)};
-    if(tempCat){
-      return res.status(400).json({message: 'That Category already exsists!'});
-    }else{
-      category.save(function(err,category){
-        res.json({message: "Success"})
-      })
-    }
-  })
-})
 
 /**
 *   Returns all businesses that have requested to be claimed.
@@ -540,124 +632,4 @@ router.post('/business/claim-request',auth,function(req,res,next){
       })
   })
 })
-/**
-*   Logs in a valid user using passport.
-*
-**/
-
-router.post('/login', function(req, res, next){
-  if(!req.body.username || !req.body.password){
-    return res.status(400).json({message: 'Please fill out all fields'});
-  }
-  passport.authenticate('local', function(err, user, info){
-    if(err){ return next(err); }
-
-    if(user){
-      return res.json({token: user.generateJWT()});
-    } else {
-      return res.status(401).json(info);
-    }
-  })(req, res, next);
-});
-
-/**
-*   Registers a new account
-*
-**/
-router.post('/register', function(req, res, next){
-  if(!req.body.username || !req.body.password){
-    return res.status(400).json({message: 'Please fill out all fields'});
-  }
-
-  var user = new User();
-
-  user.username = req.body.username;
-
-  user.setPassword(req.body.password);
-
-  user.firstName = req.body.firstName;
-  user.lastName = req.body.lastName;
-
-  user.save(function (err){
-    if(err){ return res.status(400).json({message:"Username taken, please choose another."}); }
-
-    return res.json({token: user.generateJWT()})
-  });
-})
-/**
-*   Upload a users profile picture
-*
-**/
-router.post('/upload', auth, function(req,res,next){
-    var id = req.payload._id;
-    var busboy = new Busboy({headers:req.headers});
-
-    busboy.on('file',function(fieldname,file,filename,encoding,mimetype){
-
-      var stream = cloudinary.uploader.upload_stream(function(result){
-        User.findOne({'_id':id},function(err,user){
-          if(err){return handleError(err)};
-          user.avatarVersion = result.version;
-          user.save(function(err){
-            if(err){ return next(err); }
-          }) 
-        })
-      }, {public_id: "profile/"+id});
-
-      file.pipe(stream);
-    })
-    busboy.on('finish',function(){
-      res.end();
-    })
-    req.pipe(busboy);
-});
-
-/**
-*   Returns the profile of a specified user. 
-*
-**/
-router.get('/profile',auth,function(req,res,next){
-  var username = req.param('username');
-  User.findOne({"username": username}).select('_id lastName firstName username avatarVersion personalAppointments businessAppointments').populate({path:'businessAppointments personalAppointments'}).exec(function(err,user){
-    if(err){return handleError(err)};
-    var profile = {};
-    profile.user= user;
-    var updatedBusinesses = [];
-    // async.each(user.businesses,function(businessObj,employeeCallBack){
-    //   googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
-    //     if(error){
-    //       return employeeCallBack(error);
-    //     }
-    //     response.result.info = businessObj;
-    //     Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
-    //       profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
-    //       employeeCallBack();
-    //     });
-        
-    //   })
-    // },function(err){
-    //   if(err){return next(err);}
-      res.json(profile);
-    // })
-  })
-});
-
-/**
-*   
-*
-**/
-// router.get('/api/:id/profile',function(req,res,next){
-//   var id = req.params.id;
-//   User.findOne({"_id": id}).select('_id lastName firstName username avatarVersion').exec(function(err,user){
-//     if(err){return handleError(err)};
-//       var profile = {};
-//       profile.user= user;
-//       res.json(profile);
-//   })
-// });
-
-// router.get('/sockettest',function(req,res){
-//   res.render("page");
-// })
-
 module.exports = router;

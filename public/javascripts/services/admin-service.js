@@ -16,7 +16,7 @@ angular.module('cc.admin-service',[])
   *
   */
   o.getRequests = function(){
-    return $http.get('/claim-requests', {
+    return $http.get('/business/pending-requests', {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       angular.copy(data, o.requests);
@@ -30,7 +30,7 @@ angular.module('cc.admin-service',[])
   *      request - the business object
   */
   o.changeStatus = function(request){
-    return $http.post('/claim-status',request, {
+    return $http.post('/business/update-request',request, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       angular.copy(data, o.requests);

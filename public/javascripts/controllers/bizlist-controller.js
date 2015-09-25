@@ -9,7 +9,7 @@ function($scope, auth, $stateParams,businessFactory){
 	var category = $stateParams.cat;
 	$scope.cat = category;
 	var radius = '5000';
-	businessFactory.getBusinessList(category,location,radius)
+	businessFactory.getNearby(category,location,radius)
 		.then(function(data){
 			$scope.businesses = data.data;
 		})

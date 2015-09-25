@@ -69,7 +69,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
 }])
-.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state,$rootScope) {
+.controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state,$rootScope,user) {
 
   $scope.service = businessFactory.service;
   $scope.stripePrice = $scope.service.price * 100;
@@ -92,7 +92,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       id:employeeId
     }
     socket.emit('joinApptRoom',employeeApptObj);
-    businessFactory.getEmployeeAppts(employeeApptObj)
+    user.getAppts(employeeApptObj)
       .then(function(data){
         calculateAppointments(data.data);
       });
@@ -200,7 +200,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $modalInstance.dismiss('cancel');
   };
 })
-.controller('addEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory) {
+.controller('addEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory,user) {
 
   $scope.create = function (id) {
     var business = businessFactory.business;
@@ -213,7 +213,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   };
 
   $scope.findEmployee = function(id){
-    businessFactory.searchEmployee(id)
+    user.search(id)
       .then(function(data){
         $scope.employee = data.data;
       })

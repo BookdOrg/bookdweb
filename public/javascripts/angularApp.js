@@ -40,7 +40,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('landing',{
       url:'/',
       templateUrl: 'partials/landing.html',
-      controller: 'landingCtrl',
+      controller: 'landingCtrl'
     })
     .state('home', {
       url: '/home',
@@ -55,7 +55,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('bizlist',{
       url:'/category/{cat}/{location}',
       templateUrl:'partials/bizlist.html',
-      controller:'bizlistCtrl',
+      controller:'bizlistCtrl'
       // resolve: {
       //   businesses:['$http','$stateParams',function($http,$stateParams){
       //     var cat = $stateParams.cat;
@@ -67,7 +67,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('business',{
       url:'/business/{businessid}',
       templateUrl:'partials/business.html',
-      controller:'businessCtrl',
+      controller:'businessCtrl'
       // resolve:{
       //   business:['$http','$stateParams','yelpService','businessFactory',function($http,$stateParams,yelpService,businessFactory){
       //     var id = $stateParams.businessid;
@@ -115,22 +115,22 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
         }
       }]
     })
-    .state('claim',{
-      url:'/claim/:business',
-      templateUrl:'partials/claim.html',
-      controller:'claimController',
-      onEnter: ['$state','auth',function($state,auth){
-        if(!auth.isLoggedIn()){
-          $state.go('landing');
-        }
-      }],
-      resolve:{
-        claimInfo:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
-          var id = $stateParams.business;
-          return claimInfo = yelpService.business(id);
-        }]
-      }
-    })
+//    .state('claim',{
+//      url:'/claim/:business',
+//      templateUrl:'partials/claim.html',
+//      controller:'claimController',
+//      onEnter: ['$state','auth',function($state,auth){
+//        if(!auth.isLoggedIn()){
+//          $state.go('landing');
+//        }
+//      }],
+//      resolve:{
+//        claimInfo:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
+//          var id = $stateParams.business;
+//          return claimInfo = yelpService.business(id);
+//        }]
+//      }
+//    })
     .state('admin',{
       url:'/admin',
       templateUrl:'partials/admin.html',
@@ -141,8 +141,9 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
         }
       }],
       resolve:{
-        pendingRequests:['$http','adminService', function($http,adminService){
-          return pendingRequests = adminService.getRequests();
+        pendingRequests:['$http','adminService', function($http,businessFactory){
+          var pendingRequests;
+          return pendingRequests = businessFactory.getRequests();
         }]
       }
     })

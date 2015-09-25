@@ -41,7 +41,7 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,cat
   $scope.search = function(query){
     $scope.fetchingQuery = true;
     var formattedQuery = query.term + " " + query.location;
-    businessFactory.query(formattedQuery)
+    businessFactory.search(formattedQuery)
       .then(function(data){
         $scope.fetchingQuery = false;
       })

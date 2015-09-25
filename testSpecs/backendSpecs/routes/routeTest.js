@@ -26,26 +26,26 @@ describe("Routes",function(){
             .send({username:'testaccount',password:'1234'})
             .expect(200,done)
     })
-    it("/categories returns status 200",function(done){
-        request(url)
-            .get('/categories')
-            .set('Authorization','Bearer '+token)
-            .expect(200,done)
-    });
-    it("/categories returns a list of categories",function(done){
-        request(url)
-            .get('/categories')
-            .set('Authorization','Bearer '+token)
-            .end(function(err,result){
-                expect(result.body).not.to.be.null;
-                expect(result.body).to.be.an('array');
-                expect(result.body[0]).to.have.property('_id')
-                expect(result.body[0]).to.have.property('id')
-                expect(result.body[0]).to.have.property('image')
-                expect(result.body[0]).to.have.property('title')
-                done();
-            })
-    })
+//    it("/categories returns status 200",function(done){
+//        request(url)
+//            .get('/categories')
+//            .set('Authorization','Bearer '+token)
+//            .expect(200,done)
+//    });
+//    it("/categories returns a list of categories",function(done){
+//        request(url)
+//            .get('/categories')
+//            .set('Authorization','Bearer '+token)
+//            .end(function(err,result){
+//                expect(result.body).not.to.be.null;
+//                expect(result.body).to.be.an('array');
+//                expect(result.body[0]).to.have.property('_id')
+//                expect(result.body[0]).to.have.property('id')
+//                expect(result.body[0]).to.have.property('image')
+//                expect(result.body[0]).to.have.property('title')
+//                done();
+//            })
+//    })
 })
 
 //        request(url+'/categories',function(err,response,body){
