@@ -1,39 +1,50 @@
 <div class="container-fluid body-wrap">
-	<div class="row">
-	  <div class="page-header">
-	    <h1 class="text-center"> Categories <i ng-if="!currLocation" class="fa fa-spinner fa-pulse" tooltip="Loading Location..."></i> 
-	      <i ng-if="currLocation" class="fa fa-compass"></i> </h2>
+	<div class="row container">
+	  <div class="page-header col col-md-offset-1 col-md-5">
+	    <h1 class="text-center"> Feed</h1>
 	  </div>
+        <div class="page-header col col-md-offset-1 col-md-5">
+            <h1 class="text-center"> Recent Activity</h1>
+        </div>
 	</div>
-	<div class="row">
-		<div class="col-md-3 text-center" ng-repeat="category in categories | orderBy:'category.title'">
-		  <a  href="/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}" ng-class="{disabled: !currLocation}">
-		  <img ng-src="{{cloudinaryBaseUrl}}1440373787/profile/{{category.image}}">
-		  <br>{{category.title}}</a>
-		</div>
-  	</div>
-  	<div class="row">
-  		<div class="page-header">
-  			<h1 class="text-center">Need Something Specific? Try a Search<i ng-if="fetchingQuery == true" class="fa fa-spinner fa-pulse" tooltip="Searching for {{query.term}}"></i> 
-  				<i ng-if="fetchingQuery == false" class="fa fa-check"></i></h1>
-  		</div>
-  	</div>
-  	<div class="row form-inline">
-  		<div class="col col-md-8 col-md-offset-4">
-  			<input class="form-control" placeholder="Search for..." ng-model="query.term">
-  			<span class=" input-group">
-				<input class="form-control" placeholder="Near" ng-model="query.location">
-	      		<span class="input-group-btn">
-	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="button">
-	      				<i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
-	    			</button>
-	  			</span>
-  			</span>
-  		</div>
-  	</div>
-  	<br>
+	<!--<div class="row">-->
+		<!--<div class="col-md-3 text-center" ng-repeat="category in categories | orderBy:'category.title'">-->
+		  <!--<a  href="/category/{{category.id}}/{{currLocation.latitude}},{{currLocation.longitude}}" ng-class="{disabled: !currLocation}">-->
+		  <!--<img ng-src="{{cloudinaryBaseUrl}}1440373787/profile/{{category.image}}">-->
+		  <!--<br>{{category.title}}</a>-->
+		<!--</div>-->
+  	<!--</div>-->
+  	<!--<div class="row">-->
+  		<!--<div class="page-header">-->
+  			<!--<h1 class="text-center">Need Something Specific? Try a Search<i ng-if="fetchingQuery == true" class="fa fa-spinner fa-pulse" tooltip="Searching for {{query.term}}"></i> -->
+  				<!--<i ng-if="fetchingQuery == false" class="fa fa-check"></i></h1>-->
+  		<!--</div>-->
+  	<!--</div>-->
+  	<!--<div class="row form-inline">-->
+  		<!--<div class="col col-md-8 col-md-offset-4">-->
+            <!--<span class=" input-group">-->
+                <!--<span class="input-group-addon" id="search">Find</span>-->
+  			    <!--<input class="form-control" aria-describedby="search" ng-model="query.term">-->
+            <!--</span>-->
+  			<!--<span class=" input-group">-->
+                <!--<span class="input-group-addon" id="near">Near</span>-->
+				<!--<input class="form-control" aria-describedby="near" ng-model="query.location">-->
+	      		<!--<span class="input-group-btn">-->
+	    			<!--<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="button">-->
+	      				<!--<i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>-->
+	    			<!--</button>-->
+	  			<!--</span>-->
+  			<!--</span>-->
+  		<!--</div>-->
+  	<!--</div>-->
+    <div class="row container">
+        <div class="page-header col col-md-5 col-md-offset-1">
+            <h1 class="text-center">Results</h1>
+        </div>
+    </div>
   	<div class="row text-center">
-	  	<div class="well col-md-4" style="height:300px;" ng-repeat="business in businesses">
+        <div class="col-md-offset-1">
+	  	<div class="col-md-4" style="height:300px;" ng-repeat="business in businesses">
 			<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
 			<a ng-click="setBusiness(business)" href="/business/{{business.place_id}}">{{business.name}}</a>
 			<br><span>Rating: {{business.rating}}</span>
@@ -41,5 +52,6 @@
 			<br><span>Description: {{business.snippet_text}}</span>
 			<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>
 		</div>
+        </div>
 	</div>
 </div>

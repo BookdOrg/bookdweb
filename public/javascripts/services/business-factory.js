@@ -35,17 +35,6 @@ angular.module('cc.business-factory',[])
       angular.copy(data,o.businesses)
     })
   }
-//  o.getEmployeeAppts = function(object){
-//    return $http.get('/user/appointments',{
-//      params:{
-//        'startDate':object.startDate,
-//        'id':object.id
-//      },
-//      headers: {Authorization: 'Bearer '+auth.getToken()}
-//    }).success(function(data){
-//
-//    })
-//  }
 /**
  *   Creates a new appointment for both the Employee and Customer.
  *   Takes in the appointment object.
@@ -96,16 +85,6 @@ angular.module('cc.business-factory',[])
 
     });
   }
-//  o.searchEmployee = function(id){
-//    return $http.get('/user/search', {
-//      params:{
-//        'id':id
-//      },
-//      headers: {Authorization: 'Bearer '+auth.getToken()}
-//    }).success(function(data){
-//      angular.copy(data, o.categories)
-//    });
-//  }
 /**
  *
  *  Adds a new employee to a Business.

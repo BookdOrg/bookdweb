@@ -1,8 +1,8 @@
 <div class="container-fluid body-wrap">
     <div class="page-header">
       <h1 class="text-center">
-        <image ng-if="!currentUser.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-        <image ng-if="currentUser.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}">
+        <image ng-if="!currentUser.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
+        <image ng-if="currentUser.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
         {{currentUser.firstName}}'s Profile
       </h1>
     </div>

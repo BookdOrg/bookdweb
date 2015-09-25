@@ -36,12 +36,5 @@ angular.module('cc.yelp-service',[])
       angular.copy(data, o.business);
     });
   }
-  // o.getCategories = function() {
-  //   return $http.get('/categories', {
-  //     headers: {Authorization: 'Bearer '+auth.getToken()}
-  //   }).then(function(data){
-  //     angular.copy(data.data, o.categories)
-  //   });
-  // };
   return o;
 }])
