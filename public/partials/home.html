@@ -44,14 +44,17 @@
     </div>
   	<div class="row text-center">
         <div class="col-md-offset-1">
-	  	<div class="col-md-4" style="height:300px;" ng-repeat="business in businesses">
-			<img ng-src="{{business.icon}}" style="border-radius:20%"></img>
-			<a ng-click="setBusiness(business)" href="/business/{{business.place_id}}">{{business.name}}</a>
-			<br><span>Rating: {{business.rating}}</span>
-			<br><span>Location: {{business.formatted_address}}</span>
-			<br><span>Description: {{business.snippet_text}}</span>
-			<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>
-		</div>
+            <div style="height:300px;" ng-repeat="business in businesses">
+                <div class="col-md-4">
+                    <img ng-src="{{business.icon}}" style="border-radius:20%"></img>
+                    <a ng-click="setBusiness(business)" href="/business/{{business.place_id}}">{{business.name}}</a>
+                    <br><span>Rating: {{business.rating}}</span>
+                    <br><span>Location: {{business.formatted_address}}</span>
+                    <br><span>Description: {{business.snippet_text}}</span>
+                    <!--<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>-->
+                </div>
+                <br>
+            </div>
         </div>
 	</div>
 </div>

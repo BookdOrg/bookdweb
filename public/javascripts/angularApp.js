@@ -45,12 +45,12 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('home', {
       url: '/home',
       templateUrl: 'partials/home.html',
-      controller: 'MainCtrl',
-      resolve: {
-        categories: ['businessFactory',function(businessFactory){
-          return businessFactory.getCategories();
-        }]
-      }
+      controller: 'MainCtrl'
+//      resolve: {
+//        categories: ['businessFactory',function(businessFactory){
+//          return businessFactory.getCategories();
+//        }]
+//      }
     })
     .state('bizlist',{
       url:'/category/{cat}/{location}',

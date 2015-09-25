@@ -86,9 +86,29 @@ $.cloudinary.config({
             <span class="icon-bar"></span> 
           </button>
           <a class="navbar-brand" href="/">
-           <img alt="Brand" src="/images/icon.png" style="height:30px;width:30px; border-radius:10%;">
+           <img alt="Brand" src="/images/Bookd-logo.png" style="width:50px;">
           </a>
         </div>
+          <form ng-if="isLoggedIn()" class="navbar-form hidden-sm hidden-xs">
+              <div class="row form-inline form-group">
+                  <!--<div class="col">-->
+            <span class=" input-group input-group-sm">
+                <span class="input-group-addon" id="search">Find</span>
+  			    <input class="form-control" aria-describedby="search" ng-model="query.term">
+            </span>
+  			<span class=" input-group input-group-sm">
+                <span class="input-group-addon" id="near">Near</span>
+				<input class="form-control" aria-describedby="near" ng-model="query.location">
+	      		<span class="input-group-btn">
+	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="button">
+                        <i ng-show="!fetchingQuery" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+                        <i ng-show="fetchingQuery" style="height:20px; line-height:18px;" class="fa fa-spinner fa-fw"></i>
+                    </button>
+	  			</span>
+  			</span>
+                  <!--</div>-->
+              </div>
+          </form>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">
             <li ng-if="isLoggedIn()"><a href="/home">Home</a></li>
@@ -104,25 +124,6 @@ $.cloudinary.config({
             <hr>
             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut()">Sign Out</a></li>
           </ul>
-          <form ng-if="isLoggedIn()" class="navbar-form navbar-left">
-              <div class="row form-inline form-group">
-                  <!--<div class="col">-->
-            <span class=" input-group input-group-sm">
-                <span class="input-group-addon" id="search">Find</span>
-  			    <input class="form-control" aria-describedby="search" ng-model="query.term">
-            </span>
-  			<span class=" input-group input-group-sm">
-                <span class="input-group-addon" id="near">Near</span>
-				<input class="form-control" aria-describedby="near" ng-model="query.location">
-	      		<span class="input-group-btn">
-	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="button">
-                        <i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
-                    </button>
-	  			</span>
-  			</span>
-                  <!--</div>-->
-              </div>
-          </form>
           <div class="navbar-inner">
             <ul class="nav navbar-nav navbar-right hidden-xs">
               <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
@@ -169,7 +170,9 @@ $.cloudinary.config({
           </div>
         </div>
       <div class="row">
-        <span class="text-cent">&copy; Babble Technologies LLC. All rights reserved.</span>
+          <div class="col-md-offset-5">
+            <span class="text-center">&copy; Babble Technologies LLC. All rights reserved.</span>
+          </div>
      </div>
       </div>
   </div>

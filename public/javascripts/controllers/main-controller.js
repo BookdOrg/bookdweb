@@ -8,12 +8,11 @@ angular.module('cc.main-controller',["google.places"])
 '$geolocation',
 '$http',
 'location',
-'categories',
 '$rootScope',
 '$window',
-function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,categories,$rootScope,$window){
+function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,$rootScope,$window){
 
-  $scope.categories = businessFactory.categories;
+//  $scope.categories = businessFactory.categories;
   $scope.businesses = businessFactory.businesses;
 
   $geolocation.watchPosition({

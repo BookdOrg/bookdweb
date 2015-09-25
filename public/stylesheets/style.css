@@ -17,6 +17,16 @@ h1{
       font-weight: 400;
       font-size: 40px;
 }
+.navbar-form
+{
+    padding-top:10px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+    margin-left:60px;
+}
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
