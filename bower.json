@@ -2,7 +2,7 @@
   "name": "client-connect",
   "version": "0.0.0",
   "authors": [
-    "Khalil <knb6@njit.edu>"
+    "Khalil <khalilnafis@gmail.edu>"
   ],
   "license": "none",
   "ignore": [
@@ -13,6 +13,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular-mocks": "~1.4.5"
+    "angular": "~1.4.6",
+    "angular-mocks": "~1.4.5",
+    "angular-moment": "~0.10.3",
+    "angular-ui-router": "~0.2.15",
+    "jquery": "~2.1.4",
+    "moment": "~2.10.6"
   }
 }

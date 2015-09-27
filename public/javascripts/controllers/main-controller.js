@@ -14,7 +14,6 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,$ro
 
 //  $scope.categories = businessFactory.categories;
   $scope.businesses = businessFactory.businesses;
-
   $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
@@ -22,13 +21,15 @@ function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,$ro
       });
   $scope.myPosition = $geolocation.position;
 
-  $scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
-    if(newVal !== oldVal){
-        location.setPosition($scope.myPosition.coords);
-        $rootScope.currLocation = location.getPosition();
-        $scope.loadingLocation = false;
-    }
-  })
+//  $scope.$watch(function() {
+//      return myPosition.coords.latitude;
+//  },function(newVal,oldVal) {
+//      if (newVal !== oldVal) {
+//          location.setPosition($scope.myPosition.coords);
+//          $rootScope.currLocation = location.getPosition();
+//          $scope.loadingLocation = false;
+//      }
+//  })
 
 
   /*
