@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b5bbf92-29fd-4cb9-8a02-be36062471c7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/Bookd-logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/angularApp.js" afterPath="$PROJECT_DIR$/public/javascripts/angularApp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/home.html" afterPath="$PROJECT_DIR$/public/partials/home.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/business.html" afterPath="$PROJECT_DIR$/public/partials/business.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/landing.html" afterPath="$PROJECT_DIR$/public/partials/landing.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/controllers/main-controller.js" afterPath="$PROJECT_DIR$/public/javascripts/controllers/main-controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/partials/register.html" afterPath="$PROJECT_DIR$/public/partials/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="client-connect.iws" />
@@ -58,35 +52,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main-controller.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main-controller.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/controllers/main-controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
-              <caret line="12" column="76" selection-start-line="12" selection-start-column="76" selection-end-line="12" selection-end-column="76" />
+            <state vertical-scroll-proportion="0.05199307" vertical-offset="0" max-vertical-offset="870">
+              <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-24.375" vertical-offset="810" max-vertical-offset="2790">
-              <caret line="93" column="37" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
-              <folding>
-                <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#button#0;n#span#1;n#span#1;n#div#0;n#form#0;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#1;n#button#0;n#span#1;n#span#1;n#div#0;n#form#0;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="landing.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="landing.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26666668" vertical-offset="2931" max-vertical-offset="3510">
+            <state vertical-scroll-proportion="-6.0" vertical-offset="2931" max-vertical-offset="3510">
               <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
               <folding />
             </state>
@@ -97,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1260">
-              <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+              <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -141,7 +120,6 @@
         <option value="$PROJECT_DIR$/public/javascripts/config.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/models/Service.js" />
-        <option value="$PROJECT_DIR$/public/partials/business.html" />
         <option value="$PROJECT_DIR$/public/javascripts/services/socket-service.js" />
         <option value="$PROJECT_DIR$/clientconnect-categories" />
         <option value="$PROJECT_DIR$/.gitignore" />
@@ -171,9 +149,10 @@
         <option value="$PROJECT_DIR$/public/javascripts/angularApp.js" />
         <option value="$PROJECT_DIR$/public/javascripts/controllers/main-controller.js" />
         <option value="$PROJECT_DIR$/public/partials/home.html" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/public/partials/landing.html" />
+        <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/public/partials/business.html" />
       </list>
     </option>
   </component>
@@ -616,12 +595,20 @@
       <created>1443160606243</created>
       <updated>1443160606243</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="UI Changes and Search implementation">
+      <created>1443197802815</created>
+      <updated>1443197802815</updated>
+    </task>
+    <task id="LOCAL-00041" summary="quick fix for the navbar stretching the page">
+      <created>1443198549139</created>
+      <updated>1443198549139</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Grunt" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290993" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -629,7 +616,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28263888" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28263888" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29073858" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -675,7 +662,9 @@
     <MESSAGE value="Updated Routes and documentation" />
     <MESSAGE value="Removed categories, added search to navbar, changed home screen." />
     <MESSAGE value="added login check for profile and messages links in navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="added login check for profile and messages links in navbar" />
+    <MESSAGE value="UI Changes and Search implementation" />
+    <MESSAGE value="quick fix for the navbar stretching the page" />
+    <option name="LAST_COMMIT_MESSAGE" value="quick fix for the navbar stretching the page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -764,14 +753,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1455">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/business.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6083551" vertical-offset="5602" max-vertical-offset="6150">
-          <caret line="389" column="34" selection-start-line="389" selection-start-column="34" selection-end-line="389" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1035,14 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/controllers/main-controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="870">
-          <caret line="12" column="76" selection-start-line="12" selection-start-column="76" selection-end-line="12" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/partials/home.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.625" vertical-offset="435" max-vertical-offset="975">
@@ -1064,18 +1037,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.0" vertical-offset="2931" max-vertical-offset="3510">
+          <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="1260">
-          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.375" vertical-offset="810" max-vertical-offset="2790">
-          <caret line="93" column="37" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
+        <state vertical-scroll-proportion="-10.625" vertical-offset="1305" max-vertical-offset="2790">
+          <caret line="104" column="110" selection-start-line="104" selection-start-column="110" selection-end-line="104" selection-end-column="110" />
           <folding>
             <element signature="n#style#0;n#img#0;n#a#0;n#div#0;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#i#0;n#button#0;n#span#1;n#span#1;n#div#0;n#form#0;n#div#0;n#nav#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1085,10 +1066,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/partials/landing.html">
+    <entry file="file://$PROJECT_DIR$/public/partials/business.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26666668" vertical-offset="2931" max-vertical-offset="3510">
-          <caret line="205" column="59" selection-start-line="205" selection-start-column="59" selection-end-line="205" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.19444445" vertical-offset="2010" max-vertical-offset="6150">
+          <caret line="141" column="0" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/controllers/main-controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.05199307" vertical-offset="0" max-vertical-offset="870">
+          <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
           <folding />
         </state>
       </provider>
