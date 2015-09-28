@@ -6,7 +6,7 @@
  */
 angular.module('cc.location-factory',[])
 .factory('location', ['$http','$geolocation','$window', function($http,$geolocation,$window){
-	
+    var currPosition = {};
 	if (typeof(Number.prototype.toRad) === "undefined") {
 	  Number.prototype.toRad = function() {
 	    return this * Math.PI / 180;
@@ -14,20 +14,21 @@ angular.module('cc.location-factory',[])
 	}
 	var location = {
 		setPosition:function(position){
-			var currPosition = {
-				latitude:null,
-				longitude:null
-			};
-		  	$window.localStorage['latitude'] = position.latitude;
-		  	$window.localStorage['longitude'] = position.longitude;
-		},
-		getPosition:function(){
 			currPosition = {
-				latitude:$window.localStorage['latitude'],
-				longitude:$window.localStorage['longitude']
-			}
-			return currPosition;
+                address:    position[0].formatted_address,
+                city:       position[0].address_components[2].long_name,
+                state:      position[0].address_components[4].long_name,
+                country:    position[0].address_components[5].long_name,
+                zip:        position[0].address_components[6].long_name,
+                latitude:   position[0].geometry.location.lat,
+                longitude:  position[0].geometry.location.lng
+			};
+//		  	$window.localStorage['currPosition'] = currPosition;
+            location.currPosition = currPosition;
 		},
+//		getPosition:function(){
+//            location.currPosition = $window.localStorage['currPosition'];
+//		},
 		calculateDistance:function(lon1, lat1, lon2, lat2) {
 		  var R = 6371; // Radius of the earth in km
 		  var dLat = (lat2-lat1).toRad();  // Javascript functions in radians

@@ -95,15 +95,15 @@ $.cloudinary.config({
                   <!--<div class="col">-->
             <span class=" input-group input-group-sm">
                 <span class="input-group-addon" id="search">Find</span>
-  			    <input class="form-control" aria-describedby="search" ng-model="query.term">
+  			    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
             </span>
   			<span class=" input-group input-group-sm">
                 <span class="input-group-addon" id="near">Near</span>
 				<input class="form-control" aria-describedby="near" ng-model="query.location">
 	      		<span class="input-group-btn">
 	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
-                        <i ng-show="!fetchingQuery" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
-                        <i ng-show="fetchingQuery" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
+                        <i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+                        <i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
                     </button>
 	  			</span>
   			</span>

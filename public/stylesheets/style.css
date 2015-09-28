@@ -76,4 +76,8 @@ h1{
   height:250px;
   overflow: scroll;
 }*/
+
+i.fa.fa-spinner{
+    display:inline-block;
+}
 span.tab-space {padding-left:1em;}
