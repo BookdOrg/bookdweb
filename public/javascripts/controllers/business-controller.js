@@ -23,12 +23,17 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   }
   $scope.employeeError = businessFactory.error;
 	$scope.animationsEnabled = true;
-
-  $scope.removeAlert=function(){
+  /**
+   *
+   */
+  $scope.removeAlert = function(){
     $scope.employeeError.message = null;
   }
+  /**
+   *
+   * @param size
+   */
   $scope.open = function (size) {
-
     var modalInstance = $modal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'addServiceModal.html',
@@ -41,19 +46,27 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       }
     });
    };
- 	$scope.openEmployee = function (size) {
-	    var modalInstance = $modal.open({
-	      animation: $scope.animationsEnabled,
-	      templateUrl: 'addEmployeeModal.html',
-	      controller: 'addEmployeeModalCtrl',
-	      size: size
-	      // resolve:{
-	      // 	id: function(){
-	      // 		return $scope.employee.id;
-	      // 	}
-	      // }
-	    });
-   	};
+  /**
+   *
+   * @param size
+   */
+  $scope.openEmployee = function (size) {
+      var modalInstance = $modal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'addEmployeeModal.html',
+        controller: 'addEmployeeModalCtrl',
+        size: size
+        // resolve:{
+        // 	id: function(){
+        // 		return $scope.employee.id;
+        // 	}
+        // }
+      });
+  };
+  /**
+   *
+   * @param size
+   */
   $scope.openService = function(size){
     var modalIsntance = $modal.open({
       animation: $scope.animationsEnabled,
@@ -62,29 +75,43 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       size: size
     });
   }
+  /**
+   *
+   * @param service
+   */
   $scope.setService = function(service){
     businessFactory.service = service;
   }
+  /**
+   *
+   */
   $scope.toggleAnimation = function () {
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
 }])
 .controller('scheduleServiceModalCtrl', function ($scope, $modalInstance,businessFactory,socket,moment,auth,$state,$rootScope,user) {
-
   $scope.service = businessFactory.service;
   $scope.stripePrice = $scope.service.price * 100;
-
   $scope.minDate = $scope.minDate ? null : moment();
+
   // $scope.currentUser = auth.currentUser();
   $scope.$watch('selectedDate',function(newVal,oldVal){
     if(newVal){
       getAvailableTimes(newVal,$scope.employee._id);
     }
   })
+  /**
+   *
+   * @param employee
+   */
   $scope.selectEmployee = function(employee){
     $scope.employee = employee;
   }
-
+  /**
+   *
+   * @param date
+   * @param employeeId
+   */
   function getAvailableTimes(date,employeeId){
     var newDate = moment(date).format('MM/DD/YYYY');
     var employeeApptObj = {
@@ -96,7 +123,11 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       .then(function(data){
         calculateAppointments(data.data);
       });
-  }
+  };
+  /**
+   *
+   * @param data
+   */
   function calculateAppointments(data){
     var duration = $scope.service.duration;
     var startTime = moment('6:00 am', "hh:mm a");
@@ -126,7 +157,11 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   socket.on('employeeAppts',function(data){
     $scope.appointments = data;
   })
-
+  /**
+   *
+   * @param time
+   * @param index
+   */
   $scope.createAppointmentObj = function(time,index){
     var apptDay = moment($scope.selectedDate).format('dddd');
     var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
@@ -151,6 +186,10 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       timestamp: moment()
     }
   }
+  /**
+   *
+   * @param token
+   */
   this.checkOut = function(token){
     $scope.appointment.card = token.card;
     businessFactory.addAppointment($scope.appointment)
@@ -167,7 +206,9 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     //   })
     
   };
-
+  /**
+   *
+   */
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };

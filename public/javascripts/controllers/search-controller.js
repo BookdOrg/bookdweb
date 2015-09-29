@@ -6,7 +6,9 @@ angular.module('cc.search-controller',[])
 'businessFactory',
 '$modal',
 function($scope, $state, auth,businessFactory,$modal){
-
+	/**
+	 *
+	 */
 	$scope.$watch('query',function(newVal,oldVal){
 		if(newVal !== oldVal){
 			$scope.selectedQuery = $scope.query;
@@ -23,15 +25,21 @@ function($scope, $state, auth,businessFactory,$modal){
 		componentRestrictions: {country: 'us'},
 		types:['establishment']
 	}
-	$scope.search =function(){
+	/**
+	 *
+	 */
+	$scope.search = function(){
 		businessFactory.search($scope.query)
 			.then(function(data){
 				$scope.queryResults = data.data.results;
 		})
 	}
+	/**
+	 *
+	 * @param request
+	 */
 	$scope.claim = function(request){
 		var claimRequest = {};
-
 		claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
 		claimRequest.category = request.category;
 		claimRequest.placesId = request.place_id;

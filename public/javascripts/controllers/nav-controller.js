@@ -9,18 +9,18 @@ angular.module('cc.nav-controller',["google.places"])
 '$http',
 'location',
 function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,location){
-  $scope.isLoggedIn = auth.isLoggedIn;
-  $scope.currentUser = auth.currentUser;
-  $scope.logOut = auth.logOut;
+    $scope.isLoggedIn = auth.isLoggedIn;
+    $scope.currentUser = auth.currentUser;
+    $scope.logOut = auth.logOut;
 
-  $scope.query = {
-      location:null,
-      term:null
-  }
-  $scope.autocompleteOptions = {
-    componentRestrictions: {country: 'us'},
-    types:['(cities)']
-  }
+    $scope.query = {
+        location:null,
+        term:null
+    }
+    $scope.autocompleteOptions = {
+        componentRestrictions: {country: 'us'},
+        types:['(cities)']
+    }
     $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
@@ -50,7 +50,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
                         $scope.query.location = $rootScope.currLocation.city;
 
                     }
-                });
+            });
         }
     })
 
@@ -68,22 +68,22 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
      * @param query - Object with term and location properties. Location will either be a string or an object.
      */
 
-  $scope.search = function(query){
-    $scope.fetchingQuery = true;
-      var formattedQuery;
-    if(typeof query.location == "string"){
-        formattedQuery = query.term + " " + query.location;
-    }else{
-        formattedQuery = query.term + " " + query.location.vicinity;
-    }
+    $scope.search = function(query){
+        $scope.fetchingQuery = true;
+        var formattedQuery;
+        if(typeof query.location == "string"){
+            formattedQuery = query.term + " " + query.location;
+        }else{
+            formattedQuery = query.term + " " + query.location.vicinity;
+        }
 
-    businessFactory.search(formattedQuery)
-        .then(function(data){
-            $scope.fetchingQuery = false;
-            if(!$state.is('home')){
-                $state.go('home');
-            }
-        })
-  }
+        businessFactory.search(formattedQuery)
+            .then(function(data){
+                $scope.fetchingQuery = false;
+                if(!$state.is('home')){
+                    $state.go('home');
+                }
+            })
+    }
 
 }])

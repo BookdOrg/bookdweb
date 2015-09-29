@@ -2,33 +2,11 @@ angular.module('cc.main-controller',["google.places"])
 .controller('MainCtrl', [
 '$scope',
 'businessFactory',
-'auth',
-'$modal',
-'$log',
-'$geolocation',
-'$http',
-'location',
-'$rootScope',
-'$window',
-function($scope,businessFactory,auth,$modal,$log,$geolocation,$http,location,$rootScope,$window){
+function($scope,businessFactory){
 
 //  $scope.categories = businessFactory.categories;
   $scope.businesses = businessFactory.businesses;
 
-  /*
-  * Function that will submit a search query to the /query route
-  *
-  *Takes in 1 paramater
-  */
-
-//  $scope.search = function(query){
-//    $scope.fetchingQuery = true;
-//    var formattedQuery = query.term + " " + query.location;
-//    businessFactory.search(formattedQuery)
-//      .then(function(data){
-//        $scope.fetchingQuery = false;
-//      })
-//  }
   $scope.setBusiness = function(business){
     businessFactory.business = business;
   }

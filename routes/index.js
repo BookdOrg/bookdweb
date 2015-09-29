@@ -8,14 +8,11 @@ var cloudinary = require('cloudinary');
 var fs = require('fs');
 var Busboy = require('busboy');
 var async = require('async');
-var acl = require('acl');
 var _ = require('underscore');
-//var moment = require('moment');
-//require('moment-range');
+
 var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY,process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
-acl = new acl(new acl.mongodbBackend(mongoose.connection.db,'acl_'));
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
