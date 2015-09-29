@@ -19,7 +19,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
   }
   $scope.autocompleteOptions = {
     componentRestrictions: {country: 'us'},
-    types:['geocode']
+    types:['(cities)']
   }
     $geolocation.watchPosition({
         timeout: 60000,

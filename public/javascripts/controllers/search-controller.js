@@ -19,7 +19,10 @@ function($scope, $state, auth,businessFactory,$modal){
 	businessFactory.getCategories().then(function(data){
 		$scope.categoryOptions = data.data;
 	})
-
+	$scope.autocompleteOptions = {
+		componentRestrictions: {country: 'us'},
+		types:['establishment']
+	}
 	$scope.search =function(){
 		businessFactory.search($scope.query)
 			.then(function(data){
