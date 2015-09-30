@@ -54,7 +54,7 @@ Finally in your terminal type:
 
 `source ~/.bash_profile`
 
-#Fire up the server#
+#Fire up the app#
 * npm start
 
 #Download MongoHub as a MONGODB GUI interface#
