@@ -29,7 +29,7 @@
   deploy : {
     production : {
       user : "root",
-      host : "159.203.66.181",
+      host : "dev.bookd.me",
       ref  : "origin/master",
       repo : "git@bitbucket.org:knb6/bookdweb.git",
       path : "~/bookdweb",
