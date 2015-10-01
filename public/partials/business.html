@@ -397,9 +397,9 @@
         		</div>
         		<div class="col-md-12" ng-if="employee">
         			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
-        				style="height:100px;width:100px;"></img>
+        				style="height:100px;width:100px;">
         			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
-        				style="height:100px;width:100px;"></img>
+        				style="height:100px;width:100px;">
         			<br>Id: {{employee._id}}
         			<br>Name: {{employee.firstName}} {{employee.lastName}}
         			<br>Username: {{employee.username}}
@@ -408,7 +408,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="create(employee._id)">Register Employee</button>
+        <button class="btn btn-primary" ng-disabled="!employee" ng-click="create(employee._id)">Register Employee</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
