@@ -31,7 +31,7 @@
       user : "root",
       host : "159.203.66.181",
       ref  : "origin/master",
-      repo : "https://knb6@bitbucket.org/knb6/bookdweb.git",
+      repo : "git@bitbucket.org:knb6/bookdweb.git",
       path : "~/bookdweb",
       "post-deploy" : "pm2 startOrRestart ecosystem.json5 --env production"
     }
