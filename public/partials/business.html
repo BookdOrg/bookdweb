@@ -184,11 +184,20 @@
 		</div>
 		<div class="row">
 			<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
-				<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-	          	<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-				<div class="">
-					<h4><a href="/user/{{employee.username}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
-				</div>
+                <div class="row">
+                    <div class="margin-bottom-5 pull-right">
+                        <button class="btn btn-default" ng-click="removeEmployee(employee)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+                    <img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                    <div class="">
+                        <h4><a href="/user/{{employee.username}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
+                    </div>
+                </div>
 			</div>
 			<div class="row" ng-if="!business.info.employees">
 				<h1 class="text-center">Your business does not have any employee's registered yet.</h1>
@@ -400,6 +409,26 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="create(employee._id)">Register Employee</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
+<!--
+#########################################
+
+Remove Employee Modal
+
+########################################
+-->
+<script type="text/ng-template" id="removeEmployeeModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title text-center">Remove Employee</h3>
+    </div>
+    <div class="modal-body">
+        <h4 class="text-center">Are you sure you would like to remove {{employee.firstName}} {{employee.lastName}}?</h4>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="remove()">Yes, remove {{employee.firstName}}</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>

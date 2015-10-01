@@ -102,6 +102,25 @@ angular.module('cc.business-factory',[])
       angular.copy(err,o.error)
     });
   }
+
+/**
+ *
+ *  Deletes an employee to from a Business.
+ *  Parameters:
+ *  businessId -
+ *  employeeId -
+ *
+ **/
+    o.removeEmployee = function(employee){
+        return $http.post('/business/remove-employee',employee, {
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
+            angular.copy(data,o.business.info);
+        }).error(function(err){
+            angular.copy(err,o.error)
+        });
+    };
+
 /**
  *   Returns all categories that Bookd offers
  *

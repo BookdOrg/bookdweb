@@ -492,6 +492,44 @@ router.post('/business/add-employee',auth,function(req,res,next){
 
 
 /**
+ *   Deletes an employee from a Business.
+
+ Parameters:
+ businessId -
+ employeeId -
+ *
+ **/
+
+router.post('/business/remove-employee',auth,function(req,res,next){
+    var businessId = req.body.businessId;
+    var employeeId = req.body.employeeId;
+
+    Business.findOne({"_id":businessId}).exec(function(err, response){
+        var index = response.employees.indexOf(employeeId);
+
+        if (index > -1) {
+            response.employees.splice(index, 1);
+            response.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+            })
+        } else {
+            console.log('employeeID not associated with this business. id=', employeeId);
+        }
+
+        Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){
+            if(err){return next(err);}
+            Service.populate(busResponse.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+                if(err){return next(err);}
+                busResponse.services = services;
+                res.json(busResponse);
+            })
+        })
+    })
+});
+
+/**
 *   Returns all businesses that have requested to be claimed.
 *
 **/
