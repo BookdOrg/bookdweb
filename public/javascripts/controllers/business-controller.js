@@ -65,6 +65,23 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   };
   /**
    *
+   * @param employee
+   */
+  $scope.removeEmployee = function(employee) {
+    var modalInstance = $modal.open({
+        animation: $scope.animationEnabled,
+        templateUrl: 'removeEmployeeModal.html',
+        controller: 'removeEmployeeModalCtrl',
+        resolve: {
+            employee: function() {
+                return employee;
+            }
+        }
+    });
+  };
+
+  /**
+   *
    * @param size
    */
   $scope.openService = function(size){
@@ -263,4 +280,22 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+})
+.controller('removeEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory, employee) {
+    $scope.employee = employee;
+
+    $scope.remove = function () {
+        var business = businessFactory.business;
+        var selectedEmployee = {
+            businessId:business.info._id,
+            employeeId:employee._id
+        };
+
+        businessFactory.removeEmployee(selectedEmployee);
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 })

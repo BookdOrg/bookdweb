@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b5bbf92-29fd-4cb9-8a02-be36062471c7" name="Default" comment="">
+    <list default="true" id="2b5bbf92-29fd-4cb9-8a02-be36062471c7" name="Default" comment="package.json updates">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ecosystem.json5" afterPath="$PROJECT_DIR$/ecosystem.json5" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -107,8 +107,8 @@
       <file leaf-file-name="ecosystem.json5" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ecosystem.json5">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33628318">
-              <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.4778761">
+              <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -118,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/testSpecs/backendSpecs/routes/routeTest.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+              <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -698,13 +698,7 @@
       <option name="project" value="LOCAL" />
       <updated>1443559610786</updated>
     </task>
-    <task id="LOCAL-00049" summary="updating ecosystem to fix ci deploys">
-      <created>1443669907542</created>
-      <option name="number" value="00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1443669907542</updated>
-    </task>
-    <option name="localTasksCounter" value="50" />
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -746,6 +740,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="update package, test webstorm" />
     <MESSAGE value="naught test" />
     <MESSAGE value="first CI test" />
     <MESSAGE value="copy update" />
@@ -770,8 +765,7 @@
     <MESSAGE value="Business search autocomplete only returns businesses.&#10;&#10;Location search autocomplete only returns locations" />
     <MESSAGE value="Fix for query.location breaking with location is an object not a string." />
     <MESSAGE value="package.json updates" />
-    <MESSAGE value="updating ecosystem to fix ci deploys" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating ecosystem to fix ci deploys" />
+    <option name="LAST_COMMIT_MESSAGE" value="package.json updates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1141,7 +1135,7 @@
     <entry file="file://$PROJECT_DIR$/testSpecs/backendSpecs/routes/routeTest.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -1156,8 +1150,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ecosystem.json5">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33628318">
-          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.4778761">
+          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
           <folding />
         </state>
       </provider>
