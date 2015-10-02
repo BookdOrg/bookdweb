@@ -150,7 +150,12 @@
 			<h3 class="text-center ">Services <button ng-click="open()" class="btn btn-primary">Add</button></h3>
 		</div>
 		<div class="row text-center">
-			<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
+			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
+				<div class="row">
+					<div class="adjustMargins pull-right">
+						<button class="close" ng-click="removeService(null)">x</button>
+					</div>
+				</div>
 				<div class="">
 					<h4>{{service.name}}</h4>
 					<h5>Price:{{service.price | currency}}</h5>
