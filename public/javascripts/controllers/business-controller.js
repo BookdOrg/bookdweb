@@ -283,6 +283,21 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 })
 .controller('removeEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory, employee) {
     $scope.employee = employee;
+    $scope.employeeHasService = false;
+    $scope.associatedServices = [];
+
+    var business = businessFactory.business;
+    var services = business.info.services;
+
+    for (var i = 0; i < services.length; i++) {
+        var employees = services[i].employees;
+        for (var j = 0; j < employees.length; j++) {
+            if (employee._id === employees[j]._id) {
+                $scope.associatedServices.push(services[i].name);
+                $scope.employeeHasService = true;
+            }
+        }
+    }
 
     $scope.remove = function () {
         var business = businessFactory.business;

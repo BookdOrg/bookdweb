@@ -82,6 +82,7 @@ i.fa.fa-spinner{
 }
 span.tab-space {padding-left:1em;}span.tab-space {padding-left:1em;}
 
-.margin-bottom-5 {
+.adjustMargins {
     margin-bottom: 5px;
+    margin-right: 15px;
 }
