@@ -69,7 +69,7 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
    */
   $scope.removeEmployee = function(employee) {
     var modalInstance = $modal.open({
-        animation: $scope.animationEnabled,
+        animation: $scope.animationsEnabled,
         templateUrl: 'removeEmployeeModal.html',
         controller: 'removeEmployeeModalCtrl',
         resolve: {
