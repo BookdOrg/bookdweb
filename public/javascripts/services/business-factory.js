@@ -194,8 +194,7 @@ angular.module('cc.business-factory',[])
     o.updateService = function(service){
         return $http.post('/business/update-service',service,{
             headers: {Authorization: 'Bearer '+auth.getToken()}
-        }).then(function(data,err){
-            console.log(data.data)
+        }).success(function(data,err){
             //angular.copy(data.data, o.business.info);
         });
     }
@@ -204,17 +203,6 @@ angular.module('cc.business-factory',[])
  *
  */
     o.removeService = function(serviceId){
-        return $http.post('/business/add-service',serviceId,{
-            headers: {Authorization: 'Bearer '+auth.getToken()}
-        }).then(function(data,err){
-            angular.copy(data.data, o.business.info);
-        });
-    }
-/**
- *
- *
- */
-    o.editService = function(serviceId){
         return $http.post('/business/add-service',serviceId,{
             headers: {Authorization: 'Bearer '+auth.getToken()}
         }).then(function(data,err){

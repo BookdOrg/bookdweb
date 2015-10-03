@@ -151,10 +151,10 @@
 			<h3 class="text-center ">Services</h3>
 		</div>
 		<div class="row text-center">
-			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
+			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
 					<div class="adjustMargins pull-right">
-						<button class="close" ng-click="editService(service)"><i class="fa fa-pencil"></i></button>
+						<button class="close" ng-click="editService(service, $index)"><i class="fa fa-pencil"></i></button>
 					</div>
 				</div>
 				<div class="">
@@ -429,7 +429,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="ok(editService)">Create</button>
+		<button class="btn btn-primary" ng-click="ok(editService)">Save</button>
 		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 	</div>
 </script>

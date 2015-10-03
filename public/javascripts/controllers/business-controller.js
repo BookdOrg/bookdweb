@@ -93,12 +93,15 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     });
   }
 
-  $scope.editService = function(service){
+  $scope.editService = function(service,serviceIndex){
     var modalInstance = $modal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'editServiceModal.html',
       controller: 'editServiceModalCtrl',
       resolve: {
+        serviceIndex:function(){
+          return serviceIndex;
+        },
         service: function() {
           return angular.copy(service);
         },
@@ -274,11 +277,10 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $modalInstance.dismiss('cancel');
   };
 })
-  .controller('editServiceModalCtrl', function ($scope, $modalInstance, businessFactory,service,business) {
+  .controller('editServiceModalCtrl', function ($scope, $modalInstance, businessFactory,service,business,serviceIndex) {
 
     $scope.editService = service;
     $scope.business = business;
-
     $scope.serviceEmployees = [];
     for(var selectedEmployee = 0; selectedEmployee<business.employees.length; selectedEmployee++){
       var tempObject = {
@@ -299,7 +301,10 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $scope.ok = function (service) {
       service.businessId = business._id;
       service.employees = _.pluck($scope.serviceEmployees,'_id');
-      businessFactory.updateService(service);
+      businessFactory.updateService(service)
+          .then(function(data){
+            business.services[serviceIndex] = data.data;
+          })
       $modalInstance.close();
     };
 
