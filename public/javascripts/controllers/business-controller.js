@@ -349,14 +349,20 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     var business = businessFactory.business;
     var services = business.info.services;
 
-    for (var i = 0; i < services.length; i++) {
-        var employees = services[i].employees;
-        for (var j = 0; j < employees.length; j++) {
-            if (employee._id === employees[j]._id) {
-                $scope.associatedServices.push(services[i].name);
-                $scope.employeeHasService = true;
-            }
+    for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
+        var employees = services[serviceIndex].employees;
+        if(employees.length == 1){
+          if(employee._id === employees[0]._id){
+            $scope.associatedServices.push(services[serviceIndex].name);
+            $scope.employeeHasService = true;
+          }
         }
+        //for (var employeeIndex = 0; employeeIndex < employees.length; employeeIndex++) {
+        //    if (employee._id === employees[employeeIndex]._id) {
+        //        $scope.associatedServices.push(services[serviceIndex].name);
+        //        $scope.employeeHasService = true;
+        //    }
+        //}
     }
 
     $scope.remove = function () {
