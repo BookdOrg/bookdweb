@@ -634,6 +634,64 @@ router.post('/business/add-service',auth,function(req,res,next){
     })
   })
 })
+
+/**
+ *
+ * Update a Service
+ *
+ */
+
+router.post('/business/update-service',auth,function(req,res,next){
+    var newService = {
+        "_id":req.body._id,
+        "businessId": req.body.businessId,
+        "description": req.body.description,
+        "duration": req.body.duration,
+        "employees": req.body.employees,
+        "name": req.body.name,
+        "price": req.body.price
+    }
+    Service.findOneAndUpdate({"_id":newService._id},newService,{upsert: true}).populate({path:'employees',select:'_id appointments firstName lastName username avatarVersion'}).exec(function(err,service){
+        if(err){return next(err);}
+        console.log(service)
+        res.json(service);
+    })
+})
+
+/**
+ * Removes a Service from a Business
+ *
+ */
+router.post('/business/remove-service',auth,function(req,res,next){
+    var serviceId = req.body.serviceId;
+
+    Service.remove({"_id":serviceId}).exec(function(err,result){
+        if(err){return next(err);}
+    })
+
+    Business.findOne({"_id":businessId}).exec(function(err,business){
+        if (index > -1) {
+            response.services.splice(index, 1);
+            response.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+            })
+        } else {
+            console.log('serviceId not associated with this business. id=', serviceId);
+        }
+
+        Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){
+            if(err){return next(err);}
+            Service.populate(busResponse.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+                if(err){return next(err);}
+                busResponse.services = services;
+                res.json(busResponse);
+            })
+        })
+    })
+})
+
 /**
 *   Submits a claim request to Bookd 
 

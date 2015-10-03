@@ -143,17 +143,18 @@
 		########################################
 		-->
 		<div class="row">
-			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+				<button ng-click="open()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
 				<!--<button ng-click="open()" class="btn btn-primary">Add</button>-->
 				<!--<button class="btn btn-warning">Edit</button>-->
 			</div>
-			<h3 class="text-center ">Services <button ng-click="open()" class="btn btn-primary">Add</button></h3>
+			<h3 class="text-center ">Services</h3>
 		</div>
 		<div class="row text-center">
 			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
 				<div class="row">
 					<div class="adjustMargins pull-right">
-						<button class="close" ng-click="removeService(null)">x</button>
+						<button class="close" ng-click="editService(service)"><i class="fa fa-pencil"></i></button>
 					</div>
 				</div>
 				<div class="">
@@ -178,11 +179,12 @@
 		########################################
 		-->	
 		<div class="row">
-			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-4 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<!--<button ng-click="openEmployee()" class="btn btn-primary">Add</button>-->
 				<!--<button class="btn btn-warning">Edit</button>-->
+				<button ng-click="openEmployee()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
 			</div>
-			<h3 class="text-center ">Employee's <button ng-click="openEmployee()" class="btn btn-primary">Add</button></h3>
+			<h3 class="text-center ">Employee's </h3>
 			<span class="text-center">
 				<alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">{{employeeError.message}}</alert>
 			</span>
@@ -191,7 +193,7 @@
 			<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
                     <div class="adjustMargins pull-right">
-                        <button class="close" ng-click="removeEmployee(employee)">x</button>
+                        <button class="close" ng-click="removeEmployee(employee)"><i class="fa fa-trash-o"></i></button>
                     </div>
                 </div>
                 <div class="row">
@@ -376,7 +378,61 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
 </script>
+<!--
+#########################################
 
+	Edit service Modal
+
+########################################
+-->
+<script type="text/ng-template" id="editServiceModal.html">
+	<div class="modal-header">
+		<h3 class="modal-title text-center">Edit Service</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<form>
+				<div class="form-group col-md-12">
+					<label for="serviceName">Service Name:</label>
+					<input class="form-control" id="editServiceName" ng-model="service.name">
+				</div>
+				<div class="col-md-12">
+					<label>Employees: <span ng-repeat="employee in service.employees"> {{employee.firstName}}</span></label>
+				</div>
+				<div class="col-md-12">
+					<div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings" selected-model="serviceEmployees"></div>
+				</div>
+				<div class="form-group col-md-12">
+					<label for="price">Price:</label>
+					<select class="form-control" id="editPrice" ng-model="service.price" placeholder="$0">
+						<option value="" disabled selected>Select Service Price</option>
+						<option value="5">$5</option>
+						<option value="10">$10</option>
+						<option value="15">$15</option>
+						<option value="20">$20</option>
+					</select>
+				</div>
+				<div class="form-group col-md-12">
+					<label>Duration:</label>
+					<select class="form-control" ng-model="service.duration">
+						<option value="">Select a Duration</option>
+						<option value="15">15 Minutes</option>
+						<option value="30">30 Minutes</option>
+						<option value="60">60 Minutes</option>
+					</select>
+				</div>
+				<div class="form-group col-md-12">
+					<label for="serviceDescription">Description:</label>
+					<textarea class="form-control" id="serviceDescription" ng-model="service.description"></textarea>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="ok(service)">Create</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
 <!-- 
 #########################################
 
@@ -441,3 +497,4 @@ Remove Employee Modal
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
+

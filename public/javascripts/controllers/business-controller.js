@@ -92,6 +92,22 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
       size: size
     });
   }
+
+  $scope.editService = function(service,business){
+    var modalInstance = $modal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'editServiceModal.html',
+      controller: 'editServiceModalCtrl',
+      resolve: {
+        service: function() {
+          return service;
+        },
+        business:function(){
+          return  $scope.business.info;
+        }
+      }
+    });
+  }
   /**
    *
    * @param service
@@ -258,6 +274,40 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     $modalInstance.dismiss('cancel');
   };
 })
+  .controller('editServiceModalCtrl', function ($scope, $modalInstance, businessFactory,service,business) {
+
+    $scope.service = service;
+    $scope.business = business;
+      console.log(business.employees)
+
+    $scope.serviceEmployees = [];
+    for(var selectedEmployee = 0; selectedEmployee<business.employees.length; selectedEmployee++){
+      var tempObject = {
+        "_id":business.employees[selectedEmployee]._id
+      }
+      $scope.serviceEmployees.push(tempObject);
+    }
+
+    $scope.settings = {
+      displayProp: 'firstName',
+      idProp: '_id',
+      externalIdProp: '_id',
+      smartButtonMaxItems: 3,
+      smartButtonTextConverter: function(itemText, originalItem) {
+        return itemText;
+      }
+    }
+    $scope.ok = function (service) {
+      service.businessId = business._id;
+      service.employees = _.pluck($scope.serviceEmployees,'_id');
+      businessFactory.updateService(service);
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  })
 .controller('addEmployeeModalCtrl', function ($scope, $modalInstance, businessFactory,user) {
 
   $scope.create = function (id) {

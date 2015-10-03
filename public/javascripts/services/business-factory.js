@@ -180,13 +180,47 @@ angular.module('cc.business-factory',[])
  *  businessId-
  *
  **/
-  o.addService = function(service){
-    return $http.post('/business/add-service',service,{
-      headers: {Authorization: 'Bearer '+auth.getToken()}
-    }).then(function(data,err){
-      angular.copy(data.data, o.business.info);
-    });
-  }
+    o.addService = function(service){
+        return $http.post('/business/add-service',service,{
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).then(function(data,err){
+            angular.copy(data.data, o.business.info);
+        });
+    }
+/**
+ *
+ *
+ */
+    o.updateService = function(service){
+        return $http.post('/business/update-service',service,{
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).then(function(data,err){
+            console.log(data.data)
+            //angular.copy(data.data, o.business.info);
+        });
+    }
+/**
+ *
+ *
+ */
+    o.removeService = function(serviceId){
+        return $http.post('/business/add-service',serviceId,{
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).then(function(data,err){
+            angular.copy(data.data, o.business.info);
+        });
+    }
+/**
+ *
+ *
+ */
+    o.editService = function(serviceId){
+        return $http.post('/business/add-service',serviceId,{
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).then(function(data,err){
+            angular.copy(data.data, o.business.info);
+        });
+    }
 /**
  *
  * getRequests - Returns all businsses that have pending requests
