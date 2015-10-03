@@ -394,17 +394,17 @@
 			<form>
 				<div class="form-group col-md-12">
 					<label for="serviceName">Service Name:</label>
-					<input class="form-control" id="editServiceName" ng-model="service.name">
+					<input class="form-control" id="editServiceName" ng-model="editService.name">
 				</div>
 				<div class="col-md-12">
-					<label>Employees: <span ng-repeat="employee in service.employees"> {{employee.firstName}}</span></label>
+					<label>Employees: <span ng-repeat="employee in editService.employees"> {{employee.firstName}}</span></label>
 				</div>
 				<div class="col-md-12">
 					<div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings" selected-model="serviceEmployees"></div>
 				</div>
 				<div class="form-group col-md-12">
 					<label for="price">Price:</label>
-					<select class="form-control" id="editPrice" ng-model="service.price" placeholder="$0">
+					<select class="form-control" id="editPrice" ng-model="editService.price" placeholder="$0">
 						<option value="" disabled selected>Select Service Price</option>
 						<option value="5">$5</option>
 						<option value="10">$10</option>
@@ -414,7 +414,7 @@
 				</div>
 				<div class="form-group col-md-12">
 					<label>Duration:</label>
-					<select class="form-control" ng-model="service.duration">
+					<select class="form-control" ng-model="editService.duration">
 						<option value="">Select a Duration</option>
 						<option value="15">15 Minutes</option>
 						<option value="30">30 Minutes</option>
@@ -423,13 +423,13 @@
 				</div>
 				<div class="form-group col-md-12">
 					<label for="serviceDescription">Description:</label>
-					<textarea class="form-control" id="serviceDescription" ng-model="service.description"></textarea>
+					<textarea class="form-control" id="editServiceDescription" ng-model="editService.description"></textarea>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="ok(service)">Create</button>
+		<button class="btn btn-primary" ng-click="ok(editService)">Create</button>
 		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 	</div>
 </script>

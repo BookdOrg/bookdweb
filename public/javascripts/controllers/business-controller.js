@@ -93,14 +93,14 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
     });
   }
 
-  $scope.editService = function(service,business){
+  $scope.editService = function(service){
     var modalInstance = $modal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'editServiceModal.html',
       controller: 'editServiceModalCtrl',
       resolve: {
         service: function() {
-          return service;
+          return angular.copy(service);
         },
         business:function(){
           return  $scope.business.info;
@@ -276,9 +276,8 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 })
   .controller('editServiceModalCtrl', function ($scope, $modalInstance, businessFactory,service,business) {
 
-    $scope.service = service;
+    $scope.editService = service;
     $scope.business = business;
-      console.log(business.employees)
 
     $scope.serviceEmployees = [];
     for(var selectedEmployee = 0; selectedEmployee<business.employees.length; selectedEmployee++){

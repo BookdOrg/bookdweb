@@ -651,9 +651,8 @@ router.post('/business/update-service',auth,function(req,res,next){
         "name": req.body.name,
         "price": req.body.price
     }
-    Service.findOneAndUpdate({"_id":newService._id},newService,{upsert: true}).populate({path:'employees',select:'_id appointments firstName lastName username avatarVersion'}).exec(function(err,service){
+    Service.findOneAndUpdate({"_id":newService._id},newService,{upsert: true}).populate({path:'employees',select:'_id businessAppointments appointments firstName lastName username avatarVersion'}).exec(function(err,service){
         if(err){return next(err);}
-        console.log(service)
         res.json(service);
     })
 })
