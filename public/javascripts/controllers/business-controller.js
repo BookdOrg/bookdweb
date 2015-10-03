@@ -281,12 +281,18 @@ function($scope, auth, $state,location,$stateParams,businessFactory,location,$ro
 
     $scope.editService = service;
     $scope.business = business;
+
     $scope.serviceEmployees = [];
-    for(var selectedEmployee = 0; selectedEmployee<business.employees.length; selectedEmployee++){
+
+    for(var employeeIndex = 0; employeeIndex<business.employees.length; employeeIndex++){
       var tempObject = {
-        "_id":business.employees[selectedEmployee]._id
+        "_id":business.employees[employeeIndex]._id
       }
-      $scope.serviceEmployees.push(tempObject);
+      for(var serviceEmployeeIndex = 0; serviceEmployeeIndex<$scope.editService.employees.length;serviceEmployeeIndex++){
+        if($scope.editService.employees[serviceEmployeeIndex]._id === business.employees[employeeIndex]._id){
+          $scope.serviceEmployees.push(tempObject);
+        }
+      }
     }
 
     $scope.settings = {
