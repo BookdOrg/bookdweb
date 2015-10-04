@@ -144,7 +144,7 @@
 		-->
 		<div class="row">
 			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
-				<button ng-click="open()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+				<button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
 				<!--<button ng-click="open()" class="btn btn-primary">Add</button>-->
 				<!--<button class="btn btn-warning">Edit</button>-->
 			</div>
@@ -154,7 +154,7 @@
 			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
 					<div class="adjustMargins pull-right">
-						<button class="close" ng-click="editService(service, $index)"><i class="fa fa-pencil"></i></button>
+						<button class="close" ng-click="editService(service, $index)"><i class="fa fa-pencil text-warning"></i></button>
 					</div>
 				</div>
 				<div class="">
@@ -182,7 +182,7 @@
 			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<!--<button ng-click="openEmployee()" class="btn btn-primary">Add</button>-->
 				<!--<button class="btn btn-warning">Edit</button>-->
-				<button ng-click="openEmployee()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+				<button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
 			</div>
 			<h3 class="text-center ">Associates </h3>
 			<span class="text-center">
@@ -193,7 +193,7 @@
 			<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
                     <div class="adjustMargins pull-right">
-                        <button class="close" ng-click="removeEmployee(employee)"><i class="fa fa-trash-o"></i></button>
+                        <button class="close" ng-click="removeEmployee(employee)"><i class="fa fa-trash-o text-danger"></i></button>
                     </div>
                 </div>
                 <div class="row">
