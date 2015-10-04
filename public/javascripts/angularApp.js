@@ -67,13 +67,13 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('business',{
       url:'/business/{businessid}',
       templateUrl:'partials/business.html',
-      controller:'businessCtrl'
-      // resolve:{
-      //   business:['$http','$stateParams','yelpService','businessFactory',function($http,$stateParams,yelpService,businessFactory){
-      //     var id = $stateParams.businessid;
-      //     return businesses = yelpService.business(id);
-      //   }]
-      // }
+      controller:'businessCtrl',
+       resolve:{
+         business:['$stateParams','businessFactory',function($stateParams,businessFactory){
+           var business;
+           return business = businessFactory.getBusiness($stateParams.businessid);
+         }]
+       }
     })
     .state('login', {
       url: '/login',

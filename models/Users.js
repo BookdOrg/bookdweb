@@ -46,6 +46,7 @@ UserSchema.methods.generateJWT = function() {
     firstName: this.firstName,
     lastName: this.lastName,
     isAdmin: this.isAdmin,
+    businessOwner: this.businessOwner,
     businessPage: this.businessPage,
     exp: parseInt(exp.getTime() / 1000),
   }, 'SECRET');

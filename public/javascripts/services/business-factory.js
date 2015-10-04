@@ -165,7 +165,9 @@ angular.module('cc.business-factory',[])
         'placesId':id
       },
       headers: {Authorization: 'Bearer '+auth.getToken()}
-    }).success(function(data,err){
+    }).success(function(data){
+        angular.copy(data, o.business)
+        //angular.copy(data.info, o.business.info)
     });
   }
 /**

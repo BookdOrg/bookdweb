@@ -444,8 +444,8 @@ router.get('/business/details',auth,function(req,res,next){
         if(error){return next(error);}
         Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,finalobj){
           if(error){return next(error);}
-          response.info = business;
-          res.json(response);
+          response.result.info = business;
+          res.json(response.result);
         })
     });  
   })
@@ -596,6 +596,7 @@ router.post('/business/update-request',auth,function(req,res,next){
         if(err){return handleError(err)};
         user.businesses.push(business._id);
         user.businessPage = business.placesId;
+        user.businessOwner = true;
         user.save(function(err,user){
 
         })

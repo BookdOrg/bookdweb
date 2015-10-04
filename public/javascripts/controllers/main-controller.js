@@ -4,11 +4,6 @@ angular.module('cc.main-controller',["google.places"])
 'businessFactory',
 function($scope,businessFactory){
 
-//  $scope.categories = businessFactory.categories;
   $scope.businesses = businessFactory.businesses;
-
-  $scope.setBusiness = function(business){
-    businessFactory.business = business;
-  }
 
 }])
