@@ -11,7 +11,7 @@ angular.module('cc.business-controller',[])
 'socket',
 'business',
 function($scope, auth, $state,$stateParams,businessFactory,location,$rootScope,$modal,socket,business){
-    $scope.business = business.data;
+    $scope.business = businessFactory.business;
   if(!businessFactory.business.info._id){
     businessFactory.getBusiness($stateParams.businessid)
     .then(function(data){

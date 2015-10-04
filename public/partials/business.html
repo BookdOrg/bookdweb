@@ -494,7 +494,8 @@ Remove Employee Modal
         <h4 ng-if="!employeeHasService">Are you sure you would like to remove {{employee.firstName}} {{employee.lastName}}?</h4>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-disabled="employeeHasService" ng-click="remove()">Yes, remove {{employee.firstName}}</button>
+        <button class="btn btn-primary" ng-if="!employeeHasService" ng-click="remove()">Yes, remove {{employee.firstName}}</button>
+		<button class="btn btn-primary" ng-if="employeeHasService" ng-click="cancel()">Ok</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
