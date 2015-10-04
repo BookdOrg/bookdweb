@@ -8,7 +8,8 @@ angular.module('cc.nav-controller',["google.places"])
 '$geolocation',
 '$http',
 'location',
-function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,location){
+'$modal',
+function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,location,$modal){
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.currentUser = auth.currentUser;
     $scope.logOut = auth.logOut;
@@ -87,3 +88,8 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
     }
 
 }])
+.controller('messagesModalCtrl',function($scope,$modalInstance){
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+})

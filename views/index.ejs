@@ -115,7 +115,7 @@ $.cloudinary.config({
           <ul class="nav navbar-nav">
             <li ng-if="isLoggedIn()"><a href="/home">Home</a></li>
             <li ng-if="isLoggedIn()"><a href="/user/{{currentUser().username}}/profile">Profile</a></li>
-            <li ng-if="isLoggedIn()" class="disabled"><a href="/#" disabled>Messages <span class="badge">1</span></a></li>
+            <li ng-if="isLoggedIn()" ng-click="openMessages('md')"><a href="">Messages <span class="badge">1</span></a></li>
             <!--<li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>-->
             <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/account">Account</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
@@ -178,5 +178,23 @@ $.cloudinary.config({
      </div>
       </div>
   </div>
+  <!--
+#########################################
+
+Messages Modal
+
+########################################
+   -->
+  <script type="text/ng-template" id="messagesModal.html">
+      <div class="modal-header">
+          <h1 class="modal-title text-center"> Messages </h1>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning" ng-click="cancel()">Close</button>
+      </div>
+  </script>
 </body>
 </html>

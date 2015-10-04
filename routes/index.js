@@ -147,7 +147,6 @@ router.get('/user/dashboard',auth,function(req,res,next){
         async.each(user.businesses,function(currBusiness,businessCallback){
             googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,placesResult){
                 if(error){return businessCallback(error);}
-                console.log(placesResult)
                 placesResult.result.info = currBusiness;
                 updatedBusinesses.push(placesResult.result);
                 businessCallback();
