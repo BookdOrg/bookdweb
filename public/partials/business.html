@@ -287,13 +287,13 @@
 	        <div class="tab-pane" id="schedule">
 	        	<div class="row">
 	        		<div class="col col-md-6 text-center">
-		          		<h4>Choose a Date</h4>
+		          		<h4>Select a Date to see Available Times</h4>
 		          		<div style="display:inline-block; min-height:290px;">
 					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
 					    </div>
 				    </div>
 				    <div class="col col-md-6 text-center">
-				    	<h4>{{employee.firstName}}'s Available Times</h4>
+				    	<h4 ng-if="availableTimes.length > 1">{{employee.firstName}}'s Available Times</h4>
 				    	<div class="col col-md-3" ng-repeat="time in availableTimes track by $index">
 				    		<button ng-disabled="!time.available" ng-class="{'btn-danger': !time.available, 'btn-success':time.available}" ng-click="createAppointmentObj(time)" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
@@ -339,7 +339,7 @@
             	<form>
             		<div class="form-group col-md-12">
 	            		<label for="serviceName">Service Name:</label>
-	            		<input class="form-control" id="serviceName" ng-model="service.name">
+	            		<input class="form-control" id="serviceName" ng-required ng-model="service.name">
 	            	</div>
 	            	<div class="col-md-12">
 	            		<label>Employees:</label>

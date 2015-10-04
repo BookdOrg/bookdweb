@@ -135,6 +135,30 @@ router.get('/user/search',auth,function(req,res,next){
     })
 })
 /**
+ *  Returns all Dashboard information
+ *
+ *
+ */
+router.get('/user/dashboard',auth,function(req,res,next){
+    var id = req.payload._id;
+    var updatedBusinesses = [];
+    User.findOne({"_id":id}).select('_id lastName firstName username avatarVersion businesses').populate('businesses').exec(function(error,user){
+        if(error){return next(error);}
+        async.each(user.businesses,function(currBusiness,businessCallback){
+            googleplaces.placeDetailsRequest({placeid:currBusiness.placesId},function(error,placesResult){
+                if(error){return businessCallback(error);}
+                console.log(placesResult)
+                placesResult.result.info = currBusiness;
+                updatedBusinesses.push(placesResult.result);
+                businessCallback();
+            });
+        },function(err){
+            if(err){return next(err);}
+            res.json(updatedBusinesses)
+        })
+    })
+})
+/**
  *   Logs in a valid user using passport.
  *
  **/
@@ -309,7 +333,7 @@ router.post("/business/appointments/create",auth,function(req,res,next){
 *   text search.
 *
 **/
-
+//
 router.get('/business/search',auth,function(req,res,next){
   var query = req.param('query');
   var updatedBusinesses = [];
@@ -319,10 +343,10 @@ router.get('/business/search',auth,function(req,res,next){
     async.each(response.results,function(currResponse,responseCallback){
         Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
             if(err){
-              return responseCallback(err);// <== calling responseCallback instead of next() 
-            } 
-            // in case of business === null/undefined, I'm not seeing any 
-            // callback getting called, it needs to be called inside 
+              return responseCallback(err);// <== calling responseCallback instead of next()
+            }
+            // in case of business === null/undefined, I'm not seeing any
+            // callback getting called, it needs to be called inside
             // async.each() no matter which condition it is
             if (!business) {
                // call responseCallback to continue on with async.each()
@@ -365,45 +389,45 @@ router.get('/business/search',auth,function(req,res,next){
 **/
 // TO DO: combine with the business/search route
 
-router.get('/business/nearby',auth,function(req,res,next){
-  var keyword = req.param('category');
-  var location = req.param('location');
-  var radius = req.param('radius');
-  var updatedBusinesses = [];
-  var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
-
-  googleplaces.placeSearch({location:location,radius:radius,keyword:keyword},function(err,response){
-    if(err){return next(err);}
-    async.each(response.results,function(currResponse,responseCallback){
-        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
-            if(err){
-              return responseCallback(err);// <== calling responseCallback instead of next() 
-            } 
-            // in case of business === null/undefined, I'm not seeing any 
-            // callback getting called, it needs to be called inside 
-            // async.each() no matter which condition it is
-            if (!business) {
-               // call responseCallback to continue on with async.each()
-                return responseCallback();
-            }
-            Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,newBusiness){
-                if(err){
-                  return responseCallback(err);
-                }
-                googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,placesResult){
-                    if(error){return responseCallback(error);}
-                    placesResult.result.info = business;
-                    updatedBusinesses.push(placesResult.result);
-                    responseCallback();
-                });
-            })
-        })
-    },function(err){
-        if(err){return next(err);}
-        res.json(updatedBusinesses);
-    });
-  }); 
-});
+//router.get('/business/nearby',auth,function(req,res,next){
+//  var keyword = req.param('category');
+//  var location = req.param('location');
+//  var radius = req.param('radius');
+//  var updatedBusinesses = [];
+//  var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
+//
+//  googleplaces.placeSearch({location:location,radius:radius,keyword:keyword},function(err,response){
+//    if(err){return next(err);}
+//    async.each(response.results,function(currResponse,responseCallback){
+//        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
+//            if(err){
+//              return responseCallback(err);// <== calling responseCallback instead of next()
+//            }
+//            // in case of business === null/undefined, I'm not seeing any
+//            // callback getting called, it needs to be called inside
+//            // async.each() no matter which condition it is
+//            if (!business) {
+//               // call responseCallback to continue on with async.each()
+//                return responseCallback();
+//            }
+//            Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,newBusiness){
+//                if(err){
+//                  return responseCallback(err);
+//                }
+//                googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,placesResult){
+//                    if(error){return responseCallback(error);}
+//                    placesResult.result.info = business;
+//                    updatedBusinesses.push(placesResult.result);
+//                    responseCallback();
+//                });
+//            })
+//        })
+//    },function(err){
+//        if(err){return next(err);}
+//        res.json(updatedBusinesses);
+//    });
+//  });
+//});
 
 /**
 *   Returns all information about a specific Business.
@@ -574,7 +598,7 @@ router.post('/business/update-request',auth,function(req,res,next){
         user.businessPage = business.placesId;
         user.save(function(err,user){
 
-      })
+        })
       business.save(function(err){
           if(err){ return next(err); }
           res.json({success:'success'})
@@ -607,8 +631,8 @@ router.post('/business/add-service',auth,function(req,res,next){
   service.price = req.body.price;
   service.businessId = req.body.businessId;
 
-  User.findOne({"_id": id}).exec(function(err,user){
-    if(err){return next(err);}
+  //User.findOne({"_id": id}).exec(function(err,user){
+    //if(err){return next(err);}
     Business.findOne({"_id":req.body.businessId}).exec(function(err,business){
       if(err){return next(err);}
       //Implement a way to check that the user requesting the new
@@ -632,7 +656,7 @@ router.post('/business/add-service',auth,function(req,res,next){
         })
       // }
     })
-  })
+  //})
 })
 
 /**
@@ -677,7 +701,7 @@ router.post('/business/remove-service',auth,function(req,res,next){
                 }
             })
         } else {
-            console.log('serviceId not associated with this business. id=', serviceId);
+            //console.log('serviceId not associated with this business. id=', serviceId);
         }
 
         Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){

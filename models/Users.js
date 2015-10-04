@@ -10,7 +10,6 @@ var UserSchema = new mongoose.Schema({
   avatarVersion: String,
   rating: Number,
   businessOwner: Boolean,
-  businessPage: String, 
   hash: String,
   salt: String,
   isEmployee: Boolean,

@@ -5,10 +5,10 @@
       <div class="form-group col-md-2">
         <span ng-bind-html="currentUser.image"></span>
         <span ng-if="currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}">
+          <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
         </span>
         <span ng-if="!currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryDefaultPic}}">
+          <image ng-src="{{cloudinaryDefaultPic}}"></image>
         </span>
       </div>
       <div class="col-md-3">
@@ -107,22 +107,28 @@
     </div> -->
   </form>
   <div class="row text-center">
-    <div class="col col-md-6">
+    <div class="col col-md-6" ng-if="currentUser.personalAppointments.length >0">
       <h1 class="text-center">Personal Appointments</h1>
       <div class="col col-md-6 well" ng-repeat="appointment in currentUser.personalAppointments">
         <h4>{{appointment.title}}</h4>
         Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
         <br>
         Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
+          <div>
+              <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
+          </div>
       </div>
     </div>
-    <div class="col col-md-6">
+    <div class="col col-md-6" ng-if="currentUser.businessAppointments.length >0">
       <h1 class="text-center">Business Appointments</h1>
       <div class="col col-md-6 well" ng-repeat="appointment in currentUser.businessAppointments">
         <h4>{{appointment.title}}</h4>
         Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
         <br>
         Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
+          <div>
+              <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
+          </div>
       </div>
     </div>
   </div>  

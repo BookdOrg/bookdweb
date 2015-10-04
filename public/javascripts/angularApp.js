@@ -150,7 +150,13 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
     .state('dashboard',{
       url:'/dashboard',
       templateUrl:'partials/dashboard.html',
-      controller:'dashboardCtrl'
+      controller:'dashboardCtrl',
+      resolve:{
+          businesses:['user',function(user){
+              var businesses;
+              return businesses = user.getDashboard();
+          }]
+      }
     })
     .state('search',{
       url:'/join',

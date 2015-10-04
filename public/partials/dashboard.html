@@ -1,5 +1,8 @@
 <div class="container body-wrap">
 	<div class="page-header">
-		<h1 class="text-center">Dashboard</h1>
+		<h1 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h1>
+	</div>
+	<div class="row well" ng-repeat="business in businesses">
+		<h1 class="text-center">{{business.name}}</h1>
 	</div>
 </div>

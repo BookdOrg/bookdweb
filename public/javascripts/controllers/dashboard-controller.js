@@ -3,6 +3,7 @@ angular.module('cc.dashboard-controller',[])
 '$scope',
 '$state',
 'auth',
-function($scope, $state, auth){
-
+'businesses',
+function($scope, $state, auth,businesses){
+    $scope.businesses = businesses.data;
 }])

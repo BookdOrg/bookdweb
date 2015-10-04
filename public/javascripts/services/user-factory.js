@@ -68,5 +68,18 @@ angular.module('cc.user-factory',[])
             angular.copy(data, o.categories)
         });
     }
+/**
+ *
+ *
+ *
+ */
+    o.getDashboard = function(){
+        return $http.get('/user/dashboard',{
+            headers:{Authorization: 'Bearer '+auth.getToken(),'Content-Type':'application/x-www-form-urlencoded'}
+        })
+        .success(function(data){
+
+        })
+    }
 	return o;
 }])
