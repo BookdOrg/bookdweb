@@ -13,7 +13,7 @@ function($scope, $state, auth, $geolocation){
     auth.register($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('home');
+      $state.go('feed');
     });
   };
   /**
@@ -23,7 +23,7 @@ function($scope, $state, auth, $geolocation){
     auth.logIn($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('home');
+      $state.go('feed');
     });
   };
 }])

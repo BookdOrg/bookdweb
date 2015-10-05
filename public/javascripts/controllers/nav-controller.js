@@ -81,8 +81,8 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
         businessFactory.search(formattedQuery)
             .then(function(data){
                 $scope.fetchingQuery = false;
-                if(!$state.is('home')){
-                    $state.go('home');
+                if(!$state.is('feed')){
+                    $state.go('feed');
                 }
             })
     }

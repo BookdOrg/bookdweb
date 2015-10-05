@@ -230,7 +230,7 @@ function($scope, auth, $state,$stateParams,businessFactory,location,$rootScope,$
     businessFactory.addAppointment($scope.appointment)
       .then(function(data){
         $modalInstance.close();
-        $state.go('home');
+        $state.go('feed');
       })
 
   }

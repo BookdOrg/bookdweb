@@ -42,9 +42,9 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       templateUrl: 'partials/landing.html',
       controller: 'landingCtrl'
     })
-    .state('home', {
-      url: '/home',
-      templateUrl: 'partials/home.html',
+    .state('feed', {
+      url: '/feed',
+      templateUrl: 'partials/feed.html',
       controller: 'MainCtrl'
 //      resolve: {
 //        categories: ['businessFactory',function(businessFactory){
@@ -81,7 +81,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       controller: 'AuthCtrl',
       onEnter: ['$state', 'auth', function($state, auth){
         if(auth.isLoggedIn()){
-          $state.go('home');
+          $state.go('feed');
         }
       }]
     })
@@ -91,7 +91,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       controller: 'AuthCtrl',
       onEnter: ['$state', 'auth', function($state, auth){
         if(auth.isLoggedIn()){
-          $state.go('home');
+          $state.go('feed');
         }
       }]
     })
