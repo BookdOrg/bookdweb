@@ -55,6 +55,8 @@ Finally in your terminal type:
 `source ~/.bash_profile`
 
 #Fire up the app#
+* npm install
+* bower install
 * npm start
 
 #Download MongoHub as a MONGODB GUI interface#
