@@ -14,12 +14,16 @@ a {
 }
 h1{
 	font-family: "Abel", Arial, sans-serif;
+    font-weight:400;
       font-size: 40px;
 }
-
-body{
+h2,h3,h4,h5,h6{
     font-family: "Abel", Arial, sans-serif;
-    font-weight: 400;
+    /*font-size: 40px;*/
+}
+body{
+    font-family: "Lucida Grande", Arial, sans-serif;
+    /*font-weight: 400;*/
 }
 .navbar-form
 {

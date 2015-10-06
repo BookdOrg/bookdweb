@@ -113,9 +113,9 @@ $.cloudinary.config({
           </form>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">
-            <li ng-if="isLoggedIn()"><a href="/feed">Feed</a></li>
-            <li ng-if="isLoggedIn()"><a href="/user/{{currentUser().username}}/profile">Profile</a></li>
-            <li ng-if="isLoggedIn()" ng-click="openMessages('md')"><a href="">Messages <span class="badge">1</span></a></li>
+            <li ng-if="isLoggedIn()"><a href="/feed"><i class="fa fa-home"></i> Feed</a></li>
+            <li ng-if="isLoggedIn()"><a href="/user/{{currentUser().username}}/profile"><i class="fa fa-user"></i> Profile</a></li>
+            <li ng-if="isLoggedIn()" ng-click="openMessages('md')"><a href=""><i class="fa fa-envelope"></i> Messages <span class="badge">1</span></a></li>
             <!--<li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>-->
             <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/account">Account</a></li>
             <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
