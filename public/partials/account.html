@@ -106,31 +106,31 @@
       </div>
     </div> -->
   </form>
-  <div class="row text-center">
-    <div class="col col-md-6" ng-if="currentUser.personalAppointments.length >0">
-      <h1 class="text-center">Personal Appointments</h1>
-      <div class="col col-md-6 well" ng-repeat="appointment in currentUser.personalAppointments">
-        <h4>{{appointment.title}}</h4>
-        Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
-        <br>
-        Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
-          <div>
-              <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
-          </div>
-      </div>
-    </div>
-    <div class="col col-md-6" ng-if="currentUser.businessAppointments.length >0">
-      <h1 class="text-center">Business Appointments</h1>
-      <div class="col col-md-6 well" ng-repeat="appointment in currentUser.businessAppointments">
-        <h4>{{appointment.title}}</h4>
-        Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
-        <br>
-        Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
-          <div>
-              <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
-          </div>
-      </div>
-    </div>
-  </div>  
+  <!--<div class="row text-center">-->
+    <!--<div class="col col-md-6" ng-if="currentUser.personalAppointments.length >0">-->
+      <!--<h1 class="text-center">Personal Appointments</h1>-->
+      <!--<div class="col col-md-6 well" ng-repeat="appointment in currentUser.personalAppointments">-->
+        <!--<h4>{{appointment.title}}</h4>-->
+        <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
+        <!--<br>-->
+        <!--Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
+          <!--<div>-->
+              <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
+          <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col col-md-6" ng-if="currentUser.businessAppointments.length >0">-->
+      <!--<h1 class="text-center">Business Appointments</h1>-->
+      <!--<div class="col col-md-6 well" ng-repeat="appointment in currentUser.businessAppointments">-->
+        <!--<h4>{{appointment.title}}</h4>-->
+        <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
+        <!--<br>-->
+        <!--Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
+          <!--<div>-->
+              <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
+          <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>  -->
   </div>
 </div>

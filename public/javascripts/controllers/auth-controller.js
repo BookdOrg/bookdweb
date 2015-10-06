@@ -3,8 +3,9 @@ angular.module('cc.auth-controller',[])
 '$scope',
 '$state',
 'auth',
-'$geolocation',
-function($scope, $state, auth, $geolocation){
+'user',
+'$rootScope',
+function($scope, $state, auth,user,$rootScope){
   $scope.user = {};
   /**
    *

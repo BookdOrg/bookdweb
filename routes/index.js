@@ -90,7 +90,26 @@ router.get('/user/appointments',auth,function(req,res,next){
     })
   })
 })
-
+/**
+ *
+ * Returns the appointments of a specified user.
+ */
+router.get('/user/appointments-all',auth,function(req,res,next){
+    var id = req.payload._id;
+    var response = {
+        personalAppointments: [],
+        businessAppointments:[]
+    };
+    Appointment.find({"customer":id}).exec(function(err,customerAppointments){
+        if(err){return next(err);}
+        response.personalAppointments = customerAppointments;
+        Appointment.find({"employee":id}).exec(function(err,employeeAppointments){
+            if(err){return next(err);}
+            response.businessAppointments = employeeAppointments;
+            res.json(response)
+        })
+    })
+})
 /**
  *   Returns the profile of a specified user.
  *

@@ -37,6 +37,7 @@
     <script src="/javascripts/controllers/admin-controller.js"></script>
     <script src="/javascripts/controllers/search-controller.js"></script>
     <script src="/javascripts/controllers/dashboard-controller.js"></script>
+    <script src="/javascripts/controllers/appointments-controller.js"></script>
   
 
 
@@ -133,12 +134,13 @@ $.cloudinary.config({
                 <ul class="dropdown-menu">
                   <!--<li><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>-->
                   <!--<hr>-->
-                  <li><a href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Account</a></li>
-                  <li class="disabled"><a  href="#"><i class="fa fa-reorder"></i> Preferences</a></li>
+                    <li><a  href="/appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
+                  <li><a  href="/favorites"><i class="fa fa-bookmark"></i> Favorites</a></li>
                   <!--<li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages <span class="badge">1</span></a></li>-->
 <!--                   <li><a  ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li> -->
                   <li><a  ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                   <li ng-if="currentUser().isAdmin"><a  href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
+                    <li><a href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a></li>
                   <hr>
                   <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Sign Out</a></li>
                 </ul>

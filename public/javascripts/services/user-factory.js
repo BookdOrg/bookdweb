@@ -36,6 +36,18 @@ angular.module('cc.user-factory',[])
 		})
 	}
 /**
+ * Returns all a users personal and business appointments
+ *
+ * @returns {*}
+ */
+    o.getUserAppts = function(){
+        return $http.get('/user/appointments-all',{
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
+
+        })
+    }
+/**
  *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
  *  Takes in the ID of the employee & the startDate to search for. User ID is grabbed from
  *  auth middleware.

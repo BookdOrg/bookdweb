@@ -29,6 +29,7 @@ angular.module('cc', ['ui.router',
   'angularjs-dropdown-multiselect',
   'angularMoment',
   'stripe.checkout',
+  'cc.appointments-controller',
   ])
 .config([
 '$stateProvider',
@@ -156,6 +157,28 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
               var businesses;
               return businesses = user.getDashboard();
           }]
+      }
+    })
+    .state('favorites',{
+      url:'/favorites',
+      templateUrl:'partials/favorites.html',
+      //controller:'favoritesCtrl'
+      resolve:{
+        appointments:['user',function(user){
+          var appointments;
+          return appointments = user.getDashboard();
+        }]
+      }
+    })
+    .state('appointments',{
+      url:'/appointments',
+      templateUrl:'partials/appointments.html',
+      controller:'appointmentsCtrl',
+      resolve:{
+        appointments:['user',function(user){
+          var appointments;
+          return appointments = user.getUserAppts();
+        }]
       }
     })
     .state('search',{

@@ -1,0 +1,27 @@
+<div class="container body-wrap">
+    <div class="page-header">
+        <h1 class="text-center">Appointments <i class="fa fa-calendar"></i></h1>
+    </div>
+    <div class="col-md-6">
+        <div class="row well text-center" ng-repeat="appointment in appointments.personalAppointments">
+            <h4>{{appointment.title}}</h4>
+            Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
+            <br>
+            Scheduled on: {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
+            <div>
+                <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row well" ng-repeat="appointment in appointments.businessAppointments">
+            <h4>{{appointment.title}}</h4>
+            Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
+            <br>
+            Scheduled on: {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}
+            <div>
+                <button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
