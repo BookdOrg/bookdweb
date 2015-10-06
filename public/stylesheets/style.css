@@ -106,7 +106,7 @@ h1{
 #landingBody{
     padding-top:20px;
     font-size: 16px;
-    font-family: "Abel",Arial,sans-serif;
+    font-family: "Open Sans",serif;
     position: relative;
     top: 35%;
     transform: translateY(-50%);
@@ -114,15 +114,15 @@ h1{
 .panel {
     background-color: rgba(255, 255, 255, 0.9);
 }
+h3{
+    font-family: "Abel", Arial, sans-serif;
+    font-weight: 400;
+    color:white;
+}
 .coverrTitle h1{
     font-family: "Abel", Arial, sans-serif;
     font-weight: 400;
     font-size: 50px;
-    color:white;
-}
-.coverrTitle h3{
-    font-family: "Abel", Arial, sans-serif;
-    font-weight: 400;
     color:white;
 }
 .margin-base-vertical{
