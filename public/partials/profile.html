@@ -4,7 +4,7 @@
         <image ng-if="!currentUser.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
         <image ng-if="currentUser.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-8">
         <h1 class="text-center">
           {{currentUser.firstName}}'s Profile
         </h1>
