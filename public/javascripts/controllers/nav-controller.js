@@ -14,6 +14,8 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
     $scope.currentUser = auth.currentUser;
     $scope.logOut = auth.logOut;
 
+    $scope.navbarCollapsed = true;
+
     $scope.query = {
         location:null,
         term:null
