@@ -94,36 +94,31 @@ $.cloudinary.config({
         </div>
           <form ng-if="isLoggedIn()" class="navbar-form hidden-sm hidden-xs">
               <div class="row form-inline form-group">
-                  <!--<div class="col">-->
-            <span class=" input-group input-group-sm">
-                <span class="input-group-addon" id="search">Find</span>
-  			    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
-            </span>
-  			<span class="input-group input-group-sm">
-                <span class="input-group-addon" id="near">Near</span>
-				<input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
-	      		<span class="input-group-btn">
-	    			<button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
-                        <i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
-                        <i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
-                    </button>
-	  			</span>
-  			</span>
-                  <!--</div>-->
+                <span class=" input-group input-group-sm">
+                    <span class="input-group-addon" id="search">Find</span>
+                    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                </span>
+                <span class="input-group input-group-sm">
+                    <span class="input-group-addon" id="near">Near</span>
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                            <i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+                            <i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
+                        </button>
+                    </span>
+                </span>
               </div>
           </form>
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav">
-            <li ng-if="isLoggedIn()"><a href="/feed"><i class="fa fa-home"></i> Feed</a></li>
-            <li ng-if="isLoggedIn()"><a href="/user/{{currentUser().username}}/profile"><i class="fa fa-user"></i> Profile</a></li>
-            <li ng-if="isLoggedIn()" ng-click="openMessages('md')"><a href=""><i class="fa fa-envelope"></i> Messages <span class="badge">1</span></a></li>
-            <!--<li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>-->
-            <li class="hidden-sm hidden-md hidden-lg"><a href="/user/{{currentUser().username}}/account">Account</a></li>
-            <li class="disabled hidden-sm hidden-md hidden-lg"><a  href="#">Preferences</a></li>
-            <!--<li class="disabled hidden-sm hidden-md hidden-lg"><a href="#">Messages <span class="badge">1</span></a></li>-->
-<!--             <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li> -->
-            <li class="hidden-sm hidden-md hidden-lg"><a ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-            <li class="hidden-sm hidden-md hidden-lg" ng-if="currentUser().isAdmin"><a  href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
+            <li ng-if="isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse" href="/feed"><i class="fa fa-home"></i> Feed</a></li>
+            <li ng-if="isLoggedIn()"><a data-toggle="collapse" data-target=".navbar-collapse" href="/user/{{currentUser().username}}/profile"><i class="fa fa-user"></i> Profile</a></li>
+            <li ng-if="isLoggedIn()" data-toggle="collapse" data-target=".navbar-collapse" ng-click="openMessages('md')"><a href=""><i class="fa fa-envelope"></i> Messages <span class="badge">1</span></a></li>
+            <li class="hidden-sm hidden-md hidden-lg"><a data-toggle="collapse" data-target=".navbar-collapse" href="/user/{{currentUser().username}}/account">Settings</a></li>
+            <li class="hidden-sm hidden-md hidden-lg"><a  data-toggle="collapse" data-target=".navbar-collapse" href="/favorites"><i class="fa fa-bookmark"></i> Favorites</a></li>
+            <li class="hidden-sm hidden-md hidden-lg"><a data-toggle="collapse" data-target=".navbar-collapse" ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+            <li class="hidden-sm hidden-md hidden-lg" ng-if="currentUser().isAdmin"><a data-toggle="collapse" data-target=".navbar-collapse" href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
             <hr>
             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut()">Sign Out</a></li>
           </ul>
@@ -132,12 +127,8 @@ $.cloudinary.config({
               <li class="dropdown" ng-show="isLoggedIn()" style="margin-right:10px;">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Welcome, {{currentUser().firstName}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <!--<li><a href="/user/{{currentUser().username}}/profile">My Profile</a></li>-->
-                  <!--<hr>-->
-                    <li><a  href="/appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
+                    <li><a href="/appointments"><i class="fa fa-calendar"></i> Appointments</a></li>
                   <li><a  href="/favorites"><i class="fa fa-bookmark"></i> Favorites</a></li>
-                  <!--<li class="disabled"><a href="#"><i class="fa fa-inbox"></i> Messages <span class="badge">1</span></a></li>-->
-<!--                   <li><a  ng-if="currentUser().businessPage" href="/business/{{currentUser().businessPage}}"><i class="fa fa-tachometer"></i> Manage</a></li> -->
                   <li><a  ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                   <li ng-if="currentUser().isAdmin"><a  href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
                     <li><a href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a></li>
@@ -152,9 +143,7 @@ $.cloudinary.config({
        </div>
       </div>
     </nav>
-    <!-- <div class="container-fluid" style="margin-top:60px;"> -->
         <ui-view></ui-view>
-    <!-- </div> -->
   </div>
   <!--
 #########################################

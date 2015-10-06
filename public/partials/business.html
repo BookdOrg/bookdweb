@@ -1,11 +1,11 @@
 <div class="container body-wrap">
-	<!-- 
-	#########################################
+<!--
+#########################################
 
-		Regular View
+	Regular View
 
-	########################################
-	-->
+########################################
+-->
 	<div ng-if="currentUser._id !== business.info.owner" class="container">
 		<div class="page-header">
 			<h1 class='text-center'>{{business.name}}</h1>
@@ -38,17 +38,14 @@
 		-->
 		<h3 class="text-center">Services</h3>
 		<div class="row text-center">
-			<div class="well col-md-3" style="height:200px;" ng-repeat="service in business.info.services">
-				<div class="">
-					<h4>{{service.name}}</h4>
-					<h5>Price:{{service.price | currency}}</h5>
-					<p>Duration: {{service.duration}} minutes</p>
-					<p>{{service.description}}</p>
-				</div>
-				<div>
-				<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">	Book Appointment
+			<div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;" ng-repeat="service in business.info.services">
+				<h4>{{service.name}}</h4>
+				<h5>Price:{{service.price | currency}}</h5>
+				<p>Duration: {{service.duration}} minutes</p>
+				<p>{{service.description}}</p>
+				<button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">
+					Book Appointment
 				</button>
-				</div>
 			</div>
 		</div>
 		<div class="row" ng-if="!business.info.claimed">
@@ -68,7 +65,7 @@
 			</span>
 		</div>
 		<div class="row">
-			<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
+			<div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
 				<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
 	          	<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
 				<div class="">
@@ -90,7 +87,7 @@
 		-->	
 		<div class="row">
 			<h3 class="text-center">Reviews</h3>
-			<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
+			<div class="well col-md-6 col-sm-12" ng-repeat="review in business.reviews track by $index">
 				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
 				<br>User: <a href="{{review.author_url}}">{{review.author_name}}</a></span>
 				<br>
@@ -104,13 +101,13 @@
 		</div> -->
 	</div>
 
-	<!-- 
-	#########################################
+<!--
+#########################################
 
-		Business Owner View
+	Business Owner View
 
-	########################################
-	-->
+########################################
+-->
 	<div ng-if="currentUser._id == business.info.owner" class="container">
 		<div class="page-header">
 	<!-- 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button> -->
@@ -145,13 +142,11 @@
 		<div class="row">
 			<div class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
-				<!--<button ng-click="open()" class="btn btn-primary">Add</button>-->
-				<!--<button class="btn btn-warning">Edit</button>-->
 			</div>
 			<h3 class="text-center ">Services</h3>
 		</div>
 		<div class="row text-center">
-			<div class="col-md-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
+			<div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
 					<div class="adjustMargins pull-right">
 						<button class="close" ng-click="editService(service, $index)"><i class="fa fa-pencil text-warning"></i></button>
@@ -190,7 +185,7 @@
 			</span>
 		</div>
 		<div class="row">
-			<div class="well col-md-3 text-center" ng-repeat="employee in business.info.employees">
+			<div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
                     <div class="adjustMargins pull-right">
                         <button class="close" ng-click="removeEmployee(employee)"><i class="fa fa-trash-o text-danger"></i></button>
@@ -218,7 +213,7 @@
 		<div class="row">
 			<h3 class="text-center">Reviews</h3>
 			<div class="row">
-				<div class="well col-md-3" ng-repeat="review in business.reviews track by $index">
+				<div class="well col-md-6 col-sm-12" ng-repeat="review in business.reviews track by $index">
 					<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
 					<br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
 					<br>

@@ -1,4 +1,22 @@
 <div class="container-fluid body-wrap">
+    <div class="row form-inline form-group hidden-sm hidden-md hidden-lg">
+        <div class="col-xs-12">
+                <span class=" input-group input-group-xs">
+                    <span class="input-group-addon" id="search">Find</span>
+                    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                </span>
+                <span class="input-group input-group-xs">
+                    <span class="input-group-addon" id="near">Near</span>
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                            <i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+                            <i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
+                        </button>
+                    </span>
+                </span>
+        </div>
+    </div>
     <div class="row">
         <div class="col col-md-6">
             <h1 class="page-header text-center">Results</h1>
