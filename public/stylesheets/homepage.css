@@ -17,12 +17,16 @@
 }
 
 .instructions-wrapper {
-    background: #CF0A2C;
+    background: slategray;
     color: white;
     border-bottom: 1px solid rgba(34, 34, 34, 0.2);
 }
 
+.instructions-wrapper a {
+    color: black;
+}
+
 .learn-more-wrapper {
-    background-color: #6F5499;
+    background-color: #6F5488;
     color: white;
 }
