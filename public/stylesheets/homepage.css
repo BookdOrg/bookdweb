@@ -1,0 +1,18 @@
+.hero {
+    padding: 30px 0;
+    border-bottom: 1px solid rgba(34, 34, 34, 0.2);
+    background-color: #61B2A7;
+}
+
+.centered {
+    text-align: center;
+}
+
+.calendar {
+    height:35%;
+    width:100%;
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 70px,#CCC 70px,#CCC 71px),repeating-linear-gradient(90deg,transparent,transparent 70px,#CCC 70px,#CCC 71px);
+    background-size: 71px 71px;
+}
+
+/*<link href="/stylesheets/homepage.css" rel="stylesheet">*/
