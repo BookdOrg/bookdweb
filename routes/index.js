@@ -90,7 +90,26 @@ router.get('/user/appointments',auth,function(req,res,next){
     })
   })
 })
-
+/**
+ *
+ * Returns the appointments of a specified user.
+ */
+router.get('/user/appointments-all',auth,function(req,res,next){
+    var id = req.payload._id;
+    var response = {
+        personalAppointments: [],
+        businessAppointments:[]
+    };
+    Appointment.find({"customer":id}).exec(function(err,customerAppointments){
+        if(err){return next(err);}
+        response.personalAppointments = customerAppointments;
+        Appointment.find({"employee":id}).exec(function(err,employeeAppointments){
+            if(err){return next(err);}
+            response.businessAppointments = employeeAppointments;
+            res.json(response)
+        })
+    })
+})
 /**
  *   Returns the profile of a specified user.
  *
@@ -526,7 +545,9 @@ router.post('/business/add-employee',auth,function(req,res,next){
 router.post('/business/remove-employee',auth,function(req,res,next){
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
+    var serviceIds = req.body.serviceList;
 
+    //find business that employee is being removed from
     Business.findOne({"_id":businessId}).exec(function(err, response){
         var index = response.employees.indexOf(employeeId);
 
@@ -536,19 +557,43 @@ router.post('/business/remove-employee',auth,function(req,res,next){
                 if (err) {
                     return next(err);
                 }
-            })
+            });
         } else {
             console.log('employeeID not associated with this business. id=', employeeId);
         }
 
-        Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){
-            if(err){return next(err);}
-            Service.populate(busResponse.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+        //need to convert string to objectIds for the Service 'find $in' query to work
+        for (var i = 0; i < serviceIds.length; i++) {
+            serviceIds[i] = mongoose.Types.ObjectId(serviceIds[i]);
+        }
+        //find all service(s) employee was part of
+        Service.find({ "_id": { $in: serviceIds }}).exec(function(err, services) {
+            //services - an array of services
+
+            for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
+                var service = services[serviceIndex];
+                var employeeIndex = service.employees.indexOf(employeeId);
+
+                if (employeeIndex > -1) {
+                    service.employees.splice(employeeIndex, 1);
+                    service.save(function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+                    })
+                } else {
+                    console.log('employee not found in service');
+                }
+            }
+            Business.populate(response,[{path:"employees",select:'_id appointments firstName lastName username avatarVersion'},{path:"services",select:''}],function(err,busResponse){
                 if(err){return next(err);}
-                busResponse.services = services;
-                res.json(busResponse);
+                Service.populate(busResponse.services,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,services){
+                    if(err){return next(err);}
+                    busResponse.services = services;
+                    res.json(busResponse);
+                })
             })
-        })
+        });
     })
 });
 

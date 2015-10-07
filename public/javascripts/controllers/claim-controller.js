@@ -45,6 +45,6 @@ function($scope, auth, $state,location,$stateParams,businessFactory,claimInfo,$r
 	    // $scope.rate = '';
 	    // $scope.startDate = '';
 	    // $scope. endDate = '';
-	    $state.go('home');
+	    $state.go('feed');
   	};
 }])

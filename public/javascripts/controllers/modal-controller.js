@@ -10,7 +10,7 @@ angular.module('cc.modalInstance',[])
 
   $scope.ok = function () {
     $modalInstance.close();
-    $state.go('home');
+    $state.go('feed');
   };
 
   $scope.cancel = function () {

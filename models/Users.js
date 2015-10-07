@@ -35,10 +35,10 @@ UserSchema.methods.setPassword = function(password){
 
 UserSchema.methods.generateJWT = function() {
 
-  // set expiration to 60 days
+  // set expiration to 1 days
   var today = new Date();
   var exp = new Date(today);
-  exp.setDate(today.getDate() + 60);
+  exp.setDate(today.getDate() + 1);
 
   return jwt.sign({
     _id: this._id,
@@ -46,6 +46,7 @@ UserSchema.methods.generateJWT = function() {
     firstName: this.firstName,
     lastName: this.lastName,
     isAdmin: this.isAdmin,
+    avatarVersion: this.avatarVersion,
     businessOwner: this.businessOwner,
     businessPage: this.businessPage,
     exp: parseInt(exp.getTime() / 1000),

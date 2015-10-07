@@ -3,8 +3,9 @@ angular.module('cc.auth-controller',[])
 '$scope',
 '$state',
 'auth',
-'$geolocation',
-function($scope, $state, auth, $geolocation){
+'user',
+'$rootScope',
+function($scope, $state, auth,user,$rootScope){
   $scope.user = {};
   /**
    *
@@ -13,7 +14,7 @@ function($scope, $state, auth, $geolocation){
     auth.register($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('home');
+      $state.go('feed');
     });
   };
   /**
@@ -23,7 +24,7 @@ function($scope, $state, auth, $geolocation){
     auth.logIn($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('home');
+      $state.go('feed');
     });
   };
 }])

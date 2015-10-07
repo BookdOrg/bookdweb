@@ -1,0 +1,53 @@
+<div class="container-fluid body-wrap">
+    <div class="row form-inline form-group hidden-sm hidden-md hidden-lg">
+        <div class="col-xs-12">
+                <span class=" input-group input-group-xs">
+                    <span class="input-group-addon" id="search">Find</span>
+                    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                </span>
+                <span class="input-group input-group-xs">
+                    <span class="input-group-addon" id="near">Near</span>
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                            <i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
+                            <i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>
+                        </button>
+                    </span>
+                </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-6">
+            <h1 class="page-header text-center">Results</h1>
+            <p class="text-center text-muted" ng-if="businesses.length == 0 ">Go Ahead, Search for Businesses!</p>
+            <!--<div class="col-md-offset-1">-->
+                <div ng-repeat="business in businesses track by $index">
+                    <div class="col-md-10 text-left well col-md-offset-1">
+                        <span>{{$index +1}}.</span>
+                        <div class="text-center">
+                            <!--<img ng-src="{{business.icon}}" style="border-radius:20%"></img>-->
+                            <a href="/business/{{business.place_id}}">{{business.name}}</a>
+                            <br><span>Rating: {{business.rating}}</span>
+                            <br><span>Location: {{business.formatted_address}}</span>
+                            <!--<br><span>Description: {{business.snippet_text}}</span>-->
+                        <!--<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>-->
+                        </div>
+                    </div>
+                    <br>
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="col col-md-5 col-md-offset-1">
+            <h1 class="page-header text-center">Feed</h1>
+            <div class="col">
+                <p class="text-center text-muted">Coming Soon -- Deals offered by Businesses near you!</p>
+            </div>
+            <h1 class="page-header text-center">Activity</h1>
+            <div class="col">
+                <p class="text-center text-muted">Next appointment in 14 Days.</p>
+                <p class="text-center text-muted">You were successfully billed for your last appointment.</p>
+            </div>
+        </div>
+    </div>
+</div>
