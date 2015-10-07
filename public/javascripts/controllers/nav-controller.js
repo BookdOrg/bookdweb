@@ -44,7 +44,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
         if(newVal !== oldVal){
             $scope.loadingLocation = false;
             $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","
-                + $scope.myPosition.coords.longitude+"&sensor=true")
+                + $scope.myPosition.coords.longitude)
                 .success(function(data){
                     $scope.loadingLocation = false;
                     if(data){

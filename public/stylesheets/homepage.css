@@ -11,8 +11,18 @@
 .calendar {
     height:35%;
     width:100%;
-    background-image: repeating-linear-gradient(0deg,transparent,transparent 70px,#CCC 70px,#CCC 71px),repeating-linear-gradient(90deg,transparent,transparent 70px,#CCC 70px,#CCC 71px);
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 70px,#CCC 70px,#CCC 71px),
+    repeating-linear-gradient(90deg,transparent,transparent 70px,#CCC 70px,#CCC 71px);
     background-size: 71px 71px;
 }
 
-/*<link href="/stylesheets/homepage.css" rel="stylesheet">*/
+.instructions-wrapper {
+    background: #CF0A2C;
+    color: white;
+    border-bottom: 1px solid rgba(34, 34, 34, 0.2);
+}
+
+.learn-more-wrapper {
+    background-color: #6F5499;
+    color: white;
+}
