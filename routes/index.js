@@ -611,7 +611,7 @@ router.get('/business/pending-requests',auth,function(req,res,next){
           return businessCallback(error);
         }
         response.result.info = currBusiness;
-        updatedBusinesses.push(response.result)
+        updatedBusinesses.push(response.result);
         businessCallback();
       });
     }, function(err){
@@ -637,14 +637,14 @@ router.post('/business/update-request',auth,function(req,res,next){
       business.claimed = true;
       User.findOne(business.owner).exec(function(err,user){
 
-        if(err){return handleError(err)};
+        if(err){return handleError(err)}
         user.businesses.push(business._id);
         user.businessPage = business.placesId;
         user.businessOwner = true;
         user.save(function(err,user){
 
-        })
-      business.save(function(err){
+        });
+      business.save(function(err,business){
           if(err){ return next(err); }
           res.json({success:'success'})
         }) 

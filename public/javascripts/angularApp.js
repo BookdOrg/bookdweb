@@ -140,13 +140,13 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
         if(!auth.currentUser().isAdmin){
           $state.go('landing');
         }
-      }],
-      resolve:{
-        pendingRequests:['$http','adminService', function($http,businessFactory){
-          var pendingRequests;
-          return pendingRequests = businessFactory.getRequests();
-        }]
-      }
+      }]
+      //resolve:{
+      //  pendingRequests:['$http','adminService', function($http,businessFactory){
+      //    var pendingRequests;
+      //    return pendingRequests = businessFactory.getRequests();
+      //  }]
+      //}
     })
     .state('dashboard',{
       url:'/dashboard',
