@@ -14,7 +14,7 @@ describe("Routes",function(){
     before(function(done){
         request(url)
             .post('/login')
-            .send({username:'testaccount',password:'1234'})
+            .send({username:'test',password:'test'})
             .end(function(err,res){
                 token = res.body.token;
                 done();
@@ -23,7 +23,7 @@ describe("Routes",function(){
     it("/Login returns status 200",function(done){
         request(url)
             .post('/login')
-            .send({username:'testaccount',password:'1234'})
+            .send({username:'test',password:'test'})
             .expect(200,done)
     })
 //    it("/categories returns status 200",function(done){
