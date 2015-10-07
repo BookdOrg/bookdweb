@@ -17,8 +17,8 @@
     </div>
     <div class="col-md-6">
         <h1 class="text-center">Business Appointments</h1>
-        <p class="text-center text-muted" ng-if="appointments.businessAppointments.length == 0 ">:( No Personal Appointments Yet. Schedule One!</p>
-        <div class="row well" ng-repeat="appointment in appointments.businessAppointments">
+        <p class="text-center text-muted" ng-if="appointments.businessAppointments.length == 0 ">:( No Business Appointments Yet.</p>
+        <div class="row well text-center" ng-repeat="appointment in appointments.businessAppointments">
             <h4>{{appointment.title}}</h4>
             Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
             <br>

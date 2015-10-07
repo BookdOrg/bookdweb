@@ -115,7 +115,7 @@
                 <ul class="nav navbar-nav">
                     <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed" href="/feed"><i class="fa fa-home"></i> Feed</a></li>
                     <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed" href="/user/{{currentUser().username}}/profile"><i class="fa fa-user"></i> Profile</a></li>
-                    <li ng-if="isLoggedIn()"><a ng-click="openMessages('md');navbarCollapse = !navbarCollapsed" href=""><i class="fa fa-envelope"></i> Messages <span class="badge">1</span></a></li>
+                    <li ng-if="isLoggedIn()"><a ng-click="openMessages('md');navbarCollapse = !navbarCollapsed" href=""><i class="fa fa-bell"></i> Notifications <span class="badge">1</span></a></li>
                     <li class="hidden-sm hidden-md hidden-lg"><a ng-click="navbarCollapsed = !navbarCollapsed" href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a></li>
                     <li class="hidden-sm hidden-md hidden-lg"><a ng-click="navbarCollapsed = !navbarCollapsed" href="/favorites"><i class="fa fa-bookmark"></i> Favorites</a></li>
                     <li class="hidden-sm hidden-md hidden-lg"><a ng-click="navbarCollapsed = !navbarCollapsed" ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -156,7 +156,7 @@ Messages Modal
 <script type="text/ng-template" id="messagesModal.html">
     <div class="modal-header">
         <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
-        <h1 class="modal-title text-center"> Messages </h1>
+        <h1 class="modal-title text-center"> Notifications </h1>
     </div>
     <div class="modal-body">
 
