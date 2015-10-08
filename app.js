@@ -1,13 +1,12 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var cloudinary = require('cloudinary');
-var places = require('googleplaces');
 
 mongoose.connect('mongodb://localhost/clientconnect');
 
@@ -45,17 +44,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Authorization,Content-Type');
     next();
-}
+};
 
 app.use(allowCrossDomain);
 app.use(passport.initialize());
 app.use('/', routes);
 app.all('/*',function(req, res){
-  res.render('index.ejs',{root:__dirname});
+    res.render('index.ejs', {root: __dirname});
 });
 
 /// catch 404 and forward to error handler
@@ -70,7 +69,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        console.log(err.stack)
+        console.log(err.stack);
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,

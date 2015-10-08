@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 9/14/15.
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -15,20 +15,20 @@ module.exports = function(grunt) {
                 dest: 'build/<%= pkg.name %>.min.js'
             }
         },
-        mochaTest:{
-            test:{
-                options:{
-                    reporter:'spec',
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
                     captureFile: 'results.txt',
                     quiet: false,
                     clearRequireCache: false
                 },
-                src:['testSpecs/backendSpecs/**/*.js']
+                src: ['testSpecs/backendSpecs/**/*.js']
             }
         },
-        karma:{
-            unit:{
-                configFile:'karma.conf.js'
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         }
     });
@@ -39,6 +39,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     // Default task(s).
-    grunt.registerTask('default', ['uglify','mochaTest','karma']);
+    grunt.registerTask('default', ['uglify', 'mochaTest', 'karma']);
 
 };

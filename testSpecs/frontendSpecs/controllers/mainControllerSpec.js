@@ -14,7 +14,7 @@ describe('Array', function(){
             assert.equal(-1, [1,2,3].indexOf(0));
         })
     })
-})
+});
 
 describe('MainCtrl', function(){
     beforeEach(module('cc'));
@@ -27,7 +27,7 @@ describe('MainCtrl', function(){
             scope.query = {};
             scope.query.term = 'Chief';
             scope.query.location = "Piscataway";
-            scope.name = "Khalil"
+            scope.name = "Khalil";
             scope.name.should.be.a('string');
 
         }));

@@ -4,16 +4,22 @@
             <div class="text-center form-inline col-xs-12 form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-building"></i>
-                        <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                        <input class="form-control" aria-describedby="search" ng-model="query.term"
+                               placeholder="Barbershops">
                     <!--</span>-->
                 </span>
                 <span class="left-inner-addon">
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                     <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete
+                           options="autocompleteOptions" ng-model="query.location">
                 </span>
                 <span>
-                    <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                    <button class="btn btn-md btn-primary" ng-click="search(query)"
+                            ng-disabled="query.term == undefined
+                             || query.location == undefined
+                              || query.term == ''
+                               || query.location == ''" type="submit">
                         <i ng-show="fetchingQuery" class="fa fa-spinne fa-spinr"></i>
                         <span ng-show="!fetchingQuery">Search</span>
                     </button>
@@ -24,32 +30,37 @@
     <div class="row">
         <div class="col col-md-6">
             <h1 class="page-header text-center">Results</h1>
+
             <p class="text-center text-muted" ng-if="businesses.length == 0 ">Go Ahead, Search for Businesses!</p>
             <!--<div class="col-md-offset-1">-->
-                <div ng-repeat="business in businesses track by $index">
-                    <div class="col-md-10 text-left well col-md-offset-1">
-                        <span>{{$index +1}}.</span>
-                        <div class="text-center">
-                            <!--<img ng-src="{{business.icon}}" style="border-radius:20%"></img>-->
-                            <a href="/business/{{business.place_id}}">{{business.name}}</a>
-                            <br><span>Rating: {{business.rating}}</span>
-                            <br><span>Location: {{business.formatted_address}}</span>
-                            <!--<br><span>Description: {{business.snippet_text}}</span>-->
+            <div ng-repeat="business in businesses track by $index">
+                <div class="col-md-10 text-left well col-md-offset-1">
+                    <span>{{$index + 1}}.</span>
+
+                    <div class="text-center">
+                        <!--<img ng-src="{{business.icon}}" style="border-radius:20%"></img>-->
+                        <a href="/business/{{business.place_id}}">{{business.name}}</a>
+                        <br><span>Rating: {{business.rating}}</span>
+                        <br><span>Location: {{business.formatted_address}}</span>
+                        <!--<br><span>Description: {{business.snippet_text}}</span>-->
                         <!--<br><span>Website: <a href="{{business.website}}">{{business.website}}</a></span>-->
-                        </div>
                     </div>
-                    <br>
+                </div>
+                <br>
                 <!--</div>-->
             </div>
         </div>
         <div class="col col-md-5 col-md-offset-1">
             <h1 class="page-header text-center">Feed</h1>
+
             <div class="col">
                 <p class="text-center text-muted">Coming Soon -- Deals offered by Businesses near you!</p>
             </div>
             <h1 class="page-header text-center">Activity</h1>
+
             <div class="col">
                 <p class="text-center text-muted">Next appointment in 14 Days.</p>
+
                 <p class="text-center text-muted">You were successfully billed for your last appointment.</p>
             </div>
         </div>

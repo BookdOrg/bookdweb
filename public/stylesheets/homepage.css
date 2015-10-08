@@ -9,10 +9,10 @@
 }
 
 .calendar {
-    height:35%;
-    width:100%;
-    background-image: repeating-linear-gradient(0deg,transparent,transparent 70px,#CCC 70px,#CCC 71px),
-    repeating-linear-gradient(90deg,transparent,transparent 70px,#CCC 70px,#CCC 71px);
+    height: 35%;
+    width: 100%;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 70px, #CCC 70px, #CCC 71px),
+    repeating-linear-gradient(90deg, transparent, transparent 70px, #CCC 70px, #CCC 71px);
     background-size: 71px 71px;
 }
 

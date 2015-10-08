@@ -25,7 +25,7 @@ describe("Routes",function(){
             .post('/login')
             .send({username:'test',password:'test'})
             .expect(200,done)
-    })
+    });
 //    it("/categories returns status 200",function(done){
 //        request(url)
 //            .get('/categories')
@@ -46,7 +46,7 @@ describe("Routes",function(){
 //                done();
 //            })
 //    })
-})
+});
 
 //        request(url+'/categories',function(err,response,body){
 //            response.statusCode.should.equal(200);
