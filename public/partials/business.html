@@ -87,7 +87,7 @@
 		-->	
 		<div class="row">
 			<h3 class="text-center">Reviews</h3>
-			<div class="well col-md-6 col-sm-12" ng-repeat="review in business.reviews track by $index">
+			<div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
 				<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
 				<br>User: <a href="{{review.author_url}}">{{review.author_name}}</a></span>
 				<br>
@@ -213,7 +213,7 @@
 		<div class="row">
 			<h3 class="text-center">Reviews</h3>
 			<div class="row">
-				<div class="well col-md-6 col-sm-12" ng-repeat="review in business.reviews track by $index">
+				<div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
 					<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
 					<br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
 					<br>

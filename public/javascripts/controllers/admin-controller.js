@@ -8,7 +8,6 @@ angular.module('cc.admin-controller',[])
 function($scope, $state, auth,businessFactory){
     businessFactory.getRequests()
         .then(function(){
-            console.log(businessFactory.requests)
             $scope.pendingRequests = businessFactory.requests;
         })
     /**

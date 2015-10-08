@@ -213,3 +213,7 @@ span.tab-space {padding-left:1em;}span.tab-space {padding-left:1em;}
     padding: 10px 12px;
     pointer-events: none;
 }
+.reviewBox{
+    height: 200px;
+    overflow-y: scroll;
+}
