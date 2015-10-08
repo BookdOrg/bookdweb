@@ -47,7 +47,13 @@
 			<div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
 					<div ng-if="currentUser._id == business.info.owner" class="adjustMargins pull-right">
-						<button class="close" ng-click="editService(service, $index)"><i class="fa fa-pencil text-warning"></i></button>
+						<div class="btn-group">
+							<a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
+							<ul class="dropdown-menu">
+								<li><a ng-click="editService(service, $index)" href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+								<li class="disabled"><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="">
