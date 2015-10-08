@@ -2,28 +2,30 @@
   <div class="page-header">
     <!-- <h1 class="text-center">Hello {{currentUser.firstName}}</h1> -->
     <div class="row">
-      <div class="form-group col-md-4">
-        <span ng-bind-html="currentUser.image"></span>
+      <div class="form-group col-sm-4">
+        <!--<span ng-bind-html="currentUser.image"></span>-->
         <span ng-if="currentUser.avatarVersion">
             <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
                 <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
                     <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
                     <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
                     <div>OR</div>
-                    <input type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
+                    <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
                 </div>
             </div>
         </span>
         <span ng-if="!currentUser.avatarVersion">
             <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
-                <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="another-file-over-class" class="well my-drop-zone" >
+                <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
                     <image ng-src="{{cloudinaryDefaultPic}}"></image>
+                    <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
+                    <div>OR</div>
+                    <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
                 </div>
-                <div>You may drag and drop files here</div>
             </div>
         </span>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         First Name : {{currentUser.firstName}} 
         <br>
         Last Name: {{currentUser.lastName}}
