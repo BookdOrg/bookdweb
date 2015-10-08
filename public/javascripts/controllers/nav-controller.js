@@ -15,7 +15,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
     $scope.logOut = auth.logOut;
 
     $scope.navbarCollapsed = true;
-
+    $rootScope.show = false;
     $scope.query = {
         location:null,
         term:null
@@ -29,8 +29,14 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
         maximumAge: 250,
         enableHighAccuracy: true
     });
+    $scope.showSearch = function(show){
+        if(show){
+            $rootScope.show = true;
+        }else{
+            $rootScope.show = false;
+        }
+    }
     $scope.myPosition = $geolocation.position;
-
     /**
      *
      * Watch for when the users location changes, make a call to the google maps api to

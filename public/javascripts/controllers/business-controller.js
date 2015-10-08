@@ -390,7 +390,10 @@ function($scope, auth, $state,$stateParams,businessFactory,location,$rootScope,$
             serviceList: associatedServices
         };
 
-        businessFactory.removeEmployee(selectedEmployee);
+        businessFactory.removeEmployee(selectedEmployee)
+            .then(function(){
+              businessFactory.getBusinessInfo(business.place_id);
+            });
         $modalInstance.close();
     };
 

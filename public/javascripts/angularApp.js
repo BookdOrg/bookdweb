@@ -40,7 +40,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
   $stateProvider
     .state('landing',{
       url:'/',
-      templateUrl: 'partials/landing.html',
+      templateUrl: 'partials/landing2.html',
       controller: 'landingCtrl'
     })
     .state('feed', {
@@ -195,7 +195,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       templateUrl:'partials/contact.html'
     })
   $urlRouterProvider.otherwise('/');
-}]).run(function($rootScope,auth,$templateCache,devHost,$modal){
+}]).run(function($rootScope,auth,$templateCache,devHost,$modal,$geolocation,$http,$state){
   $rootScope.currentUser = auth.currentUser();
   $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v";
   $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";

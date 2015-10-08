@@ -12,6 +12,43 @@
             <h1>Book'd</h1>
             <h3>Never worry about appointments again.</h3>
             <a href="/register" ng-if="!currentUser || currentUser == null" class="btn btn-primary">Create Account {{currentUser.firstName}}</a>
+            <!--<div class="row">-->
+                <!--<div class="col-xs-3 col-xs-offset-3" >-->
+                    <!--<div class="right-inner-addon">-->
+                        <!--<i class="icon-user"></i>-->
+                        <!--<input type="text"-->
+                               <!--class="form-control"-->
+                               <!--placeholder="Barbershops" />-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-xs-3" >-->
+                    <!--<div class="right-inner-addon">-->
+                        <!--<i class="icon-search"></i>-->
+                        <!--<input type="search"-->
+                               <!--class="form-control"-->
+                               <!--placeholder="Near" />-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+                <div ng-if="currentUser" class="row form-inline form-group">
+                    <span class="left-inner-addon">
+                        <!--<span class="input-group-lg">-->
+                            <i class="fa fa-building"></i>
+                            <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                        <!--</span>-->
+                    </span>
+                    <!--<span class="input-group-lg">-->
+                    <span class="left-inner-addon">
+                        <i class="fa fa-map-marker"></i>
+                        <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                    </span>
+                        <span>
+                            <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                                Search
+                            </button>
+                        </span>
+                    <!--</span>-->
+                </div>
         </div>
     </div>
 </div>

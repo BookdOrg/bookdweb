@@ -115,7 +115,7 @@ angular.module('cc.business-factory',[])
         return $http.post('/business/remove-employee',employee, {
             headers: {Authorization: 'Bearer '+auth.getToken()}
         }).success(function(data){
-            angular.copy(data,o.business.info);
+            //angular.copy(data,o.business.info);
         }).error(function(err){
             angular.copy(err,o.error)
         });
@@ -167,9 +167,26 @@ angular.module('cc.business-factory',[])
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
         angular.copy(data, o.business)
-        //angular.copy(data.info, o.business.info)
     });
   }
+
+/**
+ *   Returns all information about a specific Business.
+ *
+ *  Parameters:
+ *  placeId -
+ *
+ **/
+    o.getBusinessInfo = function(id){
+        return $http.get('/business/info', {
+            params:{
+                'placesId':id
+            },
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
+            angular.copy(data, o.business.info)
+        });
+    }
 /**
  *   Adds a Service to a Business
  *
