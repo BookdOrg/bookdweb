@@ -124,8 +124,8 @@
                             <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a ng-click="navbarCollapsed = !navbarCollapsed" href="/favorites"><i class="fa fa-bookmark"></i> Favorites</a></li>
                             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="navbarCollapsed = !navbarCollapsed" ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                             <li class="hidden-sm hidden-md hidden-lg" ng-click="navbarCollapsed = !navbarCollapsed" ng-if="currentUser().isAdmin"><a href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
-                            <li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
-                            <li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Register</a></li>
+                            <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
+                            <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Register</a></li>
                             <hr>
                             <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Sign Out</a></li>
                         </ul>
