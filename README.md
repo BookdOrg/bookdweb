@@ -22,11 +22,11 @@
 `mongoimport --db clientconnect --collection users --file baseUser --type json`
 
 ##SET ENVIRONMENT VARIABLES##
-Create a bash script to update environment variables or modify .bash_profile
+Create a bash script to update environment variables or modify .bashrc
 
 ###Script Example###
 
-* Paste this into your .bash_profile or script
+* Paste this into your .bashrc or script
 
 ```bash
 alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
@@ -52,7 +52,8 @@ export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc
 
 Finally in your terminal type:
 
-`source ~/.bash_profile`
+`source ~/.bashrc -- mac and most Linux`
+`. ~/.bashrc -- Ubuntu based distros`
 
 #Fire up the app#
 * npm install
