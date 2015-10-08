@@ -3,7 +3,6 @@ angular.module('cc.account-controller',[])
 	function($scope,auth,user,$location,$sce,FileUploader,$state,$stateParams,$rootScope){
 		var uploader = $scope.uploader = new FileUploader({
 			url: '/upload',
-			queueLimit: 1,
 			headers:{
 				Authorization: 'Bearer '+auth.getToken()
 			}
@@ -11,6 +10,9 @@ angular.module('cc.account-controller',[])
 		$scope.showLoader = false;
 		uploader.onAfterAddingFile = function(item){
 			$scope.showLoader = true;
+		}
+		uploader.onCompleteItem = function(item){
+			uploader.removeFromQueue(item);
 		}
 		uploader.onSuccessItem = function(item,response,status,header){
 			auth.saveToken(response.token);

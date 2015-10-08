@@ -217,3 +217,6 @@ span.tab-space {padding-left:1em;}span.tab-space {padding-left:1em;}
     height: 200px;
     overflow-y: scroll;
 }
+.dropZoneHover{
+    border-color: green;
+}
