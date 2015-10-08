@@ -187,7 +187,6 @@ router.post('/login', function(req, res, next){
     }
     passport.authenticate('local', function(err, user, info){
         if(err){ return next(err); }
-
         if(user){
             return res.json({token: user.generateJWT()});
         } else {
@@ -227,24 +226,24 @@ router.post('/register', function(req, res, next){
 router.post('/upload', auth, function(req,res,next){
     var id = req.payload._id;
     var busboy = new Busboy({headers:req.headers});
-
+    var avatar;
     busboy.on('file',function(fieldname,file,filename,encoding,mimetype){
 
         var stream = cloudinary.uploader.upload_stream(function(result){
             User.findOne({'_id':id},function(err,user){
                 if(err){return handleError(err)};
                 user.avatarVersion = result.version;
-                user.save(function(err){
+                user.save(function(err,user){
+                    res.json({token: user.generateJWT()});
                     if(err){ return next(err); }
                 })
             })
         }, {public_id: "profile/"+id});
-
         file.pipe(stream);
     })
-    busboy.on('finish',function(){
-        res.end();
-    })
+    //busboy.on('finish',function(){
+    //
+    //})
     req.pipe(busboy);
 });
 /**
