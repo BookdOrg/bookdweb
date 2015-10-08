@@ -62,3 +62,6 @@ Finally in your terminal type:
 
 #Download MongoHub as a MONGODB GUI interface#
 * https://github.com/jeromelebel/MongoHub-Mac
+
+###Starting ESLint in WebStorm:###
+* File -> Settings -> Languages and Frameworks -> Javascript -> Code Quality Tools -> ESLint -> Check Enable
