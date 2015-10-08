@@ -10,83 +10,16 @@ angular.module('cc.landing-controller',[])
       function($scope,$geolocation,$http,$state,location,businessFactory,$rootScope){
           $scope.navbarCollapsed = true;
 
-          $scope.query = {
-              location:null,
-              term:null
-          }
-          $scope.autocompleteOptions = {
-              componentRestrictions: {country: 'us'},
-              types:['(cities)']
-          }
-
-          if(!location.currPosition){
-              $geolocation.watchPosition({
-                  timeout: 60000,
-                  maximumAge: 250,
-                  enableHighAccuracy: true
+          $scope.myInterval = 5000;
+          var slides = $scope.slides = [];
+          $scope.addSlide = function() {
+              var newWidth = 600 + slides.length + 1;
+              slides.push({
+                  image: 'http://placehold.it/' + newWidth + 'x300',
+                  text: ['More','Extra','Lots of','Surplus'][slides.length % 4]
               });
-              $scope.myPosition = $geolocation.position;
-
-
-              /**
-               *
-               * Watch for when the users location changes, make a call to the google maps api to
-               * get information about the users current location.
-               *
-               * Auto populate that information in the query location object, to be displayed int he navbar.
-               *
-               */
-
-              $scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
-                  $rootScope.loadingLocation = true;
-                  if(newVal !== oldVal){
-                      $rootScope.loadingLocation = false;
-                      $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","
-                          + $scope.myPosition.coords.longitude)
-                          .success(function(data){
-                              $rootScope.loadingLocation = false;
-                              if(data){
-                                  location.setPosition(data.results);
-                                  $scope.currLocation = location.currPosition;
-                                  $scope.query.location = $scope.currLocation.city;
-
-                              }
-                          });
-                  }
-              })
-          }else{
-              $scope.currLocation = location.currPosition;
-              $scope.query.location = $scope.currLocation.city;
-          }
-
-          /**
-           *
-           * Concatenates the query term and query location entered in the Navbar
-           * to create the query string being sent to the Places API on the backend.
-           *
-           * If the typeOf the queryLocation is a string, (User typed it in) then concatenate
-           * query.location with query.term
-           *
-           * If the typeOf the queryLocation is !string (an Object) then concatenate query.location.vicinity
-           * with query.term
-           *
-           * @param query - Object with term and location properties. Location will either be a string or an object.
-           */
-
-          $scope.search = function(query){
-              $rootScope.fetchingQuery = true;
-              var formattedQuery;
-              if(typeof query.location == "string"){
-                  formattedQuery = query.term + " " + query.location;
-              }else{
-                  formattedQuery = query.term + " " + query.location.vicinity;
-              }
-              businessFactory.search(formattedQuery)
-                  .then(function(data){
-                      $rootScope.fetchingQuery = false;
-                      if(!$state.is('feed')){
-                          $state.go('feed');
-                      }
-                  })
+          };
+          for (var i=0; i<4; i++) {
+              $scope.addSlide();
           }
       }]);

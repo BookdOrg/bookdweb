@@ -1,20 +1,26 @@
 <div class="container-fluid">
-    <!--<div class="row text-center form-inline form-group">-->
-        <!--<span class="left-inner-addon">-->
-                <!--<i class="fa fa-building"></i>-->
-                <!--<input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">-->
-            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-        <!--</span>-->
-        <!--<span class="left-inner-addon">-->
-            <!--<i class="fa fa-map-marker"></i>-->
-            <!--<input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">-->
-        <!--</span>-->
-        <!--<span>-->
-            <!--<button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">-->
-                <!--Search-->
-            <!--</button>-->
-        <!--</span>-->
-    <!--</div>-->
+    <div class="row hidden-lg feedSearch text-center">
+        <form>
+            <div class="text-center form-inline col-xs-12 form-group">
+                <span class="left-inner-addon">
+                        <i class="fa fa-building"></i>
+                        <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                    <!--</span>-->
+                </span>
+                <span class="left-inner-addon">
+                    <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                    <i ng-show="loadingLocation" class="fa fa-spinner"></i>
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                </span>
+                <span>
+                    <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                        <i ng-show="fetchingQuery" class="fa fa-spinner"></i>
+                        <span ng-show="!fetchingQuery">Search</span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
     <div class="row">
         <div class="col col-md-6">
             <h1 class="page-header text-center">Results</h1>

@@ -195,7 +195,7 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
       templateUrl:'partials/contact.html'
     })
   $urlRouterProvider.otherwise('/');
-}]).run(function($rootScope,auth,$templateCache,devHost,$modal,$geolocation,$http,$state){
+}]).run(function($rootScope,auth,$templateCache,devHost,$modal,$geolocation,$http,$state,location,businessFactory){
   $rootScope.currentUser = auth.currentUser();
   $rootScope.cloudinaryBaseUrl = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v";
   $rootScope.cloudinaryDefaultPic = "http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg";
@@ -205,6 +205,75 @@ function($stateProvider, $urlRouterProvider,$locationProvider) {
             $templateCache.remove(current.templateUrl);
         }
     });
+
+      $rootScope.query = {
+        location:null,
+        term:null
+      }
+      if(!location.currPosition) {
+        $geolocation.watchPosition({
+          timeout: 60000,
+          maximumAge: 250,
+          enableHighAccuracy: true
+        });
+        $rootScope.myPosition = $geolocation.position;
+        /**
+         *
+         * Watch for when the users location changes, make a call to the google maps api to
+         * get information about the users current location.
+         *
+         * Auto populate that information in the query location object, to be displayed int he navbar.
+         *
+         */
+        $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
+          $rootScope.loadingLocation = true;
+          if (newVal !== oldVal) {
+            $rootScope.loadingLocation = false;
+            $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + $rootScope.myPosition.coords.latitude + ","
+                + $rootScope.myPosition.coords.longitude)
+                .success(function (data) {
+                  $rootScope.loadingLocation = false;
+                  if (data) {
+                    location.setPosition(data.results);
+                    $rootScope.currLocation = location.currPosition;
+                    $rootScope.query.location = $rootScope.currLocation.city;
+
+                  }
+                });
+          }
+        })
+      }
+      /**
+       *
+       * Concatenates the query term and query location entered in the Navbar
+       * to create the query string being sent to the Places API on the backend.
+       *
+       * If the typeOf the queryLocation is a string, (User typed it in) then concatenate
+       * query.location with query.term
+       *
+       * If the typeOf the queryLocation is !string (an Object) then concatenate query.location.vicinity
+       * with query.term
+       *
+       * @param query - Object with term and location properties. Location will either be a string or an object.
+       */
+
+      $rootScope.search = function(query){
+        $rootScope.fetchingQuery = true;
+        var formattedQuery;
+        if(typeof query.location == "string"){
+          formattedQuery = query.term + " " + query.location;
+        }else{
+          formattedQuery = query.term + " " + query.location.vicinity;
+        }
+
+        businessFactory.search(formattedQuery)
+            .then(function(data){
+              $rootScope.fetchingQuery = false;
+              if(!$state.is('feed')){
+                $state.go('feed');
+              }
+            })
+      }
 
     $rootScope.openMessages = function(size){
         var modalInstance = $modal.open({

@@ -1,5 +1,5 @@
 <div class="homepage-hero-module">
-    <div class="video-container hidden-xs">
+    <div class="video-container hidden-xs hidden-sm">
         <div class="filter"></div>
         <video autoplay loop class="fillWidth">
 <!--             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser. -->
@@ -12,50 +12,34 @@
             <h1>Book'd</h1>
             <h3>Never worry about appointments again.</h3>
             <a href="/register" ng-if="!currentUser || currentUser == null" class="btn btn-primary">Create Account {{currentUser.firstName}}</a>
-            <!--<div class="row">-->
-                <!--<div class="col-xs-3 col-xs-offset-3" >-->
-                    <!--<div class="right-inner-addon">-->
-                        <!--<i class="icon-user"></i>-->
-                        <!--<input type="text"-->
-                               <!--class="form-control"-->
-                               <!--placeholder="Barbershops" />-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-xs-3" >-->
-                    <!--<div class="right-inner-addon">-->
-                        <!--<i class="icon-search"></i>-->
-                        <!--<input type="search"-->
-                               <!--class="form-control"-->
-                               <!--placeholder="Near" />-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
                 <div ng-if="currentUser" class="row form-inline form-group">
-                    <span class="left-inner-addon">
+                    <form>
+                        <span class="left-inner-addon">
+                            <!--<span class="input-group-lg">-->
+                                <i class="fa fa-building"></i>
+                                <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                            <!--</span>-->
+                        </span>
                         <!--<span class="input-group-lg">-->
-                            <i class="fa fa-building"></i>
-                            <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
-                        <!--</span>-->
-                    </span>
-                    <!--<span class="input-group-lg">-->
-                    <span class="left-inner-addon">
-                        <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                        <i ng-show="loadingLocation" class="fa fa-spinner"></i>
-                        <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
-                    </span>
+                        <span class="left-inner-addon">
+                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                            <i ng-show="loadingLocation" class="fa fa-spinner"></i>
+                            <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                        </span>
                         <span>
                             <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
                                 <i ng-show="fetchingQuery" class="fa fa-spinner"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
                             </button>
                         </span>
+                    </form>
                     <!--</span>-->
                 </div>
         </div>
     </div>
 </div>
-<div class="row hidden-sm hidden-md hidden-lg">
-  <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered">
+<div class="row hidden-md hidden-lg">
+  <div class="col col-xs-12 col-centered">
     <div id="carousel" style="height: 305px">
       <carousel interval="myInterval">
         <slide ng-repeat="slide in slides" active="slide.active">
@@ -73,13 +57,13 @@
           <div class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%" src="http://placehold.it/200x200" alt="...">
         </div>
-        <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10 clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 clearfix">
             <h2 class="text-center"> Register your Business!</h2>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. <a href="/join"> Registering is as easy as clicking this line.</a> Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
     </div>
     <div class="row landingSection" id="secondSection">
-        <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10 clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 clearfix">
             <h2 class="text-center"> Any appointment, Anywhere. </h2>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
@@ -91,7 +75,7 @@
         <div class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%;" src="http://placehold.it/200x200" alt="...">
         </div>
-        <div class="col-xs-9 col-sm-9 col-md-10 col-lg-10">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
             <h2 class="text-center"> We do the work, so you don't have to. </h2>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
