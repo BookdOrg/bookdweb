@@ -24,45 +24,46 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
         componentRestrictions: {country: 'us'},
         types:['(cities)']
     }
-    $geolocation.watchPosition({
-        timeout: 60000,
-        maximumAge: 250,
-        enableHighAccuracy: true
-    });
-    $scope.showSearch = function(show){
-        if(show){
+    $scope.showSearch = function (show) {
+        if (show) {
             $rootScope.show = true;
-        }else{
+        } else {
             $rootScope.show = false;
         }
     }
-    $scope.myPosition = $geolocation.position;
-    /**
-     *
-     * Watch for when the users location changes, make a call to the google maps api to
-     * get information about the users current location.
-     *
-     * Auto populate that information in the query location object, to be displayed int he navbar.
-     *
-     */
-    $scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
-        $scope.loadingLocation = true;
-        if(newVal !== oldVal){
-            $scope.loadingLocation = false;
-            $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","
-                + $scope.myPosition.coords.longitude)
-                .success(function(data){
-                    $scope.loadingLocation = false;
-                    if(data){
-                        location.setPosition(data.results);
-                        $rootScope.currLocation = location.currPosition;
-                        $scope.query.location = $rootScope.currLocation.city;
+    if(!location.currPosition) {
+        $geolocation.watchPosition({
+            timeout: 60000,
+            maximumAge: 250,
+            enableHighAccuracy: true
+        });
+        $scope.myPosition = $geolocation.position;
+        /**
+         *
+         * Watch for when the users location changes, make a call to the google maps api to
+         * get information about the users current location.
+         *
+         * Auto populate that information in the query location object, to be displayed int he navbar.
+         *
+         */
+        $scope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
+            $rootScope.loadingLocation = true;
+            if (newVal !== oldVal) {
+                $rootScope.loadingLocation = false;
+                $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + $scope.myPosition.coords.latitude + ","
+                    + $scope.myPosition.coords.longitude)
+                    .success(function (data) {
+                        $rootScope.loadingLocation = false;
+                        if (data) {
+                            location.setPosition(data.results);
+                            $rootScope.currLocation = location.currPosition;
+                            $scope.query.location = $rootScope.currLocation.city;
 
-                    }
-            });
-        }
-    })
-
+                        }
+                    });
+            }
+        })
+    }
     /**
      *
      * Concatenates the query term and query location entered in the Navbar
@@ -78,7 +79,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
      */
 
     $scope.search = function(query){
-        $scope.fetchingQuery = true;
+        $rootScope.fetchingQuery = true;
         var formattedQuery;
         if(typeof query.location == "string"){
             formattedQuery = query.term + " " + query.location;
@@ -88,7 +89,7 @@ function($scope, auth, $state,businessFactory,$rootScope,$geolocation,$http,loca
 
         businessFactory.search(formattedQuery)
             .then(function(data){
-                $scope.fetchingQuery = false;
+                $rootScope.fetchingQuery = false;
                 if(!$state.is('feed')){
                     $state.go('feed');
                 }

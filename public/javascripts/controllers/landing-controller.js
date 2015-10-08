@@ -6,8 +6,8 @@ angular.module('cc.landing-controller',[])
     '$state',
     'location',
     'businessFactory',
-    'auth',
-      function($scope,$geolocation,$http,$state,location,businessFactory,auth){
+    '$rootScope',
+      function($scope,$geolocation,$http,$state,location,businessFactory,$rootScope){
           $scope.navbarCollapsed = true;
 
           $scope.query = {
@@ -38,13 +38,13 @@ angular.module('cc.landing-controller',[])
                */
 
               $scope.$watch('myPosition.coords.latitude',function(newVal,oldVal){
-                  $scope.loadingLocation = true;
+                  $rootScope.loadingLocation = true;
                   if(newVal !== oldVal){
-                      $scope.loadingLocation = false;
+                      $rootScope.loadingLocation = false;
                       $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.myPosition.coords.latitude+","
                           + $scope.myPosition.coords.longitude)
                           .success(function(data){
-                              $scope.loadingLocation = false;
+                              $rootScope.loadingLocation = false;
                               if(data){
                                   location.setPosition(data.results);
                                   $scope.currLocation = location.currPosition;
@@ -74,7 +74,7 @@ angular.module('cc.landing-controller',[])
            */
 
           $scope.search = function(query){
-              $scope.fetchingQuery = true;
+              $rootScope.fetchingQuery = true;
               var formattedQuery;
               if(typeof query.location == "string"){
                   formattedQuery = query.term + " " + query.location;
@@ -83,7 +83,7 @@ angular.module('cc.landing-controller',[])
               }
               businessFactory.search(formattedQuery)
                   .then(function(data){
-                      $scope.fetchingQuery = false;
+                      $rootScope.fetchingQuery = false;
                       if(!$state.is('feed')){
                           $state.go('feed');
                       }

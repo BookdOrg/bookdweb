@@ -39,12 +39,14 @@
                     </span>
                     <!--<span class="input-group-lg">-->
                     <span class="left-inner-addon">
-                        <i class="fa fa-map-marker"></i>
+                        <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                        <i ng-show="loadingLocation" class="fa fa-spinner"></i>
                         <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
                     </span>
                         <span>
                             <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
-                                Search
+                                <i ng-show="fetchingQuery" class="fa fa-spinner"></i>
+                                <span ng-show="!fetchingQuery">Search</span>
                             </button>
                         </span>
                     <!--</span>-->

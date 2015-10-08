@@ -8,6 +8,29 @@
         <div ng-controller="landingCtrl">
             <h1>Book'd</h1>
             <h3>Never worry about appointments again.</h3>
+            <div class="container well landingWell">
+                <div class="row text-center">Some Prompt</div>
+                <div class="row form-inline">
+                <span class="input-group input-group-lg">
+                    <!--<span class="input-group-addon" id="search">Find</span>-->
+                    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                </span>
+                 <span class="input-group input-group-lg">
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                </span>
+                <!--<span class="input-group input-group-lg">-->
+                    <!--&lt;!&ndash;<span class="input-group-addon" id="near">Near</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">&ndash;&gt;-->
+                    <!--<span class="input-group-btn">-->
+                        <!--<button class="btn btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">-->
+                            <!--Search-->
+                            <!--&lt;!&ndash;<i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>&ndash;&gt;-->
+                        <!--</button>-->
+                    <!--</span>-->
+                <!--</span>-->
+                </div>
+            </div>
         </div>
     </div>
 </div>
