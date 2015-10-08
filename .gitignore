@@ -1,7 +1,4 @@
-setVariables.sh
-public/javascripts/chat.js
 npm-debug.log
 node_modules/
 results.txt
-ecosystem.json5
 .idea/
