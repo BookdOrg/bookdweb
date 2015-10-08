@@ -15,11 +15,12 @@
 			<!-- {{business.name}} -->
 			
 			<br>
-			Rating: <img ng-src="{{business.rating_img_url}}"></image>
+            Rating: {{business.rating}}
+			<!--Rating: <img ng-src="{{business.rating_img_url}}"></image>-->
 			<br>
-			Google Places: <a href="{{business.url}}">{{business.url}}</a>
+			Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
 			<br>
-			Business Website: <a href="{{business.website}}">{{business.website}}</a>
+			Business Website: <a href="{{business.website}}" target="_blank">{{business.website}}</a>
 			<br>
 			Location: {{business.formatted_address}}
 			<br>
