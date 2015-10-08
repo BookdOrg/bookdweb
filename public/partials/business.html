@@ -7,16 +7,19 @@
 ########################################
 -->
 	<div class="container">
-		<div class="page-header">
+		<div class="page-header text-center">
 	<!-- 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button> -->
+			<img class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..." tooltip-placement="right" style="border-radius:20%"></image>
 			<h1 class='text-center'>{{business.name}}</h1>
-			<img ng-if="business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
-			<img ng-if="!business.info.claimed" ng-src="{{business.info.icon}}" style="border-radius:20%"></image>
 			<!-- {{business.name}} -->
 			
-			<br>
-            Rating: {{business.rating}}
-			<!--Rating: <img ng-src="{{business.rating_img_url}}"></image>-->
+			<!--<br>-->
+            <!--Rating: <span class="text-center">{{business.rating}}</span>-->
+			<h3 class="text-center">
+			<rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
+					on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" >
+			</h3>
+			</rating>
 			<br>
 			Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
 			<br>
@@ -27,8 +30,11 @@
 			Phone: {{business.formatted_phone_number}}
 			<br>
 			Hours:
-			<span ng-repeat="hours in business.opening_hours.weekday_text">
+			<span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
 	    			<br>{{hours}}
+			</span>
+			<span ng-if="!business.opening_hours">
+	    			No information about {{business.name}}'s hours of operation is available.
 			</span>
 		</div>
 			<!-- 

@@ -28,6 +28,12 @@ function($scope, auth, $state,$stateParams,businessFactory,location,$rootScope,$
   $scope.removeAlert = function(){
     $scope.employeeError.message = null;
   }
+  $scope.hoveringOver = function(value) {
+    $scope.overStar = value;
+    $scope.percent = 100 * (value / $scope.max);
+  };
+  $scope.max = 5;
+  $scope.isReadonly = true;
   /**
    *
    * @param size
