@@ -231,7 +231,7 @@ angular.module('cc', ['ui.router',
                         .then(function (data) {
                             $rootScope.loadingLocation = false;
                             if (data) {
-                                location.setPosition(data.results);
+                                location.setPosition(data.data.results);
                                 $rootScope.currLocation = location.currPosition;
                                 $rootScope.query.location = $rootScope.currLocation.city;
 
