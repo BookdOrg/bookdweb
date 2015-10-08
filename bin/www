@@ -2,19 +2,19 @@
 var debug = require('debug')('odd-job');
 var app = require('../app');
 
-app.set('port',process.env.devlocalPort);
+app.set('port', process.env.devlocalPort);
 
-var server = require('socket.io').listen(app.listen(app.get('port'),process.env.devhost), function(message) {
-  	if(process.send){
-		process.send('online');
-	}
-	process.on('message',function(message){
-		if(message === 'shutdown'){
-			performCleanup();
-			process.exit(0);
-		}
-	});
-	debug('Express server listening on port ' + server.address().port);
+var server = require('socket.io').listen(app.listen(app.get('port'), process.env.devhost), function (message) {
+    if (process.send) {
+        process.send('online');
+    }
+    process.on('message', function (message) {
+        if (message === 'shutdown') {
+            performCleanup();
+            process.exit(0);
+        }
+    });
+    debug('Express server listening on port ' + server.address().port);
 });
 
 
