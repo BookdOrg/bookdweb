@@ -23,12 +23,12 @@
                         <!--<span class="input-group-lg">-->
                         <span class="left-inner-addon">
                             <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                            <i ng-show="loadingLocation" class="fa fa-spinner"></i>
+                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
                             <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
                         </span>
                         <span>
                             <button class="btn btn-md btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
-                                <i ng-show="fetchingQuery" class="fa fa-spinner"></i>
+                                <i ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
                             </button>
                         </span>
@@ -52,32 +52,60 @@
     </div>
   </div>
 </div>
-<div class="well" style="margin-top:20px; margin-bottom:30px; overflow-y: scroll">
+<div class="well" style="margin-top:10px;">
     <div class="row landingSection" id="firstSection">
           <div class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%" src="http://placehold.it/200x200" alt="...">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 clearfix">
-            <h2 class="text-center"> Register your Business!</h2>
+            <h2 class="text-center"> Any appointment, Anywhere. </h2>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. <a href="/join"> Registering is as easy as clicking this line.</a> Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
     </div>
+</div>
+<div class="well">
     <div class="row landingSection" id="secondSection">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 clearfix">
-            <h2 class="text-center"> Any appointment, Anywhere. </h2>
+            <h2 class="text-center"> We do the work, so you don't have to. </h2>
             <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
         <div class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-2">
-          <img class="pull-right" style="border-radius:50%;" src="http://placehold.it/200x200" alt="...">
+            <img class="pull-right" style="border-radius:50%;" src="http://placehold.it/200x200" alt="...">
         </div>
     </div>
+</div>
+<div class="row instructions-wrapper centered">
+    <div class="col-sm-12">
+        <h1>How do we work?</h1>
+        <h2>If you are a business:</h2>
+        <h3><a href="/register">Create an account</a>
+            -> Claim your business
+            -> Get Approved!
+        </h3>
+        <h2>If you are a customer:</h2>
+        <h3><a href="/register">Create an account</a>
+            -> Search for a business
+            -> Set up an appointment!</h3>
+        <h1>It really is that simple.</h1>
+    </div>
+</div>
+<div class="well">
     <div class="row landingSection" id="thirdSection">
         <div class="hidden-sm hidden-xs col-xs-3 col-sm-3 col-md-2 col-lg-2">
             <img style="border-radius:50%;" src="http://placehold.it/200x200" alt="...">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-            <h2 class="text-center"> We do the work, so you don't have to. </h2>
-            <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
+            <h2 class="text-center"> Register your Business!  </h2>
+            <p>Lorem ipsum dolor sit amet,consectetur adipiscing elit. <a href="/join"> Registering is as easy as clicking this line.</a> Phasellus eget nisl dictum magna vulputate pellentesque. Etiam eget semper ex, sit amet pellentesque erat. Morbi aliquam nisi ante, nec cursus eros mattis nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum bibendum erat non diam finibus, vitae mattis nibh fringilla. Phasellus mi arcu, sollicitudin vestibulum hendrerit in, dictum sit amet dolor. Nulla in est eu erat tincidunt elementum. Curabitur a pretium turpis. Etiam eu turpis iaculis, malesuada tellus lobortis, gravida risus. Pellentesque a pharetra sapien. Maecenas lobortis porttitor purus vel efficitur.</p>
         </div>
+    </div>
+</div>
+<div class="row learn-more-wrapper centered">
+    <div class="col-sm-12">
+        <h1>Learn more!</h1>
+        <h2>FAQ</h2>
+        <h2>Testimonials</h2>
+        <h2>Credo</h2>
+        <h2>Other</h2>
     </div>
 </div>

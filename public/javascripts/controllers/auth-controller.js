@@ -14,7 +14,7 @@ function($scope, $state, auth,user,$rootScope){
     auth.register($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('feed');
+      $state.go('landing');
     });
   };
   /**
