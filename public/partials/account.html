@@ -2,13 +2,23 @@
   <div class="page-header">
     <!-- <h1 class="text-center">Hello {{currentUser.firstName}}</h1> -->
     <div class="row">
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-5">
         <span ng-bind-html="currentUser.image"></span>
         <span ng-if="currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
+            <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
+                <div nv-file-over="" uploader="uploader" over-class="another-file-over-class" class="well my-drop-zone" >
+                    <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
+                    You may drag drop files here
+                </div>
+            </div>
         </span>
         <span ng-if="!currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryDefaultPic}}"></image>
+            <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
+                <div nv-file-over="" uploader="uploader" over-class="another-file-over-class" class="well my-drop-zone" >
+                    <image ng-src="{{cloudinaryDefaultPic}}"></image>
+                    You may drag drop files here
+                </div>
+            </div>
         </span>
       </div>
       <div class="col-md-3">
@@ -24,34 +34,7 @@
   </div>
 
   <form style="margin-top:30px;">
-    <!-- <div class="row">
-      <div class="form-group col-md-2">
-        
-        <span ng-bind-html="currentUser.image"></span>
-        <span ng-if="currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}">
-        </span>
-        <span ng-if="!currentUser.avatarVersion">
-          <image ng-src="{{cloudinaryDefaultPic}}">
-        </span>
-
-      </div>
-      <div class="col-md-3">
-        First Name : {{currentUser.firstName}} 
-        <br>
-        Last Name: {{currentUser.lastName}}
-        <br>
-        Rating: {{currentUser.rating}}
-        <br>
-        Employment Id: {{currentUser._id}}
-      </div>
-    </div> -->
-    <div class="row"> 
-      <div class="form-group col-md-4">
-        <label for="picture">Profile Picture</label>
-        <input type="file" name="image" nv-file-select uploader="uploader"><br>
-        </input>
-      </div>
+    <div ng-show="showLoader" class="row">
       <div class="col-md-6">
         <table class="table">
           <thead>
@@ -98,39 +81,6 @@
         </table>
       </div>
     </div>
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-12 text-center">
-        <button type="submit" ng-click="updateProfile()" class="btn btn-primary">Save</button>
-        </div>
-      </div>
-    </div> -->
   </form>
-  <!--<div class="row text-center">-->
-    <!--<div class="col col-md-6" ng-if="currentUser.personalAppointments.length >0">-->
-      <!--<h1 class="text-center">Personal Appointments</h1>-->
-      <!--<div class="col col-md-6 well" ng-repeat="appointment in currentUser.personalAppointments">-->
-        <!--<h4>{{appointment.title}}</h4>-->
-        <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
-        <!--<br>-->
-        <!--Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
-          <!--<div>-->
-              <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
-          <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col col-md-6" ng-if="currentUser.businessAppointments.length >0">-->
-      <!--<h1 class="text-center">Business Appointments</h1>-->
-      <!--<div class="col col-md-6 well" ng-repeat="appointment in currentUser.businessAppointments">-->
-        <!--<h4>{{appointment.title}}</h4>-->
-        <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
-        <!--<br>-->
-        <!--Scheduled on {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
-          <!--<div>-->
-              <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
-          <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>  -->
   </div>
 </div>

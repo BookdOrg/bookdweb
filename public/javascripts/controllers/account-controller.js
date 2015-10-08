@@ -8,9 +8,14 @@ angular.module('cc.account-controller',[])
 				Authorization: 'Bearer '+auth.getToken()
 			}
 		});
+		$scope.showLoader = false;
+		uploader.onAfterAddingFile = function(item){
+			$scope.showLoader = true;
+		}
 		uploader.onSuccessItem = function(item,response,status,header){
 			auth.saveToken(response.token);
 			$rootScope.currentUser = auth.currentUser();
+			$scope.showLoader = false;
 		}
 		uploader.filters.push({
             name: 'imageFilter',
