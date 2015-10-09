@@ -5,7 +5,12 @@
  */
 angular.module('cc.user-factory', [])
     .factory('user', ['$http', 'auth', function ($http, auth) {
-        var o = {};
+        var o = {
+            appointments:[],
+            dashboard:[],
+            user:{},
+            customerEmployeeAppts:[]
+        };
 
         /**
          *   Returns the profile of a specified user.
@@ -56,6 +61,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle success
+                angular.copy(data.data, o.appointments);
                 //console.log(data);
             }, function (response) {
                 //TODO Handle error
@@ -77,6 +83,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle success
+                angular.copy(data.data, o.customerEmployeeAppts)
                 console.log(data);
             }, function (response) {
                 //TODO Handle error
@@ -96,7 +103,7 @@ angular.module('cc.user-factory', [])
                 },
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.categories);
+                angular.copy(data.data, o.user);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -111,7 +118,7 @@ angular.module('cc.user-factory', [])
                 }
             }).then(function (data) {
                 //TODO Handle success
-                console.log(data);
+                angular.copy(data.data, o.dashboard)
             }, function (response) {
                 //TODO Handle error
                 console.log(response);

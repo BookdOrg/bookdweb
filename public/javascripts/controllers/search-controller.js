@@ -18,9 +18,8 @@ angular.module('cc.search-controller', [])
                 }
             });
 
-            businessFactory.getCategories().then(function (data) {
-                $scope.categoryOptions = data.data;
-            });
+            businessFactory.getCategories();
+            $scope.categoryOptions = businessFactory.categories;
             $scope.autocompleteOptions = {
                 componentRestrictions: {country: 'us'},
                 types: ['establishment']

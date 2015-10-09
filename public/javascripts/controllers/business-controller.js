@@ -10,14 +10,14 @@ angular.module('cc.business-controller', [])
         '$modal',
         function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal) {
             $scope.business = businessFactory.business;
-            if (!businessFactory.business.info._id) {
-                businessFactory.getBusiness($stateParams.businessid)
-                    .then(function (data) {
-                        $scope.business = data.data.result;
-                        $scope.business.info = data.data.info;
-                        businessFactory.business = $scope.business;
-                    });
-            }
+            //if (!businessFactory.business.info) {
+            //    businessFactory.getBusinessInfo($stateParams.businessid)
+            //        .then(function (data) {
+            //            $scope.business = data.data.result;
+            //            $scope.business.info = data.data.info;
+            //            businessFactory.business = $scope.business;
+            //        });
+            //}
             $scope.employeeError = businessFactory.error;
             $scope.animationsEnabled = true;
             /**
@@ -158,10 +158,8 @@ angular.module('cc.business-controller', [])
                 id: employeeId
             };
             socket.emit('joinApptRoom', employeeApptObj);
-            user.getAppts(employeeApptObj)
-                .then(function (data) {
-                    calculateAppointments(data.data);
-                });
+            user.getAppts(employeeApptObj);
+            calculateAppointments(user.customerEmployeeAppts)
         }
 
         /**
@@ -339,10 +337,8 @@ angular.module('cc.business-controller', [])
         };
 
         $scope.findEmployee = function (id) {
-            user.search(id)
-                .then(function (data) {
-                    $scope.employee = data.data;
-                });
+            user.search(id);
+            $scope.employee = user.user;
         };
 
         $scope.cancel = function () {
@@ -362,7 +358,7 @@ angular.module('cc.business-controller', [])
 
             //If a service only has 1 employee, check if the employee being removed is part of the service.
             //If true, cannot remove employee, otherwise, remove employee from business & from services he may be a part of.
-            if (employees.length == 1) {
+            if (employee && employees.length == 1) {
                 if (employee._id === employees[0]._id) {
                     $scope.associatedServices.push(services[serviceIndex].name);
                     $scope.employeeHasService = true;
@@ -399,10 +395,7 @@ angular.module('cc.business-controller', [])
                 serviceList: associatedServices
             };
 
-            businessFactory.removeEmployee(selectedEmployee)
-                .then(function () {
-                    businessFactory.getBusinessInfo(business.place_id);
-                });
+            businessFactory.removeEmployee(selectedEmployee);
             $modalInstance.close();
         };
 

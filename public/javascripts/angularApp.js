@@ -161,11 +161,11 @@ angular.module('cc', ['ui.router',
                     url: '/favorites',
                     templateUrl: 'partials/favorites.html',
                     //controller:'favoritesCtrl'
-                    resolve: {
-                        appointments: ['user', function (user) {
-                            return user.getDashboard();
-                        }]
-                    }
+                    //resolve: {
+                    //    appointments: ['user', function (user) {
+                    //        return user.getDashboard();
+                    //    }]
+                    //}
                 })
                 .state('appointments', {
                     url: '/appointments',

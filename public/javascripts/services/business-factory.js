@@ -54,7 +54,7 @@ angular.module('cc.business-factory', [])
         o.addAppointment = function (appt) {
             return $http.post('/business/appointments/create', appt, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).then(function (data) {
+            }).success(function (data) {
                 //TODO Handle success
                 console.log(data);
             }, function (err) {
@@ -104,7 +104,7 @@ angular.module('cc.business-factory', [])
             return $http.post('/business/add-employee', employee, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.business.info);
+                angular.copy(data.data, o.business.info);
             }, function (err) {
                 angular.copy(err, o.error);
             });
@@ -122,7 +122,7 @@ angular.module('cc.business-factory', [])
             return $http.post('/business/remove-employee', employee, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                //angular.copy(data,o.business.info);
+                angular.copy(data.data,o.business.info);
             }, function (err) {
                 angular.copy(err, o.error);
             });
@@ -137,7 +137,7 @@ angular.module('cc.business-factory', [])
             return $http.get('/categories/all', {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.categories);
+                angular.copy(data.data, o.categories);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -156,7 +156,7 @@ angular.module('cc.business-factory', [])
         o.claim = function (claim) {
             return $http.post('/business/claim-request', claim, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).then(function (data) {
+            }).success(function (data) {
                 //TODO Handle success
                 console.log(data);
             }, function (err) {
@@ -178,7 +178,7 @@ angular.module('cc.business-factory', [])
                 },
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.business);
+                angular.copy(data.data, o.business);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -199,7 +199,7 @@ angular.module('cc.business-factory', [])
                 },
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.business.info);
+                angular.copy(data.data, o.business.info);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -234,7 +234,7 @@ angular.module('cc.business-factory', [])
         o.updateService = function (service) {
             return $http.post('/business/update-service', service, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).then(function (data) {
+            }).success(function (data) {
                 //angular.copy(data.data, o.business.info);
                 //TODO Handle success
                 console.log(data);
@@ -267,7 +267,7 @@ angular.module('cc.business-factory', [])
             return $http.get('/business/pending-requests', {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.requests);
+                angular.copy(data.data, o.requests);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -284,7 +284,7 @@ angular.module('cc.business-factory', [])
             return $http.post('/business/update-request', request, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                angular.copy(data, o.requests);
+                angular.copy(data.data, o.requests);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
