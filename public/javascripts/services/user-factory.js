@@ -56,7 +56,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle success
-                console.log(data);
+                //console.log(data);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);

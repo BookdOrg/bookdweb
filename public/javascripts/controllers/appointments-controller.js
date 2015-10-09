@@ -8,5 +8,7 @@ angular.module('cc.appointments-controller', [])
         'auth',
         'appointments',
         function ($scope, $state, auth, appointments) {
-            $scope.appointments = appointments.data;
+            if(appointments){
+                $scope.appointments = appointments.data;
+            }
         }]);
