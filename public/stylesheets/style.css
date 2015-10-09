@@ -107,6 +107,15 @@ body {
     line-height: 40px;
 }
 
+.navbarAvatar{
+    border-radius:50%;
+    height:25px;
+    width:25px;
+}
+.avatarPadding{
+    padding-bottom:10px !important;
+}
+
 .navbar-form {
     padding-top: 7px;
     position: absolute;
@@ -226,7 +235,6 @@ body {
 }
 
 #landingBody {
-    padding-top: 20px;
     font-size: 16px;
     font-family: "Open Sans", serif;
     position: relative;
