@@ -155,31 +155,6 @@
                 <div class="navbar-inner">
                     <ul class="nav navbar-nav navbar-right hidden-xs">
                         <li class="dropdown" ng-show="isLoggedIn()">
-                            <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
-                                <image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
-                                <image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>
-                                {{currentUser().firstName}}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>
-                                        Appointments</a></li>
-                                <li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>
-                                        Favorites</a></li>
-                                <li><a ng-if="currentUser().businessOwner" ng-click="showSearch(false)"
-                                       href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-                                <li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
-                                                class="fa fa-tasks"></i> Admin</a></li>
-                                <li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i
-                                                class="fa fa-cog"></i> Settings</a></li>
-                                <hr>
-                                <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
-                            </ul>
-                        </li>
-                        <li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
-                        <li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Sign Up</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right hidden-xs">
-                        <li class="dropdown" ng-show="isLoggedIn()">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
                                 <span class="badge">3</span></a>
                             <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
@@ -211,7 +186,33 @@
                                 <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
                             </ul>
                         </li>
+                        <li class="dropdown" ng-show="isLoggedIn()">
+                            <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
+                                <image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
+                                <image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>
+                                {{currentUser().firstName}}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>
+                                        Appointments</a></li>
+                                <li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>
+                                        Favorites</a></li>
+                                <li><a ng-if="currentUser().businessOwner" ng-click="showSearch(false)"
+                                       href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                                <li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
+                                                class="fa fa-tasks"></i> Admin</a></li>
+                                <li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i
+                                                class="fa fa-cog"></i> Settings</a></li>
+                                <hr>
+                                <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+                        <li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
+                        <li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Sign Up</a></li>
                     </ul>
+                    <!--<ul class="nav navbar-nav navbar-right hidden-xs">-->
+                        <!-- -->
+                    <!--</ul>-->
                 </div>
             </div>
         </div>
@@ -245,7 +246,7 @@ Messages Modal
             <!--<div class="col hidden-sm hidden-xs col-md-3 col-md-offset-2">-->
                 <!--<h4 class="text-center">About</h4>-->
                 <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tortor. Aliquam viverra, ex sed molestie auctor, velit est tempor augue, quis faucibus neque quam porttitor velit.</p>-->
-                <!-- <p class="text-center text-muted credit">-Khalil Brown, footer coming soon!</p> -->
+                <!--<!-- <p class="text-center text-muted credit">-Khalil Brown, footer coming soon!</p> -->
             <!--</div>-->
             <!--<div class="col hidden-sm hidden-xs col-md-3">-->
                 <!--<h4 class="text-center">Something</h4>-->

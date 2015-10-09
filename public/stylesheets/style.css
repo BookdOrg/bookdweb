@@ -113,9 +113,11 @@ body {
     border-radius:50%;
     height:25px;
     width:25px;
+    /*margin-bottom:5px;*/
 }
 .avatarPadding{
-    padding-bottom:10px !important;
+    padding-top:13px !important;
+    padding-bottom:12px !important;
 }
 
 .navbar-form {
