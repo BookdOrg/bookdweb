@@ -54,8 +54,9 @@ angular.module('cc.business-factory', [])
         o.addAppointment = function (appt) {
             return $http.post('/business/appointments/create', appt, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).success(function (data) {
+            }).then(function (response) {
                 //TODO Handle success
+                return response.data;
                 console.log(data);
             }, function (err) {
                 //TODO Handle error
@@ -156,9 +157,9 @@ angular.module('cc.business-factory', [])
         o.claim = function (claim) {
             return $http.post('/business/claim-request', claim, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).success(function (data) {
+            }).then(function (response) {
                 //TODO Handle success
-                console.log(data);
+                return response.data
             }, function (err) {
                 //TODO Handle error
                 console.log(err);
@@ -234,10 +235,10 @@ angular.module('cc.business-factory', [])
         o.updateService = function (service) {
             return $http.post('/business/update-service', service, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
-            }).success(function (data) {
+            }).then(function (response) {
                 //angular.copy(data.data, o.business.info);
+                return response.data;
                 //TODO Handle success
-                console.log(data);
             }, function (response) {
                 //TODO Handle error
                 console.log(response);

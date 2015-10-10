@@ -315,7 +315,7 @@ angular.module('cc.business-controller', [])
             service.employees = _.pluck($scope.serviceEmployees, '_id');
             businessFactory.updateService(service)
                 .then(function (data) {
-                    business.services[serviceIndex] = data.data;
+                    business.services[serviceIndex] = data;
                 });
             $modalInstance.close();
         };
