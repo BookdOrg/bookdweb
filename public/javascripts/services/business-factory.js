@@ -31,7 +31,6 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.businesses);
-                var test = 1;
             }, function (response) {
                 //TODO Handle error
                 console.log(response);
@@ -162,7 +161,7 @@ angular.module('cc.business-factory', [])
                 return response.data
             }, function (err) {
                 //TODO Handle error
-                console.log(err);
+                return err;
             });
         };
         /**
