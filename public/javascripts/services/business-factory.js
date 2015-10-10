@@ -158,7 +158,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (response) {
                 //TODO Handle success
-                return response.data
+                return response
             }, function (err) {
                 //TODO Handle error
                 return err;
