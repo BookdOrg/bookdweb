@@ -6,9 +6,7 @@ angular.module('cc.appointments-controller', [])
         '$scope',
         '$state',
         'auth',
-        'appointments',
-        function ($scope, $state, auth, appointments) {
-            if(appointments){
-                $scope.appointments = appointments.data;
-            }
+        'user',
+        function ($scope, $state, auth, user) {
+            $scope.appointments = user.appointments;
         }]);

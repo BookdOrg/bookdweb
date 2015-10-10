@@ -3,10 +3,12 @@ angular.module('cc.dashboard-controller', [])
         '$scope',
         '$state',
         'auth',
-        'businesses',
+        'user',
         'businessFactory',
-        function ($scope, $state, auth, businesses, businessFactory) {
-            $scope.businesses = businesses.data;
+        function ($scope, $state, auth, user, businessFactory) {
+            if(user.dashboard.length > 0){
+                $scope.businesses = user.dashboard;
+            }
             $scope.setBusiness = function (business) {
                 businessFactory.business = business;
             };
