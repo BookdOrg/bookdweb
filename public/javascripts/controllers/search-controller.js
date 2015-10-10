@@ -30,7 +30,7 @@ angular.module('cc.search-controller', [])
             $scope.search = function () {
                 businessFactory.search($scope.query)
                     .then(function (data) {
-                        $scope.queryResults = data.data.results;
+                        $scope.queryResults = data;
                     });
             };
             /**
