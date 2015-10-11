@@ -67,28 +67,52 @@ angular.module('cc', ['ui.router',
                     resolve: {
                         business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                             return businessFactory.getBusiness($stateParams.businessid);
-                        }]
+                        }],
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
+                        }
                     }
                 })
                 .state('user', {
                     url: '/user/:username/profile',
                     templateUrl: 'partials/profile.html',
                     controller: 'ProfileCtrl',
-                    onEnter: ['$state', 'auth', function ($state, auth) {
-                        if (!auth.isLoggedIn()) {
-                            $state.go('landing');
+                    resolve: {
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
                         }
-                    }]
+                    }
                 })
                 .state('account', {
                     url: '/user/:username/account',
                     templateUrl: 'partials/account.html',
                     controller: 'AccountCtrl',
-                    onEnter: ['$state', 'auth', function ($state, auth) {
-                        if (!auth.isLoggedIn()) {
-                            $state.go('landing');
+                    resolve: {
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
                         }
-                    }]
+                    }
                 })
                 .state('partner',{
                     url:'/partner',
@@ -99,17 +123,18 @@ angular.module('cc', ['ui.router',
                     url: '/admin',
                     templateUrl: 'partials/admin.html',
                     controller: 'AdminCtrl',
-                    onEnter: ['$state', 'auth', function ($state, auth) {
-                        if (!auth.currentUser().isAdmin) {
-                            $state.go('landing');
+                    resolve: {
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
                         }
-                    }]
-                    //resolve:{
-                    //  pendingRequests:['$http','adminService', function($http,businessFactory){
-                    //    var pendingRequests;
-                    //    return pendingRequests = businessFactory.getRequests();
-                    //  }]
-                    //}
+                    }
                 })
                 .state('dashboard', {
                     url: '/dashboard',
@@ -118,18 +143,22 @@ angular.module('cc', ['ui.router',
                     resolve: {
                         businesses: ['user', function (user) {
                             return user.getDashboard();
-                        }]
+                        }],
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
+                        }
                     }
                 })
                 .state('favorites', {
                     url: '/favorites',
                     templateUrl: 'partials/favorites.html',
-                    //controller:'favoritesCtrl'
-                    //resolve: {
-                    //    appointments: ['user', function (user) {
-                    //        return user.getDashboard();
-                    //    }]
-                    //}
                 })
                 .state('appointments', {
                     url: '/appointments',
@@ -138,7 +167,17 @@ angular.module('cc', ['ui.router',
                     resolve: {
                         appointments: ['user', function (user) {
                             return user.getUserAppts();
-                        }]
+                        }],
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
+                        }
                     }
                 })
                 .state('search', {

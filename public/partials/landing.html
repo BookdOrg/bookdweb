@@ -11,7 +11,7 @@
         <div id="landingBody" class="text-center coverrTitle" ng-controller="LandingCtrl">
             <h1>Book'd</h1>
             <h3>Never worry about appointments again!</h3>
-            <a href="/register" ng-if="!currentUser || currentUser == null" class="btn btn-xl btn-primary">Join Free Today {{currentUser.firstName}}</a>
+            <a ng-click="openSignup('md')" ng-if="!currentUser || currentUser == null" class="btn btn-xl btn-primary">Join Free Today</a>
                 <div ng-if="currentUser" class="row form-inline form-group">
                     <form>
                         <span class="left-inner-addon">
