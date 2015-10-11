@@ -26,13 +26,6 @@ body {
     font-family: "Lucida Grande", Arial, sans-serif;
     /*font-weight: 400;*/
 }
-
-
-.landingWell {
-    background: #61A9A9;
-    border: none;
-}
-
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -292,7 +285,10 @@ p {
     font-size: 16px;
     line-height: 1.5;
 }
-
+.sectionBtn{
+    background-color: #f05f40;
+    color:white;
+}
 .bg-primary {
     background-color: #337ab7;
 }
