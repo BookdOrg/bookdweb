@@ -1,7 +1,8 @@
 angular.module('cc.landing-controller', [])
     .controller('LandingCtrl', [
         '$scope',
-        function ($scope) {
+        '$controller',
+        function ($scope,$controller) {
             $scope.navbarCollapsed = true;
 
             $scope.myInterval = 5000;
@@ -15,5 +16,11 @@ angular.module('cc.landing-controller', [])
             };
             for (var i = 0; i < 4; i++) {
                 $scope.addSlide();
+            }
+
+            var navViewModel = $scope.$new();
+            $controller('NavCtrl', {$scope: navViewModel});
+            $scope.openSignup = function(){
+                navViewModel.openSignup();
             }
         }]);

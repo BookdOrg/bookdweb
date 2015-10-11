@@ -1,0 +1,35 @@
+#pricing {
+    width: 970px;
+    float: none;
+    margin: 0 auto
+}
+
+#pricing table {
+    margin: 40px 0;
+    width: 100%;
+    border-top: 1px solid #0000ff;
+}
+
+#pricing th {
+    text-align: center;
+    background-color: #EEE;
+}
+
+#pricing table tr .column-first {
+    padding: 10px;
+}
+
+#pricing table tr .column-second {
+    text-indent: 0;
+    text-align: center;
+    padding: 10px;
+}
+
+#pricing table tr .column-three {
+    text-align: center;
+    text-indent: 0;
+}
+
+#pricing table tr:nth-child(2n) {
+    background-color: #EEE;
+}
