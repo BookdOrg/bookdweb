@@ -4,9 +4,9 @@
           <div class="col-sm-4">
               <h2>{{currentUser.firstName}} {{currentUser.lastName}}</h2>
           </div>
-          <div class="col-sm-8 text-right">
-              <h2>Employee ID: {{currentUser._id}}</h2>
-          </div>
+          <!--<div class="col-sm-8 text-right">-->
+              <!--<h2>Employee ID: {{currentUser._id}}</h2>-->
+          <!--</div>-->
       </div>
       <div class="panel panel-default">
           <div class="panel-heading">
@@ -15,36 +15,44 @@
           <div class="panel-body">
               <div class="row">
                   <div class="form-group col-sm-4">
-                      <!--<span ng-bind-html="currentUser.image"></span>-->
-            <span ng-if="currentUser.avatarVersion">
-                <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
-                    <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
-                        <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
-                        <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
-                        <div>OR</div>
-                        <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
-                    </div>
-                </div>
-            </span>
-            <span ng-if="!currentUser.avatarVersion">
-                <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
-                    <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
-                        <image ng-src="{{cloudinaryDefaultPic}}"></image>
-                        <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
-                        <div>OR</div>
-                        <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
-                    </div>
-                </div>
-            </span>
+                    <span ng-if="currentUser.avatarVersion">
+                        <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
+                            <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
+                                <image ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
+                                <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
+                                <div>OR</div>
+                                <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
+                            </div>
+                        </div>
+                    </span>
+                    <span ng-if="!currentUser.avatarVersion">
+                        <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
+                            <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
+                                <image ng-src="{{cloudinaryDefaultPic}}"></image>
+                                <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
+                                <div>OR</div>
+                                <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
+                            </div>
+                        </div>
+                    </span>
                   </div>
-                  <div class="col">
-                      First Name : {{currentUser.firstName}}
+                  <div class="col-lg-4">
+                      <span>First Name : {{currentUser.firstName}}</span>
                       <br>
-                      Last Name: {{currentUser.lastName}}
+                      <span>Last Name: {{currentUser.lastName}}</span>
                       <br>
                       <!-- Rating: {{currentUser.rating}} -->
                       <br>
-                      Employment Id: {{currentUser._id}}
+                  </div>
+                  <div class="col-lg-4 text-center">
+                      <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd Partners Registered Business click here to get your Associate ID">
+                          <label>
+                              <input ng-model="showID" value="true" type="checkbox"> Show Associate ID:
+                          </label>
+                      </div>
+                      <div ng-show="showID">
+                            <span>{{currentUser._id}}</span>
+                      </div>
                   </div>
                   <form style="margin-top:30px;">
                       <div ng-show="showLoader" class="row">
