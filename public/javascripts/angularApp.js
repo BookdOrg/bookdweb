@@ -115,22 +115,11 @@ angular.module('cc', ['ui.router',
                         }
                     }]
                 })
-//    .state('claim',{
-//      url:'/claim/:business',
-//      templateUrl:'partials/claim.html',
-//      controller:'claimController',
-//      onEnter: ['$state','auth',function($state,auth){
-//        if(!auth.isLoggedIn()){
-//          $state.go('landing');
-//        }
-//      }],
-//      resolve:{
-//        claimInfo:['$http','$stateParams','yelpService', function($http,$stateParams,yelpService){
-//          var id = $stateParams.business;
-//          return claimInfo = yelpService.business(id);
-//        }]
-//      }
-//    })
+                .state('partner',{
+                    url:'/partner',
+                    templateUrl:'partials/partner.html'
+                    //controllers:'partnerCtrl'
+                })
                 .state('admin', {
                     url: '/admin',
                     templateUrl: 'partials/admin.html',
