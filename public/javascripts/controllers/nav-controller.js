@@ -24,10 +24,19 @@ angular.module('cc.nav-controller', ["google.places"])
                 }
             };
 
-            $scope.open = function(size) {
+            $scope.openLogin = function(size) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationEnabled,
                     templateUrl: 'partials/login.html',
+                    controller: 'AuthCtrl',
+                    size: size
+                })
+            };
+
+            $scope.openSignup = function(size) {
+                var modalInstance = $modal.open({
+                    animation: $scope.animationEnabled,
+                    templateUrl: 'partials/register.html',
                     controller: 'AuthCtrl',
                     size: size
                 })

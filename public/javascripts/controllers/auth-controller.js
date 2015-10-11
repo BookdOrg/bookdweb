@@ -17,6 +17,7 @@ angular.module('cc.auth-controller', [])
                 //});
                 auth.register($scope.user).then(function () {
                     $state.go('landing');
+                    $modalInstance.close();
                 });
             };
             /**

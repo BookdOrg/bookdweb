@@ -85,16 +85,16 @@ angular.module('cc', ['ui.router',
                 //        }
                 //    }]
                 //})
-                .state('register', {
-                    url: '/register',
-                    templateUrl: 'partials/register.html',
-                    controller: 'AuthCtrl',
-                    onEnter: ['$state', 'auth', function ($state, auth) {
-                        if (auth.isLoggedIn()) {
-                            $state.go('feed');
-                        }
-                    }]
-                })
+                //.state('register', {
+                //    url: '/register',
+                //    templateUrl: 'partials/register.html',
+                //    controller: 'AuthCtrl',
+                //    onEnter: ['$state', 'auth', function ($state, auth) {
+                //        if (auth.isLoggedIn()) {
+                //            $state.go('feed');
+                //        }
+                //    }]
+                //})
                 .state('user', {
                     url: '/user/:username/profile',
                     templateUrl: 'partials/profile.html',
