@@ -316,8 +316,8 @@ aside {
 
 .section-heading {
     margin-top: 0;
+    font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
-
 .service-box {
     margin: 50px auto 0;
     max-width: 400px;
@@ -332,7 +332,9 @@ aside {
 .service-box p {
     margin-bottom: 0;
 }
-
+.service-box h3{
+    font-family:'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
 .call-to-action h2 {
     margin: 0 auto 20px;
 }
