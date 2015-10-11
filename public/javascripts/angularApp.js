@@ -48,7 +48,7 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/feed.html',
                     controller: 'MainCtrl',
                     resolve: {
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -68,7 +68,7 @@ angular.module('cc', ['ui.router',
                         business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                             return businessFactory.getBusiness($stateParams.businessid);
                         }],
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -85,7 +85,7 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/profile.html',
                     controller: 'ProfileCtrl',
                     resolve: {
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -102,7 +102,7 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/account.html',
                     controller: 'AccountCtrl',
                     resolve: {
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -124,7 +124,7 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/admin.html',
                     controller: 'AdminCtrl',
                     resolve: {
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -144,7 +144,7 @@ angular.module('cc', ['ui.router',
                         businesses: ['user', function (user) {
                             return user.getDashboard();
                         }],
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
@@ -168,7 +168,7 @@ angular.module('cc', ['ui.router',
                         appointments: ['user', function (user) {
                             return user.getUserAppts();
                         }],
-                        auth: function($state, $q,auth) {
+                        isAuthenticated: function($state, $q,auth) {
                             var redirect = false;
                             if(!auth.isLoggedIn()) {
                                 redirect = true;
