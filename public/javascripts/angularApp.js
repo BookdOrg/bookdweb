@@ -46,25 +46,25 @@ angular.module('cc', ['ui.router',
                 .state('feed', {
                     url: '/feed',
                     templateUrl: 'partials/feed.html',
-                    controller: 'MainCtrl'
-//      resolve: {
-//        categories: ['businessFactory',function(businessFactory){
-//          return businessFactory.getCategories();
-//        }]
-//      }
+                    controller: 'MainCtrl',
+                    onEnter: ['$state', 'auth', function ($state, auth) {
+                        if (!auth.isLoggedIn()) {
+                            $state.go('login');
+                        }
+                    }]
                 })
-                .state('bizlist', {
-                    url: '/category/{cat}/{location}',
-                    templateUrl: 'partials/bizlist.html',
-                    controller: 'bizlistCtrl'
-                    // resolve: {
-                    //   businesses:['$http','$stateParams',function($http,$stateParams){
-                    //     var cat = $stateParams.cat;
-                    //     var location = $stateParams.location;
-                    //     return businesses = yelpService.search(cat,location);
-                    //   }]
-                    // }
-                })
+                //.state('bizlist', {
+                //    url: '/category/{cat}/{location}',
+                //    templateUrl: 'partials/bizlist.html',
+                //    controller: 'bizlistCtrl'
+                //    // resolve: {
+                //    //   businesses:['$http','$stateParams',function($http,$stateParams){
+                //    //     var cat = $stateParams.cat;
+                //    //     var location = $stateParams.location;
+                //    //     return businesses = yelpService.search(cat,location);
+                //    //   }]
+                //    // }
+                //})
                 .state('business', {
                     url: '/business/{businessid}',
                     templateUrl: 'partials/business.html',

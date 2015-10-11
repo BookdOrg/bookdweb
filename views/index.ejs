@@ -22,7 +22,6 @@
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/angularApp.js"></script>
     <script src="/javascripts/config.js"></script>
@@ -65,12 +64,22 @@
     <!--<link href="/javascripts/vendor/fullcalendar.min.css" rel="stylesheet">-->
     <!--<link href="/javascripts/vendor/fullcalendar.print.css" rel="stylesheet" media="print" >-->
 
+    <!-- Plugin JavaScript -->
+    <script src="/javascripts/vendor/jquery.easing.min.js"></script>
+    <script src="/javascripts/vendor/jquery.fittext.js"></script>
+    <script src="/javascripts/vendor/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/javascripts/vendor/creative.js"></script>
+
     <link rel="stylesheet" href="/stylesheets/autocomplete.min.css"/>
 
     <script src="/javascripts/vendor/ngGeolocation.min.js"></script>
 
     <link href="/stylesheets/style.css" rel="stylesheet">
-    <link href="/stylesheets/homepage.css" rel="stylesheet">
+    <link href="/stylesheets/navbarStyles.css" rel="stylesheet">
+    <!--<link href="/stylesheets/homepage.css" rel="stylesheet">-->
+    <link href="/stylesheets/animate.min.css" rel="stylesheet">
 
 </head>
 <script>
@@ -79,145 +88,297 @@
     })
 </script>
 <body ng-app="cc">
-<!--<div id="wrap">-->
-<!--<div class="navbar-sm">-->
-<div class="navbar-primary">
-    <nav class="navbar navbar-default center" ng-controller="NavCtrl">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" ng-click="showSearch(false)" href="/">
-                    <img alt="Brand" src="/images/Bookd-logo.png" style="width:100px;">
-                </a>
+<nav id="mainNav" class="navbar navbar-default" ng-controller="NavCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" ng-click="showSearch(false)" href="/">
+                <i style="color:black;" class="fa fa-2x fa-calendar"></i>
+            <!--<img alt="Brand" src="/images/Bookd-logo.png" style="width:100px;">-->
+            </a>
+        </div>
+        <form ng-if="isLoggedIn() && show" class="navbar-form hidden-md hidden-sm hidden-xs">
+            <div class="row text-center form-inline form-group">
+                <span class="left-inner-addon">
+                        <i class="fa fa-building"></i>
+                        <input class="form-control" aria-describedby="search" ng-model="query.term"
+                               placeholder="Barbershops">
+                    <!--</span>-->
+                </span>
+                <span class="left-inner-addon">
+                    <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                    <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                    <input class="form-control" aria-describedby="near" g-places-autocomplete
+                           options="autocompleteOptions" ng-model="query.location">
+                </span>
+                <span>
+                    <button class="btn btn-md btn-primary" ng-click="search(query)"
+                            ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
+                            type="submit">
+                        <i ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
+                        <span ng-show="!fetchingQuery">Search</span>
+                    </button>
+                </span>
             </div>
-            <form ng-if="isLoggedIn() && show" class="navbar-form hidden-md hidden-sm hidden-xs">
-                <div class="row text-center form-inline form-group">
-                            <span class="left-inner-addon">
-                                    <i class="fa fa-building"></i>
-                                    <input class="form-control" aria-describedby="search" ng-model="query.term"
-                                           placeholder="Barbershops">
-                                <!--</span>-->
-                            </span>
-                            <span class="left-inner-addon">
-                                <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                                <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                                <input class="form-control" aria-describedby="near" g-places-autocomplete
-                                       options="autocompleteOptions" ng-model="query.location">
-                            </span>
-                            <span>
-                                <button class="btn btn-md btn-primary" ng-click="search(query)"
-                                        ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
-                                        type="submit">
-                                    <i ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
-                                    <span ng-show="!fetchingQuery">Search</span>
-                                </button>
-                            </span>
-                </div>
-            </form>
-            <div class="collapse navbar-collapse" collapse="navbarCollapsed">
-                <ul class="nav navbar-nav">
-                    <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"
-                                                href="/feed"><i class="fa fa-home"></i> Feed</a></li>
-                    <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                                href="/user/{{currentUser().username}}/profile"><i
-                                    class="fa fa-user"></i> Profile</a></li>
-                    <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
-                                ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a>
-                    </li>
-                    <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
-                                ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i
-                                    class="fa fa-bookmark"></i> Favorites</a></li>
-                    <li class="hidden-sm hidden-md hidden-lg"><a
-                                ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>
-                            Dashboard</a></li>
-                    <li class="hidden-sm hidden-md hidden-lg"
-                        ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser().isAdmin"><a
-                                href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
-                    <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
-                                                                                        href="/login"><i
-                                    class="fa fa-sign-in"></i></span> Log In</a></li>
-                    <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
-                                                                                        href="/register"><i
-                                    class="fa fa-user"></i> Sign Up</a></li>
-                    <hr>
-                    <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Log
-                            Out</a></li>
-                </ul>
-                <!--
-                    User avatar and dropdown
-                -->
-                <div class="navbar-inner">
-                    <ul class="nav navbar-nav navbar-right hidden-xs">
-                        <li class="dropdown" ng-show="isLoggedIn()">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
-                                <span class="badge">3</span></a>
-                            <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+        </form>
+        <div class="collapse navbar-collapse" collapse="navbarCollapsed">
+            <ul class="nav navbar-nav">
+                <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"
+                                            href="/feed"><i class="fa fa-home"></i> Feed</a></li>
+                <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                                            href="/user/{{currentUser().username}}/profile"><i
+                                class="fa fa-user"></i> Profile</a></li>
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
+                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                            href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a>
+                </li>
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
+                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i
+                                class="fa fa-bookmark"></i> Favorites</a></li>
+                <li class="hidden-sm hidden-md hidden-lg"><a
+                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                            ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>
+                        Dashboard</a></li>
+                <li class="hidden-sm hidden-md hidden-lg"
+                    ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser().isAdmin"><a
+                            href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
+                                                                                    href="/login"><i
+                                class="fa fa-sign-in"></i></span> Log In</a></li>
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
+                                                                                    href="/register"><i
+                                class="fa fa-user"></i> Sign Up</a></li>
+                <hr>
+                <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Log
+                        Out</a></li>
+            </ul>
+            <!--
+                User avatar and dropdown
+            -->
+            <div class="navbar-inner">
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+                    <li class="dropdown" ng-show="isLoggedIn()">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+                            <span class="badge">3</span></a>
+                        <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
 
-                                <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
-                                </div>
-                                <li class="divider"></li>
-                                <div class="notifications-wrapper">
-                                    <a class="content" href="#">
-                                        <div class="notification-item">
-                                            <p class="item-info">Full Cut & Shave</p>
-                                            <h4 class="item-title">Appointment is 1 · days away</h4>
-                                        </div>
-                                    </a>
-                                    <a class="content" href="#">
-                                        <div class="notification-item">
-                                            <p class="item-info">Full Body Massage</p>
-                                            <h4 class="item-title">Appointment is 4 · days away</h4>
-                                        </div>
-                                    </a>
-                                    <a class="content" href="#">
-                                        <div class="notification-item">
-                                            <p class="item-info">Ortho Cleaning</p>
-                                            <h4 class="item-title">Appointment is 1 • week away</h4>
-                                        </div>
-                                    </a>
-                                </div>
-                                <li class="divider"></li>
-                                <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
-                            </ul>
-                        </li>
-                        <li class="dropdown" ng-show="isLoggedIn()">
-                            <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
-                                <image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
-                                <image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>
-                                {{currentUser().firstName}}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>
-                                        Appointments</a></li>
-                                <li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>
-                                        Favorites</a></li>
-                                <li><a ng-if="currentUser().businessOwner" ng-click="showSearch(false)"
-                                       href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-                                <li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
-                                                class="fa fa-tasks"></i> Admin</a></li>
-                                <li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i
-                                                class="fa fa-cog"></i> Settings</a></li>
-                                <hr>
-                                <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
-                            </ul>
-                        </li>
-                        <li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
-                        <li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Sign Up</a></li>
-                    </ul>
-                    <!--<ul class="nav navbar-nav navbar-right hidden-xs">-->
-                        <!-- -->
-                    <!--</ul>-->
-                </div>
+                            <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
+                            </div>
+                            <li class="divider"></li>
+                            <div class="notifications-wrapper">
+                                <a class="content" href="#">
+                                    <div class="notification-item">
+                                        <p class="item-info">Full Cut & Shave</p>
+                                        <h4 class="item-title">Appointment is 1 · days away</h4>
+                                    </div>
+                                </a>
+                                <a class="content" href="#">
+                                    <div class="notification-item">
+                                        <p class="item-info">Full Body Massage</p>
+                                        <h4 class="item-title">Appointment is 4 · days away</h4>
+                                    </div>
+                                </a>
+                                <a class="content" href="#">
+                                    <div class="notification-item">
+                                        <p class="item-info">Ortho Cleaning</p>
+                                        <h4 class="item-title">Appointment is 1 • week away</h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <li class="divider"></li>
+                            <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
+                        </ul>
+                    </li>
+                    <li class="dropdown" ng-show="isLoggedIn()">
+                        <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
+                            <image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
+                            <image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>
+                            {{currentUser().firstName}}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>
+                                    Appointments</a></li>
+                            <li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>
+                                    Favorites</a></li>
+                            <li><a ng-if="currentUser().businessOwner" ng-click="showSearch(false)"
+                                   href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                            <li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
+                                            class="fa fa-tasks"></i> Admin</a></li>
+                            <li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i
+                                            class="fa fa-cog"></i> Settings</a></li>
+                            <hr>
+                            <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                    <li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>
+                    <li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Sign Up</a></li>
+                </ul>
+                <!--<ul class="nav navbar-nav navbar-right hidden-xs">-->
+                <!-- -->
+                <!--</ul>-->
             </div>
         </div>
-    </nav>
-</div>
+        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li>-->
+                    <!--<a class="page-scroll" href="#about">About</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a class="page-scroll" href="#services">Services</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a class="page-scroll" href="#contact">Contact</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<!--<div id="wrap">-->
+<!--<div class="navbar-sm">-->
+<!--<div class="navbar-default">-->
+    <!--<nav class="navbar navbar-default center" ng-controller="NavCtrl">-->
+        <!--<div class="container-fluid">-->
+            <!--<div class="navbar-header">-->
+                <!--<button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                <!--</button>-->
+                <!--<a class="navbar-brand" ng-click="showSearch(false)" href="/">-->
+                    <!--<img alt="Brand" src="/images/Bookd-logo.png" style="width:100px;">-->
+                <!--</a>-->
+            <!--</div>-->
+            <!--<form ng-if="isLoggedIn() && show" class="navbar-form hidden-md hidden-sm hidden-xs">-->
+                <!--<div class="row text-center form-inline form-group">-->
+                            <!--<span class="left-inner-addon">-->
+                                    <!--<i class="fa fa-building"></i>-->
+                                    <!--<input class="form-control" aria-describedby="search" ng-model="query.term"-->
+                                           <!--placeholder="Barbershops">-->
+                                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                            <!--</span>-->
+                            <!--<span class="left-inner-addon">-->
+                                <!--<i ng-show="!loadingLocation" class="fa fa-map-marker"></i>-->
+                                <!--<i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>-->
+                                <!--<input class="form-control" aria-describedby="near" g-places-autocomplete-->
+                                       <!--options="autocompleteOptions" ng-model="query.location">-->
+                            <!--</span>-->
+                            <!--<span>-->
+                                <!--<button class="btn btn-md btn-primary" ng-click="search(query)"-->
+                                        <!--ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"-->
+                                        <!--type="submit">-->
+                                    <!--<i ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>-->
+                                    <!--<span ng-show="!fetchingQuery">Search</span>-->
+                                <!--</button>-->
+                            <!--</span>-->
+                <!--</div>-->
+            <!--</form>-->
+            <!--<div class="collapse navbar-collapse" collapse="navbarCollapsed">-->
+                <!--<ul class="nav navbar-nav">-->
+                    <!--<li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"-->
+                                                <!--href="/feed"><i class="fa fa-home"></i> Feed</a></li>-->
+                    <!--<li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"-->
+                                                <!--href="/user/{{currentUser().username}}/profile"><i-->
+                                    <!--class="fa fa-user"></i> Profile</a></li>-->
+                    <!--<li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a-->
+                                <!--ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"-->
+                                <!--href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a>-->
+                    <!--</li>-->
+                    <!--<li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a-->
+                                <!--ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i-->
+                                    <!--class="fa fa-bookmark"></i> Favorites</a></li>-->
+                    <!--<li class="hidden-sm hidden-md hidden-lg"><a-->
+                                <!--ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"-->
+                                <!--ng-if="currentUser().businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>-->
+                            <!--Dashboard</a></li>-->
+                    <!--<li class="hidden-sm hidden-md hidden-lg"-->
+                        <!--ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser().isAdmin"><a-->
+                                <!--href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>-->
+                    <!--<li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"-->
+                                                                                        <!--href="/login"><i-->
+                                    <!--class="fa fa-sign-in"></i></span> Log In</a></li>-->
+                    <!--<li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"-->
+                                                                                        <!--href="/register"><i-->
+                                    <!--class="fa fa-user"></i> Sign Up</a></li>-->
+                    <!--<hr>-->
+                    <!--<li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Log-->
+                            <!--Out</a></li>-->
+                <!--</ul>-->
+                <!--&lt;!&ndash;-->
+                    <!--User avatar and dropdown-->
+                <!--&ndash;&gt;-->
+                <!--<div class="navbar-inner">-->
+                    <!--<ul class="nav navbar-nav navbar-right hidden-xs">-->
+                        <!--<li class="dropdown" ng-show="isLoggedIn()">-->
+                            <!--<a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>-->
+                                <!--<span class="badge">3</span></a>-->
+                            <!--<ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">-->
+
+                                <!--<div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>-->
+                                <!--</div>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<div class="notifications-wrapper">-->
+                                    <!--<a class="content" href="#">-->
+                                        <!--<div class="notification-item">-->
+                                            <!--<p class="item-info">Full Cut & Shave</p>-->
+                                            <!--<h4 class="item-title">Appointment is 1 · days away</h4>-->
+                                        <!--</div>-->
+                                    <!--</a>-->
+                                    <!--<a class="content" href="#">-->
+                                        <!--<div class="notification-item">-->
+                                            <!--<p class="item-info">Full Body Massage</p>-->
+                                            <!--<h4 class="item-title">Appointment is 4 · days away</h4>-->
+                                        <!--</div>-->
+                                    <!--</a>-->
+                                    <!--<a class="content" href="#">-->
+                                        <!--<div class="notification-item">-->
+                                            <!--<p class="item-info">Ortho Cleaning</p>-->
+                                            <!--<h4 class="item-title">Appointment is 1 • week away</h4>-->
+                                        <!--</div>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<li class="divider"></li>-->
+                                <!--<div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li class="dropdown" ng-show="isLoggedIn()">-->
+                            <!--<a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">-->
+                                <!--<image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>-->
+                                <!--<image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>-->
+                                <!--{{currentUser().firstName}}-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>-->
+                                        <!--Appointments</a></li>-->
+                                <!--<li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>-->
+                                        <!--Favorites</a></li>-->
+                                <!--<li><a ng-if="currentUser().businessOwner" ng-click="showSearch(false)"-->
+                                       <!--href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>-->
+                                <!--<li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i-->
+                                                <!--class="fa fa-tasks"></i> Admin</a></li>-->
+                                <!--<li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i-->
+                                                <!--class="fa fa-cog"></i> Settings</a></li>-->
+                                <!--<hr>-->
+                                <!--<li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li ng-hide="isLoggedIn()"><a href="/login"><i class="fa fa-sign-in"></i></span> Log In</a></li>-->
+                        <!--<li ng-hide="isLoggedIn()"><a href="/register"><i class="fa fa-user"></i> Sign Up</a></li>-->
+                    <!--</ul>-->
+                    <!--&lt;!&ndash;<ul class="nav navbar-nav navbar-right hidden-xs">&ndash;&gt;-->
+                        <!--&lt;!&ndash; &ndash;&gt;-->
+                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+<!--</div>-->
 <!--</div>-->
 <ui-view></ui-view>
 <!--</div>-->

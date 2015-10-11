@@ -1,0 +1,174 @@
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    float: none;
+    display: inline-block;
+}
+
+.navbar {
+    background-color:transparent;
+    margin-bottom: 0;
+}
+.navbar-default {
+    border-color: rgba(34,34,34,.05);
+    font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+    background-color: #fff;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+}
+
+/*.navbar-default .navbar-header .navbar-brand {*/
+    /*text-transform: uppercase;*/
+    /*font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;*/
+    /*font-weight: 700;*/
+    /*color: #78bbee;*/
+/*}*/
+
+/*.navbar-default .navbar-header .navbar-brand:hover,*/
+/*.navbar-default .navbar-header .navbar-brand:focus {*/
+    /*color: #eb3812;*/
+/*}*/
+
+.navbar-default .nav > li>a,
+.navbar-default .nav>li>a:focus {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    color: #222;
+}
+
+.navbar-default .nav > li>a:hover,
+.navbar-default .nav>li>a:focus:hover {
+    color: #78bbee;
+}
+
+.navbar-default .nav > li.active>a,
+.navbar-default .nav>li.active>a:focus {
+    color: #78bbee!important;
+    background-color: transparent;
+}
+
+.navbar-default .nav > li.active>a:hover,
+.navbar-default .nav>li.active>a:focus:hover {
+    background-color: transparent;
+}
+@media(min-width:768px) {
+    .navbar-default {
+        border-color: rgba(255,255,255,.3);
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-header .navbar-brand {
+        color: rgba(255,255,255,.7);
+    }
+
+    .navbar-default .navbar-header .navbar-brand:hover,
+    .navbar-default .navbar-header .navbar-brand:focus {
+        color: #fff;
+    }
+
+    /*.navbar-default .nav > li>a,*/
+    /*.navbar-default .nav>li>a:focus {*/
+    /*color: rgba(255,255,255,.7);*/
+    /*}*/
+
+    /*.navbar-default .nav > li>a:hover,*/
+    /*.navbar-default .nav>li>a:focus:hover {*/
+    /*color: #fff;*/
+    /*}*/
+
+    .navbar-default.affix {
+        border-color: rgba(34,34,34,.05);
+        background-color: #fff;
+    }
+
+    .navbar-default.affix .navbar-header .navbar-brand {
+        font-size: 14px;
+        color: #78bbee;
+    }
+
+    /*.navbar-default.affix .navbar-header .navbar-brand:hover,*/
+    /*.navbar-default.affix .navbar-header .navbar-brand:focus {*/
+        /*color: #eb3812;*/
+    /*}*/
+
+    .navbar-default.affix .nav > li>a,
+    .navbar-default.affix .nav>li>a:focus {
+        color: #222;
+    }
+
+    .navbar-default.affix .nav > li>a:hover,
+    .navbar-default.affix .nav>li>a:focus:hover {
+        color: #78bbee;
+    }
+}
+/*.navbar-primary .navbar {*/
+/*background: #f8f8f8;*/
+/*border-bottom: none;*/
+/*}*/
+
+.navbar-default .navbar .nav > li > a {
+    color: #000000;
+}
+
+.navbar-default .navbar .nav > li > a:hover {
+    color: #fff;
+    background-color: #78bbee;
+}
+
+.navbar-default .navbar .nav .active > a, .navbar .nav .active > a:hover {
+    color: #fff;
+    background-color: #78bbee;
+}
+
+.navbar-default .navbar .nav li > a .caret, .tnav .navbar .nav li > a:hover .caret {
+    border-top-color: #fff;
+    border-bottom-color: #fff;
+}
+
+.navbar-default .navbar .nav > li.dropdown.open.active > a:hover {
+}
+
+.navbar-default .navbar .nav > li.dropdown.open > a {
+    color: #fff;
+    background-color: #78bbee;
+    border-color: #fff;
+}
+
+.navbar-default .navbar .nav > li.dropdown.open.active > a:hover .caret, .tnav .navbar .nav > li.dropdown.open > a .caret {
+    border-top-color: #fff;
+}
+.navbarAvatar{
+    border-radius:50%;
+    height:25px;
+    width:25px;
+    /*margin-bottom:5px;*/
+}
+.avatarPadding{
+    padding-top:13px !important;
+    padding-bottom:12px !important;
+}
+
+.navbar-form {
+    padding-top: 7px;
+    position: absolute;
+    width: 90%;
+    left: 0;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    margin: auto;
+    margin-left: 105px;
+}
+
+.feedSearch {
+    margin-top: 30px;
+}
+.navbar-brand {
+    padding: 8px 12px;
+    font-size: 16px;
+    line-height: 28px;
+}
