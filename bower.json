@@ -19,6 +19,8 @@
     "angular-ui-router": "~0.2.15",
     "jquery": "~2.1.4",
     "moment": "~2.10.6",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "moment-range": "~2.0.3",
+    "font-awesome": "fontawesome#~4.4.0"
   }
 }
