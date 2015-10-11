@@ -212,7 +212,7 @@ angular.module('cc', ['ui.router',
                 $state.go('landing');
                 var navViewModel = $rootScope.$new();
                 $controller('NavCtrl', {$scope: navViewModel});
-                navViewModel.openLogin('md');
+                navViewModel.open('md');
             }
 
         });
