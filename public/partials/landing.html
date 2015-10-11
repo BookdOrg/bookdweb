@@ -1,62 +1,138 @@
-<div class="row hero centered">
-    <div class="col-sm-12">
+<div class="homepage-hero-module">
+    <div class="video-container hidden-xs hidden-sm">
+        <div class="filter"></div>
+        <video autoplay loop class="fillWidth">
+<!--             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser. -->
+            <source src="/video/Traffic-blurred2.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+        </video>
+        <div class="poster hidden">
+            <img src="/video/Traffic-blurred2.jpg" alt="">
+        </div>
+        <div id="landingBody" class="text-center coverrTitle" ng-controller="LandingCtrl">
+            <h1>Book'd</h1>
+            <h3>Never worry about appointments again!</h3>
+            <a href="/register" ng-if="!currentUser || currentUser == null" class="btn btn-xl btn-primary">Join Free Today {{currentUser.firstName}}</a>
+                <div ng-if="currentUser" class="row form-inline form-group">
+                    <form>
+                        <span class="left-inner-addon">
+                            <!--<span class="input-group-lg">-->
+                                <i class="fa fa-building"></i>
+                                <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                            <!--</span>-->
+                        </span>
+                        <!--<span class="input-group-lg">-->
+                        <span class="left-inner-addon">
+                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                            <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                        </span>
+                        <span>
+                            <button class="btn btn-md sectionBtn" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                                <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
+                                <span ng-show="!fetchingQuery">Search</span>
+                            </button>
+                        </span>
+                    </form>
+                    <!--</span>-->
+                </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid hidden-md hidden-lg">
+  <div class="col col-xs-12 col-centered">
+    <div id="carousel" style="height: 305px">
+      <carousel interval="myInterval">
+        <slide ng-repeat="slide in slides" active="slide.active">
+          <img ng-src="{{slide.image}}" style="margin:auto;">
+          <div class="carousel-caption">
+            <p>Content Coming Soon</p>
+          </div>
+        </slide>
+      </carousel>
+    </div>
+  </div>
+</div>
+<section class="bg-primary" id="about">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-                <div class="calendar"></div>
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">Appointment Booking. Made Easy.</h2>
+                <hr class="light">
+                <p class="text-faded">Appointment booking should be easy, let us handle the work. Open the app, pick a business, book an appointment. It's that easy.</p>
+                <a href="/feed" class="btn sectionBtn btn-xl">Get Started!</a>
             </div>
         </div>
-        <div ng-controller="LandingCtrl">
-            <h1>Book'd</h1>
-            <h3>Never worry about appointments again.</h3>
-            <div class="container well landingWell">
-                <div class="row text-center">Some Prompt</div>
-                <div class="row form-inline">
-                <span class="input-group input-group-lg">
-                    <!--<span class="input-group-addon" id="search">Find</span>-->
-                    <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
-                </span>
-                 <span class="input-group input-group-lg">
-                    <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
-                </span>
-                <!--<span class="input-group input-group-lg">-->
-                    <!--&lt;!&ndash;<span class="input-group-addon" id="near">Near</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">&ndash;&gt;-->
-                    <!--<span class="input-group-btn">-->
-                        <!--<button class="btn btn-primary" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">-->
-                            <!--Search-->
-                            <!--&lt;!&ndash;<i ng-show="!fetchingQuery && !loadingLocation" style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i ng-show="fetchingQuery || loadingLocation" style="height:20px; line-height:18px;" class="fa fa-spinner"></i>&ndash;&gt;-->
-                        <!--</button>-->
-                    <!--</span>-->
-                <!--</span>-->
+    </div>
+</section>
+
+<section id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Perfect For Your Business</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
+                    <h3>Appointment Booking</h3>
+                    <p class="text-muted">Let your customers schedule appointments lightning fast. </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-tachometer wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                    <h3>Management Tools</h3>
+                    <p class="text-muted">Manage staff schedules and services. Unlimited staff accounts.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-money wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                    <h3>Payments made Easy</h3>
+                    <p class="text-muted">Receive payments directly through our app!</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-globe wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                    <h3>Global Reach</h3>
+                    <p class="text-muted">Attract new customers to your business.</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row instructions-wrapper centered">
-    <div class="col-sm-12">
-        <h1>How do we work?</h1>
-        <h2>If you are a business:</h2>
-        <h3><a href="/register">Create an account</a>
-            -> Claim your business
-            -> Get Approved!
-        </h3>
-        <h2>If you are a customer:</h2>
-        <h3><a href="/register">Create an account</a>
-            -> Search for a business
-            -> Set up an appointment!</h3>
-        <h1>It really is that simple.</h1>
+<aside class="bg-dark">
+    <div class="container text-center">
+        <div class="call-to-action">
+            <h2>Partner with Book'd Today!</h2>
+            <a href="/partner" class="btn sectionBtn btn-xl wow tada">Sign Up, It's Free!</a>
+        </div>
     </div>
-</div>
+</aside>
 
-<div class="row learn-more-wrapper centered">
-    <div class="col-sm-12">
-        <h1>Learn more!</h1>
-        <h2>FAQ</h2>
-        <h2>Testimonials</h2>
-        <h2>Credo</h2>
-        <h2>Other</h2>
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">Let's Get In Touch!</h2>
+                <hr class="primary">
+                <p>Curious about registering your business with us? That's great! Send us an email and we will get back to you as soon as possible!</p>
+            </div>
+            <!--<div class="col-lg-4 col-lg-offset-2 text-center">-->
+                <!--<i class="fa fa-phone fa-3x wow bounceIn"></i>-->
+                <!--<p>123-456-6789</p>-->
+            <!--</div>-->
+            <div class="col-lg-4 col-lg-offset-4 text-center">
+                <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                <p><a href="mailto:support@bookd.me">support@bookd.me</a></p>
+            </div>
+        </div>
     </div>
-</div>
+</section>

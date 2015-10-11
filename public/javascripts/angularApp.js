@@ -40,31 +40,26 @@ angular.module('cc', ['ui.router',
             $stateProvider
                 .state('landing', {
                     url: '/',
-                    templateUrl: 'partials/landing2.html',
+                    templateUrl: 'partials/landing.html',
                     controller: 'LandingCtrl'
                 })
                 .state('feed', {
                     url: '/feed',
                     templateUrl: 'partials/feed.html',
                     controller: 'MainCtrl',
-                    onEnter: ['$state', 'auth', function ($state, auth) {
-                        if (!auth.isLoggedIn()) {
-                            $state.go('login');
+                    resolve: {
+                        auth: function($state, $q,auth) {
+                            var redirect = false;
+                            if(!auth.isLoggedIn()) {
+                                redirect = true;
+                                return $q.reject({
+                                    state: 'error'
+                                });
+                            }
+                            return redirect;
                         }
-                    }]
+                    }
                 })
-                //.state('bizlist', {
-                //    url: '/category/{cat}/{location}',
-                //    templateUrl: 'partials/bizlist.html',
-                //    controller: 'bizlistCtrl'
-                //    // resolve: {
-                //    //   businesses:['$http','$stateParams',function($http,$stateParams){
-                //    //     var cat = $stateParams.cat;
-                //    //     var location = $stateParams.location;
-                //    //     return businesses = yelpService.search(cat,location);
-                //    //   }]
-                //    // }
-                //})
                 .state('business', {
                     url: '/business/{businessid}',
                     templateUrl: 'partials/business.html',
@@ -75,26 +70,6 @@ angular.module('cc', ['ui.router',
                         }]
                     }
                 })
-                //.state('login', {
-                //    url: '/login',
-                //    templateUrl: 'partials/login.html',
-                //    controller: 'AuthCtrl',
-                //    onEnter: ['$state', 'auth', function ($state, auth) {
-                //        if (auth.isLoggedIn()) {
-                //            $state.go('feed');
-                //        }
-                //    }]
-                //})
-                //.state('register', {
-                //    url: '/register',
-                //    templateUrl: 'partials/register.html',
-                //    controller: 'AuthCtrl',
-                //    onEnter: ['$state', 'auth', function ($state, auth) {
-                //        if (auth.isLoggedIn()) {
-                //            $state.go('feed');
-                //        }
-                //    }]
-                //})
                 .state('user', {
                     url: '/user/:username/profile',
                     templateUrl: 'partials/profile.html',
@@ -180,7 +155,7 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/contact.html'
                 });
             $urlRouterProvider.otherwise('/');
-        }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory) {
+        }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory,$controller) {
         $rootScope.currentUser = auth.currentUser();
         $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v';
         $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg';
@@ -189,6 +164,18 @@ angular.module('cc', ['ui.router',
             if (typeof(current) !== 'undefined') {
                 $templateCache.remove(current.templateUrl);
             }
+        });
+        $rootScope.$on('$stateChangeError', function(
+            event, toState, toStateParams,
+            fromState, fromStateParams, error) {
+
+            if(error) {
+                $state.go('landing');
+                var navViewModel = $rootScope.$new();
+                $controller('NavCtrl', {$scope: navViewModel});
+                navViewModel.openLogin('md');
+            }
+
         });
 
         $rootScope.query = {
