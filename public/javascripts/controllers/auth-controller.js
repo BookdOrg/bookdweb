@@ -3,7 +3,8 @@ angular.module('cc.auth-controller', [])
         '$scope',
         '$state',
         'auth',
-        function ($scope, $state, auth) {
+        '$modalInstance',
+        function ($scope, $state, auth, $modalInstance) {
             $scope.user = {};
             /**
              *
@@ -29,8 +30,14 @@ angular.module('cc.auth-controller', [])
                 //});
                 auth.logIn($scope.user).then(function () {
                     $state.go('feed');
+                    $modalInstance.close();
                 }, function (err) {
                     //TODO Handle error
                 });
             };
+
+            $scope.cancel = function() {
+                $modalInstance.dismiss('close');
+            };
+
         }]);

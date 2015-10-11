@@ -5,13 +5,16 @@ angular.module('cc.nav-controller', ["google.places"])
         '$state',
         'businessFactory',
         '$rootScope',
-        function ($scope, auth, $state, businessFactory, $rootScope) {
+        '$modal',
+        function ($scope, auth, $state, businessFactory, $rootScope, $modal) {
             $scope.isLoggedIn = auth.isLoggedIn;
             $scope.currentUser = auth.currentUser;
             $scope.logOut = auth.logOut;
 
             $scope.navbarCollapsed = true;
             $rootScope.show = false;
+
+            $scope.animationEnabled = true;
 
             $scope.showSearch = function (show) {
                 if (show) {
@@ -20,6 +23,15 @@ angular.module('cc.nav-controller', ["google.places"])
                     $rootScope.show = false;
                 }
             };
+
+            $scope.open = function(size) {
+                var modalInstance = $modal.open({
+                    animation: $scope.animationEnabled,
+                    templateUrl: 'partials/login.html',
+                    controller: 'AuthCtrl',
+                    size: size
+                })
+            }
 
 
         }])
