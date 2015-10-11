@@ -85,7 +85,7 @@
     })
 </script>
 <body ng-app="cc">
-<nav id="mainNav" class="navbar navbar-default" ng-controller="NavCtrl">
+<nav id="mainNav" class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed">
@@ -95,7 +95,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand page-scroll" ng-click="showSearch(false)" href="/">
-                <i style="color:black;" class="fa fa-2x fa-calendar"></i>
+                <i style="color:white;" class="fa fa-2x fa-calendar"></i>
             <!--<img alt="Brand" src="/images/Bookd-logo.png" style="width:100px;">-->
             </a>
         </div>
@@ -114,10 +114,10 @@
                            options="autocompleteOptions" ng-model="query.location">
                 </span>
                 <span>
-                    <button class="btn btn-md btn-primary" ng-click="search(query)"
+                    <button class="btn btn-md sectionBtn" ng-click="search(query)"
                             ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
                             type="submit">
-                        <i ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
+                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                         <span ng-show="!fetchingQuery">Search</span>
                     </button>
                 </span>
