@@ -11,7 +11,7 @@
 	<!-- 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button> -->
 			<img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..." tooltip-placement="right" style="border-radius:20%"></image>
 			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
-				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=200&maxwidth=200&minheight=133&maxheight=133&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
 			</span>
 			<h1 class='text-center'>{{business.name}}</h1>
 			<!-- {{business.name}} -->

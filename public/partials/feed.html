@@ -36,8 +36,13 @@
             <div ng-repeat="business in businesses track by $index">
                 <div class="col-md-10 text-left well col-md-offset-1">
                     <span>{{$index + 1}}.</span>
-
                     <div class="text-center">
+                        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..." tooltip-placement="right" style="border-radius:20%">
+                        <span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
+                            <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                        </span>
+                        <br>
+
                         <!--<img ng-src="{{business.icon}}" style="border-radius:20%"></img>-->
                         <a href="/business/{{business.place_id}}">{{business.name}}</a>
                         <br><span>Rating: {{business.rating}}</span>
