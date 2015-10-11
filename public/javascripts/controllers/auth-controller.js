@@ -4,8 +4,24 @@ angular.module('cc.auth-controller', [])
         '$state',
         'auth',
         '$modalInstance',
-        function ($scope, $state, auth, $modalInstance) {
+        'modalType',
+        function ($scope, $state, auth, $modalInstance, modalType) {
             $scope.user = {};
+            $scope.tabs = [
+                {
+                    title: 'Log In'
+                },
+                {
+                    title: 'Sign up'
+                }
+            ];
+
+            if (modalType === 'login') {
+                $scope.tabs[0].active = true;
+            } else if (modalType === 'signup') {
+                $scope.tabs[1].active = true;
+            }
+
             /**
              *
              */
