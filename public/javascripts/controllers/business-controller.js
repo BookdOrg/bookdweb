@@ -250,14 +250,6 @@ angular.module('cc.business-controller', [])
                 timestamp: moment()
             };
         };
-        /**
-         * This is called when a user unfocuses from an available time.
-         * We want to clear the appointment object so that the 'Book Appointment' button disappears.
-         * See https://stackoverflow.com/questions/19277099/angular-js-set-css-when-input-is-on-focus
-         */
-        $scope.destroyAppointmentObj = function () {
-            $scope.appointment = undefined;
-        };
 
         /**
          *
