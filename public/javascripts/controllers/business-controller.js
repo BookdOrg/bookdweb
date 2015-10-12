@@ -159,7 +159,7 @@ angular.module('cc.business-controller', [])
             };
             socket.emit('joinApptRoom', employeeApptObj);
             user.getAppts(employeeApptObj);
-            calculateAppointments(user.customerEmployeeAppts);
+            calculateAppointments(user.customerEmployeeAppts)
         }
 
         /**
@@ -202,8 +202,31 @@ angular.module('cc.business-controller', [])
         /**
          *
          * @param time
+         * @param index
          */
-        $scope.createAppointmentObj = function (time) {
+        $scope.selectedIndex = null;
+        $scope.createAppointmentObj = function (time,index) {
+            /**
+             *
+             * If there is a previously selected time and the previous selected time isn't equal to the current one
+             * we toggle the previously selected time to be false; Toggle the current time to be true.
+             * Then we set the current index as the selected index
+             */
+            if($scope.selectedIndex !== null && $scope.selectedIndex !== index){
+                $scope.availableTimes[$scope.selectedIndex].toggled = false;
+                time.toggled = !time.toggled;
+                $scope.selectedIndex = index;
+            }
+            /**
+             *
+             * If there is no previously selected time we simply toggle the current time, then
+             * set the current index as the selected index.
+             */
+            if($scope.selectedIndex == null){
+                time.toggled = !time.toggled;
+                $scope.selectedIndex = index;
+            }
+            $scope.selectedIndex = index;
             var apptDay = moment($scope.selectedDate).format('dddd');
             var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
             var apptTime = moment(time.time, 'hh:mm a').format('hh:mm a');
@@ -227,7 +250,6 @@ angular.module('cc.business-controller', [])
                 timestamp: moment()
             };
         };
-
         /**
          * This is called when a user unfocuses from an available time.
          * We want to clear the appointment object so that the 'Book Appointment' button disappears.
@@ -257,12 +279,12 @@ angular.module('cc.business-controller', [])
             //   })
 
         };
-
+        /**
+         *
+         */
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-
-        $scope.focused = false;
     })
     .controller('addServiceModalCtrl', function ($scope, $modalInstance, businessFactory, business) {
 
