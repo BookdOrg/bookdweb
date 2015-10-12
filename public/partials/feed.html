@@ -6,7 +6,6 @@
                         <i class="fa fa-building"></i>
                         <input class="form-control" aria-describedby="search" ng-model="query.term"
                                placeholder="Barbershops">
-                    <!--</span>-->
                 </span>
                 <span class="left-inner-addon">
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
@@ -23,10 +22,18 @@
             </div>
         </form>
     </div>
+    <script type="text/ng-template" id="YCPopOver.html">
+        <h1>Hi Yc</h1>
+    </script>
+    <div>
+        <h1 class="text-center YCbtn">
+            <a class="fa fa-3x fa-y-combinator" popover="We've gone ahead and registered a few businesses near you in the following categories: Barbershops, Massage, Tattoo, Hair Salon.
+            Try searching for them!" popover-title="Hi YC" popover-placement="right" popover-trigger="mouseenter"></a>
+        </h1>
+    </div>
     <div class="row">
         <div class="col col-md-6">
             <h1 class="page-header text-center">Results</h1>
-
             <p class="text-center text-muted" ng-if="businesses.length == 0 ">Go Ahead, Search for Businesses!</p>
             <!--<div class="col-md-offset-1">-->
             <div ng-repeat="business in businesses track by $index">

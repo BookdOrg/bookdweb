@@ -1,10 +1,13 @@
 <div class="container">
     <div class="page-header">
+        <h1 class="text-right YCbtn">
+            <a class="fa fa-2x fa-y-combinator" popover="A calendar showing a users personal and associate appointments (If they work at a Bookd Business) will be available here." popover-title="Hi YC" popover-placement="bottom" popover-trigger="mouseenter"></a>
+        </h1>
         <h1 class="text-center">Appointments <i class="fa fa-calendar"></i></h1>
     </div>
     <div class="col-md-6">
         <h1 class="text-center">Personal Appointments</h1>
-        <p class="text-center text-muted" ng-if="!appointments.personalAppointments">:( No Personal Appointments Yet. Schedule One!</p>
+        <p class="text-center text-muted" ng-if="appointments.personalAppointments.length == 0">:( No Personal Appointments Yet. Schedule One!</p>
         <div class="row well text-center" ng-repeat="appointment in appointments.personalAppointments">
             <h4>{{appointment.title}}</h4>
             Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
@@ -17,7 +20,7 @@
     </div>
     <div class="col-md-6">
         <h1 class="text-center">Business Appointments</h1>
-        <p class="text-center text-muted" ng-if="!appointments.businessAppointments">:( No Business Appointments Yet.</p>
+        <p class="text-center text-muted" ng-if="appointments.businessAppointments.length == 0">:( No Business Appointments Yet.</p>
         <div class="row well text-center" ng-repeat="appointment in appointments.businessAppointments">
             <h4>{{appointment.title}}</h4>
             Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}
