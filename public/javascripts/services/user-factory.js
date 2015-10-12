@@ -30,7 +30,7 @@ angular.module('cc.user-factory', [])
                 return res.data;
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -45,10 +45,10 @@ angular.module('cc.user-factory', [])
                 }
             }).then(function (data) {
                 //TODO Handle success
-                console.log(data);
+                //console.log(data);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -65,7 +65,7 @@ angular.module('cc.user-factory', [])
                 //console.log(data);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -84,10 +84,10 @@ angular.module('cc.user-factory', [])
             }).then(function (data) {
                 //TODO Handle success
                 angular.copy(data.data, o.customerEmployeeAppts)
-                console.log(data);
+                //console.log(data);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -106,7 +106,7 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.user);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
 
@@ -121,7 +121,7 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.dashboard)
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         return o;

@@ -44,7 +44,6 @@ angular.module('cc.auth-controller', [])
                         $state.go(state);
                         $modalInstance.close();
                 }, function (error) {
-                    console.log(error)
                     $scope.error = error.message;
                 });
             };
