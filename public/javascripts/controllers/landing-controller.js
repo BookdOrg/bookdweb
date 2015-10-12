@@ -20,7 +20,7 @@ angular.module('cc.landing-controller', [])
 
             var navViewModel = $scope.$new();
             $controller('NavCtrl', {$scope: navViewModel});
-            $scope.openSignup = function(){
-                navViewModel.open();
+            $scope.openSignup = function(type,state){
+                navViewModel.open(type,state);
             }
         }]);
