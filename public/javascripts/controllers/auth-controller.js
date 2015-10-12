@@ -27,20 +27,25 @@ angular.module('cc.auth-controller', [])
              *
              */
             $scope.register = function () {
-                auth.register($scope.user).then(function () {
-                    $state.go(state);
-                    $modalInstance.close();
+                auth.register($scope.user)
+                    .then(function () {
+                        $state.go(state);
+                        $modalInstance.close();
+                },function(error){
+                    $scope.error = error.message;
                 });
             };
             /**
              *
              */
             $scope.logIn = function () {
-                auth.logIn($scope.user).then(function () {
-                    $state.go(state);
-                    $modalInstance.close();
-                }, function (err) {
-                    //TODO Handle error
+                auth.logIn($scope.user)
+                    .then(function () {
+                        $state.go(state);
+                        $modalInstance.close();
+                }, function (error) {
+                    console.log(error)
+                    $scope.error = error.message;
                 });
             };
 
