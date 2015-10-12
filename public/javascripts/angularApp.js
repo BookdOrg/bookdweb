@@ -116,8 +116,8 @@ angular.module('cc', ['ui.router',
                 })
                 .state('partner',{
                     url:'/partner',
-                    templateUrl:'partials/partner.html'
-                    //controllers:'partnerCtrl'
+                    templateUrl:'partials/partner.html',
+                    controller:'NavCtrl'
                 })
                 .state('admin', {
                     url: '/admin',
@@ -158,7 +158,7 @@ angular.module('cc', ['ui.router',
                 })
                 .state('favorites', {
                     url: '/favorites',
-                    templateUrl: 'partials/favorites.html',
+                    templateUrl: 'partials/favorites.html'
                 })
                 .state('appointments', {
                     url: '/appointments',

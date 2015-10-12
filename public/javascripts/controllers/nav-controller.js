@@ -24,7 +24,7 @@ angular.module('cc.nav-controller', ["google.places"])
                 }
             };
 
-            $scope.open = function(type) {
+            $scope.open = function(type,state) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationEnabled,
                     templateUrl: 'partials/login.html',
@@ -32,10 +32,21 @@ angular.module('cc.nav-controller', ["google.places"])
                     resolve: {
                         modalType: function() {
                             return type;
+                        },
+                        state:function(){
+                            return state;
                         }
                     }
                 })
             };
+
+            $scope.goToClaim = function(){
+                if(!auth.isLoggedIn()){
+                    $scope.open('login','search')
+                }else{
+                    $state.go('search')
+                }
+            }
 
         }])
     .controller('messagesModalCtrl', function ($scope, $modalInstance) {

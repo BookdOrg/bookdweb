@@ -5,7 +5,8 @@ angular.module('cc.auth-controller', [])
         'auth',
         '$modalInstance',
         'modalType',
-        function ($scope, $state, auth, $modalInstance, modalType) {
+        'state',
+        function ($scope, $state, auth, $modalInstance, modalType,state) {
             $scope.user = {};
             $scope.tabs = [
                 {
@@ -26,13 +27,8 @@ angular.module('cc.auth-controller', [])
              *
              */
             $scope.register = function () {
-                //auth.register($scope.user).error(function (error) {
-                //    $scope.error = error;
-                //}).then(function () {
-                //    $state.go('landing');
-                //});
                 auth.register($scope.user).then(function () {
-                    $state.go('landing');
+                    $state.go(state);
                     $modalInstance.close();
                 });
             };
@@ -40,13 +36,8 @@ angular.module('cc.auth-controller', [])
              *
              */
             $scope.logIn = function () {
-                //auth.logIn($scope.user).error(function (error) {
-                //    $scope.error = error;
-                //}).then(function () {
-                //    $state.go('feed');
-                //});
                 auth.logIn($scope.user).then(function () {
-                    $state.go('feed');
+                    $state.go(state);
                     $modalInstance.close();
                 }, function (err) {
                     //TODO Handle error

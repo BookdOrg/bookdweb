@@ -1,10 +1,5 @@
 <div class="container-fluid text-center">
     <h1>Book'd Partner Information Page</h1>
-
-    <h3>Register your Business</h3>
-    <a href="/join" class="btn btn-xl sectionBtn">Sign Up</a>
-
-
     <div id="pricing">
         <table>
             <thead>
@@ -61,11 +56,13 @@
             </tr>
             <tr>
                 <td></td>
-                <td class="column-three"><a href="/join" class="btn btn-xl sectionBtn">Free forever</a></td>
-                <td class="column-three"><a href="/join" class="btn btn-xl sectionBtn">Sign up now</a></td>
-                <td class="column-three"><a href="/join" class="btn btn-xl sectionBtn">Contact us</a></td>
+                <td class="column-three"><a ng-click="goToClaim()" class="btn btn-xl sectionBtn">Select</a></td>
+                <td class="column-three"><a ng-click="goToClaim()" class="btn btn-xl btn-primary">Select</a></td>
+                <td class="column-three"><a ng-click="goToClaim()" class="btn btn-xl sectionBtn">Select</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <h3>Register your Business</h3>
+    <a ng-click="goToClaim()" class="btn btn-xl sectionBtn">Sign Up</a>
 </div>
