@@ -171,15 +171,14 @@
         <li><a data-target="#schedule" data-toggle="tab"></a></li>
         <li><a data-target="#pay" data-toggle="tab"></a></li>
       </ul>
-  
   		<div class="tab-content">
 	        <div class="tab-pane active" id="details">
 	          <div class="control-group">
 	            <div class="row text-center">
-	            	<h2>Copy informing the user that they won't be charged until the time of their appointment</h2>
+					<h2>{{service.description}}</h2>
 	            	<h5>Price:{{service.price |currency}}</h5>
 	            	<h5>Duration: {{service.duration}} minutes.</h5>
-	            	<h5>{{service.description}}</h5>
+					<h6 class="text-danger">Note: You will be charged at the time your service is completed.</h6>
 	            	<a data-target="#employees" data-toggle="tab" class="btn btn-primary">Next</a>
 	            </div>
 	          </div>
