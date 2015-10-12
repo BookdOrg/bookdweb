@@ -37,9 +37,8 @@ angular.module('cc.auth-factory', [])
                     .then(function (data) {
                         auth.saveToken(data.data.token);
                         $rootScope.currentUser = auth.currentUser();
-                    }, function (response) {
-                        //TODO Handle error
-                        console.log(response);
+                    }, function (error) {
+                        throw error.data;
                     });
             },
             logIn: function (user) {
@@ -48,8 +47,7 @@ angular.module('cc.auth-factory', [])
                         auth.saveToken(data.data.token);
                         $rootScope.currentUser = auth.currentUser();
                     }, function (error) {
-                        console.log('Login error: ' + error.data);
-                        throw error.status + ' : ' + error.data;
+                        throw error.data;
                     });
             },
             logOut: function () {

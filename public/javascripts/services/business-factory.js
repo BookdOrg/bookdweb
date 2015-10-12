@@ -33,7 +33,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.businesses);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -55,11 +55,11 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (response) {
                 //TODO Handle success
+                //console.log(data);
                 return response.data;
-                console.log(data);
             }, function (err) {
                 //TODO Handle error
-                console.log(err);
+                //console.log(err);
             });
         };
         /**
@@ -89,7 +89,7 @@ angular.module('cc.business-factory', [])
                 //TODO Handle data
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -140,7 +140,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.categories);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -181,7 +181,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.business);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
 
@@ -202,7 +202,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.business.info);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -224,7 +224,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.business.info);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -240,7 +240,7 @@ angular.module('cc.business-factory', [])
                 //TODO Handle success
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -254,7 +254,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.business.info);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -270,7 +270,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.requests);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         /**
@@ -287,7 +287,7 @@ angular.module('cc.business-factory', [])
                 angular.copy(data.data, o.requests);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         return o;

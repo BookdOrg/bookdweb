@@ -85,7 +85,7 @@
         cloud_name: 'dvvtn4u9h'
     })
 </script>
-<body ng-app="cc">
+<body ng-app="cc" ng-cloak>
 <nav id="mainNav" class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -145,11 +145,11 @@
                 <li class="hidden-sm hidden-md hidden-lg"
                     ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser().isAdmin"><a
                             href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
-                                                                                    href="/login"><i
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false); open('login','landing')"
+                                                                                    href=""><i
                                 class="fa fa-sign-in"></i></span> Log In</a></li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false)"
-                                                                                    href="/register"><i
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false); open('signup','landing')"
+                                                                                    href=""><i
                                 class="fa fa-user"></i> Sign Up</a></li>
                 <hr>
                 <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Log

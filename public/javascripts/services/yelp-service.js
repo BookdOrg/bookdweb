@@ -26,7 +26,7 @@ angular.module('cc.yelp-service', [])
                 angular.copy(data.businesses, o.businesses);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         o.business = function (id) {
@@ -39,7 +39,7 @@ angular.module('cc.yelp-service', [])
                 angular.copy(data, o.business);
             }, function (response) {
                 //TODO Handle error
-                console.log(response);
+                //console.log(response);
             });
         };
         return o;
