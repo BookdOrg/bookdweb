@@ -1,12 +1,15 @@
 <div class="container-fluid">
   <div class="row page-header">
       <div class="text-left col-md-2">
-        <image ng-if="!currentUser.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
-        <image ng-if="currentUser.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"></image>
+        <img ng-if="!user.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+        <img ng-if="user.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}">
       </div>
       <div class="col-md-8">
-        <h1 class="text-center">
-          {{currentUser.firstName}}'s Profile
+        <h1 ng-if="currentUser._id !== user._id" class="text-center">
+          {{user.firstName}}'s Profile
+        </h1>
+        <h1 ng-if="currentUser._id == user._id" class="text-center">
+          Your Profile
         </h1>
         <h3 class="text-center">
           <rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" >
@@ -23,19 +26,18 @@
       <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <h3 class="text-center">Recent Instagram Photos</h3>
         <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="n in [0,1,2,3,4,5,6]">
-            <image style="padding-top:5px;border-radius: 20%" src="http://placehold.it/150x150"></image>
+            <img style="padding-top:5px;border-radius: 20%" src="http://placehold.it/150x150">
         </div>
       </div>
       <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <h3 class="text-center">Customer Reviews</h3>
         <div class="well" style="overflow-y: scroll; height:300px">
-          <div class="row" ng-repeat="business in currentUser.businesses">
+          <div class="row" ng-repeat="business in user.businesses">
             <div class="col-md-2">
-              <image ng-src="{{business.icon}}" style="border-radius:20%;">
+              <img ng-src="{{business.icon}}" style="border-radius:20%;">
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
 </div>
