@@ -22,7 +22,6 @@
 			<rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
 					on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" >
 			</h3>
-			</rating>
 			<br>
 			Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
 			<br>
@@ -185,7 +184,7 @@
 	            		<h5>{{employee.firstName}} {{employee.lastName}}</h5>
 	            		<br>
 	            		<label for="selectEmployee">Select</label>
-	            		<input name="selectEmployee" ng-click="selectEmployee(employee)" type="radio">
+	            		<input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)" type="radio">
 	            	</div>
 	            </div>
 	            <div class="row text-center">
@@ -195,16 +194,22 @@
 	        </div> 
 	        <div class="tab-pane" id="schedule">
 	        	<div class="row">
-	        		<div class="col col-md-6 text-center">
-		          		<h4>Select a Date to see Available Times</h4>
+	        		<div class="col-md-6 text-center">
+		          		<h4>Select a date to see available times</h4>
 		          		<div style="display:inline-block; min-height:290px;">
-					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm"
+									  custom-class="getDayClass(date, mode)"></datepicker>
 					    </div>
 				    </div>
-				    <div class="col col-md-6 text-center">
+				    <div class="col-md-6 text-center">
 				    	<h4 ng-if="availableTimes.length > 1">{{employee.firstName}}'s Available Times</h4>
 				    	<div class="col col-md-3" ng-repeat="time in availableTimes track by $index">
-				    		<button ng-disabled="!time.available" ng-class="{'btn-danger': !time.available, 'btn-success':time.available}" ng-click="createAppointmentObj(time)" class="btn" style="margin-bottom:5px;">
+				    		<button ng-disabled="!time.available"
+                                    ng-class="{'btn-danger': !time.available,
+                                    'btn-success':time.available && !focused,
+                                    'btn-primary': focused}"
+                                    ng-focus="focused = true" ng-blur="focused = false; destroyAppointmentObj()"
+                                    ng-click="createAppointmentObj(time);" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
 				    		</button>
 				    	</div>

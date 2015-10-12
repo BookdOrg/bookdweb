@@ -159,7 +159,7 @@ angular.module('cc.business-controller', [])
             };
             socket.emit('joinApptRoom', employeeApptObj);
             user.getAppts(employeeApptObj);
-            calculateAppointments(user.customerEmployeeAppts)
+            calculateAppointments(user.customerEmployeeAppts);
         }
 
         /**
@@ -202,9 +202,8 @@ angular.module('cc.business-controller', [])
         /**
          *
          * @param time
-         * @param index
          */
-        $scope.createAppointmentObj = function (time, index) {
+        $scope.createAppointmentObj = function (time) {
             var apptDay = moment($scope.selectedDate).format('dddd');
             var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
             var apptTime = moment(time.time, 'hh:mm a').format('hh:mm a');
@@ -228,6 +227,16 @@ angular.module('cc.business-controller', [])
                 timestamp: moment()
             };
         };
+
+        /**
+         * This is called when a user unfocuses from an available time.
+         * We want to clear the appointment object so that the 'Book Appointment' button disappears.
+         * See https://stackoverflow.com/questions/19277099/angular-js-set-css-when-input-is-on-focus
+         */
+        $scope.destroyAppointmentObj = function () {
+            $scope.appointment = undefined;
+        };
+
         /**
          *
          * @param token
@@ -248,12 +257,12 @@ angular.module('cc.business-controller', [])
             //   })
 
         };
-        /**
-         *
-         */
+
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
+
+        $scope.focused = false;
     })
     .controller('addServiceModalCtrl', function ($scope, $modalInstance, businessFactory, business) {
 
