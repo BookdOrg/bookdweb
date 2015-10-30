@@ -145,6 +145,9 @@ angular.module('cc.business-controller', [])
          */
         $scope.selectEmployee = function (employee) {
             $scope.employee = employee;
+            var day = moment().format('MM/DD/YYYY');
+
+            getAvailableTimes(day,$scope.employee._id);
         };
         /**
          *
@@ -159,7 +162,7 @@ angular.module('cc.business-controller', [])
             };
             socket.emit('joinApptRoom', employeeApptObj);
             user.getAppts(employeeApptObj);
-            calculateAppointments(user.customerEmployeeAppts)
+            calculateAppointments(user.customerEmployeeAppts);
         }
 
         /**
@@ -175,7 +178,8 @@ angular.module('cc.business-controller', [])
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
                 var timeObj = {
                     time: m.format('hh:mm a'),
-                    available: true
+                    available: true,
+                    toggled: false
                 };
                 $scope.availableTimes.push(timeObj);
             }
@@ -195,7 +199,6 @@ angular.module('cc.business-controller', [])
                 }
             });
         }
-
         socket.on('employeeAppts', function (data) {
             $scope.appointments = data;
         });
@@ -212,7 +215,7 @@ angular.module('cc.business-controller', [])
              * we toggle the previously selected time to be false; Toggle the current time to be true.
              * Then we set the current index as the selected index
              */
-            if($scope.selectedIndex !== null && $scope.selectedIndex !== index){
+            if($scope.selectedIndex !== null){
                 $scope.availableTimes[$scope.selectedIndex].toggled = false;
                 time.toggled = !time.toggled;
                 $scope.selectedIndex = index;
