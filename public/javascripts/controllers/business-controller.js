@@ -200,7 +200,12 @@ angular.module('cc.business-controller', [])
             });
         }
         socket.on('employeeAppts', function (data) {
-            $scope.appointments = data;
+            console.log(data)
+            if(data.customerId !== $scope.currentUser._id){
+                $scope.availableTimes[data.index].available = false;
+            }
+            //calculateAppointments(data);
+            //$scope.appointments = data;
         });
         /**
          *
@@ -209,6 +214,15 @@ angular.module('cc.business-controller', [])
          */
         $scope.selectedIndex = null;
         $scope.createAppointmentObj = function (time,index) {
+            var newDate = moment($scope.selectedDate).format('MM/DD/YYYY');
+            var data = {
+                customerId: $scope.currentUser._id,
+                employeeId: $scope.employee._id,
+                date:newDate,
+                time:time,
+                index:index
+            };
+            socket.emit('timeTaken',data);
             /**
              *
              * If there is a previously selected time and the previous selected time isn't equal to the current one

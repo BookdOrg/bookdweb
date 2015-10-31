@@ -45,24 +45,26 @@ Array.prototype.getIndexBy = function (name, value) {
 };
 server.listen(process.env.devsocketPort);
 io.on('connection', function (socket) {
+    var string;
     socket.on('joinApptRoom', function (data) {
-        socket.join(data.startDate);
+        string = data.startDate.toString() + data.id.toString();
+        console.log(string);
+        socket.join(string);
     });
-    // socket.on('receiveAppts',function(){
-    //   Appointment.find({"start":data.startDate,"employee":data.employeeId}).exec(function(err,appointments){
-    //     io.sockets.in(data.startDate).emit('employeeAppts',appointments);
-    //   })
-    // })
+    socket.on('timeTaken',function(data){
+        console.log(data);
+        Appointment.find({'start':data.startDate,'employee':data.employeeId}).exec(function(err,appointments){
+            console.log(appointments)
+            data.appointments = appointments;
+            io.sockets.in(string).emit('employeeAppts',data);
+        });
+    });
+     //socket.on('receiveAppts',function(){
+     //  Appointment.find({"start":data.startDate,"employee":data.employeeId}).exec(function(err,appointments){
+     //    io.sockets.in(data.startDate).emit('employeeAppts',appointments);
+     //  })
+     //})
 });
-
-// socket.on('joinApptRoom',function(data){
-//     socket.join(data.employeeId);
-//     console.log(data);
-//     Appointments.find({"startDate":data.startDate,"userId":data.employeeId}).exec(function(err,appointments){
-//       io.sockets.in(data.employeeId).emit('employeeAppts',appointments);
-//     })
-//   });
-
 
 /**
  *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
