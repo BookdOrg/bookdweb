@@ -53,11 +53,7 @@ io.on('connection', function (socket) {
     });
     socket.on('timeTaken',function(data){
         console.log(data);
-        Appointment.find({'start':data.startDate,'employee':data.employeeId}).exec(function(err,appointments){
-            console.log(appointments)
-            data.appointments = appointments;
-            io.sockets.in(string).emit('employeeAppts',data);
-        });
+        io.sockets.in(string).emit('time',data);
     });
      //socket.on('receiveAppts',function(){
      //  Appointment.find({"start":data.startDate,"employee":data.employeeId}).exec(function(err,appointments){

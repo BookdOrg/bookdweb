@@ -172,8 +172,8 @@ angular.module('cc.business-controller', [])
         function calculateAppointments(data) {
             var duration = $scope.service.duration;
             var startTime = moment('6:00 am', 'hh:mm a');
-            var endTime = moment('7:00 pm', 'hh:mm a');
             $scope.availableTimes = [];
+            var endTime = moment('7:00 pm', 'hh:mm a');
 
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
                 var timeObj = {
@@ -199,10 +199,13 @@ angular.module('cc.business-controller', [])
                 }
             });
         }
-        socket.on('employeeAppts', function (data) {
-            console.log(data)
+        socket.on('time', function (data) {
+            console.log(data);
+            console.log(data.customerId)
+            console.log($scope.currentUser._id)
             if(data.customerId !== $scope.currentUser._id){
-                $scope.availableTimes[data.index].available = false;
+                console.log('in here');
+                $scope.availableTimes[data.index].available = !$scope.availableTimes[data.index].available;
             }
             //calculateAppointments(data);
             //$scope.appointments = data;
