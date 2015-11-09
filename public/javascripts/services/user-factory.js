@@ -84,6 +84,7 @@ angular.module('cc.user-factory', [])
             }).then(function (data) {
                 //TODO Handle success
                 angular.copy(data.data, o.customerEmployeeAppts)
+                return data.data;
                 //console.log(data);
             }, function (response) {
                 //TODO Handle error

@@ -144,9 +144,9 @@ angular.module('cc.business-controller', [])
          * @param employee
          */
         $scope.selectEmployee = function (employee) {
+            $scope.availableTimes = [];
             $scope.employee = employee;
             var day = moment().format('MM/DD/YYYY');
-
             getAvailableTimes(day,$scope.employee._id);
         };
         /**
@@ -161,8 +161,9 @@ angular.module('cc.business-controller', [])
                 id: employeeId
             };
             socket.emit('joinApptRoom', employeeApptObj);
-            user.getAppts(employeeApptObj);
-            calculateAppointments(user.customerEmployeeAppts);
+            user.getAppts(employeeApptObj).then(function(data){
+                calculateAppointments(data);
+            });
         }
 
         /**
@@ -199,16 +200,8 @@ angular.module('cc.business-controller', [])
                 }
             });
         }
-        socket.on('time', function (data) {
-            console.log(data);
-            console.log(data.customerId)
-            console.log($scope.currentUser._id)
-            if(data.customerId !== $scope.currentUser._id){
-                console.log('in here');
-                $scope.availableTimes[data.index].available = !$scope.availableTimes[data.index].available;
-            }
-            //calculateAppointments(data);
-            //$scope.appointments = data;
+        socket.on('update',function(data){
+            calculateAppointments(data);
         });
         /**
          *
@@ -225,7 +218,7 @@ angular.module('cc.business-controller', [])
                 time:time,
                 index:index
             };
-            socket.emit('timeTaken',data);
+            //socket.emit('timeTaken',data);
             /**
              *
              * If there is a previously selected time and the previous selected time isn't equal to the current one

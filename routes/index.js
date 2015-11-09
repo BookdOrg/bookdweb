@@ -48,18 +48,9 @@ io.on('connection', function (socket) {
     var string;
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
-        console.log(string);
+        console.log(string)
         socket.join(string);
     });
-    socket.on('timeTaken',function(data){
-        console.log(data);
-        io.sockets.in(string).emit('time',data);
-    });
-     //socket.on('receiveAppts',function(){
-     //  Appointment.find({"start":data.startDate,"employee":data.employeeId}).exec(function(err,appointments){
-     //    io.sockets.in(data.startDate).emit('employeeAppts',appointments);
-     //  })
-     //})
 });
 
 /**
@@ -346,7 +337,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
     appointment.card = req.body.card;
-
+    var room = appointment.start.date.toString() + appointment.employee.toString();
+    var responseArray = [];
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
@@ -373,7 +365,26 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        res.status(200).json({message: 'Success!'});
+    });
+    User.findOne({'_id': appointment.employee}).populate({
+        path: 'businessAppointments',
+        match: {'start.date': appointment.start.date}
+    }).exec(function (err, employee) {
+        if (err) {
+            return next(err);
+        }
+        responseArray.push(employee.businessAppointments);
+        User.findOne({'_id': appointment.customer}).populate({
+            path: 'personalAppointments',
+            match: {'start.date': appointment.start.date}
+        }).exec(function (err, customer) {
+            if (err) {
+                return next(err);
+            }
+            responseArray.push(customer.personalAppointments);
+            io.sockets.in(room).emit('update',responseArray);
+            return res.status(200).json({message: "Appointment Bookd!"});
+        });
     });
 });
 
