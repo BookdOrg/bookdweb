@@ -252,12 +252,15 @@ angular.module('cc.business-controller', [])
                 start: {
                     date: apptDate,
                     time: apptTime,
-                    day: apptDay
+                    day: apptDay,
+                    full: moment(apptDate+' '+apptTime,'MM/DD/YYYY hh:mm a').format()
                 },
                 end: {
                     date: apptDate,
                     time: endTime,
-                    day: apptDay
+                    day: apptDay,
+                    full:moment(apptDate+' '+endTime,'MM/DD/YYYY hh:mm a').format()
+
                 },
                 title: $scope.service.name,
                 timestamp: moment()
