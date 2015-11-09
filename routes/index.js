@@ -7,7 +7,8 @@ var passport = require('passport');
 var cloudinary = require('cloudinary');
 var Busboy = require('busboy');
 var async = require('async');
-
+var moment = require('moment');
+require('moment-range');
 var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
@@ -326,6 +327,8 @@ router.post('/categories/add-category', auth, function (req, res, next) {
  card -
  **/
 
+
+//TODO change the appointment checking calculations to be a function
 router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
     appointment.businessId = req.body.businessid;
@@ -339,14 +342,39 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.card = req.body.card;
     var room = appointment.start.date.toString() + appointment.employee.toString();
     var responseArray = [];
+
+    function validateAppointment(requestedAppointment, userAppointments){
+        for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
+            if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
+                    isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
+                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+            }
+            if(moment(requestedAppointment.start.time,'hh:mm a').
+                    isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
+                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+            }
+        }
+        for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
+            if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
+                    isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
+                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+            }
+            if(moment(requestedAppointment.start.time,'hh:mm a').
+                    isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
+                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+            }
+        }
+    }
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
         }
-        User.findOne({'_id': appointment.employee}).exec(function (err, user) {
+        User.findOne({'_id': appointment.employee}).populate('businessAppointments personalAppointments').exec(function (err, user) {
             if (err) {
                 return next(err);
             }
+            validateAppointment(appointment,user.businessAppointments);
+            validateAppointment(appointment,user.personalAppointments);
             user.businessAppointments.push(appointment);
             user.save(function (err, response) {
                 if (err) {
@@ -354,10 +382,12 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        User.findOne({'_id': appointment.customer}).exec(function (err, user) {
+        User.findOne({'_id': appointment.customer}).populate('businessAppointments personalAppointments').exec(function (err, user) {
             if (err) {
                 return next(err);
             }
+            validateAppointment(appointment,user.businessAppointments);
+            validateAppointment(appointment,user.personalAppointments);
             user.personalAppointments.push(appointment);
             user.save(function (err, response) {
                 if (err) {
@@ -366,6 +396,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             });
         });
     });
+
     User.findOne({'_id': appointment.employee}).populate({
         path: 'businessAppointments',
         match: {'start.date': appointment.start.date}

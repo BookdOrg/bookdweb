@@ -268,6 +268,7 @@ angular.module('cc.business-controller', [])
          *
          * @param token
          */
+        //TODO Handle the case where the add appointment callback returns 400 because of overlapping appointments
         this.checkOut = function (token) {
             $scope.appointment.card = token.card;
             businessFactory.addAppointment($scope.appointment)

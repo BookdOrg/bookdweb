@@ -59,7 +59,7 @@ angular.module('cc.business-factory', [])
                 return response.data;
             }, function (err) {
                 //TODO Handle error
-                //console.log(err);
+                return err.data;
             });
         };
         /**
