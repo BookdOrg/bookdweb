@@ -49,7 +49,7 @@ io.on('connection', function (socket) {
     var string;
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
-        console.log(string)
+        //console.log(string)
         socket.join(string);
     });
 });
@@ -347,21 +347,21 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
         for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
             if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
                     isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
-                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
             }
             if(moment(requestedAppointment.start.time,'hh:mm a').
                     isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
-                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
             }
         }
         for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
             if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
                     isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
-                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
             }
             if(moment(requestedAppointment.start.time,'hh:mm a').
                     isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
-                return res.status(400).json({message:'This appointment conflicts with a previously scheduled time'});
+                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
             }
         }
     }
@@ -369,7 +369,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        User.findOne({'_id': appointment.employee}).populate('businessAppointments personalAppointments').exec(function (err, user) {
+        User.findOne({'_id': appointment.employee}).populate({path:'businessAppointments personalAppointments',match: {'start.date': appointment.start.date}}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -382,7 +382,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        User.findOne({'_id': appointment.customer}).populate('businessAppointments personalAppointments').exec(function (err, user) {
+        User.findOne({'_id': appointment.customer}).populate({path:'businessAppointments personalAppointments',match: {'start.date': appointment.start.date}}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -395,28 +395,29 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
+        io.sockets.in(room).emit('update');
+        res.status(200).json({message: 'Success!'});
     });
-
-    User.findOne({'_id': appointment.employee}).populate({
-        path: 'businessAppointments',
-        match: {'start.date': appointment.start.date}
-    }).exec(function (err, employee) {
-        if (err) {
-            return next(err);
-        }
-        responseArray.push(employee.businessAppointments);
-        User.findOne({'_id': appointment.customer}).populate({
-            path: 'personalAppointments',
-            match: {'start.date': appointment.start.date}
-        }).exec(function (err, customer) {
-            if (err) {
-                return next(err);
-            }
-            responseArray.push(customer.personalAppointments);
-            io.sockets.in(room).emit('update',responseArray);
-            return res.status(200).json({message: "Appointment Bookd!"});
-        });
-    });
+    //User.findOne({'_id': appointment.employee}).populate({
+    //    path: 'businessAppointments',
+    //    match: {'start.date': appointment.start.date}
+    //}).exec(function (err, employee) {
+    //    if (err) {
+    //        return next(err);
+    //    }
+    //    responseArray.push(employee.businessAppointments);
+    //    User.findOne({'_id': appointment.customer}).populate({
+    //        path: 'personalAppointments',
+    //        match: {'start.date': appointment.start.date}
+    //    }).exec(function (err, customer) {
+    //        if (err) {
+    //            return next(err);
+    //        }
+    //        responseArray.push(customer.personalAppointments);
+    //        io.sockets.in(room).emit('update',responseArray);
+    //        return res.status(200).json({message: "Appointment Bookd!"});
+    //    });
+    //});
 });
 
 // router.get('/user/appointments',auth, function(req,res,next){

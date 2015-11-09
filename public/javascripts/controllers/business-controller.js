@@ -200,8 +200,8 @@ angular.module('cc.business-controller', [])
                 }
             });
         }
-        socket.on('update',function(data){
-            calculateAppointments(data);
+        socket.on('update',function(){
+            getAvailableTimes($scope.selectedDate, $scope.employee._id);
         });
         /**
          *
