@@ -19,12 +19,13 @@ angular.module('cc.nav-controller', ["google.places"])
             $scope.showSearch = function (show) {
                 if (show) {
                     $rootScope.show = true;
-                } else {
-                    $rootScope.show = false;
                 }
             };
 
             $scope.open = function(type,state) {
+                console.log("in here")
+                console.log(type)
+                console.log(state)
                 var modalInstance = $modal.open({
                     animation: $scope.animationEnabled,
                     templateUrl: 'partials/login.html',
@@ -37,16 +38,16 @@ angular.module('cc.nav-controller', ["google.places"])
                             return state;
                         }
                     }
-                })
+                });
             };
 
             $scope.goToClaim = function(){
                 if(!auth.isLoggedIn()){
-                    $scope.open('login','search')
+                    $scope.open('login','search');
                 }else{
-                    $state.go('search')
+                    $state.go('search');
                 }
-            }
+            };
 
         }])
     .controller('messagesModalCtrl', function ($scope, $modalInstance) {
