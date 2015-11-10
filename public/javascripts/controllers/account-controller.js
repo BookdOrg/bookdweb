@@ -26,4 +26,21 @@ angular.module('cc.account-controller', [])
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }
             });
+
+            $scope.authorizeInstagram = function(){
+                OAuth.popup('instagram')
+                    .done(function(result) {
+                        result.get('/me')
+                            .done(function (response) {
+                                //this will display "John Doe" in the console
+                                console.log(response.name);
+                            })
+                            .fail(function (err) {
+                                //handle error with err
+                            });
+                    })
+                    .fail(function (err) {
+                        //handle error with err
+                    });
+            }
         }]);

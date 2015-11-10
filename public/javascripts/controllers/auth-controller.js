@@ -22,7 +22,38 @@ angular.module('cc.auth-controller', [])
             } else if (modalType === 'signup') {
                 $scope.tabs[1].active = true;
             }
-
+            $scope.facebookLogin = function(){
+                OAuth.popup('facebook')
+                    .done(function(result) {
+                        result.get('/me')
+                            .done(function (response) {
+                                //this will display "John Doe" in the console
+                                console.log(response.name);
+                            })
+                            .fail(function (err) {
+                                //handle error with err
+                            });
+                    })
+                    .fail(function (err) {
+                        //handle error with err
+                    });
+            };
+            $scope.googleLogin = function(){
+                OAuth.popup('google_plus')
+                    .done(function(result) {
+                        result.get('/me')
+                            .done(function (response) {
+                                //this will display "John Doe" in the console
+                                console.log(response.name);
+                            })
+                            .fail(function (err) {
+                                //handle error with err
+                            });
+                    })
+                    .fail(function (err) {
+                        //handle error with err
+                    });
+            };
             /**
              *
              */

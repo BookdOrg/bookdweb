@@ -196,6 +196,7 @@ angular.module('cc', ['ui.router',
                 });
             $urlRouterProvider.otherwise('/');
         }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory,$controller) {
+        OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
         $rootScope.currentUser = auth.currentUser();
         $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v';
         $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg';
@@ -301,4 +302,4 @@ angular.module('cc', ['ui.router',
                 }
             });
         };
-        });
+    });

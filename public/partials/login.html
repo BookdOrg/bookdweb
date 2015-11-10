@@ -17,6 +17,13 @@
                     <button type="submit" ng-click="logIn()" class="btn btn-primary col-xs-12">Log In</button>
                 </div>
             </form>
+            <div class="col-xs-12 text-center">
+                <h4 class="text-center">Or</h4>
+            </div>
+            <div class="btn-group col-xs-offset-2 col-xs-8">
+                <button class="btn btn-primary col-xs-6" ng-click="facebookLogin()"><i class="fa fa-facebook-official fa-2x"></i> Facebook</button>
+                <button class="btn btn-danger col-xs-6"  ng-click="googleLogin()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
+            </div>
         </div>
     </tab>
     <tab heading="{{tabs[1].title}}" active="tabs[1].active">
@@ -49,6 +56,13 @@
                     <button ng-click="register()" class="btn btn-primary col-xs-12">Sign Up</button>
                 </div>
             </form>
+            <div class="col-xs-12 text-center">
+                <h4 class="text-center">Or</h4>
+            </div>
+            <div class="btn-group col-xs-offset-2 col-xs-8">
+                <button class="btn btn-primary col-xs-6" ng-click="facebookLogin()"><i class="fa fa-facebook-official fa-2x"></i> Facebook</button>
+                <button class="btn btn-danger col-xs-6" ng-click="googleLogin()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
+            </div>
         </div>
     </tab>
 </tabset>
