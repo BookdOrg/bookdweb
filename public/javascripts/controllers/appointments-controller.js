@@ -21,14 +21,15 @@ angular.module('cc.appointments-controller', [])
             /* event source that pulls from google.com */
             /* event source that contains custom events on the scope */
 
-            $scope.events = [];
+            $scope.personalEvents = [];
+            $scope.associateEvents = [];
             for(var appointmentIndex =0; appointmentIndex<$scope.appointments.personalAppointments.length;appointmentIndex++){
                 var tempObj = {
                     title:$scope.appointments.personalAppointments[appointmentIndex].title,
                     start:$scope.appointments.personalAppointments[appointmentIndex].start.full,
                     end:$scope.appointments.personalAppointments[appointmentIndex].end.full
                 };
-                $scope.events.push(tempObj);
+                $scope.personalEvents.push(tempObj);
             }
             for(var appointmentIndex =0; appointmentIndex<$scope.appointments.businessAppointments.length;appointmentIndex++){
                 var tempObj = {
@@ -36,12 +37,17 @@ angular.module('cc.appointments-controller', [])
                     start:$scope.appointments.businessAppointments[appointmentIndex].start.full,
                     end:$scope.appointments.businessAppointments[appointmentIndex].end.full
                 };
-                $scope.events.push(tempObj);
+                $scope.associateEvents.push(tempObj);
             }
-            $scope.eventsSource = {
+            $scope.eventsPersonalSource = {
                 //color:'#f00',
                 //textColor:'blue',
-                events:$scope.events
+                events:$scope.personalEvents
+            };
+            $scope.eventsAssociateSource = {
+                color:'#f00',
+                //textColor:'blue',
+                events:$scope.associateEvents
             };
             /* event source that calls a function on every view switch */
             /* alert on eventClick */
@@ -143,6 +149,5 @@ angular.module('cc.appointments-controller', [])
             //    }
             //};
             /* event sources array*/
-            $scope.eventSources = [$scope.events];
-            $scope.eventSources2 = [$scope.eventsSource];
+            $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource];
         }]);
