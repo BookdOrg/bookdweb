@@ -36,10 +36,12 @@ angular.module('cc.account-controller', [])
                                 console.log(response.name);
                             })
                             .fail(function (err) {
+                                console.log(err);
                                 //handle error with err
                             });
                     })
                     .fail(function (err) {
+                        console.log(err);
                         //handle error with err
                     });
             }
