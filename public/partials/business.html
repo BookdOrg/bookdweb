@@ -155,7 +155,7 @@
     <div class="modal-header text-center">
     	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
         <h3 class="modal-title text-center">{{service.name}} </h3>
-        <timer ng-show="showCount" countdown="20" max-time-unit="'minute'" interval="1000" auto-start="false" finish-callback="timerFinished()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
+        <timer ng-show="showCount" countdown="20" max-time-unit="'minute'" interval="1000" auto-start="false" finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
     </div>
     <div class="modal-body container-fluid">
       <ul class="hide nav nav-tabs" id="tabContent">

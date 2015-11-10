@@ -152,6 +152,7 @@ angular.module('cc.business-controller', [])
 
         $scope.timerFinished = function(){
             $scope.activeTime.toggled = !$scope.activeTime.toggled;
+            $scope.showCount = false;
             $scope.$apply();
             socket.emit('timeDestroyed',$scope.activeTime);
         };
