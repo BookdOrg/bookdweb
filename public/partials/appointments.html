@@ -3,6 +3,11 @@
         <h1 class="text-center">Appointments <i class="fa fa-calendar"></i></h1>
     </div>
     <!--<div class="col-lg-12">-->
+    <div class="btn-group col-xs-offset-5">
+        <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')">Month</button>
+        <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+        <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+    </div>
     <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar" ng-model="eventSources"></div>
     <!--</div>-->
     <!--<button ng-click="getDate('myCalendar1')"></button>-->
@@ -33,3 +38,32 @@
         </div>
     </div>
 </div>
+
+<!--
+#########################################
+
+Edit Appointment Modal
+
+########################################
+-->
+<script type="text/ng-template" id="editAppointment.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+        <h3 class="modal-title text-center">{{data.title}}</h3>
+    </div>
+    <div class="modal-body">
+        <!--<div ng-if="employeeHasService">-->
+            <!--<h4>{{employee.firstName}} {{employee.lastName}} is the only employee associated with the following service(s):</h4>-->
+            <!--<ul>-->
+                <!--<li class="h5" ng-repeat="service in associatedServices">{{service}}</li>-->
+            <!--</ul>-->
+            <!--<h4>Please delete or assign another employee to the service(s) before deleting {{employee.firstName}}.</h4>-->
+        <!--</div>-->
+        <!--<h4 ng-if="!employeeHasService">Are you sure you would like to remove {{employee.firstName}} {{employee.lastName}}?</h4>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" disabled ng-click="cancel()">Ok</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+

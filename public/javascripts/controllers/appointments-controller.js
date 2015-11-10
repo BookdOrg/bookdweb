@@ -9,9 +9,10 @@ angular.module('cc.appointments-controller', [])
         'user',
         '$compile',
         'uiCalendarConfig',
-        function ($scope, $state, auth, user,$compile,uiCalendarConfig) {
+        '$modal',
+        function ($scope, $state, auth, user,$compile,uiCalendarConfig,$modal) {
             $scope.appointments = user.appointments;
-
+            $scope.animationsEnabled = true;
             var date = new Date();
             var d = date.getDate();
             var m = date.getMonth();
@@ -49,10 +50,24 @@ angular.module('cc.appointments-controller', [])
                 //textColor:'blue',
                 events:$scope.associateEvents
             };
+
+            $scope.open = function (size,data) {
+                var modalInstance = $modal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'editAppointment.html',
+                    controller: 'editAppointmentModalCtrl',
+                    size: size,
+                    resolve: {
+                        data: function () {
+                            return data;
+                        }
+                    }
+                });
+            };
             /* event source that calls a function on every view switch */
             /* alert on eventClick */
             $scope.alertOnEventClick = function( date, jsEvent, view){
-                console.log(date.title)
+                $scope.open('md',date);
                 $scope.alertMessage = (date.title + ' was clicked ');
             };
             /* alert on Drop */
@@ -85,17 +100,12 @@ angular.module('cc.appointments-controller', [])
                     className: ['openSesame']
                 });
             };
-            $scope.getDate = function(calendar){
-              console.log(uiCalendarConfig.calendars[calendar].fullCalendar('getDate'));
-                console.log(uiCalendarConfig.calendars[calendar].fullCalendar('getView'));
-            };
             /* remove event */
             $scope.remove = function(index) {
                 $scope.events.splice(index,1);
             };
             /* Change View */
             $scope.changeView = function(view,calendar) {
-                $scope.getDate(calendar);
                 uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
             };
             /* Change View */
@@ -113,19 +123,14 @@ angular.module('cc.appointments-controller', [])
                 $compile(element)($scope);
             };
 
-            $scope.$watch('',function(newVal,oldVal){
-               if(newVal){
-                   console.log(newVal);
-               }
-            });
             /* config object */
             $scope.uiConfig = {
                 calendar:{
                     height: 450,
-                    editable: false,
+                    editable: true,
                     header:{
                         left: 'title',
-                        center: 'month,agendaWeek,agendaDay',
+                        center: '',
                         right: 'today prev,next'
                     },
                     eventClick: $scope.alertOnEventClick,
@@ -150,4 +155,25 @@ angular.module('cc.appointments-controller', [])
             //};
             /* event sources array*/
             $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource];
-        }]);
+        }])
+    .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data) {
+        $scope.data = data;
+        //$scope.create = function (id) {
+        //    var business = businessFactory.business;
+        //    var newEmployee = {
+        //        businessId: business.info._id,
+        //        employeeId: id
+        //    };
+        //    businessFactory.addEmployee(newEmployee);
+        //    $modalInstance.close();
+        //};
+        //
+        //$scope.findEmployee = function (id) {
+        //    user.search(id);
+        //    $scope.employee = user.user;
+        //};
+        //
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    });
