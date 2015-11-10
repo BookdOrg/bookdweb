@@ -13,6 +13,8 @@ var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 
+
+var _ = require('underscore');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
@@ -45,16 +47,21 @@ Array.prototype.getIndexBy = function (name, value) {
     }
 };
 server.listen(process.env.devsocketPort);
+var roomData = [];
 io.on('connection', function (socket) {
     var string;
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
         socket.join(string);
+        var holdList= _.where(roomData, {id: string});
+        io.to(socket.id).emit('oldHold',holdList);
     });
     socket.on('timeTaken',function(data){
+        roomData.push({id:string,data:data});
         io.sockets.in(string).emit('newHold',data);
     });
     socket.on('timeDestroyed',function(data){
+        roomData = _.without(roomData, _.findWhere(roomData, {id: string}));
         io.sockets.in(string).emit('destroyOld',data);
     });
 });

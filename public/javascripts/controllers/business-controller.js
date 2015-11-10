@@ -163,10 +163,10 @@ angular.module('cc.business-controller', [])
                 startDate: newDate,
                 id: employeeId
             };
-            socket.emit('joinApptRoom', employeeApptObj);
             user.getAppts(employeeApptObj)
                 .then(function(data){
                     calculateAppointments(data);
+                    socket.emit('joinApptRoom', employeeApptObj);
             });
         }
 
@@ -210,6 +210,11 @@ angular.module('cc.business-controller', [])
             getAvailableTimes($scope.selectedDate, $scope.employee._id);
         });
 
+        socket.on('oldHold',function(data){
+            for(var dataIndex =0; dataIndex<data.length;dataIndex++){
+                calculateHold(data[dataIndex].data);
+            }
+        });
         socket.on('newHold',function(data){
             if(data.user !== $scope.currentUser._id){
                 calculateHold(data);
@@ -221,6 +226,7 @@ angular.module('cc.business-controller', [])
             }
         });
         var calculateHold = function(timeObj){
+            console.log(timeObj)
             var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
             var startTime = moment(timeObj.time, 'hh:mm a');
             var endTime = moment(timeObj.end, 'hh:mm a');

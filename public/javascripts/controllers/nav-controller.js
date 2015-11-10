@@ -23,9 +23,6 @@ angular.module('cc.nav-controller', ["google.places"])
             };
 
             $scope.open = function(type,state) {
-                console.log("in here")
-                console.log(type)
-                console.log(state)
                 var modalInstance = $modal.open({
                     animation: $scope.animationEnabled,
                     templateUrl: 'partials/login.html',
