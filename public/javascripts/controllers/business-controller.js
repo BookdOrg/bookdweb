@@ -8,7 +8,8 @@ angular.module('cc.business-controller', [])
         'location',
         '$rootScope',
         '$modal',
-        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal) {
+        'socket',
+        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal,socket) {
             $scope.business = businessFactory.business;
             //if (!businessFactory.business.info) {
             //    businessFactory.getBusinessInfo($stateParams.businessid)
@@ -88,11 +89,17 @@ angular.module('cc.business-controller', [])
              * @param size
              */
             $scope.openService = function (size) {
-                var modalIsntance = $modal.open({
+                var modalInstance = $modal.open({
                     animation: $scope.animationsEnabled,
                     templateUrl: 'scheduleServiceModal.html',
                     controller: 'scheduleServiceModalCtrl as ctrl',
                     size: size
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
                 });
             };
 

@@ -155,7 +155,7 @@
     <div class="modal-header text-center">
     	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
         <h3 class="modal-title text-center">{{service.name}} </h3>
-        <timer ng-show="showCount" countdown="600" max-time-unit="'minute'" interval="1000" auto-start="false" finish-callback="timerFinished()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
+        <timer ng-show="showCount" countdown="10" max-time-unit="'minute'" interval="1000" auto-start="false" finish-callback="timerFinished()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}
             <div class="progress progress-striped active"style="height: 30px;"><div class="bar" style="min-width: 2em;width: {{progressBar}}%;"></div></div> </timer>
     </div>
     <div class="modal-body container-fluid">
