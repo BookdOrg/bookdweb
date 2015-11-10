@@ -133,6 +133,9 @@ angular.module('cc.business-controller', [])
         $scope.stripePrice = $scope.service.price * 100;
         $scope.minDate = $scope.minDate ? null : moment();
 
+        $scope.showCount = false;
+        var timeStarted = false;
+
         // $scope.currentUser = auth.currentUser();
         $scope.$watch('selectedDate', function (newVal, oldVal) {
             if (newVal) {
@@ -161,8 +164,9 @@ angular.module('cc.business-controller', [])
                 id: employeeId
             };
             socket.emit('joinApptRoom', employeeApptObj);
-            user.getAppts(employeeApptObj).then(function(data){
-                calculateAppointments(data);
+            user.getAppts(employeeApptObj)
+                .then(function(data){
+                    calculateAppointments(data);
             });
         }
 
@@ -175,12 +179,16 @@ angular.module('cc.business-controller', [])
             var startTime = moment('6:00 am', 'hh:mm a');
             $scope.availableTimes = [];
             var endTime = moment('7:00 pm', 'hh:mm a');
-
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
+                console.log(m.format('hh:mm a'));
+                console.log(duration)
                 var timeObj = {
                     time: m.format('hh:mm a'),
+                    end: moment(startTime).add(duration,'minutes').format('hh:mm a'),
                     available: true,
-                    toggled: false
+                    toggled: false,
+                    status: false,
+                    user:$scope.currentUser._id
                 };
                 $scope.availableTimes.push(timeObj);
             }
@@ -203,6 +211,38 @@ angular.module('cc.business-controller', [])
         socket.on('update',function(){
             getAvailableTimes($scope.selectedDate, $scope.employee._id);
         });
+
+        socket.on('newHold',function(data){
+            if(data.user !== $scope.currentUser._id){
+                calculateHold(data);
+            }
+        });
+        socket.on('destroyOld',function(data){
+            if(data.user !== $scope.currentUser._id) {
+                destroyOld(data);
+            }
+        });
+        var calculateHold = function(timeObj){
+            var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
+            var startTime = moment(timeObj.time, 'hh:mm a');
+            var endTime = moment(timeObj.end, 'hh:mm a');
+            var calculatedDuration = $scope.service.duration;
+            for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
+                indexToReplace += 1;
+                $scope.availableTimes[indexToReplace].status = true;
+            }
+        };
+        var destroyOld = function(timeObj){
+            var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
+            var startTime = moment(timeObj.time, 'hh:mm a');
+            var endTime = moment(timeObj.end, 'hh:mm a');
+            var destroyDuration = $scope.service.duration;
+
+            for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
+                indexToReplace += 1;
+                $scope.availableTimes[indexToReplace].status = false;
+            }
+        };
         /**
          *
          * @param time
@@ -210,6 +250,18 @@ angular.module('cc.business-controller', [])
          */
         $scope.selectedIndex = null;
         $scope.createAppointmentObj = function (time,index) {
+            $scope.showCount = true;
+            socket.emit('timeTaken',time);
+            if (!timeStarted) {
+                $scope.$broadcast('timer-start');
+                $scope.timerRunning = true;
+                timeStarted = true;
+            }else if(timeStarted){
+                $scope.$broadcast('timer-reset');
+                $scope.$broadcast('timer-start');
+            }
+
+
             var newDate = moment($scope.selectedDate).format('MM/DD/YYYY');
             var data = {
                 customerId: $scope.currentUser._id,
@@ -218,7 +270,7 @@ angular.module('cc.business-controller', [])
                 time:time,
                 index:index
             };
-            //socket.emit('timeTaken',data);
+
             /**
              *
              * If there is a previously selected time and the previous selected time isn't equal to the current one
@@ -227,6 +279,7 @@ angular.module('cc.business-controller', [])
              */
             if($scope.selectedIndex !== null){
                 $scope.availableTimes[$scope.selectedIndex].toggled = false;
+                socket.emit('timeDestroyed',$scope.availableTimes[$scope.selectedIndex]);
                 time.toggled = !time.toggled;
                 $scope.selectedIndex = index;
             }

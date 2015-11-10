@@ -364,3 +364,6 @@ img::-moz-selection {
 .YCbtn a {
     color: #f26522;
 }
+timer span{
+    color:red;
+}

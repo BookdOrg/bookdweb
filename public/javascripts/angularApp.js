@@ -29,7 +29,8 @@ angular.module('cc', ['ui.router',
     'angularjs-dropdown-multiselect',
     'angularMoment',
     'stripe.checkout',
-    'cc.appointments-controller'
+    'cc.appointments-controller',
+    'timer'
 ])
     .config([
         '$stateProvider',

@@ -154,7 +154,8 @@
 
     <div class="modal-header text-center">
     	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
-        <h3 class="modal-title text-center">{{service.name}}</h3>
+        <h3 class="modal-title text-center">{{service.name}} </h3>
+        <timer ng-show="showCount" countdown="600" max-time-unit="'minute'" interval="1000" auto-start="false">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
     </div>
     <div class="modal-body container-fluid">
       <ul class="hide nav nav-tabs" id="tabContent">
@@ -204,9 +205,9 @@
 				    <div class="col col-md-6 text-center">
 				    	<h4 ng-if="availableTimes.length > 1">{{employee.firstName}}'s Available Times</h4>
 				    	<div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"   ng-repeat="time in availableTimes track by $index">
-				    		<div ng-disabled="!time.available" ng-class="{'btn-danger': !time.available, 'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
+				    		<button ng-disabled="!time.available || time.status" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
-				    		</div>
+				    		</button>
 				    	</div>
 					</div>
 	          	</div>
@@ -273,7 +274,7 @@
 	            			<option value="">Select a Duration</option>
 	            			<option value="15">15 Minutes</option>
 	            			<option value="30">30 Minutes</option>
-	            			<option value="60">60 Minutes</option>
+	            			<option value="59">60 Minutes</option>
 	            		</select>
 	            	</div>
 	            	<div class="form-group col-md-12">

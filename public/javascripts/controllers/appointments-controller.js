@@ -38,9 +38,15 @@ angular.module('cc.appointments-controller', [])
                 };
                 $scope.events.push(tempObj);
             }
+            $scope.eventsSource = {
+                //color:'#f00',
+                //textColor:'blue',
+                events:$scope.events
+            };
             /* event source that calls a function on every view switch */
             /* alert on eventClick */
             $scope.alertOnEventClick = function( date, jsEvent, view){
+                console.log(date.title)
                 $scope.alertMessage = (date.title + ' was clicked ');
             };
             /* alert on Drop */
@@ -73,12 +79,17 @@ angular.module('cc.appointments-controller', [])
                     className: ['openSesame']
                 });
             };
+            $scope.getDate = function(calendar){
+              console.log(uiCalendarConfig.calendars[calendar].fullCalendar('getDate'));
+                console.log(uiCalendarConfig.calendars[calendar].fullCalendar('getView'));
+            };
             /* remove event */
             $scope.remove = function(index) {
                 $scope.events.splice(index,1);
             };
             /* Change View */
             $scope.changeView = function(view,calendar) {
+                $scope.getDate(calendar);
                 uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
             };
             /* Change View */
@@ -95,6 +106,12 @@ angular.module('cc.appointments-controller', [])
                     'tooltip-append-to-body': true});
                 $compile(element)($scope);
             };
+
+            $scope.$watch('',function(newVal,oldVal){
+               if(newVal){
+                   console.log(newVal);
+               }
+            });
             /* config object */
             $scope.uiConfig = {
                 calendar:{
@@ -112,6 +129,8 @@ angular.module('cc.appointments-controller', [])
                 }
             };
 
+            $scope.calendars = uiCalendarConfig.calendars;
+
             //$scope.changeLang = function() {
             //    if($scope.changeTo === 'Hungarian'){
             //        $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
@@ -125,5 +144,5 @@ angular.module('cc.appointments-controller', [])
             //};
             /* event sources array*/
             $scope.eventSources = [$scope.events];
-            $scope.eventSources2 = [$scope.events];
+            $scope.eventSources2 = [$scope.eventsSource];
         }]);

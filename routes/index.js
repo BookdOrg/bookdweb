@@ -49,8 +49,13 @@ io.on('connection', function (socket) {
     var string;
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
-        //console.log(string)
         socket.join(string);
+    });
+    socket.on('timeTaken',function(data){
+        io.sockets.in(string).emit('newHold',data);
+    });
+    socket.on('timeDestroyed',function(data){
+        io.sockets.in(string).emit('destroyOld',data);
     });
 });
 
