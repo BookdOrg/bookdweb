@@ -132,7 +132,7 @@ angular.module('cc.business-controller', [])
         $scope.service = businessFactory.service;
         $scope.stripePrice = $scope.service.price * 100;
         $scope.minDate = $scope.minDate ? null : moment();
-
+        $scope.progressBar = 100;
         $scope.showCount = false;
         var timeStarted = false;
 
@@ -142,6 +142,12 @@ angular.module('cc.business-controller', [])
                 getAvailableTimes(newVal, $scope.employee._id);
             }
         });
+
+        $scope.timerFinished = function(){
+            $scope.activeTime.toggled = !$scope.activeTime.toggled;
+            $scope.$apply();
+            socket.emit('timeDestroyed',$scope.activeTime);
+        };
         /**
          *
          * @param employee
@@ -226,7 +232,6 @@ angular.module('cc.business-controller', [])
             }
         });
         var calculateHold = function(timeObj){
-            console.log(timeObj)
             var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
             var startTime = moment(timeObj.time, 'hh:mm a');
             var endTime = moment(timeObj.end, 'hh:mm a');
@@ -254,6 +259,7 @@ angular.module('cc.business-controller', [])
          */
         $scope.selectedIndex = null;
         $scope.createAppointmentObj = function (time,index) {
+            $scope.activeTime = time;
             $scope.showCount = true;
             socket.emit('timeTaken',time);
             if (!timeStarted) {
