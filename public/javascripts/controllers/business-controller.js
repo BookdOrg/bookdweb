@@ -180,8 +180,6 @@ angular.module('cc.business-controller', [])
             $scope.availableTimes = [];
             var endTime = moment('7:00 pm', 'hh:mm a');
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
-                console.log(m.format('hh:mm a'));
-                console.log(duration)
                 var timeObj = {
                     time: m.format('hh:mm a'),
                     end: moment(startTime).add(duration,'minutes').format('hh:mm a'),
@@ -228,8 +226,8 @@ angular.module('cc.business-controller', [])
             var endTime = moment(timeObj.end, 'hh:mm a');
             var calculatedDuration = $scope.service.duration;
             for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
-                indexToReplace += 1;
                 $scope.availableTimes[indexToReplace].status = true;
+                indexToReplace += 1;
             }
         };
         var destroyOld = function(timeObj){
@@ -239,8 +237,8 @@ angular.module('cc.business-controller', [])
             var destroyDuration = $scope.service.duration;
 
             for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
-                indexToReplace += 1;
                 $scope.availableTimes[indexToReplace].status = false;
+                indexToReplace += 1;
             }
         };
         /**
