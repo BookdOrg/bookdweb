@@ -47,9 +47,10 @@ Edit Appointment Modal
 ########################################
 -->
 <script type="text/ng-template" id="editAppointment.html">
-    <div class="modal-header">
+    <div class="modal-header text-center">
         <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
         <h3 class="modal-title text-center">{{service.name}}</h3>
+        <timer ng-show="showCount" countdown="20" max-time-unit="'minute'" interval="1000" auto-start="false" finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -60,7 +61,7 @@ Edit Appointment Modal
                 </div>
             </div>
             <div class="col col-md-6 text-center">
-                <h4 ng-if="availableTimes.length > 1">{{employee.firstName}}'s Available Times</h4>
+                <h4 ng-if="availableTimes.length > 1">Schedule</h4>
                 <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"   ng-repeat="time in availableTimes track by $index">
                     <button ng-disabled="!time.available || time.status" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
                         {{time.time}}
@@ -68,21 +69,9 @@ Edit Appointment Modal
                 </div>
             </div>
         </div>
-        <div class="row text-center">
-            <button class="btn btn-primary" ng-show="appointment" stripe-checkout="ctrl.checkOut"
-                    data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
-                    data-name="Bookd"
-                    data-description="{{service.name}}"
-                    data-amount="{{stripePrice}}"
-                    data-image="/images/icon.png"
-                    data-label="Book Appointment"
-                    data-panel-label="Book">
-                Book Appointment
-            </button>
-        </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" disabled ng-click="cancel()">Ok</button>
+        <button class="btn btn-primary" ng-click="update()">Update</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>

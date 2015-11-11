@@ -57,6 +57,20 @@ angular.module('cc.business-factory', [])
             });
         };
         /**
+         *
+         * Reschedule an appointment
+         *
+         */
+        o.updateAppointment = function(appt){
+            return $http.post('/business/appointments/update',appt,{
+                headers:{Authorization: 'Bearer ' + auth.getToken()}
+            }).then(function(response){
+
+            },function(err){
+                return err.data;
+            });
+        }
+        /**
          *   Returns a list of all businesses in a specific category that are within the defined
          *   search radius. Radar Search returns a list of 200 businesses maximum.
          *

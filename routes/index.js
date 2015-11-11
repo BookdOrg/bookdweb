@@ -112,7 +112,6 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        console.log(customerAppointments);
         response.personalAppointments = customerAppointments;
         Appointment.find({'employee': id}).exec(function (err, employeeAppointments) {
             if (err) {
@@ -340,8 +339,6 @@ router.post('/categories/add-category', auth, function (req, res, next) {
  card -
  **/
 
-
-//TODO change the appointment checking calculations to be a function
 router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
     appointment.businessId = req.body.businessid;
@@ -411,28 +408,43 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
         io.sockets.in(room).emit('update');
         res.status(200).json({message: 'Success!'});
     });
-    //User.findOne({'_id': appointment.employee}).populate({
-    //    path: 'businessAppointments',
-    //    match: {'start.date': appointment.start.date}
-    //}).exec(function (err, employee) {
-    //    if (err) {
-    //        return next(err);
-    //    }
-    //    responseArray.push(employee.businessAppointments);
-    //    User.findOne({'_id': appointment.customer}).populate({
-    //        path: 'personalAppointments',
-    //        match: {'start.date': appointment.start.date}
-    //    }).exec(function (err, customer) {
-    //        if (err) {
-    //            return next(err);
-    //        }
-    //        responseArray.push(customer.personalAppointments);
-    //        io.sockets.in(room).emit('update',responseArray);
-    //        return res.status(200).json({message: "Appointment Bookd!"});
-    //    });
-    //});
 });
 
+/**
+ *
+ * Update an appointment - Reschedule
+ *
+ *
+ */
+router.post('/business/appointments/update',auth,function(req,res,next){
+   var updatedAppointmentStart = req.body.start;
+    var updatedAppointmentEnd = req.body.end;
+    var updatedAppointmentId = req.body._id;
+    console.log("REQUEST")
+    console.log(req.body);
+    Appointment.findOne({'id':updatedAppointmentId._id}).exec(function(err,appointment){
+        if(err){
+            return next(err);
+        }
+        console.log("RESULT")
+        console.log(appointment);
+        appointment.start = updatedAppointmentStart;
+        appointment.end = updatedAppointmentEnd;
+
+        appointment.save(function(err,response){
+            if(err){
+                return next(err);
+            }
+            console.log(response);
+            res.status(200).json({message:'Success'});
+        });
+    });
+});
+/**
+ *
+ * Cancel an appointment - Delete
+ *
+ */
 // router.get('/user/appointments',auth, function(req,res,next){
 //   var startDate = req.param('startDate');
 //   var userId = req.payload._id;
