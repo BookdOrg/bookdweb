@@ -420,14 +420,10 @@ router.post('/business/appointments/update',auth,function(req,res,next){
    var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-    console.log("REQUEST")
-    console.log(req.body);
     Appointment.findOne({'id':updatedAppointmentId._id}).exec(function(err,appointment){
         if(err){
             return next(err);
         }
-        console.log("RESULT")
-        console.log(appointment);
         appointment.start = updatedAppointmentStart;
         appointment.end = updatedAppointmentEnd;
 
@@ -435,7 +431,6 @@ router.post('/business/appointments/update',auth,function(req,res,next){
             if(err){
                 return next(err);
             }
-            console.log(response);
             res.status(200).json({message:'Success'});
         });
     });
@@ -1002,12 +997,10 @@ router.post('/business/claim-request', auth, function (req, res, next) {
 
 router.get('/business/service-detail',auth,function(req,res,next){
    var serviceId = req.param('service');
-    console.log(serviceId);
     Service.findOne({"_id":serviceId}).populate({path:'employees'}).exec(function(err, response){
         if(err){
             return next(err);
         }
-        console.log(response);
         res.json(response);
     });
 });
