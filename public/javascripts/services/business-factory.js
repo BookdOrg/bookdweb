@@ -31,10 +31,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.businesses);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *   Creates a new appointment for both the Employee and Customer.
@@ -54,11 +51,8 @@ angular.module('cc.business-factory', [])
             return $http.post('/business/appointments/create', appt, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (response) {
-                //TODO Handle success
-                //console.log(data);
                 return response.data;
             }, function (err) {
-                //TODO Handle error
                 return err.data;
             });
         };
@@ -87,10 +81,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle data
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *
@@ -138,10 +129,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.categories);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *   Submits a claim request to Bookd
@@ -159,10 +147,7 @@ angular.module('cc.business-factory', [])
             }).then(function (response) {
                 //TODO Handle success
                 return response
-            }, function (err) {
-                //TODO Handle error
-                return err;
-            });
+            }, handleError)
         };
         /**
          *   Returns all information about a specific Business.
@@ -179,10 +164,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.business);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
 
         /**
@@ -200,10 +182,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.business.info);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *   Adds a Service to a Business
@@ -222,10 +201,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.business.info);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *
@@ -237,11 +213,7 @@ angular.module('cc.business-factory', [])
             }).then(function (response) {
                 //angular.copy(data.data, o.business.info);
                 return response.data;
-                //TODO Handle success
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *
@@ -252,10 +224,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.business.info);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *
@@ -268,10 +237,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.requests);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *
@@ -285,10 +251,21 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.requests);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         return o;
+
+        // I transform the error response, unwrapping the application dta from
+        // the API response payload.
+        function handleError(response) {
+            // The API response from the server should be returned in a
+            // normalized format. However, if the request was not handled by the
+            // server (or what not handles properly - ex. server error), then we
+            // may have to normalize it on our end, as best we can.
+            if (!angular.isObject(response.data) || !response.data.message) {
+                return ( $q.reject("An unknown error occurred.") );
+            }
+            // Otherwise, use expected error message.
+            return ( $q.reject(response.data.message) );
+        }
     }]);
