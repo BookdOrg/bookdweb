@@ -205,17 +205,29 @@ angular.module('cc.business-controller', [])
                 };
                 $scope.availableTimes.push(timeObj);
             }
+            console.log(data)
             data.forEach(function (array) {
                 for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
                     for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
-                        if (moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a')
-                                .isSame(moment(array[appointmentsIndex].start.time, 'hh:mm a'))) {
+
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
+                        var startTime = moment(array[appointmentsIndex].start.time, 'hh:mm a');
+
+                        var decreasedTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+
+                        var endTime =  moment(array[appointmentsIndex].end.time, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration/2,'minutes');
+
+
+                        if (availableTime.isSame(startTime)) {
                             $scope.availableTimes[availableTimesIndex].available = false;
                         }
-                        if (moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a')
-                                .isBetween(moment(array[appointmentsIndex].start.time, 'hh:mm a'),
-                                moment(array[appointmentsIndex].end.time, 'hh:mm a'), 'minute')) {
+                        if (availableTime.isBetween(startTime, endTime, 'minute')) {
                             $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+
+                        if(startTime.isSame(subtractedTime)){
+                            $scope.availableTimes[availableTimesIndex-1].available = false;
                         }
                     }
                 }
