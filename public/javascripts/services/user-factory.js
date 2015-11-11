@@ -4,12 +4,12 @@
  * All Routes under the /user end point
  */
 angular.module('cc.user-factory', [])
-    .factory('user', ['$http', 'auth', function ($http, auth) {
+    .factory('user', ['$http', 'auth', '$q', function ($http, auth, $q) {
         var o = {
-            appointments:[],
-            dashboard:[],
-            user:{},
-            customerEmployeeAppts:[]
+            appointments: [],
+            dashboard: [],
+            user: {},
+            customerEmployeeAppts: []
         };
 
         /**
@@ -62,6 +62,7 @@ angular.module('cc.user-factory', [])
             }).then(function (data) {
                 //TODO Handle success
                 angular.copy(data.data, o.appointments);
+                return (data.data);
                 //console.log(data);
             }, function (response) {
                 //TODO Handle error
@@ -83,7 +84,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle success
-                angular.copy(data.data, o.customerEmployeeAppts)
+                angular.copy(data.data, o.customerEmployeeAppts);
                 return data.data;
                 //console.log(data);
             }, function (response) {
@@ -126,4 +127,18 @@ angular.module('cc.user-factory', [])
             });
         };
         return o;
+
+        // I transform the error response, unwrapping the application dta from
+        // the API response payload.
+        function handleError(response) {
+            // The API response from the server should be returned in a
+            // normalized format. However, if the request was not handled by the
+            // server (or what not handles properly - ex. server error), then we
+            // may have to normalize it on our end, as best we can.
+            if (!angular.isObject(response.data) || !response.data.message) {
+                return ( $q.reject("An unknown error occurred.") );
+            }
+            // Otherwise, use expected error message.
+            return ( $q.reject(response.data.message) );
+        }
     }]);

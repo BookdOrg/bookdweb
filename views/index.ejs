@@ -45,6 +45,7 @@
 
     <script src="/javascripts/services/admin-service.js"></script>
     <script src="/javascripts/services/socket-service.js"></script>
+    <script src="/javascripts/services/time-service.js"></script>
 
     <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
     <script src="/javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
@@ -167,35 +168,26 @@
                 <ul class="nav navbar-nav navbar-right hidden-xs">
                     <li class="dropdown" ng-show="isLoggedIn()">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
-                            <span class="badge">3</span></a>
-                        <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+                            <span class="badge">{{currentUser.appointments.personalAppointments.length}}</span></a>
 
-                            <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
+                        <div class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+                            <div class="notification-heading">
+                                <h4 class="menu-title">Notifications</h4>
+                                <h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
                             </div>
-                            <li class="divider"></li>
-                            <div class="notifications-wrapper">
-                                <a class="content" href="#">
+                            <span class="divider"></span>
+                            <ul class="notifications-wrapper">
+                                <li class="content"
+                                    ng-repeat="appointment in currentUser.appointments.personalAppointments">
                                     <div class="notification-item">
-                                        <p class="item-info">Full Cut & Shave</p>
-                                        <h4 class="item-title">Appointment is 1 · days away</h4>
+                                        <p class="item-info">{{appointment.title}}</p>
+                                        <h4 class="item-title">Appointment is {{appointment.dayDiff}} days away</h4>
                                     </div>
-                                </a>
-                                <a class="content" href="#">
-                                    <div class="notification-item">
-                                        <p class="item-info">Full Body Massage</p>
-                                        <h4 class="item-title">Appointment is 4 · days away</h4>
-                                    </div>
-                                </a>
-                                <a class="content" href="#">
-                                    <div class="notification-item">
-                                        <p class="item-info">Ortho Cleaning</p>
-                                        <h4 class="item-title">Appointment is 1 • week away</h4>
-                                    </div>
-                                </a>
-                            </div>
-                            <li class="divider"></li>
+                                </li>
+                            </ul>
+                            <span class="divider"></span>
                             <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
-                        </ul>
+                        </div>
                     </li>
                     <li class="dropdown" ng-show="isLoggedIn()">
                         <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">

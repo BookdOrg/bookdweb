@@ -19,6 +19,5 @@
   },
   "_source": "git://github.com/gf3/moment-range.git",
   "_target": "~2.0.3",
-  "_originalSource": "moment-range",
-  "_direct": true
+  "_originalSource": "moment-range"
 }

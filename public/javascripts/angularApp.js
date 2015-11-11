@@ -1,37 +1,41 @@
 angular.module('cc', ['ui.router',
-    'cc.config',
-    'cc.main-controller',
-    'cc.auth-controller',
-    'cc.nav-controller',
-    'cc.account-controller',
-    'cc.auth-factory',
-    'cc.business-factory',
-    'cc.profile-controller',
-    'cc.user-factory',
-    'angularFileUpload',
-    'cc.thumb-directive',
-    'cc.landing-controller',
-    'ui.bootstrap',
-    'cc.modalInstance',
-    'ngGeolocation',
-    'cloudinary',
-    'cc.location-factory',
-    'google.places',
-    'cc.bizlist-controller',
-    'cc.business-controller',
-    'ui.calendar',
-    'cc.claim-controller',
-    'cc.admin-controller',
-    'cc.admin-service',
-    'cc.search-controller',
-    'cc.dashboard-controller',
-    'cc.socket-service',
-    'angularjs-dropdown-multiselect',
-    'angularMoment',
-    'stripe.checkout',
-    'cc.appointments-controller',
-    'timer'
-])
+        'cc.account-controller',
+        'cc.admin-controller',
+        'cc.appointments-controller',
+        'cc.auth-controller',
+        'cc.bizlist-controller',
+        'cc.business-controller',
+        'cc.claim-controller',
+        'cc.dashboard-controller',
+        'cc.landing-controller',
+        'cc.main-controller',
+        'cc.nav-controller',
+        'cc.profile-controller',
+        'cc.search-controller',
+
+        'cc.auth-factory',
+        'cc.business-factory',
+        'cc.location-factory',
+        'cc.time-service',
+        'cc.user-factory',
+
+        'cc.admin-service',
+        'cc.socket-service',
+
+        'angularFileUpload',
+        'angularjs-dropdown-multiselect',
+        'angularMoment',
+        'cc.config',
+        'cc.modalInstance',
+        'cc.thumb-directive',
+        'cloudinary',
+        'google.places',
+        'ngGeolocation',
+        'stripe.checkout',
+        'timer',
+        'ui.calendar',
+        'ui.bootstrap'
+    ])
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -49,9 +53,9 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/feed.html',
                     controller: 'MainCtrl',
                     resolve: {
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -69,9 +73,9 @@ angular.module('cc', ['ui.router',
                         business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                             return businessFactory.getBusiness($stateParams.businessid);
                         }],
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -86,9 +90,9 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/profile.html',
                     controller: 'ProfileCtrl',
                     resolve: {
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -103,9 +107,9 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/account.html',
                     controller: 'AccountCtrl',
                     resolve: {
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -115,19 +119,19 @@ angular.module('cc', ['ui.router',
                         }
                     }
                 })
-                .state('partner',{
-                    url:'/partner',
-                    templateUrl:'partials/partner.html',
-                    controller:'NavCtrl'
+                .state('partner', {
+                    url: '/partner',
+                    templateUrl: 'partials/partner.html',
+                    controller: 'NavCtrl'
                 })
                 .state('admin', {
                     url: '/admin',
                     templateUrl: 'partials/admin.html',
                     controller: 'AdminCtrl',
                     resolve: {
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -145,9 +149,9 @@ angular.module('cc', ['ui.router',
                         businesses: ['user', function (user) {
                             return user.getDashboard();
                         }],
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -169,9 +173,9 @@ angular.module('cc', ['ui.router',
                         appointments: ['user', function (user) {
                             return user.getUserAppts();
                         }],
-                        isAuthenticated: function($state, $q,auth) {
+                        isAuthenticated: function ($state, $q, auth) {
                             var redirect = false;
-                            if(!auth.isLoggedIn()) {
+                            if (!auth.isLoggedIn()) {
                                 redirect = true;
                                 return $q.reject({
                                     state: 'error'
@@ -195,111 +199,110 @@ angular.module('cc', ['ui.router',
                     templateUrl: 'partials/contact.html'
                 });
             $urlRouterProvider.otherwise('/');
-        }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory,$controller) {
-        OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
-        $rootScope.currentUser = auth.currentUser();
-        $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v';
-        $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg';
-        //  var socket = io.connect('//'+devHost+':8112');
-        $rootScope.$on('$routeChangeStart', function (event, next, current) {
-            if (typeof(current) !== 'undefined') {
-                $templateCache.remove(current.templateUrl);
-            }
-        });
-        $rootScope.$on('$stateChangeError', function(
-            event, toState, toStateParams,
-            fromState, fromStateParams, error) {
-
-            if(error) {
-                $state.go('landing');
-                var navViewModel = $rootScope.$new();
-                $controller('NavCtrl', {$scope: navViewModel});
-                navViewModel.open('md','landing');
-            }
-
-        });
-
-        $rootScope.query = {
-            location: null,
-            term: null
-        };
-        if (!location.currPosition) {
-            $geolocation.watchPosition({
-                timeout: 60000,
-                maximumAge: 250,
-                enableHighAccuracy: true
-            });
-            $rootScope.myPosition = $geolocation.position;
-            /**
-             *
-             * Watch for when the users location changes, make a call to the google maps api to
-             * get information about the users current location.
-             *
-             * Auto populate that information in the query location object, to be displayed int he navbar.
-             *
-             */
-            $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
-                $rootScope.loadingLocation = true;
-                if (newVal !== oldVal) {
-                    $rootScope.loadingLocation = false;
-                    $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='
-                        + $rootScope.myPosition.coords.latitude + ','
-                        + $rootScope.myPosition.coords.longitude)
-                        .then(function (data) {
-                            $rootScope.loadingLocation = false;
-                            if (data) {
-                                location.setPosition(data.data.results);
-                                $rootScope.currLocation = location.currPosition;
-                                $rootScope.query.location = $rootScope.currLocation.city;
-
-                            }
-                        });
-                }
-                });
+        }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory, $controller) {
+    OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
+    $rootScope.currentUser = auth.currentUser();
+    $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_150,r_10,w_150/v';
+    $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_100,r_10,w_100/v1432411957/profile/placeholder.jpg';
+    //  var socket = io.connect('//'+devHost+':8112');
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        if (typeof(current) !== 'undefined') {
+            $templateCache.remove(current.templateUrl);
         }
+    });
+    $rootScope.$on('$stateChangeError', function (event, toState, toStateParams,
+                                                  fromState, fromStateParams, error) {
+
+        if (error) {
+            $state.go('landing');
+            var navViewModel = $rootScope.$new();
+            $controller('NavCtrl', {$scope: navViewModel});
+            navViewModel.open('md', 'landing');
+        }
+
+    });
+
+    $rootScope.query = {
+        location: null,
+        term: null
+    };
+    if (!location.currPosition) {
+        $geolocation.watchPosition({
+            timeout: 60000,
+            maximumAge: 250,
+            enableHighAccuracy: true
+        });
+        $rootScope.myPosition = $geolocation.position;
         /**
          *
-         * Concatenates the query term and query location entered in the Navbar
-         * to create the query string being sent to the Places API on the backend.
+         * Watch for when the users location changes, make a call to the google maps api to
+         * get information about the users current location.
          *
-         * If the typeOf the queryLocation is a string, (User typed it in) then concatenate
-         * query.location with query.term
+         * Auto populate that information in the query location object, to be displayed int he navbar.
          *
-         * If the typeOf the queryLocation is !string (an Object) then concatenate query.location.vicinity
-         * with query.term
-         *
-         * @param query - Object with term and location properties. Location will either be a string or an object.
          */
+        $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
+            $rootScope.loadingLocation = true;
+            if (newVal !== oldVal) {
+                $rootScope.loadingLocation = false;
+                $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='
+                        + $rootScope.myPosition.coords.latitude + ','
+                        + $rootScope.myPosition.coords.longitude)
+                    .then(function (data) {
+                        $rootScope.loadingLocation = false;
+                        if (data) {
+                            location.setPosition(data.data.results);
+                            $rootScope.currLocation = location.currPosition;
+                            $rootScope.query.location = $rootScope.currLocation.city;
 
-        $rootScope.search = function (query) {
-            $rootScope.fetchingQuery = true;
-            var formattedQuery;
-            if (typeof query.location === 'string') {
-                formattedQuery = query.term + ' ' + query.location;
-            } else {
-                formattedQuery = query.term + ' ' + query.location.vicinity;
+                        }
+                    });
             }
+        });
+    }
+    /**
+     *
+     * Concatenates the query term and query location entered in the Navbar
+     * to create the query string being sent to the Places API on the backend.
+     *
+     * If the typeOf the queryLocation is a string, (User typed it in) then concatenate
+     * query.location with query.term
+     *
+     * If the typeOf the queryLocation is !string (an Object) then concatenate query.location.vicinity
+     * with query.term
+     *
+     * @param query - Object with term and location properties. Location will either be a string or an object.
+     */
 
-            businessFactory.search(formattedQuery)
-                .then(function (data) {
-                    $rootScope.fetchingQuery = false;
-                    if (!$state.is('feed')) {
-                        $state.go('feed');
-                    }
-                });
-        };
+    $rootScope.search = function (query) {
+        $rootScope.fetchingQuery = true;
+        var formattedQuery;
+        if (typeof query.location === 'string') {
+            formattedQuery = query.term + ' ' + query.location;
+        } else {
+            formattedQuery = query.term + ' ' + query.location.vicinity;
+        }
 
-        $rootScope.openMessages = function (size) {
-            var modalInstance = $modal.open({
-                //animation: $scope.animationsEnabled,
-                templateUrl: 'messagesModal.html',
-                controller: 'messagesModalCtrl',
-                size: size,
-                resolve: {
-                    //messages: function(){
-                    //    return
-                    //}
+        businessFactory.search(formattedQuery)
+            .then(function (data) {
+                $rootScope.fetchingQuery = false;
+                if (!$state.is('feed')) {
+                    $state.go('feed');
                 }
             });
-        };
-    });
+    };
+
+    $rootScope.openMessages = function (size) {
+        var modalInstance = $modal.open({
+            //animation: $scope.animationsEnabled,
+            templateUrl: 'messagesModal.html',
+            controller: 'messagesModalCtrl',
+            size: size,
+            resolve: {
+                //messages: function(){
+                //    return
+                //}
+            }
+        });
+    };
+});

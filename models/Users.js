@@ -41,14 +41,14 @@ UserSchema.methods.generateJWT = function () {
 
     return jwt.sign({
         _id: this._id,
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        isAdmin: this.isAdmin,
         avatarVersion: this.avatarVersion,
         businessOwner: this.businessOwner,
         businessPage: this.businessPage,
-        exp: parseInt(exp.getTime() / 1000)
+        exp: parseInt(exp.getTime() / 1000),
+        firstName: this.firstName,
+        isAdmin: this.isAdmin,
+        lastName: this.lastName,
+        username: this.username
     }, 'SECRET');
 };
 
