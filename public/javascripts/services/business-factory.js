@@ -31,7 +31,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.businesses);
-            }, handleError)
+            }, handleError);
         };
         /**
          *   Creates a new appointment for both the Employee and Customer.
@@ -224,7 +224,22 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.business.info);
-            }, handleError)
+            }, handleError);
+        };
+        /**
+         *
+         * Get the details for a specific service
+         *
+         */
+        o.serviceDetails = function(serviceId){
+            return $http.get('/business/service-detail', {
+                params:{
+                    'service':serviceId
+                },
+                headers: {Authorization: 'Bearer ' + auth.getToken()}
+            }).then(function(data){
+                angular.copy(data.data, o.service);
+            },handleError);
         };
         /**
          *
@@ -237,7 +252,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.requests);
-            }, handleError)
+            }, handleError);
         };
         /**
          *
@@ -251,7 +266,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.requests);
-            }, handleError)
+            }, handleError);
         };
         return o;
 

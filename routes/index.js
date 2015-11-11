@@ -112,6 +112,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
+        console.log(customerAppointments);
         response.personalAppointments = customerAppointments;
         Appointment.find({'employee': id}).exec(function (err, employeeAppointments) {
             if (err) {
@@ -346,7 +347,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.businessId = req.body.businessid;
     appointment.employee = req.body.employee;
     appointment.customer = req.payload._id;
-
+    appointment.service = req.body.service;
     appointment.start = req.body.start;
     appointment.end = req.body.end;
     appointment.title = req.body.title;
@@ -979,4 +980,24 @@ router.post('/business/claim-request', auth, function (req, res, next) {
         });
     });
 });
+
+/***
+ *
+ * Get the Details for a Given Service
+ *
+ *
+ */
+
+router.get('/business/service-detail',auth,function(req,res,next){
+   var serviceId = req.param('service');
+    console.log(serviceId);
+    Service.findOne({"_id":serviceId}).populate({path:'employees'}).exec(function(err, response){
+        if(err){
+            return next(err);
+        }
+        console.log(response);
+        res.json(response);
+    });
+});
+
 module.exports = router;

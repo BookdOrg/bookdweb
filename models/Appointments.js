@@ -7,7 +7,7 @@ var AppointmentsSchema = new mongoose.Schema({
     start: Object,
     end: Object,
     title: String,
-    service: {type: mongoose.Schema.Types.ObjectId, ref: 'Service'},
+    service: String,
     timestamp: String,
     card: Object
 });

@@ -326,6 +326,7 @@ angular.module('cc.business-controller', [])
                     full:moment(apptDate+' '+endTime,'MM/DD/YYYY hh:mm a').format()
 
                 },
+                service: $scope.service._id,
                 title: $scope.service.name,
                 timestamp: moment()
             };

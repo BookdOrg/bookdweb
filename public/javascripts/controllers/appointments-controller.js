@@ -28,7 +28,8 @@ angular.module('cc.appointments-controller', [])
                 var tempObj = {
                     title:$scope.appointments.personalAppointments[appointmentIndex].title,
                     start:$scope.appointments.personalAppointments[appointmentIndex].start.full,
-                    end:$scope.appointments.personalAppointments[appointmentIndex].end.full
+                    end:$scope.appointments.personalAppointments[appointmentIndex].end.full,
+                    appointment:$scope.appointments.personalAppointments[appointmentIndex]
                 };
                 $scope.personalEvents.push(tempObj);
             }
@@ -36,7 +37,8 @@ angular.module('cc.appointments-controller', [])
                 var tempObj = {
                     title:$scope.appointments.businessAppointments[appointmentIndex].title,
                     start:$scope.appointments.businessAppointments[appointmentIndex].start.full,
-                    end:$scope.appointments.businessAppointments[appointmentIndex].end.full
+                    end:$scope.appointments.businessAppointments[appointmentIndex].end.full,
+                    appointment:$scope.appointments.personalAppointments[appointmentIndex]
                 };
                 $scope.associateEvents.push(tempObj);
             }
@@ -67,12 +69,14 @@ angular.module('cc.appointments-controller', [])
             /* event source that calls a function on every view switch */
             /* alert on eventClick */
             $scope.alertOnEventClick = function( date, jsEvent, view){
-                $scope.open('md',date);
+                $scope.open('lg',date);
                 $scope.alertMessage = (date.title + ' was clicked ');
             };
             /* alert on Drop */
             $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
                 $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
+                console.log(delta);
+                console.log(event);
             };
             /* alert on Resize */
             $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
@@ -156,23 +160,14 @@ angular.module('cc.appointments-controller', [])
             /* event sources array*/
             $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource];
         }])
-    .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data) {
-        $scope.data = data;
-        //$scope.create = function (id) {
-        //    var business = businessFactory.business;
-        //    var newEmployee = {
-        //        businessId: business.info._id,
-        //        employeeId: id
-        //    };
-        //    businessFactory.addEmployee(newEmployee);
-        //    $modalInstance.close();
-        //};
-        //
-        //$scope.findEmployee = function (id) {
-        //    user.search(id);
-        //    $scope.employee = user.user;
-        //};
-        //
+    .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data,businessFactory) {
+        $scope.dateObj = data;
+        //TODO make a request for the service details based on the service ID in Data
+        businessFactory.serviceDetails($scope.dateObj.appointment.service)
+            .then(function(data){
+                $scope.service = businessFactory.service;
+            });
+        $scope.selectedDate = data.appointment.start.date;
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
