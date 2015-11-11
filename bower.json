@@ -27,5 +27,10 @@
     "humanize-duration": "~3.3.0",
     "fullcalendar": "~2.4.0",
     "oauth-js": "~0.4.4"
+  },
+  "resolutions": {
+    "humanize-duration": "~3.3.0",
+    "angular": "1.4.7",
+    "fullcalendar": "~2.4.0"
   }
 }

@@ -163,6 +163,7 @@ angular.module('cc.business-controller', [])
         $scope.selectEmployee = function (employee) {
             $scope.availableTimes = [];
             $scope.employee = employee;
+            //TODO This is deprecated according to https://github.com/moment/moment/issues/1407
             var day = moment().format('MM/DD/YYYY');
             getAvailableTimes(day,$scope.employee._id);
         };

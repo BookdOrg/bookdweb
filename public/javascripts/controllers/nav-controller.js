@@ -6,7 +6,10 @@ angular.module('cc.nav-controller', ["google.places"])
         'businessFactory',
         '$rootScope',
         '$modal',
-        function ($scope, auth, $state, businessFactory, $rootScope, $modal) {
+        'moment',
+        'user',
+        'time',
+        function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user, time) {
             $scope.isLoggedIn = auth.isLoggedIn;
             $scope.currentUser = auth.currentUser;
             $scope.logOut = auth.logOut;
@@ -15,6 +18,22 @@ angular.module('cc.nav-controller', ["google.places"])
             $rootScope.show = false;
 
             $scope.animationEnabled = true;
+
+            if ($scope.isLoggedIn()) {
+                user.getUserAppts().then(
+                    function (data) {
+                        $scope.currentUser.appointments = data;
+                        var dayDiffs = time.getDaysDiff(data.personalAppointments);
+
+                        for (var currAppointmentIndex = 0; currAppointmentIndex < dayDiffs.length; currAppointmentIndex++) {
+                            $scope.currentUser.appointments.personalAppointments[currAppointmentIndex].dayDiff = dayDiffs[currAppointmentIndex];
+                        }
+                    },
+                    function (errorMessage) {
+                        console.log(errorMessage);
+                    }
+                );
+            }
 
             $scope.showSearch = function (show) {
                 if (show) {
