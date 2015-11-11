@@ -64,6 +64,15 @@ io.on('connection', function (socket) {
         roomData = _.without(roomData, _.findWhere(roomData, {id: string}));
         io.sockets.in(string).emit('destroyOld',data);
     });
+    socket.on('online',function(data){
+        var city,state,zip;
+        city = data.location.city;
+        state = data.location.state;
+        zip = data.location.zip;
+        socket.join(city);
+        socket.join(state);
+        socket.join(zip);
+    });
 });
 
 /**

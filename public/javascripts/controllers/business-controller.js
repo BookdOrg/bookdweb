@@ -93,13 +93,15 @@ angular.module('cc.business-controller', [])
                     animation: $scope.animationsEnabled,
                     templateUrl: 'scheduleServiceModal.html',
                     controller: 'scheduleServiceModalCtrl as ctrl',
+                    backdrop : 'static',
+                    keyboard: false,
                     size: size
                 });
 
                 modalInstance.result.then(function (selectedItem) {
 
                 }, function () {
-                    console.log('Modal dismissed at: ' + new Date());
+                    //console.log('Modal dismissed at: ' + new Date());
                 });
             };
 
@@ -141,6 +143,7 @@ angular.module('cc.business-controller', [])
         $scope.minDate = $scope.minDate ? null : moment();
         $scope.progressBar = 100;
         $scope.showCount = false;
+        $scope.countdown = 600;
         var timeStarted = false;
 
         // $scope.currentUser = auth.currentUser();
@@ -369,6 +372,9 @@ angular.module('cc.business-controller', [])
          *
          */
         $scope.cancel = function () {
+            if($scope.activeTime){
+                socket.emit('timeDestroyed',$scope.activeTime);
+            }
             $modalInstance.dismiss('cancel');
         };
     })

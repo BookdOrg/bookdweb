@@ -42,7 +42,7 @@ angular.module('cc.appointments-controller', [])
                         title:$scope.appointments.businessAppointments[appointmentIndex].title,
                         start:$scope.appointments.businessAppointments[appointmentIndex].start.full,
                         end:$scope.appointments.businessAppointments[appointmentIndex].end.full,
-                        appointment:$scope.appointments.personalAppointments[appointmentIndex]
+                        appointment:$scope.appointments.businessAppointments[appointmentIndex]
                     };
                     $scope.associateEvents.push(tempObj);
                 }
@@ -64,6 +64,8 @@ angular.module('cc.appointments-controller', [])
                     animation: $scope.animationsEnabled,
                     templateUrl: 'editAppointment.html',
                     controller: 'editAppointmentModalCtrl',
+                    backdrop : 'static',
+                    keyboard: false,
                     size: size,
                     resolve: {
                         data: function () {
@@ -90,13 +92,13 @@ angular.module('cc.appointments-controller', [])
             //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
             /* alert on Drop */
             $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-                $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
+                //$scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
                 console.log(delta);
                 console.log(event);
             };
             /* alert on Resize */
             $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-                $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+                //$scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
             };
             /* add and removes an event source of choice */
             $scope.addRemoveEventSource = function(sources,source) {
@@ -180,11 +182,12 @@ angular.module('cc.appointments-controller', [])
         $scope.dateObj = data;
         //TODO make a request for the service details based on the service ID in Data
         businessFactory.serviceDetails($scope.dateObj.appointment.service)
-            .then(function(data){
+            .then(function(){
                 $scope.service = businessFactory.service;
                 $scope.stripePrice = $scope.service.price * 100;
             });
         $scope.selectedDate = data.appointment.start.date;
+        $scope.countdown = 600;
 
 
         $scope.minDate = $scope.minDate ? null : moment();
@@ -335,10 +338,10 @@ angular.module('cc.appointments-controller', [])
          * @param index
          */
         $scope.selectedIndex = null;
-        $scope.createAppointmentObj = function (time,index) {
-            $scope.activeTime = time;
+        $scope.createAppointmentObj = function (timeObj,index) {
+            $scope.activeTime = timeObj;
             $scope.showCount = true;
-            socket.emit('timeTaken',time);
+            socket.emit('timeTaken',timeObj);
             if (!timeStarted) {
                 $scope.$broadcast('timer-start');
                 $scope.timerRunning = true;
@@ -348,8 +351,6 @@ angular.module('cc.appointments-controller', [])
                 $scope.$broadcast('timer-start');
             }
 
-
-            var newDate = moment($scope.selectedDate).format('MM/DD/YYYY');
             /**
              *
              * If there is a previously selected time and the previous selected time isn't equal to the current one
@@ -359,7 +360,7 @@ angular.module('cc.appointments-controller', [])
             if($scope.selectedIndex !== null){
                 $scope.availableTimes[$scope.selectedIndex].toggled = false;
                 socket.emit('timeDestroyed',$scope.availableTimes[$scope.selectedIndex]);
-                time.toggled = !time.toggled;
+                timeObj.toggled = !timeObj.toggled;
                 $scope.selectedIndex = index;
             }
             /**
@@ -368,14 +369,14 @@ angular.module('cc.appointments-controller', [])
              * set the current index as the selected index.
              */
             if($scope.selectedIndex == null){
-                time.toggled = !time.toggled;
+                timeObj.toggled = !timeObj.toggled;
                 $scope.selectedIndex = index;
             }
             $scope.selectedIndex = index;
             var apptDay = moment($scope.selectedDate).format('dddd');
             var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
-            var apptTime = moment(time.time, 'hh:mm a').format('hh:mm a');
-            var endTime = moment(time.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
+            var apptTime = moment(timeObj.time, 'hh:mm a').format('hh:mm a');
+            var endTime = moment(timeObj.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
 
             $scope.appointment = {
                 _id: data.appointment._id,
@@ -413,6 +414,9 @@ angular.module('cc.appointments-controller', [])
                });
         };
         $scope.cancel = function () {
+            if($scope.activeTime){
+                socket.emit('timeDestroyed',$scope.activeTime);
+            }
             $modalInstance.dismiss('cancel');
         };
     });
