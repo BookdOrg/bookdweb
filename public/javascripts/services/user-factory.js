@@ -14,7 +14,6 @@ angular.module('cc.user-factory', [])
 
         /**
          *   Returns the profile of a specified user.
-         *
          **/
         o.get = function (username) {
             return $http.get('/user/profile', {
@@ -28,14 +27,10 @@ angular.module('cc.user-factory', [])
             }).then(function (res) {
                 // angular.copy(res.data, o.user)
                 return res.data;
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *   Upload a users profile picture
-         *
          **/
         o.postPicture = function () {
             return $http.post('/upload', {
@@ -46,14 +41,10 @@ angular.module('cc.user-factory', [])
             }).then(function (data) {
                 //TODO Handle success
                 //console.log(data);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          * Returns all a users personal and business appointments
-         *
          * @returns {*}
          */
         o.getUserAppts = function () {
@@ -64,16 +55,12 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.appointments);
                 return (data.data);
                 //console.log(data);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
          *  Takes in the ID of the employee & the startDate to search for. User ID is grabbed from
          *  auth middleware.
-         *
          **/
         o.getAppts = function (object) {
             return $http.get('/user/appointments', {
@@ -87,10 +74,7 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.customerEmployeeAppts);
                 return data.data;
                 //console.log(data);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
         /**
          *   Returns a user object
@@ -106,10 +90,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.user);
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
 
         o.getDashboard = function () {
@@ -119,13 +100,10 @@ angular.module('cc.user-factory', [])
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(function (data) {
-                //TODO Handle success
                 angular.copy(data.data, o.dashboard)
-            }, function (response) {
-                //TODO Handle error
-                //console.log(response);
-            });
+            }, handleError)
         };
+
         return o;
 
         // I transform the error response, unwrapping the application dta from
