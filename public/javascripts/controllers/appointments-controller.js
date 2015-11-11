@@ -87,6 +87,7 @@ angular.module('cc.appointments-controller', [])
                 $scope.open('lg',date);
                 $scope.alertMessage = (date.title + ' was clicked ');
             };
+            //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
             /* alert on Drop */
             $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
                 $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
@@ -203,7 +204,6 @@ angular.module('cc.appointments-controller', [])
             $scope.showCount = false;
             $scope.$apply();
             socket.emit('timeDestroyed',$scope.activeTime);
-            console.log($scope.activeTime);
         };
         ///**
         // *
@@ -230,6 +230,14 @@ angular.module('cc.appointments-controller', [])
             user.getAppts(employeeApptObj)
                 .then(function(data){
                     calculateAppointments(data);
+                    var testTime = function(element,index,list){
+                        if(element.time == $scope.dateObj.appointment.start.time){
+                            $scope.availableTimes[index].available = true;
+                            $scope.availableTimes[index].toggled = true;
+                            $scope.selectedIndex = index;
+                        }
+                    };
+                    _.each($scope.availableTimes,testTime);
                     socket.emit('joinApptRoom', employeeApptObj);
                 });
         }
