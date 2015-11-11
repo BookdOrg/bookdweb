@@ -146,7 +146,7 @@ angular.module('cc.appointments-controller', [])
             $scope.uiConfig = {
                 calendar:{
                     height: 450,
-                    editable: false,
+                    editable: true,
                     header:{
                         left: 'title',
                         center: '',
