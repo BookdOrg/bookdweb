@@ -31,7 +31,9 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.businesses);
-            }, handleError);
+            },function(err){
+                return err.data;
+            });
         };
         /**
          *   Creates a new appointment for both the Employee and Customer.

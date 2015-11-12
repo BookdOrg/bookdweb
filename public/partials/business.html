@@ -51,9 +51,10 @@
 			<div ng-if="currentUser._id == business.info.owner" class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
 			</div>
-			<h3 class="text-center ">Services</h3>
+			<h1 class="text-center ">Services</h1>
 		</div>
 		<div class="row text-center">
+            <h2 ng-if="business.info.services.length ==0">Services coming soon!</h2>
 			<div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
 					<div ng-if="currentUser._id == business.info.owner" class="adjustMargins pull-right">
@@ -77,9 +78,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" ng-if="!business.info.services">
-			<h1>Your business has not been claimed and does not offer services through Book'd yet.</h1>
-		</div>
 			<!-- 
 		#########################################
 
@@ -93,12 +91,13 @@
 				<!--<button class="btn btn-warning">Edit</button>-->
 				<button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
 			</div>
-			<h3 class="text-center ">Associates </h3>
+			<h1 class="text-center">Associates </h1>
 			<span class="text-center">
 				<alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">{{employeeError.message}}</alert>
 			</span>
 		</div>
 		<div class="row">
+            <h2 class="text-center" ng-if="business.info.employees.length ==0">No Associates Listed Yet!</h2>
 			<div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
                     <div ng-if="currentUser._id == business.info.owner" class="adjustMargins pull-right">
@@ -125,8 +124,9 @@
 		########################################
 		-->	
 		<div class="row">
-			<h3 class="text-center">Reviews</h3>
+			<h1 class="text-center">Reviews</h1>
 			<div class="row">
+                <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
 				<div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
 					<img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
 					<br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>

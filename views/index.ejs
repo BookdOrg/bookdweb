@@ -138,11 +138,11 @@
                 <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"
                                             href="/feed"><i class="fa fa-home"></i> Feed</a></li>
                 <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                            href="/user/{{currentUser().username}}/profile"><i
+                                            href="/user/{{currentUser()._id}}/profile"><i
                                 class="fa fa-user"></i> Profile</a></li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
                             ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                            href="/user/{{currentUser().username}}/account"><i class="fa fa-cog"></i> Settings</a>
+                            href="/user/{{currentUser()._id}}/account"><i class="fa fa-cog"></i> Settings</a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
                             ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i
@@ -196,7 +196,7 @@
                         <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
                             <image class="navbarAvatar" ng-if="!currentUser().avatarVersion" ng-src="{{cloudinaryDefaultPic}}"></image>
                             <image class="navbarAvatar" ng-if="currentUser().avatarVersion"  ng-src="{{cloudinaryBaseUrl}}{{currentUser().avatarVersion}}/profile/{{currentUser()._id}}"></image>
-                            {{currentUser().firstName}}
+                            {{currentUser().name}}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>

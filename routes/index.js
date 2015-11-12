@@ -140,8 +140,8 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
  *
  **/
 router.get('/user/profile', auth, function (req, res, next) {
-    var username = req.param('username');
-    User.findOne({'username': username})
+    var id = req.param('id');
+    User.findOne({'_id': id})
         .select('_id lastName firstName username avatarVersion personalAppointments businessAppointments')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
@@ -220,19 +220,35 @@ router.get('/user/dashboard', auth, function (req, res, next) {
  **/
 
 router.post('/login', function (req, res, next) {
-    if (!req.body.username || !req.body.password) {
-        return res.status(400).json({message: 'Please fill out all fields'});
+    if(req.body.provider == 'bookd'){
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).json({message: 'Please fill out all fields'});
+        }
+        passport.authenticate('local', function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            if (user) {
+                return res.json({token: user.generateJWT()});
+            } else {
+                return res.status(401).json({message:'Incorrect information entered'});
+            }
+        })(req, res, next);
     }
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            return next(err);
-        }
-        if (user) {
-            return res.json({token: user.generateJWT()});
-        } else {
-            return res.status(401).json(info);
-        }
-    })(req, res, next);
+
+    if(req.body.provider == 'facebook'  || 'google_plus'){
+        User.findOne({'email':req.body.email}).exec(function(err,user,info){
+            if(err){
+                return next(err);
+            }
+            if(user){
+                return res.json({token: user.generateJWT()});
+            }else{
+                console.log(info)
+                return res.status(401).json({message:'Incorrect information entered'});
+            }
+        });
+    }
 });
 
 /**
@@ -240,25 +256,29 @@ router.post('/login', function (req, res, next) {
  *
  **/
 router.post('/register', function (req, res, next) {
-    if (!req.body.username || !req.body.password) {
-        return res.status(400).json({message: 'Please fill out all fields'});
+    var user = new User();
+    if(req.body.provider == 'bookd'){
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).json({message: 'Please fill out all fields'});
+        }
+        user.setPassword(req.body.password);
+    }
+    if(req.body.provider == 'facebook' || req.body.provider == 'google_plus' ){
+        var randomstring = Math.random().toString(36).slice(-8);
+        user.setPassword(randomstring);
     }
 
-    var user = new User();
+    user.email = req.body.email;
+    user.name = req.body.name;
+    user.provider = req.body.provider;
 
-    user.username = req.body.username;
-
-    user.setPassword(req.body.password);
-
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
 
     user.save(function (err) {
         if (err) {
-            return res.status(400).json({message: "Username taken, please choose another."});
+            return res.status(400).json({message: "Whoops, looks like you already have an account registered. Try a different provider."});
         }
 
-        return res.json({token: user.generateJWT()})
+        return res.json({token: user.generateJWT()});
     });
 });
 /**

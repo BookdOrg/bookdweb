@@ -3,10 +3,10 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
 var UserSchema = new mongoose.Schema({
-    username: {type: String, lowercase: true, unique: true},
-    firstName: String,
-    lastName: String,
+    name: String,
+    email: String,
     avatarVersion: String,
+    provider: String,
     rating: Number,
     businessOwner: Boolean,
     hash: String,
@@ -16,8 +16,7 @@ var UserSchema = new mongoose.Schema({
     settings: Object,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
     personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
-    businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
-    interests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Category'}]
+    businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}]
 });
 
 UserSchema.methods.validPassword = function (password) {
@@ -45,10 +44,10 @@ UserSchema.methods.generateJWT = function () {
         businessOwner: this.businessOwner,
         businessPage: this.businessPage,
         exp: parseInt(exp.getTime() / 1000),
-        firstName: this.firstName,
         isAdmin: this.isAdmin,
-        lastName: this.lastName,
-        username: this.username
+        name: this.name,
+        provider: this.provider,
+        email: this.email
     }, 'SECRET');
 };
 

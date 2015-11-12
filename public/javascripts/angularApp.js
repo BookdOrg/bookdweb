@@ -92,7 +92,7 @@ angular.module('cc', ['ui.router',
                     }
                 })
                 .state('user', {
-                    url: '/user/:username/profile',
+                    url: '/user/:id/profile',
                     templateUrl: 'partials/profile.html',
                     controller: 'ProfileCtrl',
                     resolve: {

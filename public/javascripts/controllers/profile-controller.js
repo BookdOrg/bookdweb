@@ -8,7 +8,7 @@ angular.module('cc.profile-controller', [])
             $scope.max = 5;
             $scope.isReadonly = false;
             $scope.rate = 2.5;
-            user.get($stateParams.username).then(function (data) {
+            user.get($stateParams.id).then(function (data) {
                 $scope.user = data.user;
             });
         }]);

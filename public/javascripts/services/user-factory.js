@@ -15,10 +15,10 @@ angular.module('cc.user-factory', [])
         /**
          *   Returns the profile of a specified user.
          **/
-        o.get = function (username) {
+        o.get = function (id) {
             return $http.get('/user/profile', {
                 params: {
-                    username: username
+                    id: id
                 },
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken(),
@@ -27,7 +27,7 @@ angular.module('cc.user-factory', [])
             }).then(function (res) {
                 // angular.copy(res.data, o.user)
                 return res.data;
-            }, handleError)
+            }, handleError);
         };
         /**
          *   Upload a users profile picture
@@ -41,7 +41,7 @@ angular.module('cc.user-factory', [])
             }).then(function (data) {
                 //TODO Handle success
                 //console.log(data);
-            }, handleError)
+            }, handleError);
         };
         /**
          * Returns all a users personal and business appointments
@@ -55,7 +55,7 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.appointments);
                 return (data.data);
                 //console.log(data);
-            }, handleError)
+            }, handleError);
         };
         /**
          *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
@@ -74,7 +74,7 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.customerEmployeeAppts);
                 return data.data;
                 //console.log(data);
-            }, handleError)
+            }, handleError);
         };
         /**
          *   Returns a user object
@@ -90,7 +90,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.user);
-            }, handleError)
+            }, handleError);
         };
 
         o.getDashboard = function () {
@@ -100,8 +100,8 @@ angular.module('cc.user-factory', [])
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(function (data) {
-                angular.copy(data.data, o.dashboard)
-            }, handleError)
+                angular.copy(data.data, o.dashboard);
+            }, handleError);
         };
 
         return o;
