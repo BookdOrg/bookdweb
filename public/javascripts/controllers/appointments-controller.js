@@ -195,7 +195,6 @@ angular.module('cc.appointments-controller', [])
         $scope.showCount = false;
         var timeStarted = false;
 
-        // $scope.currentUser = auth.currentUser();
         $scope.$watch('selectedDate', function (newVal, oldVal) {
             if (newVal) {
                 getAvailableTimes(newVal, data.appointment.employee);
@@ -232,7 +231,9 @@ angular.module('cc.appointments-controller', [])
                             $scope.$digest();
                         }
                     };
-                    _.each($scope.availableTimes,testTime);
+                    if(newDate == $scope.dateObj.appointment.start.date){
+                        _.each($scope.availableTimes,testTime);
+                    }
                     socket.emit('joinApptRoom', employeeApptObj);
                 });
         }

@@ -66,9 +66,6 @@ angular.module('cc.business-controller', [])
                     // 	}
                     // }
                 });
-                modalInstance.results.then(function(){
-                    $scope.$digest();
-                });
             };
             /**
              *
