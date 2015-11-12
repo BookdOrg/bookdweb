@@ -109,7 +109,7 @@ angular.module('cc', ['ui.router',
                     }
                 })
                 .state('account', {
-                    url: '/user/:username/account',
+                    url: '/user/:id/account',
                     templateUrl: 'partials/account.html',
                     controller: 'AccountCtrl',
                     resolve: {

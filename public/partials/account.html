@@ -36,27 +36,24 @@
                         </div>
                     </span>
                   </div>
-                  <div class="col-xs-4">
-                      <span>First Name : {{currentUser.firstName}}</span>
+                  <div class="col-xs-8 text-center">
+                      <h3>{{currentUser.name}}</h3>
                       <br>
-                      <span>Last Name: {{currentUser.lastName}}</span>
+                      Rating: {{currentUser.rating}}
                       <br>
-                      <!-- Rating: {{currentUser.rating}} -->
-                      <br>
-                  </div>
-                  <div class="col-xs-4 text-center">
                       <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd Partners Registered Business click here to get your Associate ID">
                           <label>
                               <input ng-model="showID" value="true" type="checkbox"> Show Associate ID:
                           </label>
                       </div>
                       <div ng-show="showID">
-                            <span>{{currentUser._id}}</span>
+                          <span>{{currentUser._id}}</span>
+                      </div>
+                      <div class="col-xs-offset-4">
+                          <button class="btn btn-primary col-xs-6" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
                       </div>
                   </div>
-                  <div class="col-xs-12 col-xs-offset-3">
-                      <button class="btn btn-primary col-xs-6" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
-                  </div>
+              </div>
                   <form style="margin-top:30px;">
                       <div ng-show="showLoader" class="row">
                           <div class="col-md-6">
@@ -106,7 +103,7 @@
                           </div>
                       </div>
                   </form>
-              </div>
+
           </div>
       </div>
 

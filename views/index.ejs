@@ -207,7 +207,7 @@
                                    href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                             <li ng-if="currentUser().isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
                                             class="fa fa-tasks"></i> Admin</a></li>
-                            <li><a href="/user/{{currentUser().username}}/account" ng-click="showSearch(false)"><i
+                            <li><a href="/user/{{currentUser()._id}}/account" ng-click="showSearch(false)"><i
                                             class="fa fa-cog"></i> Settings</a></li>
                             <hr>
                             <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
