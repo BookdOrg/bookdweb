@@ -26,7 +26,7 @@ angular.module('cc.auth-controller', [])
             }
             //TODO handle all the possible error cases
             $scope.facebookLogin = function(){
-                OAuth.popup('facebook')
+                OAuth.popup('facebook',{cache: true})
                     .done(function(result) {
                         //console.log(result);
                         result.get('/me?fields=id,name,picture,email')
@@ -54,7 +54,7 @@ angular.module('cc.auth-controller', [])
                     });
             };
             $scope.googleLogin = function(){
-                OAuth.popup('google_plus')
+                OAuth.popup('google_plus',{cache: true})
                     .done(function(result) {
                         //console.log(result);
                         result.get('plus/v1/people/me')
@@ -82,7 +82,7 @@ angular.module('cc.auth-controller', [])
                     });
             };
             $scope.facebookSignup = function(){
-                OAuth.popup('facebook')
+                OAuth.popup('facebook',{cache: true})
                     .done(function(result) {
                         result.get('/me?fields=id,name,picture,email')
                             .done(function (response) {
@@ -108,7 +108,7 @@ angular.module('cc.auth-controller', [])
                     });
             };
             $scope.googleSignup = function(){
-                OAuth.popup('google_plus')
+                OAuth.popup('google_plus',{cache: true})
                     .done(function(result) {
                         result.get('plus/v1/people/me')
                             .done(function (response) {
