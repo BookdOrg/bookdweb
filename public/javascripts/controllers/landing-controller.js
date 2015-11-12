@@ -8,9 +8,9 @@ angular.module('cc.landing-controller', [])
             $scope.myInterval = 5000;
             var slides = $scope.slides = [];
             $scope.addSlide = function () {
-                var newWidth = 600 + slides.length + 1;
+                //var newWidth = 750 + slides.length + 1;
                 slides.push({
-                    image: 'http://placehold.it/' + newWidth + 'x300',
+                    image: '/images/header.jpg',
                     text: ['More', 'Extra', 'Lots of', 'Surplus'][slides.length % 4]
                 });
             };

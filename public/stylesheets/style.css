@@ -106,6 +106,9 @@ body {
 .video-container video.fillWidth {
     width: 100%;
 }
+.carousel-caption {
+    margin-bottom: 200px;
+}
 
 #landingBody {
     font-size: 16px;

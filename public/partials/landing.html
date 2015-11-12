@@ -1,12 +1,12 @@
 <div class="homepage-hero-module">
     <div class="video-container hidden-xs hidden-sm">
         <div class="filter"></div>
-        <video autoplay loop class="fillWidth">
-<!--             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser. -->
-            <source src="/video/Traffic-blurred2.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
-        </video>
-        <div class="poster hidden">
-            <img src="/video/Traffic-blurred2.jpg" alt="">
+        <!--<video autoplay loop class="fillWidth">-->
+<!--&lt;!&ndash;             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser. &ndash;&gt;-->
+            <!--<source src="/video/Traffic-blurred2.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.-->
+        <!--</video>-->
+        <div class="poster">
+            <img src="/images/header.jpg" alt="">
         </div>
         <div id="landingBody" class="text-center coverrTitle" ng-controller="LandingCtrl">
             <h1>Book'd</h1>
@@ -38,19 +38,43 @@
         </div>
     </div>
 </div>
-<div class="container-fluid hidden-md hidden-lg">
-  <div class="col col-xs-12 col-centered">
-    <div id="carousel" style="height: 305px">
+<div class="hidden-md hidden-lg">
+  <!--<div class="col col-xs-12 col-centered">-->
+    <div id="carousel" style="height: 650px">
       <carousel interval="myInterval">
         <slide ng-repeat="slide in slides" active="slide.active">
-          <img ng-src="{{slide.image}}" style="margin:auto;">
+          <img ng-src="{{slide.image}}" style="height:650px;width:1000px">
           <div class="carousel-caption">
-            <p>Content Coming Soon</p>
+              <h1>Book'd</h1>
+              <h3>Never worry about appointments again!</h3>
+              <div class="row form-inline form-group">
+                  <form>
+                        <span class="left-inner-addon">
+                            <!--<span class="input-group-lg">-->
+                                <i class="fa fa-building"></i>
+                                <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
+                            <!--</span>-->
+                        </span>
+                      <!--<span class="input-group-lg">-->
+                        <span class="left-inner-addon">
+                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                            <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                        </span>
+                        <span>
+                            <button class="btn btn-md sectionBtn" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                                <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
+                                <span ng-show="!fetchingQuery">Search</span>
+                            </button>
+                        </span>
+                  </form>
+                  <!--</span>-->
+              </div>
           </div>
         </slide>
       </carousel>
     </div>
-  </div>
+  <!--</div>-->
 </div>
 <section class="bg-primary" id="about">
     <div class="container">
