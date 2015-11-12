@@ -34,13 +34,19 @@ angular.module('cc', ['ui.router',
         'stripe.checkout',
         'timer',
         'ui.calendar',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'uiGmapgoogle-maps'
     ])
     .config([
         '$stateProvider',
         '$urlRouterProvider',
         '$locationProvider',
-        function ($stateProvider, $urlRouterProvider, $locationProvider) {
+        'uiGmapGoogleMapApiProvider',
+        function ($stateProvider, $urlRouterProvider, $locationProvider,uiGmapGoogleMapApiProvider) {
+            uiGmapGoogleMapApiProvider.configure({
+                //    key: 'your api key',
+                libraries: 'weather,geometry,visualization,places'
+            });
             $locationProvider.html5Mode(true);
             $stateProvider
                 .state('landing', {

@@ -76,7 +76,7 @@ angular.module('cc.appointments-controller', [])
                 //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
                 modalInstance.result.then(function(){
                     user.getUserAppts()
-                        .then(function(data){
+                        .then(function(){
                             $state.reload();
                         });
                 },function(){
@@ -93,8 +93,8 @@ angular.module('cc.appointments-controller', [])
             /* alert on Drop */
             $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
                 //$scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
-                console.log(delta);
-                console.log(event);
+                //console.log(delta);
+                //console.log(event);
             };
             /* alert on Resize */
             $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){

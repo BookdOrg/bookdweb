@@ -22,11 +22,16 @@
             </div>
         </form>
     </div>
-    <script type="text/ng-template" id="YCPopOver.html">
-        <h1>Hi Yc</h1>
-    </script>
     <div class="row">
-        <div class="col col-md-6">
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <div class="" ng-repeat="marker in businesses">
+                <ui-gmap-marker coords="marker.geometry.location" idkey="marker.id">
+                </ui-gmap-marker>
+            </div>
+        </ui-gmap-google-map>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
             <h1 class="page-header text-center">Results</h1>
             <p class="text-center text-muted" ng-if="businesses.length == 0 ">Go Ahead, Search for Businesses!</p>
             <!--<div class="col-md-offset-1">-->
@@ -52,17 +57,20 @@
                 <!--</div>-->
             </div>
         </div>
-        <div class="col col-md-5 col-md-offset-1">
-            <h1 class="page-header text-center">Feed</h1>
+        <!--<div class="col col-md-5 col-md-offset-1">-->
+            <!--<h1 class="page-header text-center">Feed</h1>-->
+                <!--&lt;!&ndash;<div class="" ng-repeat="deal in feed">&ndash;&gt;-->
+                    <!--<h2>{{feed.title}}</h2>-->
+                    <!--<h2>{{feed.description}}</h2>-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<div class="col">-->
+                <!--<p class="text-center text-muted">Coming Soon -- Deals offered by Businesses near you!</p>-->
+            <!--</div>-->
+            <!--<h1 class="page-header text-center">Activity</h1>-->
 
-            <div class="col">
-                <p class="text-center text-muted">Coming Soon -- Deals offered by Businesses near you!</p>
-            </div>
-            <h1 class="page-header text-center">Activity</h1>
-
-            <div class="col">
-                <p class="text-center text-muted">Coming Soon!</p>
-            </div>
-        </div>
+            <!--<div class="col">-->
+                <!--<p class="text-center text-muted">Coming Soon!</p>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>

@@ -50,6 +50,7 @@ server.listen(process.env.devsocketPort);
 var roomData = [];
 io.on('connection', function (socket) {
     var string;
+    var city,state,zip;
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
         socket.join(string);
@@ -65,7 +66,6 @@ io.on('connection', function (socket) {
         io.sockets.in(string).emit('destroyOld',data);
     });
     socket.on('online',function(data){
-        var city,state,zip;
         city = data.location.city;
         state = data.location.state;
         zip = data.location.zip;
@@ -73,6 +73,10 @@ io.on('connection', function (socket) {
         socket.join(state);
         socket.join(zip);
     });
+    //socket.on('newDeal',function(data){
+    //    console.log(data);
+    //    io.sockets.in(data.location).emit('incomingData',data);
+    //});
 });
 
 /**

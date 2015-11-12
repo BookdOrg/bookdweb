@@ -5,7 +5,7 @@
  *
  */
 angular.module('cc.location-factory', [])
-    .factory('location', [function () {
+    .factory('location', ['$window','$rootScope',function ($window,$rootScope) {
         var currPosition = {};
         if (typeof(Number.prototype.toRad) === 'undefined') {
             Number.prototype.toRad = function () {
@@ -23,12 +23,13 @@ angular.module('cc.location-factory', [])
                     latitude: position[0].geometry.location.lat,
                     longitude: position[0].geometry.location.lng
                 };
-//		  	$window.localStorage['currPosition'] = currPosition;
+		  	$window.localStorage['currPosition'] = currPosition;
                 location.currPosition = currPosition;
             },
-//		getPosition:function(){
-//            location.currPosition = $window.localStorage['currPosition'];
-//		},
+		getPosition:function(){
+            location.currPosition = $window.localStorage['currPosition'];
+            $rootScope.currLocation = location.currPosition;
+		},
             calculateDistance: function (lon1, lat1, lon2, lat2) {
                 var R = 6371; // Radius of the earth in km
                 var dLat = (lat2 - lat1).toRad();  // Javascript functions in radians
