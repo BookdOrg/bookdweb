@@ -7,16 +7,12 @@
     <div class="row">
     	<div class="col col-md-4 col-md-offset-4">
           <input class="form-control" g-places-autocomplete options="autocompleteOptions" ng-model="query" placeholder="Start typing your businesses name">
-<!--           <span class="input-group-btn">
-            <button class="btn btn-success" ng-click="search()" type="button">
-              <i style="height:20px; line-height:18px;" class="fa fa-search fa-fw"></i>
-            </button>
-          </span> -->
         </div>
     </div>
-    <div class="row well" ng-if="selectedQuery.name">
-    	<div class="col col-md-12">
-    		<img ng-src="{{selectedQuery.icon}}">
+    <div class="row col-xs-offset-2 " ng-if="selectedQuery.name">
+    	<div class="col well col-xs-10 text-center">
+    		<img ng-src="{{selectedQuery.icon}}"/>
+            <br>
     		Name: {{selectedQuery.name}}
     		<br>Phone Number: {{selectedQuery.formatted_phone_number}}
     		<br>Address: {{selectedQuery.formatted_address}}
@@ -25,32 +21,8 @@
     		<span ng-repeat="hours in selectedQuery.opening_hours.weekday_text">
     			<br>{{hours}}
     		</span>
-    		<div class="form-group">
-    			<br>Category: <select class="form-control col-md-3" ng-model="selectedQuery.category" ng-options="categoryOptions.id as categoryOptions.title for categoryOptions in categoryOptions"></select>
-    		</div>
-    	</div>
-    	<br>
-    	<div class="col col-md-12 col-md-offset-6">
-    		<button class="btn btn-success" ng-click="claim(selectedQuery)" >Claim</button>
-    	</div>
-    </div>
-    <div class="row well" ng-if="queryResults">
-    	<h1>Long Search Results</h1>
-    	<div ng-repeat="query in queryResults" class="col col-md-12">
-    		<img ng-src="{{query.icon}}">
-    		Name: {{query.name}}
-    		<br>Phone Number: {{query.formatted_phone_number}}
-    		<br>Address: {{query.formatted_address}}
-    		<br>Google Places Page: <a href="{{query.url}}">{{query.url}}</a>
-    		<br>Hours: 
-    		<span ng-repeat="hours in query.opening_hours.weekday_text">
-    			<br>{{hours}}
-    		</span>
-    		<br>
-    		<div class="form-group">
-    			<br>Category: <select class="form-control col-md-3" ng-model="query.category" ng-options="categoryOptions.id as categoryOptions.title for categoryOptions in categoryOptions"></select>
-    		</div>
-    		<button class="btn btn-success col-md-offset-3" ng-click="claim(query)">Claim</button>
+            <br>
+            <button class="btn btn-success" ng-click="claim(selectedQuery)" >Claim</button>
     	</div>
     </div>
 </div>

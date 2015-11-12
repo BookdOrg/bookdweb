@@ -108,7 +108,7 @@
                     <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
                     <img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                     <div class="">
-                        <h4><a href="/user/{{employee.username}}/profile">{{employee.firstName}} {{employee.lastName}}</a></h4>
+                        <h4><a href="/user/{{employee._id}}/profile">{{employee.name}}</a></h4>
                     </div>
                 </div>
 			</div>
@@ -182,7 +182,7 @@
 	            	<div class="col col-md-3 well" ng-repeat="employee in service.employees">
 	            		<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
 	          			<img ng-if="employee.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-	            		<h5>{{employee.firstName}} {{employee.lastName}}</h5>
+	            		<h5>{{employee.name}}</h5>
 	            		<br>
 	            		<label for="selectEmployee">Select</label>
                         <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
@@ -203,7 +203,7 @@
 					    </div>
 				    </div>
 				    <div class="col col-md-6 text-center">
-				    	<h4 ng-if="availableTimes.length > 1">{{employee.firstName}}'s Available Times</h4>
+				    	<h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
 				    	<div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"   ng-repeat="time in availableTimes track by $index">
 				    		<button ng-disabled="!time.available || time.status" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
@@ -309,7 +309,7 @@
 					<input class="form-control" id="editServiceName" ng-model="editService.name">
 				</div>
 				<div class="col-md-12">
-					<label>Employees: <span ng-repeat="employee in editService.employees"> {{employee.firstName}}</span></label>
+					<label>Employees: <span ng-repeat="employee in editService.employees"> {{employee.name}}</span></label>
 				</div>
 				<div class="col-md-12">
 					<div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings" selected-model="serviceEmployees"></div>
@@ -373,8 +373,7 @@
         			<img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
         				style="height:100px;width:100px;">
         			<br>Id: {{employee._id}}
-        			<br>Name: {{employee.firstName}} {{employee.lastName}}
-        			<br>Username: {{employee.username}}
+        			<br>Name: {{employee.name}}
         		</div>
         	</form>
         </div>
@@ -399,16 +398,16 @@ Remove Employee Modal
     </div>
     <div class="modal-body">
         <div ng-if="employeeHasService">
-            <h4>{{employee.firstName}} {{employee.lastName}} is the only employee associated with the following service(s):</h4>
+            <h4>{{employee.name}} is the only employee associated with the following service(s):</h4>
             <ul>
                 <li class="h5" ng-repeat="service in associatedServices">{{service}}</li>
             </ul>
-            <h4>Please delete or assign another employee to the service(s) before deleting {{employee.firstName}}.</h4>
+            <h4>Please delete or assign another employee to the service(s) before deleting {{employee.name}}.</h4>
 		</div>
-        <h4 ng-if="!employeeHasService">Are you sure you would like to remove {{employee.firstName}} {{employee.lastName}}?</h4>
+        <h4 ng-if="!employeeHasService">Are you sure you would like to remove {{employee.name}} {{employee.lastName}}?</h4>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-if="!employeeHasService" ng-click="remove()">Yes, remove {{employee.firstName}}</button>
+        <button class="btn btn-primary" ng-if="!employeeHasService" ng-click="remove()">Yes, remove {{employee.name}}</button>
 		<button class="btn btn-primary" ng-if="employeeHasService" ng-click="cancel()">Ok</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>

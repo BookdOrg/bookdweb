@@ -66,6 +66,9 @@ angular.module('cc.business-controller', [])
                     // 	}
                     // }
                 });
+                modalInstance.results.then(function(){
+                    $scope.$apply();
+                });
             };
             /**
              *
@@ -208,7 +211,6 @@ angular.module('cc.business-controller', [])
                 };
                 $scope.availableTimes.push(timeObj);
             }
-            console.log(data)
             data.forEach(function (array) {
                 for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
                     for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
@@ -387,7 +389,7 @@ angular.module('cc.business-controller', [])
         // }
         $scope.serviceEmployees = [];
         $scope.settings = {
-            displayProp: 'firstName',
+            displayProp: 'name',
             idProp: '_id',
             externalIdProp: '_id',
             smartButtonMaxItems: 3,
