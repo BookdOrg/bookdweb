@@ -427,7 +427,7 @@ angular.module('cc.business-controller', [])
         }
 
         $scope.settings = {
-            displayProp: 'firstName',
+            displayProp: 'name',
             idProp: '_id',
             externalIdProp: '_id',
             smartButtonMaxItems: 3,
