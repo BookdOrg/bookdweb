@@ -205,20 +205,9 @@ angular.module('cc.appointments-controller', [])
         $scope.timerFinished = function(){
             $scope.activeTime.toggled = !$scope.activeTime.toggled;
             $scope.showCount = false;
-            $scope.$apply();
+            $scope.$digest();
             socket.emit('timeDestroyed',$scope.activeTime);
         };
-        ///**
-        // *
-        // * @param employee
-        // */
-        //$scope.selectEmployee = function (employee) {
-        //    $scope.availableTimes = [];
-        //    $scope.employee = employee;
-        //    //TODO This is deprecated according to https://github.com/moment/moment/issues/1407
-        //    var day = moment().format('MM/DD/YYYY');
-        //    getAvailableTimes(day,$scope.employee._id);
-        //};
         /**
          *
          * @param date
@@ -236,8 +225,11 @@ angular.module('cc.appointments-controller', [])
                     var testTime = function(element,index,list){
                         if(element.time == $scope.dateObj.appointment.start.time){
                             $scope.availableTimes[index].available = true;
+                            $scope.availableTimes[index].status = false;
                             $scope.availableTimes[index].toggled = true;
                             $scope.selectedIndex = index;
+                            //TODO Remove this $digest in favor of the correct way to get the view to update, current fixes the issue though
+                            $scope.$digest();
                         }
                     };
                     _.each($scope.availableTimes,testTime);

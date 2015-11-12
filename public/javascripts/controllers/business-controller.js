@@ -67,7 +67,7 @@ angular.module('cc.business-controller', [])
                     // }
                 });
                 modalInstance.results.then(function(){
-                    $scope.$apply();
+                    $scope.$digest();
                 });
             };
             /**
@@ -159,7 +159,7 @@ angular.module('cc.business-controller', [])
         $scope.timerFinished = function(){
             $scope.activeTime.toggled = !$scope.activeTime.toggled;
             $scope.showCount = false;
-            $scope.$apply();
+            $scope.$digest();
             socket.emit('timeDestroyed',$scope.activeTime);
         };
         /**

@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema({
     businessOwner: Boolean,
     hash: String,
     salt: String,
-    isEmployee: Boolean,
+    isAssociate: Boolean,
     isAdmin: Boolean,
     settings: Object,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],

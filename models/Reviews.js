@@ -4,8 +4,7 @@ var ReviewSchema = new mongoose.Schema({
     body: String,
     author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     timestamp: String,
-    image: String,
-    business: {type: mongoose.Schema.Types.ObjectId, ref: 'Business'}
+    associate: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 mongoose.model('Review', ReviewSchema);

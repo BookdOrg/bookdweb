@@ -216,7 +216,6 @@ angular.module('cc.business-factory', [])
             return $http.post('/business/add-service', service, {
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
-                console.log(data.data)
                 angular.copy(data.data, o.business.info);
             }, handleError);
         };
