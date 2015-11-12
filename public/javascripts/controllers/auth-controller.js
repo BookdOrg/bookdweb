@@ -28,7 +28,7 @@ angular.module('cc.auth-controller', [])
             $scope.facebookLogin = function(){
                 OAuth.popup('facebook')
                     .done(function(result) {
-                        console.log(result);
+                        //console.log(result);
                         result.get('/me?fields=id,name,picture,email')
                             .done(function (response) {
                                 var user = {
