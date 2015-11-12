@@ -63,7 +63,7 @@ Edit Appointment Modal
             <div class="col col-md-6 text-center">
                 <h4 ng-if="availableTimes.length > 1">Schedule</h4>
                 <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"   ng-repeat="time in availableTimes track by $index">
-                    <button ng-disabled="!time.available || time.status" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
+                    <button ng-disabled="!time.available || time.status || time.toggled" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
                         {{time.time}}
                     </button>
                 </div>
@@ -71,7 +71,7 @@ Edit Appointment Modal
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-disabled="!appointment" ng-click="update()">Update</button>
+        <button class="btn btn-primary" ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time" ng-click="update()">Update</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
