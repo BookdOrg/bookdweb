@@ -7,29 +7,17 @@
           <div class="panel-body">
               <div class="row">
                   <div class="form-group col-sm-4">
-                    <span ng-if="currentUser.user.provider == 'bookd'">
-                        <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
-                            <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
-                                <img ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
-                                <img ng-if="currentUser.user.avatarVersion && currentUser.user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
-                                <img ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
-                                <img ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
-                                <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
-                                <div>OR</div>
-                                <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
-                            </div>
+                    <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
+                        <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
+                            <img ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
+                            <img ng-if="currentUser.user.avatarVersion && currentUser.user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
+                            <img ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
+                            <img ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
+                            <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
+                            <div>OR</div>
+                            <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
                         </div>
-                    </span>
-                    <span ng-if="!currentUser.user.avatarVersion">
-                        <div nv-file-drop="" uploader="uploader" removeAfterUpload="true" >
-                            <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
-                                <image ng-src="{{cloudinaryDefaultPic}}"></image>
-                                <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
-                                <div>OR</div>
-                                <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
-                            </div>
-                        </div>
-                    </span>
+                    </div>
                   </div>
                   <div class="col-sm-8 text-center">
                       <h3>{{currentUser.user.name}}</h3>
