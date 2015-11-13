@@ -8,8 +8,7 @@ angular.module('cc.nav-controller', ["google.places"])
         '$modal',
         'moment',
         'user',
-        'time',
-        function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user, time) {
+        function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user) {
             $scope.isLoggedIn = auth.isLoggedIn;
             $scope.currentUser = auth.currentUser;
             $scope.logOut = auth.logOut;
@@ -23,11 +22,6 @@ angular.module('cc.nav-controller', ["google.places"])
                 user.getUserAppts().then(
                     function (data) {
                         $scope.currentUser.appointments = data;
-                        var dayDiffs = time.getDaysDiff(data.personalAppointments);
-
-                        for (var currAppointmentIndex = 0; currAppointmentIndex < dayDiffs.length; currAppointmentIndex++) {
-                            $scope.currentUser.appointments.personalAppointments[currAppointmentIndex].dayDiff = dayDiffs[currAppointmentIndex];
-                        }
                     },
                     function (errorMessage) {
                         console.log(errorMessage);
@@ -41,26 +35,26 @@ angular.module('cc.nav-controller', ["google.places"])
                 }
             };
 
-            $scope.open = function(type,state) {
+            $scope.open = function (type, state) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationEnabled,
                     templateUrl: 'partials/login.html',
                     controller: 'AuthCtrl',
                     resolve: {
-                        modalType: function() {
+                        modalType: function () {
                             return type;
                         },
-                        state:function(){
+                        state: function () {
                             return state;
                         }
                     }
                 });
             };
 
-            $scope.goToClaim = function(){
-                if(!auth.isLoggedIn()){
-                    $scope.open('login','search');
-                }else{
+            $scope.goToClaim = function () {
+                if (!auth.isLoggedIn()) {
+                    $scope.open('login', 'search');
+                } else {
                     $state.go('search');
                 }
             };
@@ -70,4 +64,30 @@ angular.module('cc.nav-controller', ["google.places"])
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    });
+    })
+
+    /**
+     * Filter out appointments that occur before today.
+     * Return array of appointments occurring today or later.
+     * We append the number of days between the appointment day and today to each filtered appointment.
+     */
+    .filter("notifFilter", ['moment', function (moment) {
+        return function (dates) {
+            if (!dates) {
+                return;
+            }
+            var newDates = [],
+                today = moment().startOf('day');
+
+            for (var currDateIndex = 0; currDateIndex < dates.length; currDateIndex++) {
+                var startDay = moment(dates[currDateIndex].start.date, 'MM/DD/YYYY'),
+                    numDaysAway = startDay.diff(today, 'days');
+
+                if (numDaysAway > 0) {
+                    newDates.push(dates[currDateIndex]);
+                    newDates[newDates.length - 1].dayDiff = numDaysAway;
+                }
+            }
+            return newDates;
+        }
+    }]);

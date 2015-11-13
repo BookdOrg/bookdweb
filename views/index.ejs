@@ -169,7 +169,8 @@
                 <ul class="nav navbar-nav navbar-right hidden-xs">
                     <li class="dropdown" ng-show="isLoggedIn()">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
-                            <span class="badge">{{currentUser.appointments.personalAppointments.length}}</span></a>
+                            <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
+                            <span class="badge">{{filteredAppts.length}}</span></a>
 
                         <div class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
@@ -179,7 +180,7 @@
                             <span class="divider"></span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
-                                    ng-repeat="appointment in currentUser.appointments.personalAppointments">
+                                    ng-repeat="appointment in filteredAppts = (currentUser.appointments.personalAppointments | notifFilter)">
                                     <div class="notification-item">
                                         <p class="item-info">{{appointment.title}}</p>
                                         <h4 class="item-title">Appointment is {{appointment.dayDiff}} days away</h4>
