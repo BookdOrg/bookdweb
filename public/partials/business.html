@@ -48,7 +48,7 @@
 		########################################
 		-->
 		<div class="row">
-			<div ng-if="currentUser._id == business.info.owner" class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<div ng-if="currentUser.user._id == business.info.owner" class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
 			</div>
 			<h1 class="text-center ">Services</h1>
@@ -57,7 +57,7 @@
             <h2 ng-if="business.info.services.length ==0">Services coming soon!</h2>
 			<div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;" ng-repeat="service in business.info.services track by $index">
 				<div class="row">
-					<div ng-if="currentUser._id == business.info.owner" class="adjustMargins pull-right">
+					<div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
 						<div class="btn-group">
 							<a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
 							<ul class="dropdown-menu">
@@ -86,7 +86,7 @@
 		########################################
 		-->	
 		<div class="row">
-			<div ng-if="currentUser._id == business.info.owner" class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
+			<div ng-if="currentUser.user._id == business.info.owner" class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9" role="group">
 				<!--<button ng-click="openEmployee()" class="btn btn-primary">Add</button>-->
 				<!--<button class="btn btn-warning">Edit</button>-->
 				<button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
@@ -100,7 +100,7 @@
             <h2 class="text-center" ng-if="business.info.employees.length ==0">No Associates Listed Yet!</h2>
 			<div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
-                    <div ng-if="currentUser._id == business.info.owner" class="adjustMargins pull-right">
+                    <div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
                         <button class="close" ng-click="removeEmployee(employee)"><i class="fa fa-trash-o text-danger"></i></button>
                     </div>
                 </div>

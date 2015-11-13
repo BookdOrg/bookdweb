@@ -249,7 +249,7 @@ angular.module('cc.appointments-controller', [])
                     available: true,
                     toggled: false,
                     status: false,
-                    user:$scope.currentUser._id
+                    user:$scope.currentUser.user._id
                 };
                 $scope.availableTimes.push(timeObj);
             }
@@ -290,12 +290,12 @@ angular.module('cc.appointments-controller', [])
             }
         });
         socket.on('newHold',function(data){
-            if(data.user !== $scope.currentUser._id){
+            if(data.user !== $scope.currentUser.user._id){
                 calculateHold(data);
             }
         });
         socket.on('destroyOld',function(data){
-            if(data.user !== $scope.currentUser._id) {
+            if(data.user !== $scope.currentUser.user._id) {
                 destroyOld(data);
             }
         });
@@ -370,7 +370,7 @@ angular.module('cc.appointments-controller', [])
                 _id: data.appointment._id,
                 businessid: data.appointment.businessId,
                 employee: data.appointment.employee,
-                customer: $rootScope.currentUser._id,
+                customer: $rootScope.currentUser.user._id,
                 start: {
                     date: apptDate,
                     time: apptTime,

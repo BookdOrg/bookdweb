@@ -37,9 +37,7 @@
     <script src="/javascripts/controllers/landing-controller.js"></script>
     <script src="/javascripts/controllers/modal-controller.js"></script>
     <script src="/javascripts/controllers/account-controller.js"></script>
-    <script src="/javascripts/controllers/bizlist-controller.js"></script>
     <script src="/javascripts/controllers/business-controller.js"></script>
-    <script src="/javascripts/controllers/claim-controller.js"></script>
     <script src="/javascripts/controllers/admin-controller.js"></script>
     <script src="/javascripts/controllers/search-controller.js"></script>
     <script src="/javascripts/controllers/dashboard-controller.js"></script>
@@ -136,21 +134,21 @@
                 <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"
                                             href="/feed"><i class="fa fa-home"></i> Feed</a></li>
                 <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                            href="/user/{{currentUser._id}}/profile"><i
+                                            href="/user/{{currentUser.user._id}}/profile"><i
                                 class="fa fa-user"></i> Profile</a></li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
                             ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                            href="/user/{{currentUser._id}}/account"><i class="fa fa-cog"></i> Settings</a>
+                            href="/user/{{currentUser.user._id}}/account"><i class="fa fa-cog"></i> Settings</a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
                             ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i
                                 class="fa fa-bookmark"></i> Favorites</a></li>
                 <li class="hidden-sm hidden-md hidden-lg"><a
                             ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                            ng-if="currentUser.businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>
+                            ng-if="currentUser.user.businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>
                         Dashboard</a></li>
                 <li class="hidden-sm hidden-md hidden-lg"
-                    ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser.isAdmin"><a
+                    ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser.user.isAdmin"><a
                             href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false); open('login','landing')"
                                                                                     href=""><i
@@ -206,7 +204,7 @@
                                     Favorites</a></li>
                             <li><a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
                                    href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-                            <li ng-if="currentUser.isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
+                            <li ng-if="currentUser.user.isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
                                             class="fa fa-tasks"></i> Admin</a></li>
                             <li><a href="/user/{{currentUser.user._id}}/account" ng-click="showSearch(false)"><i
                                             class="fa fa-cog"></i> Settings</a></li>

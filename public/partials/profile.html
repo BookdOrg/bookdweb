@@ -1,14 +1,22 @@
 <div class="container-fluid">
   <div class="row page-header">
       <div class="text-left col-md-2">
-        <img ng-if="!user.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-        <img ng-if="user.avatarVersion" ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}">
+          <div ng-if="currentUser.user._id == user._id">
+              <img ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
+              <img ng-if="currentUser.user.avatarVersion && currentUser.user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
+              <img ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
+              <img ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
+          </div>
+          <div ng-if="currentUser.user._id !== user._id">
+              <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
+              <img ng-if="user.avatarVersion && user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
+          </div>
       </div>
       <div class="col-md-8">
-        <h1 ng-if="currentUser._id !== user._id" class="text-center">
+        <h1 ng-if="currentUser.user._id !== user._id" class="text-center">
           {{user.name}}'s Profile
         </h1>
-        <h1 ng-if="currentUser._id == user._id" class="text-center">
+        <h1 ng-if="currentUser.user._id == user._id" class="text-center">
           Your Profile
         </h1>
         <h3 class="text-center">

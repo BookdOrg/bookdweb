@@ -142,7 +142,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.param('id');
     User.findOne({'_id': id})
-        .select('_id name avatarVersion personalAppointments businessAppointments')
+        .select('_id name provider email avatarVersion personalAppointments businessAppointments')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
                 return handleError(err);
