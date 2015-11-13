@@ -176,7 +176,6 @@ angular.module('cc.appointments-controller', [])
         }])
     .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data,businessFactory,user,socket,$rootScope) {
         $scope.dateObj = data;
-        //TODO make a request for the service details based on the service ID in Data
         businessFactory.serviceDetails($scope.dateObj.appointment.service)
             .then(function(){
                 $scope.service = businessFactory.service;
@@ -398,7 +397,7 @@ angular.module('cc.appointments-controller', [])
         $scope.update = function () {
             socket.emit('timeDestroyed',$scope.activeTime);
              businessFactory.updateAppointment($scope.appointment)
-               .then(function(data){
+               .then(function(){
                  $modalInstance.close();
                });
         };
@@ -406,6 +405,12 @@ angular.module('cc.appointments-controller', [])
             if($scope.activeTime){
                 socket.emit('timeDestroyed',$scope.activeTime);
             }
-            $modalInstance.dismiss('cancel');
+            var appt = {
+                'id':  $scope.dateObj.appointment._id
+            };
+            businessFactory.cancelAppointment(appt)
+                .then(function(){
+                    $modalInstance.close();
+                });
         };
     });

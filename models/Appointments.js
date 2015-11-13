@@ -12,4 +12,10 @@ var AppointmentsSchema = new mongoose.Schema({
     card: Object
 });
 
+AppointmentsSchema.post('remove', function(next) {
+    // Remove all the assignment docs that reference the removed person.
+    console.log('%s has been removed', this._id);
+    this.model('User').remove({ user: this._id }, next);
+
+});
 mongoose.model('Appointment', AppointmentsSchema);

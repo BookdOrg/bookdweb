@@ -480,13 +480,13 @@ router.post('/business/appointments/update',auth,function(req,res,next){
  *
  */
 router.post('/business/appointments/cancel',auth,function(req,res,next){
-    var appointment = req.body.appt;
+    var appointment = req.body.id;
 
-    Appointment.findOneAndRemove({'id':appointment._id}).exec(function(err,appointment){
+    Appointment.findOneAndRemove({'id':appointment._id},function(err,count){
         if(err){
             return next(err);
         }
-        console.log(appointment);
+        res.status(200).json({message:'Success'});
     });
 });
 
@@ -784,10 +784,10 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     }
                     busResponse.services = services;
                     res.json(busResponse);
-                })
-            })
+                });
+            });
         });
-    })
+    });
 });
 
 /**

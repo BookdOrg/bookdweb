@@ -71,7 +71,21 @@ angular.module('cc.business-factory', [])
             },function(err){
                 return err.data;
             });
-        }
+        };
+        /**
+         *
+         * Cancel an appointment
+         *
+         */
+        o.cancelAppointment = function(appt){
+            return $http.post('/business/appointments/cancel',appt,{
+                headers:{Authorization: 'Bearer ' + auth.getToken()}
+            }).then(function(response){
+
+            },function(err){
+                return err.data;
+            });
+        };
         /**
          *   Returns a list of all businesses in a specific category that are within the defined
          *   search radius. Radar Search returns a list of 200 businesses maximum.
