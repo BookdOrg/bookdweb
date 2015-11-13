@@ -46,6 +46,7 @@ UserSchema.methods.generateJWT = function () {
         businessPage: this.businessPage,
         exp: parseInt(exp.getTime() / 1000),
         isAdmin: this.isAdmin,
+        isAssociate: this.isAssociate,
         name: this.name,
         provider: this.provider,
         email: this.email,

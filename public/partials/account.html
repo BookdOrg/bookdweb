@@ -29,7 +29,7 @@
                   <div class="col-sm-4 text-center">
                       <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd partners' registered business click here to see the Associate Panel.">
                           <label>
-                              <input ng-model="showID" value="true" type="checkbox"> Show Associate Panel
+                              <input ng-model="currentUser.user.isAssociate" value="true" type="checkbox"> Show Associate Panel
                           </label>
                       </div>
                   </div>
@@ -86,7 +86,7 @@
 
           </div>
       </div>
-      <div class="panel panel-default" ng-show="showID">
+      <div class="panel panel-default" ng-show="currentUser.user.isAssociate">
           <div class="panel-heading">
               Associate Panel
           </div>

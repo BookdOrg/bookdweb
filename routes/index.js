@@ -712,6 +712,21 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
 
+    User.findOne({'_id':employeeId}).exec(function(err,user){
+        if(err){
+            return next(err);
+        }
+        user.isAssociate = true;
+
+        user.save(function(err,response){
+            if(err){
+                return next(err);
+            }
+            res.json({message:'Success'});
+        });
+
+    });
+
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         response.employees.pushIfNotExist(employeeId, function (e) {
             return e == employeeId;
