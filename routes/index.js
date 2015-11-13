@@ -177,8 +177,8 @@ router.get('/user/profile', auth, function (req, res, next) {
  *  id - The id of the employee.
  **/
 router.get('/user/search', auth, function (req, res, next) {
-    var id = req.param('id');
-    User.findOne({'_id': id}).select('_id name avatarVersion').exec(function (error, user) {
+    var email = req.param('email');
+    User.findOne({'email': email}).select('_id name avatarVersion').exec(function (error, user) {
         if (error) {
             return next(error);
         }

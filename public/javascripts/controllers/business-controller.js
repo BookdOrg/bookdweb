@@ -458,8 +458,9 @@ angular.module('cc.business-controller', [])
             $modalInstance.close();
         };
 
-        $scope.findEmployee = function (id) {
-            user.search(id);
+        $scope.findEmployee = function (email) {
+            user.search(email);
+            //TODO change this to a callback
             $scope.employee = user.user;
         };
 

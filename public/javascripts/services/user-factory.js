@@ -82,10 +82,10 @@ angular.module('cc.user-factory', [])
          *  Parameters:
          *  id - The id of the employee.
          **/
-        o.search = function (id) {
+        o.search = function (email) {
             return $http.get('/user/search', {
                 params: {
-                    'id': id
+                    'email': email
                 },
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
