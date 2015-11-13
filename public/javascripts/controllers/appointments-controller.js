@@ -413,4 +413,10 @@ angular.module('cc.appointments-controller', [])
                     $modalInstance.close();
                 });
         };
+        $scope.close = function(){
+            if($scope.activeTime){
+                socket.emit('timeDestroyed',$scope.activeTime);
+            }
+            $modalInstance.close();
+        };
     });
