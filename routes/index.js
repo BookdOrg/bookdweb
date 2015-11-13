@@ -450,10 +450,10 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
  *
  */
 router.post('/business/appointments/update',auth,function(req,res,next){
-   var updatedAppointmentStart = req.body.start;
+    var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-    Appointment.findOne({'id':updatedAppointmentId._id}).exec(function(err,appointment){
+    Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
         if(err){
             return next(err);
         }
@@ -473,14 +473,22 @@ router.post('/business/appointments/update',auth,function(req,res,next){
  * Cancel an appointment - Delete
  *
  */
-// router.get('/user/appointments',auth, function(req,res,next){
-//   var startDate = req.param('startDate');
-//   var userId = req.payload._id;
-//   User.findOne({"_id":userId}).populate({path:"personalAppointments",match:{'start.date':startDate}}).exec(function(err,user){
-//     if(err){return next(err);}
-//     res.json(user.personalAppointments);
-//   })
-// })
+/**
+ *
+ * Update an appointment - Reschedule
+ *
+ *
+ */
+router.post('/business/appointments/cancel',auth,function(req,res,next){
+    var appointment = req.body.appt;
+
+    Appointment.findOneAndRemove({'id':appointment._id}).exec(function(err,appointment){
+        if(err){
+            return next(err);
+        }
+        console.log(appointment);
+    });
+});
 
 
 /**

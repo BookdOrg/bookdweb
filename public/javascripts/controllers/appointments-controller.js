@@ -24,10 +24,9 @@ angular.module('cc.appointments-controller', [])
             /* event source that pulls from google.com */
             /* event source that contains custom events on the scope */
 
-
+            $scope.personalEvents = [];
+            $scope.associateEvents = [];
             var createEventsSources = function(){
-                $scope.personalEvents = [];
-                $scope.associateEvents = [];
                 for(var appointmentIndex =0; appointmentIndex<$scope.appointments.personalAppointments.length;appointmentIndex++){
                     var tempObj = {
                         title:$scope.appointments.personalAppointments[appointmentIndex].title,
@@ -75,10 +74,7 @@ angular.module('cc.appointments-controller', [])
                 });
                 //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
                 modalInstance.result.then(function(){
-                    user.getUserAppts()
-                        .then(function(){
-                            $state.reload();
-                        });
+                    $state.reload();
                 },function(){
 
                 });

@@ -71,8 +71,8 @@ Edit Appointment Modal
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time" ng-click="update()">Update</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time" ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update  </button>
+        <button class="btn btn-danger" ng-disabled="availableTimes[selectedIndex].time !== dateObj.appointment.start.time" ng-click="cancel()">Cancel <i class="fa fa-calendar-times-o"></i></button>
     </div>
 </script>
 
