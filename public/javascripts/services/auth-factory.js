@@ -15,6 +15,12 @@ angular.module('cc.auth-factory', [])
             getToken: function () {
                 return $window.localStorage['cc-token'];
             },
+            saveProviderInfo:function(info){
+                $window.localStorage['providerInfo'] = info;
+            },
+            getProviderInfo:function(){
+                return $window.localStorage['providerInfo'];
+            },
             isLoggedIn: function () {
                 var token = auth.getToken();
 
@@ -29,23 +35,35 @@ angular.module('cc.auth-factory', [])
             currentUser: function () {
                 if (auth.isLoggedIn()) {
                     var token = auth.getToken();
-                    return angular.fromJson($window.atob(token.split('.')[1]));
+                    var data = {
+                        'user':angular.fromJson($window.atob(token.split('.')[1])),
+                        'providerInfo': auth.getProviderInfo()
+                    };
+                    return data;
                 }
             },
-            register: function (user) {
+            register: function (user,info) {
                 return $http.post('/register', user)
                     .then(function (data) {
                         auth.saveToken(data.data.token);
+                        if(info){
+                            auth.saveProviderInfo(info);
+                        }
                         $rootScope.currentUser = auth.currentUser();
+                        $rootScope.currentUser.providerInfo = auth.getProviderInfo();
                     }, function (error) {
                         throw error.data;
                     });
             },
-            logIn: function (user) {
+            logIn: function (user,info) {
                 return $http.post('/login', user)
                     .then(function (data) {
                         auth.saveToken(data.data.token);
+                        if(info){
+                            auth.saveProviderInfo(info);
+                        }
                         $rootScope.currentUser = auth.currentUser();
+                        $rootScope.currentUser.providerInfo = auth.getProviderInfo();
                     }, function (error) {
                         throw error.data;
                     });

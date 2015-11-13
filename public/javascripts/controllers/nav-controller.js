@@ -10,7 +10,6 @@ angular.module('cc.nav-controller', ["google.places"])
         'user',
         function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user) {
             $scope.isLoggedIn = auth.isLoggedIn;
-            $scope.currentUser = auth.currentUser;
             $scope.logOut = auth.logOut;
 
             $scope.navbarCollapsed = true;
@@ -18,10 +17,10 @@ angular.module('cc.nav-controller', ["google.places"])
 
             $scope.animationEnabled = true;
 
-            if ($scope.isLoggedIn()) {
+            if (auth.isLoggedIn()) {
                 user.getUserAppts().then(
                     function (data) {
-                        $scope.currentUser.appointments = data;
+                        $rootScope.currentUser.user.appointments = data;
                     },
                     function (errorMessage) {
                         console.log(errorMessage);

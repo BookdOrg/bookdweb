@@ -8,7 +8,8 @@ angular.module('cc.auth-controller', [])
         'state',
         'socket',
         '$rootScope',
-        function ($scope, $state, auth, $modalInstance, modalType,state,socket,$rootScope) {
+        'user',
+        function ($scope, $state, auth, $modalInstance, modalType,state,socket,$rootScope,user) {
             $scope.user = {};
             $scope.tabs = [
                 {
@@ -35,9 +36,10 @@ angular.module('cc.auth-controller', [])
                                     'email':response.email,
                                     'provider': result.provider
                                 };
-                                auth.logIn(user)
+                                auth.logIn(user,response.picture.data.url)
                                     .then(function () {
                                         $state.go(state);
+                                        getAppointments();
                                         $modalInstance.close();
                                     }, function (error) {
                                         $scope.error = error.message;
@@ -63,9 +65,10 @@ angular.module('cc.auth-controller', [])
                                     'email':response.emails[0].value,
                                     'provider': result.provider
                                 };
-                                auth.logIn(user)
+                                auth.logIn(user,response.image.url)
                                     .then(function () {
                                         $state.go(state);
+                                        getAppointments();
                                         $modalInstance.close();
                                     }, function (error) {
                                         $scope.error = error.message;
@@ -91,9 +94,11 @@ angular.module('cc.auth-controller', [])
                                     'name':response.name,
                                     'provider': result.provider
                                 };
-                                auth.register(user)
+                                auth.register(user,response.picture.data.url)
                                     .then(function () {
+                                        console.log(response);
                                         $state.go(state);
+                                        getAppointments();
                                         $modalInstance.close();
                                     },function(error){
                                         $scope.error = error.message;
@@ -117,9 +122,10 @@ angular.module('cc.auth-controller', [])
                                     'name':response.displayName,
                                     'provider':result.provider
                                 };
-                                auth.register(user)
+                                auth.register(user,response.image.url)
                                     .then(function () {
                                         $state.go(state);
+                                        getAppointments();
                                         $modalInstance.close();
                                     },function(error){
                                         $scope.error = error.message;
@@ -154,6 +160,7 @@ angular.module('cc.auth-controller', [])
                         //onlineData.user = $rootScope.currentUser._id;
                         //onlineData.location = $rootScope.currLocation;
                         //socket.emit('online',onlineData);
+                        getAppointments();
                         $state.go(state);
                         $modalInstance.close();
                 },function(error){
@@ -173,6 +180,7 @@ angular.module('cc.auth-controller', [])
                         //onlineData.user = $rootScope.currentUser._id;
                         //onlineData.location = $rootScope.currLocation;
                         //socket.emit('online',onlineData);
+                        getAppointments();
                         $state.go(state);
                         $modalInstance.close();
                 }, function (error) {
@@ -182,6 +190,17 @@ angular.module('cc.auth-controller', [])
 
             $scope.cancel = function() {
                 $modalInstance.dismiss('close');
+            };
+
+            var getAppointments = function(){
+                user.getUserAppts().then(
+                    function (data) {
+                        $rootScope.currentUser.user.appointments = data;
+                    },
+                    function (errorMessage) {
+                        console.log(errorMessage);
+                    }
+                );
             };
 
         }]);
