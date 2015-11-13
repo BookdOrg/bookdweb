@@ -37,7 +37,7 @@ angular.module('cc.account-controller', [])
             $scope.toggleMode = function() {
                 $scope.ismeridian = ! $scope.ismeridian;
             };
-            if($rootScope.currentUser.user.availability.length == 0){
+            if(!$rootScope.currentUser.user.availability){
                 $rootScope.currentUser.user.availability = {
                     Monday:{
                         day:'Monday',
@@ -111,6 +111,14 @@ angular.module('cc.account-controller', [])
                     }
                 };
             }
+
+            $scope.updateAvailability = function(availability){
+
+              user.updateAvailability(availability)
+                  .then(function(data){
+                      auth.saveToken(data.token);
+                  });
+            };
             $scope.authorizeInstagram = function(){
                 OAuth.popup('instagram')
                     .done(function(result) {

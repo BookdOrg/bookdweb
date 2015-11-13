@@ -27,9 +27,9 @@
                       <br>
                   </div>
                   <div class="col-sm-4 text-center">
-                      <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd Partners Registered Business click here to get your Associate ID">
+                      <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd partners' registered business click here to see the Associate Panel.">
                           <label>
-                              <input ng-model="showID" value="true" type="checkbox"> Show Associate Panel:
+                              <input ng-model="showID" value="true" type="checkbox"> Show Associate Panel
                           </label>
                       </div>
                   </div>
@@ -93,33 +93,36 @@
           <div class="panel-body">
               <div class="col-sm-12">
                   <h3 class="control-label">Availability:</h3>
+                  <div class="col-sm-4">
                   <form class="form-horizontal">
                       <div class="form-group">
-                          <div class="col-sm-4">
-                              <accordion>
-                                  <accordion-group ng-repeat="day in currentUser.user.availability" is-open="status.open">
-                                      <accordion-heading>
-                                          {{day.day}}, {{day.start | date:'hh:mm a'}} - {{day.end | date:'hh:mm a'}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                                      </accordion-heading>
-                                      Start:
-                                      <timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-                                      End:
-                                      <timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-                                  </accordion-group>
-                              </accordion>
-                          </div>
+                          <accordion>
+                              <accordion-group ng-repeat="day in currentUser.user.availability track by $index" is-open="status.open">
+                                  <accordion-heading>
+                                      <i ng-show="day.available" tooltip="Available" class="fa fa-check text-success"></i><i ng-show="!day.available" tooltip="Unavailable" class="fa fa-check text-danger"></i> {{day.day}}<span ng-show="day.available">, {{day.start | date:'hh:mm a'}} - {{day.end | date:'hh:mm a'}}</span><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                  </accordion-heading>
+                                  <div class="checkbox text-center" tooltip-toggle="mouseenter" tooltip="Are you available on {{day.day}}'s">
+                                      <label>
+                                          <input ng-model="day.available" type="checkbox"> Available
+                                      </label>
+                                  </div>
+                                      Start:<timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                      End:<timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                              </accordion-group>
+                          </accordion>
                       </div>
                       <div class="form-group">
                           <div class="col-sm-offset-4 col-sm-4">
-                              <button type="submit" class="btn btn-primary" disabled>Update Availability</button>
+                              <button type="submit" class="btn btn-primary" ng-click="updateAvailability(currentUser.user.availability)">Update Availability</button>
                           </div>
                       </div>
                   </form>
-              </div>
-              <div class="col-sm-12">
-                  <label class="control-label">Profile Info:</label>
-                  <div>Associate Email: {{currentUser.user.email}}</div>
-                  <button class="btn btn-primary" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
+                  </div>
+                  <div class="col-sm-7 text-center">
+                      <label class="control-label">Profile Info:</label>
+                      <div>Associate Email: {{currentUser.user.email}}</div>
+                      <button class="btn btn-primary" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
+                  </div>
               </div>
           </div>
       </div>
@@ -182,3 +185,17 @@
       </div>
   </div>
 </div>
+<!--<script type="text/ng-template" id="updateSuccess.html">-->
+    <!--<div class="modal-header">-->
+        <!--<h3 class="modal-title text-center">{{data.title}}</h3>-->
+    <!--</div>-->
+    <!--<div ng-if="status === 400"class="modal-body">-->
+        <!--{{data.message}}-->
+    <!--</div>-->
+    <!--<div ng-if="status === 200" class="modal-body">-->
+        <!--{{data.message}}-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+    <!--</div>-->
+<!--</script>-->

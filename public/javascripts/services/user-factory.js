@@ -103,6 +103,19 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.dashboard);
             }, handleError);
         };
+        /**
+         *
+         *
+         *  Parameters:
+         *
+         **/
+        o.updateAvailability = function(availability){
+            return $http.post('/user/availability/update',availability, {
+                headers: {Authorization: 'Bearer ' + auth.getToken()}
+            }).then(function (data) {
+                return data.data;
+            }, handleError);
+        };
 
         return o;
 

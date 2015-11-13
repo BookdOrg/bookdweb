@@ -214,6 +214,32 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         });
     });
 });
+
+/**
+ *
+ * Updates Users availability
+ *
+ */
+
+router.post('/user/availability/update',auth,function(req,res,next){
+    var id = req.payload._id;
+    var availability = req.body;
+
+    User.findOne({'_id':id}).exec(function(err,user){
+        if(err){
+            return next(err);
+        }
+        user.availability = availability;
+
+        user.save(function(err,user){
+            if(err){
+                return next(err);
+            }
+            res.json({token: user.generateJWT()});
+        });
+    });
+});
+
 /**
  *   Logs in a valid user using passport.
  *
