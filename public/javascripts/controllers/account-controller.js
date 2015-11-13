@@ -111,12 +111,14 @@ angular.module('cc.account-controller', [])
                     }
                 };
             }
-
+            $scope.showDone = false;
             $scope.updateAvailability = function(availability){
-
+                $scope.showLoading = true;
               user.updateAvailability(availability)
                   .then(function(data){
                       auth.saveToken(data.token);
+                      $scope.showLoading = false;
+                      $scope.showDone = true;
                   });
             };
             $scope.authorizeInstagram = function(){
