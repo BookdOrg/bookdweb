@@ -19,21 +19,18 @@
                         </div>
                     </div>
                   </div>
-                  <div class="col-sm-8 text-center">
+                  <div class="col-sm-4 text-center">
                       <h3>{{currentUser.user.name}}</h3>
+                      <h4>{{currentUser.user.email}}</h4>
                       <br>
                       Rating: {{currentUser.user.rating}}
                       <br>
+                  </div>
+                  <div class="col-sm-4 text-center">
                       <div class="checkbox" tooltip-placement="top" tooltip-toggle="mouseenter" tooltip="If you are an Associate at a Book'd Partners Registered Business click here to get your Associate ID">
                           <label>
-                              <input ng-model="showID" value="true" type="checkbox"> Show Associate ID:
+                              <input ng-model="showID" value="true" type="checkbox"> Show Associate Panel:
                           </label>
-                      </div>
-                      <div ng-show="showID">
-                          <span>{{currentUser.user._id}}</span>
-                      </div>
-                      <div class="">
-                          <button class="btn btn-primary" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
                       </div>
                   </div>
               </div>
@@ -89,7 +86,43 @@
 
           </div>
       </div>
-
+      <div class="panel panel-default" ng-show="showID">
+          <div class="panel-heading">
+              Associate Panel
+          </div>
+          <div class="panel-body">
+              <div class="col-sm-12">
+                  <h3 class="control-label">Availability:</h3>
+                  <form class="form-horizontal">
+                      <div class="form-group">
+                          <div class="col-sm-4">
+                              <accordion>
+                                  <accordion-group ng-repeat="day in currentUser.user.availability" is-open="status.open">
+                                      <accordion-heading>
+                                          {{day.day}}, {{day.start | date:'hh:mm a'}} - {{day.end | date:'hh:mm a'}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                      </accordion-heading>
+                                      Start:
+                                      <timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                      End:
+                                      <timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                  </accordion-group>
+                              </accordion>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <div class="col-sm-offset-4 col-sm-4">
+                              <button type="submit" class="btn btn-primary" disabled>Update Availability</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="col-sm-12">
+                  <label class="control-label">Profile Info:</label>
+                  <div>Associate Email: {{currentUser.user.email}}</div>
+                  <button class="btn btn-primary" ng-click="authorizeInstagram()"><i class="fa fa-instagram fa-2x"></i> Authorize Instagram</button>
+              </div>
+          </div>
+      </div>
       <div class="panel panel-default">
           <div class="panel-heading">
               Update Email Address

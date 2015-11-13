@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
     isAssociate: Boolean,
     isAdmin: Boolean,
     settings: Object,
+    availability: Object,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
     personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
     businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}]
@@ -47,7 +48,8 @@ UserSchema.methods.generateJWT = function () {
         isAdmin: this.isAdmin,
         name: this.name,
         provider: this.provider,
-        email: this.email
+        email: this.email,
+        availability:this.availability
     }, 'SECRET');
 };
 

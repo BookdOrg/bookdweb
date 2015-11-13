@@ -26,7 +26,91 @@ angular.module('cc.account-controller', [])
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }
             });
-
+            //$scope.oneAtATime = true;
+            //$scope.status = {
+            //    isFirstOpen: true,
+            //    isFirstDisabled: false
+            //};
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+            $scope.ismeridian = true;
+            $scope.toggleMode = function() {
+                $scope.ismeridian = ! $scope.ismeridian;
+            };
+            if($rootScope.currentUser.user.availability.length == 0){
+                $rootScope.currentUser.user.availability = {
+                    Monday:{
+                        day:'Monday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available:true
+                    },
+                    Tuesday:{
+                        day:'Tuesday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    },
+                    Wednesday:{
+                        day:'Wednesday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    },
+                    Thursday:{
+                        day:'Thursday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    },
+                    Friday:{
+                        day:'Friday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    },
+                    Saturday:{
+                        day:'Saturday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    },
+                    Sunday:{
+                        day:'Sunday',
+                        start:moment().hour(6).minute(0).format(),
+                        end:moment().hour(19).minute(0).format(),
+                        gaps:[{
+                            start:moment().hour(12).minute(0).format(),
+                            end:moment().hour(13).minute(0).format()
+                        }],
+                        available: true
+                    }
+                };
+            }
             $scope.authorizeInstagram = function(){
                 OAuth.popup('instagram')
                     .done(function(result) {
