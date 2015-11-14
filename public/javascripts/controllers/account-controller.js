@@ -31,6 +31,15 @@ angular.module('cc.account-controller', [])
             //    isFirstOpen: true,
             //    isFirstDisabled: false
             //};
+
+            $scope.addBreak = function(day){
+                var gap = {
+                    start:moment().hour(12).minute(0).format(),
+                    end:moment().hour(13).minute(0).format()
+                };
+                day.gaps.push(gap);
+            };
+
             $scope.hstep = 1;
             $scope.mstep = 15;
             $scope.ismeridian = true;
@@ -43,70 +52,49 @@ angular.module('cc.account-controller', [])
                         day:'Monday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available:true
                     },
                     Tuesday:{
                         day:'Tuesday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     },
                     Wednesday:{
                         day:'Wednesday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     },
                     Thursday:{
                         day:'Thursday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     },
                     Friday:{
                         day:'Friday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     },
                     Saturday:{
                         day:'Saturday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     },
                     Sunday:{
                         day:'Sunday',
                         start:moment().hour(6).minute(0).format(),
                         end:moment().hour(19).minute(0).format(),
-                        gaps:[{
-                            start:moment().hour(12).minute(0).format(),
-                            end:moment().hour(13).minute(0).format()
-                        }],
+                        gaps:[],
                         available: true
                     }
                 };
