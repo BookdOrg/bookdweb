@@ -179,6 +179,7 @@ angular.module('cc.appointments-controller', [])
         businessFactory.serviceDetails($scope.dateObj.appointment.service)
             .then(function(){
                 $scope.service = businessFactory.service;
+                $scope.employee = _.findWhere($scope.service.employees, {_id: data.appointment.employee});
                 $scope.stripePrice = $scope.service.price * 100;
             });
         $scope.selectedDate = data.appointment.start.date;
@@ -192,6 +193,7 @@ angular.module('cc.appointments-controller', [])
 
         $scope.$watch('selectedDate', function (newVal, oldVal) {
             if (newVal) {
+                $scope.dayMessage = false;
                 getAvailableTimes(newVal, data.appointment.employee);
             }
         });
@@ -239,9 +241,21 @@ angular.module('cc.appointments-controller', [])
          */
         function calculateAppointments(data) {
             var duration = $scope.service.duration;
-            var startTime = moment('6:00 am', 'hh:mm a');
+            var weekDay = moment($scope.selectedDate).format('dddd');
             $scope.availableTimes = [];
-            var endTime = moment('7:00 pm', 'hh:mm a');
+            for(var dayOfWeek =0; dayOfWeek<$scope.employee.availability.length;dayOfWeek++){
+                if(weekDay == $scope.employee.availability[dayOfWeek].day){
+                    var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');
+                    var formatEnd = moment($scope.employee.availability[dayOfWeek].end).format('hh:mm a');
+                    var startTime = moment(formatStart, 'hh:mm a');
+                    var endTime = moment(formatEnd, 'hh:mm a');
+                }
+                if(weekDay == $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false){
+                    $scope.dayMessage = true;
+                    return;
+                }
+
+            }
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
                 var timeObj = {
                     time: m.format('hh:mm a'),
@@ -279,6 +293,34 @@ angular.module('cc.appointments-controller', [])
                     }
                 }
             });
+            for(var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length;availableTimesIndex++){
+                for(var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++){
+                    for(var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++){
+
+                        var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
+                        var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
+
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
+                        var gapStartTime = moment(formattedStart, 'hh:mm a');
+
+                        var decreasedTime = moment(formattedEnd, 'hh:mm a');
+
+                        var gapEndTime =  moment(formattedEnd, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration/2,'minutes');
+
+                        if (availableTime.isSame(gapStartTime)) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+                        if (availableTime.isBetween(gapStartTime, gapEndTime, 'minute')) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+
+                        if(gapStartTime.isSame(subtractedTime)){
+                            $scope.availableTimes[availableTimesIndex-1].available = false;
+                        }
+                    }
+                }
+            }
         }
         socket.on('update',function(){
             getAvailableTimes($scope.selectedDate, data.appointment.employee);

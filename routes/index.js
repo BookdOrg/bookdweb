@@ -655,7 +655,7 @@ router.get('/business/details', auth, function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion'
+                select: '_id businessAppointments name avatarVersion availability'
             }, function (err, finalobj) {
                 if (error) {
                     return next(error);
@@ -738,14 +738,14 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         });
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion'
+            select: '_id appointments name avatarVersion availability'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion'
+                select: '_id appointments name avatarVersion availability'
             }, function (err, services) {
                 if (err) {
                     return next(err);
@@ -811,14 +811,14 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
             }
             Business.populate(response, [{
                 path: 'employees',
-                select: '_id appointments name avatarVersion'
+                select: '_id appointments name avatarVersion availability'
             }, {path: 'services', select: ''}], function (err, busResponse) {
                 if (err) {
                     return next(err);
                 }
                 Service.populate(busResponse.services, {
                     path: 'employees',
-                    select: '_id appointments name avatarVersion'
+                    select: '_id appointments name avatarVersion availability'
                 }, function (err, services) {
                     if (err) {
                         return next(err);
@@ -942,22 +942,19 @@ router.post('/business/add-service', auth, function (req, res, next) {
         });
         Business.populate(business, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion'
+            select: '_id appointments name avatarVersion availability'
         }, {path: 'services', select: ''}], function (err, responseBusiness) {
             if (err) {
                 return next(err);
             }
             Service.populate(responseBusiness.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion'
+                select: '_id appointments name avatarVersion availability'
             }, function (err, services) {
                 if (err) {
                     return next(err);
                 }
-
-                console.log(services)
                 responseBusiness.services = services;
-                console.log(responseBusiness)
                 res.json(responseBusiness);
             });
         });
@@ -982,7 +979,7 @@ router.post('/business/update-service', auth, function (req, res, next) {
     };
     Service.findOneAndUpdate({'_id': newService._id}, newService, {upsert: true}).populate({
         path: 'employees',
-        select: '_id businessAppointments appointments name avatarVersion'
+        select: '_id businessAppointments appointments name avatarVersion availability'
     }).exec(function (err, service) {
         if (err) {
             return next(err);
@@ -1019,14 +1016,14 @@ router.post('/business/remove-service', auth, function (req, res, next) {
 
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion'
+            select: '_id appointments name avatarVersion availability'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion'
+                select: '_id appointments name avatarVersion availability'
             }, function (err, services) {
                 if (err) {
                     return next(err);

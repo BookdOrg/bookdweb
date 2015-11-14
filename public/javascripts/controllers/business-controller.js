@@ -149,6 +149,7 @@ angular.module('cc.business-controller', [])
         // $scope.currentUser = auth.currentUser();
         $scope.$watch('selectedDate', function (newVal, oldVal) {
             if (newVal) {
+                $scope.dayMessage = false;
                 getAvailableTimes(newVal, $scope.employee._id);
             }
         });
@@ -170,6 +171,16 @@ angular.module('cc.business-controller', [])
             var day = moment().format('MM/DD/YYYY');
             getAvailableTimes(day,$scope.employee._id);
         };
+        /**
+         * Disable days on the calendar
+         * @param date
+         * @param mode
+         * @returns {boolean}
+         */
+        //$scope.disabled = function(date, mode) {
+        //    $scope.employee.availability
+        //    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        //};
         /**
          *
          * @param date
@@ -193,10 +204,22 @@ angular.module('cc.business-controller', [])
          * @param data
          */
         function calculateAppointments(data) {
-            var duration = $scope.service.duration;
-            var startTime = moment('6:00 am', 'hh:mm a');
+            var weekDay = moment($scope.selectedDate).format('dddd');
             $scope.availableTimes = [];
-            var endTime = moment('7:00 pm', 'hh:mm a');
+            for(var dayOfWeek =0; dayOfWeek<$scope.employee.availability.length;dayOfWeek++){
+                if(weekDay == $scope.employee.availability[dayOfWeek].day){
+                    var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');
+                    var formatEnd = moment($scope.employee.availability[dayOfWeek].end).format('hh:mm a');
+                    var startTime = moment(formatStart, 'hh:mm a');
+                    var endTime = moment(formatEnd, 'hh:mm a');
+                }
+                if(weekDay == $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false){
+                    $scope.dayMessage = true;
+                    return;
+                }
+
+            }
+            var duration = $scope.service.duration;
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
                 var timeObj = {
                     time: m.format('hh:mm a'),
@@ -234,6 +257,35 @@ angular.module('cc.business-controller', [])
                     }
                 }
             });
+            for(var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length;availableTimesIndex++){
+                for(var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++){
+                    for(var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++){
+
+                        var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
+                        var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
+
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
+                        var gapStartTime = moment(formattedStart, 'hh:mm a');
+
+                        var decreasedTime = moment(formattedEnd, 'hh:mm a');
+
+                        var gapEndTime =  moment(formattedEnd, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration/2,'minutes');
+
+                        if (availableTime.isSame(gapStartTime)) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+                        if (availableTime.isBetween(gapStartTime, gapEndTime, 'minute')) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+
+                        if(gapStartTime.isSame(subtractedTime)){
+                            $scope.availableTimes[availableTimesIndex-1].available = false;
+                        }
+                    }
+                }
+            }
+
         }
         socket.on('update',function(){
             getAvailableTimes($scope.selectedDate, $scope.employee._id);

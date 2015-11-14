@@ -199,11 +199,12 @@
 	        		<div class="col col-md-6 text-center">
 		          		<h4>Select a Date to see Available Times</h4>
 		          		<div style="display:inline-block; min-height:290px;">
-					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+					      <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true"  class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
 					    </div>
 				    </div>
 				    <div class="col col-md-6 text-center">
 				    	<h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
+                        <alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.</alert>
 				    	<div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"   ng-repeat="time in availableTimes track by $index">
 				    		<button ng-disabled="!time.available || time.status" ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}" role="button" class="btn" style="margin-bottom:5px;">
 				    		{{time.time}}
