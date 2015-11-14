@@ -131,34 +131,57 @@
         </form>
         <div class="collapse navbar-collapse" collapse="navbarCollapsed">
             <ul class="nav navbar-nav">
-                <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)"
-                                            href="/feed"><i class="fa fa-home"></i> Feed</a></li>
-                <li ng-if="isLoggedIn()"><a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                                            href="/user/{{currentUser.user._id}}/profile"><i
-                                class="fa fa-user"></i> Profile</a></li>
-                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
-                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                            href="/user/{{currentUser.user._id}}/account"><i class="fa fa-cog"></i> Settings</a>
+                <li ng-if="isLoggedIn()">
+                    <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)" >
+                        <i class="fa fa-home"></i> Feed
+                    </a>
                 </li>
-                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg"><a
-                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites"><i
-                                class="fa fa-bookmark"></i> Favorites</a></li>
-                <li class="hidden-sm hidden-md hidden-lg"><a
-                            ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                            ng-if="currentUser.user.businessOwner" href="/dashboard"><i class="fa fa-tachometer"></i>
-                        Dashboard</a></li>
-                <li class="hidden-sm hidden-md hidden-lg"
-                    ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ng-if="currentUser.user.isAdmin"><a
-                            href="/admin"><i class="fa fa-tasks"></i> Admin</a></li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false); open('login','landing')"
-                                                                                    href=""><i
-                                class="fa fa-sign-in"></i></span> Log In</a></li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()"><a ng-click="showSearch(false); open('signup','landing')"
-                                                                                    href=""><i
-                                class="fa fa-user"></i> Sign Up</a></li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a href="/appointments" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                        <i class="fa fa-calendar"></i> Appointments
+                    </a>
+                </li>
+                <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/user/{{currentUser.user._id}}/profile">
+                        <i class="fa fa-user"></i> Profile
+                    </a>
+                </li>
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/user/{{currentUser.user._id}}/account">
+                        <i class="fa fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites">
+                        <i class="fa fa-bookmark"></i> Favorites
+                    </a>
+                </li>
+                <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"  href="/dashboard">
+                        <i class="fa fa-tachometer"></i> Dashboard
+                    </a>
+                </li>
+                <li ng-if="currentUser.user.isAdmin" class="hidden-sm hidden-md hidden-lg"  >
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/admin">
+                        <i class="fa fa-tasks"></i> Admin
+                    </a>
+                </li>
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
+                    <a ng-click="showSearch(false); open('login','landing')" href="">
+                        <i class="fa fa-sign-in"></i></span> Log In
+                    </a>
+                </li>
+                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
+                    <a ng-click="showSearch(false); open('signup','landing')" href="">
+                        <i class="fa fa-user"></i> Sign Up
+                    </a>
+                </li>
                 <hr>
-                <li class="hidden-sm hidden-md hidden-lg"><a ng-click="logOut();navbarCollapsed = !navbarCollapsed">Log
-                        Out</a></li>
+                <li class="hidden-sm hidden-md hidden-lg">
+                    <a ng-click="logOut();navbarCollapsed = !navbarCollapsed">
+                        LogOut
+                    </a>
+                </li>
             </ul>
             <!--
                 User avatar and dropdown
@@ -198,18 +221,37 @@
                             {{currentUser.user.name}}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/appointments" ng-click="showSearch(false)"><i class="fa fa-calendar"></i>
-                                    Appointments</a></li>
-                            <li><a href="/favorites" ng-click="showSearch(false)"><i class="fa fa-bookmark"></i>
-                                    Favorites</a></li>
-                            <li><a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
-                                   href="/dashboard"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-                            <li ng-if="currentUser.user.isAdmin"><a href="/admin" ng-click="showSearch(false)"><i
-                                            class="fa fa-tasks"></i> Admin</a></li>
-                            <li><a href="/user/{{currentUser.user._id}}/account" ng-click="showSearch(false)"><i
-                                            class="fa fa-cog"></i> Settings</a></li>
+                            <li>
+                                <a href="/appointments" ng-click="showSearch(true)">
+                                    <i class="fa fa-calendar"></i> Appointments
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/favorites" ng-click="showSearch(false)">
+                                    <i class="fa fa-bookmark"></i> Favorites
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)" href="/dashboard">
+                                    <i class="fa fa-tachometer"></i> Dashboard
+                                </a>
+                            </li>
+                            <li ng-if="currentUser.user.isAdmin">
+                                <a href="/admin" ng-click="showSearch(false)">
+                                    <i class="fa fa-tasks"></i> Admin
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/user/{{currentUser.user._id}}/account" ng-click="showSearch(false)">
+                                    <i class="fa fa-cog"></i> Settings
+                                </a>
+                            </li>
                             <hr>
-                            <li><a ng-click="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                            <li>
+                                <a ng-click="logOut()">
+                                    <i class="fa fa-sign-out"></i> Log Out
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li ng-hide="isLoggedIn()"><a href="" ng-click="open('login','landing')"><i class="fa fa-sign-in"></i> Log In</a></li>
