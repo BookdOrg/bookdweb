@@ -33,7 +33,7 @@ angular.module('cc.auth-controller', [])
                         result.get('/me?fields=id,name,picture,email')
                             .done(function (response) {
                                 var user = {
-                                    'email':response.email,
+                                    'username':response.email,
                                     'provider': result.provider
                                 };
                                 auth.logIn(user,response.picture.data.url)
@@ -62,7 +62,7 @@ angular.module('cc.auth-controller', [])
                         result.get('plus/v1/people/me')
                             .done(function (response) {
                                 var user = {
-                                    'email':response.emails[0].value,
+                                    'username':response.emails[0].value,
                                     'provider': result.provider
                                 };
                                 auth.logIn(user,response.image.url)
@@ -90,7 +90,7 @@ angular.module('cc.auth-controller', [])
                         result.get('/me?fields=id,name,picture,email')
                             .done(function (response) {
                                 var user = {
-                                    'email':response.email,
+                                    'username':response.email,
                                     'name':response.name,
                                     'provider': result.provider
                                 };
@@ -118,7 +118,7 @@ angular.module('cc.auth-controller', [])
                         result.get('plus/v1/people/me')
                             .done(function (response) {
                                 var user = {
-                                    'email':response.emails[0].value,
+                                    'username':response.emails[0].value,
                                     'name':response.displayName,
                                     'provider':result.provider
                                 };
@@ -150,7 +150,7 @@ angular.module('cc.auth-controller', [])
              */
             $scope.register = function () {
                 var user = {
-                    'email': $scope.user.email,
+                    'username': $scope.user.email,
                     'name': $scope.user.firstName + ' ' + $scope.user.lastName,
                     'password': $scope.user.password,
                     'provider': 'bookd'
@@ -172,8 +172,9 @@ angular.module('cc.auth-controller', [])
              */
             $scope.logIn = function () {
                 var user = {
-                    'email': $scope.user.email,
-                    'password': $scope.user.password
+                    'username': $scope.user.email,
+                    'password': $scope.user.password,
+                    'provider':'bookd'
                 };
                 auth.logIn(user)
                     .then(function () {

@@ -247,7 +247,7 @@ router.post('/user/availability/update',auth,function(req,res,next){
 
 router.post('/login', function (req, res, next) {
     if(req.body.provider == 'bookd'){
-        if (!req.body.email || !req.body.password) {
+        if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
         }
         passport.authenticate('local', function (err, user, info) {
@@ -257,20 +257,19 @@ router.post('/login', function (req, res, next) {
             if (user) {
                 return res.json({token: user.generateJWT()});
             } else {
-                return res.status(401).json({message:'Incorrect information entered'});
+                return res.status(401).json({message:info.message});
             }
         })(req, res, next);
     }
 
     if(req.body.provider == 'facebook'  || 'google_plus'){
-        User.findOne({'email':req.body.email}).exec(function(err,user,info){
+        User.findOne({'email':req.body.username}).exec(function(err,user,info){
             if(err){
                 return next(err);
             }
             if(user){
                 return res.json({token: user.generateJWT()});
             }else{
-                console.log(info)
                 return res.status(401).json({message:'Incorrect information entered'});
             }
         });
@@ -284,7 +283,7 @@ router.post('/login', function (req, res, next) {
 router.post('/register', function (req, res, next) {
     var user = new User();
     if(req.body.provider == 'bookd'){
-        if (!req.body.email || !req.body.password) {
+        if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
         }
         user.setPassword(req.body.password);
@@ -294,16 +293,15 @@ router.post('/register', function (req, res, next) {
         user.setPassword(randomstring);
     }
 
-    user.email = req.body.email;
+    user.email = req.body.username;
     user.name = req.body.name;
     user.provider = req.body.provider;
 
 
-    user.save(function (err) {
+    user.save(function (err,user) {
         if (err) {
             return res.status(400).json({message: "Whoops, looks like you already have an account registered. Try a different provider."});
         }
-
         return res.json({token: user.generateJWT()});
     });
 });
