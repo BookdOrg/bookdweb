@@ -9,7 +9,8 @@ var AppointmentsSchema = new mongoose.Schema({
     title: String,
     service: String,
     timestamp: String,
-    card: Object
+    card: Object,
+    status: String
 });
 
 AppointmentsSchema.post('remove', function(next) {

@@ -476,23 +476,75 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
  *
  */
 router.post('/business/appointments/update',auth,function(req,res,next){
+
     var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-    Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
-        if(err){
-            return next(err);
-        }
-        appointment.start = updatedAppointmentStart;
-        appointment.end = updatedAppointmentEnd;
 
-        appointment.save(function(err,response){
+    if(req.body.customer == req.payload._id){
+        Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
             if(err){
                 return next(err);
             }
-            res.status(200).json({message:'Success'});
+            appointment.start = updatedAppointmentStart;
+            appointment.end = updatedAppointmentEnd;
+
+            appointment.save(function(err,response){
+                if(err){
+                    return next(err);
+                }
+                res.status(200).json({message:'Success'});
+            });
         });
-    });
+    }else{
+        Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
+            if(err){
+                return next(err);
+            }
+            appointment.status = 'pending';
+            appointment.employee = '';
+            appointment.save(function(err,response){
+                if(err){
+                    return next(err);
+                }
+            });
+            User.findOne({'_id':req.payload._id}).exec(function(err,user){
+                if(err){
+                    return next(err);
+                }
+                user.businessAppointments.pull({_id:appointment._id});
+                user.save(function(err,user){
+                    if(err){
+                        return next(err);
+                    }
+                });
+
+            });
+            User.findOne({'_id':req.body.customer}).exec(function(err,user){
+                if(err){
+                    return next(err);
+                }
+                user.personalAppointments.pull({_id:appointment._id});
+                //TODO notify the user that the employee has requested to reschedule
+                var notification = {
+                    'title':'Appointment Reschedule Requested',
+                    'appointment': appointment,
+                    'proposed': {
+                        'proposedStart': updatedAppointmentStart,
+                        'proposedEnd': updatedAppointmentEnd
+                    }
+                };
+                //user.notifications.push(notification);
+                user.save(function(err,user){
+                    if(err){
+                        return next(err);
+                    }
+                });
+                res.status(200).json({message:'Success'});
+            });
+        });
+    }
+
 });
 /**
  *
@@ -1079,7 +1131,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
 
 router.get('/business/service-detail',auth,function(req,res,next){
    var serviceId = req.param('service');
-    Service.findOne({"_id":serviceId}).populate({path:'employees'}).exec(function(err, response){
+    Service.findOne({"_id":serviceId}).populate({path:'employees',select: '_id appointments name avatarVersion availability provider'}).exec(function(err, response){
         if(err){
             return next(err);
         }

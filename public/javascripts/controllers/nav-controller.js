@@ -88,5 +88,5 @@ angular.module('cc.nav-controller', ["google.places"])
                 }
             }
             return newDates;
-        }
+        };
     }]);

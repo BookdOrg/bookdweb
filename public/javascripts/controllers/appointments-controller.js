@@ -26,36 +26,49 @@ angular.module('cc.appointments-controller', [])
 
             $scope.personalEvents = [];
             $scope.associateEvents = [];
+            $scope.pendingEvents = [];
             var createEventsSources = function(){
                 for(var appointmentIndex =0; appointmentIndex<$scope.appointments.personalAppointments.length;appointmentIndex++){
                     var tempObj = {
-                        title:$scope.appointments.personalAppointments[appointmentIndex].title,
-                        start:$scope.appointments.personalAppointments[appointmentIndex].start.full,
-                        end:$scope.appointments.personalAppointments[appointmentIndex].end.full,
-                        appointment:$scope.appointments.personalAppointments[appointmentIndex]
+                        title: $scope.appointments.personalAppointments[appointmentIndex].title,
+                        start: $scope.appointments.personalAppointments[appointmentIndex].start.full,
+                        end: $scope.appointments.personalAppointments[appointmentIndex].end.full,
+                        appointment: $scope.appointments.personalAppointments[appointmentIndex]
                     };
-                    $scope.personalEvents.push(tempObj);
+                    if($scope.appointments.personalAppointments[appointmentIndex].status !== 'pending'){
+                        $scope.personalEvents.push(tempObj);
+                    }else{
+                        $scope.pendingEvents.push(tempObj);
+                    }
                 }
                 for(var appointmentIndex =0; appointmentIndex<$scope.appointments.businessAppointments.length;appointmentIndex++){
                     var tempObj = {
-                        title:$scope.appointments.businessAppointments[appointmentIndex].title,
-                        start:$scope.appointments.businessAppointments[appointmentIndex].start.full,
-                        end:$scope.appointments.businessAppointments[appointmentIndex].end.full,
-                        appointment:$scope.appointments.businessAppointments[appointmentIndex]
+                        title: $scope.appointments.businessAppointments[appointmentIndex].title,
+                        start: $scope.appointments.businessAppointments[appointmentIndex].start.full,
+                        end: $scope.appointments.businessAppointments[appointmentIndex].end.full,
+                        appointment: $scope.appointments.businessAppointments[appointmentIndex]
                     };
-                    $scope.associateEvents.push(tempObj);
+                    if($scope.appointments.businessAppointments[appointmentIndex].status !== 'pending') {
+                        $scope.associateEvents.push(tempObj);
+                    }else{
+                        $scope.pendingEvents.push(tempObj);
+                    }
                 }
             };
             createEventsSources();
             $scope.eventsPersonalSource = {
-                //color:'#f00',
+                //color:'#00',
                 //textColor:'blue',
                 events:$scope.personalEvents
             };
             $scope.eventsAssociateSource = {
-                color:'#f00',
+                color:'#f70',
                 //textColor:'blue',
                 events:$scope.associateEvents
+            };
+            $scope.eventsPendingSource = {
+                color:'#f00',
+                events:$scope.pendingEvents
             };
 
             $scope.open = function (size,data) {
@@ -172,7 +185,7 @@ angular.module('cc.appointments-controller', [])
             //    }
             //};
             /* event sources array*/
-            $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource];
+            $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource,$scope.eventsPendingSource];
         }])
     .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data,businessFactory,user,socket,$rootScope) {
         $scope.dateObj = data;
@@ -412,7 +425,7 @@ angular.module('cc.appointments-controller', [])
                 _id: data.appointment._id,
                 businessid: data.appointment.businessId,
                 employee: data.appointment.employee,
-                customer: $rootScope.currentUser.user._id,
+                customer: data.appointment.customer,
                 start: {
                     date: apptDate,
                     time: apptTime,
