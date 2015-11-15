@@ -84,7 +84,9 @@
                                         ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                                 </button>
                                 <i ng-show="showLoading" tooltip="Updating.."
-                                   class="fa fa-spinner fa-pulse text-center pull-right"></i>
+                                   class="fa fa-spinner fa-pulse text-center"></i>
+                                <i ng-show="showDone" tooltip="Availability Updated"
+                                   class="fa fa-check-square-o text-success text-center pull-right"></i>
                             </div>
                         </div>
                     </form>
