@@ -50,8 +50,6 @@ angular.module('cc.appointments-controller', [])
                     };
                     if($scope.appointments.businessAppointments[appointmentIndex].status !== 'pending') {
                         $scope.associateEvents.push(tempObj);
-                    }else{
-                        $scope.pendingEvents.push(tempObj);
                     }
                 }
             };
@@ -450,6 +448,30 @@ angular.module('cc.appointments-controller', [])
          * @param token
          */
         $scope.update = function () {
+            if(!$scope.appointment){
+                $scope.appointment = {
+                    _id: data.appointment._id,
+                    businessid: data.appointment.businessId,
+                    employee: data.appointment.employee,
+                    customer: data.appointment.customer,
+                    start: {
+                        date: data.appointment.start.date,
+                        time: data.appointment.start.time,
+                        day: data.appointment.start.day,
+                        full: data.appointment.start.full
+                    },
+                    end: {
+                        date: data.appointment.end.date,
+                        time: data.appointment.end.time,
+                        day: data.appointment.end.day,
+                        full: data.appointment.end.full
+
+                    },
+                    service: $scope.service._id,
+                    title: $scope.service.name,
+                    timestamp: moment()
+                };
+            }
             socket.emit('timeDestroyed',$scope.activeTime);
              businessFactory.updateAppointment($scope.appointment)
                .then(function(){

@@ -145,28 +145,12 @@ router.get('/user/profile', auth, function (req, res, next) {
         .select('_id name provider email avatarVersion personalAppointments businessAppointments')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
-                return handleError(err);
+                return next(err);
             }
 
             var profile = {};
             profile.user = user;
-            //var updatedBusinesses = [];
-            // async.each(user.businesses,function(businessObj,employeeCallBack){
-            //   googleplaces.placeDetailsRequest({placeid:businessObj.placesId},function(error,response){
-            //     if(error){
-            //       return employeeCallBack(error);
-            //     }
-            //     response.result.info = businessObj;
-            //     Business.populate(businessObj,{path:'employees',select:'_id appointments firstName lastName username avatarVersion'},function(err,business){
-            //       profile.user.businesses[profile.user.businesses.getIndexBy("_id",businessObj._id)] = response.result;
-            //       employeeCallBack();
-            //     });
-
-            //   })
-            // },function(err){
-            //   if(err){return next(err);}
             res.json(profile);
-            // })
         });
 });
 
@@ -243,6 +227,8 @@ router.post('/user/availability/update',auth,function(req,res,next){
 /**
  *   Logs in a valid user using passport.
  *
+ *   Req.body.username == the email of the user, passport requires this be called username
+ *
  **/
 
 router.post('/login', function (req, res, next) {
@@ -278,6 +264,8 @@ router.post('/login', function (req, res, next) {
 
 /**
  *   Registers a new account
+ *
+ *   Req.body.username == the email of the user, passport requires this be called username
  *
  **/
 router.post('/register', function (req, res, next) {
@@ -480,13 +468,27 @@ router.post('/business/appointments/update',auth,function(req,res,next){
     var updatedAppointmentId = req.body._id;
 
     if(req.body.customer == req.payload._id){
+        console.log("updated");
         Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
             if(err){
                 return next(err);
             }
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
-
+            if(appointment.status == 'pending'){
+                appointment.status = '';
+                User.findOne({'_id':req.body.employee}).exec(function(err,user){
+                    if(err){
+                        next(err);
+                    }
+                    user.businessAppointments.push({_id:appointment._id});
+                    user.save(function(err){
+                        if(err){
+                            return next(err);
+                        }
+                    });
+                });
+            }
             appointment.save(function(err,response){
                 if(err){
                     return next(err);
@@ -500,13 +502,14 @@ router.post('/business/appointments/update',auth,function(req,res,next){
                 return next(err);
             }
             appointment.status = 'pending';
-            appointment.employee = '';
+            appointment.start = updatedAppointmentStart;
+            appointment.end = updatedAppointmentEnd;
             appointment.save(function(err,response){
                 if(err){
                     return next(err);
                 }
             });
-            User.findOne({'_id':req.payload._id}).exec(function(err,user){
+            User.findOne({'_id':req.body.employee}).exec(function(err,user){
                 if(err){
                     return next(err);
                 }
@@ -522,7 +525,7 @@ router.post('/business/appointments/update',auth,function(req,res,next){
                 if(err){
                     return next(err);
                 }
-                user.personalAppointments.pull({_id:appointment._id});
+                //user.personalAppointments.pull({_id:appointment._id});
                 //TODO notify the user that the employee has requested to reschedule
                 var notification = {
                     'title':'Appointment Reschedule Requested',
@@ -537,8 +540,8 @@ router.post('/business/appointments/update',auth,function(req,res,next){
                     if(err){
                         return next(err);
                     }
+                    res.status(200).json({message:'Success'});
                 });
-                res.status(200).json({message:'Success'});
             });
         });
     }
