@@ -1,6 +1,6 @@
 <div class="container">
     <div class="page-header">
-        <h1 class="text-center">Appointments <i class="fa fa-calendar"></i></h1>
+        <h1 class="text-center">Calendar <i class="fa fa-calendar"></i></h1>
     </div>
     <!--<div class="col-lg-12">-->
     <div class="btn-group col-xs-offset-5">
@@ -83,6 +83,8 @@
                                 <button type="submit" class="btn btn-primary"
                                         ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                                 </button>
+                                <i ng-show="showLoading" tooltip="Updating.."
+                                   class="fa fa-spinner fa-pulse text-center pull-right"></i>
                             </div>
                         </div>
                     </form>
