@@ -9,6 +9,87 @@
         <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
     </div>
     <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar" ng-model="eventSources"></div>
+    <br>
+
+    <div class="panel panel-default" ng-show="currentUser.user.isAssociate">
+        <div class="panel-heading">
+            Associate Panel
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="col-xs-12">
+                    <h3 class="control-label">Weekly Availability: <i ng-show="showLoading" tooltip="Updating.."
+                                                                      class="fa fa-spinner fa-pulse text-center pull-right"></i><i
+                            ng-show="showDone" tooltip="Availability Updated"
+                            class="fa fa-check-square-o text-success text-center pull-right"></i></h3>
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <accordion>
+                                <accordion-group ng-repeat="day in currentUser.user.availability track by $index"
+                                                 is-open="status.open">
+                                    <accordion-heading>
+                                        <i ng-show="day.available" tooltip="Available"
+                                           class="fa fa-check text-success"></i><i ng-show="!day.available"
+                                                                                   tooltip="Unavailable"
+                                                                                   class="fa fa-check text-danger"></i> {{day.day}}
+                                        <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
+                                            - {{day.end | date:'hh:mm a'}}</span><i class="pull-right glyphicon"
+                                                                                    ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                    </accordion-heading>
+                                    <div class="checkbox text-center" tooltip-toggle="mouseenter"
+                                         tooltip="Are you available on {{day.day}}'s">
+                                        <label>
+                                            <input ng-model="day.available" type="checkbox"> Available
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        Start:
+                                        <timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
+                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        End:
+                                        <timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
+                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h3>Breaks: <a ng-click="addBreak(day)" class="btn btn-success"><i
+                                                class="fa fa-plus"></i></a></h3>
+                                        <accordion>
+                                            <accordion-group ng-repeat="gap in day.gaps track by $index">
+                                                <accordion-heading>
+                                                    <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
+                                                        - {{gap.end | date:'hh:mm a'}}</span><i
+                                                        class="pull-right glyphicon"
+                                                        ng-class="{'glyphicon-chevron-down': breakStatus, 'glyphicon-chevron-right': !breakStatus}"></i>
+                                                </accordion-heading>
+                                                <div class="col-xs-6">
+                                                    Start:
+                                                    <timepicker ng-model="gap.start" ng-change="changed()"
+                                                                hour-step="hstep" minute-step="mstep"
+                                                                show-meridian="ismeridian"></timepicker>
+                                                    End:
+                                                    <timepicker ng-model="gap.end" ng-change="changed()"
+                                                                hour-step="hstep" minute-step="mstep"
+                                                                show-meridian="ismeridian"></timepicker>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+                                    </div>
+                                </accordion-group>
+                            </accordion>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-5 col-xs-6">
+                                <button type="submit" class="btn btn-primary"
+                                        ng-click="updateAvailability(currentUser.user.availability)">Update Availability
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--</div>-->
     <!--<button ng-click="getDate('myCalendar1')"></button>-->
     <!--<div class="col-md-6">-->

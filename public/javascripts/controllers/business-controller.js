@@ -302,9 +302,7 @@ angular.module('cc.business-controller', [])
             }
         });
         socket.on('destroyOld',function(data){
-            if(data.user !== $scope.currentUser.user._id) {
-                destroyOld(data);
-            }
+            destroyOld(data);
         });
         var calculateHold = function(timeObj){
             var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));

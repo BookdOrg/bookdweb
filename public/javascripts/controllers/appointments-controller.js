@@ -11,8 +11,8 @@ angular.module('cc.appointments-controller', [])
         'uiCalendarConfig',
         '$modal',
         '$timeout',
-        '$state',
-        function ($scope, $state, auth, user,$compile,uiCalendarConfig,$modal,$timeout,$state) {
+        '$rootScope',
+        function ($scope, $state, auth, user, $compile, uiCalendarConfig, $modal, $timeout, $rootScope) {
             $scope.appointments = user.appointments;
             $scope.animationsEnabled = true;
             var date = new Date();
@@ -184,6 +184,85 @@ angular.module('cc.appointments-controller', [])
             //};
             /* event sources array*/
             $scope.eventSources = [$scope.eventsPersonalSource,$scope.eventsAssociateSource,$scope.eventsPendingSource];
+
+            $scope.addBreak = function (day) {
+                var gap = {
+                    start: moment().hour(12).minute(0).format(),
+                    end: moment().hour(13).minute(0).format()
+                };
+                day.gaps.push(gap);
+            };
+
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+            $scope.ismeridian = true;
+            $scope.toggleMode = function () {
+                $scope.ismeridian = !$scope.ismeridian;
+            };
+            if (!$rootScope.currentUser.user.availability) {
+                $rootScope.currentUser.user.availability = [
+                    {
+                        day: 'Monday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Tuesday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Wednesday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Thursday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Friday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Saturday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Sunday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    }
+                ];
+            }
+            $scope.showDone = false;
+            $scope.updateAvailability = function (availability) {
+                $scope.showLoading = true;
+                user.updateAvailability(availability)
+                    .then(function (data) {
+                        auth.saveToken(data.token);
+                        $scope.showLoading = false;
+                        $scope.showDone = true;
+                    });
+            };
+
         }])
     .controller('editAppointmentModalCtrl', function ($scope, $modalInstance,data,businessFactory,user,socket,$rootScope) {
         $scope.dateObj = data;

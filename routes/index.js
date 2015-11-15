@@ -51,6 +51,7 @@ var roomData = [];
 io.on('connection', function (socket) {
     var string;
     var city,state,zip;
+    var socketTimeData = {};
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
         socket.join(string);
@@ -58,11 +59,12 @@ io.on('connection', function (socket) {
         io.to(socket.id).emit('oldHold',holdList);
     });
     socket.on('timeTaken',function(data){
-        roomData.push({id:string,data:data});
+        socketTimeData = data;
+        roomData.push({id: string, user: data.user, data: data});
         io.sockets.in(string).emit('newHold',data);
     });
     socket.on('timeDestroyed',function(data){
-        roomData = _.without(roomData, _.findWhere(roomData, {id: string}));
+        roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
         io.sockets.in(string).emit('destroyOld',data);
     });
     socket.on('online',function(data){
@@ -72,6 +74,10 @@ io.on('connection', function (socket) {
         socket.join(city);
         socket.join(state);
         socket.join(zip);
+    });
+    socket.on('disconnect', function () {
+        roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
+        io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
     //socket.on('newDeal',function(data){
     //    console.log(data);
