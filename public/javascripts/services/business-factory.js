@@ -111,7 +111,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 //TODO Handle data
-            }, handleError)
+            }, handleError);
         };
         /**
          *

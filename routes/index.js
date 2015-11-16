@@ -148,7 +148,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.param('id');
     User.findOne({'_id': id})
-        .select('_id name provider email avatarVersion personalAppointments businessAppointments')
+        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
                 return next(err);
@@ -159,7 +159,28 @@ router.get('/user/profile', auth, function (req, res, next) {
             res.json(profile);
         });
 });
+/**
+ *   Updates the profile of a specified user.
+ *
+ **/
+router.post('/user/profile/update', auth, function (req, res, next) {
+    var id = req.payload._id;
+    User.findOne({'_id': id}).exec(function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        user.associatePhotos = [];
+        user.associatePhotos = req.body.photos;
 
+        user.save(function (err) {
+            if (err) {
+                next(err);
+            }
+            res.status(200).json({message: 'Success'});
+        });
+
+    });
+});
 /**
  *   Returns a user object
  *
@@ -777,11 +798,61 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         }
         user.isAssociate = true;
 
+        user.availability = [
+            {
+                day: 'Monday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Tuesday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Wednesday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Thursday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Friday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Saturday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            },
+            {
+                day: 'Sunday',
+                start: moment().hour(6).minute(0).format(),
+                end: moment().hour(19).minute(0).format(),
+                gaps: [],
+                available: false
+            }
+        ];
         user.save(function(err,response){
             if(err){
                 return next(err);
             }
-            res.json({message:'Success'});
         });
 
     });

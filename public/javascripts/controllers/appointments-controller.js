@@ -199,59 +199,7 @@ angular.module('cc.appointments-controller', [])
             $scope.toggleMode = function () {
                 $scope.ismeridian = !$scope.ismeridian;
             };
-            if (!$rootScope.currentUser.user.availability) {
-                $rootScope.currentUser.user.availability = [
-                    {
-                        day: 'Monday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Tuesday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Wednesday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Thursday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Friday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Saturday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    },
-                    {
-                        day: 'Sunday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
-                        gaps: [],
-                        available: false
-                    }
-                ];
-            }
+
             $scope.showDone = false;
             $scope.updateAvailability = function (availability) {
                 $scope.showLoading = true;

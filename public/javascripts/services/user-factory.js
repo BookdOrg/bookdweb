@@ -103,6 +103,16 @@ angular.module('cc.user-factory', [])
                 angular.copy(data.data, o.dashboard);
             }, handleError);
         };
+        o.updateProfile = function (data) {
+            return $http.post('/user/profile/update', data, {
+                headers: {
+                    Authorization: 'Bearer ' + auth.getToken(),
+                }
+            }).then(function (data) {
+                //TODO Handle success
+                console.log(data);
+            }, handleError);
+        };
         /**
          *
          *

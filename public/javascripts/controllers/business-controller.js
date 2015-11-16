@@ -206,6 +206,7 @@ angular.module('cc.business-controller', [])
         function calculateAppointments(data) {
             var weekDay = moment($scope.selectedDate).format('dddd');
             $scope.availableTimes = [];
+
             for(var dayOfWeek =0; dayOfWeek<$scope.employee.availability.length;dayOfWeek++){
                 if(weekDay == $scope.employee.availability[dayOfWeek].day){
                     var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');

@@ -79,6 +79,31 @@
 
           </div>
       </div>
+      <div class="panel panel-default" ng-show="currentUser.user.isAssociate">
+          <div class="panel-heading">
+              Associate Panel
+          </div>
+          <div class="panel-body">
+              <div class="col-sm-12">
+                  <div class="col-xs-4 text-center">
+                      <label class="control-label">Profile Info:</label>
+
+                      <div>Associate Email: {{currentUser.user.email}}</div>
+                  </div>
+                  <div class="col-xs-8 text-center">
+                      <div class="col col-xs-2" ng-repeat="photo in photos">
+                          <img ng-src="{{photo.images.standard_resolution.url}}" style="height:100px;width:100px;"/>
+                      </div>
+                  </div>
+                  <div class="text-center">
+                      <br>
+                      <button class="btn btn-primary" ng-click="authorizeInstagram()"><i
+                              class="fa fa-instagram fa-2x"></i> Authorize Instagram
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
       <div class="panel panel-default">
           <div class="panel-heading">
               Update Email Address

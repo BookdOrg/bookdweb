@@ -8,13 +8,13 @@ angular.module('cc.account-controller', [])
                 }
             });
             $scope.showLoader = false;
-            uploader.onAfterAddingFile = function (item) {
+            uploader.onAfterAddingFile = function () {
                 $scope.showLoader = true;
             };
             uploader.onCompleteItem = function (item) {
                 uploader.removeFromQueue(item);
             };
-            uploader.onSuccessItem = function (item, response, status, header) {
+            uploader.onSuccessItem = function (item, response, status) {
                 auth.saveToken(response.token);
                 $rootScope.currentUser = auth.currentUser();
                 $scope.showLoader = false;
@@ -112,10 +112,16 @@ angular.module('cc.account-controller', [])
             $scope.authorizeInstagram = function(){
                 OAuth.popup('instagram')
                     .done(function(result) {
-                        result.get('/me')
+                        result.get('v1/users/self/media/recent/?count=10')
                             .done(function (response) {
                                 //this will display "John Doe" in the console
-                                console.log(response.name);
+                                $scope.photos = response.data;
+                                var photos = compilePhotos(response.data);
+                                var send = {
+                                    'photos': photos
+                                };
+                                $scope.$apply();
+                                user.updateProfile(send);
                             })
                             .fail(function (err) {
                                 console.log(err);
@@ -126,5 +132,13 @@ angular.module('cc.account-controller', [])
                         console.log(err);
                         //handle error with err
                     });
-            }
+            };
+            var compilePhotos = function (photosArray) {
+                var photos = [];
+                for (var photosAraryIndex = 0; photosAraryIndex < photosArray.length; photosAraryIndex++) {
+                    var photo = photosArray[photosAraryIndex].images.standard_resolution.url;
+                    photos.push(photo);
+                }
+                return photos;
+            };
         }]);
