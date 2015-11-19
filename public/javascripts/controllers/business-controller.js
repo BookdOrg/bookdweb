@@ -390,9 +390,8 @@ angular.module('cc.business-controller', [])
         this.checkOut = function (token) {
             $scope.appointment.card = token.card;
             businessFactory.addAppointment($scope.appointment)
-                .then(function (data) {
+                .then(function () {
                     $modalInstance.close();
-                    $state.go('appointments');
                     user.getUserAppts().then(
                         function (data) {
                             $rootScope.currentUser.user.appointments = data;
@@ -401,6 +400,7 @@ angular.module('cc.business-controller', [])
                             console.log(errorMessage);
                         }
                     );
+                    $state.go('appointments');
                 });
         };
         $scope.ok = function () {
