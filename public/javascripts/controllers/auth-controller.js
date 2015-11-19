@@ -30,7 +30,7 @@ angular.module('cc.auth-controller', [])
                 OAuth.popup('facebook',{cache: true})
                     .done(function(result) {
                         //console.log(result);
-                        result.get('/me?fields=id,name,picture,email')
+                        result.get('/me?fields=id,name,picture.type(large),email')
                             .done(function (response) {
                                 var user = {
                                     'username':response.email,
