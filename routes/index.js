@@ -50,24 +50,24 @@ server.listen(process.env.devsocketPort);
 var roomData = [];
 io.on('connection', function (socket) {
     var string;
-    var city,state,zip;
+    var city, state, zip;
     var socketTimeData = {};
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
         socket.join(string);
-        var holdList= _.where(roomData, {id: string});
-        io.to(socket.id).emit('oldHold',holdList);
+        var holdList = _.where(roomData, {id: string});
+        io.to(socket.id).emit('oldHold', holdList);
     });
-    socket.on('timeTaken',function(data){
+    socket.on('timeTaken', function (data) {
         socketTimeData = data;
         roomData.push({id: string, user: data.user, data: data});
-        io.sockets.in(string).emit('newHold',data);
+        io.sockets.in(string).emit('newHold', data);
     });
-    socket.on('timeDestroyed',function(data){
+    socket.on('timeDestroyed', function (data) {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
-        io.sockets.in(string).emit('destroyOld',data);
+        io.sockets.in(string).emit('destroyOld', data);
     });
-    socket.on('online',function(data){
+    socket.on('online', function (data) {
         city = data.location.city;
         state = data.location.state;
         zip = data.location.zip;
@@ -79,10 +79,6 @@ io.on('connection', function (socket) {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
-    //socket.on('newDeal',function(data){
-    //    console.log(data);
-    //    io.sockets.in(data.location).emit('incomingData',data);
-    //});
 });
 
 /**
@@ -150,14 +146,14 @@ router.get('/user/profile', auth, function (req, res, next) {
     User.findOne({'_id': id})
         .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
-            if (err) {
-                return next(err);
-            }
+        if (err) {
+            return next(err);
+        }
 
-            var profile = {};
-            profile.user = user;
-            res.json(profile);
-        });
+        var profile = {};
+        profile.user = user;
+        res.json(profile);
+    });
 });
 /**
  *   Updates the profile of a specified user.
@@ -232,18 +228,18 @@ router.get('/user/dashboard', auth, function (req, res, next) {
  *
  */
 
-router.post('/user/availability/update',auth,function(req,res,next){
+router.post('/user/availability/update', auth, function (req, res, next) {
     var id = req.payload._id;
     var availability = req.body;
 
-    User.findOne({'_id':id}).exec(function(err,user){
-        if(err){
+    User.findOne({'_id': id}).exec(function (err, user) {
+        if (err) {
             return next(err);
         }
         user.availability = availability;
 
-        user.save(function(err,user){
-            if(err){
+        user.save(function (err, user) {
+            if (err) {
                 return next(err);
             }
             res.json({token: user.generateJWT()});
@@ -259,7 +255,7 @@ router.post('/user/availability/update',auth,function(req,res,next){
  **/
 
 router.post('/login', function (req, res, next) {
-    if(req.body.provider == 'bookd'){
+    if (req.body.provider == 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
         }
@@ -270,20 +266,20 @@ router.post('/login', function (req, res, next) {
             if (user) {
                 return res.json({token: user.generateJWT()});
             } else {
-                return res.status(401).json({message:info.message});
+                return res.status(401).json({message: info.message});
             }
         })(req, res, next);
     }
 
-    if(req.body.provider == 'facebook'  || 'google_plus'){
-        User.findOne({'email':req.body.username}).exec(function(err,user,info){
-            if(err){
+    if (req.body.provider == 'facebook' || 'google_plus') {
+        User.findOne({'email': req.body.username}).exec(function (err, user, info) {
+            if (err) {
                 return next(err);
             }
-            if(user){
+            if (user) {
                 return res.json({token: user.generateJWT()});
-            }else{
-                return res.status(401).json({message:'Incorrect information entered'});
+            } else {
+                return res.status(401).json({message: 'Incorrect information entered'});
             }
         });
     }
@@ -297,13 +293,13 @@ router.post('/login', function (req, res, next) {
  **/
 router.post('/register', function (req, res, next) {
     var user = new User();
-    if(req.body.provider == 'bookd'){
+    if (req.body.provider == 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
         }
         user.setPassword(req.body.password);
     }
-    if(req.body.provider == 'facebook' || req.body.provider == 'google_plus' ){
+    if (req.body.provider == 'facebook' || req.body.provider == 'google_plus') {
         var randomstring = Math.random().toString(36).slice(-8);
         user.setPassword(randomstring);
     }
@@ -313,7 +309,7 @@ router.post('/register', function (req, res, next) {
     user.provider = req.body.provider;
 
 
-    user.save(function (err,user) {
+    user.save(function (err, user) {
         if (err) {
             return res.status(400).json({message: "Whoops, looks like you already have an account registered. Try a different provider."});
         }
@@ -425,38 +421,42 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     var room = appointment.start.date.toString() + appointment.employee.toString();
     var responseArray = [];
 
-    function validateAppointment(requestedAppointment, userAppointments){
-        for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
-            if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
-                    isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
-                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
+    function validateAppointment(requestedAppointment, userAppointments) {
+        for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
+            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').
+                isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
+                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
-            if(moment(requestedAppointment.start.time,'hh:mm a').
-                    isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
-                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
+            if (moment(requestedAppointment.start.time, 'hh:mm a').
+                isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
+                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
         }
-        for(var appointmentIndex = 0; appointmentIndex<userAppointments.length;appointmentIndex++){
-            if(moment(userAppointments[appointmentIndex].start.time,'hh:mm a ').
-                    isSame(moment(requestedAppointment.start.time,'hh:mm a'))){
-                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
+        for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
+            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').
+                isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
+                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
-            if(moment(requestedAppointment.start.time,'hh:mm a').
-                    isBetween(moment(userAppointments[appointmentIndex].start.time,'hh:mm a'),moment(userAppointments[appointmentIndex].end.time,'hh:mm a'),'minute')){
-                return res.status(400).json([{message:'This appointment conflicts with a previously scheduled time'},{data:[userAppointments[appointmentIndex],requestedAppointment]}]);
+            if (moment(requestedAppointment.start.time, 'hh:mm a').
+                isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
+                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
         }
     }
+
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
         }
-        User.findOne({'_id': appointment.employee}).populate({path:'businessAppointments personalAppointments',match: {'start.date': appointment.start.date}}).exec(function (err, user) {
+        User.findOne({'_id': appointment.employee}).populate({
+            path: 'businessAppointments personalAppointments',
+            match: {'start.date': appointment.start.date}
+        }).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
-            validateAppointment(appointment,user.businessAppointments);
-            validateAppointment(appointment,user.personalAppointments);
+            validateAppointment(appointment, user.businessAppointments);
+            validateAppointment(appointment, user.personalAppointments);
             user.businessAppointments.push(appointment);
             user.save(function (err, response) {
                 if (err) {
@@ -464,12 +464,15 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        User.findOne({'_id': appointment.customer}).populate({path:'businessAppointments personalAppointments',match: {'start.date': appointment.start.date}}).exec(function (err, user) {
+        User.findOne({'_id': appointment.customer}).populate({
+            path: 'businessAppointments personalAppointments',
+            match: {'start.date': appointment.start.date}
+        }).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
-            validateAppointment(appointment,user.businessAppointments);
-            validateAppointment(appointment,user.personalAppointments);
+            validateAppointment(appointment, user.businessAppointments);
+            validateAppointment(appointment, user.personalAppointments);
             user.personalAppointments.push(appointment);
             user.save(function (err, response) {
                 if (err) {
@@ -488,74 +491,74 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
  *
  *
  */
-router.post('/business/appointments/update',auth,function(req,res,next){
+router.post('/business/appointments/update', auth, function (req, res, next) {
 
     var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
 
-    if(req.body.customer == req.payload._id){
+    if (req.body.customer == req.payload._id) {
         console.log("updated");
-        Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
-            if(err){
+        Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
+            if (err) {
                 return next(err);
             }
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
-            if(appointment.status == 'pending'){
+            if (appointment.status == 'pending') {
                 appointment.status = '';
-                User.findOne({'_id':req.body.employee}).exec(function(err,user){
-                    if(err){
+                User.findOne({'_id': req.body.employee}).exec(function (err, user) {
+                    if (err) {
                         next(err);
                     }
-                    user.businessAppointments.push({_id:appointment._id});
-                    user.save(function(err){
-                        if(err){
+                    user.businessAppointments.push({_id: appointment._id});
+                    user.save(function (err) {
+                        if (err) {
                             return next(err);
                         }
                     });
                 });
             }
-            appointment.save(function(err,response){
-                if(err){
+            appointment.save(function (err, response) {
+                if (err) {
                     return next(err);
                 }
-                res.status(200).json({message:'Success'});
+                res.status(200).json({message: 'Success'});
             });
         });
-    }else{
-        Appointment.findOne({'_id':updatedAppointmentId}).exec(function(err,appointment){
-            if(err){
+    } else {
+        Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
+            if (err) {
                 return next(err);
             }
             appointment.status = 'pending';
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
-            appointment.save(function(err,response){
-                if(err){
+            appointment.save(function (err, response) {
+                if (err) {
                     return next(err);
                 }
             });
-            User.findOne({'_id':req.body.employee}).exec(function(err,user){
-                if(err){
+            User.findOne({'_id': req.body.employee}).exec(function (err, user) {
+                if (err) {
                     return next(err);
                 }
-                user.businessAppointments.pull({_id:appointment._id});
-                user.save(function(err,user){
-                    if(err){
+                user.businessAppointments.pull({_id: appointment._id});
+                user.save(function (err, user) {
+                    if (err) {
                         return next(err);
                     }
                 });
 
             });
-            User.findOne({'_id':req.body.customer}).exec(function(err,user){
-                if(err){
+            User.findOne({'_id': req.body.customer}).exec(function (err, user) {
+                if (err) {
                     return next(err);
                 }
                 //user.personalAppointments.pull({_id:appointment._id});
                 //TODO notify the user that the employee has requested to reschedule
                 var notification = {
-                    'title':'Appointment Reschedule Requested',
+                    'title': 'Appointment Reschedule Requested',
                     'appointment': appointment,
                     'proposed': {
                         'proposedStart': updatedAppointmentStart,
@@ -563,11 +566,11 @@ router.post('/business/appointments/update',auth,function(req,res,next){
                     }
                 };
                 //user.notifications.push(notification);
-                user.save(function(err,user){
-                    if(err){
+                user.save(function (err, user) {
+                    if (err) {
                         return next(err);
                     }
-                    res.status(200).json({message:'Success'});
+                    res.status(200).json({message: 'Success'});
                 });
             });
         });
@@ -585,14 +588,14 @@ router.post('/business/appointments/update',auth,function(req,res,next){
  *
  *
  */
-router.post('/business/appointments/cancel',auth,function(req,res,next){
+router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body.id;
 
-    Appointment.findOneAndRemove({'id':appointment._id},function(err,count){
-        if(err){
+    Appointment.findOneAndRemove({'id': appointment._id}, function (err, count) {
+        if (err) {
             return next(err);
         }
-        res.status(200).json({message:'Success'});
+        res.status(200).json({message: 'Success'});
     });
 });
 
@@ -792,8 +795,8 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
 
-    User.findOne({'_id':employeeId}).exec(function(err,user){
-        if(err){
+    User.findOne({'_id': employeeId}).exec(function (err, user) {
+        if (err) {
             return next(err);
         }
         user.isAssociate = true;
@@ -849,8 +852,8 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                 available: false
             }
         ];
-        user.save(function(err,response){
-            if(err){
+        user.save(function (err, response) {
+            if (err) {
                 return next(err);
             }
         });
@@ -1207,10 +1210,13 @@ router.post('/business/claim-request', auth, function (req, res, next) {
  *
  */
 
-router.get('/business/service-detail',auth,function(req,res,next){
-   var serviceId = req.param('service');
-    Service.findOne({"_id":serviceId}).populate({path:'employees',select: '_id appointments name avatarVersion availability provider'}).exec(function(err, response){
-        if(err){
+router.get('/business/service-detail', auth, function (req, res, next) {
+    var serviceId = req.param('service');
+    Service.findOne({"_id": serviceId}).populate({
+        path: 'employees',
+        select: '_id appointments name avatarVersion availability provider'
+    }).exec(function (err, response) {
+        if (err) {
             return next(err);
         }
         res.json(response);

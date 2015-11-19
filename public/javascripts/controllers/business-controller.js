@@ -9,7 +9,7 @@ angular.module('cc.business-controller', [])
         '$rootScope',
         '$modal',
         'socket',
-        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal,socket) {
+        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, socket) {
             $scope.business = businessFactory.business;
             //if (!businessFactory.business.info) {
             //    businessFactory.getBusinessInfo($stateParams.businessid)
@@ -93,7 +93,7 @@ angular.module('cc.business-controller', [])
                     animation: $scope.animationsEnabled,
                     templateUrl: 'scheduleServiceModal.html',
                     controller: 'scheduleServiceModalCtrl as ctrl',
-                    backdrop : 'static',
+                    backdrop: 'static',
                     keyboard: false,
                     size: size
                 });
@@ -123,16 +123,11 @@ angular.module('cc.business-controller', [])
                     }
                 });
             };
-            /**
-             *
-             * @param service
-             */
+
             $scope.setService = function (service) {
                 businessFactory.service = service;
             };
-            /**
-             *
-             */
+
             $scope.toggleAnimation = function () {
                 $scope.animationsEnabled = !$scope.animationsEnabled;
             };
@@ -154,11 +149,11 @@ angular.module('cc.business-controller', [])
             }
         });
 
-        $scope.timerFinished = function(){
+        $scope.timerFinished = function () {
             $scope.activeTime.toggled = !$scope.activeTime.toggled;
             $scope.showCount = false;
             $scope.$digest();
-            socket.emit('timeDestroyed',$scope.activeTime);
+            socket.emit('timeDestroyed', $scope.activeTime);
         };
         /**
          *
@@ -169,7 +164,7 @@ angular.module('cc.business-controller', [])
             $scope.employee = employee;
             //TODO This is deprecated according to https://github.com/moment/moment/issues/1407
             var day = moment().format('MM/DD/YYYY');
-            getAvailableTimes(day,$scope.employee._id);
+            getAvailableTimes(day, $scope.employee._id);
         };
         /**
          * Disable days on the calendar
@@ -193,10 +188,10 @@ angular.module('cc.business-controller', [])
                 id: employeeId
             };
             user.getAppts(employeeApptObj)
-                .then(function(data){
+                .then(function (data) {
                     calculateAppointments(data);
                     socket.emit('joinApptRoom', employeeApptObj);
-            });
+                });
         }
 
         /**
@@ -207,14 +202,14 @@ angular.module('cc.business-controller', [])
             var weekDay = moment($scope.selectedDate).format('dddd');
             $scope.availableTimes = [];
 
-            for(var dayOfWeek =0; dayOfWeek<$scope.employee.availability.length;dayOfWeek++){
-                if(weekDay == $scope.employee.availability[dayOfWeek].day){
+            for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availability.length; dayOfWeek++) {
+                if (weekDay == $scope.employee.availability[dayOfWeek].day) {
                     var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');
                     var formatEnd = moment($scope.employee.availability[dayOfWeek].end).format('hh:mm a');
                     var startTime = moment(formatStart, 'hh:mm a');
                     var endTime = moment(formatEnd, 'hh:mm a');
                 }
-                if(weekDay == $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false){
+                if (weekDay == $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false) {
                     $scope.dayMessage = true;
                     return;
                 }
@@ -224,11 +219,11 @@ angular.module('cc.business-controller', [])
             for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
                 var timeObj = {
                     time: m.format('hh:mm a'),
-                    end: moment(startTime).add(duration,'minutes').format('hh:mm a'),
+                    end: moment(startTime).add(duration, 'minutes').format('hh:mm a'),
                     available: true,
                     toggled: false,
                     status: false,
-                    user:$scope.currentUser.user._id
+                    user: $scope.currentUser.user._id
                 };
                 $scope.availableTimes.push(timeObj);
             }
@@ -236,13 +231,13 @@ angular.module('cc.business-controller', [])
                 for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
                     for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
 
-                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
                         var startTime = moment(array[appointmentsIndex].start.time, 'hh:mm a');
 
                         var decreasedTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
 
-                        var endTime =  moment(array[appointmentsIndex].end.time, 'hh:mm a');
-                        var subtractedTime = decreasedTime.subtract(duration/2,'minutes');
+                        var endTime = moment(array[appointmentsIndex].end.time, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
 
 
                         if (availableTime.isSame(startTime)) {
@@ -252,26 +247,26 @@ angular.module('cc.business-controller', [])
                             $scope.availableTimes[availableTimesIndex].available = false;
                         }
 
-                        if(startTime.isSame(subtractedTime)){
-                            $scope.availableTimes[availableTimesIndex-1].available = false;
+                        if (startTime.isSame(subtractedTime)) {
+                            $scope.availableTimes[availableTimesIndex - 1].available = false;
                         }
                     }
                 }
             });
-            for(var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length;availableTimesIndex++){
-                for(var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++){
-                    for(var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++){
+            for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
+                for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++) {
+                    for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
 
                         var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
                         var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
 
-                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time,'hh:mm a');
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
                         var gapStartTime = moment(formattedStart, 'hh:mm a');
 
                         var decreasedTime = moment(formattedEnd, 'hh:mm a');
 
-                        var gapEndTime =  moment(formattedEnd, 'hh:mm a');
-                        var subtractedTime = decreasedTime.subtract(duration/2,'minutes');
+                        var gapEndTime = moment(formattedEnd, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
 
                         if (availableTime.isSame(gapStartTime)) {
                             $scope.availableTimes[availableTimesIndex].available = false;
@@ -280,33 +275,33 @@ angular.module('cc.business-controller', [])
                             $scope.availableTimes[availableTimesIndex].available = false;
                         }
 
-                        if(gapStartTime.isSame(subtractedTime)){
-                            $scope.availableTimes[availableTimesIndex-1].available = false;
+                        if (gapStartTime.isSame(subtractedTime)) {
+                            $scope.availableTimes[availableTimesIndex - 1].available = false;
                         }
                     }
                 }
             }
-
         }
-        socket.on('update',function(){
+
+        socket.on('update', function () {
             getAvailableTimes($scope.selectedDate, $scope.employee._id);
         });
 
-        socket.on('oldHold',function(data){
-            for(var dataIndex =0; dataIndex<data.length;dataIndex++){
+        socket.on('oldHold', function (data) {
+            for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
                 calculateHold(data[dataIndex].data);
             }
         });
-        socket.on('newHold',function(data){
-            if(data.user !== $scope.currentUser.user._id){
+        socket.on('newHold', function (data) {
+            if (data.user !== $scope.currentUser.user._id) {
                 calculateHold(data);
             }
         });
-        socket.on('destroyOld',function(data){
+        socket.on('destroyOld', function (data) {
             destroyOld(data);
         });
-        var calculateHold = function(timeObj){
-            var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
+        var calculateHold = function (timeObj) {
+            var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': timeObj.time}));
             var startTime = moment(timeObj.time, 'hh:mm a');
             var endTime = moment(timeObj.end, 'hh:mm a');
             var calculatedDuration = $scope.service.duration;
@@ -315,8 +310,8 @@ angular.module('cc.business-controller', [])
                 indexToReplace += 1;
             }
         };
-        var destroyOld = function(timeObj){
-            var indexToReplace  = parseInt(_.findKey($scope.availableTimes, { 'time': timeObj.time}));
+        var destroyOld = function (timeObj) {
+            var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': timeObj.time}));
             var startTime = moment(timeObj.time, 'hh:mm a');
             var endTime = moment(timeObj.end, 'hh:mm a');
             var destroyDuration = $scope.service.duration;
@@ -326,36 +321,30 @@ angular.module('cc.business-controller', [])
                 indexToReplace += 1;
             }
         };
-        /**
-         *
-         * @param time
-         * @param index
-         */
+
         $scope.selectedIndex = null;
-        $scope.createAppointmentObj = function (time,index) {
+        $scope.createAppointmentObj = function (time, index) {
             $scope.activeTime = time;
             $scope.showCount = true;
-            socket.emit('timeTaken',time);
+            socket.emit('timeTaken', time);
             if (!timeStarted) {
                 $scope.$broadcast('timer-start');
                 $scope.timerRunning = true;
                 timeStarted = true;
-            }else if(timeStarted){
+            } else if (timeStarted) {
                 $scope.$broadcast('timer-reset');
                 $scope.$broadcast('timer-start');
             }
 
-
-            var newDate = moment($scope.selectedDate).format('MM/DD/YYYY');
             /**
              *
              * If there is a previously selected time and the previous selected time isn't equal to the current one
              * we toggle the previously selected time to be false; Toggle the current time to be true.
              * Then we set the current index as the selected index
              */
-            if($scope.selectedIndex !== null){
+            if ($scope.selectedIndex !== null) {
                 $scope.availableTimes[$scope.selectedIndex].toggled = false;
-                socket.emit('timeDestroyed',$scope.availableTimes[$scope.selectedIndex]);
+                socket.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
                 time.toggled = !time.toggled;
                 $scope.selectedIndex = index;
             }
@@ -364,7 +353,7 @@ angular.module('cc.business-controller', [])
              * If there is no previously selected time we simply toggle the current time, then
              * set the current index as the selected index.
              */
-            if($scope.selectedIndex == null){
+            if ($scope.selectedIndex == null) {
                 time.toggled = !time.toggled;
                 $scope.selectedIndex = index;
             }
@@ -382,13 +371,13 @@ angular.module('cc.business-controller', [])
                     date: apptDate,
                     time: apptTime,
                     day: apptDay,
-                    full: moment(apptDate+' '+apptTime,'MM/DD/YYYY hh:mm a').format()
+                    full: moment(apptDate + ' ' + apptTime, 'MM/DD/YYYY hh:mm a').format()
                 },
                 end: {
                     date: apptDate,
                     time: endTime,
                     day: apptDay,
-                    full:moment(apptDate+' '+endTime,'MM/DD/YYYY hh:mm a').format()
+                    full: moment(apptDate + ' ' + endTime, 'MM/DD/YYYY hh:mm a').format()
 
                 },
                 service: $scope.service._id,
@@ -397,10 +386,6 @@ angular.module('cc.business-controller', [])
             };
         };
 
-        /**
-         *
-         * @param token
-         */
         //TODO Handle the case where the add appointment callback returns 400 because of overlapping appointments
         this.checkOut = function (token) {
             $scope.appointment.card = token.card;
@@ -409,7 +394,6 @@ angular.module('cc.business-controller', [])
                     $modalInstance.close();
                     $state.go('appointments');
                 });
-
         };
         $scope.ok = function () {
             // businessFactory.addAppointment($scope.appointment);
@@ -418,12 +402,10 @@ angular.module('cc.business-controller', [])
             //   })
 
         };
-        /**
-         *
-         */
+
         $scope.cancel = function () {
-            if($scope.activeTime){
-                socket.emit('timeDestroyed',$scope.activeTime);
+            if ($scope.activeTime) {
+                socket.emit('timeDestroyed', $scope.activeTime);
             }
             $modalInstance.dismiss('cancel');
         };

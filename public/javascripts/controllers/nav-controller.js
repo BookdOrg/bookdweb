@@ -57,7 +57,6 @@ angular.module('cc.nav-controller', ["google.places"])
                     $state.go('search');
                 }
             };
-
         }])
     .controller('messagesModalCtrl', function ($scope, $modalInstance) {
         $scope.cancel = function () {
@@ -69,6 +68,7 @@ angular.module('cc.nav-controller', ["google.places"])
      * Filter out appointments that occur before today.
      * Return array of appointments occurring today or later.
      * We append the number of days between the appointment day and today to each filtered appointment.
+     * @param dates - An array of dates in MM/DD/YYYY format.
      */
     .filter("notifFilter", ['moment', function (moment) {
         return function (dates) {
