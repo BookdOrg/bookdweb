@@ -90,6 +90,7 @@ angular.module('cc.user-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.user);
+                return data.data;
             }, handleError);
         };
 

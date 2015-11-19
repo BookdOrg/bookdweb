@@ -1,167 +1,164 @@
+<!--
+#########################################
+
+    Business Page -- Consolidated View
+
+########################################
+-->
 <div class="container">
-    <!--
-    #########################################
-
-        Business Page -- Consolidated View
-
-    ########################################
-    -->
-    <div class="container">
-        <div class="page-header text-center">
-            <!-- 		<button class="btn btn-primary col-xs-offset-11 col-sm-offset-11 col-md-offset-11 col-lg-offset-11">Edit</button> -->
-            <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..."
-                 tooltip-placement="right" style="border-radius:20%"></image>
+    <div class="page-header text-center" ng-cloak="">
+        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..."
+             tooltip-placement="right" style="border-radius:20%"></image>
 			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
 				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=200&maxwidth=200&minheight=133&maxheight=133&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
 			</span>
 
-            <h1 class='text-center'>{{business.name}}</h1>
-            <!-- {{business.name}} -->
+        <h1 class='text-center'>{{business.name}}</h1>
+        <!-- {{business.name}} -->
 
-            <!--<br>-->
-            <!--Rating: <span class="text-center">{{business.rating}}</span>-->
-            <h3 class="text-center">
-                <rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
-                        on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
-            </h3>
-            </rating>
-            <br>
-            Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
-            <br>
-            Business Website: <a href="{{business.website}}" target="_blank">{{business.website}}</a>
-            <br>
-            Location: {{business.formatted_address}}
-            <br>
-            Phone: {{business.formatted_phone_number}}
-            <br>
-            Hours:
+        <!--<br>-->
+        <!--Rating: <span class="text-center">{{business.rating}}</span>-->
+        <h3 class="text-center">
+            <rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
+                    on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
+        </h3>
+        </rating>
+        <br>
+        Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
+        <br>
+        Business Website: <a href="{{business.website}}" target="_blank">{{business.website}}</a>
+        <br>
+        Location: {{business.formatted_address}}
+        <br>
+        Phone: {{business.formatted_phone_number}}
+        <br>
+        Hours:
 			<span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
 	    			<br>{{hours}}
 			</span>
 			<span ng-if="!business.opening_hours">
 	    			No information about {{business.name}}'s hours of operation is available.
 			</span>
-        </div>
-        <!--
-    #########################################
-
-        Services Block
-
-    ########################################
-    -->
-        <div class="row">
-            <div ng-if="currentUser.user._id == business.info.owner"
-                 class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9"
-                 role="group">
-                <button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
-            </div>
-            <h1 class="text-center ">Services</h1>
-        </div>
-        <div class="row text-center">
-            <h2 ng-if="business.info.services.length ==0">Services coming soon!</h2>
-
-            <div class="col-md-3 col-xs-5 col-sm-3" style="height:200px;"
-                 ng-repeat="service in business.info.services track by $index">
-                <div class="row">
-                    <div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
-                        <div class="btn-group">
-                            <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                    class="fa fa-cog"></i></a>
-                            <ul class="dropdown-menu">
-                                <li><a ng-click="editService(service, $index)" href="#"><i
-                                        class="fa fa-pencil fa-fw"></i> Edit</a></li>
-                                <li class="disabled"><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <h3>{{service.name}}</h3>
-                    <h5>Price:{{service.price | currency}}</h5>
-                    <h5>Duration: {{service.duration}} minutes</h5>
-                    <h5>{{service.description}}</h5>
-                </div>
-                <div>
-                    <button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book
-                        Appointment
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!--
-    #########################################
-
-        Employee Block
-
-    ########################################
-    -->
-        <div class="row">
-            <div ng-if="currentUser.user._id == business.info.owner"
-                 class="btn-group col-xs-8 col-sm-4 col-md-3 col-xs-offset-8 col-sm-offset-8 col-md-offset-9 col-lg-offset-9"
-                 role="group">
-                <!--<button ng-click="openEmployee()" class="btn btn-primary">Add</button>-->
-                <!--<button class="btn btn-warning">Edit</button>-->
-                <button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
-            </div>
-            <h1 class="text-center">Associates </h1>
-			<span class="text-center">
-				<alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
-                    {{employeeError.message}}
-                </alert>
-			</span>
-        </div>
-        <div class="row">
-            <h2 class="text-center" ng-if="business.info.employees.length ==0">No Associates Listed Yet!</h2>
-
-            <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
-                <div class="row">
-                    <div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
-                        <button class="close" ng-click="removeEmployee(employee)"><i
-                                class="fa fa-trash-o text-danger"></i></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                    <img ng-if="employee.avatarVersion"
-                         ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-
-                    <div class="">
-                        <h4><a href="/user/{{employee._id}}/profile">{{employee.name}}</a></h4>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-if="!business.info.employees">
-                <h1 class="text-center">Your business does not have any employee's registered yet.</h1>
-            </div>
-        </div>
-        <!--
-        #########################################
-
-            Reviews Block
-
-        ########################################
-        -->
-        <div class="row">
-            <h1 class="text-center">Reviews</h1>
-
-            <div class="row">
-                <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
-
-                <div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
-                    <img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
-                    <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
-                    <br>
-                    Rating: {{review.rating}}
-                    <br>
-                    {{review.text}}
-                </div>
-            </div>
-        </div>
-        <!-- 	<div ng-if="!business.info.claimed" class="row text-center">
-                <a href="#/claim/{{business.id}}">Claim Business</a>
-            </div> -->
     </div>
+    <!--
+#########################################
+
+    Services Block
+
+########################################
+-->
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="text-center">Services</h1>
+        </div>
+    </div>
+    <div class="row" ng-if="currentUser.user._id === business.info.owner">
+        <div class="col-xs-12 text-center">
+            <button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+    <div class="row text-center">
+        <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
+
+        <div class="col-md-3 col-xs-5 col-sm-3 well" ng-repeat="service in business.info.services track by $index">
+            <div class="row">
+                <div ng-if="currentUser.user._id === business.info.owner" class="adjustMargins pull-right">
+                    <div class="btn-group">
+                        <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
+                                class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="editService(service, $index)" href="#"><i
+                                    class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                            <li class="disabled"><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>{{service.name}}</h3>
+                <h5>Price:{{service.price | currency}}</h5>
+                <h5>Duration: {{service.duration}} minutes</h5>
+                <h5>{{service.description}}</h5>
+            </div>
+            <div>
+                <button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book
+                    Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--
+#########################################
+
+    Employee Block
+
+########################################
+-->
+    <div class="row">
+        <h1 class="text-center">Associates</h1>
+        <span class="text-center">
+            <alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
+                {{employeeError.message}}
+            </alert>
+        </span>
+    </div>
+    <div class="row" ng-if="currentUser.user._id === business.info.owner">
+        <div class="col-xs-12 text-center">
+            <button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+    <div class="row">
+        <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed Yet!</h2>
+
+        <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
+            <div class="row">
+                <div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
+                    <button class="close" ng-click="removeEmployee(employee)"><i
+                            class="fa fa-trash-o text-danger"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+                <img ng-if="employee.avatarVersion"
+                     ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+
+                <div class="">
+                    <h4><a href="/user/{{employee._id}}/profile">{{employee.name}}</a></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!business.info.employees">
+            <h1 class="text-center">Your business does not have any employee's registered yet.</h1>
+        </div>
+    </div>
+    <!--
+    #########################################
+
+        Reviews Block
+
+    ########################################
+    -->
+    <div class="row">
+        <h1 class="text-center">Reviews</h1>
+
+        <div class="row">
+            <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
+
+            <div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
+                <img ng-src="{{review.user.image_url}}" style="border-radius:20%"></img>
+                <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
+                <br>
+                Rating: {{review.rating}}
+                <br>
+                {{review.text}}
+            </div>
+        </div>
+    </div>
+    <!-- 	<div ng-if="!business.info.claimed" class="row text-center">
+            <a href="#/claim/{{business.id}}">Claim Business</a>
+        </div> -->
 </div>
+
 <!-- 
 #########################################
 
@@ -393,27 +390,31 @@
         <h3 class="modal-title text-center">New Employee</h3>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <form>
+        <form>
+            <div class="row form-inline employee-search">
                 <div class="form-group col-md-12">
                     <label for="employeeId">Employee Email:</label>
                     <input class="form-control" type="email" id="employeeId" ng-model="id">
-                </div>
-                <div class="col-md-12">
-                    <button class="btn btn-success col-sm-offset-6 col-md-offset-6" ng-click="findEmployee(id)">Search
+                    <button class="btn btn-success" ng-click="findEmployee(id)">
+                        Search
                     </button>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12" ng-if="employee">
                     <img ng-if="employee.avatarVersion"
                          ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
                          style="height:100px;width:100px;">
                     <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}"
                          style="height:100px;width:100px;">
-                    <br>Id: {{employee._id}}
-                    <br>Name: {{employee.name}}
+
+                    <p>Name: {{employee.name}}</p>
                 </div>
-            </form>
-        </div>
+                <div class="col-md-12" ng-if="!employee && searched">
+                    <p>No employee with that email found.</p>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-disabled="!employee" ng-click="create(employee._id)">Register Employee

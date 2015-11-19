@@ -499,10 +499,20 @@ angular.module('cc.business-controller', [])
             $modalInstance.close();
         };
 
+        /**
+         * Called when adding a new employee to a business.
+         * Search for the employee by email and display the relevant result.
+         * @param email - Email address of employee to search for.
+         */
         $scope.findEmployee = function (email) {
-            user.search(email);
-            //TODO change this to a callback
-            $scope.employee = user.user;
+            $scope.searched = false;
+            user.search(email).then(function (data) {
+                $scope.searched = true;
+                $scope.employee = data;
+            }, function (error) {
+                $scope.searched = true;
+                console.log(error);
+            });
         };
 
         $scope.cancel = function () {
