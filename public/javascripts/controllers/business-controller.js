@@ -393,6 +393,14 @@ angular.module('cc.business-controller', [])
                 .then(function (data) {
                     $modalInstance.close();
                     $state.go('appointments');
+                    user.getUserAppts().then(
+                        function (data) {
+                            $rootScope.currentUser.user.appointments = data;
+                        },
+                        function (errorMessage) {
+                            console.log(errorMessage);
+                        }
+                    );
                 });
         };
         $scope.ok = function () {
