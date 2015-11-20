@@ -257,7 +257,7 @@ router.post('/user/availability/update', auth, function (req, res, next) {
 router.post('/login', function (req, res, next) {
     if (req.body.provider == 'bookd') {
         if (!req.body.username || !req.body.password) {
-            return res.status(400).json({message: 'Please fill out all fields'});
+            return res.status(400).json({message: 'Please fill out all fields.'});
         }
         passport.authenticate('local', function (err, user, info) {
             if (err) {
@@ -279,7 +279,7 @@ router.post('/login', function (req, res, next) {
             if (user) {
                 return res.json({token: user.generateJWT()});
             } else {
-                return res.status(401).json({message: 'Incorrect information entered'});
+                return res.status(401).json({message: 'Your account does not exist. Please sign up.'});
             }
         });
     }
@@ -1190,7 +1190,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
     business.pending = true;
     business.claimed = false;
 
-    Business.findOne({"placesId": req.body.placesId}).exec(function (err, response) {
+    Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
         if (response) {
             return res.status(400).json({message: 'This business has already been claimed or has a request pending.'});
         }

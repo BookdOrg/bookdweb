@@ -400,7 +400,6 @@ angular.module('cc.business-controller', [])
                             console.log(errorMessage);
                         }
                     );
-                    $state.go('appointments');
                 });
         };
         $scope.ok = function () {
@@ -511,7 +510,6 @@ angular.module('cc.business-controller', [])
                 $scope.employee = data;
             }, function (error) {
                 $scope.searched = true;
-                console.log(error);
             });
         };
 

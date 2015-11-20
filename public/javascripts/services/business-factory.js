@@ -31,6 +31,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.businesses);
+                return data.data;
             },function(err){
                 return err.data;
             });
@@ -159,7 +160,7 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (data) {
                 angular.copy(data.data, o.categories);
-            }, handleError)
+            }, handleError);
         };
         /**
          *   Submits a claim request to Bookd
@@ -176,8 +177,10 @@ angular.module('cc.business-factory', [])
                 headers: {Authorization: 'Bearer ' + auth.getToken()}
             }).then(function (response) {
                 //TODO Handle success
-                return response
-            }, handleError)
+                return response;
+            }, function (err) {
+                return err;
+            });
         };
         /**
          *   Returns all information about a specific Business.

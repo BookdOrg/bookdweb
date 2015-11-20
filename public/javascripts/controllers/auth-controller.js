@@ -65,7 +65,8 @@ angular.module('cc.auth-controller', [])
                                     'username':response.emails[0].value,
                                     'provider': result.provider
                                 };
-                                auth.logIn(user,response.image.url)
+                                var profilePicture = response.image.url.replace('sz=50', 'sz=200');
+                                auth.logIn(user, profilePicture)
                                     .then(function () {
                                         $state.go(state);
                                         getAppointments();
@@ -94,7 +95,8 @@ angular.module('cc.auth-controller', [])
                                     'name':response.name,
                                     'provider': result.provider
                                 };
-                                auth.register(user,response.picture.data.url)
+                                var profilePicture = response.image.url.replace('sz=50', 'sz=200');
+                                auth.register(user, profilePicture)
                                     .then(function () {
                                         console.log(response);
                                         $state.go(state);
