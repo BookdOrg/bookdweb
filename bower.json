@@ -13,7 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.6",
+    "angular": "~1.4.8",
     "angular-mocks": "~1.4.5",
     "angular-moment": "~0.10.3",
     "angular-ui-router": "~0.2.15",
@@ -27,11 +27,6 @@
     "humanize-duration": "~3.3.0",
     "fullcalendar": "~2.4.0",
     "oauth-js": "~0.4.4",
-    "angular-google-maps": "~2.2.1"
-  },
-  "resolutions": {
-    "humanize-duration": "~3.3.0",
-    "angular": "1.4.7",
-    "fullcalendar": "~2.4.0"
+    "ngmap": "~1.14.15"
   }
 }

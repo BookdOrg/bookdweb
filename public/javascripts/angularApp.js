@@ -29,22 +29,17 @@ angular.module('cc', ['ui.router',
         'cloudinary',
         'google.places',
         'ngGeolocation',
+        'ngMap',
         'stripe.checkout',
         'timer',
         'ui.calendar',
-        'ui.bootstrap',
-        'uiGmapgoogle-maps'
+        'ui.bootstrap'
     ])
     .config([
         '$stateProvider',
         '$urlRouterProvider',
         '$locationProvider',
-        'uiGmapGoogleMapApiProvider',
-        function ($stateProvider, $urlRouterProvider, $locationProvider,uiGmapGoogleMapApiProvider) {
-            uiGmapGoogleMapApiProvider.configure({
-                //    key: 'your api key',
-                libraries: 'weather,geometry,visualization,places'
-            });
+        function ($stateProvider, $urlRouterProvider, $locationProvider) {
             $locationProvider.html5Mode(true);
             $stateProvider
                 .state('landing', {
@@ -206,8 +201,8 @@ angular.module('cc', ['ui.router',
         }]).run(function ($rootScope, auth, $templateCache, devHost, $modal, $geolocation, $http, $state, location, businessFactory, $controller) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
-        $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
-        $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
+    $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
+    $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
     //  var socket = io.connect('//'+devHost+':8112');
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {

@@ -7,6 +7,13 @@
 -->
 <div class="container">
     <div class="page-header text-center" ng-cloak="">
+        <div class="row">
+            <div class="col-xs-12">
+                <ng-map class="map-container" center="{{center}}" zoom="16">
+                    <marker position="{{center}}"></marker>
+                </ng-map>
+            </div>
+        </div>
         <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..."
              tooltip-placement="right" style="border-radius:20%"></image>
 			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">

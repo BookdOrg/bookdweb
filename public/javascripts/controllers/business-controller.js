@@ -8,22 +8,11 @@ angular.module('cc.business-controller', [])
         'location',
         '$rootScope',
         '$modal',
-        'socket',
-        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, socket) {
+        'NgMap',
+        function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, NgMap) {
             $scope.business = businessFactory.business;
-            //if (!businessFactory.business.info) {
-            //    businessFactory.getBusinessInfo($stateParams.businessid)
-            //        .then(function (data) {
-            //            $scope.business = data.data.result;
-            //            $scope.business.info = data.data.info;
-            //            businessFactory.business = $scope.business;
-            //        });
-            //}
             $scope.employeeError = businessFactory.error;
             $scope.animationsEnabled = true;
-            /**
-             *
-             */
             $scope.removeAlert = function () {
                 $scope.employeeError.message = null;
             };
@@ -33,10 +22,6 @@ angular.module('cc.business-controller', [])
             };
             $scope.max = 5;
             $scope.isReadonly = true;
-            /**
-             *
-             * @param size
-             */
             $scope.open = function (size) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationsEnabled,
@@ -50,10 +35,7 @@ angular.module('cc.business-controller', [])
                     }
                 });
             };
-            /**
-             *
-             * @param size
-             */
+
             $scope.openEmployee = function (size) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationsEnabled,
@@ -67,10 +49,7 @@ angular.module('cc.business-controller', [])
                     // }
                 });
             };
-            /**
-             *
-             * @param employee
-             */
+
             $scope.removeEmployee = function (employee) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationsEnabled,
@@ -84,10 +63,6 @@ angular.module('cc.business-controller', [])
                 });
             };
 
-            /**
-             *
-             * @param size
-             */
             $scope.openService = function (size) {
                 var modalInstance = $modal.open({
                     animation: $scope.animationsEnabled,
@@ -131,6 +106,11 @@ angular.module('cc.business-controller', [])
             $scope.toggleAnimation = function () {
                 $scope.animationsEnabled = !$scope.animationsEnabled;
             };
+
+            $scope.center = [$scope.business.geometry.location.lat, $scope.business.geometry.location.lng];
+            NgMap.getMap().then(function (map) {
+                map.zoom = 9;
+            });
         }])
     .controller('scheduleServiceModalCtrl', function ($scope, $modalInstance, businessFactory, socket, moment, auth, $state, $rootScope, user) {
         $scope.service = businessFactory.service;
