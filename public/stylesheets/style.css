@@ -371,3 +371,11 @@ img::-moz-selection {
 timer span{
     color:red;
 }
+
+img.fitContainer {
+    width: 100%;
+}
+
+.well.employeeHover:hover {
+    background-color: aliceblue;
+}

@@ -207,15 +207,17 @@
                 <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                     <h3>Select an Associate</h3>
 
-                    <div class="col col-md-3 well" ng-repeat="employee in service.employees">
-                        <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                        <img ng-if="employee.avatarVersion"
-                             ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-                        <h5>{{employee.name}}</h5>
-                        <br>
-                        <label for="selectEmployee">Select</label>
-                        <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
-                               type="radio">
+                    <div class="col col-md-3 well employeeHover" ng-repeat="employee in service.employees">
+                        <label>
+                            <img class="fitContainer" ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+                            <img class="fitContainer" ng-if="employee.avatarVersion"
+                                 ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                            <h5>{{employee.name}}</h5>
+                            <br>
+                            <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
+                                   type="radio">
+                            Select
+                        </label>
                     </div>
                 </div>
                 <div class="row text-center">
