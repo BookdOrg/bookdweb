@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user) {
+var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -48,13 +48,16 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $m
         }
     };
 };
-module.exports = function ($scope, $modalInstance) {
+module.exports = NavCtrl;
+
+var messageModalCtrl = function ($scope, $modalInstance) {
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 };
+module.exports = messageModalCtrl;
 
-module.exports = function (moment) {
+var notifFilter = function (moment) {
     /**
      * Filter out appointments that occur before today.
      * Return array of appointments occurring today or later.
@@ -80,3 +83,4 @@ module.exports = function (moment) {
         return newDates;
     };
 };
+module.exports = notifFilter;

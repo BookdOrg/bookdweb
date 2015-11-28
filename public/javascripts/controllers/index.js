@@ -8,6 +8,8 @@ app.controller('editAppointmentModalCtrl', require('./appointments-controller'))
 app.controller('AuthCtrl', require('./auth-controller'));
 app.controller('businessCtrl', require('./business-controller'));
 app.controller('scheduleServiceModalCtrl', require('./business-controller'));
+app.controller('addServiceModalCtrl', require('./business-controller'));
+app.controller('editServiceModalCtrl', require('./business-controller'));
 app.controller('addEmployeeModalCtrl', require('./business-controller'));
 app.controller('removeEmployeeModalCtrl', require('./business-controller'));
 app.controller('dashboardCtrl', require('./dashboard-controller'));

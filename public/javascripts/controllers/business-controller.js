@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, NgMap) {
+var businessCtrl = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, NgMap) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.animationsEnabled = true;
@@ -101,7 +101,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         map.zoom = 9;
     });
 };
-module.exports = function ($scope, $modalInstance, businessFactory, socket, moment, auth, $state, $rootScope, user) {
+module.exports = businessCtrl;
+
+var scheduleServiceModalCtrl = function ($scope, $modalInstance, businessFactory, socket, moment, auth, $state, $rootScope, user) {
     $scope.service = businessFactory.service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -385,7 +387,9 @@ module.exports = function ($scope, $modalInstance, businessFactory, socket, mome
         $modalInstance.dismiss('cancel');
     };
 };
-module.exports = function ($scope, $modalInstance, businessFactory, business) {
+module.exports = scheduleServiceModalCtrl;
+
+var addServiceModalCtrl = function ($scope, $modalInstance, businessFactory, business) {
 
     $scope.business = business;
 
@@ -413,7 +417,9 @@ module.exports = function ($scope, $modalInstance, businessFactory, business) {
         $modalInstance.dismiss('cancel');
     };
 };
-module.exports = function ($scope, $modalInstance, businessFactory, service, business, serviceIndex) {
+module.exports = addServiceModalCtrl;
+
+var editServiceModalCtrl = function ($scope, $modalInstance, businessFactory, service, business, serviceIndex) {
 
     $scope.editService = service;
     $scope.business = business;
@@ -454,7 +460,9 @@ module.exports = function ($scope, $modalInstance, businessFactory, service, bus
         $modalInstance.dismiss('cancel');
     };
 };
-module.exports = function ($scope, $modalInstance, businessFactory, user) {
+module.exports = editServiceModalCtrl;
+
+var addEmployeeModalCtrl = function ($scope, $modalInstance, businessFactory, user) {
 
     $scope.create = function (id) {
         var business = businessFactory.business;
@@ -485,7 +493,9 @@ module.exports = function ($scope, $modalInstance, businessFactory, user) {
         $modalInstance.dismiss('cancel');
     };
 };
-module.exports = function ($scope, $modalInstance, businessFactory, employee) {
+module.exports = addEmployeeModalCtrl;
+
+var removeEmployeeModalCtrl = function ($scope, $modalInstance, businessFactory, employee) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
@@ -543,3 +553,4 @@ module.exports = function ($scope, $modalInstance, businessFactory, employee) {
         $modalInstance.dismiss('cancel');
     };
 };
+module.exports = removeEmployeeModalCtrl;
