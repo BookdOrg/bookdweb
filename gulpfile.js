@@ -36,10 +36,10 @@ gulp.task('browserify', function () {
         .pipe(gulp.dest(paths.dist))
 });
 
-gulp.task('watch', function() {
-    gulp.watch('public/javascripts/**/*.js', ['browserify'])
-});
-
 gulp.task('default', [], function () {
     gulp.start('browserify');
+});
+
+gulp.task('watch', function () {
+    gulp.watch(['public/javascripts/**/*.js', '!public/javascripts/dist/*'], ['browserify']);
 });
