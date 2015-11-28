@@ -1,5 +1,5 @@
 global.jQuery = require('jquery');
-global.$ = global.jQuery;
+//global.$ = global.jQuery;
 var angular = require('angular');
 require('angular-ui-router');
 
