@@ -1,5 +1,5 @@
-global.$ = require('jquery');
-
+global.jQuery = require('jquery');
+global.$ = global.jQuery;
 var angular = require('angular');
 require('angular-ui-router');
 
@@ -27,6 +27,7 @@ app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/uploa
     .constant('devHost', 'dev.bookd.me')
     .constant('devPort', '8112');
 
+var moment = require('moment');
 require('./services');
 require('./controllers');
 require('./directives');

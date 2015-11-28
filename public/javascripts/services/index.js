@@ -10,3 +10,4 @@ app.factory('location', require('./location-factory'));
 app.factory('socketService', require('./socket-service'));
 app.factory('userFactory', require('./user-factory'));
 app.factory('yelpService', require('./yelp-service'));
+app.factory('userFactory', require('./user-factory'));

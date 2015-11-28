@@ -1,4 +1,4 @@
-var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $modal, moment, user) {
+var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -8,9 +8,9 @@ var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $moda
     $scope.animationEnabled = true;
 
     if (auth.isLoggedIn()) {
-        user.getUserAppts().then(
+        userFactory.getUserAppts().then(
             function (data) {
-                $rootScope.currentUser.user.appointments = data;
+                $rootScope.currentUser.userFactory.appointments = data;
             },
             function (errorMessage) {
                 console.log(errorMessage);
@@ -25,7 +25,7 @@ var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $moda
     };
 
     $scope.open = function (type, state) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: 'partials/login.html',
             controller: 'AuthCtrl',
@@ -50,14 +50,14 @@ var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $moda
 };
 module.exports = NavCtrl;
 
-var messageModalCtrl = function ($scope, $modalInstance) {
+var messageModalCtrl = function ($scope, $uibModalInstance) {
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };
 module.exports = messageModalCtrl;
 
-var notifFilter = function (moment) {
+var notifFilter = function () {
     /**
      * Filter out appointments that occur before today.
      * Return array of appointments occurring today or later.

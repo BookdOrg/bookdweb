@@ -41,8 +41,8 @@
 <div class="hidden-md hidden-lg">
   <!--<div class="col col-xs-12 col-centered">-->
     <div id="carousel" style="height: 650px">
-      <carousel interval="myInterval">
-        <slide ng-repeat="slide in slides" active="slide.active">
+        <uib-carousel interval="myInterval">
+            <uib-slide ng-repeat="slide in slides" active="slide.active">
           <img ng-src="{{slide.image}}" style="height:650px;width:1000px">
           <div class="carousel-caption">
               <h1>Book'd</h1>
@@ -71,8 +71,8 @@
                   <!--</span>-->
               </div>
           </div>
-        </slide>
-      </carousel>
+            </uib-slide>
+        </uib-carousel>
     </div>
   <!--</div>-->
 </div>

@@ -18,5 +18,5 @@ module.exports = function ($scope, $controller) {
     $controller('NavCtrl', {$scope: navViewModel});
     $scope.openSignup = function (type, state) {
         navViewModel.open(type, state);
-    }
+    };
 };

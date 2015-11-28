@@ -3,7 +3,7 @@
  *
  * All Routes under the /user end point
  */
-module.exports = function ($http, auth, $q) {
+var userFactory = function ($http, auth, $q) {
         var o = {
             appointments: [],
             dashboard: [],
@@ -143,3 +143,5 @@ module.exports = function ($http, auth, $q) {
             return ( $q.reject(response.data.message) );
         }
     };
+
+module.exports = userFactory;
