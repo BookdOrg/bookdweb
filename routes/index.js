@@ -14,7 +14,7 @@ var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.e
 var mongoose = require('mongoose');
 
 
-var _ = require('underscore');
+var _ = require('lodash');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');

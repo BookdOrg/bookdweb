@@ -1,17 +1,7 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-angular.module('cc.appointments-controller', [])
-    .controller('appointmentsCtrl', [
-        '$scope',
-        '$state',
-        'auth',
-        'user',
-        '$compile',
-        'uiCalendarConfig',
-        '$modal',
-        '$timeout',
-        function ($scope, $state, auth, user, $compile, uiCalendarConfig, $modal, $timeout) {
+module.exports = function ($scope, $state, auth, user, $compile, uiCalendarConfig, $modal, $timeout) {
             $scope.appointments = user.appointments;
             $scope.animationsEnabled = true;
             var date = new Date();
@@ -212,8 +202,8 @@ angular.module('cc.appointments-controller', [])
                     });
             };
 
-        }])
-    .controller('editAppointmentModalCtrl', function ($scope, $modalInstance, data, businessFactory, user, socket, $rootScope) {
+        };
+module.exports = function ($scope, $modalInstance, data, businessFactory, user, socket, moment) {
         $scope.dateObj = data;
         businessFactory.serviceDetails($scope.dateObj.appointment.service)
             .then(function () {
@@ -521,4 +511,4 @@ angular.module('cc.appointments-controller', [])
             }
             $modalInstance.close();
         };
-    });
+    };

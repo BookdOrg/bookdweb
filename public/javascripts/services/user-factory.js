@@ -3,8 +3,7 @@
  *
  * All Routes under the /user end point
  */
-angular.module('cc.user-factory', [])
-    .factory('user', ['$http', 'auth', '$q', function ($http, auth, $q) {
+module.exports = function ($http, auth, $q) {
         var o = {
             appointments: [],
             dashboard: [],
@@ -143,4 +142,4 @@ angular.module('cc.user-factory', [])
             // Otherwise, use expected error message.
             return ( $q.reject(response.data.message) );
         }
-    }]);
+    };
