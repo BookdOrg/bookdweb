@@ -142,7 +142,7 @@
                             <span class="divider"></span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
-                                    ng-repeat="appointment in filteredAppts = (currentUser.user.appointments.personalAppointments | notifFilter)">
+                                    ng-repeat="appointment in filteredAppts = (currentUser.user.appointments.personalAppointments | notificationFilter)">
                                     <div class="notification-item">
                                         <p class="item-info">{{appointment.title}}</p>
                                         <h4 class="item-title">Appointment is {{appointment.dayDiff}} days away</h4>
