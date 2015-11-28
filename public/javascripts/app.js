@@ -2,7 +2,6 @@ global.jQuery = require('jquery');
 //global.$ = global.jQuery;
 var angular = require('angular');
 require('angular-ui-router');
-
 var app = angular.module('cc', ['ui.router',
     //'angularFileUpload',
     //'angularjs-dropdown-multiselect',
@@ -31,6 +30,7 @@ var moment = require('moment');
 require('./services');
 require('./controllers');
 require('./directives');
+require('./filters');
 
 app.config([
     '$stateProvider',
@@ -118,7 +118,7 @@ app.config([
             .state('partner', {
                 url: '/partner',
                 templateUrl: 'partials/partner.html',
-                controller: 'NavCtrl'
+                controller: 'NavCtrl as NavCtrl'
             })
             .state('admin', {
                 url: '/admin',
