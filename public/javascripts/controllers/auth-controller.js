@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, $modalInstance, modalType, state, socket, $rootScope, user) {
+module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, state, socketService, $rootScope, userFactory) {
     $scope.user = {};
     $scope.tabs = [
         {
@@ -29,7 +29,7 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                             .then(function () {
                                 $state.go(state);
                                 getAppointments();
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
                             });
@@ -59,7 +59,7 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                             .then(function () {
                                 $state.go(state);
                                 getAppointments();
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
                             });
@@ -90,7 +90,7 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                                 console.log(response);
                                 $state.go(state);
                                 getAppointments();
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
                             });
@@ -117,7 +117,7 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                             .then(function () {
                                 $state.go(state);
                                 getAppointments();
-                                $modalInstance.close();
+                                $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
                             });
@@ -151,7 +151,7 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                 //socket.emit('online',onlineData);
                 getAppointments();
                 $state.go(state);
-                $modalInstance.close();
+                $uibModalInstance.close();
             }, function (error) {
                 $scope.error = error.message;
             });
@@ -172,18 +172,18 @@ module.exports = function ($scope, $state, auth, $modalInstance, modalType, stat
                 //socket.emit('online',onlineData);
                 getAppointments();
                 $state.go(state);
-                $modalInstance.close();
+                $uibModalInstance.close();
             }, function (error) {
                 $scope.error = error.message;
             });
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('close');
+        $uibModalInstance.dismiss('close');
     };
 
     var getAppointments = function () {
-        user.getUserAppts().then(
+        userFactory.getUserAppts().then(
             function (data) {
                 $rootScope.currentUser.user.appointments = data;
             },

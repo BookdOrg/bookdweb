@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, businessFactory, business) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, business) {
 
     $scope.business = business;
 
@@ -22,10 +22,10 @@ module.exports = function ($scope, $modalInstance, businessFactory, business) {
         service.businessId = business._id;
         service.employees = _.pluck($scope.serviceEmployees, '_id');
         businessFactory.addService(service);
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };

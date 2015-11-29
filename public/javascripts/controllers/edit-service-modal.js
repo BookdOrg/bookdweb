@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, businessFactory, service, business, serviceIndex) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, service, business, serviceIndex) {
 
     $scope.editService = service;
     $scope.business = business;
@@ -35,10 +35,10 @@ module.exports = function ($scope, $modalInstance, businessFactory, service, bus
             .then(function (data) {
                 business.services[serviceIndex] = data;
             });
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };

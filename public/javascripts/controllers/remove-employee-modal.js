@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, businessFactory, employee) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, employee) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
@@ -52,10 +52,10 @@ module.exports = function ($scope, $modalInstance, businessFactory, employee) {
         };
 
         businessFactory.removeEmployee(selectedEmployee);
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };

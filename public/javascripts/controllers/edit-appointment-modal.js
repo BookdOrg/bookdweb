@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, data, businessFactory, user, socket, moment) {
+module.exports = function ($scope, $uibModalInstance, data, businessFactory, user, socketService, moment) {
     $scope.dateObj = data;
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
         .then(function () {
@@ -288,7 +288,7 @@ module.exports = function ($scope, $modalInstance, data, businessFactory, user, 
         socket.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
             .then(function () {
-                $modalInstance.close();
+                $uibModalInstance.close();
             });
     };
     $scope.cancel = function () {
@@ -300,13 +300,13 @@ module.exports = function ($scope, $modalInstance, data, businessFactory, user, 
         };
         businessFactory.cancelAppointment(appt)
             .then(function () {
-                $modalInstance.close();
+                $uibModalInstance.close();
             });
     };
     $scope.close = function () {
         if ($scope.activeTime) {
             socket.emit('timeDestroyed', $scope.activeTime);
         }
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 };

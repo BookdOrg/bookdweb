@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, businessFactory, user) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, user) {
 
     $scope.create = function (id) {
         var business = businessFactory.business;
@@ -10,7 +10,7 @@ module.exports = function ($scope, $modalInstance, businessFactory, user) {
             employeeId: id
         };
         businessFactory.addEmployee(newEmployee);
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
 
     /**
@@ -29,6 +29,6 @@ module.exports = function ($scope, $modalInstance, businessFactory, user) {
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };

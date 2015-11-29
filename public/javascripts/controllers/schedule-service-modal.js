@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $modalInstance, businessFactory, socket, moment, auth, $state, $rootScope, user) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, moment, auth, $state, $rootScope, user) {
     $scope.service = businessFactory.service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -259,7 +259,7 @@ module.exports = function ($scope, $modalInstance, businessFactory, socket, mome
         $scope.appointment.card = token.card;
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
-                $modalInstance.close();
+                $uibModalInstance.close();
                 user.getUserAppts().then(
                     function (data) {
                         $rootScope.currentUser.user.appointments = data;
@@ -273,7 +273,7 @@ module.exports = function ($scope, $modalInstance, businessFactory, socket, mome
     $scope.ok = function () {
         // businessFactory.addAppointment($scope.appointment);
         //   .then(function(data){
-        //     $modalInstance.close();
+        //     $uibModalInstance.close();
         //   })
 
     };
@@ -282,6 +282,6 @@ module.exports = function ($scope, $modalInstance, businessFactory, socket, mome
         if ($scope.activeTime) {
             socket.emit('timeDestroyed', $scope.activeTime);
         }
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 };
