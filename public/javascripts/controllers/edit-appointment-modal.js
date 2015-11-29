@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, data, businessFactory, user, socketService, moment) {
+module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService) {
     $scope.dateObj = data;
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
         .then(function () {
@@ -42,7 +42,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             startDate: newDate,
             id: employeeId
         };
-        user.getAppts(employeeApptObj)
+        userFactory.getAppts(employeeApptObj)
             .then(function (data) {
                 calculateAppointments(data);
                 var testTime = function (element, index, list) {

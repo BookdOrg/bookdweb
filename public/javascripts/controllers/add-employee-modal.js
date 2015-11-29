@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, user) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, userFactory) {
 
     $scope.create = function (id) {
         var business = businessFactory.business;
@@ -20,7 +20,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, user) {
      */
     $scope.findEmployee = function (email) {
         $scope.searched = false;
-        user.search(email).then(function (data) {
+        userFactory.search(email).then(function (data) {
             $scope.searched = true;
             $scope.employee = data;
         }, function (error) {

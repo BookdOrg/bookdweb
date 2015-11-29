@@ -1,8 +1,8 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, user, $compile, uiCalendarConfig, $modal, $timeout) {
-            $scope.appointments = user.appointments;
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $modal, $timeout) {
+    $scope.appointments = userFactory.appointments;
             $scope.animationsEnabled = true;
             var date = new Date();
             var d = date.getDate();
@@ -194,7 +194,7 @@ module.exports = function ($scope, $state, auth, user, $compile, uiCalendarConfi
             $scope.showDone = false;
             $scope.updateAvailability = function (availability) {
                 $scope.showLoading = true;
-                user.updateAvailability(availability)
+                userFactory.updateAvailability(availability)
                     .then(function (data) {
                         auth.saveToken(data.token);
                         $scope.showLoading = false;

@@ -130,12 +130,12 @@
             -->
             <div class="navbar-inner">
                 <ul class="nav navbar-nav navbar-right hidden-xs">
-                    <li class="dropdown" ng-show="isLoggedIn()">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+                    <li uib-dropdown ng-show="isLoggedIn()">
+                        <a href="" uib-dropdown-toggle><i class="fa fa-bell"></i>
                             <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                             <span class="badge">{{filteredAppts.length}}</span></a>
 
-                        <div class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+                        <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
                                 <h4 class="menu-title">Notifications</h4>
                                 <h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
@@ -154,15 +154,15 @@
                             <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
                         </div>
                     </li>
-                    <li class="dropdown" ng-show="isLoggedIn()">
-                        <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
+                    <li uib-dropdown ng-show="isLoggedIn()">
+                        <a href="" uib-dropdown-toggle class=" avatarPadding">
                             <img class="navbarAvatar" ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
                             {{currentUser.user.name}}
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="uib-dropdown-menu">
                             <li>
                                 <a href="/appointments" ng-click="showSearch(true)">
                                     <i class="fa fa-calendar"></i> Calendar

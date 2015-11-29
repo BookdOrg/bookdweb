@@ -10,7 +10,7 @@ var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $uibM
     if (auth.isLoggedIn()) {
         userFactory.getUserAppts().then(
             function (data) {
-                $rootScope.currentUser.userFactory.appointments = data;
+                $rootScope.currentUser.user.appointments = data;
             },
             function (errorMessage) {
                 console.log(errorMessage);

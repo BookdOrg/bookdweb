@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, user, $location, $sce, FileUploader, $state, $stateParams, $rootScope) {
+module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope) {
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload',
         headers: {
@@ -100,7 +100,7 @@ module.exports = function ($scope, auth, user, $location, $sce, FileUploader, $s
     $scope.showDone = false;
     $scope.updateAvailability = function (availability) {
         $scope.showLoading = true;
-        user.updateAvailability(availability)
+        userFactory.updateAvailability(availability)
             .then(function (data) {
                 auth.saveToken(data.token);
                 $scope.showLoading = false;
@@ -119,7 +119,7 @@ module.exports = function ($scope, auth, user, $location, $sce, FileUploader, $s
                             'photos': photos
                         };
                         $scope.$apply();
-                        user.updateProfile(send);
+                        userFactory.updateProfile(send);
                     })
                     .fail(function (err) {
                         console.log(err);

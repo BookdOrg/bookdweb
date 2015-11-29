@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, moment, auth, $state, $rootScope, user) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope, userFactory) {
     $scope.service = businessFactory.service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -260,7 +260,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
                 $uibModalInstance.close();
-                user.getUserAppts().then(
+                userFactory.getUserAppts().then(
                     function (data) {
                         $rootScope.currentUser.user.appointments = data;
                     },

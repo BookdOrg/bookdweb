@@ -17,7 +17,7 @@ var app = angular.module('cc', ['ui.router',
     //'stripe.checkout',
     //'timer',
     //'ui.calendar',
-    'ui.bootstrap'
+    'ui.bootstrap',
 ]);
 
 app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
@@ -26,7 +26,7 @@ app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/uploa
     .constant('devHost', 'dev.bookd.me')
     .constant('devPort', '8112');
 
-var moment = require('moment');
+
 require('./services');
 require('./controllers');
 require('./directives');
@@ -142,8 +142,8 @@ app.config([
                 templateUrl: 'partials/dashboard.html',
                 controller: 'dashboardCtrl',
                 resolve: {
-                    businesses: ['user', function (user) {
-                        return user.getDashboard();
+                    businesses: ['userFactory', function (userFactory) {
+                        return userFactory.getDashboard();
                     }],
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
@@ -166,8 +166,8 @@ app.config([
                 templateUrl: 'partials/appointments.html',
                 controller: 'appointmentsCtrl',
                 resolve: {
-                    appointments: ['user', function (user) {
-                        return user.getUserAppts();
+                    appointments: ['userFactory', function (userFactory) {
+                        return userFactory.getUserAppts();
                     }],
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
@@ -210,6 +210,7 @@ app.config([
                                                   fromState, fromStateParams, error) {
 
         if (error) {
+            console.log(error);
             $state.go('landing');
             var navViewModel = $rootScope.$new();
             $controller('NavCtrl', {$scope: navViewModel});

@@ -1,6 +1,7 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
+var moment = require('moment');
 module.exports = function () {
     /**
      * Filter out appointments that occur before today.
