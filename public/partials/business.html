@@ -14,7 +14,7 @@
                 </ng-map>
             </div>
         </div>
-        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" tooltip="Photos coming soon..."
+        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" uib-tooltip="Photos coming soon..."
              tooltip-placement="right" style="border-radius:20%"></image>
 			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
 				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=200&maxwidth=200&minheight=133&maxheight=133&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">

@@ -18,9 +18,9 @@
         <div class="panel-body">
             <div class="col-sm-12">
                 <div class="col-xs-12">
-                    <h3 class="control-label">Weekly Availability: <i ng-show="showLoading" tooltip="Updating.."
+                    <h3 class="control-label">Weekly Availability: <i ng-show="showLoading" uib-tooltip="Updating.."
                                                                       class="fa fa-spinner fa-pulse text-center pull-right"></i><i
-                            ng-show="showDone" tooltip="Availability Updated"
+                            ng-show="showDone" uib-tooltip="Availability Updated"
                             class="fa fa-check-square-o text-success text-center pull-right"></i></h3>
 
                     <form class="form-horizontal">
@@ -29,9 +29,9 @@
                                 <accordion-group ng-repeat="day in currentUser.user.availability track by $index"
                                                  is-open="status.open">
                                     <accordion-heading>
-                                        <i ng-show="day.available" tooltip="Available"
+                                        <i ng-show="day.available" uib-tooltip="Available"
                                            class="fa fa-check text-success"></i><i ng-show="!day.available"
-                                                                                   tooltip="Unavailable"
+                                                                                   uib-tooltip="Unavailable"
                                                                                    class="fa fa-check text-danger"></i>
                                         {{day.day}}
                                         <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
@@ -39,7 +39,7 @@
                                                                                     ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
                                     </accordion-heading>
                                     <div class="checkbox text-center" tooltip-toggle="mouseenter"
-                                         tooltip="Are you available on {{day.day}}'s">
+                                         uib-tooltip="Are you available on {{day.day}}'s">
                                         <label>
                                             <input ng-model="day.available" type="checkbox"> Available
                                         </label>
@@ -84,9 +84,9 @@
                                 <button type="submit" class="btn btn-primary"
                                         ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                                 </button>
-                                <i ng-show="showLoading" tooltip="Updating.."
+                                <i ng-show="showLoading" uib-tooltip="Updating.."
                                    class="fa fa-spinner fa-2x fa-pulse text-center"></i>
-                                <i ng-show="showDone" tooltip="Availability Updated"
+                                <i ng-show="showDone" uib-tooltip="Availability Updated"
                                    class="fa fa-check-square-o fa-2x text-success text-center"></i>
                             </div>
                         </div>

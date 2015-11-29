@@ -22,7 +22,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.activeTime.toggled = !$scope.activeTime.toggled;
         $scope.showCount = false;
         $scope.$digest();
-        socket.emit('timeDestroyed', $scope.activeTime);
+        socketService.emit('timeDestroyed', $scope.activeTime);
     };
     /**
      *
@@ -58,7 +58,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         user.getAppts(employeeApptObj)
             .then(function (data) {
                 calculateAppointments(data);
-                socket.emit('joinApptRoom', employeeApptObj);
+                socketService.emit('joinApptRoom', employeeApptObj);
             });
     }
 
@@ -151,21 +151,21 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         }
     }
 
-    socket.on('update', function () {
+    socketService.on('update', function () {
         getAvailableTimes($scope.selectedDate, $scope.employee._id);
     });
 
-    socket.on('oldHold', function (data) {
+    socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
             calculateHold(data[dataIndex].data);
         }
     });
-    socket.on('newHold', function (data) {
+    socketService.on('newHold', function (data) {
         if (data.user !== $scope.currentUser.user._id) {
             calculateHold(data);
         }
     });
-    socket.on('destroyOld', function (data) {
+    socketService.on('destroyOld', function (data) {
         destroyOld(data);
     });
     var calculateHold = function (timeObj) {
@@ -194,7 +194,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.createAppointmentObj = function (time, index) {
         $scope.activeTime = time;
         $scope.showCount = true;
-        socket.emit('timeTaken', time);
+        socketService.emit('timeTaken', time);
         if (!timeStarted) {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
@@ -212,7 +212,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
          */
         if ($scope.selectedIndex !== null) {
             $scope.availableTimes[$scope.selectedIndex].toggled = false;
-            socket.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
+            socketService.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
             time.toggled = !time.toggled;
             $scope.selectedIndex = index;
         }
@@ -280,7 +280,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     $scope.cancel = function () {
         if ($scope.activeTime) {
-            socket.emit('timeDestroyed', $scope.activeTime);
+            socketService.emit('timeDestroyed', $scope.activeTime);
         }
         $uibModalInstance.dismiss('cancel');
     };

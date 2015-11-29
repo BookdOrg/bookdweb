@@ -3,12 +3,20 @@ global.$ = global.jQuery;
 //global.$ = global.jQuery;
 var angular = require('angular');
 require('angular-ui-router');
+require('angular-file-upload');
+require('angular-stripe-checkout');
+require('angular-timer');
+require('ngmap');
 var app = angular.module('cc', ['ui.router',
     'google.places',
     'ngGeolocation',
     'ui.calendar',
     'ui.bootstrap',
-    'ngMap'
+    'ngMap',
+    'angularFileUpload',
+    'angularjs-dropdown-multiselect',
+    'stripe.checkout',
+    'timer'
 ]);
 
 app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
