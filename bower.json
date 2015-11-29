@@ -13,10 +13,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular-google-places-autocomplete": "0.2.7",
+    "angular-google-places-autocomplete": "~0.2.7",
     "ngGeolocation": "~0.0.5",
     "oauth-js": "^0.4.8",
     "wow": "~1.1.2",
-    "angular-bootstrap": "~0.14.3"
+    "angular-bootstrap": "~0.14.3",
+    "angular-ui-calendar": "~1.0.1"
   }
 }

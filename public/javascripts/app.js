@@ -1,23 +1,14 @@
 global.jQuery = require('jquery');
+global.$ = global.jQuery;
 //global.$ = global.jQuery;
 var angular = require('angular');
 require('angular-ui-router');
 var app = angular.module('cc', ['ui.router',
-    //'angularFileUpload',
-    //'angularjs-dropdown-multiselect',
-    //'angularMoment',
-    //'cc.config',
-    //'cc.modalInstance',
-    //'cc.thumb-directive',
-    //'cloudinary',
-    //'google.places',
-    //'angularMoment',
+    'google.places',
     'ngGeolocation',
-    //'ngMap',
-    //'stripe.checkout',
-    //'timer',
-    //'ui.calendar',
+    'ui.calendar',
     'ui.bootstrap',
+    'ngMap'
 ]);
 
 app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
