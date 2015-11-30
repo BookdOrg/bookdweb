@@ -1170,8 +1170,6 @@ router.post('/business/remove-service', auth, function (req, res, next) {
 
 /**
  *   Submits a claim request to Bookd
-
-
  Parameters:
  id-
  category-
@@ -1204,15 +1202,11 @@ router.post('/business/claim-request', auth, function (req, res, next) {
 });
 
 /***
- *
  * Get the Details for a Given Service
- *
- *
  */
-
 router.get('/business/service-detail', auth, function (req, res, next) {
     var serviceId = req.param('service');
-    Service.findOne({"_id": serviceId}).populate({
+    Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
         select: '_id appointments name avatarVersion availability provider'
     }).exec(function (err, response) {
