@@ -218,6 +218,7 @@ app.config([
 
     });
 
+    //TODO Move this to a service!
     $rootScope.query = {
         location: null,
         term: null
@@ -234,14 +235,14 @@ app.config([
          * Watch for when the users location changes, make a call to the google maps api to
          * get information about the users current location.
          *
-         * Auto populate that information in the query location object, to be displayed int he navbar.
+         * Auto populate that information in the query location object, to be displayed in the navbar.
          *
          */
         $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
             $rootScope.loadingLocation = true;
             if (newVal !== oldVal) {
                 $rootScope.loadingLocation = false;
-                $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='
+                $http.get('http://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
                         + $rootScope.myPosition.coords.latitude + ','
                         + $rootScope.myPosition.coords.longitude)
                     .then(function (data) {
@@ -252,6 +253,11 @@ app.config([
                             $rootScope.query.location = $rootScope.currLocation.city;
 
                         }
+                    }, function (error) {
+                        //TODO Google seems to be not have the Access-Control-Allow-Origin header set for some reason.
+                        // Find out why.
+                        console.log("If seeing this, probably CORS error with googleapis geocode");
+                        console.log(error);
                     });
             }
         });

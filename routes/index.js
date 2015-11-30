@@ -486,10 +486,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 
 /**
- *
  * Update an appointment - Reschedule
- *
- *
  */
 router.post('/business/appointments/update', auth, function (req, res, next) {
 
@@ -578,15 +575,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
 
 });
 /**
- *
  * Cancel an appointment - Delete
- *
- */
-/**
- *
- * Update an appointment - Reschedule
- *
- *
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body.id;
@@ -603,7 +592,6 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
 /**
  *   Queries & returns google places for a business based on a
  *   text search.
- *
  **/
 //
 router.get('/business/search', auth, function (req, res, next) {
@@ -614,6 +602,7 @@ router.get('/business/search', auth, function (req, res, next) {
         select: '_id businessAppointments name avatarVersion'
     }];
     googleplaces.textSearch({query: query}, function (error, response) {
+        console.log(response);
         if (error) {
             return next(error);
         }
