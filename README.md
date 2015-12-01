@@ -1,11 +1,7 @@
 # README #
 
 ##Build Status##
-[![Build Status](https://drone.io/bitbucket.org/knb6/bookdweb/status.png)](https://drone.io/bitbucket.org/knb6/bookdweb/latest)
-
-##Link to build CI status##
-
-* https://drone.io/bitbucket.org/knb6/bookdweb
+* To be determined
 
 ##Hip Chat##
 * https://bookd.hipchat.com/chat
@@ -14,12 +10,6 @@
 ##OSX##
 * Node tutorial: http://blog.teamtreehouse.com/install-node-js-npm-mac
 * MongoDB tutorial: http://docs.mongodb.org/manual/tutorials/install-mongodb-on-os-x/
-
-#Import categories json into your DB##
-`mongoimport --db clientconnect --collection categories --file clientconnect-categories --type json`
-
-##Create testAccount for Unit Tests, and Admin Account##
-`mongoimport --db clientconnect --collection users --file baseUser --type json`
 
 ##SET ENVIRONMENT VARIABLES##
 Create a bash script to update environment variables or modify .bashrc
@@ -45,9 +35,6 @@ export GOOGLE_PLACES_OUTPUT_FORMAT=json
 
 export devsocketPort=3001
 
-export yelpconsumersecret=0p5OnO_XT-Qfwtl_TIVCrG_lPpU
-
-export yelptokensecret=-k-uGXRUaO14iTrFTQqpG1HztMc
 ```
 
 Finally in your terminal type:
@@ -57,10 +44,12 @@ Finally in your terminal type:
 
 #Fire up the app#
 * npm install
-* bower install
 * npm start
 
-#Download MongoHub as a MONGODB GUI interface#
+#Run gulp task to watch for changes to js files and browserify them#
+* scripts/gulp-watch.sh
+
+#(Optional) Download MongoHub as a MONGODB GUI interface#
 * https://github.com/jeromelebel/MongoHub-Mac
 
 ###Starting ESLint in WebStorm:###
