@@ -39,8 +39,8 @@ export devsocketPort=3001
 
 Finally in your terminal type:
 
-`source ~/.bashrc -- mac and most Linux`
-`. ~/.bashrc -- Ubuntu based distros`
+* `source ~/.bashrc -- mac and most Linux`
+* `. ~/.bashrc -- Ubuntu based distros`
 
 #Fire up the app#
 * npm install
