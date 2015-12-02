@@ -40,6 +40,6 @@ gulp.task('default', [], function () {
     gulp.start('browserify');
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['browserify'], function () {
     gulp.watch(['public/javascripts/**/*.js', '!public/javascripts/dist/*'], ['browserify']);
 });
