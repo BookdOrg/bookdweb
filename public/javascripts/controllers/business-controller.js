@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $modal, NgMap) {
+module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.animationsEnabled = true;
@@ -12,7 +12,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.max = 5;
     $scope.isReadonly = true;
     $scope.open = function (size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'addServiceModal.html',
             controller: 'addServiceModalCtrl',
@@ -26,7 +26,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
 
     $scope.openEmployee = function (size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'addEmployeeModal.html',
             controller: 'addEmployeeModalCtrl',
@@ -40,7 +40,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
 
     $scope.removeEmployee = function (employee) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'removeEmployeeModal.html',
             controller: 'removeEmployeeModalCtrl',
@@ -53,7 +53,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
 
     $scope.openService = function (size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'scheduleServiceModal.html',
             controller: 'scheduleServiceModalCtrl as ctrl',
@@ -70,7 +70,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
 
     $scope.editService = function (service, serviceIndex) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'editServiceModal.html',
             controller: 'editServiceModalCtrl',

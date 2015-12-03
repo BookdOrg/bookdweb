@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, businessFactory, $modal) {
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
 
     $scope.$watch('query', function (newVal, oldVal) {
         if (newVal !== oldVal) {
@@ -30,7 +30,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $modal) {
         claimRequest.placesId = request.place_id;
         businessFactory.claim(claimRequest)
             .then(function (data) {
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: 'myModalContent.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {
@@ -44,7 +44,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $modal) {
                     });
                 },
                 function (error) {
-                    $modal.open({
+                    $uibModal.open({
                         templateUrl: 'myModalContent.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {

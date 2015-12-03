@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $modal, $timeout) {
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout) {
     $scope.appointments = userFactory.appointments;
             $scope.animationsEnabled = true;
             var date = new Date();
@@ -59,7 +59,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             };
 
             $scope.open = function (size, data) {
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     animation: $scope.animationsEnabled,
                     templateUrl: 'editAppointment.html',
                     controller: 'editAppointmentModalCtrl',

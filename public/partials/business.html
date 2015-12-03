@@ -5,8 +5,8 @@
 
 ########################################
 -->
-<div class="container">
-    <div class="page-header text-center" ng-cloak="">
+<div class="container" ng-cloak="">
+    <div class="page-header text-center">
         <div class="row">
             <div class="col-xs-12">
                 <ng-map class="map-container" center="{{center}}" zoom="16">
@@ -26,10 +26,11 @@
         <!--<br>-->
         <!--Rating: <span class="text-center">{{business.rating}}</span>-->
         <h3 class="text-center">
-            <rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
-                    on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
+            <uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
+                        on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
+            </uib-rating>
         </h3>
-        </rating>
+
         <br>
         Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
         <br>
@@ -104,9 +105,9 @@
     <div class="row">
         <h1 class="text-center">Associates</h1>
         <span class="text-center">
-            <alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
+            <uib-alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
                 {{employeeError.message}}
-            </alert>
+            </uib-alert>
         </span>
     </div>
     <div class="row" ng-if="currentUser.user._id === business.info.owner">
@@ -229,13 +230,15 @@
                         <h4>Select a Date to see Available Times</h4>
 
                         <div style="display:inline-block; min-height:290px;">
-                            <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true"
-                                        class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+                            <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true"
+                                            class="well well-sm"
+                                            custom-class="getDayClass(date, mode)"></uib-datepicker>
                         </div>
                     </div>
                     <div class="col col-md-6 text-center">
                         <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
-                        <alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.</alert>
+                        <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                        </uib-alert>
                         <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"
                              ng-repeat="time in availableTimes track by $index">
                             <button ng-disabled="!time.available || time.status || time.toggled"

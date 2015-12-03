@@ -1,12 +1,14 @@
 global.jQuery = require('jquery');
 global.$ = global.jQuery;
-//global.$ = global.jQuery;
+global._ = require('lodash');
+
 var angular = require('angular');
 require('angular-ui-router');
 require('angular-file-upload');
 require('angular-stripe-checkout');
 require('angular-timer');
 require('ngmap');
+require('bootstrap');
 var app = angular.module('cc', ['ui.router',
     'google.places',
     'ngGeolocation',
@@ -194,7 +196,7 @@ app.config([
                 templateUrl: 'partials/contact.html'
             });
         $urlRouterProvider.otherwise('/');
-    }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory, $controller) {
+    }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory, $controller, $uibModal) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
     $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
@@ -294,7 +296,7 @@ app.config([
     };
 
     $rootScope.openMessages = function (size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             //animation: $scope.animationsEnabled,
             templateUrl: 'messagesModal.html',
             controller: 'messagesModalCtrl',

@@ -12,7 +12,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedDate = data.appointment.start.date;
     $scope.countdown = 600;
 
-
     $scope.minDate = $scope.minDate ? null : moment();
 
     $scope.showCount = false;
@@ -28,8 +27,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.timerFinished = function () {
         $scope.activeTime.toggled = !$scope.activeTime.toggled;
         $scope.showCount = false;
-        $scope.$digest();
-        socket.emit('timeDestroyed', $scope.activeTime);
+        $scope.$apply();
+        socketService.emit('timeDestroyed', $scope.activeTime);
     };
     /**
      *
@@ -37,6 +36,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
+        //TODO https://github.com/moment/moment/issues/1407 Address deprecation somehow
         var newDate = moment(date).format('MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
@@ -46,19 +46,19 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             .then(function (data) {
                 calculateAppointments(data);
                 var testTime = function (element, index, list) {
-                    if (element.time == $scope.dateObj.appointment.start.time) {
+                    if (element.time === $scope.dateObj.appointment.start.time) {
                         $scope.availableTimes[index].available = true;
                         $scope.availableTimes[index].status = false;
                         $scope.availableTimes[index].toggled = true;
                         $scope.selectedIndex = index;
-                        //TODO Remove this $digest in favor of the correct way to get the view to update, current fixes the issue though
-                        $scope.$digest();
+                        //TODO Remove this $apply in favor of the correct way to get the view to update, current fixes the issue though
+                        $scope.$apply();
                     }
                 };
-                if (newDate == $scope.dateObj.appointment.start.date) {
+                if (newDate === $scope.dateObj.appointment.start.date) {
                     _.each($scope.availableTimes, testTime);
                 }
-                socket.emit('joinApptRoom', employeeApptObj);
+                socketService.emit('joinApptRoom', employeeApptObj);
             });
     }
 
@@ -150,21 +150,21 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
     }
 
-    socket.on('update', function () {
+    socketService.on('update', function () {
         getAvailableTimes($scope.selectedDate, data.appointment.employee);
     });
 
-    socket.on('oldHold', function (data) {
+    socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
             calculateHold(data[dataIndex].data);
         }
     });
-    socket.on('newHold', function (data) {
+    socketService.on('newHold', function (data) {
         if (data.user !== $scope.currentUser.user._id) {
             calculateHold(data);
         }
     });
-    socket.on('destroyOld', function (data) {
+    socketService.on('destroyOld', function (data) {
         if (data.user !== $scope.currentUser.user._id) {
             destroyOld(data);
         }
@@ -199,7 +199,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.createAppointmentObj = function (timeObj, index) {
         $scope.activeTime = timeObj;
         $scope.showCount = true;
-        socket.emit('timeTaken', timeObj);
+        socketService.emit('timeTaken', timeObj);
         if (!timeStarted) {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
@@ -217,7 +217,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
          */
         if ($scope.selectedIndex !== null) {
             $scope.availableTimes[$scope.selectedIndex].toggled = false;
-            socket.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
+            socketService.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
             timeObj.toggled = !timeObj.toggled;
             $scope.selectedIndex = index;
         }
@@ -285,7 +285,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 timestamp: moment()
             };
         }
-        socket.emit('timeDestroyed', $scope.activeTime);
+        socketService.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
             .then(function () {
                 $uibModalInstance.close();
@@ -293,7 +293,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     };
     $scope.cancel = function () {
         if ($scope.activeTime) {
-            socket.emit('timeDestroyed', $scope.activeTime);
+            socketService.emit('timeDestroyed', $scope.activeTime);
         }
         var appt = {
             'id': $scope.dateObj.appointment._id
@@ -305,7 +305,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     };
     $scope.close = function () {
         if ($scope.activeTime) {
-            socket.emit('timeDestroyed', $scope.activeTime);
+            socketService.emit('timeDestroyed', $scope.activeTime);
         }
         $uibModalInstance.close();
     };

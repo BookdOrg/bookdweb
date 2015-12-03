@@ -20,8 +20,9 @@
           Your Profile
         </h1>
         <h3 class="text-center">
-          <rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" >
-          </rating>
+            <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
+                        on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
+            </uib-rating>
         </h3>
         <!--<div class="col-md-3 col-md-offset-5">-->
           <h4 class="text-center">
@@ -35,7 +36,7 @@
         <h3 class="text-center">Recent Instagram Photos</h3>
 
           <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="photo in user.associatePhotos">
-              <img style="padding-top:5px;border-radius: 20%;height:150px;width:150px;" src="{{photo}}">
+              <img style="padding-top:5px;border-radius: 20%;height:150px;width:150px;" ng-src="{{photo}}">
         </div>
       </div>
       <div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">

@@ -21,7 +21,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.timerFinished = function () {
         $scope.activeTime.toggled = !$scope.activeTime.toggled;
         $scope.showCount = false;
-        $scope.$digest();
+        $scope.$apply();
         socketService.emit('timeDestroyed', $scope.activeTime);
     };
     /**
@@ -50,12 +50,14 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        var newDate = moment(date, 'MM/DD/YYYY');
+        //TODO https://github.com/moment/moment/issues/1407 Address deprecation somehow
+        var newDate = moment(date).format('MM/DD/YYYY');
+        //var newDate = moment(date, 'MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId
         };
-        user.getAppts(employeeApptObj)
+        userFactory.getAppts(employeeApptObj)
             .then(function (data) {
                 calculateAppointments(data);
                 socketService.emit('joinApptRoom', employeeApptObj);
@@ -69,15 +71,14 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     function calculateAppointments(data) {
         var weekDay = moment($scope.selectedDate).format('dddd');
         $scope.availableTimes = [];
-
         for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availability.length; dayOfWeek++) {
-            if (weekDay == $scope.employee.availability[dayOfWeek].day) {
+            if (weekDay === $scope.employee.availability[dayOfWeek].day) {
                 var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');
                 var formatEnd = moment($scope.employee.availability[dayOfWeek].end).format('hh:mm a');
                 var startTime = moment(formatStart, 'hh:mm a');
                 var endTime = moment(formatEnd, 'hh:mm a');
             }
-            if (weekDay == $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false) {
+            if (weekDay === $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false) {
                 $scope.dayMessage = true;
                 return;
             }
