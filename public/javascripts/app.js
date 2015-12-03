@@ -254,8 +254,7 @@ app.config([
 
                         }
                     }, function (error) {
-                        //TODO Google seems to be not have the Access-Control-Allow-Origin header set for some reason.
-                        // Find out why.
+                        //TODO Google wants us to access this API from a server, not a client.
                         console.log("If seeing this, probably CORS error with googleapis geocode");
                         console.log(error);
                     });

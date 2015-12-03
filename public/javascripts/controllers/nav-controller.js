@@ -1,4 +1,4 @@
-var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory) {
+module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -48,5 +48,4 @@ var NavCtrl = function ($scope, auth, $state, businessFactory, $rootScope, $uibM
         }
     };
 };
-module.exports = NavCtrl;
 

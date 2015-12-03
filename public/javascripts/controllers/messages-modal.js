@@ -4,9 +4,8 @@
 
 var app = require('angular').module('cc');
 
-var messageModalCtrl = function ($scope, $uibModalInstance) {
+module.exports = function ($scope, $uibModalInstance) {
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 };
-module.exports = messageModalCtrl;

@@ -17,6 +17,6 @@ app.controller('LandingCtrl', require('./landing-controller'));
 app.controller('MainCtrl', require('./main-controller'));
 app.controller('ModalInstanceCtrl', require('./modal-controller'));
 app.controller('NavCtrl', require('./nav-controller'));
-app.controller('messagesModalCtrl', require('./nav-controller'));
+app.controller('messagesModalCtrl', require('./messages-modal'));
 app.controller('ProfileCtrl', require('./profile-controller'));
 app.controller('searchCtrl', require('./search-controller'));
