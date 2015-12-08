@@ -1,4 +1,5 @@
 module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope) {
+    //TODO Add callbacks for error cases
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload',
         headers: {
@@ -11,11 +12,21 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     };
     uploader.onCompleteItem = function (item) {
         uploader.removeFromQueue(item);
+
+        userFactory.getUserAppts().then(
+            function (data) {
+                $rootScope.currentUser.user.appointments = data;
+            },
+            function (errorMessage) {
+                console.log(errorMessage);
+            }
+        );
     };
     uploader.onSuccessItem = function (item, response, status) {
         auth.saveToken(response.token);
         $rootScope.currentUser = auth.currentUser();
         $scope.showLoader = false;
+
     };
     uploader.filters.push({
         name: 'imageFilter',
@@ -24,11 +35,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
         }
     });
-    //$scope.oneAtATime = true;
-    //$scope.status = {
-    //    isFirstOpen: true,
-    //    isFirstDisabled: false
-    //};
 
     $scope.addBreak = function (day) {
         var gap = {

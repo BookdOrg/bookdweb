@@ -313,7 +313,7 @@ router.post('/register', function (req, res, next) {
 
     user.save(function (err, user) {
         if (err) {
-            return res.status(400).json({message: "Whoops, looks like you already have an account registered. Try a different provider."});
+            return res.status(400).json({message: 'Whoops, looks like you already have an account registered. Try a different provider.'});
         }
         return res.json({token: user.generateJWT()});
     });
