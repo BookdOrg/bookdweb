@@ -24,7 +24,7 @@
                         </span>
                         <span>
                             <button class="btn btn-md sectionBtn" ng-click="search(query)"
-                                    ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
+                                    ng-disabled="query.term === undefined || query.location === undefined || query.term === '' || query.location === ''"
                                     type="submit">
                                 <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
@@ -61,7 +61,7 @@
                         </span>
                         <span>
                             <button class="btn btn-md sectionBtn" ng-click="search(query)"
-                                    ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
+                                    ng-disabled="query.term === undefined || query.location === undefined || query.term === '' || query.location === ''"
                                     type="submit">
                                 <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
