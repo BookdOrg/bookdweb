@@ -1,80 +1,78 @@
 <div class="homepage-hero-module">
     <div class="video-container hidden-xs hidden-sm">
         <div class="filter"></div>
-        <!--<video autoplay loop class="fillWidth">-->
-<!--&lt;!&ndash;             <source src="/video/Traffic-blurred2.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser. &ndash;&gt;-->
-            <!--<source src="/video/Traffic-blurred2.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.-->
-        <!--</video>-->
         <div class="poster">
             <img src="/images/header.jpg" alt="">
         </div>
         <div id="landingBody" class="text-center coverrTitle" ng-controller="LandingCtrl">
             <h1>Book'd</h1>
+
             <h3>Never worry about appointments again!</h3>
-            <!--<a ng-click="openSignup('login','landing')" ng-if="!currentUser || currentUser == null" class="btn btn-xl btn-primary">Join Free Today</a>-->
-                <div class="row form-inline form-group">
-                    <form>
+
+            <div class="row form-inline form-group">
+                <form>
                         <span class="left-inner-addon">
-                            <!--<span class="input-group-lg">-->
                                 <i class="fa fa-building"></i>
-                                <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
-                            <!--</span>-->
+                                <input class="form-control" aria-describedby="search" ng-model="query.term"
+                                       placeholder="Barbershops">
                         </span>
-                        <!--<span class="input-group-lg">-->
                         <span class="left-inner-addon">
                             <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                             <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                            <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                            <input class="form-control" aria-describedby="near" g-places-autocomplete
+                                   options="autocompleteOptions" ng-model="query.location">
                         </span>
                         <span>
-                            <button class="btn btn-md sectionBtn" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                            <button class="btn btn-md sectionBtn" ng-click="search(query)"
+                                    ng-disabled="query.term === undefined || query.location === undefined || query.term === '' || query.location === ''"
+                                    type="submit">
                                 <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
                             </button>
                         </span>
-                    </form>
-                    <!--</span>-->
-                </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 <div class="hidden-md hidden-lg">
-  <!--<div class="col col-xs-12 col-centered">-->
     <div id="carousel" style="height: 650px">
-      <carousel interval="myInterval">
-        <slide ng-repeat="slide in slides" active="slide.active">
-          <img ng-src="{{slide.image}}" style="height:650px;width:1000px">
-          <div class="carousel-caption">
-              <h1>Book'd</h1>
-              <h3>Never worry about appointments again!</h3>
-              <div class="row form-inline form-group">
-                  <form>
+        <uib-carousel interval="myInterval">
+            <uib-slide ng-repeat="slide in slides" active="slide.active">
+                <img ng-src="{{slide.image}}" style="height:650px;width:1000px">
+
+                <div class="carousel-caption">
+                    <h1>Book'd</h1>
+
+                    <h3>Never worry about appointments again!</h3>
+
+                    <div class="row form-inline form-group">
+                        <form>
                         <span class="left-inner-addon">
-                            <!--<span class="input-group-lg">-->
                                 <i class="fa fa-building"></i>
-                                <input class="form-control" aria-describedby="search" ng-model="query.term" placeholder="Barbershops">
-                            <!--</span>-->
+                                <input class="form-control" aria-describedby="search" ng-model="query.term"
+                                       placeholder="Barbershops">
                         </span>
-                      <!--<span class="input-group-lg">-->
                         <span class="left-inner-addon">
                             <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                             <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                            <input class="form-control" aria-describedby="near" g-places-autocomplete options="autocompleteOptions" ng-model="query.location">
+                            <input class="form-control" aria-describedby="near" g-places-autocomplete
+                                   options="autocompleteOptions" ng-model="query.location">
                         </span>
                         <span>
-                            <button class="btn btn-md sectionBtn" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
+                            <button class="btn btn-md sectionBtn" ng-click="search(query)"
+                                    ng-disabled="query.term === undefined || query.location === undefined || query.term === '' || query.location === ''"
+                                    type="submit">
                                 <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
                                 <span ng-show="!fetchingQuery">Search</span>
                             </button>
                         </span>
-                  </form>
-                  <!--</span>-->
-              </div>
-          </div>
-        </slide>
-      </carousel>
+                        </form>
+                    </div>
+                </div>
+            </uib-slide>
+        </uib-carousel>
     </div>
-  <!--</div>-->
 </div>
 <section class="bg-primary" id="about">
     <div class="container">
@@ -82,7 +80,8 @@
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <h2 class="section-heading">Appointment Booking. Made Easy.</h2>
                 <hr class="light">
-                <p class="text-faded">Appointment booking should be easy, let us handle the work. Open the app, pick a business, book an appointment. It's that easy.</p>
+                <p class="text-faded">Appointment booking should be easy, let us handle the work. Open the app, pick a
+                    business, book an appointment. It's that easy.</p>
                 <a href="/feed" class="btn sectionBtn btn-xl">Get Started!</a>
             </div>
         </div>
@@ -103,28 +102,36 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-calendar wow bounceIn text-primary"></i>
+
                     <h3>Appointment Booking</h3>
+
                     <p class="text-muted">Let your customers schedule appointments lightning fast. </p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-tachometer wow bounceIn text-primary" data-wow-delay=".1s"></i>
+
                     <h3>Management Tools</h3>
+
                     <p class="text-muted">Manage staff schedules and services. Unlimited staff accounts.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-money wow bounceIn text-primary" data-wow-delay=".2s"></i>
+
                     <h3>Payments made Easy</h3>
+
                     <p class="text-muted">Receive payments directly through our app!</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="service-box">
                     <i class="fa fa-4x fa-globe wow bounceIn text-primary" data-wow-delay=".3s"></i>
+
                     <h3>Global Reach</h3>
+
                     <p class="text-muted">Attract new customers to your business.</p>
                 </div>
             </div>
@@ -147,14 +154,12 @@
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <h2 class="section-heading">Let's Get In Touch!</h2>
                 <hr class="primary">
-                <p>Curious about registering your business with us? That's great! Send us an email and we will get back to you as soon as possible!</p>
+                <p>Curious about registering your business with us? That's great! Send us an email and we will get back
+                    to you as soon as possible!</p>
             </div>
-            <!--<div class="col-lg-4 col-lg-offset-2 text-center">-->
-                <!--<i class="fa fa-phone fa-3x wow bounceIn"></i>-->
-                <!--<p>123-456-6789</p>-->
-            <!--</div>-->
             <div class="col-lg-4 col-lg-offset-4 text-center">
                 <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+
                 <p><a href="mailto:support@bookd.me">support@bookd.me</a></p>
             </div>
         </div>

@@ -41,6 +41,7 @@ UserSchema.methods.generateJWT = function () {
     var exp = new Date(today);
     exp.setDate(today.getDate() + 1);
 
+    //TODO change secret to something better
     return jwt.sign({
         _id: this._id,
         avatarVersion: this.avatarVersion,

@@ -14,7 +14,7 @@ var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.e
 var mongoose = require('mongoose');
 
 
-var _ = require('underscore');
+var _ = require('lodash');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
@@ -93,6 +93,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
     var employeeId = req.param('id');
     var userId = req.payload._id;
     var responseArray = [];
+    console.log(startDate);
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments',
         match: {'start.date': startDate}
@@ -109,6 +110,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 return next(err);
             }
             responseArray.push(customer.personalAppointments);
+            console.log(responseArray);
             res.json(responseArray);
         });
     });
@@ -311,7 +313,7 @@ router.post('/register', function (req, res, next) {
 
     user.save(function (err, user) {
         if (err) {
-            return res.status(400).json({message: "Whoops, looks like you already have an account registered. Try a different provider."});
+            return res.status(400).json({message: 'Whoops, looks like you already have an account registered. Try a different provider.'});
         }
         return res.json({token: user.generateJWT()});
     });
@@ -486,10 +488,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 
 /**
- *
  * Update an appointment - Reschedule
- *
- *
  */
 router.post('/business/appointments/update', auth, function (req, res, next) {
 
@@ -578,15 +577,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
 
 });
 /**
- *
  * Cancel an appointment - Delete
- *
- */
-/**
- *
- * Update an appointment - Reschedule
- *
- *
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body.id;
@@ -603,7 +594,6 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
 /**
  *   Queries & returns google places for a business based on a
  *   text search.
- *
  **/
 //
 router.get('/business/search', auth, function (req, res, next) {
@@ -1170,8 +1160,6 @@ router.post('/business/remove-service', auth, function (req, res, next) {
 
 /**
  *   Submits a claim request to Bookd
-
-
  Parameters:
  id-
  category-
@@ -1204,15 +1192,11 @@ router.post('/business/claim-request', auth, function (req, res, next) {
 });
 
 /***
- *
  * Get the Details for a Given Service
- *
- *
  */
-
 router.get('/business/service-detail', auth, function (req, res, next) {
     var serviceId = req.param('service');
-    Service.findOne({"_id": serviceId}).populate({
+    Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
         select: '_id appointments name avatarVersion availability provider'
     }).exec(function (err, response) {

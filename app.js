@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -53,7 +54,13 @@ var allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 app.use(passport.initialize());
 app.use('/', routes);
-app.all('/*',function(req, res){
+app.all('/*', function (req, res) {
+    //TODO Find out why this works
+    //Returns a 404 if a js or css file can't be found
+    if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
+        res.status(404);
+    }
+
     res.render('index.ejs', {root: __dirname});
 });
 

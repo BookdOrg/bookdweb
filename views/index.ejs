@@ -3,91 +3,41 @@
     <title>Book'd</title>
     <base href="/*">
 
-    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <script src="/javascripts/dist/app.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600' rel='stylesheet'>
     <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="/images/favicon.ico">
 
-    <script src="/jquery/dist/jquery.min.js"></script>
-    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/angular/angular.js"></script>
-    <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="/javascripts/vendor/moment.min.js"></script>
-    <script src="/angular-moment/angular-moment.min.js"></script>
-    <script src="/moment-range/dist/moment-range.min.js"></script>
+    <!--https://stackoverflow.com/questions/436411/where-is-the-best-place-to-put-script-tags-in-html-markup-->
+    <script src="https://js.stripe.com/v2/" type="text/javascript" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&libraries=places"
+            async></script>
 
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&libraries=places"></script>
-    <script src="/ngmap/build/scripts/ng-map.js"></script>
-    <script src="/oauth-js/dist/oauth.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <script src="/javascripts/angularApp.js"></script>
-    <script src="/javascripts/config.js"></script>
-    <script src="/javascripts/services/auth-factory.js"></script>
-    <script src="/javascripts/services/business-factory.js"></script>
-    <script src="/javascripts/services/user-factory.js"></script>
-    <script src="/javascripts/services/location-factory.js"></script>
-    <script src="/javascripts/controllers/main-controller.js"></script>
-    <script src="/javascripts/controllers/auth-controller.js"></script>
-    <script src="/javascripts/controllers/nav-controller.js"></script>
-    <script src="/javascripts/controllers/profile-controller.js"></script>
-    <script src="/javascripts/controllers/landing-controller.js"></script>
-    <script src="/javascripts/controllers/modal-controller.js"></script>
-    <script src="/javascripts/controllers/account-controller.js"></script>
-    <script src="/javascripts/controllers/business-controller.js"></script>
-    <script src="/javascripts/controllers/admin-controller.js"></script>
-    <script src="/javascripts/controllers/search-controller.js"></script>
-    <script src="/javascripts/controllers/dashboard-controller.js"></script>
-    <script src="/javascripts/controllers/appointments-controller.js"></script>
-
-    <script src="/javascripts/directives/thumb-directive.js"></script>
-
-    <script src="/javascripts/services/admin-service.js"></script>
-    <script src="/javascripts/services/socket-service.js"></script>
-    <script src="/javascripts/services/time-service.js"></script>
-
-    <script src="/javascripts/vendor/angular-file-upload.min.js"></script>
-    <script src="/javascripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
-    <script src="/javascripts/vendor/jquery.cloudinary.js"></script>
-    <script src="/javascripts/vendor/angular.cloudinary.js"></script>
+    <!-- Bower files -->
+    <script src="/moment/moment.js"></script>
+    <link href="/fullcalendar/dist/fullcalendar.min.css" type="text/css" rel="stylesheet"/>
+    <link href="/fullcalendar/dist/fullcalendar.print.css" media="print"/>
     <script src="/angular-ui-calendar/src/calendar.js"></script>
-    <script src="/javascripts/vendor/lodash.min.js"></script>
-    <script src="/javascripts/vendor/angularjs-dropdown-multiselect.min.js"></script>
-    <script src="/javascripts/vendor/angular-stripe-checkout.min.js"></script>
-    <script src="/javascripts/vendor/autocomplete.min.js"></script>
-
     <script src="/fullcalendar/dist/fullcalendar.min.js"></script>
-    <link href="/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet" />
-    <link href="/fullcalendar/dist/fullcalendar.print.css" media="print" />
+    <script src="/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <link rel="stylesheet" type="text/css" href="/angular-google-places-autocomplete/dist/autocomplete.min.css">
+    <script src="/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
+    <script src="/ngGeolocation/ngGeolocation.min.js"></script>
+    <script src="/oauth-js/dist/oauth.js"></script>
+    <script type="text/javascript"
+            src="/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/humanize-duration/humanize-duration.js"></script>
-    <script src="/angular-timer/dist/angular-timer.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="/javascripts/vendor/jquery.easing.min.js"></script>
-    <script src="/javascripts/vendor/jquery.fittext.js"></script>
-    <script src="/javascripts/vendor/wow.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/javascripts/vendor/creative.js"></script>
-
-    <link rel="stylesheet" href="/stylesheets/autocomplete.min.css"/>
-
-    <script src="/javascripts/vendor/ngGeolocation.min.js"></script>
+    <link href="/stylesheets/animate.min.css" rel="stylesheet">
 
     <link href="/stylesheets/style.css" rel="stylesheet">
     <link href="/stylesheets/partner.css" rel="stylesheet">
     <link href="/stylesheets/navbarStyles.css" rel="stylesheet">
-    <!--<link href="/stylesheets/homepage.css" rel="stylesheet">-->
-    <link href="/stylesheets/animate.min.css" rel="stylesheet">
     <link href="/stylesheets/business.css" rel="stylesheet">
-
 </head>
-<script>
-    $.cloudinary.config({
-        cloud_name: 'dvvtn4u9h'
-    })
-</script>
 <body ng-app="cc" ng-cloak>
 <nav id="mainNav" class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
     <div class="container-fluid">
@@ -101,7 +51,6 @@
             <a class="navbar-brand page-scroll" ng-click="showSearch(false)" href="/">
                 <i style="color:white;" class="fa fa-2x fa-calendar"></i>
                 <span style="color:white;font-size:25px;">Book'd</span>
-            <!--<img alt="Brand" src="/images/Bookd-logo.png" style="width:100px;">-->
             </a>
         </div>
         <form ng-if="isLoggedIn() && show" class="navbar-form hidden-md hidden-sm hidden-xs">
@@ -128,7 +77,7 @@
                 </span>
             </div>
         </form>
-        <div class="collapse navbar-collapse" collapse="navbarCollapsed">
+        <div class="uib-collapse navbar-collapse" uib-collapse="navbarCollapsed">
             <ul class="nav navbar-nav">
                 <li ng-if="isLoggedIn()">
                     <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)" >
@@ -187,12 +136,12 @@
             -->
             <div class="navbar-inner">
                 <ul class="nav navbar-nav navbar-right hidden-xs">
-                    <li class="dropdown" ng-show="isLoggedIn()">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+                    <li uib-dropdown ng-show="isLoggedIn()">
+                        <a href="" uib-dropdown-toggle><i class="fa fa-bell"></i>
                             <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                             <span class="badge">{{filteredAppts.length}}</span></a>
 
-                        <div class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+                        <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
                                 <h4 class="menu-title">Notifications</h4>
                                 <h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
@@ -200,7 +149,7 @@
                             <span class="divider"></span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
-                                    ng-repeat="appointment in filteredAppts = (currentUser.user.appointments.personalAppointments | notifFilter)">
+                                    ng-repeat="appointment in filteredAppts = (currentUser.user.appointments.personalAppointments | notificationFilter)">
                                     <div class="notification-item">
                                         <p class="item-info">{{appointment.title}}</p>
                                         <h4 class="item-title">Appointment is {{appointment.dayDiff}} days away</h4>
@@ -211,15 +160,15 @@
                             <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
                         </div>
                     </li>
-                    <li class="dropdown" ng-show="isLoggedIn()">
-                        <a href="" class="dropdown-toggle avatarPadding" data-toggle="dropdown">
+                    <li uib-dropdown ng-show="isLoggedIn()">
+                        <a href="" uib-dropdown-toggle class=" avatarPadding">
                             <img class="navbarAvatar" ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
                             <img class="navbarAvatar" ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
                             {{currentUser.user.name}}
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="uib-dropdown-menu">
                             <li>
                                 <a href="/appointments" ng-click="showSearch(true)">
                                     <i class="fa fa-calendar"></i> Calendar

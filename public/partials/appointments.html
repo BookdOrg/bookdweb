@@ -2,7 +2,6 @@
     <div class="page-header">
         <h1 class="text-center">Calendar <i class="fa fa-calendar"></i></h1>
     </div>
-    <!--<div class="col-lg-12">-->
     <div class="btn-group col-xs-offset-5">
         <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')">Month</button>
         <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
@@ -18,75 +17,75 @@
         <div class="panel-body">
             <div class="col-sm-12">
                 <div class="col-xs-12">
-                    <h3 class="control-label">Weekly Availability: <i ng-show="showLoading" tooltip="Updating.."
+                    <h3 class="control-label">Weekly Availability: <i ng-show="showLoading" uib-tooltip="Updating.."
                                                                       class="fa fa-spinner fa-pulse text-center pull-right"></i><i
-                            ng-show="showDone" tooltip="Availability Updated"
+                            ng-show="showDone" uib-tooltip="Availability Updated"
                             class="fa fa-check-square-o text-success text-center pull-right"></i></h3>
 
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <accordion>
-                                <accordion-group ng-repeat="day in currentUser.user.availability track by $index"
+                            <uib-accordion>
+                                <uib-accordion-group ng-repeat="day in currentUser.user.availability track by $index"
                                                  is-open="status.open">
-                                    <accordion-heading>
-                                        <i ng-show="day.available" tooltip="Available"
+                                    <uib-accordion-heading>
+                                        <i ng-show="day.available" uib-tooltip="Available"
                                            class="fa fa-check text-success"></i><i ng-show="!day.available"
-                                                                                   tooltip="Unavailable"
+                                                                                   uib-tooltip="Unavailable"
                                                                                    class="fa fa-check text-danger"></i>
                                         {{day.day}}
                                         <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
                                             - {{day.end | date:'hh:mm a'}}</span><i class="pull-right glyphicon"
                                                                                     ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                                    </accordion-heading>
+                                    </uib-accordion-heading>
                                     <div class="checkbox text-center" tooltip-toggle="mouseenter"
-                                         tooltip="Are you available on {{day.day}}'s">
+                                         uib-tooltip="Are you available on {{day.day}}'s">
                                         <label>
                                             <input ng-model="day.available" type="checkbox"> Available
                                         </label>
                                     </div>
                                     <div class="col-xs-6">
                                         Start:
-                                        <timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
-                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <uib-timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
+                                                        minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
                                         End:
-                                        <timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
-                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <uib-timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
+                                                        minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
                                     </div>
                                     <div class="col-xs-6">
                                         <h3>Breaks: <a ng-click="addBreak(day)" class="btn btn-success"><i
                                                 class="fa fa-plus"></i></a></h3>
-                                        <accordion>
-                                            <accordion-group ng-repeat="gap in day.gaps track by $index">
-                                                <accordion-heading>
+                                        <uib-accordion>
+                                            <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
+                                                <uib-accordion-heading>
                                                     <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
                                                         - {{gap.end | date:'hh:mm a'}}</span><i
                                                         class="pull-right glyphicon"
                                                         ng-class="{'glyphicon-chevron-down': breakStatus, 'glyphicon-chevron-right': !breakStatus}"></i>
-                                                </accordion-heading>
+                                                </uib-accordion-heading>
                                                 <div class="col-xs-6">
                                                     Start:
-                                                    <timepicker ng-model="gap.start" ng-change="changed()"
-                                                                hour-step="hstep" minute-step="mstep"
-                                                                show-meridian="ismeridian"></timepicker>
+                                                    <uib-timepicker ng-model="gap.start" ng-change="changed()"
+                                                                    hour-step="hstep" minute-step="mstep"
+                                                                    show-meridian="ismeridian"></uib-timepicker>
                                                     End:
-                                                    <timepicker ng-model="gap.end" ng-change="changed()"
-                                                                hour-step="hstep" minute-step="mstep"
-                                                                show-meridian="ismeridian"></timepicker>
+                                                    <uib-timepicker ng-model="gap.end" ng-change="changed()"
+                                                                    hour-step="hstep" minute-step="mstep"
+                                                                    show-meridian="ismeridian"></uib-timepicker>
                                                 </div>
-                                            </accordion-group>
-                                        </accordion>
+                                            </uib-accordion-group>
+                                        </uib-accordion>
                                     </div>
-                                </accordion-group>
-                            </accordion>
+                                </uib-accordion-group>
+                            </uib-accordion>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-offset-5 col-xs-6">
                                 <button type="submit" class="btn btn-primary"
                                         ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                                 </button>
-                                <i ng-show="showLoading" tooltip="Updating.."
+                                <i ng-show="showLoading" uib-tooltip="Updating.."
                                    class="fa fa-spinner fa-2x fa-pulse text-center"></i>
-                                <i ng-show="showDone" tooltip="Availability Updated"
+                                <i ng-show="showDone" uib-tooltip="Availability Updated"
                                    class="fa fa-check-square-o fa-2x text-success text-center"></i>
                             </div>
                         </div>
@@ -95,34 +94,6 @@
             </div>
         </div>
     </div>
-    <!--</div>-->
-    <!--<button ng-click="getDate('myCalendar1')"></button>-->
-    <!--<div class="col-md-6">-->
-    <!--<h1 class="text-center">Personal Appointments</h1>-->
-    <!--<p class="text-center text-muted" ng-if="appointments.personalAppointments.length == 0">:( No Personal Appointments Yet. Schedule One!</p>-->
-    <!--<div class="row well text-center" ng-repeat="appointment in appointments.personalAppointments">-->
-    <!--<h4>{{appointment.title}}</h4>-->
-    <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
-    <!--<br>-->
-    <!--Scheduled on: {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
-    <!--<div>-->
-    <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-md-6">-->
-    <!--<h1 class="text-center">Business Appointments</h1>-->
-    <!--<p class="text-center text-muted" ng-if="appointments.businessAppointments.length == 0">:( No Business Appointments Yet.</p>-->
-    <!--<div class="row well text-center" ng-repeat="appointment in appointments.businessAppointments">-->
-    <!--<h4>{{appointment.title}}</h4>-->
-    <!--Date: {{appointment.start.day}} {{appointment.start.date}} {{appointment.start.time}}-->
-    <!--<br>-->
-    <!--Scheduled on: {{appointment.timestamp | date:'MMMM dd yyyy hh:mm a'}}-->
-    <!--<div>-->
-    <!--<button class="btn btn-primary">Re-schedule <i class="fa fa-calendar-o"></i></button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
 </div>
 
 <!--
@@ -147,8 +118,8 @@ Edit Appointment Modal
                 <h4>Select a Date to see Available Times</h4>
 
                 <div style="display:inline-block; min-height:290px;">
-                    <datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm"
-                                custom-class="getDayClass(date, mode)"></datepicker>
+                    <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm"
+                                    custom-class="getDayClass(date, mode)"></uib-datepicker>
                 </div>
             </div>
             <div class="col col-md-6 text-center">
