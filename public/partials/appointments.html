@@ -25,10 +25,10 @@
 
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <accordion>
-                                <accordion-group ng-repeat="day in currentUser.user.availability track by $index"
+                            <uib-accordion>
+                                <uib-accordion-group ng-repeat="day in currentUser.user.availability track by $index"
                                                  is-open="status.open">
-                                    <accordion-heading>
+                                    <uib-accordion-heading>
                                         <i ng-show="day.available" uib-tooltip="Available"
                                            class="fa fa-check text-success"></i><i ng-show="!day.available"
                                                                                    uib-tooltip="Unavailable"
@@ -37,7 +37,7 @@
                                         <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
                                             - {{day.end | date:'hh:mm a'}}</span><i class="pull-right glyphicon"
                                                                                     ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                                    </accordion-heading>
+                                    </uib-accordion-heading>
                                     <div class="checkbox text-center" tooltip-toggle="mouseenter"
                                          uib-tooltip="Are you available on {{day.day}}'s">
                                         <label>
@@ -46,38 +46,38 @@
                                     </div>
                                     <div class="col-xs-6">
                                         Start:
-                                        <timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
-                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <uib-timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
+                                                        minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
                                         End:
-                                        <timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
-                                                    minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <uib-timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
+                                                        minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
                                     </div>
                                     <div class="col-xs-6">
                                         <h3>Breaks: <a ng-click="addBreak(day)" class="btn btn-success"><i
                                                 class="fa fa-plus"></i></a></h3>
-                                        <accordion>
-                                            <accordion-group ng-repeat="gap in day.gaps track by $index">
-                                                <accordion-heading>
+                                        <uib-accordion>
+                                            <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
+                                                <uib-accordion-heading>
                                                     <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
                                                         - {{gap.end | date:'hh:mm a'}}</span><i
                                                         class="pull-right glyphicon"
                                                         ng-class="{'glyphicon-chevron-down': breakStatus, 'glyphicon-chevron-right': !breakStatus}"></i>
-                                                </accordion-heading>
+                                                </uib-accordion-heading>
                                                 <div class="col-xs-6">
                                                     Start:
-                                                    <timepicker ng-model="gap.start" ng-change="changed()"
-                                                                hour-step="hstep" minute-step="mstep"
-                                                                show-meridian="ismeridian"></timepicker>
+                                                    <uib-timepicker ng-model="gap.start" ng-change="changed()"
+                                                                    hour-step="hstep" minute-step="mstep"
+                                                                    show-meridian="ismeridian"></uib-timepicker>
                                                     End:
-                                                    <timepicker ng-model="gap.end" ng-change="changed()"
-                                                                hour-step="hstep" minute-step="mstep"
-                                                                show-meridian="ismeridian"></timepicker>
+                                                    <uib-timepicker ng-model="gap.end" ng-change="changed()"
+                                                                    hour-step="hstep" minute-step="mstep"
+                                                                    show-meridian="ismeridian"></uib-timepicker>
                                                 </div>
-                                            </accordion-group>
-                                        </accordion>
+                                            </uib-accordion-group>
+                                        </uib-accordion>
                                     </div>
-                                </accordion-group>
-                            </accordion>
+                                </uib-accordion-group>
+                            </uib-accordion>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-offset-5 col-xs-6">
