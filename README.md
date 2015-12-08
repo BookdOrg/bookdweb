@@ -19,7 +19,6 @@ Create a bash script to update environment variables or modify .bashrc
 * Paste this into your .bashrc or script
 
 ```bash
-alias handiEnv=". ~/Documents/handi-staging/setVariables.sh"
 
 export NODE_ENV=development
 
