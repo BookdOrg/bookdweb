@@ -96,7 +96,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         $scope.animationsEnabled = !$scope.animationsEnabled;
     };
 
-    $scope.center = [$scope.business.geometry.location.lat, $scope.business.geometry.location.lng];
+    $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
     NgMap.getMap().then(function (map) {
         map.zoom = 9;
     });
