@@ -93,7 +93,6 @@ router.get('/user/appointments', auth, function (req, res, next) {
     var employeeId = req.param('id');
     var userId = req.payload._id;
     var responseArray = [];
-    console.log(startDate);
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments',
         match: {'start.date': startDate}
@@ -110,7 +109,6 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 return next(err);
             }
             responseArray.push(customer.personalAppointments);
-            console.log(responseArray);
             res.json(responseArray);
         });
     });

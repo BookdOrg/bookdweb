@@ -52,7 +52,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                         $scope.availableTimes[index].toggled = true;
                         $scope.selectedIndex = index;
                         //TODO Remove this $apply in favor of the correct way to get the view to update, current fixes the issue though
-                        $scope.$apply();
+                        //$scope.$apply();
                     }
                 };
                 if (newDate === $scope.dateObj.appointment.start.date) {
@@ -199,7 +199,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.createAppointmentObj = function (timeObj, index) {
         $scope.activeTime = timeObj;
         $scope.showCount = true;
-        socketService.emit('timeTaken', timeObj);
+
         if (!timeStarted) {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
@@ -221,6 +221,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             timeObj.toggled = !timeObj.toggled;
             $scope.selectedIndex = index;
         }
+        /**
+         * Must emit the new time taken after the old time was destroyed.
+         *
+         */
+        socketService.emit('timeTaken', timeObj);
         /**
          *
          * If there is no previously selected time we simply toggle the current time, then
