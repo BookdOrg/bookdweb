@@ -77,14 +77,14 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     $scope.facebookSignup = function () {
         OAuth.popup('facebook', {cache: true})
             .done(function (result) {
-                result.get('/me?fields=id,name,picture,email')
+                result.get('/me?fields=id,name,picture.type(large),email')
                     .done(function (response) {
                         var user = {
                             'username': response.email,
                             'name': response.name,
                             'provider': result.provider
                         };
-                        var profilePicture = response.image.url.replace('sz=50', 'sz=200');
+                        var profilePicture = response.picture.data.url;
                         auth.register(user, profilePicture)
                             .then(function () {
                                 console.log(response);
