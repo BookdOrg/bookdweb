@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal, NgMap) {
 
     $scope.$watch('query', function (newVal, oldVal) {
         if (newVal !== oldVal) {
@@ -6,6 +6,10 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
         }
         if (!newVal && oldVal) {
             $scope.selectedQuery = oldVal;
+        }
+
+        if ($scope.query.geometry) {
+            $scope.center = [$scope.query.geometry.location.lat(), $scope.query.geometry.location.lng()];
         }
     });
 
@@ -59,5 +63,4 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
                 }
             );
     };
-
 };
