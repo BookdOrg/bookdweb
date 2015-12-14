@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema({
     email: {type: String, unique: true},
     avatarVersion: String,
     provider: String,
+    providerId: String,
     rating: Number,
     businessOwner: Boolean,
     hash: String,

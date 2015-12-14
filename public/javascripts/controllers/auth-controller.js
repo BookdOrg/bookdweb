@@ -82,12 +82,12 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var user = {
                             'username': response.email,
                             'name': response.name,
-                            'provider': result.provider
+                            'provider': result.provider,
+                            'providerId': response.id
                         };
                         var profilePicture = response.picture.data.url;
                         auth.register(user, profilePicture)
                             .then(function () {
-                                console.log(response);
                                 $state.go(state);
                                 getAppointments();
                                 $uibModalInstance.close();
@@ -111,7 +111,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var user = {
                             'username': response.emails[0].value,
                             'name': response.displayName,
-                            'provider': result.provider
+                            'provider': result.provider,
+                            'providerId': response.id
                         };
                         auth.register(user, response.image.url)
                             .then(function () {

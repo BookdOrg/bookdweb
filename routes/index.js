@@ -79,6 +79,9 @@ io.on('connection', function (socket) {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
+    socket.on('isEmployee', function (data) {
+        console.log(data);
+    });
 });
 
 /**
@@ -185,7 +188,7 @@ router.post('/user/profile/update', auth, function (req, res, next) {
  **/
 router.get('/user/search', auth, function (req, res, next) {
     var email = req.param('email');
-    User.findOne({'email': email}).select('_id name avatarVersion').exec(function (error, user) {
+    User.findOne({'email': email}).select('_id name avatarVersion provider providerId').exec(function (error, user) {
         if (error) {
             return next(error);
         }
@@ -299,15 +302,16 @@ router.post('/register', function (req, res, next) {
         }
         user.setPassword(req.body.password);
     }
+    //TODO how should we handle passwords when a user logs in with an oauth provider?
     if (req.body.provider == 'facebook' || req.body.provider == 'google_plus') {
         var randomstring = Math.random().toString(36).slice(-8);
         user.setPassword(randomstring);
+        user.providerId = req.body.providerId;
     }
 
     user.email = req.body.username;
     user.name = req.body.name;
     user.provider = req.body.provider;
-
 
     user.save(function (err, user) {
         if (err) {

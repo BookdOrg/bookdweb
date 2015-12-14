@@ -126,6 +126,7 @@ module.exports = function ($http, auth) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.business.info);
+            return data;
         }, function (err) {
             angular.copy(err, o.error);
         });
