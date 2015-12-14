@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, businessFactory, $uibModal, NgMap) {
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
 
     $scope.$watch('query', function (newVal, oldVal) {
         if (newVal !== oldVal) {
@@ -9,7 +9,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, NgM
         }
 
         if ($scope.query.geometry) {
-            $scope.center = [$scope.query.geometry.location.lat(), $scope.query.geometry.location.lng()];
+            $scope.center = $scope.query.geometry.location.lat() + ',' + $scope.query.geometry.location.lng();
         }
     });
 
