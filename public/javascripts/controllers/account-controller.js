@@ -50,59 +50,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     $scope.toggleMode = function () {
         $scope.ismeridian = !$scope.ismeridian;
     };
-    if (!$rootScope.currentUser.user.availability) {
-        $rootScope.currentUser.user.availability = [
-            {
-                day: 'Monday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Tuesday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Wednesday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Thursday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Friday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Saturday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            },
-            {
-                day: 'Sunday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: true
-            }
-        ];
-    }
     $scope.showDone = false;
     $scope.updateAvailability = function (availability) {
         $scope.showLoading = true;

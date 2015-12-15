@@ -11,15 +11,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
         };
         businessFactory.addEmployee(newEmployee)
             .then(function (data) {
-                socket.emit('isEmployee', data);
+                socketService.emit('isEmployee', newEmployee.employeeId);
             });
         $uibModalInstance.close();
     };
-    $http.get('https://oauth.io/request/facebook/?fields=picture.type(large)', {
-        headers: {oauthio: 'k=mPBNkFFrqBA1L6cT0C7og9-xdQM&oauth_token=1652611575018107&oauth_token_secret=f0c880e05c257dff0cdf915e2372789b'}
-    }).then(function (data) {
-        console.log(data);
-    });
+    //TODO come back to integrating profile pictures
+    //OAuth.callback('facebook','',function(data){
+    //    console.log(data)
+    //})
+
     /**
      * Called when adding a new employee to a business.
      * Search for the employee by email and display the relevant result.

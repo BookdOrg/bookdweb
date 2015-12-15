@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory) {
+module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory, socketService) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -7,6 +7,10 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
 
     $scope.animationEnabled = true;
 
+    socketService.on('clientUpdate', function (data) {
+        auth.saveToken(data.token);
+        $rootScope.currentUser = auth.currentUser();
+    });
     if (auth.isLoggedIn()) {
         userFactory.getUserAppts().then(
             function (data) {

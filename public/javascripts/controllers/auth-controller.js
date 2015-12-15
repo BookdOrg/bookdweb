@@ -27,6 +27,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         };
                         auth.logIn(user, response.picture.data.url)
                             .then(function () {
+                                onlineData.user = $rootScope.currentUser.user._id;
+                                //onlineData.location = $rootScope.currLocation;
+                                socketService.emit('online', onlineData);
+                                //console.log($rootScope.currentUser._id)
                                 $state.go(state);
                                 getAppointments();
                                 $uibModalInstance.close();
@@ -57,6 +61,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var profilePicture = response.image.url.replace('sz=50', 'sz=200');
                         auth.logIn(user, profilePicture)
                             .then(function () {
+                                onlineData.user = $rootScope.currentUser.user._id;
+                                //onlineData.location = $rootScope.currLocation;
+                                socketService.emit('online', onlineData);
                                 $state.go(state);
                                 getAppointments();
                                 $uibModalInstance.close();
@@ -88,6 +95,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var profilePicture = response.picture.data.url;
                         auth.register(user, profilePicture)
                             .then(function () {
+                                onlineData.user = $rootScope.currentUser.user._id;
+                                //onlineData.location = $rootScope.currLocation;
+                                socketService.emit('online', onlineData);
                                 $state.go(state);
                                 getAppointments();
                                 $uibModalInstance.close();
@@ -116,6 +126,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         };
                         auth.register(user, response.image.url)
                             .then(function () {
+                                onlineData.user = $rootScope.currentUser.user._id;
+                                //onlineData.location = $rootScope.currLocation;
+                                socketService.emit('online', onlineData);
                                 $state.go(state);
                                 getAppointments();
                                 $uibModalInstance.close();
@@ -147,9 +160,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         };
         auth.register(user)
             .then(function () {
-                //onlineData.user = $rootScope.currentUser._id;
+                onlineData.user = $rootScope.currentUser.user._id;
                 //onlineData.location = $rootScope.currLocation;
-                //socket.emit('online',onlineData);
+                socketService.emit('online', onlineData);
                 getAppointments();
                 $state.go(state);
                 $uibModalInstance.close();
@@ -168,9 +181,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         };
         auth.logIn(user)
             .then(function () {
-                //onlineData.user = $rootScope.currentUser._id;
+                onlineData.user = $rootScope.currentUser.user._id;
                 //onlineData.location = $rootScope.currLocation;
-                //socket.emit('online',onlineData);
+                socketService.emit('online', onlineData);
                 getAppointments();
                 $state.go(state);
                 $uibModalInstance.close();

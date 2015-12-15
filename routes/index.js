@@ -68,19 +68,91 @@ io.on('connection', function (socket) {
         io.sockets.in(string).emit('destroyOld', data);
     });
     socket.on('online', function (data) {
-        city = data.location.city;
-        state = data.location.state;
-        zip = data.location.zip;
-        socket.join(city);
-        socket.join(state);
-        socket.join(zip);
+        socket.join(data.user);
+        //city = data.location.city;
+        //state = data.location.state;
+        //zip = data.location.zip;
+        //socket.join(city);
+        //socket.join(state);
+        //socket.join(zip);
     });
     socket.on('disconnect', function () {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
     socket.on('isEmployee', function (data) {
-        console.log(data);
+        User.findOne({'_id': data}).exec(function (err, user) {
+            if (err) {
+                console.log(err)
+                //TODO send the socket error back to the client
+                //return next(err);
+            }
+            user.isAssociate = true;
+
+            user.availability = [
+                {
+                    day: 'Monday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Tuesday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Wednesday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Thursday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Friday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Saturday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                },
+                {
+                    day: 'Sunday',
+                    start: moment().hour(6).minute(0).format(),
+                    end: moment().hour(19).minute(0).format(),
+                    gaps: [],
+                    available: false
+                }
+            ];
+            user.save(function (err, response) {
+                if (err) {
+                    //TODO send the socket error back to the client
+                    //return next(err);
+                }
+                io.sockets.in(data).emit('clientUpdate', {token: user.generateJWT()});
+                if (socket.rooms.indexOf(data) >= 0) {
+                    console.log('here')
+
+                }
+            });
+
+        });
     });
 });
 
@@ -786,71 +858,6 @@ router.get('/business/details', auth, function (req, res, next) {
 router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
-
-    User.findOne({'_id': employeeId}).exec(function (err, user) {
-        if (err) {
-            return next(err);
-        }
-        user.isAssociate = true;
-
-        user.availability = [
-            {
-                day: 'Monday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Tuesday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Wednesday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Thursday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Friday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Saturday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            },
-            {
-                day: 'Sunday',
-                start: moment().hour(6).minute(0).format(),
-                end: moment().hour(19).minute(0).format(),
-                gaps: [],
-                available: false
-            }
-        ];
-        user.save(function (err, response) {
-            if (err) {
-                return next(err);
-            }
-        });
-
-    });
 
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         response.employees.pushIfNotExist(employeeId, function (e) {
