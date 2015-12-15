@@ -60,6 +60,12 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
                 $scope.showDone = true;
             });
     };
+
+    /**
+     * Use Oauth.io to access instagram and pull 10 pictures from a users account,
+     * build out a view for the user to scroll and select the photos they want to add to their profile
+     *
+     */
     $scope.authorizeInstagram = function () {
         OAuth.popup('instagram')
             .done(function (result) {

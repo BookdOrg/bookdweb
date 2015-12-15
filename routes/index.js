@@ -1180,12 +1180,13 @@ router.post('/business/remove-service', auth, function (req, res, next) {
 router.post('/business/claim-request', auth, function (req, res, next) {
     var business = new Business();
 
+    business.name = req.body.name;
     business.owner = req.payload._id;
-    business.category = req.body.category;
     business.placesId = req.body.placesId;
     business.dateCreated = req.body.timestamp;
     business.pending = true;
     business.claimed = false;
+    business.tier = req.body.tier;
 
     Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
         if (response) {

@@ -26,8 +26,9 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
     $scope.claim = function (request) {
         var claimRequest = {};
         claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
-        claimRequest.category = request.category;
         claimRequest.placesId = request.place_id;
+        claimRequest.name = request.name;
+        claimRequest.tier = request.tier;
         businessFactory.claim(claimRequest)
             .then(function (data) {
                     $uibModal.open({

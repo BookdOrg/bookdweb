@@ -8,15 +8,36 @@
 
 module.exports = function ($http, $window, $rootScope, $state, $q, socketService) {
     var auth = {
+        /**
+         * Save the users authentication token
+         *
+         * @param token
+         */
         saveToken: function (token) {
             $window.localStorage['cc-token'] = token;
         },
+        /**
+         * Retrieve the authentication token currently stored
+         *
+         * @returns {*}
+         */
         getToken: function () {
             return $window.localStorage['cc-token'];
         },
+        /**
+         * Save the provider information so it's not lost when the
+         * bookd token changes
+         *
+         * @param info
+         */
         saveProviderInfo: function (info) {
             $window.localStorage['providerInfo'] = info;
         },
+        /**
+         * Retrieve the provider info
+         *
+         * @returns {*}
+         */
         getProviderInfo: function () {
             return $window.localStorage['providerInfo'];
         },

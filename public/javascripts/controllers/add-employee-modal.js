@@ -2,15 +2,21 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, userFactory, socketService, $http) {
-
+    /**
+     * Creates a new employee,
+     *
+     * @param id - ID of the user to be added as an employee
+     */
     $scope.create = function (id) {
         var business = businessFactory.business;
+        //The employee object being sent to the backend
         var newEmployee = {
             businessId: business.info._id,
             employeeId: id
         };
         businessFactory.addEmployee(newEmployee)
             .then(function (data) {
+                //Let the server know that a user has been set as an employee
                 socketService.emit('isEmployee', newEmployee.employeeId);
             });
         $uibModalInstance.close();

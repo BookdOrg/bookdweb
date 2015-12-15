@@ -12,6 +12,11 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         $rootScope.currentUser = auth.currentUser();
     });
 
+    /**
+     * If the user is logged in we want to retrieve their
+     * appointments and update the current user with those appointments
+     * so that they can be used in the navbar.
+     */
     if (auth.isLoggedIn()) {
         userFactory.getUserAppts().then(
             function (data) {
@@ -22,13 +27,26 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             }
         );
     }
-
+    /**
+     * Helper function, used to determine which pages we should show the search
+     * bar in the navbar. Gets called in the template
+     *
+     * @param show
+     */
     $scope.showSearch = function (show) {
         if (show) {
             $rootScope.show = true;
         }
     };
 
+    /**
+     * Function used to open the auth modal for registration and login.
+     *
+     * Called from the template when users click the login/sign up button
+     *
+     * @param type
+     * @param state
+     */
     $scope.open = function (type, state) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationEnabled,
@@ -44,7 +62,11 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             }
         });
     };
-
+    /**
+     * Takes the user to the claim business page, first checks to see if they
+     * are authenticated. If they aren't we open the login modal, then take them to search
+     *
+     */
     $scope.goToClaim = function () {
         if (!auth.isLoggedIn()) {
             $scope.open('login', 'search');
