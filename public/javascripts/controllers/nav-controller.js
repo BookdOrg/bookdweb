@@ -11,6 +11,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();
     });
+
     if (auth.isLoggedIn()) {
         userFactory.getUserAppts().then(
             function (data) {

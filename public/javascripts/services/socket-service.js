@@ -22,6 +22,9 @@ module.exports = function ($rootScope) {
                     }
                 });
             });
+        },
+        disconnect: function () {
+            socket.disconnect();
         }
     };
 };

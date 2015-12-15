@@ -6,7 +6,7 @@
  *
  */
 
-module.exports = function ($http, $window, $rootScope, $state, $q) {
+module.exports = function ($http, $window, $rootScope, $state, $q, socketService) {
     var auth = {
         saveToken: function (token) {
             $window.localStorage['cc-token'] = token;
@@ -70,6 +70,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q) {
         logOut: function () {
             $window.localStorage.removeItem('cc-token');
             $rootScope.currentUser = null;
+            socketService.disconnect();
             $state.go('landing');
         }
     };
