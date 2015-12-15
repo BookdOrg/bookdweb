@@ -3,7 +3,6 @@
  */
 var app = require('angular').module('cc');
 
-app.factory('adminService', require('./admin-service'));
 app.factory('auth', require('./auth-factory'));
 app.factory('businessFactory', require('./business-factory'));
 app.factory('location', require('./location-factory'));

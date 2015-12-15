@@ -109,11 +109,6 @@
                         <i class="fa fa-tachometer"></i> Dashboard
                     </a>
                 </li>
-                <li ng-if="currentUser.user.isAdmin" class="hidden-sm hidden-md hidden-lg"  >
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/admin">
-                        <i class="fa fa-tasks"></i> Admin
-                    </a>
-                </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
                     <a ng-click="showSearch(false); open('login','landing')" href="">
                         <i class="fa fa-sign-in"></i></span> Log In
@@ -182,11 +177,6 @@
                             <li>
                                 <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)" href="/dashboard">
                                     <i class="fa fa-tachometer"></i> Dashboard
-                                </a>
-                            </li>
-                            <li ng-if="currentUser.user.isAdmin">
-                                <a href="/admin" ng-click="showSearch(false)">
-                                    <i class="fa fa-tasks"></i> Admin
                                 </a>
                             </li>
                             <li>

@@ -2,7 +2,6 @@
 var app = require('angular').module('cc');
 
 app.controller('AccountCtrl', require('./account-controller'));
-app.controller('AdminCtrl', require('./admin-controller'));
 app.controller('appointmentsCtrl', require('./appointments-controller'));
 app.controller('editAppointmentModalCtrl', require('./edit-appointment-modal'));
 app.controller('AuthCtrl', require('./auth-controller'));
