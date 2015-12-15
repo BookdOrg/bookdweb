@@ -93,7 +93,6 @@ router.get('/user/appointments', auth, function (req, res, next) {
     var employeeId = req.param('id');
     var userId = req.payload._id;
     var responseArray = [];
-    console.log(startDate);
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments',
         match: {'start.date': startDate}
@@ -110,7 +109,6 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 return next(err);
             }
             responseArray.push(customer.personalAppointments);
-            console.log(responseArray);
             res.json(responseArray);
         });
     });
@@ -257,7 +255,7 @@ router.post('/user/availability/update', auth, function (req, res, next) {
  **/
 
 router.post('/login', function (req, res, next) {
-    if (req.body.provider == 'bookd') {
+    if (req.body.provider === 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields.'});
         }
@@ -271,9 +269,7 @@ router.post('/login', function (req, res, next) {
                 return res.status(401).json({message: info.message});
             }
         })(req, res, next);
-    }
-
-    if (req.body.provider == 'facebook' || 'google_plus') {
+    } else if (req.body.provider === 'facebook' || 'google_plus') {
         User.findOne({'email': req.body.username}).exec(function (err, user, info) {
             if (err) {
                 return next(err);
@@ -497,7 +493,6 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
 
     if (req.body.customer == req.payload._id) {
-        console.log("updated");
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
                 return next(err);
