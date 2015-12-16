@@ -21,6 +21,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.activeBusiness = {};
 
     $scope.calendarEmployees = [];
+    $scope.customTexts = {
+        buttonDefaultText: 'Select Calendars to View'
+    }
     $scope.settings = {
         displayProp: 'name',
         idProp: '_id',
@@ -37,11 +40,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
-    $scope.eventSource = {
-        url: "https://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-        className: 'gcal-event',           // an option!
-        currentTimezone: 'America/Chicago' // an option!
-    };
+    //$scope.eventSource = {
+    //    url: "https://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
+    //    className: 'gcal-event',           // an option!
+    //    currentTimezone: 'America/Chicago' // an option!
+    //};
     /* event source that contains custom events on the scope */
     $scope.events = [
         {title: 'All Day Event', start: new Date(y, m, 1)},
@@ -183,6 +186,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
     };
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
+    $scope.eventSources = [$scope.events, $scope.eventsF];
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
 };
