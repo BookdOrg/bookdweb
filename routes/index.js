@@ -275,26 +275,24 @@ router.get('/user/search', auth, function (req, res, next) {
 router.get('/user/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
-    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate('businesses').exec(function (error, user) {
+    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate('businesses employees').exec(function (error, user) {
         if (error) {
             return next(error);
         }
-        res.json(user.businesses);
-        //async.each(user.businesses, function (currBusiness, businessCallback) {
-        //    googleplaces.placeDetailsRequest({placeid: currBusiness.placesId}, function (error, placesResult) {
-        //        if (error) {
-        //            return businessCallback(error);
-        //        }
-        //        placesResult.result.info = currBusiness;
-        //        updatedBusinesses.push(placesResult.result);
-        //        businessCallback();
-        //    });
-        //}, function (err) {
-        //    if (err) {
-        //        return next(err);
-        //    }
-        //    res.json(updatedBusinesses);
-        //});
+        async.each(user.businesses, function (currBusiness, businessCallback) {
+            Business.findOne({'_id': currBusiness._id}).populate('employees').exec(function (error, response) {
+                if (error) {
+                    return businessCallback(error);
+                }
+                updatedBusinesses.push(response);
+                businessCallback();
+            });
+        }, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.json(updatedBusinesses);
+        });
     });
 });
 

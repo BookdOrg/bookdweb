@@ -20,6 +20,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     $scope.activeBusiness = {};
 
+    $scope.calendarEmployees = [];
     $scope.settings = {
         displayProp: 'name',
         idProp: '_id',
@@ -29,7 +30,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             return itemText;
         }
     };
-    //$scope.status.open = true;
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
