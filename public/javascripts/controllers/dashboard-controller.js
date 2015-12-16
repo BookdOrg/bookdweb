@@ -1,11 +1,14 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile) {
+    $scope.activeBusiness = {
+        business: {}
+    };
     if (userFactory.dashboard.length > 0) {
         $scope.businesses = userFactory.dashboard;
+        $scope.activeBusiness.business = $scope.businesses[0];
     }
     $scope.setBusiness = function (business) {
         businessFactory.business = business;
     };
-
     $scope.statusOne = {
         open: true
     };
@@ -18,8 +21,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusCal = {
         open: true
     };
-    $scope.activeBusiness = {};
-
     $scope.calendarEmployees = [];
     $scope.customTexts = {
         buttonDefaultText: 'Select Calendars to View'
