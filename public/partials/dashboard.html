@@ -1,26 +1,103 @@
-<div class="container">
+<div class="container-fluid">
 	<div class="page-header">
-		<h1 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h1>
+        <h1 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h1>
 	</div>
-	<div class="row well" ng-repeat="business in businesses | orderBy:'name'">
-		<h1 class="text-center"><a href="/business/{{business.place_id}}">{{business.name}}</a></h1>
-        <form class="col-xs-offset-2 col-xs-8">
-            <div class="form-group">
-                <label>Deal Title</label>
-                <input type="text" class="form-control" placeholder="Weekend Coupon" ng-model="deal.title">
-            </div>
+    <div class="row">
+        <div class="col-xs-4" ng-if="businesses.length > 1">
+            <select class="form-control input-lg" ng-model="activeBusiness.business"
+                    ng-options="business.name for business in businesses">
+                <option value="">Select Business</option>
+            </select>
+        </div>
+    </div>
+    <br>
 
-            <div class="form-group">
-                <label>Deal Description</label>
-                <input type="text" class="form-control" placeholder="Description" ng-model="deal.description">
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <input type="text" class="form-control" placeholder="Location" ng-model="business.address_components[2].long_name">
-            </div>
-            <div class="form-group">
-                <button disabled ng-click="pushDeal(deal,business.address_components[2].long_name)" class="btn btn-primary col-xs-12">Publish</button>
-            </div>
-        </form>
-	</div>
+    <div class="row">
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusOne.open">
+                    <uib-accordion-heading>
+                        Settings 1
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                    </uib-accordion-heading>
+                    <p>Stuff</p>
+            </uib-accordion>
+        </div>
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusTwo.open">
+                    <uib-accordion-heading>
+                        Settings 2
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
+                    </uib-accordion-heading>
+                    <p>Stuff</p>
+            </uib-accordion>
+        </div>
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusThree.open">
+                    <uib-accordion-heading>
+                        Settings 3
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
+                    </uib-accordion-heading>
+                    <p>Stuff</p>
+            </uib-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusCal.open">
+                    <uib-accordion-heading>
+                        <span ng-if="activeBusiness.business.name">{{activeBusiness.business.name}}</span><span
+                            ng-if="!activeBusiness.business.name">Please Select a Business</span>
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusCal.open, 'glyphicon-chevron-right': !statusCal.open}"></i>
+                    </uib-accordion-heading>
+                    <div class="row">
+                        <div class="btn-group col-xs-offset-5">
+                            <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')">Month</button>
+                            <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')">Week
+                            </button>
+                            <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')">Day
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--<div class="col-xs-2">-->
+                        <!--<div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings"-->
+                        <!--selected-model="serviceEmployees"></div>-->
+                        <!--</div>-->
+                        <div class="col-xs-10">
+                            <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar"
+                                 ng-model="eventSources"></div>
+                        </div>
+                    </div>
+            </uib-accordion>
+        </div>
+    </div>
+    <!--<div class="row well" ng-repeat="business in businesses | orderBy:'name'">-->
+    <!--<h1 class="text-center"><a href="/business/{{business.place_id}}">{{business.name}}</a></h1>-->
+    <!--<form class="col-xs-offset-2 col-xs-8">-->
+    <!--<div class="form-group">-->
+    <!--<label>Deal Title</label>-->
+    <!--<input type="text" class="form-control" placeholder="Weekend Coupon" ng-model="deal.title">-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+    <!--<label>Deal Description</label>-->
+    <!--<input type="text" class="form-control" placeholder="Description" ng-model="deal.description">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label>Location</label>-->
+    <!--<input type="text" class="form-control" placeholder="Location" ng-model="business.address_components[2].long_name">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<button disabled ng-click="pushDeal(deal,business.address_components[2].long_name)" class="btn btn-primary col-xs-12">Publish</button>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
 </div>

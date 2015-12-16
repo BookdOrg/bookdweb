@@ -279,21 +279,22 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         if (error) {
             return next(error);
         }
-        async.each(user.businesses, function (currBusiness, businessCallback) {
-            googleplaces.placeDetailsRequest({placeid: currBusiness.placesId}, function (error, placesResult) {
-                if (error) {
-                    return businessCallback(error);
-                }
-                placesResult.result.info = currBusiness;
-                updatedBusinesses.push(placesResult.result);
-                businessCallback();
-            });
-        }, function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.json(updatedBusinesses);
-        });
+        res.json(user.businesses);
+        //async.each(user.businesses, function (currBusiness, businessCallback) {
+        //    googleplaces.placeDetailsRequest({placeid: currBusiness.placesId}, function (error, placesResult) {
+        //        if (error) {
+        //            return businessCallback(error);
+        //        }
+        //        placesResult.result.info = currBusiness;
+        //        updatedBusinesses.push(placesResult.result);
+        //        businessCallback();
+        //    });
+        //}, function (err) {
+        //    if (err) {
+        //        return next(err);
+        //    }
+        //    res.json(updatedBusinesses);
+        //});
     });
 });
 
