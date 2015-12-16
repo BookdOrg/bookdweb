@@ -193,7 +193,12 @@ router.get('/user/appointments', auth, function (req, res, next) {
  * Returns the appointments of a specified user.
  */
 router.get('/user/appointments-all', auth, function (req, res, next) {
-    var id = req.payload._id;
+    var id;
+    if (req.param('id') !== '') {
+        id = req.param('id');
+    } else {
+        id = req.payload._id;
+    }
     var response = {
         personalAppointments: [],
         businessAppointments: []
@@ -559,7 +564,16 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
         res.status(200).json({message: 'Success!'});
     });
 });
+router.get('/business/appointments/all', auth, function (req, res, next) {
+    var businessId = req.param('id');
 
+    Appointment.find({'businessId': businessId}).populate('customer employee').exec(function (error, response) {
+        if (error) {
+            return next(error);
+        }
+        res.json(response);
+    });
+});
 /**
  * Update an appointment - Reschedule
  */

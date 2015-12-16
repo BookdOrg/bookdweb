@@ -87,6 +87,24 @@ module.exports = function ($http, auth) {
         });
     };
     /**
+     *
+     * Get all the appointments for a business with a given ID
+     *
+     * @param id
+     */
+    o.getAllAppointments = function (id) {
+        return $http.get('/business/appointments/all', {
+            params: {
+                id: id
+            },
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (response) {
+            return response;
+        }, function (err) {
+            return err.data;
+        });
+    };
+    /**
      *   Returns a list of all businesses in a specific category that are within the defined
      *   search radius. Radar Search returns a list of 200 businesses maximum.
      *
@@ -197,7 +215,7 @@ module.exports = function ($http, auth) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.business);
-        }, handleError)
+        }, handleError);
     };
 
     /**

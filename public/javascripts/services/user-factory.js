@@ -46,8 +46,11 @@ var userFactory = function ($http, auth, $q) {
      * Returns all a users personal and business appointments
      * @returns {*}
      */
-    o.getUserAppts = function () {
+    o.getUserAppts = function (id) {
         return $http.get('/user/appointments-all', {
+            params: {
+                id: id
+            },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.appointments);

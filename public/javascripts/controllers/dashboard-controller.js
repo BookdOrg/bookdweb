@@ -5,6 +5,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     if (userFactory.dashboard.length > 0) {
         $scope.businesses = userFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id)
+            .then(function (response) {
+                console.log(response);
+            });
     }
     $scope.setBusiness = function (business) {
         businessFactory.business = business;
@@ -24,14 +28,30 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.calendarEmployees = [];
     $scope.customTexts = {
         buttonDefaultText: 'Select Calendars to View'
-    }
+    };
     $scope.settings = {
         displayProp: 'name',
         idProp: '_id',
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
+        enableSearch: true,
         smartButtonTextConverter: function (itemText, originalItem) {
             return itemText;
+        }
+    };
+    $scope.switchBusiness = function () {
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id)
+            .then(function (response) {
+                console.log(response);
+            });
+    };
+    $scope.dropdownEvents = {
+        onItemSelect: function (item) {
+            userFactory.getUserAppts(item._id)
+                .then(function (response) {
+                    console.log(response);
+                });
+            //make a call to get the users appointments based on item._id
         }
     };
     var date = new Date();
@@ -187,6 +207,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
     };
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventsF];
-    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+    $scope.eventSources = [];
+    $scope.eventSources2 = [];
 };
