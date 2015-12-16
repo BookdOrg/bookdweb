@@ -194,7 +194,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
  */
 router.get('/user/appointments-all', auth, function (req, res, next) {
     var id;
-    if (req.param('id') !== '') {
+    if (req.param('id') !== undefined) {
         id = req.param('id');
     } else {
         id = req.payload._id;
@@ -564,11 +564,17 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.param('id');
+    var month = 12;
+    var year = 2015;
 
-    Appointment.find({'businessId': businessId}).populate('customer employee').exec(function (error, response) {
+    Appointment.find({
+        'businessId': businessId,
+        'start.date': {'$gte': new Date(year, month), '$lt': new Date(year, month)}
+    }).populate('customer employee').exec(function (error, response) {
         if (error) {
             return next(error);
         }
+        console.log(response);
         res.json(response);
     });
 });
