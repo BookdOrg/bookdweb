@@ -7,6 +7,10 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
         if (!newVal && oldVal) {
             $scope.selectedQuery = oldVal;
         }
+
+        if ($scope.query.geometry) {
+            $scope.center = $scope.query.geometry.location.lat() + ',' + $scope.query.geometry.location.lng();
+        }
     });
 
     businessFactory.getCategories();
@@ -60,5 +64,4 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
                 }
             );
     };
-
 };

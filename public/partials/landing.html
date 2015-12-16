@@ -1,3 +1,37 @@
+<section class="bg-dark">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-xs-12">
+                <h1>Book'd</h1>
+                <h3>Never worry about appointments again!</h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-4">
+                <h2>For customers</h2>
+                <ul class="">
+                    <li><h3>Good stuff</h3></li>
+                    <li><h3><i>Great stuff</i></h3></li>
+                    <li><h3><b><i>The best stuff!</i></b></h3></li>
+                </ul>
+                <a class="btn btn-lg sectionBtn" href="#search">Search!</a>
+            </div>
+            <div class="col-xs-4">
+                <h2>For businesses</h2>
+                <ul>
+                    <li><h3>Good stuff</h3></li>
+                    <li><h3><i>Great stuff</i></h3></li>
+                    <li><h3><b><i>The best stuff!</i></b></h3></li>
+                </ul>
+                <a class="btn btn-lg sectionBtn" href="/partner">Sign up</a>
+            </div>
+            <div class="col-xs-2">
+            </div>
+        </div>
+    </div>
+</section>
 <div class="homepage-hero-module">
     <div class="video-container hidden-xs hidden-sm">
         <div class="filter"></div>
@@ -5,16 +39,13 @@
             <img src="/images/header.jpg" alt="">
         </div>
         <div id="landingBody" class="text-center coverrTitle" ng-controller="LandingCtrl">
-            <h1>Book'd</h1>
-
-            <h3>Never worry about appointments again!</h3>
-
+            <h3>Search for any business!</h3>
             <div class="row form-inline form-group">
                 <form>
                         <span class="left-inner-addon">
                                 <i class="fa fa-building"></i>
                                 <input class="form-control" aria-describedby="search" ng-model="query.term"
-                                       placeholder="Barbershops">
+                                       placeholder="Barbershops" id="search">
                         </span>
                         <span class="left-inner-addon">
                             <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
