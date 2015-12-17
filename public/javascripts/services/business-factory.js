@@ -99,7 +99,7 @@ module.exports = function ($http, auth) {
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
-            return response;
+            return response.data;
         }, function (err) {
             return err.data;
         });

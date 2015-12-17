@@ -7,11 +7,34 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.activeBusiness.business = $scope.businesses[0];
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
-                console.log(response);
+                $scope.appointmentsMaster = response;
             });
     }
-    $scope.setBusiness = function (business) {
-        businessFactory.business = business;
+    var createEventsSources = function (appointments) {
+        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.personalAppointments.length; appointmentIndex++) {
+            var tempObj = {
+                title: $scope.appointments.personalAppointments[appointmentIndex].title,
+                start: $scope.appointments.personalAppointments[appointmentIndex].start.full,
+                end: $scope.appointments.personalAppointments[appointmentIndex].end.full,
+                appointment: $scope.appointments.personalAppointments[appointmentIndex]
+            };
+            if ($scope.appointments.personalAppointments[appointmentIndex].status !== 'pending') {
+                $scope.personalEvents.push(tempObj);
+            } else {
+                $scope.pendingEvents.push(tempObj);
+            }
+        }
+        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.businessAppointments.length; appointmentIndex++) {
+            var tempObj = {
+                title: $scope.appointments.businessAppointments[appointmentIndex].title,
+                start: $scope.appointments.businessAppointments[appointmentIndex].start.full,
+                end: $scope.appointments.businessAppointments[appointmentIndex].end.full,
+                appointment: $scope.appointments.businessAppointments[appointmentIndex]
+            };
+            if ($scope.appointments.businessAppointments[appointmentIndex].status !== 'pending') {
+                $scope.associateEvents.push(tempObj);
+            }
+        }
     };
     $scope.statusOne = {
         open: true
@@ -42,7 +65,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.switchBusiness = function () {
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
-                console.log(response);
+                $scope.appointmentsMaster = response;
             });
     };
     $scope.dropdownEvents = {
@@ -160,8 +183,16 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
     };
+    $scope.getDate = function () {
+        var test = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
+        console.log(test);
+    };
     /* Change View */
     $scope.changeView = function (view, calendar) {
+        console.log(calendar)
+        var test = uiCalendarConfig.calendars[calendar].fullCalendar('getDate');
+        var monthYear = moment(test).format('MM/YYYY');
+        console.log(monthYear);
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
     /* Change View */
@@ -178,6 +209,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
         $compile(element)($scope);
     };
+
     /* config object */
     $scope.uiConfig = {
         calendar: {
@@ -194,7 +226,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             eventRender: $scope.eventRender
         }
     };
-
     $scope.changeLang = function () {
         if ($scope.changeTo === 'Hungarian') {
             $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];

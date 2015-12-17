@@ -564,12 +564,17 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.param('id');
-    var month = 12;
+    var month = 11;
     var year = 2015;
 
+    var requestedMonth = new Date(2015, 11);
+
+    var test = moment(requestedMonth).format('MM/YYYY');
+
+    console.log(test);
     Appointment.find({
         'businessId': businessId,
-        'start.date': {'$gte': new Date(year, month), '$lt': new Date(year, month)}
+        'start.date': test
     }).populate('customer employee').exec(function (error, response) {
         if (error) {
             return next(error);
