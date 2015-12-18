@@ -137,7 +137,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
         element.attr({
-            'tooltip': event.title,
+            'uib-tooltip': event.title,
             'tooltip-append-to-body': true
         });
         $compile(element)($scope);

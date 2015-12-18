@@ -7,25 +7,30 @@
 -->
 <div class="container" ng-cloak="">
     <div class="page-header text-center">
-        <div class="row">
-            <div class="col-xs-12">
-                <ng-map class="map-container" center="{{center}}" zoom="16">
-                    <marker position="{{center}}"></marker>
-                </ng-map>
-            </div>
-        </div>
-        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" uib-tooltip="Photos coming soon..."
-             tooltip-placement="right" style="border-radius:20%"></image>
-			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
-				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=200&maxwidth=200&minheight=133&maxheight=133&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
-			</span>
-
         <h1 class='text-center'>{{business.name}}</h1>
+
         <h3 class="text-center">
             <uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
                         on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
             </uib-rating>
         </h3>
+        <div class="row">
+        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}" uib-tooltip="Photos coming soon..."
+             tooltip-placement="right" style="border-radius:20%"></image>
+			<span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
+				<img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=200&maxwidth=200&minheight=133&maxheight=133&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+			</span>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+                <ng-map class="map-container" center="{{center}}" zoom="16">
+                    <marker position="{{center}}"></marker>
+                </ng-map>
+            </div>
+        </div>
+
 
         <br>
         Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
@@ -44,6 +49,12 @@
 	    			No information about {{business.name}}'s hours of operation is available.
 			</span>
     </div>
+    <div class="col-xs-offset-11">
+        <button class="btn btn-lg" ng-if="currentUser.user._id === business.info.owner" ng-click="toggleEdit()"
+                ng-class="{'btn-warning': editMode === false,'btn-success':editMode === true}"><span
+                ng-show="!editMode">Enable </span><span ng-show="editMode">Disable </span>Edit <i class="fa fa-cog"></i>
+        </button>
+    </div>
     <!--
 #########################################
 
@@ -52,21 +63,20 @@
 ########################################
 -->
     <div class="row">
-        <div class="col-xs-12">
-            <h1 class="text-center">Services</h1>
+        <div class="col-xs-2 col-xs-offset-5">
+            <h1>Services</h1>
+        </div>
+        <div class="col-xs-1" ng-show="editMode">
+            <button ng-click="open()" class="btn btn-success btn-default">New Service</button>
         </div>
     </div>
-    <div class="row" ng-if="currentUser.user._id === business.info.owner">
-        <div class="col-xs-12 text-center">
-            <button ng-click="open()" class="btn btn-success"><i class="fa fa-plus"></i></button>
-        </div>
-    </div>
+
     <div class="row text-center">
         <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
 
         <div class="col-md-3 col-xs-5 col-sm-3 well" ng-repeat="service in business.info.services track by $index">
             <div class="row">
-                <div ng-if="currentUser.user._id === business.info.owner" class="adjustMargins pull-right">
+                <div ng-show="editMode" class="adjustMargins pull-right">
                     <div class="btn-group">
                         <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
                                 class="fa fa-cog"></i></a>
@@ -79,15 +89,17 @@
                 </div>
             </div>
             <div>
-                <h3>{{service.name}}</h3>
-                <h5>Price:{{service.price | currency}}</h5>
-                <h5>Duration: {{service.duration}} minutes</h5>
-                <h5>{{service.description}}</h5>
+                <h2>{{service.name}}</h2>
+
+                <h3>Price:{{service.price | currency}}</h3>
+
+                <h3>Duration: {{service.duration}} minutes</h3>
+
+                <h3>{{service.description}}</h3>
             </div>
             <div>
-                <button class="btn btn-primary text-center" ng-click="openService('lg');setService(service)">Book
-                    Appointment
-                </button>
+                <button class="btn btn-primary text-center btn-lg" ng-click="openService('lg');setService(service)">Book
+                    <i class="fa fa-calendar"></i></button>
             </div>
         </div>
     </div>
@@ -99,16 +111,16 @@
 ########################################
 -->
     <div class="row">
-        <h1 class="text-center">Associates</h1>
-        <span class="text-center">
+        <div class="col-xs-2 col-xs-offset-5">
+            <h1>Associates</h1>
+            <span class="text-center">
             <uib-alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
                 {{employeeError.message}}
             </uib-alert>
         </span>
-    </div>
-    <div class="row" ng-if="currentUser.user._id === business.info.owner">
-        <div class="col-xs-12 text-center">
-            <button ng-click="openEmployee()" class="btn btn-success"><i class="fa fa-plus"></i></button>
+        </div>
+        <div class="col-xs-1" ng-show="editMode">
+            <button ng-click="openEmployee()" class="btn btn-success">Add Associate</button>
         </div>
     </div>
     <div class="row">
@@ -116,7 +128,7 @@
 
         <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
             <div class="row">
-                <div ng-if="currentUser.user._id === business.info.owner" class="adjustMargins pull-right">
+                <div ng-show="editMode" class="adjustMargins pull-right">
                     <button class="close" ng-click="removeEmployee(employee)"><i
                             class="fa fa-trash-o text-danger"></i></button>
                 </div>

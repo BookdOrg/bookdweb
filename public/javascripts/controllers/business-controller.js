@@ -1,7 +1,12 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
+    $scope.editMode = false;
     $scope.animationsEnabled = true;
+
+    $scope.toggleEdit = function () {
+        $scope.editMode = !$scope.editMode;
+    };
     $scope.removeAlert = function () {
         $scope.employeeError.message = null;
     };

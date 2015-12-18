@@ -140,7 +140,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         }
         element.attr({
-            'tooltip': employeeName,
+            'uib-tooltip': employeeName,
             'tooltip-append-to-body': true
         });
         $compile(element)($scope);
