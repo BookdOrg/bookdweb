@@ -58,6 +58,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
                 $scope.appointmentsMaster = response;
+                $scope.viewRender();
             });
     };
     $scope.dropdownEvents = {
@@ -150,7 +151,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
         $scope.masterList = {};
         var previousMonthYear = localStorage['monthYear'];
-        if ($scope.monthYear !== previousMonthYear || $scope.masterList[$scope.activeBusiness.business.name] === undefined) {
+        var previousBusiness = localStorage['previousBusiness'];
+        if ($scope.monthYear !== previousMonthYear || $scope.activeBusiness.business.name !== previousBusiness) {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
                 .then(function (response) {
                     var masterEntry = createMasterEntry(response);
@@ -158,6 +161,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
                     createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
                     localStorage['monthYear'] = $scope.monthYear;
+                    localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
                 });
         }
     };
