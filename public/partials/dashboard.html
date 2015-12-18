@@ -74,6 +74,10 @@
                             <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')">Day
                             </button>
                         </div>
+                        <div class="col-xs-3 col-xs-offset-1 text-right">
+                            <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
+                                    tooltip-placement="left"></button>
+                        </div>
                     </div>
                     <br>
                     <div class="row">
@@ -85,25 +89,4 @@
             </uib-accordion>
         </div>
     </div>
-    <!--<div class="row well" ng-repeat="business in businesses | orderBy:'name'">-->
-    <!--<h1 class="text-center"><a href="/business/{{business.place_id}}">{{business.name}}</a></h1>-->
-    <!--<form class="col-xs-offset-2 col-xs-8">-->
-    <!--<div class="form-group">-->
-    <!--<label>Deal Title</label>-->
-    <!--<input type="text" class="form-control" placeholder="Weekend Coupon" ng-model="deal.title">-->
-    <!--</div>-->
-
-    <!--<div class="form-group">-->
-    <!--<label>Deal Description</label>-->
-    <!--<input type="text" class="form-control" placeholder="Description" ng-model="deal.description">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<label>Location</label>-->
-    <!--<input type="text" class="form-control" placeholder="Location" ng-model="business.address_components[2].long_name">-->
-    <!--</div>-->
-    <!--<div class="form-group">-->
-    <!--<button disabled ng-click="pushDeal(deal,business.address_components[2].long_name)" class="btn btn-primary col-xs-12">Publish</button>-->
-    <!--</div>-->
-    <!--</form>-->
-    <!--</div>-->
 </div>

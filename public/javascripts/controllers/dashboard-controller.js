@@ -134,8 +134,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
+        for (var employeeIndex = 0; employeeIndex < $scope.activeBusiness.business.employees.length; employeeIndex++) {
+            if ($scope.activeBusiness.business.employees[employeeIndex]._id == event.appointment.employee) {
+                var employeeName = $scope.activeBusiness.business.employees[employeeIndex].name;
+            }
+        }
         element.attr({
-            'tooltip': event.title,
+            'tooltip': employeeName,
             'tooltip-append-to-body': true
         });
         $compile(element)($scope);
@@ -144,14 +149,17 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
         $scope.masterList = {};
-        businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
-            .then(function (response) {
-                var masterEntry = createMasterEntry(response);
-                $scope.masterList[$scope.activeBusiness.business.name] = {};
-                $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
-                createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-            });
-
+        var previousMonthYear = localStorage['monthYear'];
+        if ($scope.monthYear !== previousMonthYear || $scope.masterList[$scope.activeBusiness.business.name] === undefined) {
+            businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+                .then(function (response) {
+                    var masterEntry = createMasterEntry(response);
+                    $scope.masterList[$scope.activeBusiness.business.name] = {};
+                    $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                    createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                    localStorage['monthYear'] = $scope.monthYear;
+                });
+        }
     };
 
     var createMasterEntry = function (appointmentArray) {
