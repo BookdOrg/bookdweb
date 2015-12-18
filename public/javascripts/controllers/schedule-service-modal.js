@@ -50,9 +50,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        //TODO https://github.com/moment/moment/issues/1407 Address deprecation somehow
-        var newDate = moment(date).format('MM/DD/YYYY');
-        //var newDate = moment(date, 'MM/DD/YYYY');
+        var test = moment(date, 'MM/DD/YYYY');
+        var newDate = moment(test).format('MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId
