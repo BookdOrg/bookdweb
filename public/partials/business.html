@@ -116,7 +116,7 @@
 
         <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
             <div class="row">
-                <div ng-if="currentUser.user._id == business.info.owner" class="adjustMargins pull-right">
+                <div ng-if="currentUser.user._id === business.info.owner" class="adjustMargins pull-right">
                     <button class="close" ng-click="removeEmployee(employee)"><i
                             class="fa fa-trash-o text-danger"></i></button>
                 </div>

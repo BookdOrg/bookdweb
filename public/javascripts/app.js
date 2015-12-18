@@ -21,8 +21,8 @@ var app = angular.module('cc', ['ui.router',
     'timer'
 ]);
 
-app.constant('CLOUDINARY_BASE', 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
-    .constant('CLOUDINARY_Default', 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
+app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
+    .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
     .constant('localDevHost', 'localhost')
     .constant('devHost', 'dev.bookd.me')
     .constant('devPort', '8112');
@@ -199,8 +199,8 @@ app.config([
     }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory, $controller, $uibModal) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
-    $rootScope.cloudinaryBaseUrl = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
-    $rootScope.cloudinaryDefaultPic = 'http://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
+    $rootScope.cloudinaryBaseUrl = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
+    $rootScope.cloudinaryDefaultPic = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
     //  var socket = io.connect('//'+devHost+':8112');
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {
