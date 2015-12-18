@@ -252,7 +252,8 @@ module.exports = function ($http, auth) {
         return $http.post('/business/add-service', service, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-            angular.copy(data.data, o.business.info);
+            //angular.copy(data.data, o.business.info);
+            return data.data;
         }, handleError);
     };
     /**
@@ -265,7 +266,7 @@ module.exports = function ($http, auth) {
         }).then(function (response) {
             //angular.copy(data.data, o.business.info);
             return response.data;
-        }, handleError)
+        }, handleError);
     };
     /**
      *

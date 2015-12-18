@@ -81,9 +81,7 @@ io.on('connection', function (socket) {
         io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
     socket.on('isEmployee', function (data) {
-        console.log('happened');
         User.findOne({'_id': data}).exec(function (err, user) {
-            console.log(user);
             if (err) {
                 console.log(err)
                 //TODO send the socket error back to the client
@@ -876,6 +874,9 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     var employeeId = req.body.employeeId;
 
     Business.findOne({'_id': businessId}).exec(function (err, response) {
+        if (err) {
+            return next(err);
+        }
         response.employees.pushIfNotExist(employeeId, function (e) {
             return e == employeeId;
         });
@@ -1081,29 +1082,22 @@ router.post('/business/add-service', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            business.services.push(service);
+            business.services.pushIfNotExist(service, function (e) {
+                return e == service;
+            });
             business.save(function (err, business) {
                 if (err) {
                     return next(err);
                 }
             });
-        });
-        Business.populate(business, [{
-            path: 'employees',
-            select: '_id appointments name avatarVersion availability'
-        }, {path: 'services', select: ''}], function (err, responseBusiness) {
-            if (err) {
-                return next(err);
-            }
-            Service.populate(responseBusiness.services, {
+            Service.populate(service, {
                 path: 'employees',
                 select: '_id appointments name avatarVersion availability'
-            }, function (err, services) {
+            }, function (err, responseService) {
                 if (err) {
                     return next(err);
                 }
-                responseBusiness.services = services;
-                res.json(responseBusiness);
+                res.json(responseService)
             });
         });
     });

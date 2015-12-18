@@ -21,8 +21,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business)
     $scope.ok = function (service) {
         service.businessId = business._id;
         service.employees = _.pluck($scope.serviceEmployees, '_id');
-        businessFactory.addService(service);
-        $uibModalInstance.close();
+        businessFactory.addService(service)
+            .then(function (serviceResponse) {
+                $uibModalInstance.close(serviceResponse);
+            });
     };
 
     $scope.cancel = function () {

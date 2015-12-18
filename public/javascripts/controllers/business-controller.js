@@ -28,6 +28,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 }
             }
         });
+        modalInstance.result.then(function (serviceResponse) {
+            $scope.business.info.services.push(serviceResponse);
+        }, function () {
+
+        });
     };
 
     $scope.openEmployee = function (size) {
