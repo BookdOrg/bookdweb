@@ -8,6 +8,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     }
     $scope.pendingEvents = [];
     $scope.activeEvents = [];
+    $scope.filteredList = [];
+    $scope.filteredList[$scope.activeBusiness.business.name] = {};
     var createEventsSources = function (businessArray) {
         _.forEach(businessArray, function (appointments, key) {
             _.forEach(appointments, function (appointment, key) {
@@ -50,6 +52,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
         enableSearch: true,
+        showCheckAll: false,
+        showUncheckAll: false,
         smartButtonTextConverter: function (itemText, originalItem) {
             return itemText;
         }
@@ -58,16 +62,31 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
                 $scope.appointmentsMaster = response;
+                $scope.filteredList[$scope.activeBusiness.business.name] = {};
                 $scope.viewRender();
             });
     };
     $scope.dropdownEvents = {
         onItemSelect: function (item) {
-            //userFactory.getUserAppts(item._id)
-            //    .then(function (response) {
-            //        console.log(response);
-            //    });
-            //make a call to get the users appointments based on item._id
+            $scope.filteredList[$scope.activeBusiness.business.name][item._id] = $scope.masterList[$scope.activeBusiness.business.name][item._id];
+            createEventsSources($scope.filteredList[$scope.activeBusiness.business.name]);
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+        },
+        onItemDeselect: function (item) {
+            $scope.filteredList[$scope.activeBusiness.business.name][item._id] = {};
+            createEventsSources($scope.filteredList[$scope.activeBusiness.business.name]);
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+        },
+        onSelectAll: function () {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            $scope.masterList[$scope.activeBusiness.name] = {};
+            createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+        },
+        onUnselectAll: function () {
+            //$scope.masterList[$scope.activeBusiness.name] = {};
+            //createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
         }
     };
     var date = new Date();

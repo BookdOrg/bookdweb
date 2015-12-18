@@ -67,7 +67,7 @@ module.exports = function ($http, auth) {
         return $http.post('/business/appointments/update', appt, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
-
+            return response.data;
         }, function (err) {
             return err.data;
         });

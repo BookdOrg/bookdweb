@@ -292,7 +292,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         socketService.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
-            .then(function () {
+            .then(function (response) {
                 $uibModalInstance.close();
             });
     };

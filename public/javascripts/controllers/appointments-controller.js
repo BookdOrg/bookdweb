@@ -73,8 +73,17 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             }
         });
         //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
-        modalInstance.result.then(function () {
+        //TODO you did this on dashboard page-- figure it out here.
+        modalInstance.result.then(function (appointment) {
             $state.reload();
+            //userFactory.getUserAppts();
+            //$scope.appointments = {};
+            //$scope.eventSources = [];
+            //$scope.appointments = userFactory.appointments;
+            //createEventsSources();
+            //$scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
+            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
         }, function () {
 
         });
@@ -161,19 +170,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     };
 
     $scope.calendars = uiCalendarConfig.calendars;
-
-    //$scope.changeLang = function() {
-    //    if($scope.changeTo === 'Hungarian'){
-    //        $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-    //        $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-    //        $scope.changeTo= 'English';
-    //    } else {
-    //        $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    //        $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    //        $scope.changeTo = 'Hungarian';
-    //    }
-    //};
-    /* event sources array*/
     $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
 
     $scope.addBreak = function (day) {
