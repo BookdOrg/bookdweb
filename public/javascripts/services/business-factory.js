@@ -92,10 +92,11 @@ module.exports = function ($http, auth) {
      *
      * @param id
      */
-    o.getAllAppointments = function (id) {
+    o.getAllAppointments = function (id, monthYear) {
         return $http.get('/business/appointments/all', {
             params: {
-                id: id
+                id: id,
+                monthYear: monthYear
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {

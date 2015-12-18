@@ -2,39 +2,31 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.activeBusiness = {
         business: {}
     };
-    if (userFactory.dashboard.length > 0) {
+    if (userFactory.dashboard.length > -1) {
         $scope.businesses = userFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
-        businessFactory.getAllAppointments($scope.activeBusiness.business._id)
-            .then(function (response) {
-                $scope.appointmentsMaster = response;
-            });
     }
-    var createEventsSources = function (appointments) {
-        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.personalAppointments.length; appointmentIndex++) {
-            var tempObj = {
-                title: $scope.appointments.personalAppointments[appointmentIndex].title,
-                start: $scope.appointments.personalAppointments[appointmentIndex].start.full,
-                end: $scope.appointments.personalAppointments[appointmentIndex].end.full,
-                appointment: $scope.appointments.personalAppointments[appointmentIndex]
-            };
-            if ($scope.appointments.personalAppointments[appointmentIndex].status !== 'pending') {
-                $scope.personalEvents.push(tempObj);
-            } else {
-                $scope.pendingEvents.push(tempObj);
-            }
-        }
-        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.businessAppointments.length; appointmentIndex++) {
-            var tempObj = {
-                title: $scope.appointments.businessAppointments[appointmentIndex].title,
-                start: $scope.appointments.businessAppointments[appointmentIndex].start.full,
-                end: $scope.appointments.businessAppointments[appointmentIndex].end.full,
-                appointment: $scope.appointments.businessAppointments[appointmentIndex]
-            };
-            if ($scope.appointments.businessAppointments[appointmentIndex].status !== 'pending') {
-                $scope.associateEvents.push(tempObj);
-            }
-        }
+    $scope.pendingEvents = [];
+    $scope.activeEvents = [];
+    var createEventsSources = function (businessArray) {
+        _.forEach(businessArray, function (appointments, key) {
+            _.forEach(appointments, function (appointment, key) {
+                for (var appointmentIndex = 0; appointmentIndex < appointment.length; appointmentIndex++) {
+                    var tempObj = {
+                        title: appointment[appointmentIndex].title,
+                        start: appointment[appointmentIndex].start.full,
+                        end: appointment[appointmentIndex].end.full,
+                        appointment: appointment[appointmentIndex]
+                    };
+                    if (appointment[appointmentIndex].status !== 'pending') {
+                        $scope.activeEvents.push(tempObj);
+                    } else {
+                        $scope.pendingEvents.push(tempObj);
+                    }
+                }
+            });
+
+        });
     };
     $scope.statusOne = {
         open: true
@@ -70,10 +62,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     $scope.dropdownEvents = {
         onItemSelect: function (item) {
-            userFactory.getUserAppts(item._id)
-                .then(function (response) {
-                    console.log(response);
-                });
+            //userFactory.getUserAppts(item._id)
+            //    .then(function (response) {
+            //        console.log(response);
+            //    });
             //make a call to get the users appointments based on item._id
         }
     };
@@ -82,68 +74,15 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    $scope.changeTo = 'Hungarian';
-    /* event source that pulls from google.com */
-    //$scope.eventSource = {
-    //    url: "https://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-    //    className: 'gcal-event',           // an option!
-    //    currentTimezone: 'America/Chicago' // an option!
-    //};
-    /* event source that contains custom events on the scope */
-    $scope.events = [
-        {title: 'All Day Event', start: new Date(y, m, 1)},
-        {title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2)},
-        {id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false},
-        {id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false},
-        {
-            title: 'Birthday Party',
-            start: new Date(y, m, d + 1, 19, 0),
-            end: new Date(y, m, d + 1, 22, 30),
-            allDay: false
-        },
-        {title: 'Click for Google', start: new Date(y, m, 28), end: new Date(y, m, 29), url: 'http://google.com/'}
-    ];
-    /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, timezone, callback) {
-        var s = new Date(start).getTime() / 1000;
-        var e = new Date(end).getTime() / 1000;
-        var m = new Date(start).getMonth();
-        var events = [{
-            title: 'Feed Me ' + m,
-            start: s + (50000),
-            end: s + (100000),
-            allDay: false,
-            className: ['customFeed']
-        }];
-        callback(events);
+    $scope.eventsPersonalSource = {
+        //color:'#00',
+        //textColor:'blue',
+        events: $scope.activeEvents
     };
-
-    $scope.calEventsExt = {
-        color: '#f00',
-        textColor: 'yellow',
-        events: [
-            {
-                type: 'party',
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Lunch 2',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/'
-            }
-        ]
+    $scope.eventsAssociateSource = {
+        color: '#f70',
+        //textColor:'blue',
+        events: $scope.pendingEvents
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
@@ -183,16 +122,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
     };
-    $scope.getDate = function () {
-        var test = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
-        console.log(test);
-    };
     /* Change View */
     $scope.changeView = function (view, calendar) {
-        console.log(calendar)
-        var test = uiCalendarConfig.calendars[calendar].fullCalendar('getDate');
-        var monthYear = moment(test).format('MM/YYYY');
-        console.log(monthYear);
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
     /* Change View */
@@ -209,7 +140,33 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
         $compile(element)($scope);
     };
+    $scope.viewRender = function (view, element) {
+        var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
+        $scope.monthYear = moment(monthYear).format('MM/YYYY');
+        $scope.masterList = {};
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+            .then(function (response) {
+                var masterEntry = createMasterEntry(response);
+                $scope.masterList[$scope.activeBusiness.business.name] = {};
+                $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+            });
 
+    };
+
+    var createMasterEntry = function (appointmentArray) {
+        var responseArray = {};
+        for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
+            if (!responseArray[appointmentArray[appointmentArrayIndex].employee]) {
+                responseArray[appointmentArray[appointmentArrayIndex].employee] = {};
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments = [];
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+            } else {
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+            }
+        }
+        return responseArray;
+    };
     /* config object */
     $scope.uiConfig = {
         calendar: {
@@ -223,21 +180,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
-            eventRender: $scope.eventRender
-        }
-    };
-    $scope.changeLang = function () {
-        if ($scope.changeTo === 'Hungarian') {
-            $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-            $scope.changeTo = 'English';
-        } else {
-            $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            $scope.changeTo = 'Hungarian';
+            eventRender: $scope.eventRender,
+            viewRender: $scope.viewRender
+
         }
     };
     /* event sources array*/
-    $scope.eventSources = [];
-    $scope.eventSources2 = [];
+    $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents];
 };

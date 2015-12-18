@@ -81,7 +81,9 @@ io.on('connection', function (socket) {
         io.sockets.in(string).emit('destroyOld', socketTimeData);
     });
     socket.on('isEmployee', function (data) {
+        console.log('happened');
         User.findOne({'_id': data}).exec(function (err, user) {
+            console.log(user);
             if (err) {
                 console.log(err)
                 //TODO send the socket error back to the client
@@ -492,6 +494,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.customer = req.payload._id;
     appointment.service = req.body.service;
     appointment.start = req.body.start;
+    appointment.start.monthYear = moment(req.body.start.date, 'MM/YYYY');
     appointment.end = req.body.end;
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
@@ -564,22 +567,14 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.param('id');
-    var month = 11;
-    var year = 2015;
-
-    var requestedMonth = new Date(2015, 11);
-
-    var test = moment(requestedMonth).format('MM/YYYY');
-
-    console.log(test);
+    var monthYear = req.param('monthYear');
     Appointment.find({
         'businessId': businessId,
-        'start.date': test
-    }).populate('customer employee').exec(function (error, response) {
+        'start.monthYear': monthYear
+    }).exec(function (error, response) {
         if (error) {
             return next(error);
         }
-        console.log(response);
         res.json(response);
     });
 });
