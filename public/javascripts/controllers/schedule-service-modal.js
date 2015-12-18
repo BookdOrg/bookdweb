@@ -50,8 +50,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        var test = moment(date, 'MM/DD/YYYY');
-        var newDate = moment(test).format('MM/DD/YYYY');
+        var tempDate = moment(date, 'MM/DD/YYYY');
+        var newDate = moment(tempDate).format('MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId
