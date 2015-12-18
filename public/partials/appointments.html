@@ -124,7 +124,8 @@ Edit Appointment Modal
             </div>
             <div class="col col-md-6 text-center">
                 <h4 ng-if="availableTimes.length > 1">Schedule</h4>
-
+                <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                </uib-alert>
                 <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"
                      ng-repeat="time in availableTimes track by $index">
                     <button ng-disabled="!time.available || time.status || time.toggled"
