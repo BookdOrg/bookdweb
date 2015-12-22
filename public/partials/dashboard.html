@@ -24,6 +24,15 @@
                     <div class="col-xs-12">
                         <h4>{{activeBusiness.business.name}}</h4>
                         <a href="/business/{{activeBusiness.business.placesId}}">Go to Business Page</a>
+
+                        <div class="">
+                            Tier: <span ng-if="activeBusiness.business.tier == 0" style="color:#CD7F32;"><i
+                                class="fa fa-certificate"></i> Bronze</span>
+                            <span ng-if="activeBusiness.business.tier == 1" style="color:#C0C0C0;"><i
+                                    class="fa fa-certificate"></i> Silver</span>
+                            <span ng-if="activeBusiness.business.tier == 2" style="color:#FFD700;"><i
+                                    class="fa fa-certificate"></i> Gold</span>
+                        </div>
                     </div>
             </uib-accordion>
         </div>
