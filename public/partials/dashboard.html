@@ -13,12 +13,6 @@
                             href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
                 </ul>
             </div>
-            <!--<select class="form-control input-lg" ng-model="activeBusiness.business"-->
-            <!--ng-repeat="business.name for business in businesses" ng-change="switchBusiness()">-->
-            <!--<option value="">Select Business</option>-->
-            <!--</select>-->
-
-
         </div>
     </div>
     <br>
@@ -64,7 +58,7 @@
                         <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                             <li>{{associate.name}}
                                 <button class="btn btn-danger pull-right"
-                                        ng-click="removeEmployee(associate,activeBusiness.business)"><i
+                                        ng-click="removeEmployee(associate,activeBusiness.business)" uib-tooltip="Remove Associate" tooltip-placement="left"><i
                                         class="fa fa-trash"></i></button>
                             </li>
                         </div>
@@ -91,12 +85,12 @@
                              style="height:50px;">
                             <li>{{service.name}}
                                 <div class="btn-group pull-right" role="group" aria-label="...">
-                                    <button disabled class="btn btn-danger"><i class="fa fa-trash"></i>
+                                    <button class="btn btn-danger" uib-tooltip="Delete Service"><i class="fa fa-trash"></i>
                                     </button>
-                                    <button class="btn btn-warning " ng-click="editService(service,$index)"><i
+                                    <button class="btn btn-warning " ng-click="editService(service,$index)" uib-tooltip="Edit Service"><i
                                             class="fa fa-pencil"></i>
                                     </button>
-                                    <button disabled class="btn btn-primary"><i class="fa fa-calendar"></i></button>
+                                    <button class="btn btn-primary" uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i></button>
                                 </div>
                             </li>
                         </div>
