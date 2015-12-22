@@ -242,7 +242,7 @@ app.config([
          */
         $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
             $rootScope.loadingLocation = true;
-            if (newVal !== oldVal) {
+            if (newVal) {
                 $rootScope.loadingLocation = false;
                 $http.get('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
                         + $rootScope.myPosition.coords.latitude + ','

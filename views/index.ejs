@@ -77,7 +77,7 @@
                     <button class="btn btn-md sectionBtn" ng-click="search(query)"
                             ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
                             type="submit">
-                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner fa-spin"></i>
+                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner" ng-class="{'fa-spin' : fetchingQuery}"></i>
                         <span ng-show="!fetchingQuery">Search</span>
                     </button>
                 </span>

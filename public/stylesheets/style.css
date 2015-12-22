@@ -181,8 +181,12 @@ span.tab-space {
 
 .left-inner-addon i {
     position: absolute;
-    padding: 10px 12px;
+    padding: 10px 10px;
     pointer-events: none;
+}
+
+.left-inner-addon-landing i {
+    padding-top:16px;
 }
 
 .right-inner-addon {
@@ -378,4 +382,8 @@ img.fitContainer {
 
 .well.employeeHover:hover {
     background-color: aliceblue;
+}
+
+.fa-spinner.ng-hide-add-active {
+    display: none !important;
 }
