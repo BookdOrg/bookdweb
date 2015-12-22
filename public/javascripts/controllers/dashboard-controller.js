@@ -2,6 +2,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.activeBusiness = {
         business: {}
     };
+    $scope.animationsEnabled = true;
     if (userFactory.dashboard.length > -1) {
         $scope.businesses = userFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
