@@ -17,17 +17,13 @@
             <uib-accordion>
                 <uib-accordion-group is-open="statusOne.open">
                     <uib-accordion-heading>
-                        Settings 1
+                        Business Info
                         <i class="pull-right glyphicon"
                            ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
                     </uib-accordion-heading>
-                    <div class="col-xs-10">
+                    <div class="col-xs-12">
                         <h4>{{activeBusiness.business.name}}</h4>
                         <a href="/business/{{activeBusiness.business.placesId}}">Go to Business Page</a>
-                    </div>
-                    <div class="col-xs-1">
-                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
-                                tooltip-placement="left"></button>
                     </div>
             </uib-accordion>
         </div>
@@ -35,16 +31,25 @@
             <uib-accordion>
                 <uib-accordion-group is-open="statusTwo.open">
                     <uib-accordion-heading>
-                        Settings 2
+                        Associates
                         <i class="pull-right glyphicon"
                            ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
                     </uib-accordion-heading>
-                    <div class="col-xs-10">
-                        <h4>Stuff</h4>
+                    <div class="col-xs-12">
+                        <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
+                            <li>{{associate.name}}
+                                <button class="btn btn-danger pull-right"
+                                        ng-click="removeEmployee(associate,activeBusiness.business)"><i
+                                        class="fa fa-trash"></i></button>
+                            </li>
+                        </div>
                     </div>
-                    <div class="col-xs-1">
-                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
-                                tooltip-placement="left"></button>
+                    <div class="col-xs-12">
+                        <div class="text-center">
+                            <button class="btn btn-success" ng-click="openEmployee(activeBusiness.business)">New
+                                Associate
+                            </button>
+                        </div>
                     </div>
             </uib-accordion>
         </div>
@@ -52,16 +57,18 @@
             <uib-accordion>
                 <uib-accordion-group is-open="statusThree.open">
                     <uib-accordion-heading>
-                        Settings 3
+                        Services
                         <i class="pull-right glyphicon"
                            ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                     </uib-accordion-heading>
-                    <div class="col-xs-10">
-                        <h4>Stuff</h4>
-                    </div>
-                    <div class="col-xs-1">
-                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
-                                tooltip-placement="left"></button>
+                    <div class="col-xs-12">
+                        <div ng-repeat="service in activeBusiness.business.services" style="height:50px;">
+                            <li>{{service.name}}
+                                <button disabled class="btn btn-danger pull-right"><i class="fa fa-trash"></i></button>
+                                <button disabled class="btn btn-warning pull-right"><i class="fa fa-pencil"></i>
+                                </button>
+                            </li>
+                        </div>
                     </div>
             </uib-accordion>
         </div>
@@ -104,6 +111,61 @@
                                  ng-model="eventSources"></div>
                         </div>
                     </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusFour.open">
+                    <uib-accordion-heading>
+                        Analytics
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusFour.open, 'glyphicon-chevron-right': !statusFour.open}"></i>
+                    </uib-accordion-heading>
+                    <div class="col-xs-10">
+                        <p>Hey</p>
+                    </div>
+                    <div class="col-xs-1">
+                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
+                                tooltip-placement="left"></button>
+                    </div>
+            </uib-accordion>
+        </div>
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusFive.open">
+                    <uib-accordion-heading>
+                        Analytics
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusFive.open, 'glyphicon-chevron-right': !statusFive.open}"></i>
+                    </uib-accordion-heading>
+                    <div class="col-xs-10">
+                        <h4>Stuff</h4>
+                    </div>
+                    <div class="col-xs-1">
+                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
+                                tooltip-placement="left"></button>
+                    </div>
+            </uib-accordion>
+        </div>
+        <div class="col-xs-4">
+            <uib-accordion>
+                <uib-accordion-group is-open="statusSix.open">
+                    <uib-accordion-heading>
+                        Analytics
+                        <i class="pull-right glyphicon"
+                           ng-class="{'glyphicon-chevron-down': statusSix.open, 'glyphicon-chevron-right': !statusSix.open}"></i>
+                    </uib-accordion-heading>
+                    <div class="col-xs-10">
+                        <h4>Stuff</h4>
+                    </div>
+                    <div class="col-xs-1">
+                        <button class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"
+                                tooltip-placement="left"></button>
+                    </div>
+                </uib-accordion-group>
             </uib-accordion>
         </div>
     </div>

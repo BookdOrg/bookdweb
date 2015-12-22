@@ -9,7 +9,7 @@ module.exports = function ($scope, $uibModalInstance, message, $state, info) {
 
     $scope.ok = function () {
         $uibModalInstance.close();
-        $state.go('feed');
+        $state.go('dashboard');
     };
 
     $scope.cancel = function () {

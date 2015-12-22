@@ -31,7 +31,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.selectEmployee = function (employee) {
         $scope.availableTimes = [];
         $scope.employee = employee;
-        var day = moment().format('MM/DD/YYYY');
+        var day = new Date();
         getAvailableTimes(day, $scope.employee._id);
     };
     /**
@@ -50,8 +50,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        var tempDate = moment(date, 'MM/DD/YYYY');
-        var newDate = moment(tempDate).format('MM/DD/YYYY');
+        var newDate = moment(date).format('MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId

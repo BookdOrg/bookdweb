@@ -20,7 +20,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {
             $scope.dayMessage = false;
-            getAvailableTimes(newVal, data.appointment.employee);
+            var selectedDate = new Date(newVal);
+            getAvailableTimes(selectedDate, data.appointment.employee);
         }
     });
 
@@ -36,8 +37,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        var tempDate = moment(date, 'MM/DD/YYYY');
-        var newDate = moment(tempDate).format('MM/DD/YYYY');
+        //var tempDate = moment(date, 'MM/DD/YYYY');
+        var newDate = moment(date).format('MM/DD/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId

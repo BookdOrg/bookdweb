@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h3 class="modal-title text-center">New Employee</h3>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="row form-inline employee-search">
+            <div class="form-group col-md-12">
+                <label for="employeeId">Employee Email:</label>
+                <input class="form-control" type="email" id="employeeId" ng-model="id">
+                <button class="btn btn-success" ng-click="findEmployee(id)">
+                    Search
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" ng-if="employee">
+                <img ng-if="employee.avatarVersion && employee.provider == 'bookd'"
+                     ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
+                     style="height:100px;width:100px;">
+                <img ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
+                     ng-src="{{cloudinaryDefaultPic}}"
+                     style="height:100px;width:100px;">
+                <!--<img ng-if="employee.provider == 'google_plus'" ng-src="https://www.googleapis.com/plus/v1/people/{{employee.providerID}}?fields=image&key=" style="height:100px;width:100px;">-->
+                <!--<img ng-if="employee.provider == 'facebook'" src="https://graph.facebook.com/{{employee.providerID}}?fields=picture.type(large)" style="height:100px;width:100px;">-->
+                <p>Name: {{employee.name}}</p>
+            </div>
+            <div class="col-md-12" ng-if="!employee && searched">
+                <p>No employee with that email found.</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-disabled="!employee" ng-click="create(employee._id)">Register Employee
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile) {
+module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal) {
     $scope.activeBusiness = {
         business: {}
     };
@@ -39,10 +39,70 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusThree = {
         open: true
     };
+    $scope.statusFour = {
+        open: true
+    };
+    $scope.statusFive = {
+        open: true
+    };
+    $scope.statusSix = {
+        open: true
+    };
     $scope.statusCal = {
         open: true
     };
     $scope.calendarEmployees = [];
+
+
+    $scope.removeEmployee = function (employee, business) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/removeEmployeeModal.html',
+            controller: 'removeEmployeeModalCtrl',
+            resolve: {
+                employee: function () {
+                    return employee;
+                },
+                businessInfo: function () {
+                    return business;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.activeBusiness.business = business;
+                });
+        }, function () {
+            //console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+    $scope.openEmployee = function (business) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/addEmployeeModal.html',
+            controller: 'addEmployeeModalCtrl',
+            resolve: {
+                businessInfo: function () {
+                    return business;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.activeBusiness.business = business;
+                });
+        }, function () {
+            //console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+
+
     $scope.customTexts = {
         buttonDefaultText: 'Select Calendars to View'
     };

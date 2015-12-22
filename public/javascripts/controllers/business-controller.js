@@ -35,30 +35,47 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         });
     };
 
-    $scope.openEmployee = function (size) {
+    $scope.openEmployee = function (business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'addEmployeeModal.html',
+            templateUrl: '/partials/addEmployeeModal.html',
             controller: 'addEmployeeModalCtrl',
-            size: size
-            // resolve:{
-            // 	id: function(){
-            // 		return $scope.employee.id;
-            // 	}
-            // }
+            resolve: {
+                businessInfo: function () {
+                    return business;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.business.info = business;
+                });
+        }, function () {
+            //console.log('Modal dismissed at: ' + new Date());
         });
     };
 
-    $scope.removeEmployee = function (employee) {
+    $scope.removeEmployee = function (employee, business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'removeEmployeeModal.html',
+            templateUrl: '/partials/removeEmployeeModal.html',
             controller: 'removeEmployeeModalCtrl',
             resolve: {
                 employee: function () {
                     return employee;
+                },
+                businessInfo: function () {
+                    return business;
                 }
             }
+        });
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.business.info = business;
+                });
         });
     };
 

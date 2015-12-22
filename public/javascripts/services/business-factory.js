@@ -218,9 +218,8 @@ module.exports = function ($http, auth) {
             angular.copy(data.data, o.business);
         }, handleError);
     };
-
     /**
-     *   Returns all information about a specific Business.
+     *   Returns all Bookd information about a specific Business.
      *
      *  Parameters:
      *  placeId -
@@ -229,11 +228,11 @@ module.exports = function ($http, auth) {
     o.getBusinessInfo = function (id) {
         return $http.get('/business/info', {
             params: {
-                'placesId': id
+                'id': id
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-            angular.copy(data.data, o.business.info);
+            return data.data;
         }, handleError);
     };
     /**

@@ -285,7 +285,7 @@ router.get('/user/dashboard', auth, function (req, res, next) {
             return next(error);
         }
         async.each(user.businesses, function (currBusiness, businessCallback) {
-            Business.findOne({'_id': currBusiness._id}).populate('employees').exec(function (error, response) {
+            Business.findOne({'_id': currBusiness._id}).populate('employees services').exec(function (error, response) {
                 if (error) {
                     return businessCallback(error);
                 }
@@ -827,6 +827,35 @@ router.get('/business/details', auth, function (req, res, next) {
         });
     });
 });
+
+
+/**
+ *   Returns all Bookd information about a specific Business.
+
+ Parameters:
+ placeId -
+ *
+ **/
+router.get('/business/info', auth, function (req, res, next) {
+    var id = req.param('id');
+    Business.findOne({'_id': id}).populate([{
+        path: 'employees',
+        select: '_id businessAppointments name avatarVersion'
+    }, {path: 'services', select: ''}]).exec(function (error, business) {
+        if (error) {
+            return next(error);
+        }
+        Service.populate(business.services, {
+            path: 'employees',
+            select: '_id businessAppointments name avatarVersion availability'
+        }, function (err, finalobj) {
+            if (error) {
+                return next(error);
+            }
+            res.json(business);
+        });
+    });
+});
 // router.get('/appointments/employee',auth,function(req,res,next){
 //    var userId = req.body.id;
 //    var startDate = req.body.startDate;
@@ -915,11 +944,17 @@ router.post('/business/add-employee', auth, function (req, res, next) {
  *
  **/
 
+/**
+ *
+ * This Async route may be causing us issues in that sometimes the service with the employee removed gets
+ * saved after the response has already sent -- how can we ensure the loop with the service save
+ * functions always finishes before we send the response.
+ *
+ */
 router.post('/business/remove-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
-
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         var index = response.employees.indexOf(employeeId);
@@ -949,7 +984,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
 
                 if (employeeIndex > -1) {
                     service.employees.splice(employeeIndex, 1);
-                    service.save(function (err) {
+                    service.save(function (err, result) {
                         if (err) {
                             return next(err);
                         }
@@ -958,91 +993,10 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     console.log('employee not found in service');
                 }
             }
-            Business.populate(response, [{
-                path: 'employees',
-                select: '_id appointments name avatarVersion availability'
-            }, {path: 'services', select: ''}], function (err, busResponse) {
-                if (err) {
-                    return next(err);
-                }
-                Service.populate(busResponse.services, {
-                    path: 'employees',
-                    select: '_id appointments name avatarVersion availability'
-                }, function (err, services) {
-                    if (err) {
-                        return next(err);
-                    }
-                    busResponse.services = services;
-                    res.json(busResponse);
-                });
-            });
+            res.json({message: "Success"});
         });
     });
 });
-
-/**
- *   Returns all businesses that have requested to be claimed.
- *
- **/
-//router.get('/business/pending-requests', auth, function (req, res, next) {
-//    var updatedBusinesses = [];
-//    Business.find({pending: true}).populate({
-//        path: 'owner',
-//        select: 'id name'
-//    }).exec(function (err, businesses) {
-//        if (err) {
-//            return next(err);
-//        }
-//        async.each(businesses, function (currBusiness, businessCallback) {
-//            googleplaces.placeDetailsRequest({placeid: currBusiness.placesId}, function (error, response) {
-//                if (error) {
-//                    return businessCallback(error);
-//                }
-//                response.result.info = currBusiness;
-//                updatedBusinesses.push(response.result);
-//                businessCallback();
-//            });
-//        }, function (err) {
-//            if (err) {
-//                return next(err);
-//            }
-//            res.json(updatedBusinesses);
-//        });
-//    });
-//});
-/**
- *   Changes the status of a business to approved
-
-
- Parameters:
- id - The BOOKD id of a business.
- *
- **/
-
-//router.post('/business/update-request', auth, function (req, res, next) {
-//    Business.findOne({'_id': req.body.info._id}).exec(function (err, business) {
-//        business.pending = req.body.pending;
-//        business.claimed = true;
-//        User.findOne(business.owner).exec(function (err, user) {
-//
-//            if (err) {
-//                return handleError(err);
-//            }
-//            user.businesses.push(business._id);
-//            user.businessPage = business.placesId;
-//            user.businessOwner = true;
-//            user.save(function (err, user) {
-//
-//            });
-//            business.save(function (err, business) {
-//                if (err) {
-//                    return next(err);
-//                }
-//                res.json({success: 'success'});
-//            });
-//        });
-//    });
-//});
 
 /**
  *   Adds a Service to a Business
