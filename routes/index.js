@@ -492,7 +492,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.customer = req.payload._id;
     appointment.service = req.body.service;
     appointment.start = req.body.start;
-    appointment.start.monthYear = moment(req.body.start.date, 'MM/YYYY');
     appointment.end = req.body.end;
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;

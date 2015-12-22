@@ -37,8 +37,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      * @param employeeId
      */
     function getAvailableTimes(date, employeeId) {
-        //var tempDate = moment(date, 'MM/DD/YYYY');
         var newDate = moment(date).format('MM/DD/YYYY');
+        $scope.monthYear = moment(newDate).format('MM/YYYY');
         var employeeApptObj = {
             startDate: newDate,
             id: employeeId
@@ -249,6 +249,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             customer: data.appointment.customer,
             start: {
                 date: apptDate,
+                monthYear: $scope.monthYear,
                 time: apptTime,
                 day: apptDay,
                 full: moment(apptDate + ' ' + apptTime, 'MM/DD/YYYY hh:mm a').format()
