@@ -116,12 +116,12 @@
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); open('login','landing')" href="">
+                    <a ng-click="showSearch(false); checkStateandLogin('login')" href="">
                         <i class="fa fa-sign-in"></i></span> Log In
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); open('signup','landing')" href="">
+                    <a ng-click="showSearch(false); checkStateandLogin('signup');checkStateandLogin()" href="">
                         <i class="fa fa-user"></i> Sign Up
                     </a>
                 </li>
@@ -198,8 +198,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="open('login','landing')"><i class="fa fa-sign-in"></i> Log In</a></li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="open('signup','landing')"><i class="fa fa-user"></i> Sign Up</a></li>
+                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('login')"><i class="fa fa-sign-in"></i> Log In</a></li>
+                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a></li>
                 </ul>
             </div>
         </div>

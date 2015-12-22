@@ -39,6 +39,10 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
+    $scope.checkStateandLogin = function(type){
+        var state = $state.current.name;
+        $scope.open(type,state);
+    };
     /**
      * Function used to open the auth modal for registration and login.
      *
