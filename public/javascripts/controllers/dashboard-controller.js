@@ -57,7 +57,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.removeEmployee = function (employee, business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/partials/removeEmployeeModal.html',
+            templateUrl: '/partials/modals/removeEmployeeModal.html',
             controller: 'removeEmployeeModalCtrl',
             resolve: {
                 employee: function () {
@@ -82,7 +82,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.openEmployee = function (business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/partials/addEmployeeModal.html',
+            templateUrl: '/partials/modals/addEmployeeModal.html',
             controller: 'addEmployeeModalCtrl',
             resolve: {
                 businessInfo: function () {
@@ -101,7 +101,41 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
     };
 
+    $scope.open = function () {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/addServiceModal.html',
+            controller: 'addServiceModalCtrl',
+            resolve: {
+                business: function () {
+                    return $scope.activeBusiness.business;
+                }
+            }
+        });
+        modalInstance.result.then(function (serviceResponse) {
+            $scope.activeBusiness.business.services.push(serviceResponse);
+        }, function () {
 
+        });
+    };
+    $scope.editService = function (service, serviceIndex) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/editServiceModal.html',
+            controller: 'editServiceModalCtrl',
+            resolve: {
+                serviceIndex: function () {
+                    return serviceIndex;
+                },
+                service: function () {
+                    return angular.copy(service);
+                },
+                business: function () {
+                    return $scope.activeBusiness.business;
+                }
+            }
+        });
+    };
 
     $scope.customTexts = {
         buttonDefaultText: 'Select Calendars to View'

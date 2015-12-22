@@ -1,0 +1,91 @@
+<div class="modal-header text-center">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h3 class="modal-title text-center">{{service.name}} </h3>
+    <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
+           finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
+        {{sseconds}} second{{secondsS}}
+    </timer>
+</div>
+<div class="modal-body container-fluid">
+    <ul class="hide nav nav-tabs" id="tabContent">
+        <li class="active"><a data-target="#details" data-toggle="tab"></a></li>
+        <li><a data-target="#employees" data-toggle="tab"></a></li>
+        <li><a data-target="#schedule" data-toggle="tab"></a></li>
+        <li><a data-target="#pay" data-toggle="tab"></a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="details">
+            <div class="control-group">
+                <div class="row text-center">
+                    <h2>{{service.description}}</h2>
+                    <h5>Price:{{service.price |currency}}</h5>
+                    <h5>Duration: {{service.duration}} minutes.</h5>
+                    <h6 class="text-danger">Note: You will be charged at the time your service is completed.</h6>
+                    <a data-target="#employees" data-toggle="tab" class="btn btn-primary">Next</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="employees">
+            <div class="row text-center" style="margin-left:10px;margin-right:10px;">
+                <h3>Select an Associate</h3>
+
+                <div class="col col-md-3 well employeeHover" ng-repeat="employee in service.employees">
+                    <label>
+                        <img class="fitContainer" ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+                        <img class="fitContainer" ng-if="employee.avatarVersion"
+                             ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                        <h5>{{employee.name}}</h5>
+                        <br>
+                        <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
+                               type="radio">
+                        Select
+                    </label>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a data-target="#details" data-toggle="tab" class="btn btn-warning">Back</a>
+                <a data-target="#schedule" data-toggle="tab" ng-show="employee" class="btn btn-primary">Next</a>
+            </div>
+        </div>
+        <div class="tab-pane" id="schedule">
+            <div class="row">
+                <div class="col col-md-6 text-center">
+                    <h4>Select a Date to see Available Times</h4>
+
+                    <div style="display:inline-block; min-height:290px;">
+                        <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true"
+                                        class="well well-sm"
+                                        custom-class="getDayClass(date, mode)"></uib-datepicker>
+                    </div>
+                </div>
+                <div class="col col-md-6 text-center">
+                    <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
+                    <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                    </uib-alert>
+                    <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"
+                         ng-repeat="time in availableTimes track by $index">
+                        <button ng-disabled="!time.available || time.status || time.toggled"
+                                ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}"
+                                role="button" class="btn" style="margin-bottom:5px;">
+                            {{time.time}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a data-target="#employees" data-toggle="tab" class="btn btn-warning"> Back
+                </a>
+                <button class="btn btn-primary" ng-show="appointment" stripe-checkout="ctrl.checkOut"
+                        data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
+                        data-name="Bookd"
+                        data-description="{{service.name}}"
+                        data-amount="{{stripePrice}}"
+                        data-image="/images/icon.png"
+                        data-label="Book Appointment"
+                        data-panel-label="Book">
+                    Book Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

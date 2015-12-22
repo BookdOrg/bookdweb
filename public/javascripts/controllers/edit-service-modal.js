@@ -13,7 +13,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
             "_id": business.employees[employeeIndex]._id
         };
         for (var serviceEmployeeIndex = 0; serviceEmployeeIndex < $scope.editService.employees.length; serviceEmployeeIndex++) {
-            if ($scope.editService.employees[serviceEmployeeIndex]._id === business.employees[employeeIndex]._id) {
+            if ($scope.editService.employees[serviceEmployeeIndex]._id === business.employees[employeeIndex]._id || $scope.editService.employees[serviceEmployeeIndex] === business.employees[employeeIndex]._id) {
                 $scope.serviceEmployees.push(tempObject);
             }
         }

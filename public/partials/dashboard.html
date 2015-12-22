@@ -60,8 +60,8 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="text-center">
-                            <button class="btn btn-success" ng-click="openEmployee(activeBusiness.business)">New
-                                Associate
+                            <button class="btn btn-success" ng-click="openEmployee(activeBusiness.business)">
+                                New Associate
                             </button>
                         </div>
                     </div>
@@ -76,12 +76,21 @@
                            ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                     </uib-accordion-heading>
                     <div class="col-xs-12">
-                        <div ng-repeat="service in activeBusiness.business.services" style="height:50px;">
+                        <div ng-repeat="service in activeBusiness.business.services track by $index"
+                             style="height:50px;">
                             <li>{{service.name}}
                                 <button disabled class="btn btn-danger pull-right"><i class="fa fa-trash"></i></button>
-                                <button disabled class="btn btn-warning pull-right"><i class="fa fa-pencil"></i>
+                                <button class="btn btn-warning pull-right" ng-click="editService(service,$index)"><i
+                                        class="fa fa-pencil"></i>
                                 </button>
                             </li>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="text-center">
+                            <button class="btn btn-success" ng-click="open()">
+                                New Service
+                            </button>
                         </div>
                     </div>
             </uib-accordion>

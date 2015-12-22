@@ -19,7 +19,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.open = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'addServiceModal.html',
+            templateUrl: '/partials/modals/addServiceModal.html',
             controller: 'addServiceModalCtrl',
             size: size,
             resolve: {
@@ -38,7 +38,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.openEmployee = function (business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/partials/addEmployeeModal.html',
+            templateUrl: '/partials/modals/addEmployeeModal.html',
             controller: 'addEmployeeModalCtrl',
             resolve: {
                 businessInfo: function () {
@@ -60,7 +60,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.removeEmployee = function (employee, business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/partials/removeEmployeeModal.html',
+            templateUrl: '/partials/modals/removeEmployeeModal.html',
             controller: 'removeEmployeeModalCtrl',
             resolve: {
                 employee: function () {
@@ -82,7 +82,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.openService = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'scheduleServiceModal.html',
+            templateUrl: '/partials/modals/scheduleServiceModal.html',
             controller: 'scheduleServiceModalCtrl as ctrl',
             backdrop: 'static',
             keyboard: false,
@@ -99,7 +99,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.editService = function (service, serviceIndex) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'editServiceModal.html',
+            templateUrl: '/partials/modals/editServiceModal.html',
             controller: 'editServiceModalCtrl',
             resolve: {
                 serviceIndex: function () {
