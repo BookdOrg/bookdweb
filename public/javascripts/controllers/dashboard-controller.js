@@ -267,7 +267,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.masterList = {};
         var previousMonthYear = localStorage['monthYear'];
         var previousBusiness = localStorage['previousBusiness'];
-        if ($scope.monthYear !== previousMonthYear || $scope.activeBusiness.business.name !== previousBusiness) {
+        if ($scope.monthYear !== previousMonthYear || !$scope.masterList[previousBusiness]) {
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
                 .then(function (response) {
