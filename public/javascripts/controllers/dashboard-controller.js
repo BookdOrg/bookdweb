@@ -152,7 +152,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             return itemText;
         }
     };
-    $scope.switchBusiness = function () {
+    $scope.switchBusiness = function (business) {
+        $scope.activeBusiness.business = business;
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
                 $scope.appointmentsMaster = response;

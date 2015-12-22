@@ -3,11 +3,22 @@
         <h1 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h1>
 	</div>
     <div class="row">
-        <div class="col-xs-4" ng-if="businesses.length > 1">
-            <select class="form-control input-lg" ng-model="activeBusiness.business"
-                    ng-options="business.name for business in businesses" ng-change="switchBusiness()">
-                <option value="">Select Business</option>
-            </select>
+        <div class="col" ng-if="businesses.length > 1">
+            <div class="btn-group-lg" uib-dropdown>
+                <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+                    {{activeBusiness.business.name}} <span class="caret"></span>
+                </button>
+                <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-repeat="business in businesses" ng-click="switchBusiness(business)"><a
+                            href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
+                </ul>
+            </div>
+            <!--<select class="form-control input-lg" ng-model="activeBusiness.business"-->
+            <!--ng-repeat="business.name for business in businesses" ng-change="switchBusiness()">-->
+            <!--<option value="">Select Business</option>-->
+            <!--</select>-->
+
+
         </div>
     </div>
     <br>
@@ -79,10 +90,14 @@
                         <div ng-repeat="service in activeBusiness.business.services track by $index"
                              style="height:50px;">
                             <li>{{service.name}}
-                                <button disabled class="btn btn-danger pull-right"><i class="fa fa-trash"></i></button>
-                                <button class="btn btn-warning pull-right" ng-click="editService(service,$index)"><i
-                                        class="fa fa-pencil"></i>
-                                </button>
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                    <button disabled class="btn btn-danger"><i class="fa fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-warning " ng-click="editService(service,$index)"><i
+                                            class="fa fa-pencil"></i>
+                                    </button>
+                                    <button disabled class="btn btn-primary"><i class="fa fa-calendar"></i></button>
+                                </div>
                             </li>
                         </div>
                     </div>
