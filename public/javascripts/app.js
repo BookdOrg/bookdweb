@@ -9,7 +9,7 @@ require('angular-stripe-checkout');
 require('angular-timer');
 require('ngmap');
 require('bootstrap');
-var app = angular.module('cc', ['ui.router',
+var app = angular.module('cc', ['ui.router','ngAnimate',
     'google.places',
     'ngGeolocation',
     'ui.calendar',
