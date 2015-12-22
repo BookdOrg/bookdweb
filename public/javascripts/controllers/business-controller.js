@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap) {
+module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
@@ -16,6 +16,18 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
     $scope.max = 5;
     $scope.isReadonly = true;
+
+    var navViewModel = $scope.$new();
+    $controller('NavCtrl', {$scope: navViewModel});
+    $scope.scheduleAppointment = function (type, state) {
+        if (!auth.isLoggedIn()) {
+            navViewModel.open(type, state);
+        } else {
+            $scope.openService('lg');
+        }
+
+    };
+
     $scope.open = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,

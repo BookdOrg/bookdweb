@@ -48,19 +48,19 @@ app.config([
             .state('feed', {
                 url: '/feed',
                 templateUrl: 'partials/feed.html',
-                controller: 'MainCtrl',
-                resolve: {
-                    isAuthenticated: function ($state, $q, auth) {
-                        var redirect = false;
-                        if (!auth.isLoggedIn()) {
-                            redirect = true;
-                            return $q.reject({
-                                state: 'error'
-                            });
-                        }
-                        return redirect;
-                    }
-                }
+                controller: 'MainCtrl'
+                //resolve: {
+                //    isAuthenticated: function ($state, $q, auth) {
+                //        var redirect = false;
+                //        if (!auth.isLoggedIn()) {
+                //            redirect = true;
+                //            return $q.reject({
+                //                state: 'error'
+                //            });
+                //        }
+                //        return redirect;
+                //    }
+                //}
             })
             .state('business', {
                 url: '/business/{businessid}',
@@ -69,17 +69,17 @@ app.config([
                 resolve: {
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                         return businessFactory.getBusiness($stateParams.businessid);
-                    }],
-                    isAuthenticated: function ($state, $q, auth) {
-                        var redirect = false;
-                        if (!auth.isLoggedIn()) {
-                            redirect = true;
-                            return $q.reject({
-                                state: 'error'
-                            });
-                        }
-                        return redirect;
-                    }
+                    }]
+                    //isAuthenticated: function ($state, $q, auth) {
+                    //    var redirect = false;
+                    //    if (!auth.isLoggedIn()) {
+                    //        redirect = true;
+                    //        return $q.reject({
+                    //            state: 'error'
+                    //        });
+                    //    }
+                    //    return redirect;
+                    //}
                 }
             })
             .state('user', {

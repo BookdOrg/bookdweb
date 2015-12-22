@@ -683,7 +683,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
  *   text search.
  **/
 //
-router.get('/business/search', auth, function (req, res, next) {
+router.get('/business/search', function (req, res, next) {
     var query = req.param('query');
     var updatedBusinesses = [];
     var populateQuery = [{path: 'services', select: ''}, {
@@ -800,7 +800,7 @@ router.get('/business/search', auth, function (req, res, next) {
  placeId -
  *
  **/
-router.get('/business/details', auth, function (req, res, next) {
+router.get('/business/details',function (req, res, next) {
     var id = req.param('placesId');
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
@@ -835,7 +835,7 @@ router.get('/business/details', auth, function (req, res, next) {
  placeId -
  *
  **/
-router.get('/business/info', auth, function (req, res, next) {
+router.get('/business/info', function (req, res, next) {
     var id = req.param('id');
     Business.findOne({'_id': id}).populate([{
         path: 'employees',

@@ -59,7 +59,7 @@
                 <span style="color:white;font-size:25px;">Book'd</span>
             </a>
         </div>
-        <form ng-if="isLoggedIn() && show" class="navbar-form hidden-md hidden-sm hidden-xs">
+        <form ng-if="show" class="navbar-form hidden-md hidden-sm hidden-xs">
             <div class="row text-center form-inline form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-building"></i>
@@ -85,7 +85,7 @@
         </form>
         <div class="uib-collapse navbar-collapse" uib-collapse="navbarCollapsed">
             <ul class="nav navbar-nav">
-                <li ng-if="isLoggedIn()">
+                <li>
                     <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)" >
                         <i class="fa fa-home"></i> Feed
                     </a>
