@@ -55,7 +55,7 @@ UserSchema.methods.generateJWT = function () {
         provider: this.provider,
         email: this.email,
         availability:this.availability
-    }, 'SECRET');
+    }, process.env.jwtSecret);
 };
 
 mongoose.model('User', UserSchema);

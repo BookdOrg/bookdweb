@@ -21,7 +21,7 @@ var Appointment = mongoose.model('Appointment');
 var Category = mongoose.model('Category');
 var Service = mongoose.model('Service');
 
-var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
+var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
