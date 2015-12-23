@@ -1089,7 +1089,7 @@ router.post('/business/update-service', auth, function (req, res, next) {
  */
 router.post('/business/remove-service', auth, function (req, res, next) {
     var serviceId = req.body.serviceId;
-
+    var businessId = req.body.businessId;
     Service.remove({'_id': serviceId}).exec(function (err, result) {
         if (err) {
             return next(err);
@@ -1098,9 +1098,10 @@ router.post('/business/remove-service', auth, function (req, res, next) {
 
     //TODO businessId, index, response are all non existent, how does this work?
     Business.findOne({'_id': businessId}).exec(function (err, business) {
+        var index = business.services.indexOf(serviceId);
         if (index > -1) {
-            response.services.splice(index, 1);
-            response.save(function (err) {
+            business.services.splice(index, 1);
+            business.save(function (err) {
                 if (err) {
                     return next(err);
                 }
@@ -1108,26 +1109,9 @@ router.post('/business/remove-service', auth, function (req, res, next) {
         } else {
             //console.log('serviceId not associated with this business. id=', serviceId);
         }
-
-        Business.populate(response, [{
-            path: 'employees',
-            select: '_id appointments name avatarVersion availability'
-        }, {path: 'services', select: ''}], function (err, busResponse) {
-            if (err) {
-                return next(err);
-            }
-            Service.populate(busResponse.services, {
-                path: 'employees',
-                select: '_id appointments name avatarVersion availability'
-            }, function (err, services) {
-                if (err) {
-                    return next(err);
-                }
-                busResponse.services = services;
-                res.json(busResponse);
-            });
-        });
     });
+
+    res.json({message:'Success'});
 });
 
 /**

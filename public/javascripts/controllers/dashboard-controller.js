@@ -54,6 +54,16 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     $scope.calendarEmployees = [];
 
+    $scope.removeService = function(service,index){
+        $scope.activeBusiness.business.services.splice(index,1);
+        var serviceObj = {
+            serviceId:service._id,
+            businessId:$scope.activeBusiness.business._id
+        };
+        businessFactory.removeService(serviceObj)
+            .then(function(response){
+            });
+    };
 
     $scope.removeEmployee = function (employee, business) {
         var modalInstance = $uibModal.open({

@@ -127,6 +127,17 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         });
     };
 
+    $scope.removeService = function(service,index){
+        $scope.business.info.services.splice(index,1);
+        var serviceObj = {
+            serviceId:service._id,
+            businessId:$scope.business.info._id
+        };
+        businessFactory.removeService(serviceObj)
+            .then(function(response){
+            });
+    };
+
     $scope.setService = function (service) {
         businessFactory.service = service;
     };

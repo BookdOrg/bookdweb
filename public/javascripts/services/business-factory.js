@@ -272,10 +272,10 @@ module.exports = function ($http, auth) {
      *
      */
     o.removeService = function (serviceId) {
-        return $http.post('/business/add-service', serviceId, {
+        return $http.post('/business/remove-service', serviceId, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-            angular.copy(data.data, o.business.info);
+            return data.data;
         }, handleError);
     };
     /**
