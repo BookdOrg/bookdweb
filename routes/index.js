@@ -12,8 +12,6 @@ require('moment-range');
 var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
-
-
 var _ = require('lodash');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
@@ -83,7 +81,7 @@ io.on('connection', function (socket) {
     socket.on('isEmployee', function (data) {
         User.findOne({'_id': data}).exec(function (err, user) {
             if (err) {
-                console.log(err)
+                console.log(err);
                 //TODO send the socket error back to the client
                 //return next(err);
             }
@@ -162,7 +160,6 @@ io.on('connection', function (socket) {
  *  auth middleware.
  *
  **/
-
 router.get('/user/appointments', auth, function (req, res, next) {
     var startDate = req.param('startDate');
     var employeeId = req.param('id');
@@ -191,7 +188,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
                     return next(err);
                 }
                 responseArray.push(customer.personalAppointments);
-                responseArray.push(customer.businessAppointments)
+                responseArray.push(customer.businessAppointments);
                 res.json(responseArray);
             });
         }else{
