@@ -212,7 +212,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.open('lg', date);
+        $scope.open('lg', date,false);
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
@@ -310,6 +310,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         calendar: {
             height: 450,
             editable: true,
+            displayEventEnd:true,
             header: {
                 left: 'title',
                 center: '',
@@ -333,7 +334,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
 
-    $scope.open = function (size, data) {
+    $scope.open = function (size, data,type) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',
@@ -344,6 +345,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             resolve: {
                 data: function () {
                     return data;
+                },
+                personal:function(){
+                    return type;
                 }
             }
         });

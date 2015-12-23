@@ -58,7 +58,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         events: $scope.pendingEvents
     };
 
-    $scope.open = function (size, data) {
+    $scope.open = function (size, data,type) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',
@@ -69,6 +69,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             resolve: {
                 data: function () {
                     return data;
+                },
+                personal:function(){
+                    return type;
                 }
             }
         });
@@ -84,7 +87,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     /* event source that calls a function on every view switch */
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.open('lg', date);
+        $scope.open('lg', date,true);
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
@@ -158,6 +161,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         calendar: {
             height: 500,
             editable: true,
+            displayEventEnd:true,
             header: {
                 left: 'title',
                 center: '',

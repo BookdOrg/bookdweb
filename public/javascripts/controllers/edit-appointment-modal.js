@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService) {
+module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService,personal) {
     $scope.dateObj = data;
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
         .then(function () {
@@ -39,10 +39,20 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     function getAvailableTimes(date, employeeId) {
         var newDate = moment(date).format('MM/DD/YYYY');
         $scope.monthYear = moment(newDate).format('MM/YYYY');
-        var employeeApptObj = {
-            startDate: newDate,
-            id: employeeId
-        };
+        var employeeApptObj = {};
+        if(personal){
+            employeeApptObj = {
+                startDate: newDate,
+                id: employeeId
+            };
+        }else{
+            employeeApptObj = {
+                startDate: newDate,
+                id: employeeId,
+                personal:false
+            };
+        }
+
         userFactory.getAppts(employeeApptObj)
             .then(function (data) {
                 calculateAppointments(data);
@@ -244,7 +254,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
         $scope.appointment = {
             _id: data.appointment._id,
-            businessid: data.appointment.businessId,
+            businessId: data.appointment.businessId,
             employee: data.appointment.employee,
             customer: data.appointment.customer,
             start: {
@@ -271,11 +281,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         if (!$scope.appointment) {
             $scope.appointment = {
                 _id: data.appointment._id,
-                businessid: data.appointment.businessId,
+                businessId: data.appointment.businessId,
                 employee: data.appointment.employee,
                 customer: data.appointment.customer,
                 start: {
                     date: data.appointment.start.date,
+                    monthYear: $scope.monthYear,
                     time: data.appointment.start.time,
                     day: data.appointment.start.day,
                     full: data.appointment.start.full

@@ -232,7 +232,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var endTime = moment(time.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
 
         $scope.appointment = {
-            businessid: $scope.service.businessId,
+            businessId: $scope.service.businessId,
             employee: $scope.employee._id,
             customer: $rootScope.currentUser.user._id,
             start: {

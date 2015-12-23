@@ -157,7 +157,7 @@ io.on('connection', function (socket) {
 });
 
 /**
- *  Returns all appointments for both the employee and the customers trying to schedule an appointment,
+ *  Returns all appointments for both the employee and the customer trying to schedule an appointment,
  *  Takes in the ID of the employee & the startDate to search for. User ID is grabbed from
  *  auth middleware.
  *
@@ -166,8 +166,14 @@ io.on('connection', function (socket) {
 router.get('/user/appointments', auth, function (req, res, next) {
     var startDate = req.param('startDate');
     var employeeId = req.param('id');
-    var userId = req.payload._id;
+
+    var personal = req.param('personal');
     var responseArray = [];
+
+    if(personal){
+        var userId = req.payload._id;
+    }
+
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments',
         match: {'start.date': startDate}
@@ -176,16 +182,21 @@ router.get('/user/appointments', auth, function (req, res, next) {
             return next(err);
         }
         responseArray.push(employee.businessAppointments);
-        User.findOne({'_id': userId}).populate({
-            path: 'personalAppointments',
-            match: {'start.date': startDate}
-        }).exec(function (err, customer) {
-            if (err) {
-                return next(err);
-            }
-            responseArray.push(customer.personalAppointments);
+        if(personal){
+            User.findOne({'_id': userId}).populate({
+                path: 'personalAppointments',
+                match: {'start.date': startDate}
+            }).exec(function (err, customer) {
+                if (err) {
+                    return next(err);
+                }
+                responseArray.push(customer.personalAppointments);
+                res.json(responseArray);
+            });
+        }else{
             res.json(responseArray);
-        });
+        }
+
     });
 });
 /**
@@ -487,7 +498,7 @@ router.post('/categories/add-category', auth, function (req, res, next) {
 
 router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
-    appointment.businessId = req.body.businessid;
+    appointment.businessId = req.body.businessId;
     appointment.employee = req.body.employee;
     appointment.customer = req.payload._id;
     appointment.service = req.body.service;
@@ -496,6 +507,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
     appointment.card = req.body.card;
+    appointment.status = 'active';
     var room = appointment.start.date.toString() + appointment.employee.toString();
     var responseArray = [];
 
@@ -567,7 +579,8 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
     var monthYear = req.param('monthYear');
     Appointment.find({
         'businessId': businessId,
-        'start.monthYear': monthYear
+        'start.monthYear': monthYear,
+        'status':'active'
     }).exec(function (error, response) {
         if (error) {
             return next(error);
@@ -584,6 +597,10 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
 
+    var businessId = req.body.businessId;
+
+    console.log(businessId);
+
     if (req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
@@ -591,8 +608,9 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             }
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
+
             if (appointment.status == 'pending') {
-                appointment.status = '';
+                appointment.status = 'active';
                 User.findOne({'_id': req.body.employee}).exec(function (err, user) {
                     if (err) {
                         next(err);
