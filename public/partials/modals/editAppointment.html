@@ -1,0 +1,46 @@
+<div class="modal-header text-center">
+    <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <h3 class="modal-title text-center">{{service.name}}</h3>
+    <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
+           finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
+        {{sseconds}} second{{secondsS}}
+    </timer>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col col-md-6 text-center">
+            <h4>Select a Date to see Available Times</h4>
+
+            <div style="display:inline-block; min-height:290px;">
+                <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm"
+                                custom-class="getDayClass(date, mode)"></uib-datepicker>
+            </div>
+        </div>
+        <div class="col col-md-6 text-center">
+            <h4 ng-if="availableTimes.length > 1">Schedule</h4>
+            <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+            </uib-alert>
+            <div class="col col-md-3" ng-click="createAppointmentObj(time,$index)"
+                 ng-repeat="time in availableTimes track by $index">
+                <button ng-disabled="!time.available || time.status || time.toggled"
+                        ng-class="{'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}"
+                        role="button" class="btn" style="margin-bottom:5px;">
+                    {{time.time}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-show="availableTimes[selectedIndex].time !== dateObj.appointment.start.time"
+            ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time"
+            ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update
+    </button>
+    <button class="btn btn-primary"
+            ng-show="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time"
+            ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
+    </button>
+    <button class="btn btn-danger"
+            ng-disabled="availableTimes[selectedIndex].time !== dateObj.appointment.start.time" ng-click="cancel()">
+        Cancel <i class="fa fa-calendar-times-o"></i></button>
+</div>

@@ -212,6 +212,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
+        $scope.open('lg', date);
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
@@ -324,4 +325,36 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* event sources array*/
     $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents];
+
+    /**
+     *
+     * This block is opening and editing appointments via the calendar
+     *
+     *
+     */
+
+    $scope.open = function (size, data) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/editAppointment.html',
+            controller: 'editAppointmentModalCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: size,
+            resolve: {
+                data: function () {
+                    return data;
+                }
+            }
+        });
+        //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
+        //TODO you did this on dashboard page-- figure it out here.
+        modalInstance.result.then(function (appointment) {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            $scope.viewRender();
+        }, function () {
+
+        });
+    };
+
 };

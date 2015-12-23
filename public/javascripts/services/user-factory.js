@@ -54,7 +54,7 @@ var userFactory = function ($http, auth, $q) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.appointments);
-            return (data.data);
+            return data.data;
             //console.log(data);
         }, handleError);
     };

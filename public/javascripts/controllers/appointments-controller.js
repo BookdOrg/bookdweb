@@ -2,7 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout) {
-    $scope.appointments = userFactory.appointments;
+
     $scope.animationsEnabled = true;
     var date = new Date();
     var d = date.getDate();
@@ -42,7 +42,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             }
         }
     };
-    createEventsSources();
+
     $scope.eventsPersonalSource = {
         //color:'#00',
         //textColor:'blue',
@@ -61,7 +61,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.open = function (size, data) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'editAppointment.html',
+            templateUrl: '/partials/modals/editAppointment.html',
             controller: 'editAppointmentModalCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -75,15 +75,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
         //TODO you did this on dashboard page-- figure it out here.
         modalInstance.result.then(function (appointment) {
-            $state.reload();
-            //userFactory.getUserAppts();
-            //$scope.appointments = {};
-            //$scope.eventSources = [];
-            //$scope.appointments = userFactory.appointments;
-            //createEventsSources();
-            //$scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
-            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            $scope.viewRender();
         }, function () {
 
         });
@@ -152,6 +145,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $compile(element)($scope);
     };
 
+    $scope.viewRender = function(view,element){
+        userFactory.getUserAppts()
+            .then(function(data){
+                $scope.appointments = data;
+                createEventsSources();
+            });
+
+    };
     /* config object */
     $scope.uiConfig = {
         calendar: {
@@ -165,7 +166,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
-            eventRender: $scope.eventRender
+            eventRender: $scope.eventRender,
+            viewRender: $scope.viewRender
         }
     };
 

@@ -167,9 +167,9 @@ app.config([
                 templateUrl: 'partials/appointments.html',
                 controller: 'appointmentsCtrl',
                 resolve: {
-                    appointments: ['userFactory', function (userFactory) {
-                        return userFactory.getUserAppts();
-                    }],
+                    //appointments: ['userFactory', function (userFactory) {
+                    //    return userFactory.getUserAppts();
+                    //}],
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
                         if (!auth.isLoggedIn()) {
