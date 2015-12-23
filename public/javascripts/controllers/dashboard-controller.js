@@ -360,5 +360,39 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         });
     };
+    /**
+     * Block for manually scheduling appointments
+     *
+     * @param size
+     * @param type
+     */
+    $scope.openService = function (size,type,service) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/scheduleServiceModal.html',
+            controller: 'scheduleServiceModalCtrl as ctrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: size,
+            resolve:{
+                personal:function(){
+                    return type;
+                },
+                tier:function(){
+                    return $scope.activeBusiness.business.tier;
+                },
+                service:function(){
+                    return service;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (appointment) {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            $scope.viewRender();
+        }, function () {
+
+        });
+    };
 
 };

@@ -19,11 +19,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
 
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
-    $scope.scheduleAppointment = function (type, state) {
+    $scope.scheduleAppointment = function (type, state,service) {
         if (!auth.isLoggedIn()) {
-            navViewModel.open(type, state);
+            navViewModel.open(type, state,service);
         } else {
-            $scope.openService('lg');
+            $scope.openService('lg',true);
         }
 
     };
@@ -91,14 +91,25 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         });
     };
 
-    $scope.openService = function (size) {
+    $scope.openService = function (size,type,service) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/scheduleServiceModal.html',
             controller: 'scheduleServiceModalCtrl as ctrl',
             backdrop: 'static',
             keyboard: false,
-            size: size
+            size: size,
+            resolve:{
+                personal:function(){
+                    return type;
+                },
+                tier:function(){
+                    return $scope.business.info.tier;
+                },
+                service:function(){
+                    return service;
+                }
+            }
         });
 
         modalInstance.result.then(function (selectedItem) {
@@ -138,9 +149,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
             });
     };
 
-    $scope.setService = function (service) {
-        businessFactory.service = service;
-    };
+    //$scope.setService = function (service) {
+    //    businessFactory.service = service;
+    //};
 
     $scope.toggleAnimation = function () {
         $scope.animationsEnabled = !$scope.animationsEnabled;

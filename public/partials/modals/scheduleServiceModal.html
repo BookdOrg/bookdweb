@@ -75,7 +75,7 @@
             <div class="row text-center">
                 <a data-target="#employees" data-toggle="tab" class="btn btn-warning"> Back
                 </a>
-                <button class="btn btn-primary" ng-show="appointment" stripe-checkout="ctrl.checkOut"
+                <button class="btn btn-Success" ng-show="appointment" ng-if="tier >= 1" stripe-checkout="ctrl.checkOut"
                         data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
                         data-name="Bookd"
                         data-description="{{service.name}}"
@@ -83,8 +83,9 @@
                         data-image="/images/icon.png"
                         data-label="Book Appointment"
                         data-panel-label="Book">
-                    Book Appointment
+                    Book Appointment (Card Info)
                 </button>
+                <button class="btn btn-primary" ng-show="appointment" ng-click="book()">Book Appointment (Book)</button>
             </div>
         </div>
     </div>

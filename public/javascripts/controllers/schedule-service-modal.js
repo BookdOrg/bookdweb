@@ -1,13 +1,14 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope, userFactory) {
-    $scope.service = businessFactory.service;
+module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope, userFactory,personal,tier,service) {
+    $scope.service = service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
     $scope.progressBar = 100;
     $scope.showCount = false;
     $scope.countdown = 600;
+    $scope.tier = tier;
     var timeStarted = false;
 
     // $scope.currentUser = auth.currentUser();
@@ -52,10 +53,21 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     function getAvailableTimes(date, employeeId) {
         var newDate = moment(date).format('MM/DD/YYYY');
         $scope.monthYear = moment(newDate).format('MM/YYYY');
-        var employeeApptObj = {
-            startDate: newDate,
-            id: employeeId
-        };
+        var employeeApptObj = {};
+        if(personal){
+            employeeApptObj = {
+                startDate: newDate,
+                id: employeeId,
+                personal:true
+            };
+        }else{
+            employeeApptObj = {
+                startDate: newDate,
+                id: employeeId,
+                personal:false
+            };
+        }
+
         userFactory.getAppts(employeeApptObj)
             .then(function (data) {
                 calculateAppointments(data);
@@ -231,10 +243,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var apptTime = moment(time.time, 'hh:mm a').format('hh:mm a');
         var endTime = moment(time.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
 
+        var customerId;
+        if(personal){
+            customerId = $rootScope.currentUser.user._id;
+        }else{
+            customerId = '';
+        }
+
         $scope.appointment = {
             businessId: $scope.service.businessId,
             employee: $scope.employee._id,
-            customer: $rootScope.currentUser.user._id,
+            customer: customerId,
             start: {
                 date: apptDate,
                 monthYear: $scope.monthYear,
@@ -260,22 +279,24 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.appointment.card = token.card;
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
+                if(personal){
+                    userFactory.getUserAppts().then(
+                        function (data) {
+                            $rootScope.currentUser.user.appointments = data;
+                        },
+                        function (errorMessage) {
+                            console.log(errorMessage);
+                        }
+                    );
+                }
                 $uibModalInstance.close();
-                userFactory.getUserAppts().then(
-                    function (data) {
-                        $rootScope.currentUser.user.appointments = data;
-                    },
-                    function (errorMessage) {
-                        console.log(errorMessage);
-                    }
-                );
             });
     };
-    $scope.ok = function () {
-        // businessFactory.addAppointment($scope.appointment);
-        //   .then(function(data){
-        //     $uibModalInstance.close();
-        //   })
+    $scope.book = function () {
+        businessFactory.addAppointment($scope.appointment)
+             .then(function(data){
+                 $uibModalInstance.close();
+             });
 
     };
 

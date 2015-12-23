@@ -174,22 +174,24 @@ router.get('/user/appointments', auth, function (req, res, next) {
         var userId = req.payload._id;
     }
     User.findOne({'_id': employeeId}).populate({
-        path: 'businessAppointments',
+        path: 'businessAppointments personalAppointments',
         match: {'start.date': startDate}
     }).exec(function (err, employee) {
         if (err) {
             return next(err);
         }
         responseArray.push(employee.businessAppointments);
+        responseArray.push(employee.personalAppointments);
         if(personal){
             User.findOne({'_id': userId}).populate({
-                path: 'personalAppointments',
+                path: 'personalAppointments businessAppointments',
                 match: {'start.date': startDate}
             }).exec(function (err, customer) {
                 if (err) {
                     return next(err);
                 }
                 responseArray.push(customer.personalAppointments);
+                responseArray.push(customer.businessAppointments)
                 res.json(responseArray);
             });
         }else{
@@ -299,8 +301,16 @@ router.get('/user/dashboard', auth, function (req, res, next) {
                 if (error) {
                     return businessCallback(error);
                 }
-                updatedBusinesses.push(response);
-                businessCallback();
+                Service.populate(response.services, {
+                    path: 'employees',
+                    select: '_id name avatarVersion availability'
+                }, function (err, newBusiness) {
+                    if (err) {
+                        return businessCallback(err);
+                    }
+                    updatedBusinesses.push(response);
+                    businessCallback();
+                });
             });
         }, function (err) {
             if (err) {
@@ -499,7 +509,9 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
     appointment.businessId = req.body.businessId;
     appointment.employee = req.body.employee;
-    appointment.customer = req.payload._id;
+
+    appointment.customer = req.body.customer;
+
     appointment.service = req.body.service;
     appointment.start = req.body.start;
     appointment.end = req.body.end;
@@ -553,22 +565,25 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        User.findOne({'_id': appointment.customer}).populate({
-            path: 'businessAppointments personalAppointments',
-            match: {'start.date': appointment.start.date}
-        }).exec(function (err, user) {
-            if (err) {
-                return next(err);
-            }
-            validateAppointment(appointment, user.businessAppointments);
-            validateAppointment(appointment, user.personalAppointments);
-            user.personalAppointments.push(appointment);
-            user.save(function (err, response) {
+
+        if(appointment.customer !== ""){
+            User.findOne({'_id': appointment.customer}).populate({
+                path: 'businessAppointments personalAppointments',
+                match: {'start.date': appointment.start.date}
+            }).exec(function (err, user) {
                 if (err) {
                     return next(err);
                 }
+                validateAppointment(appointment, user.businessAppointments);
+                validateAppointment(appointment, user.personalAppointments);
+                user.personalAppointments.push(appointment);
+                user.save(function (err, response) {
+                    if (err) {
+                        return next(err);
+                    }
+                });
             });
-        });
+        }
         io.sockets.in(room).emit('update');
         res.status(200).json({message: 'Success!'});
     });
@@ -597,8 +612,6 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
 
     var businessId = req.body.businessId;
-
-    console.log(businessId);
 
     if (req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
