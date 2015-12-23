@@ -55,11 +55,11 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand page-scroll" ng-click="showSearch(false)" href="/">
-                <i style="color:white;" class="fa fa-2x fa-calendar"></i>
-                <span style="color:white;font-size:25px;">Book'd</span>
+                <i  class="fa fa-2x fa-calendar"></i>
+                <span style="font-size:25px;">Book'd</span>
             </a>
         </div>
-        <form ng-if="show" class="navbar-form hidden-md hidden-sm hidden-xs">
+        <form ng-if="show" class="navbar-form hidden-sm hidden-xs">
             <div class="row text-center form-inline form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-building"></i>
@@ -105,11 +105,11 @@
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>
-                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites">
-                        <i class="fa fa-bookmark"></i> Favorites
-                    </a>
-                </li>
+                <!--<li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">-->
+                    <!--<a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites">-->
+                        <!--<i class="fa fa-bookmark"></i> Favorites-->
+                    <!--</a>-->
+                <!--</li>-->
                 <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"  href="/dashboard">
                         <i class="fa fa-tachometer"></i> Dashboard
@@ -175,11 +175,11 @@
                                     <i class="fa fa-calendar"></i> Calendar
                                 </a>
                             </li>
-                            <li>
-                                <a href="/favorites" ng-click="showSearch(false)">
-                                    <i class="fa fa-bookmark"></i> Favorites
-                                </a>
-                            </li>
+                            <!--<li>-->
+                                <!--<a href="/favorites" ng-click="showSearch(false)">-->
+                                    <!--<i class="fa fa-bookmark"></i> Favorites-->
+                                <!--</a>-->
+                            <!--</li>-->
                             <li>
                                 <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)" href="/dashboard">
                                     <i class="fa fa-tachometer"></i> Dashboard
