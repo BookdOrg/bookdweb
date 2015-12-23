@@ -173,7 +173,6 @@ router.get('/user/appointments', auth, function (req, res, next) {
     if(personal){
         var userId = req.payload._id;
     }
-
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments',
         match: {'start.date': startDate}
