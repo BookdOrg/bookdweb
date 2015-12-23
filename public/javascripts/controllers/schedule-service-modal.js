@@ -279,6 +279,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.appointment.card = token.card;
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
+                socketService.emit('timeDestroyed', $scope.activeTime);
                 if(personal){
                     userFactory.getUserAppts().then(
                         function (data) {
@@ -295,6 +296,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
              .then(function(data){
+                socketService.emit('timeDestroyed', $scope.activeTime);
                  $uibModalInstance.close();
              });
 

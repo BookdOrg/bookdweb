@@ -21,9 +21,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $controller('NavCtrl', {$scope: navViewModel});
     $scope.scheduleAppointment = function (type, state,service) {
         if (!auth.isLoggedIn()) {
-            navViewModel.open(type, state,service);
+            navViewModel.open(type, state);
         } else {
-            $scope.openService('lg',true);
+            $scope.openService('lg',true,service);
         }
 
     };
@@ -149,9 +149,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
             });
     };
 
-    //$scope.setService = function (service) {
-    //    businessFactory.service = service;
-    //};
 
     $scope.toggleAnimation = function () {
         $scope.animationsEnabled = !$scope.animationsEnabled;
