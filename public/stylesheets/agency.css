@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-default .navbar-brand {
-    color: white;
+    color: black;
     font-family: "Kaushan Script", "Helvetica Neue", Helvetica, Arial, cursive
 }
 
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     font-weight: 400;
     letter-spacing: 1px;
-    color: #fff
+    color: black;
 }
 
 .navbar-default .nav li a:hover, .navbar-default .nav li a:focus {
@@ -191,14 +191,18 @@ h1, h2, h3, h4, h5, h6 {
         background-color: #222;
         padding: 10px 0
     }
+    .navbar-default.navbar-shrink .nav li a {
+        color:white;
+    }
 
     .navbar-default.navbar-shrink .navbar-brand {
+        color:white;
         font-size: 1.5em
     }
 }
 
 header {
-    background-image: url(../images/header-bg.jpg);
+    background-image: url(../images/header-test.jpg);
     background-repeat: none;
     background-attachment: scroll;
     background-position: center center;
@@ -207,7 +211,7 @@ header {
     background-size: cover;
     -o-background-size: cover;
     text-align: center;
-    color: #fff
+    color: black
 }
 
 header .intro-text {
