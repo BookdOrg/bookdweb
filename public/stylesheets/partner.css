@@ -7,7 +7,7 @@
 #pricing table {
     margin: 40px 0;
     width: 100%;
-    border-top: 1px solid #0000ff;
+    /*border-top: 1px solid #0000ff;*/
 }
 
 #pricing th {
@@ -17,6 +17,7 @@
 
 #pricing table tr .column-first {
     padding: 10px;
+    /*color:white;*/
 }
 
 #pricing table tr .column-second {
