@@ -44,6 +44,7 @@
                             </div>
                         </div>
                     </div>
+                </uib-accordion-group>
             </uib-accordion>
         </div>
         <div class="col-xs-6 col-sm-4">
@@ -55,6 +56,9 @@
                            ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
                     </uib-accordion-heading>
                     <div class="col-xs-12">
+                        <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
+                            <p>Add your First Associate!</p>
+                        </div>
                         <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                             <li>{{associate.name}}
                                 <button class="btn btn-danger pull-right"
@@ -70,6 +74,7 @@
                             </button>
                         </div>
                     </div>
+                </uib-accordion-group>
             </uib-accordion>
         </div>
         <div class="col-xs-6 col-sm-4">
@@ -81,6 +86,9 @@
                            ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                     </uib-accordion-heading>
                     <div class="col-xs-12">
+                        <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
+                            <p>Add your First Service!</p>
+                        </div>
                         <div ng-repeat="service in activeBusiness.business.services track by $index"
                              style="height:50px;">
                             <li>{{service.name}}
@@ -102,6 +110,7 @@
                             </button>
                         </div>
                     </div>
+                </uib-accordion-group>
             </uib-accordion>
         </div>
     </div>

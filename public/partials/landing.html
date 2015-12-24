@@ -72,7 +72,7 @@
         </div>
     </div>
 </section>
-<section class="bg-primary" id="about">
+<section class="bg-primary" id="about" ng-show="!currentUser.user">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
@@ -80,7 +80,7 @@
                 <hr class="light">
                 <p class="text-faded">Appointment booking should be easy, let us handle the work. Open the app, pick a
                     business, book an appointment. It's that easy.</p>
-                <a ng-show="!currentUser.user" ng-click="openSignup('signup','landing')" class="btn sectionBtn btn-xl">Get Started!</a>
+                <a ng-click="openSignup('signup','landing')" class="btn sectionBtn btn-xl">Get Started!</a>
             </div>
         </div>
     </div>
@@ -452,14 +452,14 @@
                 <span class="copyright">Copyright &copy; Book'd 2015</span>
             </div>
             <div class="col-md-4">
-                <ul class="list-inline social-buttons">
-                    <li><a href="#"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                </ul>
+                <!--<ul class="list-inline social-buttons">-->
+                    <!--<li><a href="#"><i class="fa fa-twitter"></i></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#"><i class="fa fa-facebook"></i></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#"><i class="fa fa-linkedin"></i></a>-->
+                    <!--</li>-->
+                <!--</ul>-->
             </div>
             <div class="col-md-4">
                 <ul class="list-inline quicklinks">

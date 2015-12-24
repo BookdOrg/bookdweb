@@ -135,28 +135,30 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         });
         for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
             for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++) {
-                for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
+                if(weekDay == $scope.employee.availability[availableDaysIndex].day){
+                    for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
 
-                    var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
-                    var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
+                        var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
+                        var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
 
-                    var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
-                    var gapStartTime = moment(formattedStart, 'hh:mm a');
+                        var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+                        var gapStartTime = moment(formattedStart, 'hh:mm a');
 
-                    var decreasedTime = moment(formattedEnd, 'hh:mm a');
+                        var decreasedTime = moment(formattedEnd, 'hh:mm a');
 
-                    var gapEndTime = moment(formattedEnd, 'hh:mm a');
-                    var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
+                        var gapEndTime = moment(formattedEnd, 'hh:mm a');
+                        var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
 
-                    if (availableTime.isSame(gapStartTime)) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
-                    if (availableTime.isBetween(gapStartTime, gapEndTime, 'minute')) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
+                        if (availableTime.isSame(gapStartTime)) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
+                        if (availableTime.isBetween(gapStartTime, gapEndTime, 'minute')) {
+                            $scope.availableTimes[availableTimesIndex].available = false;
+                        }
 
-                    if (gapStartTime.isSame(subtractedTime)) {
-                        $scope.availableTimes[availableTimesIndex - 1].available = false;
+                        if (gapStartTime.isSame(subtractedTime)) {
+                            $scope.availableTimes[availableTimesIndex - 1].available = false;
+                        }
                     }
                 }
             }
