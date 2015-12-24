@@ -1,21 +1,36 @@
-module.exports = function ($scope, businessFactory, $controller,$rootScope) {
+module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap) {
     $scope.businesses = businessFactory.businesses;
 
-    var vm = this;
-    vm.positions = [];
-
+    //var $scope = this;
+    $scope.positions = [];
+    var bounds = new google.maps.LatLngBounds();
     var generateMarkers = function(businesses) {
-        vm.positions = [];
-        var numMarkers = businesses.length;
-        for (var i = 0; i < numMarkers; i++) {
+        $scope.positions = [];
+        for (var i = 0; i < businesses.length; i++) {
             var lat = businesses[i].geometry.location.lat;
             var lng = businesses[i].geometry.location.lng;
-            $scope.center = businesses[i].geometry.location.lat+','+businesses[i].geometry.location.lng;
-            vm.positions.push({lat:lat, lng:lng});
+            var tempArray = [lat,lng];
+            $scope.positions.push(tempArray);
         }
-        console.log("vm.positions", vm.positions);
+        for (var boundsIndex=0; i<$scope.positions.length; boundsIndex++) {
+            var latlng = new google.maps.LatLng($scope.positions[boundsIndex][0], $scope.positions[boundsIndex][1]);
+            bounds.extend(latlng);
+        }
+        //TODO get the bounds to work!
+        //NgMap.getMap().then(function(map) {
+        //    map.setCenter(bounds.getCenter());
+        //    map.fitBounds(bounds);
+        //});
+        //console.log("$scope.positions", $scope.positions);
     };
-    generateMarkers($scope.businesses);
+
+    $scope.$watchCollection('businesses',function(newVal,oldVal){
+        if(newVal !== oldVal){
+            generateMarkers(newVal);
+        }
+    });
+
+
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
 
