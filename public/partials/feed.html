@@ -51,7 +51,7 @@
         <div class="col col-md-7" style="padding:0" ng-if="center">
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
                 <!--<marker position="{{center}}"></marker>-->
-                <marker position="{{center}}" icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"></marker>
+                <marker position="{{center}}" icon="/images/currLocationIcon.png"></marker>
                 <marker ng-repeat="pos in positions" position="{{pos}}"></marker>
             </ng-map>
         </div>
