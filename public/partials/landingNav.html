@@ -20,7 +20,7 @@
                     <a href="#page-top"></a>
                 </li>
                 <li style="border:1px solid black;margin-right:50px;">
-                    <a class="page-scroll" href="/partner" ng-if="forBusiness">Book'd Businesses</a>
+                    <a ng-hide="isLoggedIn()" class="page-scroll" href="/partner" ng-if="forBusiness">Book'd Businesses</a>
                     <a class="page-scroll" href="/" ng-if="!forBusiness">Customers</a>
                 </li>
                 <!--<li>-->
@@ -34,6 +34,11 @@
                 </li>
                 <li ng-hide="isLoggedIn()">
                     <a href="" ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a>
+                </li>
+                <li ng-hide="!isLoggedIn()">
+                    <a href="/feed">
+                        <i class="fa fa-home"></i> Home
+                    </a>
                 </li>
                 <li ng-hide="!isLoggedIn()">
                     <a ng-click="logOut()">
