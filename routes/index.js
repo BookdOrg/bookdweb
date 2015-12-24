@@ -609,8 +609,8 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
 
     var businessId = req.body.businessId;
-
-    if (req.body.customer == req.payload._id) {
+    console.log(req.body.customer);
+    if (req.body.customer && req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
                 return next(err);
@@ -644,7 +644,9 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            appointment.status = 'pending';
+            if(req.body.customer){
+                appointment.status = 'pending';
+            }
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
             appointment.save(function (err, response) {
@@ -652,40 +654,46 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     return next(err);
                 }
             });
-            User.findOne({'_id': req.body.employee}).exec(function (err, user) {
-                if (err) {
-                    return next(err);
-                }
-                user.businessAppointments.pull({_id: appointment._id});
-                user.save(function (err, user) {
+            if(req.body.customer){
+                User.findOne({'_id': req.body.employee}).exec(function (err, user) {
                     if (err) {
                         return next(err);
                     }
-                });
+                    user.businessAppointments.pull({_id: appointment._id});
+                    user.save(function (err, user) {
+                        if (err) {
+                            return next(err);
+                        }
+                    });
 
-            });
-            User.findOne({'_id': req.body.customer}).exec(function (err, user) {
-                if (err) {
-                    return next(err);
-                }
-                //user.personalAppointments.pull({_id:appointment._id});
-                //TODO notify the user that the employee has requested to reschedule
-                var notification = {
-                    'title': 'Appointment Reschedule Requested',
-                    'appointment': appointment,
-                    'proposed': {
-                        'proposedStart': updatedAppointmentStart,
-                        'proposedEnd': updatedAppointmentEnd
-                    }
-                };
-                //user.notifications.push(notification);
-                user.save(function (err, user) {
+                });
+            }
+            if(req.body.customer){
+                User.findOne({'_id': req.body.customer}).exec(function (err, user) {
                     if (err) {
                         return next(err);
                     }
-                    res.status(200).json({message: 'Success'});
+                    //user.personalAppointments.pull({_id:appointment._id});
+                    //TODO notify the user that the employee has requested to reschedule
+                    var notification = {
+                        'title': 'Appointment Reschedule Requested',
+                        'appointment': appointment,
+                        'proposed': {
+                            'proposedStart': updatedAppointmentStart,
+                            'proposedEnd': updatedAppointmentEnd
+                        }
+                    };
+                    //user.notifications.push(notification);
+                    user.save(function (err, user) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.status(200).json({message: 'Success'});
+                    });
                 });
-            });
+            }else{
+                res.status(200).json({message: 'Success'});
+            }
         });
     }
 
