@@ -9,7 +9,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
      */
     $scope.create = function (id) {
         var business = businessInfo;
-        //The employee object being sent to the backend
+        /**
+         * The employee object being sent to the backend
+         *
+         * businessId is used to find the business to add the employee to
+         */
         var newEmployee = {
             businessId: businessInfo._id,
             employeeId: id
@@ -19,6 +23,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
                 //Let the server know that a user has been set as an employee
                 socketService.emit('isEmployee', newEmployee.employeeId);
             });
+        /**
+         * Close the modal instance and return the businessID
+         *
+         */
         $uibModalInstance.close(businessInfo._id);
     };
     //TODO come back to integrating profile pictures

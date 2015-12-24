@@ -195,7 +195,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     $scope.cancel = function () {
         $uibModalInstance.dismiss('close');
     };
-
+    /**
+     * Function to get a users appointments after they have successfully logged in
+     *
+     */
     var getAppointments = function () {
         userFactory.getUserAppts().then(
             function (data) {

@@ -46,7 +46,7 @@
                 <h1>Services</h1>
             </div>
             <div class="col-xs-1" ng-show="editMode">
-                <button ng-click="open()" class="btn btn-success btn-default">New Service</button>
+                <button ng-click="openAddServiceModal()" class="btn btn-success btn-default">New Service</button>
             </div>
         </div>
 
@@ -60,9 +60,9 @@
                             <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
                                     class="fa fa-cog"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a ng-click="editService(service, $index)" href="#"><i
+                                <li><a ng-click="openEditServiceModal(service, $index)" href="#"><i
                                         class="fa fa-pencil fa-fw"></i> Edit</a></li>
-                                <li><a href="#" ng-click="removeService(service,$index)"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                                <li><a href="#" ng-click="openRemoveServiceModal(service,$index)"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
         </span>
             </div>
             <div class="col-xs-1" ng-show="editMode">
-                <button ng-click="openEmployee(business.info)" class="btn btn-success">Add Associate</button>
+                <button ng-click="openAddEmployeeModal(business.info)" class="btn btn-success">Add Associate</button>
             </div>
         </div>
         <div class="row">
@@ -108,7 +108,7 @@
             <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
                 <div class="row">
                     <div ng-show="editMode" class="adjustMargins pull-right">
-                        <button class="close" ng-click="removeEmployee(employee,business.info)"><i
+                        <button class="close" ng-click="openRemoveEmployeeModal(employee,business.info)"><i
                                 class="fa fa-trash-o text-danger"></i></button>
                     </div>
                 </div>

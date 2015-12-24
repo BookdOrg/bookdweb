@@ -143,11 +143,12 @@ io.on('connection', function (socket) {
                     //TODO send the socket error back to the client
                     //return next(err);
                 }
+                console.log(response);
                 io.sockets.in(data).emit('clientUpdate', {token: user.generateJWT()});
-                if (socket.rooms.indexOf(data) >= 0) {
-                    console.log('here')
-
-                }
+                //if (socket.rooms.indexOf(data) >= 0) {
+                //    console.log('here')
+                //
+                //}
             });
 
         });

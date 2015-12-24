@@ -211,8 +211,8 @@ app.config([
                     }
                 }
             })
-            .state('appointments', {
-                url: '/appointments',
+            .state('calendar', {
+                url: '/calendar',
                 views: {
                     'nav': {
                         templateUrl: '/partials/bookdNav.html',
@@ -220,7 +220,7 @@ app.config([
                     },
                     'content':{
                         templateUrl: '/partials/appointments.html',
-                        controller: 'appointmentsCtrl'
+                        controller: 'calendarCtrl'
                     }
                 },
                 resolve: {

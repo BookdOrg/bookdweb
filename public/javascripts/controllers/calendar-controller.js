@@ -2,20 +2,28 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout) {
-
+    //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    $scope.changeTo = 'Hungarian';
-    /* event source that pulls from google.com */
-    /* event source that contains custom events on the scope */
-
+    /**
+     * Define the three types of events that will be displayed on the calendar
+     *
+     * @type {Array}
+     */
     $scope.personalEvents = [];
     $scope.associateEvents = [];
     $scope.pendingEvents = [];
+    /**
+     *
+     * Populate the event types based on the appointments of the current users,
+     * loop through each appointment type, personal and business. Push the event object
+     * title,start,end,appointment into the correct event type array.
+     *
+     */
     var createEventsSources = function () {
         for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.personalAppointments.length; appointmentIndex++) {
             var tempObj = {
@@ -42,7 +50,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             }
         }
     };
-
+    /**
+     *
+     * The events sources that will be passed to the calendar,
+     * configuration for what properties events of each type will have
+     * when they are displayed
+     *
+     * @type {{events: Array}}
+     */
     $scope.eventsPersonalSource = {
         //color:'#00',
         //textColor:'blue',
@@ -58,6 +73,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         events: $scope.pendingEvents
     };
 
+    /**
+     * Opens the edit Appointment modal, for editing appointments
+     *
+     * @param size - String - size of the modal to open
+     * @param data - Object - the appointment to be edited
+     * @param type - Boolean - is the appointment being edited by the user who's appointment it is or an employee/business owner
+     */
     $scope.open = function (size, data,type) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -75,9 +97,12 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 }
             }
         });
-        //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
-        //TODO you did this on dashboard page-- figure it out here.
-        modalInstance.result.then(function (appointment) {
+        /**
+         * Once the modal instance as been closed, we remove all events from the calendar
+         * and then render the calendar again with the updated events.
+         *
+         */
+        modalInstance.result.then(function () {
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             $scope.viewRender();
         }, function () {
@@ -147,7 +172,16 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         });
         $compile(element)($scope);
     };
-
+    /**
+     *
+     * Renders the view whenever actions on the calendar are taken
+     * i.e. switching between days/months. Whenever this happens we make
+     * a call for the users appointments.
+     *
+     * @param view
+     * @param element
+     */
+    //TODO cache the appointments and only make the calls as needed
     $scope.viewRender = function(view,element){
         userFactory.getUserAppts()
             .then(function(data){
@@ -156,7 +190,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             });
 
     };
-    /* config object */
+    /* Calendar config object */
     $scope.uiConfig = {
         calendar: {
             height: 500,
@@ -176,8 +210,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     };
 
     $scope.calendars = uiCalendarConfig.calendars;
+    //Creates the eventsSources array that the calendar will display, initialize it with the values created earlier
     $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
-
+    /**
+     * Allows employee to add a break on a given day
+     *
+     * @param day - the day of the week that the day should be created on
+     */
     $scope.addBreak = function (day) {
         var gap = {
             start: moment().hour(12).minute(0).format(),
@@ -185,15 +224,29 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         };
         day.gaps.push(gap);
     };
-
+    /**
+     *
+     * Configuration for the time picker object in the employee schedule section.
+     *
+     * @type {number}
+     */
     $scope.hstep = 1;
     $scope.mstep = 15;
     $scope.ismeridian = true;
     $scope.toggleMode = function () {
         $scope.ismeridian = !$scope.ismeridian;
     };
-
+    /**
+     * Flag for the update availability spinner
+     * @type {boolean}
+     */
     $scope.showDone = false;
+
+    /**
+     * Send the availability object to the backend so the users available times can be updated.
+     *
+     * @param availability - Object containing the hours for a given employee for each day of the week and for breaks
+     */
     $scope.updateAvailability = function (availability) {
         $scope.showLoading = true;
         userFactory.updateAvailability(availability)

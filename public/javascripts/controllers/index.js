@@ -2,11 +2,11 @@
 var app = require('angular').module('cc');
 
 app.controller('AccountCtrl', require('./account-controller'));
-app.controller('appointmentsCtrl', require('./appointments-controller'));
+app.controller('calendarCtrl', require('./calendar-controller'));
 app.controller('editAppointmentModalCtrl', require('./edit-appointment-modal'));
 app.controller('AuthCtrl', require('./auth-controller'));
 app.controller('businessCtrl', require('./business-controller'));
-app.controller('scheduleServiceModalCtrl', require('./schedule-service-modal'));
+app.controller('scheduleAppointmentModalCtrl', require('./schedule-appointment-modal'));
 app.controller('addServiceModalCtrl', require('./add-service-modal'));
 app.controller('editServiceModalCtrl', require('./edit-service-modal'));
 app.controller('addEmployeeModalCtrl', require('./add-employee-modal'));
