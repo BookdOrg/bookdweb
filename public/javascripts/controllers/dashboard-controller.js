@@ -112,7 +112,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
     };
 
-    $scope.open = function () {
+    $scope.newService = function () {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/addServiceModal.html',

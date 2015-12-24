@@ -6,7 +6,11 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $rootScope.show = false;
 
     $scope.animationEnabled = true;
-
+    if($state.current.name == 'landing'){
+        $scope.forBusiness =true;
+    }else{
+        $scope.forBusiness =false;
+    }
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();

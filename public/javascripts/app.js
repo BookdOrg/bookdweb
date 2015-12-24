@@ -42,13 +42,30 @@ app.config([
         $stateProvider
             .state('landing', {
                 url: '/',
-                templateUrl: 'partials/landing.html',
-                controller: 'LandingCtrl'
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/landing.html',
+                        controller: 'LandingCtrl'
+                    }
+                }
             })
             .state('feed', {
                 url: '/feed',
-                templateUrl: 'partials/feed.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/feed.html',
+                        controller: 'MainCtrl'
+                    }
+                }
                 //resolve: {
                 //    isAuthenticated: function ($state, $q, auth) {
                 //        var redirect = false;
@@ -64,8 +81,16 @@ app.config([
             })
             .state('business', {
                 url: '/business/{businessid}',
-                templateUrl: 'partials/business.html',
-                controller: 'businessCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/business.html',
+                        controller: 'businessCtrl'
+                    }
+                },
                 resolve: {
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                         return businessFactory.getBusiness($stateParams.businessid);
@@ -84,8 +109,16 @@ app.config([
             })
             .state('user', {
                 url: '/user/:id/profile',
-                templateUrl: 'partials/profile.html',
-                controller: 'ProfileCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/profile.html',
+                        controller: 'ProfileCtrl'
+                    }
+                },
                 resolve: {
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
@@ -101,8 +134,16 @@ app.config([
             })
             .state('account', {
                 url: '/user/:id/account',
-                templateUrl: 'partials/account.html',
-                controller: 'AccountCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/account.html',
+                        controller: 'AccountCtrl'
+                    }
+                },
                 resolve: {
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
@@ -118,30 +159,30 @@ app.config([
             })
             .state('partner', {
                 url: '/partner',
-                templateUrl: 'partials/partner.html',
-                controller: 'NavCtrl as NavCtrl'
-            })
-            .state('admin', {
-                url: '/admin',
-                templateUrl: 'partials/admin.html',
-                controller: 'AdminCtrl',
-                resolve: {
-                    isAuthenticated: function ($state, $q, auth) {
-                        var redirect = false;
-                        if (!auth.isLoggedIn()) {
-                            redirect = true;
-                            return $q.reject({
-                                state: 'error'
-                            });
-                        }
-                        return redirect;
+                controller: 'NavCtrl as NavCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/partner.html',
+                        controller: 'NavCtrl'
                     }
                 }
             })
             .state('dashboard', {
                 url: '/dashboard',
-                templateUrl: 'partials/dashboard.html',
-                controller: 'dashboardCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/dashboard.html',
+                        controller: 'dashboardCtrl'
+                    }
+                },
                 resolve: {
                     businesses: ['userFactory', function (userFactory) {
                         return userFactory.getDashboard();
@@ -160,12 +201,28 @@ app.config([
             })
             .state('favorites', {
                 url: '/favorites',
-                templateUrl: 'partials/favorites.html'
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/favorites.html',
+                    }
+                }
             })
             .state('appointments', {
                 url: '/appointments',
-                templateUrl: 'partials/appointments.html',
-                controller: 'appointmentsCtrl',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/appointments.html',
+                        controller: 'appointmentsCtrl'
+                    }
+                },
                 resolve: {
                     //appointments: ['userFactory', function (userFactory) {
                     //    return userFactory.getUserAppts();
@@ -184,8 +241,16 @@ app.config([
             })
             .state('search', {
                 url: '/join',
-                templateUrl: 'partials/search.html',
-                controller: 'searchCtrl'
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/bookdNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content':{
+                        templateUrl: '/partials/search.html',
+                        controller: 'searchCtrl'
+                    }
+                }
             })
             .state('about', {
                 url: '/about',
@@ -207,6 +272,11 @@ app.config([
             $templateCache.remove(current.templateUrl);
         }
     });
+    if($state.current.name === 'landing'){
+        $rootScope.showLandingNav =true;
+    }else{
+        $rootScope.showLandingNav =false;
+    }
     $rootScope.$on('$stateChangeError', function (event, toState, toStateParams,
                                                   fromState, fromStateParams, error) {
 

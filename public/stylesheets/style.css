@@ -180,6 +180,7 @@ span.tab-space {
 }
 
 .left-inner-addon i {
+    color:black;
     position: absolute;
     padding: 10px 10px;
     pointer-events: none;
@@ -367,10 +368,6 @@ img::selection {
 img::-moz-selection {
     color: #fff;
     background: 0 0;
-}
-
-.YCbtn a {
-    color: #f26522;
 }
 timer span{
     color:red;

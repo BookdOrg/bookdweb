@@ -6,12 +6,11 @@
     float: none;
     display: inline-block;
 }
-
 .navbar {
     background-color:transparent;
     margin-bottom: 0;
 }
-.navbar-default {
+.navbar-static-top {
     border-color: rgba(34,34,34,.05);
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
     background-color: #337ab7;
@@ -20,20 +19,20 @@
     transition: all .35s;
 }
 
-.navbar-default .navbar-header .navbar-brand {
+.navbar-static-top .navbar-header .navbar-brand {
     /*text-transform: uppercase;*/
     font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
     font-weight: 300;
     /*color: #78bbee;*/
 }
 
-.navbar-default .navbar-header .navbar-brand:hover,
-.navbar-default .navbar-header .navbar-brand:focus {
+.navbar-static-top .navbar-header .navbar-brand:hover,
+.navbar-static-top .navbar-header .navbar-brand:focus {
     color: #ffffff;
 }
 
-.navbar-default .nav > li>a,
-.navbar-default .nav>li>a:focus {
+.navbar-static-top .nav > li>a,
+.navbar-static-top .nav>li>a:focus {
     /*text-transform: uppercase;*/
     font-size: 14px;
     font-weight: 200;
@@ -41,78 +40,78 @@
     text-align: center;
 }
 
-.navbar-default ul.nav hr {
+.navbar-static-top ul.nav hr {
     border-color: #ffffff;
 }
 
-.navbar-default .nav > li>a:hover,
-.navbar-default .nav>li>a:focus:hover {
+.navbar-static-top .nav > li>a:hover,
+.navbar-static-top .nav>li>a:focus:hover {
     color: #333;
 }
 
-.navbar-default .nav > li.active>a,
-.navbar-default .nav>li.active>a:focus {
+.navbar-static-top .nav > li.active>a,
+.navbar-static-top .nav>li.active>a:focus {
     color: #ffffff;
     background-color: transparent;
 }
 
-.navbar-default .nav > li.active>a:hover,
-.navbar-default .nav>li.active>a:focus:hover {
+.navbar-static-top .nav > li.active>a:hover,
+.navbar-static-top .nav>li.active>a:focus:hover {
     background-color: transparent;
 }
 @media(min-width:768px) {
-    .navbar-default {
+    .navbar-static-top {
         background-color: #337ab7;
         border-color: rgba(255,255,255,.3);
         /*background-color: transparent;*/
     }
 
-    .navbar-default .navbar-header .navbar-brand {
+    .navbar-static-top .navbar-header .navbar-brand {
         color: #ffffff;
         /*color: rgba(255,255,255,.7);*/
     }
 
-    .navbar-default .navbar-header .navbar-brand:hover,
-    .navbar-default .navbar-header .navbar-brand:focus {
+    .navbar-static-top .navbar-header .navbar-brand:hover,
+    .navbar-static-top .navbar-header .navbar-brand:focus {
         color: #f05f40;
     }
 
-    .navbar-default .nav > li>a,
-    .navbar-default .nav>li>a:focus {
-    /*color: rgba(255,255,255,.7);*/
+    .navbar-static-top .nav > li>a,
+    .navbar-static-top .nav>li>a:focus {
+        /*color: rgba(255,255,255,.7);*/
     }
 
-    .navbar-default .nav > li>a:hover,
-    .navbar-default .nav>li>a:focus:hover {
-    color: #fff;
+    .navbar-static-top .nav > li>a:hover,
+    .navbar-static-top .nav>li>a:focus:hover {
+        color: #fff;
     }
 
-    .navbar-default.affix {
+    .navbar-static-top.affix {
         border-color: rgba(34,34,34,.05);
         background-color: #fff;
     }
 
-    .navbar-default.affix .navbar-header .navbar-brand {
+    .navbar-static-top.affix .navbar-header .navbar-brand {
         font-size: 14px;
         color: #ffffff;
     }
 
-    .navbar-default.affix .navbar-header .navbar-brand:hover,
-    .navbar-default.affix .navbar-header .navbar-brand:focus {
+    .navbar-static-top.affix .navbar-header .navbar-brand:hover,
+    .navbar-static-top.affix .navbar-header .navbar-brand:focus {
         color: #ffffff;
     }
 
-    .navbar-default.affix .nav > li>a,
-    .navbar-default.affix .nav>li>a:focus {
+    .navbar-static-top.affix .nav > li>a,
+    .navbar-static-top.affix .nav>li>a:focus {
         color: #ffffff;
     }
 
-    .navbar-default ul.nav hr {
+    .navbar-static-top ul.nav hr {
         border-color: #337ab7;
     }
 
-    .navbar-default .nav > li>a:hover,
-    .navbar-default .nav>li>a:focus:hover {
+    .navbar-static-top .nav > li>a:hover,
+    .navbar-static-top .nav>li>a:focus:hover {
         color: #f05f40;
     }
 }
@@ -121,35 +120,35 @@
     border-bottom: none;
 }
 
-.navbar-default .navbar .nav > li > a {
+.navbar-static-top .navbar .nav > li > a {
     color: #ffffff;
 }
 
-.navbar-default .navbar .nav > li > a:hover {
+.navbar-static-top .navbar .nav > li > a:hover {
     color: #fff;
     background-color: #f05f40;
 }
 
-.navbar-default .navbar .nav .active > a, .navbar .nav .active > a:hover {
+.navbar-static-top .navbar .nav .active > a, .navbar .nav .active > a:hover {
     color: #fff;
     background-color: #f05f40;
 }
 
-.navbar-default .navbar .nav li > a .caret, .tnav .navbar .nav li > a:hover .caret {
+.navbar-static-top .navbar .nav li > a .caret, .tnav .navbar .nav li > a:hover .caret {
     border-top-color: #fff;
     border-bottom-color: #fff;
 }
 
-.navbar-default .navbar .nav > li.dropdown.open.active > a:hover {
+.navbar-static-top .navbar .nav > li.dropdown.open.active > a:hover {
 }
 
-.navbar-default .navbar .nav > li.dropdown.open > a {
+.navbar-static-top .navbar .nav > li.dropdown.open > a {
     color: #fff;
     background-color: #f05f40;
     border-color: #fff;
 }
 
-.navbar-default .navbar .nav > li.dropdown.open.active > a:hover .caret, .tnav .navbar .nav > li.dropdown.open > a .caret {
+.navbar-static-top .navbar .nav > li.dropdown.open.active > a:hover .caret, .tnav .navbar .nav > li.dropdown.open > a .caret {
     border-top-color: #fff;
 }
 .navbarAvatar{
@@ -184,6 +183,6 @@
     line-height: 28px;
 }
 
-.navbar-default .navbar-toggle .icon-bar {
+.navbar-static-top .navbar-toggle .icon-bar {
     background-color: #ffffff;
 }
