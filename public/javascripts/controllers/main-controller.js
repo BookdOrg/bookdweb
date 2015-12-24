@@ -2,7 +2,6 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
     $scope.businesses = businessFactory.businesses;
 
     //var $scope = this;
-    $scope.positions = [];
     var bounds = new google.maps.LatLngBounds();
     var generateMarkers = function(businesses) {
         $scope.positions = [];
@@ -30,6 +29,9 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
         }
     });
 
+    if($scope.businesses.length == 0 && $rootScope.currLocation){
+        $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
+    }
 
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
@@ -37,10 +39,7 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
     navViewModel.showSearch(true);
     $scope.$watch('currLocation',function(newVal,oldVal){
         if(newVal){
-            $scope.position = $rootScope.currLocation;
-            if($scope.businesses.length == 0){
-                $scope.center = $scope.position.latitude + ',' + $scope.position.longitude;
-            }
+            $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
         }
     });
 };
