@@ -6,7 +6,7 @@
 ########################################
 -->
 <div class="container" ng-cloak="">
-    <div class="page-header text-center">
+    <div class="text-center">
         <h1 class='text-center'>{{business.name}}</h1>
 
         <h3 class="text-center">
@@ -22,32 +22,6 @@
 			</span>
         </div>
         <br>
-
-        <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
-                <ng-map class="map-container" center="{{center}}" zoom="16">
-                    <marker position="{{center}}"></marker>
-                </ng-map>
-            </div>
-        </div>
-
-
-        <br>
-        Google Places: <a href="{{business.url}}" target="_blank">{{business.url}}</a>
-        <br>
-        Business Website: <a href="{{business.website}}" target="_blank">{{business.website}}</a>
-        <br>
-        Location: {{business.formatted_address}}
-        <br>
-        Phone: {{business.formatted_phone_number}}
-        <br>
-        Hours:
-			<span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
-	    			<br>{{hours}}
-			</span>
-			<span ng-if="!business.opening_hours">
-	    			No information about {{business.name}}'s hours of operation is available.
-			</span>
     </div>
     <div class="col-xs-offset-11">
         <button class="btn btn-lg" ng-if="currentUser.user._id === business.info.owner" ng-click="toggleEdit()"
@@ -55,122 +29,160 @@
                 ng-show="!editMode">Enable </span><span ng-show="editMode">Disable </span>Edit <i class="fa fa-cog"></i>
         </button>
     </div>
-    <!--
-#########################################
+<uib-tabset>
+    <uib-tab>
+        <uib-tab-heading>
+            <i class="fa fa-calendar"></i> Appointments
+        </uib-tab-heading>
+        <!--
+        #########################################
 
-    Services Block
+        Services Block
 
-########################################
--->
-    <div class="row">
-        <div class="col-xs-2 col-xs-offset-5">
-            <h1>Services</h1>
+        ########################################
+        -->
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-5">
+                <h1>Services</h1>
+            </div>
+            <div class="col-xs-1" ng-show="editMode">
+                <button ng-click="open()" class="btn btn-success btn-default">New Service</button>
+            </div>
         </div>
-        <div class="col-xs-1" ng-show="editMode">
-            <button ng-click="open()" class="btn btn-success btn-default">New Service</button>
-        </div>
-    </div>
 
-    <div class="row text-center">
-        <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
+        <div class="row text-center">
+            <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
 
-        <div class="col-md-3 col-xs-5 col-sm-3 well" ng-repeat="service in business.info.services track by $index">
-            <div class="row">
-                <div ng-show="editMode" class="adjustMargins pull-right">
-                    <div class="btn-group">
-                        <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                class="fa fa-cog"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a ng-click="editService(service, $index)" href="#"><i
-                                    class="fa fa-pencil fa-fw"></i> Edit</a></li>
-                            <li><a href="#" ng-click="removeService(service,$index)"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
-                        </ul>
+            <div class="col-md-3 col-xs-5 col-sm-3 well" ng-repeat="service in business.info.services track by $index">
+                <div class="row">
+                    <div ng-show="editMode" class="adjustMargins pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-warning dropdown-toggle" href="#" data-toggle="dropdown"><i
+                                    class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="editService(service, $index)" href="#"><i
+                                        class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                                <li><a href="#" ng-click="removeService(service,$index)"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <h2>{{service.name}}</h2>
+                <div>
+                    <h2>{{service.name}}</h2>
 
-                <h3>Price:{{service.price | currency}}</h3>
+                    <h3>Price:{{service.price | currency}}</h3>
 
-                <h3>Duration: {{service.duration}} minutes</h3>
+                    <h3>Duration: {{service.duration}} minutes</h3>
 
-                <h3>{{service.description}}</h3>
-            </div>
-            <div>
-                <button class="btn btn-primary text-center btn-lg" ng-click="scheduleAppointment('login','business',service);">Book
-                    <i class="fa fa-calendar"></i></button>
+                    <h3>{{service.description}}</h3>
+                </div>
+                <div>
+                    <button class="btn btn-primary text-center btn-lg" ng-click="scheduleAppointment('login','business',service);">Book
+                        <i class="fa fa-calendar"></i></button>
+                </div>
             </div>
         </div>
-    </div>
-    <!--
-#########################################
+        <!--
+    #########################################
 
-    Employee Block
+        Employee Block
 
-########################################
--->
-    <div class="row">
-        <div class="col-xs-2 col-xs-offset-5">
-            <h1>Associates</h1>
+    ########################################
+    -->
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-5">
+                <h1>Associates</h1>
             <span class="text-center">
             <uib-alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000" close="removeAlert()">
                 {{employeeError.message}}
             </uib-alert>
         </span>
-        </div>
-        <div class="col-xs-1" ng-show="editMode">
-            <button ng-click="openEmployee(business.info)" class="btn btn-success">Add Associate</button>
-        </div>
-    </div>
-    <div class="row">
-        <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed Yet!</h2>
-
-        <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
-            <div class="row">
-                <div ng-show="editMode" class="adjustMargins pull-right">
-                    <button class="close" ng-click="removeEmployee(employee,business.info)"><i
-                            class="fa fa-trash-o text-danger"></i></button>
-                </div>
             </div>
-            <div class="row">
-                <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                <img ng-if="employee.avatarVersion"
-                     ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-
-                <div class="">
-                    <h4><a href="/user/{{employee._id}}/profile">{{employee.name}}</a></h4>
-                </div>
+            <div class="col-xs-1" ng-show="editMode">
+                <button ng-click="openEmployee(business.info)" class="btn btn-success">Add Associate</button>
             </div>
         </div>
-        <div class="row" ng-if="!business.info.employees">
-            <h1 class="text-center">Your business does not have any employee's registered yet.</h1>
+        <div class="row">
+            <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed Yet!</h2>
+
+            <div class="well col-md-3 col-xs-4 text-center" ng-repeat="employee in business.info.employees">
+                <div class="row">
+                    <div ng-show="editMode" class="adjustMargins pull-right">
+                        <button class="close" ng-click="removeEmployee(employee,business.info)"><i
+                                class="fa fa-trash-o text-danger"></i></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
+                    <img ng-if="employee.avatarVersion"
+                         ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+
+                    <div class="">
+                        <h4><a href="/user/{{employee._id}}/profile">{{employee.name}}</a></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="!business.info.employees">
+                <h1 class="text-center">Your business does not have any employee's registered yet.</h1>
+            </div>
         </div>
-    </div>
-    <!--
+    </uib-tab>
+    <uib-tab select="initMap('busLoc')">
+        <uib-tab-heading>
+            <i class="fa fa-info"></i> Info
+        </uib-tab-heading>
+        <div class="row">
+            <div class="col-xs-8" style="margin-top:5px;">
+                <ng-map id="busLoc" class="map-container" center="{{center}}" zoom="16">
+                    <marker position="{{center}}"></marker>
+                </ng-map>
+            </div>
+            <div class="col-xs-4 text-center">
+                <p>
+                    <a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
+                </p>
+                <p>
+                <a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> {{business.website}}</a>
+                </p>
+                <p>Location: {{business.formatted_address}}</p>
+                <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
+                <p>Hours:</p>
+                <span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
+                        <br>{{hours}}
+                </span>
+                <span ng-if="!business.opening_hours">
+                        No information about {{business.name}}'s hours of operation is available.
+                </span>
+            </div>
+        </div>
+    </uib-tab>
+    <uib-tab>
+        <uib-tab-heading>
+            <i class="fa fa-commenting"></i> Reviews
+        </uib-tab-heading>
+        <!--
     #########################################
 
         Reviews Block
 
     ########################################
     -->
-    <div class="row">
-        <h1 class="text-center">Reviews</h1>
-
         <div class="row">
-            <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
+            <h1 class="text-center">Reviews</h1>
 
-            <div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
-                <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
-                <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
-                <br>
-                Rating: {{review.rating}}
-                <br>
-                {{review.text}}
+            <div class="row">
+                <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
+
+                <div class="well col-md-6 col-sm-12 reviewBox" ng-repeat="review in business.reviews track by $index">
+                    <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
+                    <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
+                    <br>
+                    Rating: {{review.rating}}
+                    <br>
+                    {{review.text}}
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 	<div ng-if="!business.info.claimed" class="row text-center">
-            <a href="#/claim/{{business.id}}">Claim Business</a>
-        </div> -->
+    </uib-tab>
+</uib-tabset>
 </div>
