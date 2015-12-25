@@ -86,10 +86,8 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
 
     $scope.removeNotification = function (index) {
 
-        console.log($scope.notifications);
         var viewedNotification = $scope.notifications.splice(index, 1);
         $rootScope.currentUser.user.notifications = $scope.notifications;
-        console.log($scope.notifications);
         notificationFactory.notificationSeen(viewedNotification[0]._id).then(
             function (data) {
 
@@ -99,13 +97,10 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     };
 
     if (auth.isLoggedIn()) {
-        notificationFactory.getAllNotifications().then(
+        notificationFactory.getNewNotifications().then(
             function (data) {
-                // Only update if there are new notifications
-                if ($rootScope.currentUser.user.notifications !== data) {
-                    $rootScope.currentUser.user.notifications = data;
-                    $scope.notifications = $rootScope.currentUser.user.notifications;
-                }
+                $rootScope.currentUser.user.notifications = data;
+                $scope.notifications = $rootScope.currentUser.user.notifications;
             },
             function (err) {
                 console.log(err);

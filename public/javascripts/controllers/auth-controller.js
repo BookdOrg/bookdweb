@@ -204,7 +204,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     };
 
     var getNotifications = function () {
-        notificationFactory.getAllNotifications().then(
+        notificationFactory.getNewNotifications().then(
             function (data) {
                 $rootScope.currentUser.user.notifications = data;
             },

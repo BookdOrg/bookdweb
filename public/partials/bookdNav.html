@@ -122,8 +122,7 @@
 
                     </li>
                     <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()">
-                        <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
-                        <a href="#" uib-dropdown-toggle><i class="fa fa-bell badge">{{filteredNotifications.length}}</i>
+                        <a href="#" uib-dropdown-toggle><i class="fa fa-bell badge">{{notifications.length}}</i>
                         </a>
 
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
@@ -134,7 +133,7 @@
                             <span class="divider"></span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
-                                    ng-repeat="notification in filteredNotifications = (notifications | filter:{viewed: false})">
+                                    ng-repeat="notification in notifications">
                                     <div class="notification-item">
                                         <h5 class="pull-right" ng-click="removeNotification($index)">X</h5>
                                         <h5>{{notification.content}}</h5>

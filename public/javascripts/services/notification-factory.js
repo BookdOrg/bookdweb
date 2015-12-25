@@ -20,7 +20,7 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
-    o.getAllNotifications = function () {
+    o.getNewNotifications = function () {
         return $http.get('/user/notifications', {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {

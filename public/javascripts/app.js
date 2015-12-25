@@ -244,7 +244,7 @@ app.config([
     $rootScope.cloudinaryDefaultPic = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
 
     if (auth.isLoggedIn()) {
-        notificationFactory.getAllNotifications().then(
+        notificationFactory.getNewNotifications().then(
             function (data) {
                 $rootScope.currentUser.user.notifications = data;
             },

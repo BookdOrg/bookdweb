@@ -240,7 +240,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
 
 
 router.get('/user/notifications', auth, function (req, res, next) {
-    Notification.find({'user': req.payload._id}).exec(function (err, notifications) {
+    Notification.find({'user': req.payload._id, 'viewed': false}).exec(function (err, notifications) {
         if (err) {
             return next(err);
         }
