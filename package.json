@@ -5,15 +5,12 @@
   "scripts": {
     "postinstall": "scripts/bower-install.sh",
     "start": "scripts/nodemon.sh",
-    "backend-test": "grunt mochaTest",
-    "frontend-test": "grunt karma"
   },
   "dependencies": {
     "angular": "^1.4.8",
     "angular-cloudinary": "^1.2.2",
     "angular-dropdown-multiselect": "^1.0.1",
     "angular-file-upload": "^2.2.0",
-    "angular-mocks": "^1.4.8",
     "angular-moment": "^0.10.3",
     "angular-payments": "^1.0.7",
     "angular-stripe": "^4.2.8",
@@ -53,6 +50,7 @@
     "socket.io": "1.3.*"
   },
   "devDependencies": {
+    "angular-mocks": "^1.4.8",
     "bower": "^1.6.8",
     "browserify": "^12.0.1",
     "chai": "^3.2.0",
@@ -78,13 +76,13 @@
     "vinyl-buffer": "~1.0.0",
     "vinyl-source-stream": "~1.1.0"
   },
-  "description": "##Build Status## [![Build Status](https://drone.io/bitbucket.org/knb6/bookdweb/status.png)](https://drone.io/bitbucket.org/knb6/bookdweb/latest)",
-  "main": "Gruntfile.js",
+  "description": "Book appointments with ease!",
+  "main": "gulpfile.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/knb6/bookdweb.git"
   },
-  "author": "Khalil Brown",
+  "author": "Khalil Brown, Jonathan Forscher",
   "license": "N/A",
   "homepage": "https://bitbucket.org/knb6/bookdweb#readme"
 }

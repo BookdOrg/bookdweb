@@ -1,10 +1,11 @@
 {
-  "name": "client-connect",
+  "name": "bookd",
   "version": "0.0.0",
   "authors": [
-    "Khalil <khalilnafis@gmail.edu>"
+    "Khalil <khalilnafis@gmail.com>",
+    "Jonathan Forscher <forscherjonathan@gmail.com>"
   ],
-  "license": "none",
+  "license": "N/A",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -16,7 +17,6 @@
     "angular-google-places-autocomplete": "~0.2.7",
     "ngGeolocation": "~0.0.5",
     "oauth-js": "^0.5.0",
-    "wow": "~1.1.2",
     "angular-bootstrap": "~0.14.3",
     "angular-ui-calendar": "latest",
     "angularjs-dropdown-multiselect": "~1.5.2",
