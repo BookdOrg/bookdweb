@@ -74,7 +74,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 employee: function () {
                     return employee;
                 },
-                businessInfo: function () {
+                businessObj: function () {
                     return business;
                 }
             }

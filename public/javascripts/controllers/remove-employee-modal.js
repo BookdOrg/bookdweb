@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessObj, notificationFactory) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessObj) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
