@@ -23,12 +23,6 @@
                     <a ui-sref="partner" ng-if="forBusiness">Book'd Partners</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Customers</a>
                 </li>
-                <!--<li>-->
-                <!--<a class="page-scroll" href="#portfolio">Portfolio</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a class="page-scroll" href="#about">About</a>-->
-                <!--</li>-->
                 <li ng-hide="isLoggedIn()">
                     <a ng-click="checkStateandLogin('login')"><i class="fa fa-sign-in"></i> Log In</a>
                 </li>
@@ -37,7 +31,13 @@
                 </li>
                 <li ng-hide="!isLoggedIn()">
                     <a ui-sref="feed">
-                        <i class="fa fa-home"></i> Home
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                <li ng-hide="!isLoggedIn()">
+                    <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
+                       href="/dashboard">
+                        <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
                 <li ng-hide="!isLoggedIn()">

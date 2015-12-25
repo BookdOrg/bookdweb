@@ -40,12 +40,13 @@
         <div class="uib-collapse navbar-collapse" uib-collapse="navbarCollapsed">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
-                        <i class="fa fa-home"></i> Home
+                    <a ui-sref="feed" ui-sref-active="active"
+                       ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                        <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg">
-                    <a href="/calendar" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                <li class="hidden-sm hidden-md hidden-lg" ui-sref-active="active">
+                    <a ui-sref="calendar" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
                         <i class="fa fa-calendar"></i> Calendar
                     </a>
                 </li>
@@ -61,11 +62,6 @@
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>
-                <!--<li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">-->
-                <!--<a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/favorites">-->
-                <!--<i class="fa fa-bookmark"></i> Favorites-->
-                <!--</a>-->
-                <!--</li>-->
                 <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/dashboard">
                         <i class="fa fa-tachometer"></i> Manage
@@ -167,15 +163,10 @@
                         </a>
                         <ul class="uib-dropdown-menu">
                             <li>
-                                <a href="/calendar" ng-click="showSearch(true)">
+                                <a href="/calendar" ng-click="showSearch(false)">
                                     <i class="fa fa-calendar"></i> Calendar
                                 </a>
                             </li>
-                            <!--<li>-->
-                            <!--<a href="/favorites" ng-click="showSearch(false)">-->
-                            <!--<i class="fa fa-bookmark"></i> Favorites-->
-                            <!--</a>-->
-                            <!--</li>-->
                             <li>
                                 <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
                                    href="/dashboard">
