@@ -5,7 +5,7 @@
  *
  * All Routes under the /business endpoint
  */
-module.exports = function ($http, auth) {
+module.exports = function ($http, auth, $q) {
     var o = {
         categories: [],
         business: {
@@ -216,6 +216,7 @@ module.exports = function ($http, auth) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.business);
+            return data.data;
         }, handleError);
     };
     /**

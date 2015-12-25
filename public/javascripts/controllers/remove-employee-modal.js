@@ -42,11 +42,24 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
             serviceList: associatedServices
         };
 
-        //TODO Put the content string somewhere else so we can reuse it and define the types of notifications somewhere!
-        notificationFactory.addNotification(employee._id, 'You have been removed from the company', 'alert');
+
+        businessFactory.getBusinessInfo(business._id)
+            .then(function (data) {
+                //TODO Put the content string somewhere else so we can reuse it and define the types of notifications somewhere!
+                notificationFactory.addNotification(employee._id, 'You are no longer an employee of ' + data.name + '.', 'alert')
+                    .then(function () {
+
+                    }, function (err) {
+                        console.log(err);
+                    });
+            }, function (err) {
+                console.log(err);
+            });
         businessFactory.removeEmployee(selectedEmployee)
-            .then(function(){
+            .then(function () {
                 $uibModalInstance.close(businessInfo._id);
+            }, function (err) {
+                console.log(err);
             });
 
     };

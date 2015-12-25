@@ -85,26 +85,18 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     };
 
     if (auth.isLoggedIn()) {
-        /**
-         * Check for new notifications every 10 seconds.
-         */
-        $scope.updateNotifications = function () {
-            $timeout(function () {
-                notificationFactory.getAllNotifications().then(
-                    function (data) {
-                        // Only update if there are new notifications
-                        if ($rootScope.currentUser.user.notifications !== data) {
-                            $rootScope.currentUser.user.notifications = data;
-                        }
-                    },
-                    function (err) {
-                        console.log(err);
-                    }
-                );
-            }, 10000);
-        };
-
-        $scope.notifications = $rootScope.currentUser.user.notifications;
+        notificationFactory.getAllNotifications().then(
+            function (data) {
+                console.log("data recieved");
+                // Only update if there are new notifications
+                if ($rootScope.currentUser.user.notifications !== data) {
+                    $rootScope.currentUser.user.notifications = data;
+                    $scope.notifications = $rootScope.currentUser.user.notifications;
+                }
+            },
+            function (err) {
+                console.log(err);
+            });
     }
 };
 
