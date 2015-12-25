@@ -1,14 +1,14 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, userFactory, socketService, $http, businessInfo) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, userFactory, socketService, $http, businessInfo,
+                           notificationFactory) {
     /**
      * Creates a new employee,
      *
      * @param id - ID of the user to be added as an employee
      */
     $scope.create = function (id) {
-        var business = businessInfo;
         /**
          * The employee object being sent to the backend
          *
@@ -18,16 +18,23 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
             businessId: businessInfo._id,
             employeeId: id
         };
+
+        notificationFactory.addNotification(newEmployee.employeeId,
+                'You have been added to ' + businessInfo.name +
+                ' as an employee!', 'alert', true)
+            .then(function () {
+
+            }, function (err) {
+                console.log(err);
+            });
+
         businessFactory.addEmployee(newEmployee)
             .then(function (data) {
                 //Let the server know that a user has been set as an employee
                 socketService.emit('isEmployee', newEmployee.employeeId);
+
+                $uibModalInstance.close(businessInfo._id);
             });
-        /**
-         * Close the modal instance and return the businessID
-         *
-         */
-        $uibModalInstance.close(businessInfo._id);
     };
     //TODO come back to integrating profile pictures
     //OAuth.callback('facebook','',function(data){

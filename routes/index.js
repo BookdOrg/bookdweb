@@ -13,6 +13,8 @@ var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var nodemailer = require('nodemailer');
+
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
@@ -21,9 +23,17 @@ var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
-
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'contact.bookd@gmail.com',
+        pass: process.env.emailPass
+    }
+});
 
 Array.prototype.inArray = function (comparer) {
     for (var i = 0; i < this.length; i++) {
@@ -168,7 +178,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
     var personal = req.param('personal');
     var responseArray = [];
 
-    if(personal){
+    if (personal) {
         var userId = req.payload._id;
     }
     User.findOne({'_id': employeeId}).populate({
@@ -180,7 +190,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
         }
         responseArray.push(employee.businessAppointments);
         responseArray.push(employee.personalAppointments);
-        if(personal){
+        if (personal) {
             User.findOne({'_id': userId}).populate({
                 path: 'personalAppointments businessAppointments',
                 match: {'start.date': startDate}
@@ -192,7 +202,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 responseArray.push(customer.businessAppointments);
                 res.json(responseArray);
             });
-        }else{
+        } else {
             res.json(responseArray);
         }
 
@@ -239,27 +249,54 @@ router.get('/user/notifications', auth, function (req, res, next) {
     });
 });
 
+/**
+ * Creates a new Notification and saves it to the database.
+ */
 router.post('/user/notifications/create', auth, function (req, res, next) {
     var notification = new Notification();
-    notification.employeeID = req.body.id;
+    //Content of the notification.
     notification.content = req.body.content;
+    //Timestamp of when notifications was created which is always now.
     notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+    //Type of notification. To be used for indicating importance.
     notification.type = req.body.type;
+    //Whether the notification was viewed or not.
     notification.viewed = 'false';
 
-    console.log(notification);
-    User.findOne({'_id': notification.employeeID}).exec(function (err, user) {
+    User.findOne({'_id': req.body.id}).exec(function (err, user) {
         if (err) {
             next(err);
         }
-        notification.user = user;
 
+        notification.user = user;
         notification.save(function (err, response) {
             if (err) {
                 return next(err);
             }
-            console.log('Successfully saved!');
+            console.log('Successfully saved notification!');
         });
+
+        if (req.body.sendEmail) {
+            var subject,
+                body;
+
+            subject = 'Bookd Notification';
+            body = notification.content;
+
+            var mailOptions = {
+                from: 'Marshall Mathers', // sender address
+                to: notification.user.email, // list of receivers
+                subject: subject, // Subject line
+                html: body // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    return console.log(error);
+                }
+            });
+        }
     });
 });
 
@@ -558,22 +595,18 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 
     function validateAppointment(requestedAppointment, userAppointments) {
         for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
-            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').
-                isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
+            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
-            if (moment(requestedAppointment.start.time, 'hh:mm a').
-                isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
+            if (moment(requestedAppointment.start.time, 'hh:mm a').isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
         }
         for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
-            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').
-                isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
+            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
-            if (moment(requestedAppointment.start.time, 'hh:mm a').
-                isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
+            if (moment(requestedAppointment.start.time, 'hh:mm a').isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
         }
@@ -600,7 +633,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             });
         });
 
-        if(appointment.customer !== ""){
+        if (appointment.customer !== "") {
             User.findOne({'_id': appointment.customer}).populate({
                 path: 'businessAppointments personalAppointments',
                 match: {'start.date': appointment.start.date}
@@ -628,7 +661,7 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
     Appointment.find({
         'businessId': businessId,
         'start.monthYear': monthYear,
-        'status':'active'
+        'status': 'active'
     }).exec(function (error, response) {
         if (error) {
             return next(error);
@@ -636,6 +669,7 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
         res.json(response);
     });
 });
+
 /**
  * Update an appointment - Reschedule
  */
@@ -681,7 +715,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            if(req.body.customer){
+            if (req.body.customer) {
                 appointment.status = 'pending';
             }
             appointment.start = updatedAppointmentStart;
@@ -691,7 +725,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     return next(err);
                 }
             });
-            if(req.body.customer){
+            if (req.body.customer) {
                 User.findOne({'_id': req.body.employee}).exec(function (err, user) {
                     if (err) {
                         return next(err);
@@ -705,7 +739,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
 
                 });
             }
-            if(req.body.customer){
+            if (req.body.customer) {
                 User.findOne({'_id': req.body.customer}).exec(function (err, user) {
                     if (err) {
                         return next(err);
@@ -728,7 +762,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                         res.status(200).json({message: 'Success'});
                     });
                 });
-            }else{
+            } else {
                 res.status(200).json({message: 'Success'});
             }
         });
@@ -754,7 +788,6 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
  *   Queries & returns google places for a business based on a
  *   text search.
  **/
-//
 router.get('/business/search', function (req, res, next) {
     var query = req.param('query');
     var updatedBusinesses = [];
@@ -809,70 +842,11 @@ router.get('/business/search', function (req, res, next) {
 });
 
 /**
- *   Returns a list of all businesses in a specific category that are within the defined
- *   search radius. Radar Search returns a list of 200 businesses maximum.
-
- Update this route to remote the google places detail request. Instead of caching results
- from the Business List page on the front/end just make a second call for details when they
- click which business they want details for.
-
-
- Parameters:
- category -
- location -
- radius -
- *
+ * Returns all information about a specific Business.
+ * Parameters:
+ * placeId -
  **/
-// TO DO: combine with the business/search route
-
-//router.get('/business/nearby',auth,function(req,res,next){
-//  var keyword = req.param('category');
-//  var location = req.param('location');
-//  var radius = req.param('radius');
-//  var updatedBusinesses = [];
-//  var populateQuery = [{path:'services',select:''},{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'}];
-//
-//  googleplaces.placeSearch({location:location,radius:radius,keyword:keyword},function(err,response){
-//    if(err){return next(err);}
-//    async.each(response.results,function(currResponse,responseCallback){
-//        Business.findOne({"placesId":currResponse.place_id,"claimed":true}).populate(populateQuery).exec(function(err,business){
-//            if(err){
-//              return responseCallback(err);// <== calling responseCallback instead of next()
-//            }
-//            // in case of business === null/undefined, I'm not seeing any
-//            // callback getting called, it needs to be called inside
-//            // async.each() no matter which condition it is
-//            if (!business) {
-//               // call responseCallback to continue on with async.each()
-//                return responseCallback();
-//            }
-//            Service.populate(business.services,{path:'employees',select:'_id businessAppointments firstName lastName username avatarVersion'},function(err,newBusiness){
-//                if(err){
-//                  return responseCallback(err);
-//                }
-//                googleplaces.placeDetailsRequest({placeid:business.placesId},function(error,placesResult){
-//                    if(error){return responseCallback(error);}
-//                    placesResult.result.info = business;
-//                    updatedBusinesses.push(placesResult.result);
-//                    responseCallback();
-//                });
-//            })
-//        })
-//    },function(err){
-//        if(err){return next(err);}
-//        res.json(updatedBusinesses);
-//    });
-//  });
-//});
-
-/**
- *   Returns all information about a specific Business.
-
- Parameters:
- placeId -
- *
- **/
-router.get('/business/details',function (req, res, next) {
+router.get('/business/details', function (req, res, next) {
     var id = req.param('placesId');
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
@@ -899,13 +873,10 @@ router.get('/business/details',function (req, res, next) {
     });
 });
 
-
 /**
  *   Returns all Bookd information about a specific Business.
-
- Parameters:
- placeId -
- *
+ * Parameters:
+ * placeId -
  **/
 router.get('/business/info', function (req, res, next) {
     var id = req.param('id');
@@ -927,48 +898,13 @@ router.get('/business/info', function (req, res, next) {
         });
     });
 });
-// router.get('/appointments/employee',auth,function(req,res,next){
-//    var userId = req.body.id;
-//    var startDate = req.body.startDate;
-
-//   Appointment.find({"user":userId,"start.date":startDate}).exec(function(err,appointments){
-//     appointments.forEach(function(appt){
-//       *
-//       *
-//       * Check to see if the appointment in the request is in the range of any 
-//       * appointments happening on the same day as it. 
-//       *
-//       * Look at the day first and then the minute and hour of the appointment.
-//       * If it is in the range, respond to the client with 400 and state that the appointment is taken. 
-//       * Also may want to return the updated list of appointments incase someone has already taken it. 
-
-//     })
-//   })
-// })
 
 /**
- *
- * Can I use socket.io to keep the available appointment times in sync,
- * stopping users from scheduling appointments that have already been taken?
- *
- * If this works will we still need to check the range on the POST request? Yes.
- *
- */
-
-// router.get('/appointments/business',auth,function(req,res,next){
-
-// })
-
-
-/**
- *   Adds a new employee to a Business.
-
- Parameters:
- businessId -
- employeeId -
- *
+ * Adds a new employee to a Business.
+ * Parameters:
+ * businessId -
+ * employeeId -
  **/
-
 router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
@@ -1183,7 +1119,7 @@ router.post('/business/remove-service', auth, function (req, res, next) {
         }
     });
 
-    res.json({message:'Success'});
+    res.json({message: 'Success'});
 });
 
 /**
