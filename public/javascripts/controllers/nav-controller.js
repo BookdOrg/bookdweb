@@ -87,7 +87,6 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     if (auth.isLoggedIn()) {
         notificationFactory.getAllNotifications().then(
             function (data) {
-                console.log("data recieved");
                 // Only update if there are new notifications
                 if ($rootScope.currentUser.user.notifications !== data) {
                     $rootScope.currentUser.user.notifications = data;

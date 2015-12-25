@@ -1,7 +1,7 @@
 <div class="container-fluid bg-light-gray">
-	<div class="page-header">
+    <div class="page-header">
         <h1 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h1>
-	</div>
+    </div>
     <div class="row">
         <div class="col" ng-if="businesses.length > 1">
             <div class="btn-group-lg" uib-dropdown>
@@ -62,7 +62,8 @@
                         <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                             <li>{{associate.name}}
                                 <button class="btn btn-danger pull-right"
-                                        ng-click="removeEmployee(associate,activeBusiness.business)" uib-tooltip="Remove Associate" tooltip-placement="left"><i
+                                        ng-click="removeEmployee(associate, activeBusiness.business)"
+                                        uib-tooltip="Remove Associate" tooltip-placement="left"><i
                                         class="fa fa-trash"></i></button>
                             </li>
                         </div>
@@ -93,12 +94,15 @@
                              style="height:50px;">
                             <li>{{service.name}}
                                 <div class="btn-group pull-right" role="group" aria-label="...">
-                                    <button class="btn btn-danger" ng-click="removeService(service,$index)" uib-tooltip="Delete Service"><i class="fa fa-trash"></i>
+                                    <button class="btn btn-danger" ng-click="removeService(service,$index)"
+                                            uib-tooltip="Delete Service"><i class="fa fa-trash"></i>
                                     </button>
-                                    <button class="btn btn-warning " ng-click="editService(service,$index)" uib-tooltip="Edit Service"><i
+                                    <button class="btn btn-warning " ng-click="editService(service,$index)"
+                                            uib-tooltip="Edit Service"><i
                                             class="fa fa-pencil"></i>
                                     </button>
-                                    <button class="btn btn-primary" ng-click="openService('lg',false,service) "uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i></button>
+                                    <button class="btn btn-primary" ng-click="openService('lg',false,service) "
+                                            uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i></button>
                                 </div>
                             </li>
                         </div>

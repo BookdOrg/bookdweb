@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller,notificationFactory) {
+module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller, notificationFactory) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
@@ -19,11 +19,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
 
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
-    $scope.scheduleAppointment = function (type, state,service) {
+    $scope.scheduleAppointment = function (type, state, service) {
         if (!auth.isLoggedIn()) {
             navViewModel.open(type, state);
         } else {
-            $scope.openScheduleAppointmentModal('lg',true,service);
+            $scope.openScheduleAppointmentModal('lg', true, service);
         }
 
     };
@@ -117,10 +117,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
          * and use that to make a request for updated businessInfo
          *
          */
-        modalInstance.result.then(function (businessId,employee) {
+        modalInstance.result.then(function (businessId, employee) {
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
                     $scope.business.info = business;
+                    //TODO Move this string to somewhere we can access it globally!
                     notificationFactory.addNotification(employee, 'You are no longer an employee of ' + business.name + '.', 'alert')
                         .then(function () {
 
@@ -139,7 +140,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * @param type - is this being schedule for the current user or for another user
      * @param service - the service object
      */
-    $scope.openScheduleAppointmentModal = function (size,type,service) {
+    $scope.openScheduleAppointmentModal = function (size, type, service) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/scheduleAppointmentModal.html',
@@ -147,14 +148,14 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
             backdrop: 'static',
             keyboard: false,
             size: size,
-            resolve:{
-                personal:function(){
+            resolve: {
+                personal: function () {
                     return type;
                 },
-                tier:function(){
+                tier: function () {
                     return $scope.business.info.tier;
                 },
-                service:function(){
+                service: function () {
                     return service;
                 }
             }
@@ -206,14 +207,14 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * @param service - The service object to delete
      * @param index - The index of the service in the business services array
      */
-    $scope.openRemoveServiceModal = function(service,index){
+    $scope.openRemoveServiceModal = function (service, index) {
         var serviceObj = {
-            serviceId:service._id,
-            businessId:$scope.business.info._id
+            serviceId: service._id,
+            businessId: $scope.business.info._id
         };
         businessFactory.removeService(serviceObj)
-            .then(function(response){
-                $scope.business.info.services.splice(index,1);
+            .then(function (response) {
+                $scope.business.info.services.splice(index, 1);
             });
     };
     /**
