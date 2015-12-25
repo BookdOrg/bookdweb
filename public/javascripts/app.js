@@ -9,7 +9,7 @@ require('angular-stripe-checkout');
 require('angular-timer');
 require('ngmap');
 require('bootstrap');
-var app = angular.module('cc', ['ui.router','ngAnimate',
+var app = angular.module('cc', ['ui.router', 'ngAnimate',
     'google.places',
     'ngGeolocation',
     'ui.calendar',
@@ -47,7 +47,7 @@ app.config([
                         templateUrl: '/partials/landingNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/landing.html',
                         controller: 'LandingCtrl'
                     }
@@ -61,23 +61,11 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/feed.html',
                         controller: 'MainCtrl'
                     }
                 }
-                //resolve: {
-                //    isAuthenticated: function ($state, $q, auth) {
-                //        var redirect = false;
-                //        if (!auth.isLoggedIn()) {
-                //            redirect = true;
-                //            return $q.reject({
-                //                state: 'error'
-                //            });
-                //        }
-                //        return redirect;
-                //    }
-                //}
             })
             .state('business', {
                 url: '/business/{businessid}',
@@ -86,7 +74,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/business.html',
                         controller: 'businessCtrl'
                     }
@@ -95,16 +83,6 @@ app.config([
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
                         return businessFactory.getBusiness($stateParams.businessid);
                     }]
-                    //isAuthenticated: function ($state, $q, auth) {
-                    //    var redirect = false;
-                    //    if (!auth.isLoggedIn()) {
-                    //        redirect = true;
-                    //        return $q.reject({
-                    //            state: 'error'
-                    //        });
-                    //    }
-                    //    return redirect;
-                    //}
                 }
             })
             .state('user', {
@@ -114,7 +92,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/profile.html',
                         controller: 'ProfileCtrl'
                     }
@@ -139,7 +117,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/account.html',
                         controller: 'AccountCtrl'
                     }
@@ -165,7 +143,7 @@ app.config([
                         templateUrl: '/partials/landingNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/partner.html',
                         controller: 'NavCtrl'
                     }
@@ -178,7 +156,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/dashboard.html',
                         controller: 'dashboardCtrl'
                     }
@@ -206,7 +184,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/favorites.html',
                     }
                 }
@@ -218,15 +196,12 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/appointments.html',
                         controller: 'calendarCtrl'
                     }
                 },
                 resolve: {
-                    //appointments: ['userFactory', function (userFactory) {
-                    //    return userFactory.getUserAppts();
-                    //}],
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
                         if (!auth.isLoggedIn()) {
@@ -246,7 +221,7 @@ app.config([
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
-                    'content':{
+                    'content': {
                         templateUrl: '/partials/search.html',
                         controller: 'searchCtrl'
                     }
@@ -261,21 +236,33 @@ app.config([
                 templateUrl: 'partials/contact.html'
             });
         $urlRouterProvider.otherwise('/');
-    }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory, $controller, $uibModal) {
+    }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory,
+                      $controller, $uibModal, notificationFactory) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
     $rootScope.cloudinaryBaseUrl = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
     $rootScope.cloudinaryDefaultPic = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v1432411957/profile/placeholder.jpg';
-    //  var socket = io.connect('//'+devHost+':8112');
+
+    if (auth.isLoggedIn()) {
+        notificationFactory.getAllNotifications().then(
+            function (data) {
+                $rootScope.currentUser.user.notifications = data;
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+    }
+
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);
         }
     });
-    if($state.current.name === 'landing'){
-        $rootScope.showLandingNav =true;
-    }else{
-        $rootScope.showLandingNav =false;
+    if ($state.current.name === 'landing') {
+        $rootScope.showLandingNav = true;
+    } else {
+        $rootScope.showLandingNav = false;
     }
     $rootScope.$on('$stateChangeError', function (event, toState, toStateParams,
                                                   fromState, fromStateParams, error) {

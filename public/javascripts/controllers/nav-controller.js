@@ -1,4 +1,5 @@
-module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory, socketService) {
+module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory, socketService,
+                           $timeout, notificationFactory) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -6,10 +7,10 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $rootScope.show = false;
 
     $scope.animationEnabled = true;
-    if($state.current.name == 'landing'){
-        $scope.forBusiness =true;
-    }else{
-        $scope.forBusiness =false;
+    if ($state.current.name == 'landing') {
+        $scope.forBusiness = true;
+    } else {
+        $scope.forBusiness = false;
     }
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
@@ -43,9 +44,9 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
-    $scope.checkStateandLogin = function(type){
+    $scope.checkStateandLogin = function (type) {
         var state = $state.current.name;
-        $scope.open(type,state);
+        $scope.open(type, state);
     };
     /**
      * Function used to open the auth modal for registration and login.
@@ -82,5 +83,28 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             $state.go('search');
         }
     };
+
+    if (auth.isLoggedIn()) {
+        /**
+         * Check for new notifications every 10 seconds.
+         */
+        $scope.updateNotifications = function () {
+            $timeout(function () {
+                notificationFactory.getAllNotifications().then(
+                    function (data) {
+                        // Only update if there are new notifications
+                        if ($rootScope.currentUser.user.notifications !== data) {
+                            $rootScope.currentUser.user.notifications = data;
+                        }
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
+            }, 10000);
+        };
+
+        $scope.notifications = $rootScope.currentUser.user.notifications;
+    }
 };
 

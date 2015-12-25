@@ -145,7 +145,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         location: {}
     };
     /**
-     *
+     * Register via Bookd
      */
     $scope.register = function () {
         var user = {
@@ -165,7 +165,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             });
     };
     /**
-     *
+     * Login via Bookd
      */
     $scope.logIn = function () {
         var user = {
@@ -191,7 +191,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     };
     /**
      * Function to get a users appointments after they have successfully logged in
-     *
      */
     var getAppointments = function () {
         userFactory.getUserAppts().then(

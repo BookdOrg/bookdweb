@@ -243,7 +243,7 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
     var notification = new Notification();
     notification.employeeID = req.body.id;
     notification.content = req.body.content;
-    notification.timestamp = moment();
+    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
     notification.type = req.body.type;
     notification.viewed = 'false';
 

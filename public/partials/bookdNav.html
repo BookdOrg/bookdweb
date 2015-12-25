@@ -19,7 +19,6 @@
                         <i class="fa fa-building"></i>
                         <input class="form-control" aria-describedby="search" ng-model="query.term"
                                placeholder="Barbershops">
-                    <!--</span>-->
                 </span>
                 <span class="left-inner-addon">
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
@@ -93,8 +92,7 @@
                 <ul class="nav navbar-nav navbar-right hidden-xs">
                     <li uib-dropdown ng-show="isLoggedIn()">
                         <a href="" uib-dropdown-toggle><i class="fa fa-bell"></i>
-                            <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
-                            <span class="badge">{{filteredAppts.length}}</span></a>
+                            <span class="badge">{{notifications.length}}</span></a>
 
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
@@ -104,10 +102,11 @@
                             <span class="divider"></span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
-                                    ng-repeat="appointment in filteredAppts = (currentUser.user.appointments.personalAppointments | notificationFilter)">
+                                    ng-repeat="notification in notifications">
                                     <div class="notification-item">
-                                        <p class="item-info">{{appointment.title}}</p>
-                                        <h4 class="item-title">Appointment is {{appointment.dayDiff}} days away</h4>
+                                        <h5>{{notification.content}}</h5>
+                                        <h5>{{notification.timestamp}}</h5>
+                                        <!--<h4 class="item-title">Appointment is {{notification.dayDiff}} days away</h4>-->
                                     </div>
                                 </li>
                             </ul>
