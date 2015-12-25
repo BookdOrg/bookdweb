@@ -10,18 +10,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="/"><i class="fa fa-calendar"></i> Book'd</a>
+            <a class="navbar-brand" ui-sref="landing"><i class="fa fa-calendar"></i> Book'd</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">s
+                <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
                 <li style="border:1px solid black;margin-right:50px;">
-                    <a class="page-scroll" href="/partner" ng-if="forBusiness">Book'd Partners</a>
-                    <a class="page-scroll" href="/" ng-if="!forBusiness">Customers</a>
+                    <a ui-sref="partner" ng-if="forBusiness">Book'd Partners</a>
+                    <a ui-sref="landing" ng-if="!forBusiness">Customers</a>
                 </li>
                 <!--<li>-->
                 <!--<a class="page-scroll" href="#portfolio">Portfolio</a>-->
@@ -30,13 +30,13 @@
                 <!--<a class="page-scroll" href="#about">About</a>-->
                 <!--</li>-->
                 <li ng-hide="isLoggedIn()">
-                    <a href="" ng-click="checkStateandLogin('login')"><i class="fa fa-sign-in"></i> Log In</a>
+                    <a ng-click="checkStateandLogin('login')"><i class="fa fa-sign-in"></i> Log In</a>
                 </li>
                 <li ng-hide="isLoggedIn()">
-                    <a href="" ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a>
+                    <a ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a>
                 </li>
                 <li ng-hide="!isLoggedIn()">
-                    <a href="/feed">
+                    <a ui-sref="feed">
                         <i class="fa fa-home"></i> Home
                     </a>
                 </li>
