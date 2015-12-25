@@ -84,6 +84,20 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
+    $scope.removeNotification = function (index) {
+
+        console.log($scope.notifications);
+        var viewedNotification = $scope.notifications.splice(index, 1);
+        $rootScope.currentUser.user.notifications = $scope.notifications;
+        console.log($scope.notifications);
+        notificationFactory.notificationSeen(viewedNotification[0]._id).then(
+            function (data) {
+
+            }, function (err) {
+                console.log(err);
+            });
+    };
+
     if (auth.isLoggedIn()) {
         notificationFactory.getAllNotifications().then(
             function (data) {

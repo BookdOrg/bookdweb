@@ -31,6 +31,20 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
+    o.notificationSeen = function (id) {
+        var body = {
+            id: id
+        };
+        return $http.post('/user/notifications/viewed', body, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (response) {
+            return response.data;
+        }, function (err) {
+            handleError(err);
+            return err.data;
+        });
+    };
+
     return o;
 
     // I transform the error response, unwrapping the application dta from

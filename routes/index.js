@@ -301,6 +301,18 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
 });
 
 /**
+ * Modify a Notification by changing status to viewed.
+ */
+router.post('/user/notifications/viewed', auth, function (req, res, next) {
+    Notification.findByIdAndUpdate(req.body.id, {$set: {viewed: true}}, function (err, notification) {
+        if (err) {
+            console.log(err);
+        }
+        res.send('Changed notification to viewed successfully');
+    });
+});
+
+/**
  *   Returns the profile of a specified user.
  *
  **/
