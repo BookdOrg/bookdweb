@@ -8,12 +8,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" ng-click="showSearch(false)" href="/">
-                <i  class="fa fa-2x fa-calendar"></i>
+            <a class="navbar-brand" ng-click="showSearch(false)" href="/">
+                <i class="fa fa-2x fa-calendar"></i>
                 <span style="font-size:25px;">Book'd</span>
             </a>
         </div>
-        <form ng-if="show" class="navbar-form hidden-sm hidden-xs">
+        <form ng-if="show" class="navbar-form hidden-md hidden-sm hidden-xs">
             <div class="row text-center form-inline form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-building"></i>
@@ -30,7 +30,8 @@
                     <button class="btn btn-md sectionBtn" ng-click="search(query)"
                             ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
                             type="submit">
-                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner" ng-class="{'fa-spin' : fetchingQuery}"></i>
+                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                           ng-class="{'fa-spin' : fetchingQuery}"></i>
                         <span ng-show="!fetchingQuery">Search</span>
                     </button>
                 </span>
@@ -39,7 +40,7 @@
         <div class="uib-collapse navbar-collapse" uib-collapse="navbarCollapsed">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)" >
+                    <a href="/feed" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
                         <i class="fa fa-home"></i> Home
                     </a>
                 </li>
@@ -49,12 +50,14 @@
                     </a>
                 </li>
                 <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/user/{{currentUser.user._id}}/profile">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                       href="/user/{{currentUser.user._id}}/profile">
                         <i class="fa fa-user"></i> Profile
                     </a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/user/{{currentUser.user._id}}/account">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                       href="/user/{{currentUser.user._id}}/account">
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>
@@ -64,7 +67,7 @@
                 <!--</a>-->
                 <!--</li>-->
                 <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"  href="/dashboard">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/dashboard">
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
@@ -90,9 +93,41 @@
             -->
             <div class="navbar-inner">
                 <ul class="nav navbar-nav navbar-right hidden-xs">
+                    <li uib-dropdown class="hidden-lg">
+                        <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
+                        <ul class="uib-dropdown-menu notifications">
+                            <form>
+                                <div class="text-center col-xs-12 form-group">
+                                    <div class="col-xs-12 ">
+                                        <span class="left-inner-addon form-inline">
+                                                <i class="fa fa-building"></i>
+                                                <input class="form-control" aria-describedby="search" ng-model="query.term"
+                                                       placeholder="Barbershops">
+                                        </span>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <span class="left-inner-addon form-inline">
+                                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                                            <input class="form-control form-inline" aria-describedby="near" g-places-autocomplete
+                                                   options="autocompleteOptions" ng-model="query.location" placeholder="Near..">
+                                        </span>
+                                    </div>
+                                   <button class="btn btn-md sectionBtn" ng-click="search(query)"
+                                           ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
+                                           type="submit">
+                                       <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                                          ng-class="{'fa-spin' : fetchingQuery}"></i>
+                                       <span ng-show="!fetchingQuery">Search</span>
+                                   </button>
+                                </div>
+                            </form>
+                        </ul>
+
+                    </li>
                     <li uib-dropdown ng-show="isLoggedIn()">
-                        <a href="" uib-dropdown-toggle><i class="fa fa-bell"></i>
-                            <span class="badge">{{notifications.length}}</span></a>
+                        <a href="" uib-dropdown-toggle><i class="fa fa-bell badge">{{notifications.length}}</i>
+                        </a>
 
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
@@ -111,16 +146,24 @@
                                 </li>
                             </ul>
                             <span class="divider"></span>
-                            <div class="notification-footer"><h4 class="menu-title">View all<i class="fa fa-arrow-circle-right"></i></h4></div>
+
+                            <div class="notification-footer"><h4 class="menu-title">View all<i
+                                    class="fa fa-arrow-circle-right"></i></h4></div>
                         </div>
                     </li>
                     <li uib-dropdown ng-show="isLoggedIn()">
                         <a href="" uib-dropdown-toggle class=" avatarPadding">
-                            <img class="navbarAvatar" ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
-                            <img class="navbarAvatar" ng-if="currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
-                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
-                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
-                            {{currentUser.user.name}}
+                            <img class="navbarAvatar"
+                                 ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"
+                                 ng-src="{{cloudinaryDefaultPic}}"/>
+                            <img class="navbarAvatar"
+                                 ng-if="currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"
+                                 ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
+                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'google_plus'"
+                                 ng-src="{{currentUser.providerInfo}}"/>
+                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'facebook'"
+                                 ng-src="{{currentUser.providerInfo}}"/>
+                            {{currentUser.user.name}} <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="uib-dropdown-menu">
                             <li>
@@ -134,7 +177,8 @@
                             <!--</a>-->
                             <!--</li>-->
                             <li>
-                                <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)" href="/dashboard">
+                                <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
+                                   href="/dashboard">
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
                             </li>
@@ -151,8 +195,10 @@
                             </li>
                         </ul>
                     </li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('login')"><i class="fa fa-sign-in"></i> Log In</a></li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a></li>
+                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('login')"><i
+                            class="fa fa-sign-in"></i> Log In</a></li>
+                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('signup')"><i
+                            class="fa fa-user"></i> Sign Up</a></li>
                 </ul>
             </div>
         </div>

@@ -1,35 +1,7 @@
 <div class="container-fluid">
-    <div class="row hidden-lg hidden-md feedSearch text-center">
-        <form>
-            <div class="text-center form-inline col-xs-12 form-group">
-                <div class="col-xs-5">
-                    <span class="left-inner-addon">
-                            <i class="fa fa-building"></i>
-                            <input class="form-control" aria-describedby="search" ng-model="query.term"
-                                   placeholder="Barbershops">
-                    </span>
-                </div>
-                <div class="col-xs-5">
-                    <span class="left-inner-addon">
-                        <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                        <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                        <input class="form-control" aria-describedby="near" g-places-autocomplete
-                               options="autocompleteOptions" ng-model="query.location">
-                    </span>
-                </div>
-                    <span>
-                       <button class="btn btn-md sectionBtn" ng-click="search(query)" ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''" type="submit">
-                           <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner" ng-class="{'fa-spin' : fetchingQuery}"></i>
-                           <span ng-show="!fetchingQuery">Search</span>
-                       </button>
-                    </span>
-            </div>
-        </form>
-    </div>
     <div class="row">
-        <div class="col col-md-5">
+        <div class="col col-xs-5">
             <h1 class="page-header text-center">Results</h1>
-
             <p class="text-center text-muted" ng-if="businesses.length === 0 ">Go Ahead, Search for Businesses!</p>
             <div ng-repeat="business in businesses track by $index">
                 <div class="col-md-10 text-left col-md-offset-1">
@@ -48,7 +20,7 @@
                 <br>
             </div>
         </div>
-        <div class="col col-md-7" style="padding:0" ng-if="center">
+        <div class="col col-xs-7" style="padding:0" ng-if="center">
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
                 <!--<marker position="{{center}}"></marker>-->
                 <marker position="{{center}}" icon="/images/currLocationIcon.png"></marker>
