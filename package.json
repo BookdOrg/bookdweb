@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "scripts/bower-install.sh",
-    "start": "scripts/nodemon.sh",
+    "start": "scripts/nodemon.sh"
   },
   "dependencies": {
     "angular": "^1.4.8",
