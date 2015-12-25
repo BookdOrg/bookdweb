@@ -111,14 +111,18 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 }
             }
         });
-
-        // TODO Figure out why this doesn't work
-        //modalInstance.result.then(function (businessId) {
-        //    businessFactory.getBusinessInfo(businessId)
-        //        .then(function (business) {
-        //            $scope.business.info = business;
-        //        });
-        //});
+        /**
+         *
+         * Once the modal is closed we return the businessID to the modalinstance
+         * and use that to make a request for updated businessInfo
+         *
+         */
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.business.info = business;
+                });
+        });
     };
     /**
      *

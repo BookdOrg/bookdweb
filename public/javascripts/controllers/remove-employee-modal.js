@@ -53,12 +53,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
 
         businessFactory.removeEmployee(selectedEmployee)
             .then(function () {
-                //$uibModalInstance.close($scope.businessId);
-                businessFactory.getBusinessInfo(businessId)
-                    .then(function (business) {
-
-                    });
-                $uibModalInstance.close();
+                $uibModalInstance.close($scope.businessId);
             }, function (err) {
                 console.log(err);
             });

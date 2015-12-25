@@ -80,13 +80,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         });
 
-        //TODO Figure out why this isn't working.
-        //modalInstance.result.then(function (businessId) {
-        //    businessFactory.getBusinessInfo(businessId)
-        //        .then(function (business) {
-        //
-        //        });
-        //});
+        modalInstance.result.then(function (businessId) {
+            businessFactory.getBusinessInfo(businessId)
+                .then(function (business) {
+                    $scope.activeBusiness.business = business;
+                });
+        });
     };
 
     $scope.openEmployee = function (business) {
