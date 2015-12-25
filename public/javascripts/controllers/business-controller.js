@@ -117,11 +117,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
          * and use that to make a request for updated businessInfo
          *
          */
-        modalInstance.result.then(function (businessId) {
+        modalInstance.result.then(function (businessId,employee) {
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
                     $scope.business.info = business;
-                    notificationFactory.addNotification(employee._id, 'You are no longer an employee of ' + business.name + '.', 'alert')
+                    notificationFactory.addNotification(employee, 'You are no longer an employee of ' + business.name + '.', 'alert')
                         .then(function () {
 
                         }, function (err) {
