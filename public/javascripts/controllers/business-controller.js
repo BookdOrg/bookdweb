@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller) {
+module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller,notificationFactory) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
@@ -106,7 +106,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 employee: function () {
                     return employee;
                 },
-                businessInfo: function () {
+                businessObj: function () {
                     return business;
                 }
             }
@@ -121,6 +121,12 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
                     $scope.business.info = business;
+                    notificationFactory.addNotification(employee._id, 'You are no longer an employee of ' + business.name + '.', 'alert')
+                        .then(function () {
+
+                        }, function (err) {
+                            console.log(err);
+                        });
                 });
         });
     };
@@ -216,18 +222,18 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * @type {string}
      */
     $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
-    NgMap.getMap().then(function (map) {
-        map.zoom = 9;
-    });
+    //NgMap.getMap().then(function (map) {
+    //    map.zoom = 9;
+    //});
     /**
      * Initialize the map when the user clicks on the tab
      *
      * @param mapId - the html id of the map element
      */
-    $scope.initMap = function(mapId) {
-        $scope.map = NgMap.initMap(mapId);
-
-    };
+    //$scope.initMap = function(mapId) {
+    //    $scope.map = NgMap.initMap(mapId);
+    //
+    //};
 
 
 };

@@ -1,12 +1,12 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessInfo, notificationFactory) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessObj, notificationFactory) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
-
-    var services = businessInfo.services;
+    $scope.businessId = businessObj._id;
+    var services = businessObj.services;
     for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
         var employees = services[serviceIndex].employees;
         //If a service only has 1 employee, check if the employee being removed is part of the service.
@@ -20,8 +20,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
     }
 
     $scope.remove = function () {
-        var business = businessInfo;
-        var services = businessInfo.services;
+        var business = businessObj;
+        var services = businessObj.services;
         var associatedServices = [];
 
         //When removing employee, go through the list of services
@@ -42,22 +42,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
             serviceList: associatedServices
         };
 
-
-        businessFactory.getBusinessInfo(business._id)
-            .then(function (data) {
-                //TODO Put the content string somewhere else so we can reuse it and define the types of notifications somewhere!
-                notificationFactory.addNotification(employee._id, 'You are no longer an employee of ' + data.name + '.', 'alert')
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            }, function (err) {
-                console.log(err);
-            });
         businessFactory.removeEmployee(selectedEmployee)
             .then(function () {
-                $uibModalInstance.close(businessInfo._id);
+                $uibModalInstance.close($scope.businessId, $scope.employee._id);
             }, function (err) {
                 console.log(err);
             });
