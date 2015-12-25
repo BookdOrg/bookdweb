@@ -44,8 +44,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
 
         //TODO Put the content string somewhere else so we can reuse it and define the types of notifications somewhere!
         notificationFactory.addNotification(employee._id, 'You have been removed from the company', 'alert');
-        businessFactory.removeEmployee(selectedEmployee);
-        $uibModalInstance.close(businessInfo._id);
+        businessFactory.removeEmployee(selectedEmployee)
+            .then(function(){
+                $uibModalInstance.close(businessInfo._id);
+            });
+
     };
 
     $scope.cancel = function () {
