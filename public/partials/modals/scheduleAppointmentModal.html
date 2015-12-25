@@ -85,7 +85,10 @@
                         data-panel-label="Book">
                     Book Appointment (Card Info)
                 </button>
-                <button class="btn btn-primary" ng-show="appointment" ng-click="book()">Book Appointment (Book)</button>
+                <button class="btn btn-primary" ng-show="appointment"
+                        ng-click="book(); newNotification('You have an appt', 'newAppt')">
+                    Book Appointment (Book)
+                </button>
             </div>
         </div>
     </div>

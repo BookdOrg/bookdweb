@@ -1,5 +1,5 @@
-<tabset justified="true">
-    <tab heading="{{tabs[0].title}}" active="tabs[0].active">
+<uib-tabset justified="true">
+    <uib-tab heading="{{tabs[0].title}}" active="tabs[0].active">
         <div class="modal-body row">
             <div class=" text-center alert bg-danger" ng-show="error" role="alert" close="">
                 {{error}}
@@ -25,8 +25,8 @@
                 <button class="btn btn-danger col-xs-6"  ng-click="googleLogin()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
             </div>
         </div>
-    </tab>
-    <tab heading="{{tabs[1].title}}" active="tabs[1].active">
+    </uib-tab>
+    <uib-tab heading="{{tabs[1].title}}" active="tabs[1].active">
         <div class="modal-body row">
             <div class=" text-center alert bg-danger" ng-show="error" role="alert" close="">
                 {{error}}
@@ -64,5 +64,5 @@
                 <button class="btn btn-danger col-xs-6" ng-click="googleSignup()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
             </div>
         </div>
-    </tab>
-</tabset>
+    </uib-tab>
+</uib-tabset>

@@ -1,7 +1,8 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope, userFactory,personal,tier,service) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
+                           userFactory, personal, tier, service, notificationFactory) {
     $scope.service = service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -54,17 +55,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var newDate = moment(date).format('MM/DD/YYYY');
         $scope.monthYear = moment(newDate).format('MM/YYYY');
         var employeeApptObj = {};
-        if(personal){
+        if (personal) {
             employeeApptObj = {
                 startDate: newDate,
                 id: employeeId,
-                personal:true
+                personal: true
             };
-        }else{
+        } else {
             employeeApptObj = {
                 startDate: newDate,
                 id: employeeId,
-                personal:false
+                personal: false
             };
         }
 
@@ -246,9 +247,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var endTime = moment(time.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
 
         var customerId;
-        if(personal){
+        if (personal) {
             customerId = $rootScope.currentUser.user._id;
-        }else{
+        } else {
             customerId = '';
         }
 
@@ -282,7 +283,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
                 socketService.emit('timeDestroyed', $scope.activeTime);
-                if(personal){
+                if (personal) {
                     userFactory.getUserAppts().then(
                         function (data) {
                             $rootScope.currentUser.user.appointments = data;
@@ -297,10 +298,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     };
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
-             .then(function(data){
+            .then(function (data) {
                 socketService.emit('timeDestroyed', $scope.activeTime);
-                 $uibModalInstance.close();
-             });
+                $uibModalInstance.close();
+            });
 
     };
 

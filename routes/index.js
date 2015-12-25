@@ -18,6 +18,7 @@ var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
 var Category = mongoose.model('Category');
 var Service = mongoose.model('Service');
+var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
@@ -143,7 +144,6 @@ io.on('connection', function (socket) {
                     //TODO send the socket error back to the client
                     //return next(err);
                 }
-                console.log(response);
                 io.sockets.in(data).emit('clientUpdate', {token: user.generateJWT()});
                 //if (socket.rooms.indexOf(data) >= 0) {
                 //    console.log('here')
@@ -227,6 +227,42 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         });
     });
 });
+
+
+router.get('/user/notifications', auth, function (req, res, next) {
+    Notification.find({'user': req.payload._id}).exec(function (err, notifications) {
+        if (err) {
+            return next(err);
+        }
+
+        res.json(notifications);
+    });
+});
+
+router.post('/user/notifications/create', auth, function (req, res, next) {
+    var notification = new Notification();
+    notification.employeeID = req.body.id;
+    notification.content = req.body.content;
+    notification.timestamp = moment();
+    notification.type = req.body.type;
+    notification.viewed = 'false';
+
+    console.log(notification);
+    User.findOne({'_id': notification.employeeID}).exec(function (err, user) {
+        if (err) {
+            next(err);
+        }
+        notification.user = user;
+
+        notification.save(function (err, response) {
+            if (err) {
+                return next(err);
+            }
+            console.log('Successfully saved!');
+        });
+    });
+});
+
 /**
  *   Returns the profile of a specified user.
  *
