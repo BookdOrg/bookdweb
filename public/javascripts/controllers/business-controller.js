@@ -111,25 +111,14 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 }
             }
         });
-        /**
-         *
-         * Once the modal is closed we return the businessID to the modalinstance
-         * and use that to make a request for updated businessInfo
-         *
-         */
-        modalInstance.result.then(function (businessId, employee) {
-            businessFactory.getBusinessInfo(businessId)
-                .then(function (business) {
-                    $scope.business.info = business;
-                    //TODO Move this string to somewhere we can access it globally!
-                    notificationFactory.addNotification(employee, 'You are no longer an employee of ' + business.name + '.', 'alert')
-                        .then(function () {
 
-                        }, function (err) {
-                            console.log(err);
-                        });
-                });
-        });
+        // TODO Figure out why this doesn't work
+        //modalInstance.result.then(function (businessId) {
+        //    businessFactory.getBusinessInfo(businessId)
+        //        .then(function (business) {
+        //            $scope.business.info = business;
+        //        });
+        //});
     };
     /**
      *

@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessObj) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessObj, notificationFactory) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
@@ -42,9 +42,23 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
             serviceList: associatedServices
         };
 
+        //TODO Move this string to somewhere we can access it globally!
+        notificationFactory.addNotification(employee,
+                'You are no longer an employee of ' + business.name + '.', 'alert', true)
+            .then(function () {
+
+            }, function (err) {
+                console.log(err);
+            });
+
         businessFactory.removeEmployee(selectedEmployee)
             .then(function () {
-                $uibModalInstance.close($scope.businessId, $scope.employee._id);
+                //$uibModalInstance.close($scope.businessId);
+                businessFactory.getBusinessInfo(businessId)
+                    .then(function (business) {
+
+                    });
+                $uibModalInstance.close();
             }, function (err) {
                 console.log(err);
             });

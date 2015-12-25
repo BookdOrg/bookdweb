@@ -54,14 +54,14 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     $scope.calendarEmployees = [];
 
-    $scope.removeService = function(service,index){
-        $scope.activeBusiness.business.services.splice(index,1);
+    $scope.removeService = function (service, index) {
+        $scope.activeBusiness.business.services.splice(index, 1);
         var serviceObj = {
-            serviceId:service._id,
-            businessId:$scope.activeBusiness.business._id
+            serviceId: service._id,
+            businessId: $scope.activeBusiness.business._id
         };
         businessFactory.removeService(serviceObj)
-            .then(function(response){
+            .then(function (response) {
             });
     };
 
@@ -80,14 +80,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         });
 
-        modalInstance.result.then(function (businessId) {
-            businessFactory.getBusinessInfo(businessId)
-                .then(function (business) {
-                    $scope.activeBusiness.business = business;
-                });
-        }, function () {
-            //console.log('Modal dismissed at: ' + new Date());
-        });
+        //TODO Figure out why this isn't working.
+        //modalInstance.result.then(function (businessId) {
+        //    businessFactory.getBusinessInfo(businessId)
+        //        .then(function (business) {
+        //
+        //        });
+        //});
     };
 
     $scope.openEmployee = function (business) {
@@ -212,7 +211,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.open('lg', date,false);
+        $scope.open('lg', date, false);
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
@@ -310,7 +309,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         calendar: {
             height: 450,
             editable: true,
-            displayEventEnd:true,
+            displayEventEnd: true,
             header: {
                 left: 'title',
                 center: '',
@@ -334,7 +333,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
 
-    $scope.open = function (size, data,type) {
+    $scope.open = function (size, data, type) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',
@@ -346,7 +345,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 data: function () {
                     return data;
                 },
-                personal:function(){
+                personal: function () {
                     return type;
                 }
             }
@@ -365,8 +364,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @param size
      * @param type
+     * @param service
      */
-    $scope.openService = function (size,type,service) {
+    $scope.openService = function (size, type, service) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/scheduleServiceModal.html',
@@ -374,14 +374,14 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             backdrop: 'static',
             keyboard: false,
             size: size,
-            resolve:{
-                personal:function(){
+            resolve: {
+                personal: function () {
                     return type;
                 },
-                tier:function(){
+                tier: function () {
                     return $scope.activeBusiness.business.tier;
                 },
-                service:function(){
+                service: function () {
                     return service;
                 }
             }
