@@ -1,4 +1,5 @@
-module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, state, socketService, $rootScope, userFactory) {
+module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, state, socketService, $rootScope,
+                           userFactory, notificationFactory) {
     $scope.user = {};
     $scope.tabs = [
         {
@@ -28,11 +29,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         auth.logIn(user, response.picture.data.url)
                             .then(function () {
                                 onlineData.user = $rootScope.currentUser.user._id;
-                                //onlineData.location = $rootScope.currLocation;
                                 socketService.emit('online', onlineData);
-                                //console.log($rootScope.currentUser._id)
                                 $state.go(state);
                                 getAppointments();
+                                getNotifications();
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -62,10 +62,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         auth.logIn(user, profilePicture)
                             .then(function () {
                                 onlineData.user = $rootScope.currentUser.user._id;
-                                //onlineData.location = $rootScope.currLocation;
                                 socketService.emit('online', onlineData);
                                 $state.go(state);
                                 getAppointments();
+                                getNotifications();
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -96,10 +96,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         auth.register(user, profilePicture)
                             .then(function () {
                                 onlineData.user = $rootScope.currentUser.user._id;
-                                //onlineData.location = $rootScope.currLocation;
                                 socketService.emit('online', onlineData);
                                 $state.go(state);
-                                getAppointments();
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -127,10 +125,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         auth.register(user, response.image.url)
                             .then(function () {
                                 onlineData.user = $rootScope.currentUser.user._id;
-                                //onlineData.location = $rootScope.currLocation;
                                 socketService.emit('online', onlineData);
                                 $state.go(state);
-                                getAppointments();
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -161,9 +157,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         auth.register(user)
             .then(function () {
                 onlineData.user = $rootScope.currentUser.user._id;
-                //onlineData.location = $rootScope.currLocation;
                 socketService.emit('online', onlineData);
-                getAppointments();
                 $state.go(state);
                 $uibModalInstance.close();
             }, function (error) {
@@ -182,9 +176,9 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         auth.logIn(user)
             .then(function () {
                 onlineData.user = $rootScope.currentUser.user._id;
-                //onlineData.location = $rootScope.currLocation;
                 socketService.emit('online', onlineData);
                 getAppointments();
+                getNotifications();
                 $state.go(state);
                 $uibModalInstance.close();
             }, function (error) {
@@ -206,6 +200,17 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             },
             function (errorMessage) {
                 console.log(errorMessage);
+            }
+        );
+    };
+
+    var getNotifications = function () {
+        notificationFactory.getAllNotifications().then(
+            function (data) {
+                $rootScope.currentUser.user.notifications = data;
+            },
+            function (err) {
+                console.log(err);
             }
         );
     };

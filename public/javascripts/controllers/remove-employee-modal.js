@@ -1,12 +1,11 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessInfo) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, employee, businessInfo, notificationFactory) {
     $scope.employee = employee;
     $scope.employeeHasService = false;
     $scope.associatedServices = [];
 
-    var business = businessInfo;
     var services = businessInfo.services;
     for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
         var employees = services[serviceIndex].employees;
@@ -18,12 +17,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
                 $scope.employeeHasService = true;
             }
         }
-        //for (var employeeIndex = 0; employeeIndex < employees.length; employeeIndex++) {
-        //    if (employee._id === employees[employeeIndex]._id) {
-        //        $scope.associatedServices.push(services[serviceIndex].name);
-        //        $scope.employeeHasService = true;
-        //    }
-        //}
     }
 
     $scope.remove = function () {
@@ -49,6 +42,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
             serviceList: associatedServices
         };
 
+        //TODO Put the content string somewhere else so we can reuse it and define the types of notifications somewhere!
+        notificationFactory.addNotification(employee._id, 'You have been removed from the company', 'alert');
         businessFactory.removeEmployee(selectedEmployee);
         $uibModalInstance.close(businessInfo._id);
     };
