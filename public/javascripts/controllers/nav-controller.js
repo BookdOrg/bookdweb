@@ -88,7 +88,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
 
         var viewedNotification = $scope.notifications.splice(index, 1);
         $rootScope.currentUser.user.notifications = $scope.notifications;
-        notificationFactory.notificationSeen(viewedNotification[0]._id).then(
+        notificationFactory.notificationViewed(viewedNotification[0]._id).then(
             function (data) {
 
             }, function (err) {

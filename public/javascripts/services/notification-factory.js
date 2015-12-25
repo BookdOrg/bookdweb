@@ -31,7 +31,7 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
-    o.notificationSeen = function (id) {
+    o.notificationViewed = function (id) {
         var body = {
             id: id
         };
