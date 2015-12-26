@@ -312,6 +312,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 $uibModalInstance.close();
             });
     };
+    $scope.changeApptStatus = function () {
+        $scope.dateObj.appointment.status = 'paid';
+        businessFactory.updateStatus($scope.dateObj.appointment)
+            .then(function () {
+                $uibModalInstance.close();
+            });
+    };
     $scope.charge = function (appointment) {
         businessFactory.charge(appointment)
             .then(function () {

@@ -789,8 +789,6 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     var appointmentId = req.body._id;
     var appointmentCard = req.body.card;
     var price = req.body.price;
-    console.log(price);
-
     stripe.charges.create({
         amount: price,
         currency: 'usd',
@@ -814,6 +812,23 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
                 res.json({message: 'Success'});
             });
         });
+    });
+});
+
+router.post('/business/appointment/status-update', auth, function (req, res, next) {
+    var appointmentId = req.body._id;
+    Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
+        if (err) {
+            return next(err);
+        }
+        appointment.status = req.body.status;
+
+        appointment.save(function (err, saved) {
+            if (err) {
+                return next(err);
+            }
+            res.json({message: 'success'});
+        })
     });
 });
 /**
