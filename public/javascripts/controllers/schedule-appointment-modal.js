@@ -279,7 +279,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     //TODO Handle the case where the add appointment callback returns 400 because of overlapping appointments
     this.checkOut = function (token) {
-        $scope.appointment.card = token.card;
+        $scope.appointment.stripeToken = token;
+        $scope.appointment.price = $scope.stripePrice;
         businessFactory.addAppointment($scope.appointment)
             .then(function () {
                 socketService.emit('timeDestroyed', $scope.activeTime);

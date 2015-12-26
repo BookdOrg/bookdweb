@@ -13,6 +13,7 @@ var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var stripe = require("stripe")(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
 
 var User = mongoose.model('User');
@@ -594,14 +595,15 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.employee = req.body.employee;
 
     appointment.customer = req.body.customer;
-
     appointment.service = req.body.service;
     appointment.start = req.body.start;
     appointment.end = req.body.end;
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
-    appointment.card = req.body.card;
+    appointment.card = req.body.stripeToken;
+    appointment.card.amount = req.body.price;
     appointment.status = 'active';
+
     var room = appointment.start.date.toString() + appointment.employee.toString();
     var responseArray = [];
 
@@ -623,7 +625,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             }
         }
     }
-
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
@@ -692,7 +693,6 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
 
     var businessId = req.body.businessId;
-    console.log(req.body.customer);
     if (req.body.customer && req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
@@ -779,6 +779,40 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             }
         });
     }
+
+});
+
+router.post('/business/appointment/charge', auth, function (req, res, next) {
+    //var card =  req.body.card;
+    var appointmentId = req.body._id;
+    var appointmentCard = req.body.card;
+    console.log(appointmentCard.id);
+
+    stripe.charges.create({
+        amount: appointmentCard.amount,
+        currency: 'usd',
+        source: appointmentCard.id,
+        description: 'Book\'d Appointment'
+    }, function (err, charge) {
+        if (err && err.type === 'StripeCardError') {
+            // The card has been declined
+            return (next(err));
+        }
+        Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
+            if (err) {
+                return next(err);
+            }
+            appointment.status = 'paid';
+
+            appointment.save(function (err, res) {
+                if (err) {
+                    return next(err);
+                }
+            });
+        });
+    });
+
+    res.json({message: 'Success'});
 
 });
 /**

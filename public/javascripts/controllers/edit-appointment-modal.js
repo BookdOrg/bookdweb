@@ -3,6 +3,8 @@
  */
 module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService,personal) {
     $scope.dateObj = data;
+
+    $scope.business = data.business;
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
         .then(function () {
             $scope.service = businessFactory.service;
@@ -307,6 +309,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         socketService.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
             .then(function (response) {
+                $uibModalInstance.close();
+            });
+    };
+    $scope.charge = function (appointment) {
+        businessFactory.charge(appointment)
+            .then(function () {
                 $uibModalInstance.close();
             });
     };

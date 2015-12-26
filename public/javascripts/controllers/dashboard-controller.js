@@ -333,6 +333,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
 
     $scope.open = function (size, data, type) {
+        data.business = $scope.activeBusiness.business;
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',

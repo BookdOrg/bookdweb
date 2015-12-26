@@ -35,6 +35,15 @@ module.exports = function ($http, auth, $q) {
             return err.data;
         });
     };
+    o.charge = function (appointment) {
+        return $http.post('/business/appointment/charge', appointment, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
+        }, function (err) {
+            return err.data;
+        });
+    };
     /**
      *   Creates a new appointment for both the Employee and Customer.
      *   Takes in the appointment object.

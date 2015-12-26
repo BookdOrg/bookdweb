@@ -1,6 +1,45 @@
 module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap) {
     $scope.businesses = businessFactory.businesses;
 
+    /**
+     *
+     * Enable this when we add is customer filtering
+     *
+     *
+     * @type {google.maps.LatLngBounds}
+     */
+
+    //
+    //$scope.filters = [
+    //    {'name':'Location'},
+    //    {'name':'Rating'}
+    //];
+    //
+    //$scope.activeFilters = [];
+    ///**
+    // * Defines the settings we want to use in the angular-dropdown-multiselect
+    // *
+    // * Documentation can be found here: http://dotansimha.github.io/angularjs-dropdown-multiselect/#/
+    // *
+    // * @type {{displayProp: string, idProp: string, externalIdProp: string, smartButtonMaxItems: number, smartButtonTextConverter: Function}}
+    // */
+    //$scope.settings = {
+    //    displayProp: 'name',
+    //    idProp: 'name',
+    //    externalIdProp: 'name',
+    //    showCheckAll: false,
+    //    selectionLimit:1,
+    //    showUncheckAll:false,
+    //    smartButtonMaxItems: 3,
+    //    smartButtonTextConverter: function (itemText, originalItem) {
+    //        return itemText;
+    //    }
+    //};
+    //
+    //$scope.customTexts = {
+    //    buttonDefaultText: 'Filter By'
+    //};
+
     //var $scope = this;
     var bounds = new google.maps.LatLngBounds();
     var generateMarkers = function(businesses) {
