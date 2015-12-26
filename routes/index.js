@@ -807,16 +807,14 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
             }
             appointment.status = 'paid';
 
-            appointment.save(function (err, res) {
+            appointment.save(function (err, saved) {
                 if (err) {
                     return next(err);
                 }
+                res.json({message: 'Success'});
             });
         });
     });
-
-    res.json({message: 'Success'});
-
 });
 /**
  * Cancel an appointment - Delete
