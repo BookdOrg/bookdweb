@@ -676,7 +676,7 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
     Appointment.find({
         'businessId': businessId,
         'start.monthYear': monthYear,
-        'status': 'active'
+        $or: [{'status': 'paid'}, {'status': 'active'}]
     }).exec(function (error, response) {
         if (error) {
             return next(error);

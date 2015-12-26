@@ -9,6 +9,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     }
     $scope.pendingEvents = [];
     $scope.activeEvents = [];
+    $scope.paidEvents = [];
     $scope.filteredList = [];
     $scope.filteredList[$scope.activeBusiness.business.name] = {};
     var createEventsSources = function (businessArray) {
@@ -21,10 +22,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         end: appointment[appointmentIndex].end.full,
                         appointment: appointment[appointmentIndex]
                     };
-                    if (appointment[appointmentIndex].status !== 'pending') {
-                        $scope.activeEvents.push(tempObj);
-                    } else {
+                    if (appointment[appointmentIndex].status === 'pending') {
                         $scope.pendingEvents.push(tempObj);
+
+                    } else if (appointment[appointmentIndex].status === 'paid') {
+                        $scope.paidEvents.push(tempObj);
+                    } else {
+                        $scope.activeEvents.push(tempObj);
                     }
                 }
             });
@@ -208,6 +212,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         //textColor:'blue',
         events: $scope.pendingEvents
     };
+    $scope.eventsPaid = {
+        color: '#f39',
+        events: $scope.paidEvents
+    };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         $scope.open('lg', date, false);
@@ -323,7 +331,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
     };
     /* event sources array*/
-    $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents];
+    $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents, $scope.eventsPaid];
 
     /**
      *
