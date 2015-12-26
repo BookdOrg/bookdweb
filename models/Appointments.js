@@ -10,7 +10,8 @@ var AppointmentsSchema = new mongoose.Schema({
     service: String,
     timestamp: String,
     card: Object,
-    status: String
+    status: String,
+    price: String
 });
 
 AppointmentsSchema.post('remove', function(next) {

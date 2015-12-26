@@ -600,8 +600,10 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.end = req.body.end;
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
+
     appointment.card = req.body.stripeToken;
-    appointment.card.amount = req.body.price;
+    appointment.price = req.body.price;
+
     appointment.status = 'active';
 
     var room = appointment.start.date.toString() + appointment.employee.toString();
@@ -786,10 +788,11 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     //var card =  req.body.card;
     var appointmentId = req.body._id;
     var appointmentCard = req.body.card;
-    console.log(appointmentCard.id);
+    var price = req.body.price;
+    console.log(price);
 
     stripe.charges.create({
-        amount: appointmentCard.amount,
+        amount: price,
         currency: 'usd',
         source: appointmentCard.id,
         description: 'Book\'d Appointment'
