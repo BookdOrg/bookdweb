@@ -314,7 +314,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     /* config object */
     $scope.uiConfig = {
         calendar: {
-            height: 450,
+            height: 700,
             editable: true,
             displayEventEnd: true,
             header: {
