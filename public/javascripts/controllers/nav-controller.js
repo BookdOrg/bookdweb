@@ -96,6 +96,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             });
 
         $scope.newNotifications = [];
+        changeNotifViewed($scope.notifications);
     };
 
     if (auth.isLoggedIn()) {
@@ -108,6 +109,15 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             function (err) {
                 console.log(err);
             });
+    }
+
+    function changeNotifViewed(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].viewed === false) {
+                arr[i].viewed = true;
+            }
+        }
+
     }
 };
 

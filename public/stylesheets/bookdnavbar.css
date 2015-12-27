@@ -197,6 +197,10 @@
     background-color: white;
 }
 
-.new-notification {
+.new-notification-alert {
     background-color: red;
+}
+
+.new-notification {
+    background: #ccc;
 }

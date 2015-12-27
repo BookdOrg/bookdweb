@@ -122,10 +122,11 @@
                         </ul>
 
                     </li>
-                    <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()" ng-click="viewNotifications()">
+                    <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()">
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                         <a href="#" uib-dropdown-toggle>
-                            <i class="fa fa-bell badge" ng-class="{'new-notification': newNotifications.length > 0}">
+                            <i class="fa fa-bell badge"
+                               ng-class="{'new-notification-alert': newNotifications.length > 0}">
                                 {{newNotifications.length}}
                             </i>
                         </a>
@@ -133,14 +134,15 @@
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
                                 <h4 class="menu-title">Notifications</h4>
-                                <!--<h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>-->
+                                <h4 class="menu-title pull-right" ng-click="viewNotifications()">Mark all as viewed</h4>
                             </div>
                             <span class="divider"></span>
                             <h5 class="text-center" ng-if="notifications.length === 0">You have no notifications!</h5>
                             <ul class="notifications-wrapper">
                                 <li class="content"
                                     ng-repeat="notification in notifications">
-                                    <div class="notification-item">
+                                    <div class="notification-item"
+                                         ng-class="{'new-notification': notification.viewed === false}">
                                         <!--<h5 class="pull-right" ng-click="removeNotification($index)">X</h5>-->
                                         <h5>{{notification.content}}</h5>
                                         <h5>{{notification.timestamp}}</h5>
