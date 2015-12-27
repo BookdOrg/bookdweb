@@ -49,15 +49,24 @@
                                             class="pull-right glyphicon"
                                             ng-class="{'glyphicon-chevron-down': breakStatus, 'glyphicon-chevron-right': !breakStatus}"></i>
                                     </uib-accordion-heading>
-                                    <div class="col-xs-6">
-                                        Start:
-                                        <uib-timepicker ng-model="gap.start" ng-change="changed()"
-                                                        hour-step="hstep" minute-step="mstep"
-                                                        show-meridian="ismeridian"></uib-timepicker>
-                                        End:
-                                        <uib-timepicker ng-model="gap.end" ng-change="changed()"
-                                                        hour-step="hstep" minute-step="mstep"
-                                                        show-meridian="ismeridian"></uib-timepicker>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            Start:
+                                            <uib-timepicker ng-model="gap.start" ng-change="changed()"
+                                                            hour-step="hstep" minute-step="mstep"
+                                                            show-meridian="ismeridian"></uib-timepicker>
+                                            End:
+                                            <uib-timepicker ng-model="gap.end" ng-change="changed()"
+                                                            hour-step="hstep" minute-step="mstep"
+                                                            show-meridian="ismeridian"></uib-timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-xs-offset-5">
+                                            <button class="btn btn-danger text-center"
+                                                    ng-click="deleteGap(day,gap,$index)">Delete
+                                            </button>
+                                        </div>
                                     </div>
                                 </uib-accordion-group>
                             </uib-accordion>
