@@ -1,17 +1,48 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal) {
+    /**
+     * The business currently selected by the Bookd Associate
+     * @type {{business: {}}}
+     */
     $scope.activeBusiness = {
         business: {}
     };
+
     $scope.animationsEnabled = true;
+    /**
+     * If the business owner has dashboards, store the data is businesses,
+     * pre-select the first business in the array as the active business
+     *
+     */
     if (userFactory.dashboard.length > -1) {
         $scope.businesses = userFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
     }
+
+    /**
+     *
+     * The arrays of events that will be passed to the eventsSources for the calender
+     *
+     * @type {Array}
+     */
     $scope.pendingEvents = [];
     $scope.activeEvents = [];
     $scope.paidEvents = [];
+
+    /**
+     * The filtered list is the list of employees who's calendars we want to view,
+     * stored based on which business they are associated with.
+     *
+     * @type {Array}
+     */
     $scope.filteredList = [];
     $scope.filteredList[$scope.activeBusiness.business.name] = {};
+
+    /**
+     *
+     *
+     *
+     * @param businessArray - The array of businesses an employee owns,
+     */
     var createEventsSources = function (businessArray) {
         _.forEach(businessArray, function (appointments, key) {
             _.forEach(appointments, function (appointment, key) {
@@ -35,6 +66,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         });
     };
+    /**
+     *
+     *
+     *
+     *
+     * @type {{open: boolean}}
+     */
     $scope.statusOne = {
         open: true
     };
@@ -56,8 +94,16 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusCal = {
         open: true
     };
+
     $scope.calendarEmployees = [];
 
+    /**
+     *
+     * Removes a service from the business
+     *
+     * @param service - the service object
+     * @param index - the index of the service object in the active business
+     */
     $scope.removeService = function (service, index) {
         $scope.activeBusiness.business.services.splice(index, 1);
         var serviceObj = {
@@ -69,6 +115,14 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             });
     };
 
+    /**
+     *
+     * Opens the remove employee modal
+     *
+     *
+     * @param employee - employee object
+     * @param business - the active business to remove the employee from
+     */
     $scope.removeEmployee = function (employee, business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -84,6 +138,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         });
 
+        /**
+         *
+         * After the modal closes get the updated Business from the back-end
+         * then update the active business to the business returned
+         */
         modalInstance.result.then(function (businessId) {
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
@@ -91,7 +150,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 });
         });
     };
-
+    /**
+     *
+     * Opens a modal to add an employee to a business
+     *
+     *
+     * @param business - the business object
+     */
     $scope.openEmployee = function (business) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -103,7 +168,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             }
         });
-
+        /**
+         *
+         * After the modal closes get the updated Business from the back-end,
+         * then update the active business to the business returned
+         *
+         */
         modalInstance.result.then(function (businessId) {
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
@@ -113,7 +183,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             //console.log('Modal dismissed at: ' + new Date());
         });
     };
-
+    /**
+     *
+     * Opens a modal to create a new service.
+     *
+     *
+     */
     $scope.newService = function () {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -125,12 +200,26 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             }
         });
+        /**
+         *
+         * Once the modal is closed we push the new service into the array of
+         * services the active business has
+         *
+         */
         modalInstance.result.then(function (serviceResponse) {
             $scope.activeBusiness.business.services.push(serviceResponse);
         }, function () {
 
         });
     };
+    /**
+     * Open a modal to edit a service
+     *
+     * @param service - Service Object
+     * @param serviceIndex - The index of the service to be removed in the business object
+     *
+     * We resolve the current business to be used in the modal
+     */
     $scope.editService = function (service, serviceIndex) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
@@ -150,9 +239,21 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
     };
 
+    /**
+     * The default text that the select employee multi-select dropdown should show
+     *
+     * @type {{buttonDefaultText: string}}
+     */
     $scope.customTexts = {
         buttonDefaultText: 'Select Calendars to View'
     };
+
+    /**
+     *
+     * Settings for the dropdown multiselect
+     *
+     * @type {{displayProp: string, idProp: string, externalIdProp: string, smartButtonMaxItems: number, enableSearch: boolean, showCheckAll: boolean, showUncheckAll: boolean, smartButtonTextConverter: Function}}
+     */
     $scope.settings = {
         displayProp: 'name',
         idProp: '_id',
@@ -165,6 +266,15 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             return itemText;
         }
     };
+
+    /**
+     *
+     * Function fired when the Associate changes the active business,
+     * switch the activeBusiness and then make a request for that businesses
+     * appointments
+     *
+     * @param business
+     */
     $scope.switchBusiness = function (business) {
         $scope.activeBusiness.business = business;
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
@@ -174,6 +284,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.viewRender();
             });
     };
+
+    /**
+     *
+     * Define which actions to take when employees are selected on the multi-select dropdown.
+     *
+     * @type {{onItemSelect: Function, onItemDeselect: Function, onSelectAll: Function, onUnselectAll: Function}}
+     */
     $scope.dropdownEvents = {
         onItemSelect: function (item) {
             $scope.filteredList[$scope.activeBusiness.business.name][item._id] = $scope.masterList[$scope.activeBusiness.business.name][item._id];
@@ -201,7 +318,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-
+    /**
+     *
+     * Defines the eventsSources for the calendar.
+     *
+     * @type {{events: Array}}
+     */
     $scope.eventsPersonalSource = {
         //color:'#00',
         //textColor:'blue',
@@ -216,6 +338,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         color: '#f39',
         events: $scope.paidEvents
     };
+    /**
+     *
+     * Events for the calendar
+     *
+     */
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         $scope.open('lg', date, false);
@@ -242,15 +369,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             sources.push(source);
         }
     };
-    /* add custom event*/
-    $scope.addEvent = function () {
-        $scope.events.push({
-            title: 'Open Sesame',
-            start: new Date(y, m, 28),
-            end: new Date(y, m, 29),
-            className: ['openSesame']
-        });
-    };
+
     /* remove event */
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
@@ -278,26 +397,79 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
         $compile(element)($scope);
     };
+    /**
+     *
+     * Function that's called whenever actions are taken on the calendar,
+     * when a month is switched, day, etc.
+     *
+     * We get the current date selected on the calendar and format that date
+     * into MM/YYYY, the monthYear is used to select all appointmnts in the DB
+     * that are in the same month/year
+     *
+     * We check to see if the previousMonthYear selected or previousBusinessYear selected are the same
+     * as the one currently being selected, if not we remove all events on the calendar
+     * then make a request for new business for that month.
+     *
+     * In the getAllAppointments callback we create a new masterEntry list of appointments.
+     *
+     * The schema of which is:
+     *
+     *              masterList:{
+     *                  businessName:{
+     *                      appointments:{
+     *                          [0],
+     *                          [1].
+     *                     }
+     *                  },
+     *                  businessName:{
+     *                          [0],
+     *                          [1],
+     *                 }
+     *              }
+     *
+     *
+     * After the master entry is created we run our create eventsSources function and store
+     * the parameters for the getAllAppointments request in localStorage
+     *
+     *
+     * @param view
+     * @param element
+     */
     $scope.viewRender = function (view, element) {
+        //monthYear = current date of the calendar
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
+        //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
         $scope.masterList = {};
+        //get the previous monthYear/business if they exists
         var previousMonthYear = localStorage['monthYear'];
         var previousBusiness = localStorage['previousBusiness'];
+        //if the current monthYear isn't equal to the one stored and there's no master list for the previousBusiness
         if ($scope.monthYear !== previousMonthYear || !$scope.masterList[previousBusiness]) {
+            //remove all events from the calendar
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            //make a request for all appointments for the activeBusiness that are schedueld for the same month of this year
             businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
                 .then(function (response) {
+                    //take the array of appointments returned and add them to our master entry of appointments for each employee
                     var masterEntry = createMasterEntry(response);
                     $scope.masterList[$scope.activeBusiness.business.name] = {};
                     $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                    //create events arrays with the appointments for the business in our masterList of businesses
                     createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                    //add our monthYear and business to localStorage
                     localStorage['monthYear'] = $scope.monthYear;
                     localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
                 });
         }
     };
-
+    /**
+     * All appointments for the business, this function sorts them by employee
+     *
+     *
+     * @param appointmentArray - All appointments for the business
+     * @returns {{}}
+     */
     var createMasterEntry = function (appointmentArray) {
         var responseArray = {};
         for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
@@ -311,7 +483,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
         return responseArray;
     };
-    /* config object */
+    /* config object for UI Calendar*/
     $scope.uiConfig = {
         calendar: {
             height: 700,
@@ -326,20 +498,21 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
-            viewRender: $scope.viewRender
+            viewRender: $scope.viewRender,
+            addEvent: $scope.addEvent
 
         }
     };
-    /* event sources array*/
+    /* event sources array for ui-calendar*/
     $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents, $scope.eventsPaid];
 
     /**
+     * Opens the edit Appointment modal, for editing appointments
      *
-     * This block is opening and editing appointments via the calendar
-     *
-     *
+     * @param size - String - size of the modal to open
+     * @param data - Object - the appointment to be edited
+     * @param type - Boolean - is the appointment being edited by the user who's appointment it is or an employee/business owner
      */
-
     $scope.open = function (size, data, type) {
         data.business = $scope.activeBusiness.business;
         var modalInstance = $uibModal.open({
@@ -358,6 +531,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             }
         });
+        /**
+         * Once the modal instance as been closed, we remove all events from the calendar
+         * and then render the calendar again with the updated events.
+         *
+         */
         modalInstance.result.then(function (date) {
             if (date && date.appointment !== 'canceled') {
                 if (date.appointment.status == 'paid') {
@@ -376,12 +554,21 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         });
     };
+    /* add custom event*/
+    $scope.addEvent = function (appointment) {
+        $scope.activeEvents.push({
+            title: appointment.title,
+            start: appointment.start.full,
+            end: appointment.end.full,
+            appointment: appointment
+        });
+    };
     /**
      * Block for manually scheduling appointments
      *
-     * @param size
-     * @param type
-     * @param service
+     * @param size - size of the modal
+     * @param type - type of appointment, personal or not
+     * @param service - the service the appointment is for
      */
     $scope.openService = function (size, type, service) {
         var modalInstance = $uibModal.open({
@@ -403,10 +590,17 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             }
         });
-
+        /**
+         *
+         * Once the appointment has been scheduled and the modal closed we want to
+         * update the calendar.
+         *
+         */
         modalInstance.result.then(function (appointment) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            $scope.viewRender();
+            if (appointment) {
+                $scope.addEvent(appointment);
+                //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+            }
         }, function () {
 
         });
