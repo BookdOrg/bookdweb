@@ -221,16 +221,17 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
     } else {
         id = req.payload._id;
     }
+    var monthYear = req.param('monthYear');
     var response = {
         personalAppointments: [],
         businessAppointments: []
     };
-    Appointment.find({'customer': id}).exec(function (err, customerAppointments) {
+    Appointment.find({'customer': id, 'start.monthYear': monthYear}).exec(function (err, customerAppointments) {
         if (err) {
             return next(err);
         }
         response.personalAppointments = customerAppointments;
-        Appointment.find({'employee': id}).exec(function (err, employeeAppointments) {
+        Appointment.find({'employee': id, 'start.monthYear': monthYear}).exec(function (err, employeeAppointments) {
             if (err) {
                 return next(err);
             }

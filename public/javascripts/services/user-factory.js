@@ -56,10 +56,11 @@ var userFactory = function ($http, auth, $q) {
      * Returns all a users personal and business appointments
      * @returns {*}
      */
-    o.getUserAppts = function (id) {
+    o.getUserAppts = function (id, monthYear) {
         return $http.get('/user/appointments-all', {
             params: {
-                id: id
+                id: id,
+                monthYear: monthYear
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
