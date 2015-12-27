@@ -59,7 +59,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $scope.open = function (type, state) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationEnabled,
-            templateUrl: 'partials/login.html',
+            templateUrl: 'partials/modals/auth-modal.html',
             controller: 'AuthCtrl',
             resolve: {
                 modalType: function () {

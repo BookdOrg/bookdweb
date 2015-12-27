@@ -446,6 +446,11 @@ header .intro-text .intro-heading {
         margin-bottom: 50px
     }
 }
-.bg-light-gray {
-    background-color: #f7f7f7
+
+.bg-color-white {
+    background-color: white;
+}
+
+body {
+    background-color: #f7f7f7;
 }
