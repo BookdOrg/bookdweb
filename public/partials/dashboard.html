@@ -31,16 +31,18 @@
                         <a ui-sref="business({businessid:activeBusiness.business.placesId})">Go to Business Page</a>
 
                         <div class="">
-                            Tier: <span ng-if="activeBusiness.business.tier == 0" style="color:#CD7F32;"><i
+                            Tier: <span ng-if="activeBusiness.business.tier === 0" style="color:#CD7F32;"><i
                                 class="fa fa-certificate"></i> Bronze</span>
-                            <span ng-if="activeBusiness.business.tier == 1" style="color:#C0C0C0;"><i
+                            <span ng-if="activeBusiness.business.tier === 1" style="color:#C0C0C0;"><i
                                     class="fa fa-certificate"></i> Silver</span>
-                            <span ng-if="activeBusiness.business.tier == 2" style="color:#FFD700;"><i
+                            <span ng-if="activeBusiness.business.tier === 2" style="color:#FFD700;"><i
                                     class="fa fa-certificate"></i> Gold</span>
                         </div>
                         <div class="row">
                             <div class="text-center">
-                                <button class="btn btn-success" disabled>Upgrade!</button>
+                                <button class="btn btn-success" disabled ng-hide="activeBusiness.business.tier === 2">
+                                    Upgrade!
+                                </button>
                             </div>
                         </div>
                     </div>
