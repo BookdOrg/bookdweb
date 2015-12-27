@@ -13,7 +13,7 @@ var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var stripe = require("stripe")(process.env.stripeDevSecret);
+var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
 var request = require('request');
 
