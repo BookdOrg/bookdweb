@@ -834,12 +834,53 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
  * Cancel an appointment - Delete
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
-    var appointment = req.body.id;
+    var appointment = req.body._id;
+    var customer = req.body.customer;
+    var employee = req.body.employee;
+
+    if (customer !== '') {
+        User.findOne({'_id': customer}).exec(function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            var index = user.personalAppointments.indexOf(appointment);
+
+            if (index > -1) {
+                user.personalAppointments.splice(index, 1);
+                user.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                });
+            } else {
+                console.log('appointment not associated with this user. id=', appointment);
+            }
+
+        });
+    }
+    User.findOne({'_id': employee}).exec(function (err, user) {
+        if (err) {
+            return next(err);
+        }
+
+        var index = user.businessAppointments.indexOf(appointment);
+
+        if (index > -1) {
+            user.businessAppointments.splice(index, 1);
+            user.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+            });
+        } else {
+            console.log('appointment not associated with this user. id=', appointment);
+        }
+    });
     Appointment.findOneAndRemove({'_id': appointment}, function (err, resAppointment) {
         if (err) {
             return next(err);
         }
-        console.log(resAppointment);
         res.status(200).json(resAppointment);
     });
 });

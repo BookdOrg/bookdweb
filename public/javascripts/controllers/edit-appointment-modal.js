@@ -335,10 +335,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         if ($scope.activeTime) {
             socketService.emit('timeDestroyed', $scope.activeTime);
         }
-        var appt = {
-            'id': $scope.dateObj.appointment._id
-        };
-        businessFactory.cancelAppointment(appt)
+        businessFactory.cancelAppointment($scope.dateObj.appointment)
             .then(function () {
                 $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = 'canceled';
