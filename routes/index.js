@@ -828,7 +828,7 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
                 return next(err);
             }
             res.json({message: 'success'});
-        })
+        });
     });
 });
 /**
@@ -836,8 +836,7 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body.id;
-
-    Appointment.findOneAndRemove({'id': appointment._id}, function (err, count) {
+    Appointment.findOneAndRemove({'_id': appointment}, function (err, count) {
         if (err) {
             return next(err);
         }

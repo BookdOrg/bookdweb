@@ -309,20 +309,20 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         socketService.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
             .then(function (response) {
-                $uibModalInstance.close();
+                $uibModalInstance.close($scope.dateObj);
             });
     };
     $scope.changeApptStatus = function () {
         $scope.dateObj.appointment.status = 'paid';
         businessFactory.updateStatus($scope.dateObj.appointment)
             .then(function () {
-                $uibModalInstance.close();
+                $uibModalInstance.close($scope.dateObj);
             });
     };
     $scope.charge = function (appointment) {
         businessFactory.charge(appointment)
             .then(function () {
-                $uibModalInstance.close();
+                $uibModalInstance.close($scope.dateObj);
             });
     };
     $scope.cancel = function () {
@@ -334,7 +334,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         };
         businessFactory.cancelAppointment(appt)
             .then(function () {
-                $uibModalInstance.close();
+                $uibModalInstance.close($scope.dateObj);
             });
     };
     $scope.close = function () {
