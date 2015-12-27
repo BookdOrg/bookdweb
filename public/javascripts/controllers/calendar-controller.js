@@ -102,9 +102,12 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          * and then render the calendar again with the updated events.
          *
          */
-        modalInstance.result.then(function () {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            $scope.viewRender();
+        modalInstance.result.then(function (date) {
+            if (date) {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+                $scope.viewRender();
+            }
+
         }, function () {
 
         });
@@ -130,7 +133,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         $scope.open('lg', date,true);
-        $scope.alertMessage = (date.title + ' was clicked ');
     };
     //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
     /* alert on Drop */
