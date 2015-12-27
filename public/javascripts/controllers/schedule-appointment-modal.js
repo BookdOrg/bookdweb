@@ -2,7 +2,10 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
-                           userFactory, personal, tier, service, notificationFactory) {
+                           userFactory, personal, tier, service, notificationFactory, facebookApi) {
+
+    $scope.facebookApi = facebookApi;
+
     $scope.service = service;
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();

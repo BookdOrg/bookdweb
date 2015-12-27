@@ -320,7 +320,7 @@ router.post('/user/notifications/viewed', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.param('id');
     User.findOne({'_id': id})
-        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos')
+        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
         if (err) {
             return next(err);
@@ -387,7 +387,7 @@ router.get('/user/dashboard', auth, function (req, res, next) {
                 }
                 Service.populate(response.services, {
                     path: 'employees',
-                    select: '_id name avatarVersion availability'
+                    select: '_id name avatarVersion availability provider providerId'
                 }, function (err, newBusiness) {
                     if (err) {
                         return businessCallback(err);
@@ -952,7 +952,7 @@ router.get('/business/details', function (req, res, next) {
     var id = req.param('placesId');
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion'
+        select: '_id businessAppointments name avatarVersion provider providerId'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
@@ -963,7 +963,7 @@ router.get('/business/details', function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion availability'
+                select: '_id businessAppointments name avatarVersion availability provider providerId'
             }, function (err, finalobj) {
                 if (error) {
                     return next(error);

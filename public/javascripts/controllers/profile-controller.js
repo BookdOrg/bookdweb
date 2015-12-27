@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams) {
+module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, facebookApi) {
     $scope.hoveringOver = function (value) {
         $scope.overStar = value;
         $scope.percent = 100 * (value / $scope.max);
@@ -9,4 +9,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     userFactory.get($stateParams.id).then(function (data) {
         $scope.user = data.user;
     });
+
+    $scope.facebookApi = facebookApi;
 };

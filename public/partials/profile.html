@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid bg-light-gray">
   <div class="row page-header">
       <div class="text-left col-md-2">
           <div ng-if="currentUser.user._id == user._id">
@@ -10,6 +10,8 @@
           <div ng-if="currentUser.user._id !== user._id">
               <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
               <img ng-if="user.avatarVersion && user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
+              <img ng-if="user.provider === 'google_plus'" ng-src="{{user.providerId}}"/>
+              <img ng-if="user.provider === 'facebook'" ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
           </div>
       </div>
       <div class="col-md-8">

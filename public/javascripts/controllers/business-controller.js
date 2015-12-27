@@ -1,10 +1,12 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller) {
+                           $controller, facebookApi) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
     $scope.animationsEnabled = true;
     $scope.selectedTab = true;
+
+    $scope.facebookApi = facebookApi;
 
     $scope.toggleEdit = function () {
         $scope.editMode = !$scope.editMode;

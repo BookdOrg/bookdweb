@@ -31,8 +31,14 @@
 
                 <div class="col col-md-3 well employeeHover" ng-repeat="employee in service.employees">
                     <label>
-                        <img class="fitContainer" ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                        <img class="fitContainer" ng-if="employee.avatarVersion"
+                        <img class="fitContainer" ng-if="employee.provider === 'google_plus'"
+                             ng-src="{{employee.providerId}}"/>
+                        <img class="fitContainer" ng-if="employee.provider === 'facebook'"
+                             ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+
+                        <img class="fitContainer" ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                             ng-src="{{cloudinaryDefaultPic}}">
+                        <img class="fitContainer" ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                         <h5>{{employee.name}}</h5>
                         <br>

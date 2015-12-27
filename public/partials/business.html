@@ -133,8 +133,14 @@
                                     <a href="/user/{{employee._id}}/profile"
                                        uib-tooltip="Visit {{employee.name}}'s Profile"
                                        tooltip-placement="bottom">
-                                        <img ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                                        <img ng-if="employee.avatarVersion"
+                                        <img ng-if="employee.provider === 'google_plus'"
+                                             ng-src="{{employee.providerId}}"/>
+                                        <img ng-if="employee.provider === 'facebook'"
+                                             ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+
+                                        <img ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                             ng-src="{{cloudinaryDefaultPic}}">
+                                        <img ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
 
                                         <div class="">
