@@ -202,20 +202,27 @@
                         <i class="fa fa-commenting"></i> Reviews
                     </uib-tab-heading>
                     <div class="row">
-                        <h1 class="text-center">Reviews</h1>
-                        <div class="row">
-                            <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
-
-                            <div class="well col-xs-4 reviewBox" ng-repeat="review in business.reviews track by $index">
-                                <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
-                                <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
-                                <br>
-                                Rating: {{review.rating}}
-                                <br>
-                                {{review.text}}
-                            </div>
+                        <div class="col-xs-12">
+                            <h1 class="text-center">Reviews</h1>
                         </div>
-                        <div class="row text-center">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="well col-xs-4 reviewBox" ng-repeat="review in business.reviews track by $index">
+                            <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
+                            <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
+                            <br>
+                            Rating: {{review.rating}}
+                            <br>
+                            {{review.text}}
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-xs-12">
                             <img src="/images/powered_by_google_on_white_hdpi.png">
                         </div>
                     </div>

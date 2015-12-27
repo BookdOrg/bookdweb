@@ -1,16 +1,5 @@
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
 .employee-search {
     margin-bottom: 1em;
-}
-
-.business-container {
-    height: 200px;
-    border: 1px solid black;
 }
 
 .map-container {
