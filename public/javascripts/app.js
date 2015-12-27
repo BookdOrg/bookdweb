@@ -1,6 +1,7 @@
-global.jQuery = require('jquery');
-global.$ = global.jQuery;
-global._ = require('lodash');
+window.jQuery = require('jquery');
+window.$ = global.jQuery;
+window._ = require('lodash');
+window.io = require('socket.io-client');
 
 var angular = require('angular');
 require('angular-ui-router');
@@ -9,6 +10,7 @@ require('angular-stripe-checkout');
 require('angular-timer');
 require('ngmap');
 require('bootstrap');
+
 var app = angular.module('cc', ['ui.router',
     'google.places',
     'ngGeolocation',

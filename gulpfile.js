@@ -25,6 +25,16 @@ gulp.task('browserify', function () {
     })
         .bundle() // Create the initial bundle when starting the task
         .pipe(source('app.js'))
+        .on('error', gutil.log);
+});
+
+gulp.task('browserifyProd', function () {
+    return browserify({
+        entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
+        debug: true // Gives us sourcemapping
+    })
+        .bundle() // Create the initial bundle when starting the task
+        .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
