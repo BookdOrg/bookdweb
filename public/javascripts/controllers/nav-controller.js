@@ -111,10 +111,14 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             });
     }
 
-    function changeNotifViewed(arr) {
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].viewed === false) {
-                arr[i].viewed = true;
+    /**
+     * Change notifications.viewed to true when "Mark all as viewed" is clicked.
+     * @param notifications
+     */
+    function changeNotifViewed(notifications) {
+        for (var i = 0; i < notifications.length; i++) {
+            if (notifications[i].viewed === false) {
+                notifications[i].viewed = true;
             }
         }
 
