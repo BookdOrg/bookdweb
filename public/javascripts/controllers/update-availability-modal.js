@@ -47,6 +47,10 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance)
             });
     };
 
+    $scope.deleteGap = function (day, gap, index) {
+        day.gaps.splice(index, 1);
+    };
+
     $scope.close = function () {
         $uibModalInstance.dismiss('cancel');
     };
