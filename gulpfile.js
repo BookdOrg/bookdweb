@@ -11,6 +11,7 @@ var browserify = require('browserify'),
     uglify = require('gulp-uglify');
 
 
+
 // Define file path variables
 var paths = {
     root: 'routes',             // App root path
@@ -26,13 +27,13 @@ gulp.task('browserify', function () {
     })
         .bundle() // Create the initial bundle when starting the task
         .pipe(source('app.js'))
-        //.pipe(buffer())
-        //.pipe(sourcemaps.init({loadMaps: true}))
-        //    // Add transformation tasks to the pipeline here.
-        //    .pipe(ngAnnotate())
-        //    .pipe(uglify())
-        //    .on('error', gutil.log)
-        //.pipe(sourcemaps.write('./'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here.
+        .pipe(ngAnnotate())
+        .pipe(uglify({mangle: false}))
+        .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dist));
 });
 
