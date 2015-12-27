@@ -151,14 +151,14 @@
                     <li uib-dropdown ng-show="isLoggedIn()">
                         <a href="" uib-dropdown-toggle class=" avatarPadding">
                             <img class="navbarAvatar"
-                                 ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"
+                                 ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
                                  ng-src="{{cloudinaryDefaultPic}}"/>
                             <img class="navbarAvatar"
-                                 ng-if="currentUser.user.avatarVersion && currentUser.user.provider =='bookd'"
+                                 ng-if="currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
                                  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
-                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'google_plus'"
+                            <img class="navbarAvatar" ng-if="currentUser.user.provider === 'google_plus'"
                                  ng-src="{{currentUser.providerInfo}}"/>
-                            <img class="navbarAvatar" ng-if="currentUser.user.provider == 'facebook'"
+                            <img class="navbarAvatar" ng-if="currentUser.user.provider === 'facebook'"
                                  ng-src="{{currentUser.providerInfo}}"/>
                             {{currentUser.user.name}} <i class="fa fa-caret-down"></i>
                         </a>
