@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-click="showSearch(false)" href="/">
+            <a class="navbar-brand" ng-click="showSearch(false)" ui-sref="landing">
                 <i class="fa fa-2x fa-calendar"></i>
                 <span style="font-size:25px;">Book'd</span>
             </a>
@@ -52,28 +52,28 @@
                 </li>
                 <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                       href="/user/{{currentUser.user._id}}/profile">
+                       ui-sref="user({id:currentUser.user._id})">
                         <i class="fa fa-user"></i> Profile
                     </a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
-                       href="/user/{{currentUser.user._id}}/account">
+                       ui-sref="account({id:currentUser.user._id})">
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>
                 <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" href="/dashboard">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ui-sref="dashboard">
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); checkStateandLogin('login')" href="">
+                    <a ng-click="showSearch(false); checkStateandLogin('login')">
                         <i class="fa fa-sign-in"></i></span> Log In
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); checkStateandLogin('signup');checkStateandLogin()" href="">
+                    <a ng-click="showSearch(false); checkStateandLogin('signup');checkStateandLogin()">
                         <i class="fa fa-user"></i> Sign Up
                     </a>
                 </li>
@@ -164,18 +164,18 @@
                         </a>
                         <ul class="uib-dropdown-menu">
                             <li>
-                                <a href="/calendar" ng-click="showSearch(false)">
+                                <a ui-sref="calendar" ng-click="showSearch(false)">
                                     <i class="fa fa-calendar"></i> Calendar
                                 </a>
                             </li>
                             <li>
                                 <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
-                                   href="/dashboard">
+                                   ui-sref="dashboard">
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
                             </li>
                             <li>
-                                <a href="/user/{{currentUser.user._id}}/account" ng-click="showSearch(false)">
+                                <a ui-sref="account({id:currentUser.user._id})" ng-click="showSearch(false)">
                                     <i class="fa fa-cog"></i> Settings
                                 </a>
                             </li>
