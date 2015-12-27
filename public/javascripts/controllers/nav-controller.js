@@ -84,23 +84,23 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
-    $scope.removeNotification = function (index) {
-
-        var viewedNotification = $scope.notifications.splice(index, 1);
-        $rootScope.currentUser.user.notifications = $scope.notifications;
-        notificationFactory.notificationViewed(viewedNotification[0]._id).then(
+    $scope.viewNotifications = function () {
+        notificationFactory.notificationViewed().then(
             function (data) {
 
             }, function (err) {
                 console.log(err);
             });
+
+        $scope.newNotifications = [];
     };
 
     if (auth.isLoggedIn()) {
-        notificationFactory.getNewNotifications().then(
+        notificationFactory.getNotifications().then(
             function (data) {
                 $rootScope.currentUser.user.notifications = data;
                 $scope.notifications = $rootScope.currentUser.user.notifications;
+                $scope.newNotifications = _.filter($scope.notifications, {viewed: false});
             },
             function (err) {
                 console.log(err);

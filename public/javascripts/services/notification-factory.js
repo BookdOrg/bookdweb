@@ -20,7 +20,7 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
-    o.getNewNotifications = function () {
+    o.getNotifications = function () {
         return $http.get('/user/notifications', {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
@@ -31,11 +31,8 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
-    o.notificationViewed = function (id) {
-        var body = {
-            id: id
-        };
-        return $http.post('/user/notifications/viewed', body, {
+    o.notificationViewed = function () {
+        return $http.get('/user/notifications/viewed', {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
             return response.data;

@@ -110,7 +110,8 @@
                                         </span>
                                     </div>
                                    <button class="btn btn-md sectionBtn" ng-click="search(query)"
-                                           ng-disabled="query.term == undefined || query.location == undefined || query.term == '' || query.location == ''"
+                                           ng-disabled="query.term === undefined || query.location === undefined
+                                            || query.term === '' || query.location === ''"
                                            type="submit">
                                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
                                           ng-class="{'fa-spin' : fetchingQuery}"></i>
@@ -121,8 +122,12 @@
                         </ul>
 
                     </li>
-                    <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()">
-                        <a href="#" uib-dropdown-toggle><i class="fa fa-bell badge">{{notifications.length}}</i>
+                    <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()" ng-click="viewNotifications()">
+                        <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
+                        <a href="#" uib-dropdown-toggle>
+                            <i class="fa fa-bell badge" ng-class="{'new-notification': newNotifications.length > 0}">
+                                {{newNotifications.length}}
+                            </i>
                         </a>
 
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
@@ -131,21 +136,18 @@
                                 <h4 class="menu-title pull-right">View all<i class="fa fa-arrow-circle-right"></i></h4>
                             </div>
                             <span class="divider"></span>
+                            <span ng-if="notifications.length === 0">You have no notifications!</span>
                             <ul class="notifications-wrapper">
                                 <li class="content"
                                     ng-repeat="notification in notifications">
                                     <div class="notification-item">
-                                        <h5 class="pull-right" ng-click="removeNotification($index)">X</h5>
+                                        <!--<h5 class="pull-right" ng-click="removeNotification($index)">X</h5>-->
                                         <h5>{{notification.content}}</h5>
                                         <h5>{{notification.timestamp}}</h5>
                                         <!--<h4 class="item-title">Appointment is {{notification.dayDiff}} days away</h4>-->
                                     </div>
                                 </li>
                             </ul>
-                            <span class="divider"></span>
-
-                            <div class="notification-footer"><h4 class="menu-title">View all<i
-                                    class="fa fa-arrow-circle-right"></i></h4></div>
                         </div>
                     </li>
                     <li uib-dropdown ng-show="isLoggedIn()">

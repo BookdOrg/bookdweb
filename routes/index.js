@@ -242,9 +242,11 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
     });
 });
 
-
+/**
+ * Gets the last 100 notifications for the given user.
+ */
 router.get('/user/notifications', auth, function (req, res, next) {
-    Notification.find({'user': req.payload._id, 'viewed': false}).exec(function (err, notifications) {
+    Notification.find({'user': req.payload._id}).sort({_id: -1}).limit(100).exec(function (err, notifications) {
         if (err) {
             return next(err);
         }
@@ -307,15 +309,16 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
 });
 
 /**
- * Modify a Notification by changing status to viewed.
+ * Modify all the new Notifications by changing viewed to true.
  */
-router.post('/user/notifications/viewed', auth, function (req, res, next) {
-    Notification.findByIdAndUpdate(req.body.id, {$set: {viewed: true}}, function (err, notification) {
-        if (err) {
-            console.log(err);
-        }
-        res.send('Changed notification to viewed successfully');
-    });
+router.get('/user/notifications/viewed', auth, function (req, res, next) {
+    Notification.update({viewed: false}, {$set: {viewed: true}}, {multi: true},
+        function (err, notification) {
+            if (err) {
+                console.log(err);
+            }
+            res.send('Changed notifications to viewed=true successfully');
+        });
 });
 
 /**
@@ -640,6 +643,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             }
         }
     }
+
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
