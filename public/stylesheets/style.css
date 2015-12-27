@@ -226,6 +226,7 @@ span.tab-space {
     overflow:auto;
     max-height:250px;
     list-style: none;
+    padding-left: 0px;
 }
 
 .menu-title {
