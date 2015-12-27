@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var stripe = require("stripe")(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
+var request = require('request');
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
@@ -404,7 +405,15 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         });
     });
 });
-
+router.get('/user/google-photo', auth, function (req, res, next) {
+    var id = req.param('id');
+    request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
+        if (err) {
+            return next(err);
+        }
+        res.json(JSON.parse(response.body));
+    });
+});
 /**
  *
  * Updates Users availability

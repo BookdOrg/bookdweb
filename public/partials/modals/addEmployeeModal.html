@@ -22,7 +22,7 @@
                      ng-src="{{cloudinaryDefaultPic}}"
                      style="height:100px;width:100px;">
                 <img ng-if="employee.provider === 'google_plus'"
-                     ng-src="{{employee.providerId}}"/>
+                     ng-src="{{employee.photo}}"/>
                 <img ng-if="employee.provider === 'facebook'"
                      ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
                 <p>Name: {{employee.name}}</p>

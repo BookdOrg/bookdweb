@@ -53,6 +53,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
         userFactory.search(email).then(function (data) {
             $scope.searched = true;
             $scope.employee = data;
+            if (data.provider === 'google_plus') {
+                userFactory.getGooglePhoto(data.providerId)
+                    .then(function (response) {
+                        $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
+                    });
+            }
         }, function (error) {
             $scope.searched = true;
         });
