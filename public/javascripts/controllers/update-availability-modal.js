@@ -47,6 +47,7 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance)
             });
     };
 
+    $scope.breakStatus = false;
     $scope.deleteGap = function (day, gap, index) {
         day.gaps.splice(index, 1);
     };
