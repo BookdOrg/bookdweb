@@ -197,7 +197,7 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/appointments.html',
+                        templateUrl: '/partials/calendar.html',
                         controller: 'calendarCtrl'
                     }
                 },
