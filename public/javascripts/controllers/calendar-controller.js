@@ -210,7 +210,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
         var previousMonthYear = localStorage['personalMonthYear'];
-        if ($scope.monthYear !== previousMonthYear || $scope.appointments.length === 0) {
+        if ($scope.monthYear !== previousMonthYear || !$scope.appointments) {
             userFactory.getUserAppts(null, $scope.monthYear)
                 .then(function (data) {
                     $scope.appointments = data;
