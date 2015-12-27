@@ -1,19 +1,24 @@
-module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap, $controller, notificationFactory) {
+module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
+                           $controller) {
     $scope.business = businessFactory.business;
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
     $scope.animationsEnabled = true;
+    $scope.selectedTab = true;
 
     $scope.toggleEdit = function () {
         $scope.editMode = !$scope.editMode;
     };
+
     $scope.removeAlert = function () {
         $scope.employeeError.message = null;
     };
+
     $scope.hoveringOver = function (value) {
         $scope.overStar = value;
         $scope.percent = 100 * (value / $scope.max);
     };
+
     $scope.max = 5;
     $scope.isReadonly = true;
 
@@ -210,11 +215,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 $scope.business.info.services.splice(index, 1);
             });
     };
-    /**
-     * Define the center of the map and the geolocation of the business
-     *
-     * @type {string}
-     */
+
     $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
     //NgMap.getMap().then(function (map) {
     //    map.zoom = 9;

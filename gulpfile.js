@@ -10,8 +10,6 @@ var browserify = require('browserify'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify');
 
-
-
 // Define file path variables
 var paths = {
     root: 'routes',             // App root path

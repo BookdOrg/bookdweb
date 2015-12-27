@@ -27,13 +27,16 @@
         </div>
         <div class="col-xs-offset-10">
             <button class="btn btn-lg" ng-if="currentUser.user._id === business.info.owner" ng-click="toggleEdit()"
-                    ng-class="{'btn-warning': editMode === false,'btn-success':editMode === true}"><span
-                    ng-show="!editMode">Enable </span><span ng-show="editMode">Disable </span>Edit <i
-                    class="fa fa-cog"></i>
+                    ng-class="{'btn-warning': editMode === false,'btn-success':editMode === true}">
+                <span ng-show="selectedTab">
+                    <span ng-show="!editMode">Enable </span>
+                    <span ng-show="editMode">Disable </span>
+                    Edit<i class="fa fa-cog"></i>
+                </span>
             </button>
         </div>
         <uib-tabset>
-            <uib-tab>
+            <uib-tab select="selectedTab=true">
                 <uib-tab-heading>
                     <i class="fa fa-calendar"></i> Appointments
                 </uib-tab-heading>
@@ -67,8 +70,8 @@
                                                     class="fa fa-trash-o fa-fw"></i> Delete</a></li>
                                         </ul>
                                     </div>
+                                </div>
                             </div>
-                        </div>
                             <div>
                                 <h2>{{service.name}}</h2>
 
@@ -84,12 +87,12 @@
                                     <i class="fa fa-calendar"></i> Book
                                 </button>
                             </div>
-                    </div>
+                        </div>
                         <!--<div class="col-xs-2 col-xs-offset-5">-->
                         <!--<h1>Services</h1>-->
                         <!--</div>-->
 
-                </div>
+                    </div>
                     <!--
                      #########################################
 
@@ -119,7 +122,7 @@
                                     <button class="close" ng-click="openRemoveEmployeeModal(employee,business.info)"><i
                                             class="fa fa-trash-o text-danger"></i></button>
                                 </div>
-                        </div>
+                            </div>
                             <div class="row">
                                 <a href="/user/{{employee._id}}/profile" uib-tooltip="Visit {{employee.name}}'s Profile"
                                    tooltip-placement="bottom">
@@ -131,13 +134,13 @@
                                         <h4>{{employee.name}}</h4>
                                     </div>
                                 </a>
+                            </div>
                         </div>
-                    </div>
                         <div class="row" ng-if="!business.info.employees">
                             <h1 class="text-center">Your business does not have any employee's registered yet.</h1>
                         </div>
+                    </div>
                 </div>
-            </div>
             </uib-tab>
             <!--
         #########################################
@@ -146,38 +149,39 @@
 
         ########################################
         -->
-            <uib-tab select="initMap('busLoc')">
+            <uib-tab select="initMap('busLoc'); selectedTab=false">
                 <uib-tab-heading>
                     <i class="fa fa-info"></i> Info
                 </uib-tab-heading>
-            <div class="row">
-                <div class="col-xs-7" style="margin-top:5px;">
-                    <ng-map id="busLoc" class="map-container" ng-if="center" center="{{center}}" zoom="16">
-                        <marker position="{{center}}"></marker>
-                    </ng-map>
-                </div>
-                <div class="col-xs-5 text-center">
-                    <p>
-                        <a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
-                    </p>
+                <div class="row">
+                    <div class="col-xs-7" style="margin-top:5px;">
+                        <ng-map id="busLoc" class="map-container" ng-if="center" center="{{center}}" zoom="16">
+                            <marker position="{{center}}"></marker>
+                        </ng-map>
+                    </div>
+                    <div class="col-xs-5 text-center">
+                        <p>
+                            <a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
+                        </p>
 
-                    <p>
-                        <a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> {{business.website}}</a>
-                    </p>
+                        <p>
+                            <a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i>
+                                {{business.website}}</a>
+                        </p>
 
-                    <p>Location: {{business.formatted_address}}</p>
+                        <p>Location: {{business.formatted_address}}</p>
 
-                    <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
+                        <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
 
-                    <p>Hours:</p>
+                        <p>Hours:</p>
                     <span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
                             <br>{{hours}}
                     </span>
                     <span ng-if="!business.opening_hours">
                             No information about {{business.name}}'s hours of operation is available.
                     </span>
+                    </div>
                 </div>
-            </div>
             </uib-tab>
             <!--
          #########################################
@@ -186,13 +190,12 @@
 
          ########################################
          -->
-            <uib-tab>
+            <uib-tab select="selectedTab=false">
                 <uib-tab-heading>
                     <i class="fa fa-commenting"></i> Reviews
                 </uib-tab-heading>
                 <div class="row">
                     <h1 class="text-center">Reviews</h1>
-
                     <div class="row">
                         <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
 
