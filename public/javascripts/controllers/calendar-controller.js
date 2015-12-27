@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout) {
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory) {
     //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
@@ -103,9 +103,12 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          *
          */
         modalInstance.result.then(function (date) {
-            if (date) {
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-                $scope.viewRender();
+            if (date && date.appointment !== 'canceled') {
+                date.start = date.appointment.start.full;
+                date.end = date.appointment.end.full;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
+            } else if (date && date.appointment === 'canceled') {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
             }
 
         }, function () {

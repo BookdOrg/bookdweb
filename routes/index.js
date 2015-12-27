@@ -721,7 +721,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.status(200).json({message: 'Success'});
+                res.status(200).json(response);
             });
         });
     } else {
@@ -734,11 +734,6 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             }
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
-            appointment.save(function (err, response) {
-                if (err) {
-                    return next(err);
-                }
-            });
             if (req.body.customer) {
                 User.findOne({'_id': req.body.employee}).exec(function (err, user) {
                     if (err) {
@@ -773,12 +768,16 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                         if (err) {
                             return next(err);
                         }
-                        res.status(200).json({message: 'Success'});
+                        //res.status(200).json({message: 'Success'});
                     });
                 });
-            } else {
-                res.status(200).json({message: 'Success'});
             }
+            appointment.save(function (err, response) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).json(response);
+            });
         });
     }
 
@@ -805,11 +804,11 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
             }
             appointment.status = 'paid';
 
-            appointment.save(function (err, saved) {
+            appointment.save(function (err, resAppointment) {
                 if (err) {
                     return next(err);
                 }
-                res.json({message: 'Success'});
+                res.json(resAppointment);
             });
         });
     });
@@ -823,11 +822,11 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
         }
         appointment.status = req.body.status;
 
-        appointment.save(function (err, saved) {
+        appointment.save(function (err, resAppointment) {
             if (err) {
                 return next(err);
             }
-            res.json({message: 'success'});
+            res.json(resAppointment);
         });
     });
 });
@@ -836,11 +835,12 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body.id;
-    Appointment.findOneAndRemove({'_id': appointment}, function (err, count) {
+    Appointment.findOneAndRemove({'_id': appointment}, function (err, resAppointment) {
         if (err) {
             return next(err);
         }
-        res.status(200).json({message: 'Success'});
+        console.log(resAppointment);
+        res.status(200).json(resAppointment);
     });
 });
 
