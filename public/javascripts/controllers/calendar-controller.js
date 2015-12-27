@@ -109,7 +109,12 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
 
         });
     };
-
+    /**
+     *
+     * Opens a modal that allows employees to update their availability.
+     *
+     * @param size - the size of the modal
+     */
     $scope.openAvailabilityModal = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
