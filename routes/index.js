@@ -667,7 +667,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             });
         }
         io.sockets.in(room).emit('update');
-        res.status(200).json({message: 'Success!'});
+        res.status(200).json(appointment);
     });
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {

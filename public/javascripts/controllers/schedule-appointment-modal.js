@@ -282,7 +282,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.appointment.stripeToken = token;
         $scope.appointment.price = $scope.stripePrice;
         businessFactory.addAppointment($scope.appointment)
-            .then(function () {
+            .then(function (appointment) {
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 if (personal) {
                     userFactory.getUserAppts().then(
@@ -294,14 +294,14 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                         }
                     );
                 }
-                $uibModalInstance.close();
+                $uibModalInstance.close(appointment);
             });
     };
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
-            .then(function (data) {
+            .then(function (appointment) {
                 socketService.emit('timeDestroyed', $scope.activeTime);
-                $uibModalInstance.close();
+                $uibModalInstance.close(appointment);
             });
 
     };
