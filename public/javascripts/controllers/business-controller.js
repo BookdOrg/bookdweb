@@ -1,6 +1,20 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi) {
+                           $controller, facebookApi, userFactory) {
     $scope.business = businessFactory.business;
+
+    function getGooglePlusPhoto(employeeArray) {
+        for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
+            if (employeeArray[employeeIndex].provider === 'google_plus') {
+                userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
+                    .then(function (response) {
+                        employeeArray[employeeIndex - 1].photo = response.image.url.replace('sz=50', 'sz=200');
+                    });
+            }
+        }
+    }
+
+    getGooglePlusPhoto($scope.business.info.employees);
+
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
     $scope.animationsEnabled = true;

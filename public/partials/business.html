@@ -134,7 +134,7 @@
                                        uib-tooltip="Visit {{employee.name}}'s Profile"
                                        tooltip-placement="bottom">
                                         <img ng-if="employee.provider === 'google_plus'"
-                                             ng-src="{{employee.providerId}}"/>
+                                             ng-src="{{employee.photo}}"/>
                                         <img ng-if="employee.provider === 'facebook'"
                                              ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
