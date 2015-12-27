@@ -358,11 +358,20 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             }
         });
-        //TODO FIGURE OUT HOW TO MAKE THE CALENDAR RELOAD WITHOUT RELOADING THE PAGE :( WON'T WORK NOW
-        //TODO you did this on dashboard page-- figure it out here.
-        modalInstance.result.then(function (appointment) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            $scope.viewRender();
+        modalInstance.result.then(function (date) {
+            if (date && date.appointment !== 'canceled') {
+                if (date.appointment.status == 'paid') {
+                    date.color = '#f39';
+                }
+                if (date.appointment.status == 'pending') {
+                    date.color = '#f70';
+                }
+                date.start = date.appointment.start.full;
+                date.end = date.appointment.end.full;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
+            } else if (date && date.appointment === 'canceled') {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
+            }
         }, function () {
 
         });
