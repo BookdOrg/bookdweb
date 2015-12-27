@@ -353,6 +353,7 @@ app.config([
                 $rootScope.fetchingQuery = false;
                 if (!$state.is('feed')) {
                     $state.go('feed');
+                    $rootScope.results = data;
                 }
             });
     };

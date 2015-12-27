@@ -1,5 +1,5 @@
 module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap) {
-    $scope.businesses = businessFactory.businesses;
+    $scope.businesses = $rootScope.results;
 
     /**
      *
@@ -8,7 +8,6 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
      *
      * @type {google.maps.LatLngBounds}
      */
-
     //
     //$scope.filters = [
     //    {'name':'Location'},
@@ -61,7 +60,9 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
         //});
         //console.log("$scope.positions", $scope.positions);
     };
-
+    if ($scope.businesses.length > 0) {
+        generateMarkers($scope.businesses);
+    }
     $scope.$watchCollection('businesses',function(newVal,oldVal){
         if(newVal !== oldVal){
             generateMarkers(newVal);
