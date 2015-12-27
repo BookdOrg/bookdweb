@@ -25,7 +25,9 @@ gulp.task('browserify', function () {
     })
         .bundle() // Create the initial bundle when starting the task
         .pipe(source('app.js'))
-        .on('error', gutil.log);
+        .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('browserifyProd', function () {
