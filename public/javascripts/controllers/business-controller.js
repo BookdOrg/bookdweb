@@ -5,9 +5,10 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     function getGooglePlusPhoto(employeeArray) {
         for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
             if (employeeArray[employeeIndex].provider === 'google_plus') {
+                var photoIndex = employeeIndex;
                 userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
                     .then(function (response) {
-                        employeeArray[employeeIndex - 1].photo = response.image.url.replace('sz=50', 'sz=200');
+                        employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
                     });
             }
         }

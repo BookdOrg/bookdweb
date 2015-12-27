@@ -7,6 +7,23 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.facebookApi = facebookApi;
 
     $scope.service = service;
+
+    function getGooglePlusPhoto(employeeArray) {
+        for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
+            if (employeeArray[employeeIndex].provider === 'google_plus') {
+                var photoIndex = employeeIndex;
+                userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
+                    .then(function (response) {
+                        employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
+
+                    });
+            }
+        }
+    }
+
+    getGooglePlusPhoto($scope.service.employees);
+
+
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
     $scope.progressBar = 100;

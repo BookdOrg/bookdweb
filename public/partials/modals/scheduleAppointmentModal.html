@@ -29,10 +29,10 @@
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                 <h3>Select an Associate</h3>
 
-                <div class="col col-md-3 well employeeHover" ng-repeat="employee in service.employees">
+                <div class="col col-md-3 well employeeHover" ng-repeat="employee in service.employees track by $index">
                     <label>
                         <img class="fitContainer" ng-if="employee.provider === 'google_plus'"
-                             ng-src="{{employee.providerId}}"/>
+                             ng-src="{{employee.photo}}"/>
                         <img class="fitContainer" ng-if="employee.provider === 'facebook'"
                              ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
