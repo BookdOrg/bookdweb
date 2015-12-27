@@ -21,8 +21,8 @@
                                                                        class="fa fa-check text-danger"></i>
                             {{day.day}}
                             <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
-                                - {{day.end | date:'hh:mm a'}}</span><i class="pull-right glyphicon"
-                                                                        ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                - {{day.end | date:'hh:mm a'}}</span><i class="pull-right fa"
+                                                                        ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
                         </uib-accordion-heading>
                         <div class="checkbox text-center" tooltip-toggle="mouseenter"
                              uib-tooltip="Are you available on {{day.day}}'s">
@@ -46,8 +46,7 @@
                                     <uib-accordion-heading>
                                         <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
                                             - {{gap.end | date:'hh:mm a'}}</span><i
-                                            class="pull-right glyphicon"
-                                            ng-class="{'glyphicon-chevron-down': breakStatus, 'glyphicon-chevron-right': !breakStatus}"></i>
+                                            class="pull-right fa fa-chevron-down"></i>
                                     </uib-accordion-heading>
                                     <div class="row">
                                         <div class="col-xs-6">
