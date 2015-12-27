@@ -8,7 +8,7 @@ var NotificationSchema = new mongoose.Schema({
     timestamp: String,
     type: String,
     viewed: Boolean,
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
 mongoose.model('Notification', NotificationSchema);

@@ -84,6 +84,9 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
+    /**
+     * Tell the database that the notifications have been viewed.
+     */
     $scope.viewNotifications = function () {
         notificationFactory.notificationViewed().then(
             function (data) {

@@ -312,8 +312,9 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
  * Modify all the new Notifications by changing viewed to true.
  */
 router.get('/user/notifications/viewed', auth, function (req, res, next) {
-    Notification.update({viewed: false}, {$set: {viewed: true}}, {multi: true},
-        function (err, notification) {
+    var id = req.payload._id;
+    Notification.update({user: id, viewed: false}, {$set: {viewed: true}}, {multi: true},
+        function (err) {
             if (err) {
                 console.log(err);
             }
