@@ -109,6 +109,7 @@ module.exports = function ($http, auth, $q) {
      * Get all the appointments for a business with a given ID
      *
      * @param id
+     * @param monthYear
      */
     o.getAllAppointments = function (id, monthYear) {
         return $http.get('/business/appointments/all', {
@@ -349,7 +350,7 @@ module.exports = function ($http, auth, $q) {
         // server (or what not handles properly - ex. server error), then we
         // may have to normalize it on our end, as best we can.
         if (!angular.isObject(response.data) || !response.data.message) {
-            return ( $q.reject("An unknown error occurred.") );
+            return ( $q.reject('An unknown error occurred.') );
         }
         // Otherwise, use expected error message.
         return ( $q.reject(response.data.message) );

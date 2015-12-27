@@ -130,12 +130,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         });
     };
     /**
-     *
      * Opens the schedule appointment modal
-     *
-     *
      * @param size - the size of the modal we want to open
-     * @param type - is this being schedule for the current user or for another user
+     * @param type - scheduled for curr user - true, else - false
      * @param service - the service object
      */
     $scope.openScheduleAppointmentModal = function (size, type, service) {

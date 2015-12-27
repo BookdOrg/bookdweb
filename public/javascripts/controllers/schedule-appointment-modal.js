@@ -136,7 +136,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         });
         for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
             for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++) {
-                if(weekDay == $scope.employee.availability[availableDaysIndex].day){
+                if (weekDay == $scope.employee.availability[availableDaysIndex].day) {
                     for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
 
                         var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
@@ -314,5 +314,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             socketService.emit('timeDestroyed', $scope.activeTime);
         }
         $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.newNotification = function (appointment, personToNotify) {
+        //TODO Move this string to somewhere we can access it globally!
+        notificationFactory.addNotification(personToNotify,
+                'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at ' + appointment.start.time
+                + '.', 'alert', false)
+            .then(function () {
+
+            }, function (err) {
+                console.log(err);
+            });
     };
 };

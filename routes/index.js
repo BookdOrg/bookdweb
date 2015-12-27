@@ -209,6 +209,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
 
     });
 });
+
 /**
  *
  * Returns the appointments of a specified user.
@@ -294,8 +295,10 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
             // send mail with defined transport object
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
-                    return console.log(error);
+                    console.log(error);
                 }
+
+                res.send(info);
             });
         }
     });
