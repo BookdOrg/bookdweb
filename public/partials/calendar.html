@@ -8,9 +8,15 @@
         </div>
         <div class="panel-body">
             <div class="btn-group col-xs-offset-5">
-                <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')">Month</button>
-                <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
-                <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+                <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')" ng-model="radioModel"
+                        uib-btn-radio="'Month'">Month
+                </button>
+                <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')" ng-model="radioModel"
+                        uib-btn-radio="'Week'">Week
+                </button>
+                <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')" ng-model="radioModel"
+                        uib-btn-radio="'Day'">Day
+                </button>
             </div>
             <button class="btn btn-success" ng-click="openAvailabilityModal('lg')"
                     ng-show="currentUser.user.isAssociate"

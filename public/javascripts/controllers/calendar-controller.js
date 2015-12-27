@@ -2,6 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory) {
+    $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
