@@ -1,5 +1,5 @@
 module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap) {
-    $scope.businesses = $rootScope.results;
+    $scope.businesses = businessFactory.businesses;
 
     /**
      *
