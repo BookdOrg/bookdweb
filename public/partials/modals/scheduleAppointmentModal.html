@@ -27,13 +27,17 @@
         </div>
         <div class="tab-pane" id="employees">
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
-                <div class="col-xs-12">
-                    <h3>Select an Associate</h3>
-                </div>
+                <h3>Select an Associate</h3>
                 <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees">
                     <label>
-                        <img class="fitContainer" ng-if="!employee.avatarVersion" ng-src="{{cloudinaryDefaultPic}}">
-                        <img class="fitContainer" ng-if="employee.avatarVersion"
+                        <img class="fitContainer" ng-if="employee.provider === 'google_plus'"
+                             ng-src="{{employee.photo}}"/>
+                        <img class="fitContainer" ng-if="employee.provider === 'facebook'"
+                             ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+
+                        <img class="fitContainer" ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                             ng-src="{{cloudinaryDefaultPic}}">
+                        <img class="fitContainer" ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                         <h5>{{employee.name}}</h5>
                         <br>

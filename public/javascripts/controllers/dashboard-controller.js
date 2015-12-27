@@ -1,4 +1,6 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal) {
+
+    $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
      * @type {{business: {}}}

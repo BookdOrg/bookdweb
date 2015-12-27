@@ -1,10 +1,27 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller) {
+                           $controller, facebookApi, userFactory) {
     $scope.business = businessFactory.business;
+
+    function getGooglePlusPhoto(employeeArray) {
+        for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
+            if (employeeArray[employeeIndex].provider === 'google_plus') {
+                var photoIndex = employeeIndex;
+                userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
+                    .then(function (response) {
+                        employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
+                    });
+            }
+        }
+    }
+
+    getGooglePlusPhoto($scope.business.info.employees);
+
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
     $scope.animationsEnabled = true;
     $scope.selectedTab = true;
+
+    $scope.facebookApi = facebookApi;
 
     $scope.toggleEdit = function () {
         $scope.editMode = !$scope.editMode;

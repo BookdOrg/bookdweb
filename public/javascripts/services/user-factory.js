@@ -42,14 +42,25 @@ var userFactory = function ($http, auth, $q) {
             //console.log(data);
         }, handleError);
     };
+    o.getGooglePhoto = function (id) {
+        return $http.get('/user/google-photo', {
+            params: {
+                id: id
+            },
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
+        });
+    };
     /**
      * Returns all a users personal and business appointments
      * @returns {*}
      */
-    o.getUserAppts = function (id) {
+    o.getUserAppts = function (id, monthYear) {
         return $http.get('/user/appointments-all', {
             params: {
-                id: id
+                id: id,
+                monthYear: monthYear
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {

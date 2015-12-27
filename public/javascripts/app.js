@@ -28,7 +28,9 @@ app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/uplo
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
     .constant('localDevHost', 'localhost')
     .constant('devHost', 'dev.bookd.me')
-    .constant('devPort', '8112');
+    .constant('devPort', '8112')
+    .constant('facebookApi', 'https://graph.facebook.com/')
+    .constant('googleApi', 'https://www.googleapis.com/plus/v1/people/');
 
 
 require('./services');

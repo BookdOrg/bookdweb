@@ -2,6 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory) {
+    $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
@@ -205,11 +206,19 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      */
     //TODO cache the appointments and only make the calls as needed
     $scope.viewRender = function(view,element){
-        userFactory.getUserAppts()
-            .then(function(data){
-                $scope.appointments = data;
-                createEventsSources();
-            });
+        var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
+        //convert monthYear into the correct format
+        $scope.monthYear = moment(monthYear).format('MM/YYYY');
+        var previousMonthYear = localStorage['personalMonthYear'];
+        if ($scope.monthYear !== previousMonthYear || $scope.appointments.length === 0) {
+            userFactory.getUserAppts(null, $scope.monthYear)
+                .then(function (data) {
+                    $scope.appointments = data;
+                    createEventsSources();
+                    localStorage['personalMonthYear'] = $scope.monthYear;
+                });
+        }
+
 
     };
     /* Calendar config object */

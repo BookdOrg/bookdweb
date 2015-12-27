@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var stripe = require("stripe")(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
+var request = require('request');
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
@@ -221,16 +222,17 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
     } else {
         id = req.payload._id;
     }
+    var monthYear = req.param('monthYear');
     var response = {
         personalAppointments: [],
         businessAppointments: []
     };
-    Appointment.find({'customer': id}).exec(function (err, customerAppointments) {
+    Appointment.find({'customer': id, 'start.monthYear': monthYear}).exec(function (err, customerAppointments) {
         if (err) {
             return next(err);
         }
         response.personalAppointments = customerAppointments;
-        Appointment.find({'employee': id}).exec(function (err, employeeAppointments) {
+        Appointment.find({'employee': id, 'start.monthYear': monthYear}).exec(function (err, employeeAppointments) {
             if (err) {
                 return next(err);
             }
@@ -323,7 +325,7 @@ router.post('/user/notifications/viewed', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.param('id');
     User.findOne({'_id': id})
-        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos')
+        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
         if (err) {
             return next(err);
@@ -390,7 +392,7 @@ router.get('/user/dashboard', auth, function (req, res, next) {
                 }
                 Service.populate(response.services, {
                     path: 'employees',
-                    select: '_id name avatarVersion availability'
+                    select: '_id name avatarVersion availability provider providerId'
                 }, function (err, newBusiness) {
                     if (err) {
                         return businessCallback(err);
@@ -407,7 +409,15 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         });
     });
 });
-
+router.get('/user/google-photo', auth, function (req, res, next) {
+    var id = req.param('id');
+    request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
+        if (err) {
+            return next(err);
+        }
+        res.json(JSON.parse(response.body));
+    });
+});
 /**
  *
  * Updates Users availability
@@ -955,7 +965,7 @@ router.get('/business/details', function (req, res, next) {
     var id = req.param('placesId');
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion'
+        select: '_id businessAppointments name avatarVersion provider providerId'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
@@ -966,7 +976,7 @@ router.get('/business/details', function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion availability'
+                select: '_id businessAppointments name avatarVersion availability provider providerId'
             }, function (err, finalobj) {
                 if (error) {
                     return next(error);

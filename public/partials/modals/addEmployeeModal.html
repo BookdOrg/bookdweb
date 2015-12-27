@@ -21,8 +21,10 @@
                 <img ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
                      ng-src="{{cloudinaryDefaultPic}}"
                      style="height:100px;width:100px;">
-                <!--<img ng-if="employee.provider == 'google_plus'" ng-src="https://www.googleapis.com/plus/v1/people/{{employee.providerID}}?fields=image&key=" style="height:100px;width:100px;">-->
-                <!--<img ng-if="employee.provider == 'facebook'" src="https://graph.facebook.com/{{employee.providerID}}?fields=picture.type(large)" style="height:100px;width:100px;">-->
+                <img ng-if="employee.provider === 'google_plus'"
+                     ng-src="{{employee.photo}}"/>
+                <img ng-if="employee.provider === 'facebook'"
+                     ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
                 <p>Name: {{employee.name}}</p>
             </div>
             <div class="col-md-12" ng-if="!employee && searched">
