@@ -18,7 +18,8 @@ var app = angular.module('cc', ['ui.router',
     'angularFileUpload',
     'angularjs-dropdown-multiselect',
     'stripe.checkout',
-    'timer'
+    'timer',
+    'ngTouch'
 ]);
 
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
