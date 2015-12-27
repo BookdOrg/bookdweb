@@ -295,6 +295,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     );
                 }
                 $uibModalInstance.close(appointment);
+            }, function (err) {
+                //TODO Really handle this
+                console.log(err);
             });
     };
     $scope.book = function () {
