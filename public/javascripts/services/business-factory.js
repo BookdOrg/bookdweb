@@ -311,6 +311,7 @@ module.exports = function ($http, auth, $q) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.service);
+            return data.data;
         }, handleError);
     };
     /**

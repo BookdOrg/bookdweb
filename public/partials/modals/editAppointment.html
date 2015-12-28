@@ -5,6 +5,10 @@
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
     </timer>
+    <uib-alert type="danger" ng-show="showNoEmployee">Sorry, this associate can't accept re-schedules for this service.
+        Your currently scheduled appointment is still active however, if necessary please cancel and schedule with
+        another associate.
+    </uib-alert>
 </div>
 <div class="modal-body">
     <div class="row">
@@ -45,7 +49,6 @@
             ng-show="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
-    <button class="btn btn-danger"
-            ng-disabled="availableTimes[selectedIndex].time !== dateObj.appointment.start.time" ng-click="cancel()">
+    <button class="btn btn-danger" ng-click="cancel()">
         Cancel <i class="fa fa-calendar-times-o"></i></button>
 </div>

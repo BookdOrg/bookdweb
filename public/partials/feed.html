@@ -17,7 +17,8 @@
                         </span>
                         <br>
                         <a href="/business/{{business.place_id}}">{{business.name}}</a>
-                        <br><span>Rating: {{business.rating}}</span>
+                        <br><span ng-if="business.rating">Rating: {{business.rating}}</span><span
+                            ng-if="!business.rating">This Business has not been rated yet.</span>
                     </div>
                 </div>
                 <br>

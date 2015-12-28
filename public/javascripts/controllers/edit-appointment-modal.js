@@ -3,12 +3,15 @@
  */
 module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService,personal) {
     $scope.dateObj = data;
-
+    $scope.showNoEmployee = false;
     $scope.business = data.business;
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
-        .then(function () {
+        .then(function (data) {
             $scope.service = businessFactory.service;
-            $scope.employee = _.findWhere($scope.service.employees, {_id: data.appointment.employee});
+            $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
+            if (!$scope.employee) {
+                $scope.showNoEmployee = true;
+            }
             $scope.stripePrice = $scope.service.price * 100;
         });
     $scope.selectedDate = data.appointment.start.date;
@@ -58,7 +61,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
         userFactory.getAppts(employeeApptObj)
             .then(function (data) {
-                calculateAppointments(data);
+                if ($scope.employee) {
+                    calculateAppointments(data);
+                }
                 var testTime = function (element, index, list) {
                     if (element.time === $scope.dateObj.appointment.start.time) {
                         $scope.availableTimes[index].available = true;
