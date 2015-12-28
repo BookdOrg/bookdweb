@@ -437,17 +437,18 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param view
      * @param element
      */
+    $scope.masterList = {};
+    //var storedList = localStorage.getItem('masterList');
     $scope.viewRender = function (view, element) {
         //monthYear = current date of the calendar
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
         //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
-        $scope.masterList = {};
         //get the previous monthYear/business if they exists
         var previousMonthYear = localStorage['monthYear'];
         var previousBusiness = localStorage['previousBusiness'];
         //if the current monthYear isn't equal to the one stored and there's no master list for the previousBusiness
-        if ($scope.monthYear !== previousMonthYear || !$scope.masterList[previousBusiness]) {
+        if ($scope.monthYear !== previousMonthYear || !$scope.masterList[$scope.activeBusiness.business.name] || previousBusiness !== $scope.activeBusiness.business.name) {
             //remove all events from the calendar
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             //make a request for all appointments for the activeBusiness that are schedueld for the same month of this year
@@ -457,6 +458,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     var masterEntry = createMasterEntry(response);
                     $scope.masterList[$scope.activeBusiness.business.name] = {};
                     $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                    localStorage.setItem('masterList', angular.toJson($scope.masterList));
                     //create events arrays with the appointments for the business in our masterList of businesses
                     createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
                     //add our monthYear and business to localStorage

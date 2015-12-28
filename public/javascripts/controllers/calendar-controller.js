@@ -2,7 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory) {
-    $scope.radioModel = 'Month';
+    $scope.radioModel = 'Week';
     //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
@@ -25,29 +25,29 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * title,start,end,appointment into the correct event type array.
      *
      */
-    var createEventsSources = function () {
-        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.personalAppointments.length; appointmentIndex++) {
-            var tempObj = {
-                title: $scope.appointments.personalAppointments[appointmentIndex].title,
-                start: $scope.appointments.personalAppointments[appointmentIndex].start.full,
-                end: $scope.appointments.personalAppointments[appointmentIndex].end.full,
-                appointment: $scope.appointments.personalAppointments[appointmentIndex]
+    var createEventsSources = function (appointmentsArray) {
+        for (var pappointmentIndex = 0; pappointmentIndex < appointmentsArray.personalAppointments.length; pappointmentIndex++) {
+            var personalTempObj = {
+                title: appointmentsArray.personalAppointments[pappointmentIndex].title,
+                start: appointmentsArray.personalAppointments[pappointmentIndex].start.full,
+                end: appointmentsArray.personalAppointments[pappointmentIndex].end.full,
+                appointment: appointmentsArray.personalAppointments[pappointmentIndex]
             };
-            if ($scope.appointments.personalAppointments[appointmentIndex].status !== 'pending') {
-                $scope.personalEvents.push(tempObj);
+            if (appointmentsArray.personalAppointments[pappointmentIndex].status !== 'pending') {
+                $scope.personalEvents.push(personalTempObj);
             } else {
-                $scope.pendingEvents.push(tempObj);
+                $scope.pendingEvents.push(personalTempObj);
             }
         }
-        for (var appointmentIndex = 0; appointmentIndex < $scope.appointments.businessAppointments.length; appointmentIndex++) {
-            var tempObj = {
-                title: $scope.appointments.businessAppointments[appointmentIndex].title,
-                start: $scope.appointments.businessAppointments[appointmentIndex].start.full,
-                end: $scope.appointments.businessAppointments[appointmentIndex].end.full,
-                appointment: $scope.appointments.businessAppointments[appointmentIndex]
+        for (var bappointmentIndex = 0; bappointmentIndex < appointmentsArray.businessAppointments.length; bappointmentIndex++) {
+            var businessTempObj = {
+                title: appointmentsArray.businessAppointments[bappointmentIndex].title,
+                start: appointmentsArray.businessAppointments[bappointmentIndex].start.full,
+                end: appointmentsArray.businessAppointments[bappointmentIndex].end.full,
+                appointment: appointmentsArray.businessAppointments[bappointmentIndex]
             };
-            if ($scope.appointments.businessAppointments[appointmentIndex].status !== 'pending') {
-                $scope.associateEvents.push(tempObj);
+            if (appointmentsArray.businessAppointments[bappointmentIndex].status !== 'pending') {
+                $scope.associateEvents.push(businessTempObj);
             }
         }
     };
@@ -205,21 +205,32 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * @param element
      */
     //TODO cache the appointments and only make the calls as needed
+    $scope.monthYearArray = {};
     $scope.viewRender = function(view,element){
+        $scope.monthYearArray = angular.fromJson(localStorage.getItem('monthYearArray'));
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
         //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
-        var previousMonthYear = localStorage['personalMonthYear'];
-        if ($scope.monthYear !== previousMonthYear || !$scope.appointments) {
+        var previousMonthYear = localStorage['previousPersonalMonthYear'];
+        if ($scope.monthYear !== previousMonthYear || !$scope.monthYearArray[$scope.monthYear]) {
+            if (!$scope.monthYearArray[$scope.monthYear]) {
+                $scope.monthYearArray[$scope.monthYear] = {};
+            }
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             userFactory.getUserAppts(null, $scope.monthYear)
                 .then(function (data) {
                     $scope.appointments = data;
-                    createEventsSources();
-                    localStorage['personalMonthYear'] = $scope.monthYear;
+                    $scope.monthYearArray[$scope.monthYear].appointments = {};
+                    $scope.monthYearArray[$scope.monthYear].appointments = data;
+                    createEventsSources($scope.monthYearArray[$scope.monthYear].appointments);
+                    localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+
                 });
+        } else if ($scope.monthYear === previousMonthYear) {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            createEventsSources($scope.monthYearArray[$scope.monthYear].appointments);
         }
-
-
     };
     /* Calendar config object */
     $scope.uiConfig = {
@@ -227,6 +238,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             height: 700,
             editable: true,
             displayEventEnd:true,
+            defaultView: 'agendaWeek',
             header: {
                 left: 'title',
                 center: '',
