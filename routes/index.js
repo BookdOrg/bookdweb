@@ -410,18 +410,18 @@ router.get('/user/dashboard', auth, function (req, res, next) {
             }]).exec(function (error, response) {
                 if (error) {
                     return businessCallback(error);
-                    }
+                }
                 Service.populate(response.services, {
                     path: 'employees',
                     select: '_id name avatarVersion availability provider providerId'
-                }, function (err, newBusiness) {
+                }, function (err) {
                     if (err) {
                         return businessCallback(err);
                     }
                     updatedBusinesses.push(response);
                     businessCallback();
                 });
-                });
+            });
         }, function (err) {
             if (err) {
                 return next(err);
