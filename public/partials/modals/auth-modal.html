@@ -1,20 +1,28 @@
 <uib-tabset justified="true">
     <uib-tab heading="{{tabs[0].title}}" active="tabs[0].active">
         <div class="modal-body row">
-            <div class=" text-center alert bg-danger" ng-show="error" role="alert" close="">
+            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
                 {{error}}
-            </div>
-            <form class="col-xs-offset-2 col-xs-8">
+            </uib-alert>
+            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                       ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert" close="">
+                Please enter a valid email
+            </uib-alert>
+            <form name="loginForm" class="col-xs-offset-2 col-xs-8 css-form">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" placeholder="johnnyappleseed@me.com" ng-model="user.email">
+                    <input type="email" name="loginEmail" class="form-control" placeholder="johnnyappleseed@me.com"
+                           ng-model="user.email" required>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password"
+                           required>
                 </div>
                 <div class="form-group">
-                    <button type="submit" ng-click="logIn()" class="btn btn-primary col-xs-12"><i class="fa fa-sign-in"></i> Log In</button>
+                    <button type="submit" ng-click="loginForm.$valid && logIn()" class="btn btn-primary col-xs-12"><i
+                            class="fa fa-sign-in"></i> Log In
+                    </button>
                 </div>
             </form>
             <div class="col-xs-12 text-center">
@@ -28,32 +36,44 @@
     </uib-tab>
     <uib-tab heading="{{tabs[1].title}}" active="tabs[1].active">
         <div class="modal-body row">
-            <div class=" text-center alert bg-danger" ng-show="error" role="alert" close="">
+            <div class="col-xs-8 col-xs-offset-2 text-center alert bg-danger" ng-show="error" role="alert" close="">
                 {{error}}
             </div>
-            <form class="col-xs-offset-2 col-xs-8">
+            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                       ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
+                Please enter a valid email
+            </uib-alert>
+            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                       ng-show="signUpForm.signUpPassword.$error.password" role="alert" close="">
+                Your password must have more than 8 characters.
+            </uib-alert>
+            <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
                 <div class="form-group">
                     <label>First Name</label>
-                    <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName">
+                    <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName" required>
                 </div>
 
                 <div class="form-group">
                     <label>Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastName">
+                    <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastName" required>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" placeholder="johnnyappleseed@me.com" ng-model="user.email">
+                    <input type="email" name="signUpEmail" class="form-control" placeholder="johnnyappleseed@me.com"
+                           ng-model="user.email" required>
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+                    <input type="password" name="signUpPassword" class="form-control" placeholder="Password"
+                           ng-model="user.password" ng-minlength="8" required>
                 </div>
 
                 <div class="form-group">
-                    <button ng-click="register()" class="btn btn-primary col-xs-12"><i class="fa fa-user"></i> Sign Up</button>
+                    <button ng-click="signUpForm.$valid && register()" class="btn btn-primary col-xs-12"><i
+                            class="fa fa-user"></i> Sign Up
+                    </button>
                 </div>
             </form>
             <div class="col-xs-12 text-center">
