@@ -406,13 +406,21 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         async.each(user.businesses, function (currBusiness, businessCallback) {
             Business.findOne({'_id': currBusiness._id}).populate([{path: 'services', select: ''}, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion provider providerId availability'
+                select: '_id name avatarVersion provider providerId availability'
             }]).exec(function (error, response) {
                 if (error) {
                     return businessCallback(error);
                     }
+                Service.populate(response.services, {
+                    path: 'employees',
+                    select: '_id name avatarVersion availability provider providerId'
+                }, function (err, newBusiness) {
+                    if (err) {
+                        return businessCallback(err);
+                    }
                     updatedBusinesses.push(response);
                     businessCallback();
+                });
                 });
         }, function (err) {
             if (err) {
