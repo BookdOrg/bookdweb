@@ -399,26 +399,21 @@ router.get('/user/search', auth, function (req, res, next) {
 router.get('/user/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
-    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate('businesses employees').exec(function (error, user) {
+    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate('businesses').exec(function (error, user) {
         if (error) {
             return next(error);
         }
         async.each(user.businesses, function (currBusiness, businessCallback) {
-            Business.findOne({'_id': currBusiness._id}).populate('employees services').exec(function (error, response) {
+            Business.findOne({'_id': currBusiness._id}).populate([{path: 'services', select: ''}, {
+                path: 'employees',
+                select: '_id businessAppointments name avatarVersion provider providerId availability'
+            }]).exec(function (error, response) {
                 if (error) {
                     return businessCallback(error);
-                }
-                Service.populate(response.services, {
-                    path: 'employees',
-                    select: '_id name avatarVersion availability provider providerId'
-                }, function (err, newBusiness) {
-                    if (err) {
-                        return businessCallback(err);
                     }
                     updatedBusinesses.push(response);
                     businessCallback();
                 });
-            });
         }, function (err) {
             if (err) {
                 return next(err);
