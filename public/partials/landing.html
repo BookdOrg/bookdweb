@@ -5,27 +5,25 @@
             <!--<div class="intro-heading">It's Nice To Meet You</div>-->
             <!--<a href="#services" class="page-scroll btn btn-xl">Tell Me More</a>-->
             <div class="row form-inline form-group">
-                <form>
-            <span class="left-inner-addon left-inner-addon-landing">
-            <i class="fa fa-building"></i>
-            <input class="form-control input-lg" aria-describedby="search" ng-model="query.term"
-                   placeholder="Barbershops" id="search">
-            </span>
-            <span class="left-inner-addon left-inner-addon-landing">
-            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-            <input class="form-control input-lg" aria-describedby="near" g-places-autocomplete
-                   options="autocompleteOptions" ng-model="query.location">
-            </span>
-            <span>
-            <button class="btn btn-lg sectionBtn" ng-click="search(query)"
-                    ng-disabled="query.term === undefined || query.location === undefined || query.term === '' || query.location === ''"
-                    type="submit">
-                <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
-                   ng-class="{'fa-spin' : fetchingQuery}"></i>
-                <span ng-show="!fetchingQuery">Search</span>
-            </button>
-            </span>
+                <form name="landingQuery">
+                    <span class="left-inner-addon left-inner-addon-landing">
+                    <i class="fa fa-building"></i>
+                    <input class="form-control input-lg" aria-describedby="search" ng-model="query.term"
+                           placeholder="Barbershops" id="search" required>
+                    </span>
+                    <span class="left-inner-addon left-inner-addon-landing">
+                    <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                    <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                    <input class="form-control input-lg" aria-describedby="near" g-places-autocomplete
+                           options="autocompleteOptions" ng-model="query.location" required>
+                    </span>
+                    <span>
+                    <button class="btn btn-lg sectionBtn" ng-click="landingQuery.$valid && search(query)" type="submit">
+                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                           ng-class="{'fa-spin' : fetchingQuery}"></i>
+                        <span ng-show="!fetchingQuery">Search</span>
+                    </button>
+                    </span>
                 </form>
             </div>
         </div>
