@@ -1,4 +1,4 @@
-<section>
+<section class="searchSection">
     <div class="container">
         <div class="row">
             <div class="page-header">
@@ -7,12 +7,12 @@
         </div>
         <div class="row" ng-if="center">
             <div class="col-xs-12">
-                <ng-map center="{{center}}" zoom="16">
+                <ng-map center="{{center}}" zoom="16" class="map-container ">
                     <marker position="{{center}}"></marker>
                 </ng-map>
             </div>
         </div>
-        <div class="row">
+        <div class="row search-place-container ">
             <form class="col-xs-6 form-horizontal" name="partnerForm">
                 <div class="form-group">
                     <div class="col col-xs-10 col-xs-offset-1">
