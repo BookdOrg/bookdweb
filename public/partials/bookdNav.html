@@ -134,7 +134,8 @@
                         <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
                             <div class="notification-heading">
                                 <h4 class="menu-title">Notifications</h4>
-                                <h4 class="menu-title pull-right" ng-click="viewNotifications()">Mark all as viewed</h4>
+                                <h4 class="menu-title pull-right" ng-click="viewAllNotifications()">Mark all as
+                                    viewed</h4>
                             </div>
                             <span class="divider"></span>
                             <h5 class="text-center" ng-if="notifications.length === 0">You have no notifications!</h5>
@@ -143,7 +144,8 @@
                                     ng-repeat="notification in notifications">
                                     <div class="notification-item"
                                          ng-class="{'new-notification': notification.viewed === false}">
-                                        <!--<h5 class="pull-right" ng-click="removeNotification($index)">X</h5>-->
+                                        <h5 class="pull-right" ng-click="viewNotification($index)"
+                                            ng-if="notification.viewed === false">X</h5>
                                         <h5>{{notification.content}}</h5>
                                         <h5>{{notification.timestamp}}</h5>
                                         <!--<h4 class="item-title">Appointment is {{notification.dayDiff}} days away</h4>-->

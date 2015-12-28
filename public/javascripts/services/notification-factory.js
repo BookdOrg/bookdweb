@@ -31,8 +31,31 @@ module.exports = function ($http, auth, $q) {
         });
     };
 
-    o.notificationViewed = function () {
+    /**
+     * Route to change all non-viewed notifications to viewed.
+     * @returns {*}
+     */
+    o.notificationsViewed = function () {
         return $http.get('/user/notifications/viewed', {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (response) {
+            return response.data;
+        }, function (err) {
+            handleError(err);
+            return err.data;
+        });
+    };
+
+    /**
+     * Route to change one non-viewed notifications to viewed given it's ID.
+     * @param id
+     * @returns {*}
+     */
+    o.notificationViewed = function (id) {
+        var body = {
+            id: id
+        };
+        return $http.post('/user/notification/viewed', body, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
             return response.data;

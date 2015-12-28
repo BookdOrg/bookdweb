@@ -87,8 +87,8 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     /**
      * Tell the database that the notifications have been viewed.
      */
-    $scope.viewNotifications = function () {
-        notificationFactory.notificationViewed().then(
+    $scope.viewAllNotifications = function () {
+        notificationFactory.notificationsViewed().then(
             function (data) {
 
             }, function (err) {
@@ -96,7 +96,29 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             });
 
         $scope.newNotifications = [];
-        changeNotifViewed($scope.notifications);
+        changeAllNotifViewed($scope.notifications);
+    };
+
+    /**
+     * Change the single notification to viewed=true, send to database.
+     * @param index
+     */
+    $scope.viewNotification = function (index) {
+        var id = $scope.notifications[index]._id;
+        notificationFactory.notificationViewed(id).then(
+            function (data) {
+
+            }, function (err) {
+                console.log(err);
+            });
+
+        $scope.notifications[index].viewed = true;
+
+        //Remove the notification from the newNotifications array.
+        var arrIndex = _.indexOf($scope.newNotifications, _.find($scope.newNotifications, {_id: id}));
+        if (arrIndex > -1) {
+            $scope.newNotifications.splice(arrIndex, 1);
+        }
     };
 
     if (auth.isLoggedIn()) {
@@ -115,13 +137,12 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * Change notifications.viewed to true when "Mark all as viewed" is clicked.
      * @param notifications
      */
-    function changeNotifViewed(notifications) {
+    function changeAllNotifViewed(notifications) {
         for (var i = 0; i < notifications.length; i++) {
             if (notifications[i].viewed === false) {
                 notifications[i].viewed = true;
             }
         }
-
     }
 };
 

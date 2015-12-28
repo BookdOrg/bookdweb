@@ -323,6 +323,20 @@ router.get('/user/notifications/viewed', auth, function (req, res, next) {
 });
 
 /**
+ * Modify a single new Notifications by changing viewed to true.
+ */
+router.post('/user/notification/viewed', auth, function (req, res, next) {
+    var id = req.body.id;
+    Notification.findOneAndUpdate({_id: id}, {$set: {viewed: true}},
+        function (err) {
+            if (err) {
+                console.log(err);
+            }
+            res.send('Changed notification to viewed=true successfully');
+        });
+});
+
+/**
  *   Returns the profile of a specified user.
  *
  **/
