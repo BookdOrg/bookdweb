@@ -3,12 +3,12 @@
     <h3 class="modal-title text-center">New Employee</h3>
 </div>
 <div class="modal-body">
-    <form>
+    <form name="addEmployeeForm">
         <div class="row form-inline employee-search">
             <div class="form-group col-md-12">
                 <label for="employeeId">Employee Email:</label>
-                <input class="form-control" type="email" id="employeeId" ng-model="id">
-                <button class="btn btn-success" ng-click="findEmployee(id)">
+                <input class="form-control" type="email" id="employeeId" ng-model="id" required>
+                <button class="btn btn-success" ng-click="addEmployeeForm.$valid && findEmployee(id)" type="submit">
                     Search
                 </button>
             </div>
@@ -34,7 +34,8 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-disabled="!employee" ng-click="create(employee._id)">Register Employee
+    <button class="btn btn-primary" ng-disabled="!employee" ng-click="addEmployeeForm.$valid && create(employee._id)"
+            type="submit">Register Employee
     </button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

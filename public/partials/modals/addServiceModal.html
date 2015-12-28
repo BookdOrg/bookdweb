@@ -3,11 +3,15 @@
     <h3 class="modal-title text-center">New Service</h3>
 </div>
 <div class="modal-body">
+    <!--<uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"-->
+    <!--ng-show="addServiceForm.title.$error.text" role="alert" close="">-->
+    <!--You must have a name for your service.-->
+    <!--</uib-alert>-->
     <div class="row">
-        <form>
+        <form name="addServiceForm">
             <div class="form-group col-md-12">
-                <label for="serviceName">Service Name:</label>
-                <input class="form-control" id="serviceName" ng-required ng-model="service.name">
+                <label for="serviceName">Service Title:</label>
+                <input type="text" class="form-control" id="serviceName" name="title" ng-model="service.name" required>
             </div>
             <div class="col-md-12">
                 <label>Employees:</label>
@@ -18,7 +22,7 @@
             </div>
             <div class="form-group col-md-12">
                 <label for="price">Price:</label>
-                <select class="form-control" id="price" ng-model="service.price" placeholder="$0">
+                <select class="form-control" id="price" ng-model="service.price" placeholder="$0" required>
                     <option value="" disabled selected>Select Service Price</option>
                     <option value="5">$5</option>
                     <option value="10">$10</option>
@@ -28,8 +32,8 @@
             </div>
             <div class="form-group col-md-12">
                 <label>Duration:</label>
-                <select class="form-control" ng-model="service.duration">
-                    <option value="">Select a Duration</option>
+                <select class="form-control" ng-model="service.duration" required>
+                    <option value="" disabled selected>Select a Duration</option>
                     <option value="15">15 Minutes</option>
                     <option value="30">30 Minutes</option>
                     <option value="60">60 Minutes</option>
@@ -37,12 +41,13 @@
             </div>
             <div class="form-group col-md-12">
                 <label for="serviceDescription">Description:</label>
-                <textarea class="form-control" id="serviceDescription" ng-model="service.description"></textarea>
+                <textarea class="form-control" id="serviceDescription" ng-model="service.description"
+                          required></textarea>
             </div>
         </form>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok(service)">Create</button>
+    <button class="btn btn-primary" ng-click="addServiceForm.$valid && ok(service)" type="submit">Create</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
