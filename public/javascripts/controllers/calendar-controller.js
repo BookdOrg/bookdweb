@@ -262,7 +262,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
 
     socketService.on('newAppt', function (appointment) {
         $scope.addAssociateEvent(appointment);
-        //TODO update the monthArray list of appointments after adding this guy to the calendar.
+        $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
+        localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
     });
 };
 
