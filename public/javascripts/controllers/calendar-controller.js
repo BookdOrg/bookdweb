@@ -207,7 +207,10 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
     $scope.viewRender = function(view,element){
-        $scope.monthYearArray = angular.fromJson(localStorage.getItem('monthYearArray'));
+        var fetchedMonthYearArray = localStorage.getItem('monthYearArray');
+        if (fetchedMonthYearArray !== '') {
+            $scope.monthYearArray = angular.fromJson(fetchedMonthYearArray);
+        }
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
         //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
