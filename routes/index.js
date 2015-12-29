@@ -64,6 +64,8 @@ var employeeAppointmentsArray = [];
 var userAppointmentsArray = [];
 var businessAppointmentsArray = [];
 
+
+//TODO Re-connect sockets if they have been disconnected, Handle socket errors.
 io.on('connection', function (socket) {
     var string;
     var city, state, zip;

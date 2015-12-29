@@ -163,12 +163,12 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         }
     };
     /* add custom event*/
-    $scope.addEvent = function () {
-        $scope.events.push({
-            title: 'Open Sesame',
-            start: new Date(y, m, 28),
-            end: new Date(y, m, 29),
-            className: ['openSesame']
+    $scope.addAssociateEvent = function (appointment) {
+        $scope.associateEvents.push({
+            title: appointment.title,
+            start: appointment.start.full,
+            end: appointment.end.full,
+            appointment: appointment
         });
     };
     /* remove event */
@@ -251,7 +251,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
-            viewRender: $scope.viewRender
+            viewRender: $scope.viewRender,
+            addEvent: $scope.addAssociateEvent
         }
     };
 
@@ -260,7 +261,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
 
     socketService.on('newAppt', function (appointment) {
-        console.log(appointment);
+        $scope.addAssociateEvent(appointment);
+        //TODO update the monthArray list of appointments after adding this guy to the calendar.
     });
 };
 
