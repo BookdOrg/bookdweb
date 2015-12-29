@@ -120,7 +120,7 @@
                         </ul>
 
                     </li>
-                    <li uib-dropdown auto-close="outsideClick" ng-show="isLoggedIn()">
+                    <li uib-dropdown ng-show="isLoggedIn()">
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                         <a href="#" uib-dropdown-toggle>
                             <i class="fa fa-bell badge"
@@ -129,7 +129,8 @@
                             </i>
                         </a>
 
-                        <div class="uib-dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+                        <div class="uib-dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
+                             aria-labelledby="dLabel">
                             <div class="notification-heading">
                                 <h4 class="menu-title">Notifications</h4>
                                 <h4 class="menu-title pull-right" ng-click="viewAllNotifications()">Mark all as
@@ -143,7 +144,7 @@
                                     <div class="notification-item"
                                          ng-class="{'new-notification': notification.viewed === false}">
                                         <h5 class="pull-right" ng-click="viewNotification($index)"
-                                            ng-if="notification.viewed === false">X</h5>
+                                            ng-if="notification.viewed === false"><i class="fa fa-times"></i></h5>
                                         <h5>{{notification.content}}</h5>
                                         <h5>{{notification.timestamp}}</h5>
                                         <!--<h4 class="item-title">Appointment is {{notification.dayDiff}} days away</h4>-->
