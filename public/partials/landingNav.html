@@ -40,10 +40,44 @@
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
-                <li ng-hide="!isLoggedIn()">
-                    <a ng-click="logOut()">
-                        <i class="fa fa-sign-out"></i> Log Out
+                <li uib-dropdown ng-show="isLoggedIn()">
+                    <a href="" uib-dropdown-toggle class=" avatarPadding">
+                        <img class="navbarAvatar"
+                             ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
+                             ng-src="{{cloudinaryDefaultPic}}"/>
+                        <img class="navbarAvatar"
+                             ng-if="currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
+                             ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
+                        <img class="navbarAvatar" ng-if="currentUser.user.provider === 'google_plus'"
+                             ng-src="{{currentUser.providerInfo}}"/>
+                        <img class="navbarAvatar" ng-if="currentUser.user.provider === 'facebook'"
+                             ng-src="{{currentUser.providerInfo}}"/>
+                        {{currentUser.user.name}} <i class="fa fa-caret-down"></i>
                     </a>
+                    <ul class="uib-dropdown-menu droplinks">
+                        <li>
+                            <a ui-sref="calendar" ng-click="showSearch(false)">
+                                <i class="fa fa-calendar"></i> Calendar
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
+                               ui-sref="dashboard">
+                                <i class="fa fa-tachometer"></i> Manage
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="account({id:currentUser.user._id})" ng-click="showSearch(false)">
+                                <i class="fa fa-cog"></i> Settings
+                            </a>
+                        </li>
+                        <hr>
+                        <li>
+                            <a ng-click="logOut()">
+                                <i class="fa fa-sign-out"></i> Log Out
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

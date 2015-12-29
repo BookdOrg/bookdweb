@@ -739,3 +739,22 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #337ab7
 }
+
+.navbarAvatar {
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+}
+
+.avatarPadding {
+    /*padding-top: 25px !important;*/
+    padding-bottom: 12px !important;
+}
+
+.uib-dropdown-menu a {
+    color: black;
+}
+
+.navbar-default.navbar-shrink .nav .droplinks li a {
+    color: black
+}
