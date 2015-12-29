@@ -82,6 +82,11 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                     if (info) {
                         auth.saveProviderInfo(info);
                     }
+                    $window.localStorage.setItem('monthYear', '');
+                    $window.localStorage.setItem('masterList', {});
+                    $window.localStorage.setItem('monthYearArray', {});
+                    $window.localStorage.setItem('previousBusiness', '');
+                    $window.localStorage.setItem('previousPersonalMonthYear', '');
                     $rootScope.currentUser = auth.currentUser();
                     $rootScope.currentUser.providerInfo = auth.getProviderInfo();
                 }, function (error) {
@@ -90,6 +95,12 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
         },
         logOut: function () {
             $window.localStorage.removeItem('cc-token');
+            $window.localStorage.removeItem('monthYear');
+            $window.localStorage.removeItem('masterList');
+            $window.localStorage.removeItem('monthYearArray');
+            $window.localStorage.removeItem('providerInfo');
+            $window.localStorage.removeItem('previousBusiness');
+            $window.localStorage.removeItem('previousPersonalMonthYear');
             $rootScope.currentUser = null;
             socketService.disconnect();
             $state.go('landing');
