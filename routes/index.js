@@ -109,10 +109,9 @@ io.on('connection', function (socket, data) {
         socket.disconnect();
     });
     socket.on('joinCalendarRoom', function (id) {
-        console.log("JOINED");
-        console.log(id);
         socket.join(id);
     });
+    //Join the business dashboard room, id = Business ID
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
     });
@@ -120,7 +119,7 @@ io.on('connection', function (socket, data) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         if (appt.personal) {
-            //io.sockets.in(appt.businessId).emit('newAppt', appt);
+            io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         } else {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);

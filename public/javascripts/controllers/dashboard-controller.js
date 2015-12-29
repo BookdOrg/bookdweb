@@ -1,5 +1,4 @@
-module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal) {
-
+module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal, socketService) {
     $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
@@ -18,6 +17,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     if (userFactory.dashboard.length > -1) {
         $scope.businesses = userFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
+        socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
     }
 
     /**
@@ -279,6 +279,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     $scope.switchBusiness = function (business) {
         $scope.activeBusiness.business = business;
+        socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
         businessFactory.getAllAppointments($scope.activeBusiness.business._id)
             .then(function (response) {
                 $scope.appointmentsMaster = response;
@@ -609,5 +610,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         });
     };
+
+    socketService.on('newAppt', function (appointment) {
+        $scope.addEvent(appointment);
+        $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
+        localStorage.setItem('masterList', angular.toJson($scope.masterList));
+    });
 
 };
