@@ -171,6 +171,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             appointment: appointment
         });
     };
+    $scope.addPersonalPendingEvent = function (appointment) {
+        $scope.personalEvents.push({
+            title: appointment.title,
+            start: appointment.start.full,
+            end: appointment.end.full,
+            appointment: appointment
+        });
+    };
     /* remove event */
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
@@ -252,7 +260,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
             viewRender: $scope.viewRender,
-            addEvent: $scope.addAssociateEvent
+            addEvent: $scope.addAssociateEvent,
+            addPersonalPendingEvent: $scope.addPersonalPendingEvent
         }
     };
 
@@ -260,8 +269,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //Creates the eventsSources array that the calendar will display, initialize it with the values created earlier
     $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
 
-    socketService.on('newAppt', function (appointment) {
+    socketService.on('newAssociateAppt', function (appointment) {
         $scope.addAssociateEvent(appointment);
+        $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
+        localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+    });
+    socketService.on('newPersonalAppt', function (appointment) {
+        $scope.addPersonalPendingEvent(appointment);
         $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
         localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
     });

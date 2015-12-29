@@ -120,9 +120,8 @@ io.on('connection', function (socket, data) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         if (appt.personal) {
-            io.sockets.in(appt.businessId).emit('newAppt', appt);
+            //io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
-            io.sockets.in(appt.businessId).emit('newBusinessAppt', appt);
         } else {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
             io.to(customerSocket.id).emit('newPersonalAppt', appt);
