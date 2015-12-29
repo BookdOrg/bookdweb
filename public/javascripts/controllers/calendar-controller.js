@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory) {
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory, socketService) {
     $scope.radioModel = 'Week';
     //Enables modal animations
     $scope.animationsEnabled = true;
@@ -259,6 +259,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //Creates the eventsSources array that the calendar will display, initialize it with the values created earlier
     $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
 
-
+    socketService.on('newAppt', function (appointment) {
+        console.log(appointment);
+    });
 };
 

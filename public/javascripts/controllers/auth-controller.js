@@ -15,6 +15,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     } else if (modalType === 'signup') {
         $scope.tabs[1].active = true;
     }
+    var onlineData = {
+        user: '',
+        location: {}
+    };
     //TODO handle all the possible error cases
     $scope.facebookLogin = function () {
         OAuth.popup('facebook', {cache: true})
@@ -139,10 +143,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             .fail(function (err) {
                 //console.log(err);
             });
-    };
-    var onlineData = {
-        user: '',
-        location: {}
     };
     /**
      * Register via Bookd

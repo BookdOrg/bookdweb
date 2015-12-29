@@ -59,10 +59,28 @@ Array.prototype.getIndexBy = function (name, value) {
 };
 server.listen(process.env.devsocketPort);
 var roomData = [];
+var clients = [];
+var employeeAppointmentsArray = [];
+var userAppointmentsArray = [];
+var businessAppointmentsArray = [];
+
 io.on('connection', function (socket) {
     var string;
     var city, state, zip;
     var socketTimeData = {};
+    socket.on('online', function (data) {
+        //socket.join(data.user);
+        var client = {};
+        client.customId = data.user;
+        client.id = socket.id;
+        clients.push(client);
+        //city = data.location.city;
+        //state = data.location.state;
+        //zip = data.location.zip;
+        //socket.join(city);
+        //socket.join(state);
+        //socket.join(zip);
+    });
     socket.on('joinApptRoom', function (data) {
         string = data.startDate.toString() + data.id.toString();
         socket.join(string);
@@ -78,18 +96,34 @@ io.on('connection', function (socket) {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
         io.sockets.in(string).emit('destroyOld', data);
     });
-    socket.on('online', function (data) {
-        socket.join(data.user);
-        //city = data.location.city;
-        //state = data.location.state;
-        //zip = data.location.zip;
-        //socket.join(city);
-        //socket.join(state);
-        //socket.join(zip);
-    });
     socket.on('disconnect', function () {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
+        clients = _.without(clients, _.findWhere(clients, {'id': socket.id}));
+        socket.disconnect();
+    });
+    socket.on('joinCalendarRoom', function (id) {
+        socket.join(id);
+    });
+    socket.on('joinDashboardRoom', function (id) {
+        socket.join(id);
+    });
+    socket.on('apptBooked', function (appt) {
+        console.log(appt);
+        console.log(clients);
+        var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
+        if (appt.personal) {
+            io.sockets.in(appt.businessId).emit('newAppt', appt);
+            console.log(employeeSocket);
+            io.to(employeeSocket.id).emit('newAppt', appt);
+            io.sockets.in(appt.businessId).emit('newAppt', appt);
+        } else {
+            io.to(employeeSocket.id).emit('newAppt', appt);
+            io.sockets.in(appt.customer).emit('newAppt', appt);
+        }
+    });
+    socket.on('joinBusinessRoom', function (business) {
+        socket.join(business);
     });
     socket.on('isEmployee', function (data) {
         User.findOne({'_id': data}).exec(function (err, user) {
