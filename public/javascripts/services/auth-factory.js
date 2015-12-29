@@ -71,6 +71,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                     }
                     $rootScope.currentUser = auth.currentUser();
                     $rootScope.currentUser.providerInfo = auth.getProviderInfo();
+                    socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
                 }, function (error) {
                     throw error.data;
                 });
@@ -89,6 +90,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                     $window.localStorage.setItem('previousPersonalMonthYear', '');
                     $rootScope.currentUser = auth.currentUser();
                     $rootScope.currentUser.providerInfo = auth.getProviderInfo();
+                    socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
                 }, function (error) {
                     throw error.data;
                 });
@@ -102,7 +104,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             $window.localStorage.removeItem('previousBusiness');
             $window.localStorage.removeItem('previousPersonalMonthYear');
             $rootScope.currentUser = null;
-            socketService.disconnect();
+            //socketService.disconnect();
             $state.go('landing');
         }
     };

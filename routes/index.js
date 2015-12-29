@@ -64,18 +64,22 @@ var employeeAppointmentsArray = [];
 var userAppointmentsArray = [];
 var businessAppointmentsArray = [];
 
-
-//TODO Re-connect sockets if they have been disconnected, Handle socket errors.
-io.on('connection', function (socket) {
+io.on('connection', function (socket, data) {
     var string;
     var city, state, zip;
     var socketTimeData = {};
-    socket.on('online', function (data) {
-        //socket.join(data.user);
+
+    io.to(socket.id).emit('authorizationReq', socket.id);
+    socket.on('authorizationRes', function (data) {
         var client = {};
-        client.customId = data.user;
+        client.customId = data;
         client.id = socket.id;
         clients.push(client);
+    });
+    //console.log(socket);
+    socket.on('online', function (data) {
+        //socket.join(data.user);
+
         //city = data.location.city;
         //state = data.location.state;
         //zip = data.location.zip;
@@ -105,23 +109,23 @@ io.on('connection', function (socket) {
         socket.disconnect();
     });
     socket.on('joinCalendarRoom', function (id) {
+        console.log("JOINED");
+        console.log(id);
         socket.join(id);
     });
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
     });
     socket.on('apptBooked', function (appt) {
-        console.log(appt);
-        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
+        var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         if (appt.personal) {
             io.sockets.in(appt.businessId).emit('newAppt', appt);
-            console.log(employeeSocket);
-            io.to(employeeSocket.id).emit('newAppt', appt);
-            io.sockets.in(appt.businessId).emit('newAppt', appt);
+            io.to(employeeSocket.id).emit('newAssociateAppt', appt);
+            io.sockets.in(appt.businessId).emit('newBusinessAppt', appt);
         } else {
-            io.to(employeeSocket.id).emit('newAppt', appt);
-            io.sockets.in(appt.customer).emit('newAppt', appt);
+            io.to(employeeSocket.id).emit('newAssociateAppt', appt);
+            io.to(customerSocket.id).emit('newPersonalAppt', appt);
         }
     });
     socket.on('joinBusinessRoom', function (business) {

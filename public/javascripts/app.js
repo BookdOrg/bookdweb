@@ -242,7 +242,7 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory) {
+                      $controller, $uibModal, notificationFactory, socketService) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
     $rootScope.cloudinaryBaseUrl = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,r_10,w_200/v';
@@ -258,7 +258,17 @@ app.config([
             }
         );
     }
-
+    /**
+     *
+     * Send the ID of the currently authorized user
+     *
+     */
+    socketService.on('authorizationReq', function (data) {
+        if ($rootScope.currentUser) {
+            $rootScope.currentUser.socketId = data;
+            socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
+        }
+    });
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);
