@@ -295,55 +295,57 @@ router.get('/user/notifications', auth, function (req, res, next) {
 /**
  * Creates a new Notification and saves it to the database.
  */
-//router.post('/user/notifications/create', auth, function (req, res, next) {
-//    var notification = new Notification();
-//    //Content of the notification.
-//    notification.content = req.body.content;
-//    //Timestamp of when notifications was created which is always now.
-//    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
-//    //Type of notification. To be used for indicating importance.
-//    notification.type = req.body.type;
-//    //Whether the notification was viewed or not.
-//    notification.viewed = 'false';
-//
-//    User.findOne({'_id': req.body.id}).exec(function (err, user) {
-//        if (err) {
-//            next(err);
-//        }
-//
-//        notification.user = user;
-//        notification.save(function (err, response) {
-//            if (err) {
-//                return next(err);
-//            }
-//            console.log('Successfully saved notification!');
-//        });
-//
-//        if (req.body.sendEmail) {
-//            var subject,
-//                body;
-//
-//            subject = 'Bookd Notification';
-//            body = notification.content;
-//
-//            var mailOptions = {
-//                from: 'Marshall Mathers', // sender address
-//                to: notification.user.email, // list of receivers
-//                subject: subject, // Subject line
-//                html: body // html body
-//            };
-//
-//            // send mail with defined transport object
-//            transporter.sendMail(mailOptions, function (error, info) {
-//                if (error) {
-//                    console.log(error);
-//                }
-//
-//                res.send(info);
-//            });
-//        }
-//    });
-//});
+router.post('/user/notifications/create', auth, function (req, res, next) {
+    var notification = new Notification();
+    //Content of the notification.
+    notification.content = req.body.content;
+    //Timestamp of when notifications was created which is always now.
+    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+    //Type of notification. To be used for indicating importance.
+    notification.type = req.body.type;
+    //Whether the notification was viewed or not.
+    notification.viewed = 'false';
+
+    User.findOne({'_id': req.body.id}).exec(function (err, user) {
+        if (err) {
+            next(err);
+        }
+
+        notification.user = user;
+        notification.save(function (err, response) {
+            if (err) {
+                return next(err);
+            }
+            console.log('Successfully saved notification!');
+        });
+
+        if (req.body.sendEmail) {
+            var subject,
+                body;
+
+            subject = 'Bookd Notification';
+            body = notification.content;
+
+            var mailOptions = {
+                from: 'Marshall Mathers', // sender address
+                to: notification.user.email, // list of receivers
+                subject: subject, // Subject line
+                html: body // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                }
+
+                res.send(info);
+            });
+        } else {
+            res.send('Successfully saved notification!');
+        }
+    });
+});
 
 /**
  * Modify all the new Notifications by changing viewed to true.
