@@ -15,7 +15,7 @@
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                     <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
                     <input class="form-control input-lg" aria-describedby="near" g-places-autocomplete
-                           options="autocompleteOptions" ng-model="query.location" required>
+                           options="autocompleteOptions" ng-model="query.location" placeholder="Near.." required>
                     </span>
                     <span>
                     <button class="btn btn-lg sectionBtn" ng-click="landingQuery.$valid && search(query)" type="submit">

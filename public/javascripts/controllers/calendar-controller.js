@@ -171,14 +171,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             appointment: appointment
         });
     };
-    $scope.addPersonalPendingEvent = function (appointment) {
-        $scope.personalEvents.push({
-            title: appointment.title,
-            start: appointment.start.full,
-            end: appointment.end.full,
-            appointment: appointment
-        });
-    };
     /* remove event */
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
@@ -260,8 +252,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
             viewRender: $scope.viewRender,
-            addEvent: $scope.addAssociateEvent,
-            addPersonalPendingEvent: $scope.addPersonalPendingEvent
+            addEvent: $scope.addAssociateEvent
         }
     };
 
@@ -274,10 +265,38 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
         localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
     });
-    socketService.on('newPersonalAppt', function (appointment) {
-        $scope.addPersonalPendingEvent(appointment);
-        $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
-        localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+    //socketService.on('newPersonalAppt', function (appointment) {
+    //    $scope.addPersonalPendingEvent(appointment);
+    //    $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
+    //    localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+    //});
+    socketService.on('updatedAppt', function (appointment) {
+        for (var eventSourceIndex = 0; eventSourceIndex < $scope.eventSources.length; eventSourceIndex++) {
+            //for(var eventIndex =0; eventIndex<$scope.eventSources[eventIndex].length; eventIndex++){
+            //
+            //};
+        }
+    });
+    socketService.on('canceledAppt', function (data) {
+        if (data.from === data.appointment.employee) {
+            _.forEach($scope.personalEvents, function (associateEvent, key) {
+                if (associateEvent.appointment._id === data.appointment._id) {
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
+                }
+            });
+            $scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
+                _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments, {'_id': data.appointment._id}));
+            localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+        } else if (data.from === data.appointment.customer) {
+            _.forEach($scope.associateEvents, function (associateEvent, key) {
+                if (associateEvent.appointment._id === data.appointment._id) {
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
+                }
+            });
+            $scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments,
+                _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments, {'_id': data.appointment._id}));
+            localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+        }
     });
 };
 
