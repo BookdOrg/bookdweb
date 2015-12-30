@@ -184,7 +184,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
     });
     socketService.on('destroyOld', function (data) {
-        if (data.user !== $rootScope.currentUser.user._id) {
+        if (data && data.user !== $rootScope.currentUser.user._id) {
             destroyOld(data);
         }
     });
