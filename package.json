@@ -33,6 +33,7 @@
     "font-awesome": "^4.4.0",
     "fullcalendar": "^2.4.0",
     "googleplaces": "^0.6.0",
+    "helmet": "^1.0.1",
     "humanize-duration": "^3.3.0",
     "jquery": "^2.1.4",
     "jsonwebtoken": "~5.4.0",
