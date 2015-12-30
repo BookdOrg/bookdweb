@@ -18,6 +18,8 @@
                 <img ng-if="employee.avatarVersion && employee.provider == 'bookd'"
                      ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
                      style="height:100px;width:100px;">
+                <img ng-if="employee.provider === 'google_plus' && !employee.photo"
+                     ng-src="{{cloudinaryDefaultPic}}"/>
                 <img ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
                      ng-src="{{cloudinaryDefaultPic}}"
                      style="height:100px;width:100px;">
