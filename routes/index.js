@@ -68,8 +68,6 @@ io.on('connection', function (socket, data) {
     var string;
     var city, state, zip;
     var socketTimeData = {};
-    console.log("THERE WAS A CONNECTION");
-    console.log(clients);
     io.to(socket.id).emit('authorizationReq', socket.id);
     socket.on('error', function (data) {
         console.log(data);
@@ -79,8 +77,6 @@ io.on('connection', function (socket, data) {
         client.customId = data;
         client.id = socket.id;
         clients.push(client);
-        console.log("AUTHORIZED: ");
-        console.log(clients);
     });
     //console.log(socket);
     socket.on('online', function (data) {
@@ -98,7 +94,6 @@ io.on('connection', function (socket, data) {
         socket.join(string);
         var holdList = _.where(roomData, {id: string});
         io.to(socket.id).emit('oldHold', holdList);
-        console.log("APPOINTMENT ROOM JOINED: " + roomData);
     });
     socket.on('timeTaken', function (data) {
         socketTimeData = data;
@@ -116,30 +111,23 @@ io.on('connection', function (socket, data) {
         io.sockets.in(string).emit('destroyOld', socketTimeData);
         clients = _.without(clients, _.findWhere(clients, {'id': socket.id}));
         socket.disconnect();
-        console.log("DISCONNECTED");
     });
     socket.on('joinCalendarRoom', function (id) {
         socket.join(id);
-        console.log("CALENDAR: " + id + " ROOM JOINED");
     });
     //Join the business dashboard room, id = Business ID
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
-        console.log("Dashboard: " + id + " ROOM JOINED");
     });
     socket.on('apptBooked', function (appt) {
-        console.log("CURRENT CLIENTS CONNECT: ");
-        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         if (appt.personal && employeeSocket) {
             io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
-            console.log("PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         } else if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
             io.sockets.in(appt.businessId).emit('newAppt', appt);
-            console.log("NON-PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         }
     });
     /**
@@ -148,22 +136,20 @@ io.on('connection', function (socket, data) {
      *
      */
     socket.on('apptUpdated', function (data) {
-        console.log("CURRENT CLIENTS CONNECT: ");
-        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedAppt', data);
             io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
-            console.log("APPOINTMENT UPDATED: EMPLOYEE: " + employeeSocket.id);
         }
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('updatedAppt', data);
             io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
-            console.log("APPOINTMENT UPDATED: CUSTOMER: " + customerSocket.id);
+        }
+        if (data.from === data.appointment.employee && !customerSocket) {
+            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
         }
         if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
-            console.log("APPOINTMENT UPDATED FROM THE BUSINESS");
             if (customerSocket) {
                 io.to(customerSocket.id).emit('updatedAppt', data);
             }
@@ -171,21 +157,16 @@ io.on('connection', function (socket, data) {
                 io.to(employeeSocket.id).emit('updatedAppt', data);
             }
         }
-        console.log("APPOINTMENT UPDATED: Business: " + data.appointment.businessId);
     });
     socket.on('apptCanceled', function (data) {
-        console.log("CURRENT CLIENTS CONNECT: ");
-        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
-            console.log("APPOINTMENT Canceled: EMPLOYEE: " + employeeSocket.id);
         }
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
-            console.log("APPOINTMENT UPDATED: CUSTOMER: " + customerSocket.id);
         }
     });
     socket.on('isEmployee', function (data) {
