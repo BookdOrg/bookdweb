@@ -56,7 +56,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
             if (data && data.provider === 'google_plus') {
                 userFactory.getGooglePhoto(data.providerId)
                     .then(function (response) {
-                        $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
+                        if (!response.error) {
+                            $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
+                        }
                     });
             }
         }, function (error) {

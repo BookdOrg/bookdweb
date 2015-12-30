@@ -11,7 +11,9 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
         if (data.user.provider === 'google_plus') {
             userFactory.getGooglePhoto(data.user.providerId)
                 .then(function (response) {
-                    $scope.user.photo = response.image.url.replace('sz=50', 'sz=200');
+                    if (!response.error) {
+                        $scope.user.photo = response.image.url.replace('sz=50', 'sz=200');
+                    }
                 });
         }
     });
