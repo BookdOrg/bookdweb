@@ -137,7 +137,11 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     /* event source that calls a function on every view switch */
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.open('lg', date,true);
+        var personal = false;
+        if (date.appointment.customer) {
+            personal = true;
+        }
+        $scope.open('lg', date, personal);
     };
     //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
     /* alert on Drop */
