@@ -1,8 +1,8 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory, socketService) {
-    $scope.radioModel = 'Week';
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory, socketService, $rootScope) {
+    $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
     var date = new Date();
@@ -104,6 +104,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          *
          */
         modalInstance.result.then(function (date) {
+            console.log(date);
             if (date && date.appointment !== 'canceled') {
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
@@ -207,33 +208,34 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
     $scope.viewRender = function(view,element){
-        var fetchedMonthYearArray = localStorage.getItem('monthYearArray');
-        if (fetchedMonthYearArray !== '') {
-            $scope.monthYearArray = angular.fromJson(fetchedMonthYearArray);
-        }
+        //var fetchedMonthYearArray = localStorage.getItem('monthYearArray');
+        //if (fetchedMonthYearArray !== '') {
+        //    $scope.monthYearArray = angular.fromJson(fetchedMonthYearArray);
+        //}
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
         //convert monthYear into the correct format
         $scope.monthYear = moment(monthYear).format('MM/YYYY');
         var previousMonthYear = localStorage['previousPersonalMonthYear'];
-        if ($scope.monthYear !== previousMonthYear || !$scope.monthYearArray[$scope.monthYear]) {
-            if (!$scope.monthYearArray[$scope.monthYear]) {
-                $scope.monthYearArray[$scope.monthYear] = {};
-            }
+        if ($scope.monthYear !== previousMonthYear || !$scope.appointments) {
+            //if (!$scope.monthYearArray[$scope.monthYear]) {
+            //    $scope.monthYearArray[$scope.monthYear] = {};
+            //}
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             userFactory.getUserAppts(null, $scope.monthYear)
                 .then(function (data) {
                     $scope.appointments = data;
-                    $scope.monthYearArray[$scope.monthYear].appointments = {};
-                    $scope.monthYearArray[$scope.monthYear].appointments = data;
-                    createEventsSources($scope.monthYearArray[$scope.monthYear].appointments);
-                    localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+                    //$scope.monthYearArray[$scope.monthYear].appointments = {};
+                    //$scope.monthYearArray[$scope.monthYear].appointments = data;
+                    createEventsSources($scope.appointments);
+                    //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
                     localStorage['previousPersonalMonthYear'] = $scope.monthYear;
 
                 });
-        } else if ($scope.monthYear === previousMonthYear) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            createEventsSources($scope.monthYearArray[$scope.monthYear].appointments);
         }
+        //else if ($scope.monthYear === previousMonthYear) {
+        //    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+        //    createEventsSources($scope.monthYearArray[$scope.monthYear].appointments);
+        //}
     };
     /* Calendar config object */
     $scope.uiConfig = {
@@ -241,7 +243,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             height: 700,
             editable: true,
             displayEventEnd:true,
-            defaultView: 'agendaWeek',
+            defaultView: 'month',
             header: {
                 left: 'title',
                 center: '',
@@ -262,20 +264,44 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
 
     socketService.on('newAssociateAppt', function (appointment) {
         $scope.addAssociateEvent(appointment);
-        $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
-        localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+        //$scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
+        //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
     });
-    //socketService.on('newPersonalAppt', function (appointment) {
-    //    $scope.addPersonalPendingEvent(appointment);
-    //    $scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
-    //    localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
-    //});
-    socketService.on('updatedAppt', function (appointment) {
-        for (var eventSourceIndex = 0; eventSourceIndex < $scope.eventSources.length; eventSourceIndex++) {
-            //for(var eventIndex =0; eventIndex<$scope.eventSources[eventIndex].length; eventIndex++){
-            //
-            //};
+    socketService.on('updatedAppt', function (data) {
+        console.log(data);
+        if (data.appointment.status === 'pending') {
+            for (var pendingIndex = 0; pendingIndex < $scope.personalEvents.length; pendingIndex++) {
+                if ($scope.personalEvents[pendingIndex].appointment._id === data.appointment._id) {
+                    $scope.personalEvents[pendingIndex].start = moment(data.appointment.start.full).format();
+                    $scope.personalEvents[pendingIndex].end = moment(data.appointment.end.full).format();
+                    $scope.personalEvents[pendingIndex].title = data.appointment.title;
+                    $scope.personalEvents[pendingIndex].appointment = data.appointment;
+                    $scope.personalEvents[pendingIndex].color = '#f00';
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.personalEvents[pendingIndex]);
+                }
+            }
+        } else if (data.appointment.status === 'active' && data.from === $rootScope.currentUser.user._id) {
+            for (var personalIndex = 0; personalIndex < $scope.personalEvents.length; personalIndex++) {
+                if ($scope.personalEvents[personalIndex].appointment._id === data.appointment._id) {
+                    $scope.personalEvents[personalIndex].start = moment(data.appointment.start.full).format();
+                    $scope.personalEvents[personalIndex].end = moment(data.appointment.end.full).format();
+                    $scope.personalEvents[personalIndex].title = data.appointment.title;
+                    $scope.personalEvents[personalIndex].appointment = data.appointment;
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.personalEvents[personalIndex]);
+                }
+            }
+        } else {
+            for (var associateIndex = 0; associateIndex < $scope.associateEvents.length; associateIndex++) {
+                if ($scope.associateEvents[associateIndex].appointment._id === data.appointment._id) {
+                    $scope.associateEvents[associateIndex].start = moment(data.appointment.start.full).format();
+                    $scope.associateEvents[associateIndex].end = moment(data.appointment.end.full).format();
+                    $scope.associateEvents[associateIndex].title = data.appointment.title;
+                    $scope.associateEvents[associateIndex].appointment = data.appointment;
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.associateEvents[associateIndex]);
+                }
+            }
         }
+
     });
     socketService.on('canceledAppt', function (data) {
         if (data.from === data.appointment.employee) {
@@ -284,18 +310,18 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
                 }
             });
-            $scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
-                _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments, {'_id': data.appointment._id}));
-            localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+            //$scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
+            //    _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments, {'_id': data.appointment._id}));
+            //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
         } else if (data.from === data.appointment.customer) {
             _.forEach($scope.associateEvents, function (associateEvent, key) {
                 if (associateEvent.appointment._id === data.appointment._id) {
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
                 }
             });
-            $scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments,
-                _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments, {'_id': data.appointment._id}));
-            localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+            //$scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments,
+            //    _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments, {'_id': data.appointment._id}));
+            //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
         }
     });
 };

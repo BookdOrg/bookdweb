@@ -316,7 +316,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             .then(function (appointment) {
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
-                    'appointment': $scope.dateObj.appointment
+                    'appointment': appointment
                 };
                 socketService.emit('apptUpdated', socketData);
                 $scope.dateObj.appointment = {};

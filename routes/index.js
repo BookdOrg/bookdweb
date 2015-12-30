@@ -118,10 +118,10 @@ io.on('connection', function (socket, data) {
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
-        if (appt.personal) {
+        if (appt.personal && employeeSocket) {
             io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
-        } else {
+        } else if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         }
     });
@@ -133,10 +133,10 @@ io.on('connection', function (socket, data) {
     socket.on('apptUpdated', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        if (data.from !== data.appointment.employee) {
+        if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedAppt', data);
         }
-        if (data.from !== data.appointment.customer) {
+        if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('updatedAppt', data);
         }
         io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
