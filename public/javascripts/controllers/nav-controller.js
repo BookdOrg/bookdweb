@@ -56,7 +56,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * @param type
      * @param state
      */
-    $scope.open = function (type, state) {
+    $scope.open = function (type, state, selectedTier) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: 'partials/modals/auth-modal.html',
@@ -67,6 +67,9 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 },
                 state: function () {
                     return state;
+                },
+                tier: function () {
+                    return selectedTier;
                 }
             }
         });
@@ -76,11 +79,11 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * are authenticated. If they aren't we open the login modal, then take them to search
      *
      */
-    $scope.goToClaim = function () {
+    $scope.goToClaim = function (tier) {
         if (!auth.isLoggedIn()) {
-            $scope.open('login', 'search');
+            $scope.open('login', 'search', tier);
         } else {
-            $state.go('search');
+            $state.go('search', {tier: tier});
         }
     };
 

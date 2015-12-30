@@ -1,5 +1,7 @@
-module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
-
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $stateParams) {
+    if ($stateParams.tier !== null) {
+        $scope.tier = $stateParams.tier;
+    }
     $scope.$watch('query', function (newVal, oldVal) {
         if (newVal !== oldVal) {
             $scope.selectedQuery = $scope.query;
@@ -8,7 +10,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
             $scope.selectedQuery = oldVal;
         }
 
-        if ($scope.query.geometry) {
+        if ($scope.query && $scope.query.geometry) {
             $scope.center = $scope.query.geometry.location.lat() + ',' + $scope.query.geometry.location.lng();
         }
     });
@@ -32,7 +34,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal) {
         claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
         claimRequest.placesId = request.place_id;
         claimRequest.name = request.name;
-        claimRequest.tier = request.tier;
+        claimRequest.tier = $scope.tier;
         businessFactory.claim(claimRequest)
             .then(function (data) {
                     $uibModal.open({

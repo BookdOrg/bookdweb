@@ -233,6 +233,9 @@ app.config([
             })
             .state('search', {
                 url: '/join',
+                params: {
+                    tier: null
+                },
                 views: {
                     'nav': {
                         templateUrl: '/partials/bookdNav.html',
