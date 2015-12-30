@@ -54,8 +54,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         appointment: appointment[appointmentIndex]
                     };
                     if (appointment[appointmentIndex].status === 'pending') {
-                        tempObj.backgroundColor = '#f70';
-                        tempObj.borderColor = '#f70';
+                        tempObj.backgroundColor = '#f00';
+                        tempObj.borderColor = '#f00';
                         $scope.events.push(tempObj);
 
                     } else if (appointment[appointmentIndex].status === 'paid') {
@@ -356,7 +356,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.open('lg', date, false);
+        var personal = false;
+        if (date.appointment.customer) {
+            personal = true;
+        }
+        $scope.open('lg', date, personal);
         $scope.alertMessage = (date.title + ' was clicked ');
     };
     /* alert on Drop */
@@ -552,10 +556,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         modalInstance.result.then(function (date) {
             if (date && date.appointment !== 'canceled') {
                 if (date.appointment.status == 'paid') {
-                    date.color = '#f39';
+                    date.backgroundColor = '#f39';
+                    date.borderColor = '#f39';
                 }
                 if (date.appointment.status == 'pending') {
-                    date.color = '#f70';
+                    date.backgroundColor = '#f00';
+                    date.borderColor = '#f00';
                 }
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
@@ -612,7 +618,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         modalInstance.result.then(function (appointment) {
             if (appointment) {
                 $scope.addEvent(appointment);
-                //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
             }
         }, function () {
 
@@ -622,14 +627,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     socketService.on('updatedAppt', function (appointment) {
         console.log(appointment);
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
-            if (appointment._id === $scope.events[eventIndex].appointment._id) {
+            if (appointment._id === $scope.events[eventIndex].appointment._id && appointment.status !== 'pending') {
                 console.log("YOU RECEIVED AN UPDATED ACTIVE APPOINTMENT: ");
                 $scope.events[eventIndex].start = moment(appointment.start.full).format();
                 $scope.events[eventIndex].end = moment(appointment.end.full).format();
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
-                //$scope.events[eventIndex].backgroundColor = '#f70';
-                //$scope.events[eventIndex].borderColor = '#f70';
                 console.log(appointment);
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
