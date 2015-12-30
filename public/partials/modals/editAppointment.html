@@ -46,7 +46,8 @@
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update
     </button>
     <button class="btn btn-primary"
-            ng-show="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time"
+            ng-show="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time &&
+            dateObj.appointment.employee !== currentUser.user._id"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
     <button class="btn btn-danger" ng-click="cancel()">

@@ -15,9 +15,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      *
      * @type {Array}
      */
-    $scope.personalEvents = [];
-    $scope.associateEvents = [];
-    $scope.pendingEvents = [];
+    $scope.events = [];
     /**
      *
      * Populate the event types based on the appointments of the current users,
@@ -34,9 +32,11 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 appointment: appointmentsArray.personalAppointments[pappointmentIndex]
             };
             if (appointmentsArray.personalAppointments[pappointmentIndex].status !== 'pending') {
-                $scope.personalEvents.push(personalTempObj);
+                $scope.events.push(personalTempObj);
             } else {
-                $scope.pendingEvents.push(personalTempObj);
+                personalTempObj.backgroundColor = '#f00';
+                personalTempObj.borderColor = '#f00';
+                $scope.events.push(personalTempObj);
             }
         }
         for (var bappointmentIndex = 0; bappointmentIndex < appointmentsArray.businessAppointments.length; bappointmentIndex++) {
@@ -47,7 +47,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 appointment: appointmentsArray.businessAppointments[bappointmentIndex]
             };
             if (appointmentsArray.businessAppointments[bappointmentIndex].status !== 'pending') {
-                $scope.associateEvents.push(businessTempObj);
+                businessTempObj.backgroundColor = '#f70';
+                businessTempObj.borderColor = '#f70';
+                $scope.events.push(businessTempObj);
+            } else {
+                businessTempObj.backgroundColor = '#f00';
+                businessTempObj.borderColor = '#f00';
+                $scope.events.push(businessTempObj);
             }
         }
     };
@@ -59,19 +65,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      *
      * @type {{events: Array}}
      */
-    $scope.eventsPersonalSource = {
-        //color:'#00',
-        //textColor:'blue',
-        events: $scope.personalEvents
-    };
-    $scope.eventsAssociateSource = {
-        color: '#f70',
-        //textColor:'blue',
-        events: $scope.associateEvents
-    };
-    $scope.eventsPendingSource = {
-        color: '#f00',
-        events: $scope.pendingEvents
+    $scope.eventsSource = {
+        events: $scope.events
     };
 
     /**
@@ -104,22 +99,20 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          *
          */
         modalInstance.result.then(function (date) {
-            console.log(date);
             if (date && date.appointment !== 'canceled') {
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
                 if (date.appointment.status === 'active') {
                     date.backgroundColor = '#3A87BA';
-                    date.borderColor = "#3A87BA"
+                    date.borderColor = '#3A87BA';
                 } else if (date.appointment.status === 'pending') {
                     date.backgroundColor = '#f00';
-                    date.borderColor = "#f00";
+                    date.borderColor = '#f00';
                 }
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
             } else if (date && date.appointment === 'canceled') {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
             }
-
         }, function () {
 
         });
@@ -171,12 +164,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         }
     };
     /* add custom event*/
-    $scope.addAssociateEvent = function (appointment) {
-        $scope.associateEvents.push({
+    $scope.addEvent = function (appointment) {
+        $scope.events.push({
             title: appointment.title,
             start: appointment.start.full,
             end: appointment.end.full,
-            appointment: appointment
+            appointment: appointment,
+            backgroundColor: '#f70',
+            borderColor: '#f70'
         });
     };
     /* remove event */
@@ -261,71 +256,72 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
             viewRender: $scope.viewRender,
-            addEvent: $scope.addAssociateEvent
+            addEvent: $scope.addEvent
         }
     };
 
     $scope.calendars = uiCalendarConfig.calendars;
     //Creates the eventsSources array that the calendar will display, initialize it with the values created earlier
-    $scope.eventSources = [$scope.eventsPersonalSource, $scope.eventsAssociateSource, $scope.eventsPendingSource];
+    $scope.eventSources = [$scope.eventsSource];
 
     socketService.on('newAssociateAppt', function (appointment) {
-        $scope.addAssociateEvent(appointment);
-        //$scope.monthYearArray[appointment.start.monthYear].appointments.businessAppointments.push(appointment);
-        //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+        $scope.addEvent(appointment);
     });
     socketService.on('updatedAppt', function (data) {
-        console.log(data);
-        if (data.appointment.status === 'pending') {
-            for (var pendingIndex = 0; pendingIndex < $scope.personalEvents.length; pendingIndex++) {
-                if ($scope.personalEvents[pendingIndex].appointment._id === data.appointment._id) {
-                    $scope.personalEvents[pendingIndex].start = moment(data.appointment.start.full).format();
-                    $scope.personalEvents[pendingIndex].end = moment(data.appointment.end.full).format();
-                    $scope.personalEvents[pendingIndex].title = data.appointment.title;
-                    $scope.personalEvents[pendingIndex].appointment = data.appointment;
-                    $scope.personalEvents[pendingIndex].color = '#f00';
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.personalEvents[pendingIndex]);
+        /**
+         *
+         * If the data comes from the appointments customer, we know that the update is for the Employee.
+         *
+         * Find the appointment in the events array and then update the appointment for the employee.
+         */
+        if (data.from === data.appointment.customer) {
+            for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+                if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
+                    console.log("YOU RECEIVED AND UPDATED ACTIVE APPOINTMENT FROM A CUSTOMER: ");
+                    $scope.events[eventIndex].start = moment(data.appointment.start.full).format();
+                    $scope.events[eventIndex].end = moment(data.appointment.end.full).format();
+                    $scope.events[eventIndex].title = data.appointment.title;
+                    $scope.events[eventIndex].appointment = data.appointment;
+                    $scope.events[eventIndex].backgroundColor = '#f70';
+                    $scope.events[eventIndex].borderColor = '#f70';
+                    console.log(data.appointment);
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
-        } else if (data.appointment.status === 'active' && data.from === $rootScope.currentUser.user._id) {
-            for (var personalIndex = 0; personalIndex < $scope.personalEvents.length; personalIndex++) {
-                if ($scope.personalEvents[personalIndex].appointment._id === data.appointment._id) {
-                    $scope.personalEvents[personalIndex].start = moment(data.appointment.start.full).format();
-                    $scope.personalEvents[personalIndex].end = moment(data.appointment.end.full).format();
-                    $scope.personalEvents[personalIndex].title = data.appointment.title;
-                    $scope.personalEvents[personalIndex].appointment = data.appointment;
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.personalEvents[personalIndex]);
-                }
-            }
-        } else {
-            for (var associateIndex = 0; associateIndex < $scope.associateEvents.length; associateIndex++) {
-                if ($scope.associateEvents[associateIndex].appointment._id === data.appointment._id) {
-                    $scope.associateEvents[associateIndex].start = moment(data.appointment.start.full).format();
-                    $scope.associateEvents[associateIndex].end = moment(data.appointment.end.full).format();
-                    $scope.associateEvents[associateIndex].title = data.appointment.title;
-                    $scope.associateEvents[associateIndex].appointment = data.appointment;
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.associateEvents[associateIndex]);
+            /**
+             * If the data comes from the employee OR not from the customer, we know that the update is for the customer
+             * from the employee or the business.
+             *
+             * Find the appointment in th events array and then update the appointment for the customer, set the background to
+             * the pending color.
+             *
+             * This appointment should not show up for the employee since it has a status of pending.
+             */
+        } else if (data.from === data.appointment.employee || data.from !== data.appointment.customer) {
+            for (eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+                if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
+                    console.log("YOU RECEIVED AND UPDATED PENDING APPOINTMENT FROM AN EMPLOYEE: ");
+                    $scope.events[eventIndex].start = moment(data.appointment.start.full).format();
+                    $scope.events[eventIndex].end = moment(data.appointment.end.full).format();
+                    $scope.events[eventIndex].title = data.appointment.title;
+                    $scope.events[eventIndex].appointment = data.appointment;
+                    $scope.events[eventIndex].backgroundColor = '#f00';
+                    $scope.events[eventIndex].borderColor = '#f00';
+                    console.log(data.appointment);
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
         }
 
     });
     socketService.on('canceledAppt', function (data) {
-        if (data.from === data.appointment.employee) {
-            _.forEach($scope.personalEvents, function (associateEvent, key) {
-                if (associateEvent.appointment._id === data.appointment._id) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
+        for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+            if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [$scope.events[eventIndex]._id]);
                 }
-            });
             //$scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
             //    _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments, {'_id': data.appointment._id}));
             //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
-        } else if (data.from === data.appointment.customer) {
-            _.forEach($scope.associateEvents, function (associateEvent, key) {
-                if (associateEvent.appointment._id === data.appointment._id) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [associateEvent._id]);
-                }
-            });
             //$scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments,
             //    _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.businessAppointments, {'_id': data.appointment._id}));
             //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));

@@ -68,13 +68,16 @@ io.on('connection', function (socket, data) {
     var string;
     var city, state, zip;
     var socketTimeData = {};
-
+    console.log("THERE WAS A CONNECTION");
+    console.log(clients);
     io.to(socket.id).emit('authorizationReq', socket.id);
     socket.on('authorizationRes', function (data) {
         var client = {};
         client.customId = data;
         client.id = socket.id;
         clients.push(client);
+        console.log("AUTHORIZED: ");
+        console.log(clients);
     });
     //console.log(socket);
     socket.on('online', function (data) {
@@ -92,6 +95,7 @@ io.on('connection', function (socket, data) {
         socket.join(string);
         var holdList = _.where(roomData, {id: string});
         io.to(socket.id).emit('oldHold', holdList);
+        console.log("APPOINTMENT ROOM JOINED: " + roomData);
     });
     socket.on('timeTaken', function (data) {
         socketTimeData = data;
@@ -99,7 +103,9 @@ io.on('connection', function (socket, data) {
         io.sockets.in(string).emit('newHold', data);
     });
     socket.on('timeDestroyed', function (data) {
-        roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
+        if (data) {
+            roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
+        }
         io.sockets.in(string).emit('destroyOld', data);
     });
     socket.on('disconnect', function () {
@@ -107,22 +113,29 @@ io.on('connection', function (socket, data) {
         io.sockets.in(string).emit('destroyOld', socketTimeData);
         clients = _.without(clients, _.findWhere(clients, {'id': socket.id}));
         socket.disconnect();
+        console.log("DISCONNECTED");
     });
     socket.on('joinCalendarRoom', function (id) {
         socket.join(id);
+        console.log("CALENDAR: " + id + " ROOM JOINED");
     });
     //Join the business dashboard room, id = Business ID
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
+        console.log("Dashboard: " + id + " ROOM JOINED");
     });
     socket.on('apptBooked', function (appt) {
+        console.log("CURRENT CLIENTS CONNECT: ");
+        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         if (appt.personal && employeeSocket) {
             io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
+            console.log("PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         } else if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
+            console.log("NON-PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         }
     });
     /**
@@ -131,29 +144,45 @@ io.on('connection', function (socket, data) {
      *
      */
     socket.on('apptUpdated', function (data) {
+        console.log("CURRENT CLIENTS CONNECT: ");
+        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedAppt', data);
+            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+            console.log("APPOINTMENT UPDATED: EMPLOYEE: " + employeeSocket.id);
         }
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('updatedAppt', data);
+            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+            console.log("APPOINTMENT UPDATED: CUSTOMER: " + customerSocket.id);
         }
-        io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+        if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
+            console.log("APPOINTMENT UPDATED FROM THE BUSINESS");
+            if (customerSocket) {
+                io.to(customerSocket.id).emit('updatedAppt', data);
+            }
+            if (employeeSocket) {
+                io.to(employeeSocket.id).emit('updatedAppt', data);
+            }
+        }
+        console.log("APPOINTMENT UPDATED: Business: " + data.appointment.businessId);
     });
     socket.on('apptCanceled', function (data) {
+        console.log("CURRENT CLIENTS CONNECT: ");
+        console.log(clients);
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
+            console.log("APPOINTMENT Canceled: EMPLOYEE: " + employeeSocket.id);
         }
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
+            console.log("APPOINTMENT UPDATED: CUSTOMER: " + customerSocket.id);
         }
-    });
-    socket.on('joinBusinessRoom', function (business) {
-        socket.join(business);
     });
     socket.on('isEmployee', function (data) {
         User.findOne({'_id': data}).exec(function (err, user) {
@@ -324,57 +353,58 @@ router.get('/user/notifications', auth, function (req, res, next) {
 /**
  * Creates a new Notification and saves it to the database.
  */
-router.post('/user/notifications/create', auth, function (req, res, next) {
-    var notification = new Notification();
-    //Content of the notification.
-    notification.content = req.body.content;
-    //Timestamp of when notifications was created which is always now.
-    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
-    //Type of notification. To be used for indicating importance.
-    notification.type = req.body.type;
-    //Whether the notification was viewed or not.
-    notification.viewed = 'false';
-
-    User.findOne({'_id': req.body.id}).exec(function (err, user) {
-        if (err) {
-            next(err);
-        }
-
-        notification.user = user;
-        notification.save(function (err, response) {
-            if (err) {
-                return next(err);
-            }
-            console.log('Successfully saved notification!');
-        });
-
-        if (req.body.sendEmail) {
-            var subject,
-                body;
-
-            subject = 'Bookd Notification';
-            body = notification.content;
-
-            var mailOptions = {
-                from: 'Marshall Mathers', // sender address
-                to: notification.user.email, // list of receivers
-                subject: subject, // Subject line
-                html: body // html body
-            };
-
-            // send mail with defined transport object
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                }
-
-                res.send(info);
-            });
-        } else {
-            res.send('Successfully saved notification!');
-        }
-    });
-});
+//TODO handle the case where there is no userID, appointment being scheduled for NON-Bookd customer
+//router.post('/user/notifications/create', auth, function (req, res, next) {
+//    var notification = new Notification();
+//    //Content of the notification.
+//    notification.content = req.body.content;
+//    //Timestamp of when notifications was created which is always now.
+//    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+//    //Type of notification. To be used for indicating importance.
+//    notification.type = req.body.type;
+//    //Whether the notification was viewed or not.
+//    notification.viewed = 'false';
+//
+//    User.findOne({'_id': req.body.id}).exec(function (err, user) {
+//        if (err) {
+//            next(err);
+//        }
+//
+//        notification.user = user;
+//        notification.save(function (err, response) {
+//            if (err) {
+//                return next(err);
+//            }
+//            console.log('Successfully saved notification!');
+//        });
+//
+//        if (req.body.sendEmail) {
+//            var subject,
+//                body;
+//
+//            subject = 'Bookd Notification';
+//            body = notification.content;
+//
+//            var mailOptions = {
+//                from: 'Marshall Mathers', // sender address
+//                to: notification.user.email, // list of receivers
+//                subject: subject, // Subject line
+//                html: body // html body
+//            };
+//
+//            // send mail with defined transport object
+//            transporter.sendMail(mailOptions, function (error, info) {
+//                if (error) {
+//                    console.log(error);
+//                }
+//
+//                res.send(info);
+//            });
+//        } else {
+//            res.send('Successfully saved notification!');
+//        }
+//    });
+//});
 
 /**
  * Modify all the new Notifications by changing viewed to true.

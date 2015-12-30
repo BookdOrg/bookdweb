@@ -304,7 +304,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             .then(function (appointment) {
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 $scope.appointment.personal = personal;
-                socketService.emit('apptBooked', $scope.appointment);
+                socketService.emit('apptBooked', appointment);
                 if (personal) {
                     userFactory.getUserAppts().then(
                         function (data) {
@@ -326,7 +326,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             .then(function (appointment) {
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 $scope.appointment.personal = personal;
-                socketService.emit('apptBooked', $scope.appointment);
+                socketService.emit('apptBooked', appointment);
                 $uibModalInstance.close(appointment);
             });
 
