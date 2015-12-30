@@ -125,6 +125,33 @@ io.on('connection', function (socket, data) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         }
     });
+    /**
+     *
+     * Probably consolidate update & cancel into one
+     *
+     */
+    socket.on('apptUpdated', function (data) {
+        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
+        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        if (data.from !== data.appointment.employee) {
+            io.to(employeeSocket.id).emit('updatedAppt', data);
+        }
+        if (data.from !== data.appointment.customer) {
+            io.to(customerSocket.id).emit('updatedAppt', data);
+        }
+        io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+    });
+    socket.on('apptCanceled', function (data) {
+        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
+        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        io.sockets.in(data.appointment.businessId).emit('canceledAppt', data.appointment);
+        if (data.from !== data.appointment.employee) {
+            io.to(employeeSocket.id).emit('canceledAppt', data);
+        }
+        if (data.from !== data.appointment.customer) {
+            io.to(customerSocket.id).emit('canceledAppt', data);
+        }
+    });
     socket.on('joinBusinessRoom', function (business) {
         socket.join(business);
     });

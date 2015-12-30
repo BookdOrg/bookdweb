@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService,personal) {
+module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService, personal, $rootScope) {
     $scope.dateObj = data;
     $scope.showNoEmployee = false;
     $scope.business = data.business;
@@ -314,6 +314,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         socketService.emit('timeDestroyed', $scope.activeTime);
         businessFactory.updateAppointment($scope.appointment)
             .then(function (appointment) {
+                var socketData = {
+                    'from': $rootScope.currentUser.user._id,
+                    'appointment': $scope.dateObj.appointment
+                };
+                socketService.emit('apptUpdated', socketData);
                 $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);
@@ -342,6 +347,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         businessFactory.cancelAppointment($scope.dateObj.appointment)
             .then(function () {
+                var socketData = {
+                    'from': $rootScope.currentUser.user._id,
+                    'appointment': $scope.dateObj.appointment
+                };
+                socketService.emit('apptCanceled', socketData);
                 $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = 'canceled';
                 $uibModalInstance.close($scope.dateObj);
