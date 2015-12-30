@@ -10,6 +10,7 @@ require('angular-stripe-checkout');
 require('angular-timer');
 require('ngmap');
 require('bootstrap');
+require('angular-ui-notification');
 
 var app = angular.module('cc', ['ui.router',
     'google.places',
@@ -21,7 +22,8 @@ var app = angular.module('cc', ['ui.router',
     'angularjs-dropdown-multiselect',
     'stripe.checkout',
     'timer',
-    'ngTouch'
+    'ngTouch',
+    'ui-notification'
 ]);
 
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
@@ -42,7 +44,17 @@ app.config([
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    'NotificationProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider) {
+        NotificationProvider.setOptions({
+            delay: 5000,
+            startTop: 30,
+            startRight: 20,
+            verticalSpacing: 10,
+            horizontalSpacing: 10,
+            positionX: 'center',
+            positionY: 'top'
+        });
         $locationProvider.html5Mode(true);
         $stateProvider
             .state('landing', {
