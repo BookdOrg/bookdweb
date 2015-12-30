@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal, socketService) {
+module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal, socketService, $rootScope) {
     $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
@@ -616,5 +616,17 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
-
+    socketService.on('canceledAppt', function (data) {
+        var eventId;
+        var masterList = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments;
+        masterList = _.without(masterList, _.findWhere(masterList, {'_id': data.appointment._id}));
+        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments = masterList;
+        for (var eventIndex = 0; eventIndex < $scope.activeEvents.length; eventIndex++) {
+            if ($scope.activeEvents[eventIndex].appointment._id === data.appointment._id) {
+                eventId = $scope.activeEvents[eventIndex]._id;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
+            }
+        }
+        localStorage.setItem('masterList', angular.toJson($scope.masterList));
+    });
 };

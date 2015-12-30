@@ -144,11 +144,11 @@ io.on('connection', function (socket, data) {
     socket.on('apptCanceled', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        io.sockets.in(data.appointment.businessId).emit('canceledAppt', data.appointment);
-        if (data.from !== data.appointment.employee) {
+        io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
+        if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
         }
-        if (data.from !== data.appointment.customer) {
+        if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
         }
     });
@@ -254,8 +254,10 @@ router.get('/user/appointments', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        responseArray.push(employee.businessAppointments);
-        responseArray.push(employee.personalAppointments);
+        if (employee) {
+            responseArray.push(employee.businessAppointments);
+            responseArray.push(employee.personalAppointments);
+        }
         if (personal) {
             User.findOne({'_id': userId}).populate({
                 path: 'personalAppointments businessAppointments',
