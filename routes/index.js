@@ -135,6 +135,7 @@ io.on('connection', function (socket, data) {
             console.log("PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         } else if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
+            io.sockets.in(appt.businessId).emit('newAppt', appt);
             console.log("NON-PERSONAL APPOINTMENT BOOKD: EMPLOYEE: " + employeeSocket.id);
         }
     });

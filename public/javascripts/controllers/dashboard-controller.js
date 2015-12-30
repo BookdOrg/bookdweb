@@ -26,9 +26,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @type {Array}
      */
-    $scope.pendingEvents = [];
-    $scope.activeEvents = [];
-    $scope.paidEvents = [];
+    $scope.events = [];
 
     /**
      * The filtered list is the list of employees who's calendars we want to view,
@@ -56,17 +54,32 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         appointment: appointment[appointmentIndex]
                     };
                     if (appointment[appointmentIndex].status === 'pending') {
-                        $scope.pendingEvents.push(tempObj);
+                        tempObj.backgroundColor = '#f70';
+                        tempObj.borderColor = '#f70';
+                        $scope.events.push(tempObj);
 
                     } else if (appointment[appointmentIndex].status === 'paid') {
-                        $scope.paidEvents.push(tempObj);
+                        tempObj.backgroundColor = '#f39';
+                        tempObj.borderColor = '#f39';
+                        $scope.events.push(tempObj);
                     } else {
-                        $scope.activeEvents.push(tempObj);
+                        $scope.events.push(tempObj);
                     }
                 }
             });
 
         });
+    };
+    /**
+     *
+     * Defines the eventsSources for the calendar.
+     *
+     * @type {{events: Array}}
+     */
+    $scope.eventsPersonalSource = {
+        //color:'#00',
+        //textColor:'blue',
+        events: $scope.events
     };
     /**
      *
@@ -335,26 +348,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    /**
-     *
-     * Defines the eventsSources for the calendar.
-     *
-     * @type {{events: Array}}
-     */
-    $scope.eventsPersonalSource = {
-        //color:'#00',
-        //textColor:'blue',
-        events: $scope.activeEvents
-    };
-    $scope.eventsAssociateSource = {
-        color: '#f70',
-        //textColor:'blue',
-        events: $scope.pendingEvents
-    };
-    $scope.eventsPaid = {
-        color: '#f39',
-        events: $scope.paidEvents
-    };
+
     /**
      *
      * Events for the calendar
@@ -523,7 +517,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
     };
     /* event sources array for ui-calendar*/
-    $scope.eventSources = [$scope.pendingEvents, $scope.activeEvents, $scope.eventsPaid];
+    $scope.eventSources = [$scope.events];
 
     /**
      * Opens the edit Appointment modal, for editing appointments
@@ -625,6 +619,22 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
     };
 
+    socketService.on('updatedAppt', function (appointment) {
+        console.log(appointment);
+        for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+            if (appointment._id === $scope.events[eventIndex].appointment._id) {
+                console.log("YOU RECEIVED AN UPDATED ACTIVE APPOINTMENT: ");
+                $scope.events[eventIndex].start = moment(appointment.start.full).format();
+                $scope.events[eventIndex].end = moment(appointment.end.full).format();
+                $scope.events[eventIndex].title = appointment.title;
+                $scope.events[eventIndex].appointment = appointment;
+                //$scope.events[eventIndex].backgroundColor = '#f70';
+                //$scope.events[eventIndex].borderColor = '#f70';
+                console.log(appointment);
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
+            }
+        }
+    });
     socketService.on('newAppt', function (appointment) {
         $scope.addEvent(appointment);
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
@@ -635,9 +645,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         var masterList = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments;
         masterList = _.without(masterList, _.findWhere(masterList, {'_id': data.appointment._id}));
         $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments = masterList;
-        for (var eventIndex = 0; eventIndex < $scope.activeEvents.length; eventIndex++) {
-            if ($scope.activeEvents[eventIndex].appointment._id === data.appointment._id) {
-                eventId = $scope.activeEvents[eventIndex]._id;
+        for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+            if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
+                eventId = $scope.events[eventIndex]._id;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
             }
         }
