@@ -265,6 +265,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.eventSources = [$scope.eventsSource];
 
     socketService.on('newAssociateAppt', function (appointment) {
+        console.log(appointment);
         $scope.addEvent(appointment);
     });
     socketService.on('updatedAppt', function (data) {

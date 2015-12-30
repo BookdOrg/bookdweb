@@ -569,7 +569,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* add custom event*/
     $scope.addEvent = function (appointment) {
-        $scope.activeEvents.push({
+        $scope.events.push({
             title: appointment.title,
             start: appointment.start.full,
             end: appointment.end.full,

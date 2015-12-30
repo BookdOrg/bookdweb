@@ -78,7 +78,8 @@ var userFactory = function ($http, auth, $q) {
         return $http.get('/user/appointments', {
             params: {
                 'startDate': object.startDate,
-                'id': object.id,
+                'employeeId': object.employeeId,
+                'customerId': object.customerId,
                 'personal':object.personal
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}

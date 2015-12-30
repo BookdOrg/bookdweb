@@ -48,13 +48,15 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         if(personal){
             employeeApptObj = {
                 startDate: newDate,
-                id: employeeId,
+                employeeId: employeeId,
+                customerId: data.appointment.customer,
                 personal:true
             };
         }else{
             employeeApptObj = {
                 startDate: newDate,
-                id: employeeId,
+                employeeId: employeeId,
+                customerId: data.appointment.customer,
                 personal:false
             };
         }

@@ -91,7 +91,7 @@ io.on('connection', function (socket, data) {
         //socket.join(zip);
     });
     socket.on('joinApptRoom', function (data) {
-        string = data.startDate.toString() + data.id.toString();
+        string = data.startDate.toString() + data.employeeId.toString();
         socket.join(string);
         var holdList = _.where(roomData, {id: string});
         io.to(socket.id).emit('oldHold', holdList);
@@ -269,14 +269,12 @@ io.on('connection', function (socket, data) {
  **/
 router.get('/user/appointments', auth, function (req, res, next) {
     var startDate = req.param('startDate');
-    var employeeId = req.param('id');
+    var employeeId = req.param('employeeId');
+    var customerId = req.param('customerId');
 
     var personal = req.param('personal');
     var responseArray = [];
 
-    if (personal) {
-        var userId = req.payload._id;
-    }
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments personalAppointments',
         match: {'start.date': startDate}
@@ -288,8 +286,8 @@ router.get('/user/appointments', auth, function (req, res, next) {
             responseArray.push(employee.businessAppointments);
             responseArray.push(employee.personalAppointments);
         }
-        if (personal) {
-            User.findOne({'_id': userId}).populate({
+        if (personal === 'true') {
+            User.findOne({'_id': customerId}).populate({
                 path: 'personalAppointments businessAppointments',
                 match: {'start.date': startDate}
             }).exec(function (err, customer) {

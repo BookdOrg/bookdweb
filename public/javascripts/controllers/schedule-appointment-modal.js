@@ -14,7 +14,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 var photoIndex = employeeIndex;
                 userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
                     .then(function (response) {
-                        employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
+                        if (!response.error) {
+                            employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
+                        }
 
                     });
             }
@@ -77,13 +79,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if (personal) {
             employeeApptObj = {
                 startDate: newDate,
-                id: employeeId,
+                employeeId: employeeId,
+                customerId: $rootScope.currentUser.user._id,
                 personal: true
             };
         } else {
             employeeApptObj = {
                 startDate: newDate,
-                id: employeeId,
+                employeeId: employeeId,
+                customerId: null,
                 personal: false
             };
         }
