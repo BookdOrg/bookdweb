@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var cloudinary = require('cloudinary');
+var helmet = require('helmet');
 
 mongoose.connect('mongodb://localhost/clientconnect');
 
@@ -23,6 +24,8 @@ require('./config/passport');
 var routes = require('./routes/index');
 
 var app = express();
+
+app.use(helmet());
 
 cloudinary.config({
     cloud_name:'dvvtn4u9h',
