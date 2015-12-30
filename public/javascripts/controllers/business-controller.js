@@ -220,14 +220,37 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * @param index - The index of the service in the business services array
      */
     $scope.openRemoveServiceModal = function (service, index) {
-        var serviceObj = {
-            serviceId: service._id,
-            businessId: $scope.business.info._id
-        };
-        businessFactory.removeService(serviceObj)
-            .then(function (response) {
-                $scope.business.info.services.splice(index, 1);
-            });
+        //var serviceObj = {
+        //    serviceId: service._id,
+        //    businessId: $scope.business.info._id
+        //};
+        //businessFactory.removeService(serviceObj)
+        //    .then(function (response) {
+        //        $scope.business.info.services.splice(index, 1);
+        //    });
+
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/removeServiceModal.html',
+            controller: 'removeServiceModalCtrl',
+            resolve: {
+                serviceIndex: function () {
+                    return index;
+                },
+                service: function () {
+                    return angular.copy(service);
+                },
+                business: function () {
+                    return $scope.business.info;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $scope.business.info.services.splice(index, 1);
+        }, function () {
+
+        });
     };
 
     $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;

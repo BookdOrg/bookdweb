@@ -106,15 +106,29 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param service - the service object
      * @param index - the index of the service object in the active business
      */
-    $scope.removeService = function (service, index) {
-        $scope.activeBusiness.business.services.splice(index, 1);
-        var serviceObj = {
-            serviceId: service._id,
-            businessId: $scope.activeBusiness.business._id
-        };
-        businessFactory.removeService(serviceObj)
-            .then(function (response) {
-            });
+    $scope.openRemoveServiceModal = function (service, index) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/removeServiceModal.html',
+            controller: 'removeServiceModalCtrl',
+            resolve: {
+                serviceIndex: function () {
+                    return index;
+                },
+                service: function () {
+                    return angular.copy($scope.activeBusiness.business.services);
+                },
+                business: function () {
+                    return $scope.activeBusiness.business;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $scope.activeBusiness.business.services.splice(index, 1);
+        }, function () {
+
+        });
     };
 
     /**

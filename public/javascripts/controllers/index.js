@@ -20,3 +20,4 @@ app.controller('messagesModalCtrl', require('./messages-modal'));
 app.controller('ProfileCtrl', require('./profile-controller'));
 app.controller('searchCtrl', require('./search-controller'));
 app.controller('updatedAvailabilityCtrl', require('./update-availability-modal'));
+app.controller('removeServiceModalCtrl', require('./remove-service-modal'));
