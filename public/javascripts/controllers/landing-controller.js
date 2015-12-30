@@ -1,4 +1,4 @@
-module.exports = function ($scope, $controller, $state, $timeout, $interval) {
+module.exports = function ($scope, $controller,$state) {
     $scope.navbarCollapsed = true;
 
     $scope.myInterval = 5000;
@@ -18,24 +18,5 @@ module.exports = function ($scope, $controller, $state, $timeout, $interval) {
     $controller('NavCtrl', {$scope: navViewModel});
     $scope.openSignup = function (type, state) {
         navViewModel.open(type, state);
-    };
-
-    $scope.sound = new Audio('https://s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3');
-    $scope.shake = function () {
-        $scope.sound.play();
-
-        $interval(function () {
-            //$( '#location' ).toggle( "pulsate" );
-            $('#location').toggle("explode");
-            $("#search").toggle('explode');
-            $("#intro").toggle("scale");
-            $("#btnn").toggle("explode");
-        }, 410);
-
-        $timeout(function () {
-            $interval(function () {
-                $('body').effect('shake', {times: 100, distance: 20});
-            }, 1000);
-        }, 14500);
     };
 };

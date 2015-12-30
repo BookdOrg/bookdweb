@@ -1,7 +1,7 @@
 <header>
     <div class="container">
         <div class="intro-text">
-            <div id="intro" class="intro-lead-in"> Appointment Booking. Made Easy.</div>
+            <div class="intro-lead-in"> Appointment Booking. Made Easy. </div>
             <!--<div class="intro-heading">It's Nice To Meet You</div>-->
             <!--<a href="#services" class="page-scroll btn btn-xl">Tell Me More</a>-->
             <div class="row form-inline form-group">
@@ -14,11 +14,11 @@
                     <span class="left-inner-addon left-inner-addon-landing">
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                     <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                    <input id="location" class="form-control input-lg" aria-describedby="near" g-places-autocomplete
+                    <input class="form-control input-lg" aria-describedby="near" g-places-autocomplete
                            options="autocompleteOptions" ng-model="query.location" placeholder="Near.." required>
                     </span>
                     <span>
-                    <button id="btnn" class="btn btn-lg sectionBtn" ng-click="shake()" type="submit">
+                    <button class="btn btn-lg sectionBtn" ng-click="landingQuery.$valid && search(query)" type="submit">
                         <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
                            ng-class="{'fa-spin' : fetchingQuery}"></i>
                         <span ng-show="!fetchingQuery">Search</span>
