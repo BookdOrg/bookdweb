@@ -103,10 +103,18 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             if (date && date.appointment !== 'canceled') {
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
-                if (date.appointment.status === 'active') {
+                if (date.appointment.status === 'active' && date.appointment.customer === $rootScope.currentUser.user._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
-                } else if (date.appointment.status === 'pending') {
+                } else if (date.appointment.status === 'active' && date.appointment.employee == $rootScope.currentUser.user._id) {
+                    date.backgroundColor = '#f70';
+                    date.borderColor = '#f70';
+                } else if (date.appointment.status === 'active' && date.appointment.employee !== $rootScope.currentUser.user._id ||
+                    date.appointment.customer !== $rootScope.currentUser.user._id) {
+                    date.backgroundColor = '#3A87BA';
+                    date.borderColor = '#3A87BA';
+                }
+                if (date.appointment.status === 'pending') {
                     date.backgroundColor = '#f00';
                     date.borderColor = '#f00';
                 }

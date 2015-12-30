@@ -633,7 +633,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].end = moment(appointment.end.full).format();
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
-                Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                Notification.info({message: 'An appointment has been re-scheduled!'});
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
         }
