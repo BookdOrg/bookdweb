@@ -108,6 +108,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             if (date && date.appointment !== 'canceled') {
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
+                if (date.appointment.status === 'active') {
+                    date.backgroundColor = '#3A87BA';
+                    date.borderColor = "#3A87BA"
+                } else if (date.appointment.status === 'pending') {
+                    date.backgroundColor = '#f00';
+                    date.borderColor = "#f00";
+                }
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
             } else if (date && date.appointment === 'canceled') {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
