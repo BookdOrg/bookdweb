@@ -31,7 +31,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.countdown = 600;
     $scope.tier = tier;
     var timeStarted = false;
-
     // $scope.currentUser = auth.currentUser();
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {

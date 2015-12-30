@@ -49,20 +49,16 @@ gulp.task('browserify', bundle);
 bundler.on('update', bundle);
 
 function bundle() {
-    var start = new Date().getTime();
-
-    var b = bundler.bundle()
+    return bundler.bundle()
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(source('app.js'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dist));
-
-    var end = new Date().getTime();
-    var time = end - start;
-
-    gutil.log('Browserify', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
-    return b;
 }
+
+bundler.on('time', function (time) {
+    gutil.log('Browserify', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
+});
 
 function errorHandler(err) {
     notifier.notify({message: 'Error: ' + err.message});
