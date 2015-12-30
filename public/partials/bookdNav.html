@@ -131,13 +131,13 @@
 
                         <div class="uib-dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
                              aria-labelledby="dLabel">
-                            <div class="notification-heading">
+                            <div class="notification-heading" ng-if="notifications.length > 0">
                                 <h4 class="menu-title">Notifications</h4>
                                 <h4 class="menu-title pull-right" ng-click="viewAllNotifications()">Mark all as
                                     viewed</h4>
                             </div>
                             <span class="divider"></span>
-                            <h5 class="text-center" ng-if="notifications.length === 0">You have no notifications!</h5>
+                            <h3 class="text-center" ng-if="notifications.length === 0">You have no notifications!</h3>
                             <ul class="notifications-wrapper">
                                 <li class="content"
                                     ng-repeat="notification in notifications">
