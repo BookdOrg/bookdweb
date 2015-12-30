@@ -281,6 +281,9 @@ app.config([
             socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
         }
     });
+    socketService.on('error', function (data) {
+        console.log(data);
+    });
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);

@@ -125,8 +125,10 @@
                                     <a href="/user/{{employee._id}}/profile"
                                        uib-tooltip="Visit {{employee.name}}'s Profile"
                                        tooltip-placement="bottom">
-                                        <img ng-if="employee.provider === 'google_plus'"
+                                        <img ng-if="employee.provider === 'google_plus' && employee.photo"
                                              ng-src="{{employee.photo}}"/>
+                                        <img ng-if="employee.provider === 'google_plus' && !employee.photo"
+                                             ng-src="{{cloudinaryDefaultPic}}"/>
                                         <img ng-if="employee.provider === 'facebook'"
                                              ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 

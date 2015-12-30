@@ -560,8 +560,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     date.borderColor = '#f39';
                 }
                 if (date.appointment.status == 'pending') {
-                    date.backgroundColor = '#f00';
-                    date.borderColor = '#f00';
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
+                    //date.backgroundColor = '#f00';
+                    //date.borderColor = '#f00';
                 }
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
@@ -633,7 +634,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].end = moment(appointment.end.full).format();
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
-                console.log(appointment);
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
         }

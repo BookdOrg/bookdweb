@@ -71,6 +71,9 @@ io.on('connection', function (socket, data) {
     console.log("THERE WAS A CONNECTION");
     console.log(clients);
     io.to(socket.id).emit('authorizationReq', socket.id);
+    socket.on('error', function (data) {
+        console.log(data);
+    });
     socket.on('authorizationRes', function (data) {
         var client = {};
         client.customId = data;

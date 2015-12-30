@@ -10,8 +10,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                     .then(function (response) {
                         if (!response.error) {
                             employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
-                        } else {
-                            console.log("show default")
                         }
                     });
             }
