@@ -109,7 +109,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 available: true,
                 toggled: false,
                 status: false,
-                user: $scope.currentUser.user._id
+                user: $rootScope.currentUser.user._id
             };
             $scope.availableTimes.push(timeObj);
         }
@@ -179,12 +179,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
     });
     socketService.on('newHold', function (data) {
-        if (data.user !== $scope.currentUser.user._id) {
+        if (data.user !== $rootScope.currentUser.user._id) {
             calculateHold(data);
         }
     });
     socketService.on('destroyOld', function (data) {
-        if (data.user !== $scope.currentUser.user._id) {
+        if (data.user !== $rootScope.currentUser.user._id) {
             destroyOld(data);
         }
     });
