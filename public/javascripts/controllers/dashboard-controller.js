@@ -1,4 +1,5 @@
-module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile, $uibModal, socketService, $rootScope) {
+module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
+                           $uibModal, socketService, $rootScope, Notification) {
     $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
@@ -626,20 +627,20 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
 
     socketService.on('updatedAppt', function (appointment) {
-        console.log(appointment);
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if (appointment._id === $scope.events[eventIndex].appointment._id && appointment.status !== 'pending') {
-                console.log("YOU RECEIVED AN UPDATED ACTIVE APPOINTMENT: ");
                 $scope.events[eventIndex].start = moment(appointment.start.full).format();
                 $scope.events[eventIndex].end = moment(appointment.end.full).format();
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
+                Notification.info({message: 'A customer has re-scheduled an appointment!'});
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
         }
     });
     socketService.on('newAppt', function (appointment) {
         $scope.addEvent(appointment);
+        Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
@@ -651,6 +652,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
                 eventId = $scope.events[eventIndex]._id;
+                Notification.warning({message: 'An appointment has been canceled'});
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
             }
         }

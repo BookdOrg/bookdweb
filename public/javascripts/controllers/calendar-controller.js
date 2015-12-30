@@ -1,7 +1,8 @@
 /**
  * Created by khalilbrown on 10/5/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout, businessFactory, socketService, $rootScope) {
+module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout,
+                           businessFactory, socketService, $rootScope, Notification) {
     $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
@@ -269,7 +270,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.eventSources = [$scope.eventsSource];
 
     socketService.on('newAssociateAppt', function (appointment) {
-        console.log(appointment);
+        Notification.success({message: 'New appointment booked!'});
         $scope.addEvent(appointment);
     });
     socketService.on('updatedAppt', function (data) {
@@ -282,14 +283,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         if (data.from === data.appointment.customer) {
             for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
-                    console.log("YOU RECEIVED AND UPDATED ACTIVE APPOINTMENT FROM A CUSTOMER: ");
                     $scope.events[eventIndex].start = moment(data.appointment.start.full).format();
                     $scope.events[eventIndex].end = moment(data.appointment.end.full).format();
                     $scope.events[eventIndex].title = data.appointment.title;
                     $scope.events[eventIndex].appointment = data.appointment;
                     $scope.events[eventIndex].backgroundColor = '#f70';
                     $scope.events[eventIndex].borderColor = '#f70';
-                    console.log(data.appointment);
+                    Notification.info({message: 'A customer has re-scheduled an appointment!'});
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
@@ -305,14 +305,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         } else if (data.from === data.appointment.employee || data.from !== data.appointment.customer) {
             for (eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
-                    console.log("YOU RECEIVED AND UPDATED PENDING APPOINTMENT FROM AN EMPLOYEE: ");
                     $scope.events[eventIndex].start = moment(data.appointment.start.full).format();
                     $scope.events[eventIndex].end = moment(data.appointment.end.full).format();
                     $scope.events[eventIndex].title = data.appointment.title;
                     $scope.events[eventIndex].appointment = data.appointment;
                     $scope.events[eventIndex].backgroundColor = '#f00';
                     $scope.events[eventIndex].borderColor = '#f00';
-                    console.log(data.appointment);
+                    Notification.warning({message: 'An employee has requested to re-schedule an appointment!'});
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
@@ -323,7 +322,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [$scope.events[eventIndex]._id]);
-                }
+                Notification.warning({message: 'An appointment has been canceled'});
+            }
             //$scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
             //    _.findWhere($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments, {'_id': data.appointment._id}));
             //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));

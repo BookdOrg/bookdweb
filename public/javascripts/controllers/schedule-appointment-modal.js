@@ -332,6 +332,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 $scope.appointment.personal = personal;
                 socketService.emit('apptBooked', appointment);
                 $uibModalInstance.close(appointment);
+            }, function (error) {
+                $uibModalInstance.dismiss(error);
             });
 
     };
@@ -340,7 +342,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if ($scope.activeTime) {
             socketService.emit('timeDestroyed', $scope.activeTime);
         }
-        $uibModalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('Appointment Booking Canceled');
     };
 
     $scope.newNotification = function (appointment, personToNotify) {
