@@ -6,9 +6,12 @@ var browserify = require('browserify'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     ngAnnotate = require('gulp-ng-annotate'),
+    notifier = require('node-notifier'),
+    plumber = require('gulp-plumber'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    watchify = require('watchify');
 
 // Define file path variables
 var paths = {
@@ -18,18 +21,7 @@ var paths = {
     test: 'testSpecs/'          // Test path
 };
 
-gulp.task('browserify', function () {
-    return browserify({
-        entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
-        debug: true // Gives us sourcemapping
-    })
-        .bundle() // Create the initial bundle when starting the task
-        .pipe(source('app.js'))
-        .on('error', gutil.log)
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.dist));
-});
-
+//TODO Make this work with watchify
 gulp.task('browserifyProd', function () {
     return browserify({
         entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
@@ -47,10 +39,36 @@ gulp.task('browserifyProd', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
+var bundler = watchify(browserify({
+    entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
+    debug: true // Gives us sourcemapping
+}, watchify.args));
+
+gulp.task('browserify', bundle);
+
+bundler.on('update', bundle);
+
+function bundle() {
+    var start = new Date().getTime();
+
+    var b = bundler.bundle()
+        .pipe(plumber({errorHandler: errorHandler}))
+        .pipe(source('app.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.dist));
+
+    var end = new Date().getTime();
+    var time = end - start;
+
+    gutil.log('Browserify', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
+    return b;
+}
+
+function errorHandler(err) {
+    notifier.notify({message: 'Error: ' + err.message});
+    gutil.log(gutil.colors.red('Error: ' + err.message));
+}
+
 gulp.task('default', [], function () {
     gulp.start('browserify');
-});
-
-gulp.task('watch', ['browserify'], function () {
-    gulp.watch(['public/javascripts/**/*.js', '!public/javascripts/dist/*'], ['browserify']);
 });
