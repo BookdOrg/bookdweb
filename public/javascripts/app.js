@@ -366,18 +366,4 @@ app.config([
                 }
             });
     };
-
-    $rootScope.openMessages = function (size) {
-        var modalInstance = $uibModal.open({
-            //animation: $scope.animationsEnabled,
-            templateUrl: 'messagesModal.html',
-            controller: 'messagesModalCtrl',
-            size: size,
-            resolve: {
-                //messages: function(){
-                //    return
-                //}
-            }
-        });
-    };
 });
