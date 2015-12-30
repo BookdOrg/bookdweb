@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi, userFactory) {
+                           $controller, facebookApi, userFactory, Notification) {
     $scope.business = businessFactory.business;
 
     function getGooglePlusPhoto(employeeArray) {
@@ -172,18 +172,11 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 }
             }
         });
-        /**
-         * Currently doing nothing once the modal has been closed,
-         *
-         * we could display a message saying the appointment was successfully bookd.
-         *
-         * Maybe we leave this to the email.
-         *
-         */
-        modalInstance.result.then(function (selectedItem) {
 
+        modalInstance.result.then(function () {
+            Notification.success('Successfully booked an appointment!');
         }, function () {
-            //console.log('Modal dismissed at: ' + new Date());
+
         });
     };
     /**
@@ -220,15 +213,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * @param index - The index of the service in the business services array
      */
     $scope.openRemoveServiceModal = function (service, index) {
-        //var serviceObj = {
-        //    serviceId: service._id,
-        //    businessId: $scope.business.info._id
-        //};
-        //businessFactory.removeService(serviceObj)
-        //    .then(function (response) {
-        //        $scope.business.info.services.splice(index, 1);
-        //    });
-
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/removeServiceModal.html',
