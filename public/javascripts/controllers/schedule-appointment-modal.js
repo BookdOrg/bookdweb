@@ -2,34 +2,12 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
-                           userFactory, personal, tier, service, notificationFactory, facebookApi) {
+                           userFactory, personal, tier, service, notificationFactory, facebookApi, utilService) {
 
     $scope.facebookApi = facebookApi;
-
     $scope.service = service;
-    /**
-     *
-     * Function to get the profile photo for any google + authenticated employees
-     *
-     * @param employeeArray -  array of employees associated with the service
-     */
-    function getGooglePlusPhoto(employeeArray) {
-        for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
-            if (employeeArray[employeeIndex].provider === 'google_plus') {
-                var photoIndex = employeeIndex;
-                userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
-                    .then(function (response) {
-                        if (!response.error) {
-                            employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
-                        }
 
-                    });
-            }
-        }
-    }
-
-    getGooglePlusPhoto($scope.service.employees);
-
+    utilService.getGooglePlusPhoto($scope.service.employees);
 
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -72,16 +50,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var day = new Date();
         getAvailableTimes(day, $scope.employee._id);
     };
-    /**
-     * Disable days on the calendar
-     * @param date
-     * @param mode
-     * @returns {boolean}
-     */
-    //$scope.disabled = function(date, mode) {
-    //    $scope.employee.availability
-    //    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-    //};
+
     /**
      *
      * @param date - the date selected on the calendar

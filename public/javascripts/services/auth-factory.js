@@ -55,11 +55,10 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
         currentUser: function () {
             if (auth.isLoggedIn()) {
                 var token = auth.getToken();
-                var data = {
+                return {
                     'user': angular.fromJson($window.atob(token.split('.')[1])),
                     'providerInfo': auth.getProviderInfo()
                 };
-                return data;
             }
         },
         register: function (user, info) {

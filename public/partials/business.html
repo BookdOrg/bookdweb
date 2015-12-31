@@ -158,13 +158,13 @@
 
     ########################################
     -->
-        <uib-tab select="initMap('busLoc');">
+        <uib-tab>
             <uib-tab-heading>
                 <i class="fa fa-info"></i> Info
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-7" style="margin-top:5px;">
-                    <ng-map id="busLoc" class="map-container" ng-if="center" center="{{center}}" zoom="16">
+                    <ng-map class="map-container" ng-if="center" center="{{center}}">
                         <marker position="{{center}}"></marker>
                     </ng-map>
                 </div>
@@ -183,9 +183,10 @@
                     <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
 
                     <p>Hours:</p>
-                        <span ng-if="business.opening_hours" ng-repeat="hours in business.opening_hours.weekday_text">
-                                <br>{{hours}}
-                        </span>
+                    <ul class="hours-list" ng-if="business.opening_hours"
+                        ng-repeat="hours in business.opening_hours.weekday_text">
+                        <li>{{hours}}</li>
+                    </ul>
                         <span ng-if="!business.opening_hours">
                                 No information about {{business.name}}'s hours of operation is available.
                         </span>

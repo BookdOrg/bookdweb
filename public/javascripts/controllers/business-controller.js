@@ -1,27 +1,8 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi, userFactory, Notification) {
+                           $controller, facebookApi, userFactory, Notification, utilService) {
     $scope.business = businessFactory.business;
-    /**
-     * Loops through all a businesses employees, makes a request to google to
-     * retrieve the profile picture for employee's who authenticated with google+
-     *
-     * @param employeeArray - array of employee objects
-     */
-    function getGooglePlusPhoto(employeeArray) {
-        for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
-            if (employeeArray[employeeIndex].provider === 'google_plus') {
-                var photoIndex = employeeIndex;
-                userFactory.getGooglePhoto(employeeArray[employeeIndex].providerId)
-                    .then(function (response) {
-                        if (!response.error) {
-                            employeeArray[photoIndex].photo = response.image.url.replace('sz=50', 'sz=200');
-                        }
-                    });
-            }
-        }
-    }
 
-    getGooglePlusPhoto($scope.business.info.employees);
+    utilService.getGooglePlusPhoto($scope.business.info.employees);
 
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
@@ -183,7 +164,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         modalInstance.result.then(function () {
             Notification.success('Successfully booked an appointment!');
         }, function (error) {
-            Notification.error({message: error, positionX: 'right'});
+            Notification.error({message: error});
         });
     };
     /**
@@ -245,18 +226,4 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     };
 
     $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
-    //NgMap.getMap().then(function (map) {
-    //    map.zoom = 9;
-    //});
-    /**
-     * Initialize the map when the user clicks on the tab
-     *
-     * @param mapId - the html id of the map element
-     */
-    //$scope.initMap = function(mapId) {
-    //    $scope.map = NgMap.initMap(mapId);
-    //
-    //};
-
-
 };

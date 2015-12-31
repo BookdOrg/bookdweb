@@ -14,18 +14,7 @@
         <li><a data-target="#pay" data-toggle="tab"></a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="details">
-            <div class="control-group">
-                <div class="row text-center">
-                    <h2>{{service.description}}</h2>
-                    <h5>Price:{{service.price |currency}}</h5>
-                    <h5>Duration: {{service.duration}} minutes.</h5>
-                    <h6 class="text-danger">Note: You will be charged at the time your service is completed.</h6>
-                    <a data-target="#employees" data-toggle="tab" class="btn btn-primary">Next</a>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane" id="employees">
+        <div class="tab-pane active" id="employees">
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                 <h3>Select an Associate</h3>
                 <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees">
@@ -50,7 +39,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <a data-target="#details" data-toggle="tab" class="btn btn-warning">Back</a>
+                <!--<a data-target="#employ" data-toggle="tab" class="btn btn-warning">Back</a>-->
                 <a data-target="#schedule" data-toggle="tab" ng-show="employee" class="btn btn-primary">Next</a>
             </div>
         </div>
@@ -94,13 +83,13 @@
                             data-image="/images/icon.png"
                             data-label="Book Appointment"
                             data-panel-label="Book">
-                        Book Appointment (Card Info)
+                        Book Appointment & Pay
                     </button>
                     <button class="btn btn-primary" ng-show="appointment"
                             ng-click="newNotification(appointment, appointment.customer);
                              newNotification(appointment, appointment.employee);
                              book()">
-                        Book Appointment (Book)
+                        Book Appointment Only
                     </button>
                 </div>
             </div>

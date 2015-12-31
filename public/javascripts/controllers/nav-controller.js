@@ -8,7 +8,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     //animations for the modal
     $scope.animationEnabled = true;
     //Determines whether to show 'Book'd Partners' or Customers links
-    if ($state.current.name == 'landing') {
+    if ($state.current.name === 'landing') {
         $scope.forBusiness = true;
     } else {
         $scope.forBusiness = false;
@@ -57,6 +57,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      *
      * @param type
      * @param state
+     * @param selectedTier
      */
     $scope.open = function (type, state, selectedTier) {
         var modalInstance = $uibModal.open({
