@@ -124,6 +124,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param data - array containing all the customer and employees personal and business appointments
      */
     function calculateAppointments(data) {
+        $scope.dayMessage = false;
         //Which day of the week is currently selected
         var weekDay = moment($scope.selectedDate).format('dddd');
         $scope.availableTimes = [];
