@@ -11,7 +11,7 @@
               <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
               <img ng-if="user.avatarVersion && user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
               <img ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
-              <img ng-if="user.provider === 'google_plus' && !employee.photo"
+              <img ng-if="user.provider === 'google_plus' && !user.photo"
                    ng-src="{{cloudinaryDefaultPic}}"/>
               <img ng-if="user.provider === 'facebook'" ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
           </div>
