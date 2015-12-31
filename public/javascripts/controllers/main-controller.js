@@ -41,6 +41,11 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
 
     //var $scope = this;
     var bounds = new google.maps.LatLngBounds();
+    /**
+     * Generate map markers based on the search results
+     *
+     * @param businesses - array of businesses returned thanks to Google :)
+     */
     var generateMarkers = function(businesses) {
         $scope.positions = [];
         for (var i = 0; i < businesses.length; i++) {
@@ -49,6 +54,7 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
             var tempArray = [lat,lng];
             $scope.positions.push(tempArray);
         }
+        //This isn't working yet, but we need to implement bounding the box to fit all results
         for (var boundsIndex=0; i<$scope.positions.length; boundsIndex++) {
             var latlng = new google.maps.LatLng($scope.positions[boundsIndex][0], $scope.positions[boundsIndex][1]);
             bounds.extend(latlng);
@@ -60,23 +66,26 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
         //});
         //console.log("$scope.positions", $scope.positions);
     };
+    //If there are results when we get to the page, generate markers
     if ($scope.businesses.length > 0) {
         generateMarkers($scope.businesses);
     }
+    //Watch businesses, each time a user search they will change
     $scope.$watchCollection('businesses',function(newVal,oldVal){
         if(newVal !== oldVal){
             generateMarkers(newVal);
         }
     });
-
+    //If there are no businesses and we have the users currentlocation, set the center of the map to be the users
     if($scope.businesses.length == 0 && $rootScope.currLocation){
         $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
     }
-
+    //Inject the navCtrl to use it's showSearch method
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
 
     navViewModel.showSearch(true);
+    //Watch the current location of the user
     $scope.$watch('currLocation',function(newVal,oldVal){
         if(newVal){
             $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;

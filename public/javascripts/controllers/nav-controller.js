@@ -5,13 +5,15 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
 
     $scope.navbarCollapsed = true;
     $rootScope.show = false;
-
+    //animations for the modal
     $scope.animationEnabled = true;
+    //Determines whether to show 'Book'd Partners' or Customers links
     if ($state.current.name == 'landing') {
         $scope.forBusiness = true;
     } else {
         $scope.forBusiness = false;
     }
+    //send a new authToken is the current user needs to be updated (Used for availability)
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();

@@ -3,6 +3,8 @@
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, service, serviceIndex, business) {
     $scope.service = service;
+
+    //Delete the service
     $scope.remove = function () {
         var serviceObj = {
             serviceId: service._id,

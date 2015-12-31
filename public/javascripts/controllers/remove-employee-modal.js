@@ -7,6 +7,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
     $scope.associatedServices = [];
     $scope.businessId = businessObj._id;
     var services = businessObj.services;
+    //Loop through each service, grab the employees from the service
     for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
         var employees = services[serviceIndex].employees;
         //If a service only has 1 employee, check if the employee being removed is part of the service.

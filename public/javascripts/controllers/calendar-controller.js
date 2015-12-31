@@ -3,6 +3,8 @@
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout,
                            businessFactory, socketService, $rootScope, Notification) {
+
+    //Auto toggles which button-group button will be selected
     $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
@@ -100,20 +102,26 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          *
          */
         modalInstance.result.then(function (date) {
+            //If the updated appointment wasn't canceled we enter this block
             if (date && date.appointment !== 'canceled') {
+                //set the new stat and end states according to the updated appointment
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
+                //if the appointment is active and the person on the calendar is the customer enter this block, set bgcolor
                 if (date.appointment.status === 'active' && date.appointment.customer === $rootScope.currentUser.user._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
+                    //if the appointment is active and the person on the calendar is the employee enter this block, set bgColor
                 } else if (date.appointment.status === 'active' && date.appointment.employee == $rootScope.currentUser.user._id) {
                     date.backgroundColor = '#f70';
                     date.borderColor = '#f70';
+                    //if the appointment is active and there's no customer we set the bgColor as blue -- THIS MAY BE REDUNDANT (For dashboard)
                 } else if (date.appointment.status === 'active' && date.appointment.employee !== $rootScope.currentUser.user._id ||
                     date.appointment.customer !== $rootScope.currentUser.user._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
                 }
+                //If the status of the appointment is pending the we set the background color to red
                 if (date.appointment.status === 'pending') {
                     date.backgroundColor = '#f00';
                     date.borderColor = '#f00';
@@ -176,7 +184,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             sources.push(source);
         }
     };
-    /* add custom event*/
+    /* add custom event to the calendar*/
     $scope.addEvent = function (appointment) {
         $scope.events.push({
             title: appointment.title,
@@ -326,6 +334,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         }
 
     });
+    /**
+     *
+     * When the socket sends us an appointment that was canceled we loop through all events
+     * once we find the event that has the matching appointment we remove the event from the calendar and show the
+     * notification
+     *
+     */
     socketService.on('canceledAppt', function (data) {
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {

@@ -1,4 +1,5 @@
 module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, facebookApi) {
+    //Settings for the ratings bar
     $scope.hoveringOver = function (value) {
         $scope.overStar = value;
         $scope.percent = 100 * (value / $scope.max);
@@ -6,8 +7,10 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     $scope.max = 5;
     $scope.isReadonly = false;
     $scope.rate = 2.5;
+    //get the profile information of the user
     userFactory.get($stateParams.id).then(function (data) {
         $scope.user = data.user;
+        //Grab the google+ users profile photo
         if (data.user.provider === 'google_plus') {
             userFactory.getGooglePhoto(data.user.providerId)
                 .then(function (response) {

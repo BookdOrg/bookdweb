@@ -40,7 +40,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
     /**
      *
-     *
+     *  Creates the events array that will be used to display events on the calendar
      *
      * @param businessArray - The array of businesses an employee owns,
      */
@@ -84,7 +84,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /**
      *
-     *
+     *  These are toggles for each accordion group
      *
      *
      * @type {{open: boolean}}
@@ -119,6 +119,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @param service - the service object
      * @param index - the index of the service object in the active business
+     *
+     * business - resolves the active business, send it into the modal
      */
     $scope.openRemoveServiceModal = function (service, index) {
         var modalInstance = $uibModal.open({
@@ -139,6 +141,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
 
         modalInstance.result.then(function () {
+            //when the modal returns the successful promise, we remove the service from the active business
             $scope.activeBusiness.business.services.splice(index, 1);
         }, function () {
 
@@ -625,7 +628,15 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         });
     };
-
+    /**
+     *
+     * Socket returns any updates made to appointments by employee's or customers,
+     * we look for the appointment's event object on the calendar and then update the event
+     *
+     * Currently update results in an error being thrown, can't read undefined property of clone()
+     * we'll need to resolve this eventually
+     *
+     */
     socketService.on('updatedAppt', function (appointment) {
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if (appointment._id === $scope.events[eventIndex].appointment._id && appointment.status !== 'pending') {
@@ -638,12 +649,23 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         }
     });
+    /**
+     *
+     * Socket return a new appointment to add to the business calendar
+     *
+     */
     socketService.on('newAppt', function (appointment) {
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
+    /**
+     *
+     * When an appointment get's canceled we look for it in the event array, if it exists we remove it from
+     * the calendar, notify the user.
+     *
+     */
     socketService.on('canceledAppt', function (data) {
         var eventId;
         var masterList = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments;

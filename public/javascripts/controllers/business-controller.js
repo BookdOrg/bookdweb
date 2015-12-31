@@ -1,7 +1,12 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
                            $controller, facebookApi, userFactory, Notification) {
     $scope.business = businessFactory.business;
-
+    /**
+     * Loops through all a businesses employees, makes a request to google to
+     * retrieve the profile picture for employee's who authenticated with google+
+     *
+     * @param employeeArray - array of employee objects
+     */
     function getGooglePlusPhoto(employeeArray) {
         for (var employeeIndex = 0; employeeIndex < employeeArray.length; employeeIndex++) {
             if (employeeArray[employeeIndex].provider === 'google_plus') {

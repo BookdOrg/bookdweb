@@ -8,6 +8,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
 
     $scope.serviceEmployees = [];
 
+    /**
+     *
+     * Create the serviceEmployees array we're going to use as the model for the multi-select
+     *
+     * What's going on with the condition on line 23? lol
+     *
+     */
     for (var employeeIndex = 0; employeeIndex < business.employees.length; employeeIndex++) {
         var tempObject = {
             "_id": business.employees[employeeIndex]._id
@@ -18,7 +25,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
             }
         }
     }
-
+    /**
+     * Settings for the employee multiselect dropdown
+     *
+     * @type {{displayProp: string, idProp: string, externalIdProp: string, smartButtonMaxItems: number, smartButtonTextConverter: Function}}
+     */
     $scope.settings = {
         displayProp: 'name',
         idProp: '_id',
@@ -28,14 +39,20 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
             return itemText;
         }
     };
+    /**
+     * Update the service
+     *
+     * @param service - the service object being updated
+     */
     $scope.ok = function (service) {
         service.businessId = business._id;
+        //Set the services array of employees equal to the ones selected in the multi-select. Array of _id;s
         service.employees = _.pluck($scope.serviceEmployees, '_id');
         businessFactory.updateService(service)
             .then(function (data) {
                 business.services[serviceIndex] = data;
+                $uibModalInstance.close();
             });
-        $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
