@@ -2,7 +2,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                            $controller, facebookApi, userFactory, Notification, utilService) {
     $scope.business = businessFactory.business;
 
-    utilService.getGooglePlusPhoto($scope.business.info.employees);
+    utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
 
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;
