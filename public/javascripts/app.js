@@ -4,26 +4,28 @@ window._ = require('lodash');
 window.io = require('socket.io-client');
 
 var angular = require('angular');
-require('angular-ui-router');
 require('angular-file-upload');
 require('angular-stripe-checkout');
 require('angular-timer');
-require('ngmap');
-require('bootstrap');
 require('angular-ui-notification');
+require('angular-ui-router');
+require('bootstrap');
+require('ngmap');
 
-var app = angular.module('cc', ['ui.router',
+var app = angular.module('cc', [
+    require('angular-animate'),
+    require('angular-touch'),
+    'angularjs-dropdown-multiselect',
+    'angularFileUpload',
     'google.places',
     'ngGeolocation',
-    'ui.calendar',
-    'ui.bootstrap',
     'ngMap',
-    'angularFileUpload',
-    'angularjs-dropdown-multiselect',
     'stripe.checkout',
     'timer',
-    'ngTouch',
-    'ui-notification'
+    'ui.bootstrap',
+    'ui.calendar',
+    'ui-notification',
+    'ui.router'
 ]);
 
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
@@ -61,7 +63,7 @@ app.config([
                 url: '/',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/landingNav.html',
+                        templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -157,7 +159,7 @@ app.config([
                 controller: 'NavCtrl as NavCtrl',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/landingNav.html',
+                        templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -292,11 +294,11 @@ app.config([
             $templateCache.remove(current.templateUrl);
         }
     });
-    if ($state.current.name === 'landing') {
-        $rootScope.showLandingNav = true;
-    } else {
-        $rootScope.showLandingNav = false;
-    }
+    //if ($state.current.name === 'landing') {
+    //    $rootScope.showLandingNav = true;
+    //} else {
+    //    $rootScope.showLandingNav = false;
+    //}
     $rootScope.$on('$stateChangeError', function (event, toState, toStateParams,
                                                   fromState, fromStateParams, error) {
 
