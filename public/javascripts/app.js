@@ -2,6 +2,7 @@ window.jQuery = require('jquery');
 window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
+window.moment = require('moment');
 
 var angular = require('angular');
 require('angular-file-upload');
