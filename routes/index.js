@@ -337,57 +337,66 @@ router.get('/user/notifications', auth, function (req, res, next) {
  * Creates a new Notification and saves it to the database.
  */
 //TODO handle the case where there is no userID, appointment being scheduled for NON-Bookd customer
-//router.post('/user/notifications/create', auth, function (req, res, next) {
-//    var notification = new Notification();
-//    //Content of the notification.
-//    notification.content = req.body.content;
-//    //Timestamp of when notifications was created which is always now.
-//    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
-//    //Type of notification. To be used for indicating importance.
-//    notification.type = req.body.type;
-//    //Whether the notification was viewed or not.
-//    notification.viewed = 'false';
-//
-//    User.findOne({'_id': req.body.id}).exec(function (err, user) {
-//        if (err) {
-//            next(err);
-//        }
-//
-//        notification.user = user;
-//        notification.save(function (err, response) {
-//            if (err) {
-//                return next(err);
-//            }
-//            console.log('Successfully saved notification!');
-//        });
-//
-//        if (req.body.sendEmail) {
-//            var subject,
-//                body;
-//
-//            subject = 'Bookd Notification';
-//            body = notification.content;
-//
-//            var mailOptions = {
-//                from: 'Marshall Mathers', // sender address
-//                to: notification.user.email, // list of receivers
-//                subject: subject, // Subject line
-//                html: body // html body
-//            };
-//
-//            // send mail with defined transport object
-//            transporter.sendMail(mailOptions, function (error, info) {
-//                if (error) {
-//                    console.log(error);
-//                }
-//
-//                res.send(info);
-//            });
-//        } else {
-//            res.send('Successfully saved notification!');
-//        }
-//    });
-//});
+router.post('/user/notifications/create', auth, function (req, res, next) {
+    var notification = new Notification();
+    //Content of the notification.
+    notification.content = req.body.content;
+    //Timestamp of when notifications was created which is always now.
+    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+    //Type of notification. To be used for indicating importance.
+    notification.type = req.body.type;
+    //Whether the notification was viewed or not.
+    notification.viewed = 'false';
+
+    //Send only an email if the customer is not signed up with Bookd.
+    if (!req.body.id) {
+        sendEmail(notification);
+        return;
+    }
+    User.findOne({'_id': req.body.id}).exec(function (err, user) {
+        if (err) {
+            next(err);
+        }
+
+        notification.user = user;
+        notification.save(function (err, response) {
+            if (err) {
+                return next(err);
+            }
+            console.log('Successfully saved notification!');
+        });
+
+        if (req.body.sendEmail) {
+            sendEmail(notification);
+        } else {
+            res.send('Successfully saved notification!');
+        }
+    });
+
+    function sendEmail(notification) {
+        var subject,
+            body;
+
+        subject = 'Bookd Notification';
+        body = notification.content;
+
+        var mailOptions = {
+            from: 'Marshall Mathers', // sender address
+            to: notification.user.email, // list of receivers
+            subject: subject, // Subject line
+            html: body // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+
+            res.send(info);
+        });
+    }
+});
 
 /**
  * Modify all the new Notifications by changing viewed to true.
@@ -418,8 +427,7 @@ router.post('/user/notification/viewed', auth, function (req, res, next) {
 });
 
 /**
- *   Returns the profile of a specified user.
- *
+ * Returns the profile of a specified user.
  **/
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.param('id');
@@ -436,8 +444,7 @@ router.get('/user/profile', auth, function (req, res, next) {
     });
 });
 /**
- *   Updates the profile of a specified user.
- *
+ * Updates the profile of a specified user.
  **/
 router.post('/user/profile/update', auth, function (req, res, next) {
     var id = req.payload._id;
@@ -458,10 +465,10 @@ router.post('/user/profile/update', auth, function (req, res, next) {
     });
 });
 /**
- *   Returns a user object
+ * Returns a user object
  *
- *  Parameters:
- *  id - The id of the employee.
+ * Parameters:
+ * id - The id of the employee.
  **/
 router.get('/user/search', auth, function (req, res, next) {
     var email = req.param('email');
@@ -589,14 +596,14 @@ router.post('/login', function (req, res, next) {
  **/
 router.post('/register', function (req, res, next) {
     var user = new User();
-    if (req.body.provider == 'bookd') {
+    if (req.body.provider === 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
         }
         user.setPassword(req.body.password);
     }
     //TODO how should we handle passwords when a user logs in with an oauth provider?
-    if (req.body.provider == 'facebook' || req.body.provider == 'google_plus') {
+    if (req.body.provider === 'facebook' || req.body.provider === 'google_plus') {
         var randomstring = Math.random().toString(36).slice(-8);
         user.setPassword(randomstring);
         user.providerId = req.body.providerId;
@@ -625,7 +632,7 @@ router.post('/upload', auth, function (req, res, next) {
         var stream = cloudinary.uploader.upload_stream(function (result) {
             User.findOne({'_id': id}, function (err, user) {
                 if (err) {
-                    return handleError(err);
+                    return next(err);
                 }
                 user.avatarVersion = result.version;
                 user.save(function (err, user) {
@@ -638,9 +645,6 @@ router.post('/upload', auth, function (req, res, next) {
         }, {public_id: 'profile/' + id});
         file.pipe(stream);
     });
-    //busboy.on('finish',function(){
-    //
-    //})
     req.pipe(busboy);
 });
 /**
@@ -667,7 +671,6 @@ router.get('/categories/all', auth, function (req, res, next) {
  image- cloudinary id
  *
  **/
-
 router.post('/categories/add-category', auth, function (req, res, next) {
     var category = new Category();
 
@@ -690,20 +693,19 @@ router.post('/categories/add-category', auth, function (req, res, next) {
     });
 });
 /**
- *   Creates a new appointment for both the Employee and Customer.
- *   Takes in the appointment object.
+ * Creates a new appointment for both the Employee and Customer.
+ * Takes in the appointment object.
  *
- *    Parameters:
- *               businessId -
- employee -
- customer -
- start -
- end -
- title -
- timestamp -
- card -
+ * Parameters:
+ * businessId -
+ * employee -
+ * customer -
+ * start -
+ * end -
+ * title -
+ * timestamp -
+ * card -
  **/
-
 router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
     appointment.businessId = req.body.businessId;
@@ -722,10 +724,10 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.status = 'active';
 
     var room = appointment.start.date.toString() + appointment.employee.toString();
-    var responseArray = [];
 
     function validateAppointment(requestedAppointment, userAppointments) {
-        for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
+        var appointmentIndex;
+        for (appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
             if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
@@ -733,7 +735,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
         }
-        for (var appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
+        for (appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
             if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
                 return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
             }
@@ -810,7 +812,6 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
 
-    var businessId = req.body.businessId;
     if (req.body.customer && req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
