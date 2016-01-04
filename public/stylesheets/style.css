@@ -398,9 +398,20 @@ img.fitContainer {
 }
 
 header {
-    background-color: #337ab7;
+    background-image: url(../images/header-test-sized.jpg);
+    background-attachment: scroll;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
     text-align: center;
-    color: white;
+    color: black
+}
+
+header .intro-text {
+    padding-top: 100px;
+    padding-bottom: 50px
 }
 
 header .intro-text .intro-lead-in {
@@ -422,8 +433,8 @@ header .intro-text .intro-heading {
 
 @media (min-width: 768px) {
     header .intro-text {
-        padding-top: 150px;
-        padding-bottom: 150px
+        padding-top: 300px;
+        padding-bottom: 200px
     }
 
     header .intro-text .intro-lead-in {

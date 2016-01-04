@@ -1,5 +1,6 @@
 <!-- Custom CSS -->
 <link href="/stylesheets/nav/agency.css" rel="stylesheet">
+<link href="/stylesheets/nav/landingNav.css" rel="stylesheet">
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavCtrl">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -20,7 +21,7 @@
                     <a href="#page-top"></a>
                 </li>
                 <li style="border:1px solid black;margin-right:50px;">
-                    <a ui-sref="partner" ng-if="forBusiness">Book'd Partners</a>
+                    <a class="partnerBox" ui-sref="partner" ng-if="forBusiness">For Businesses</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Customers</a>
                 </li>
                 <li ng-hide="isLoggedIn()">

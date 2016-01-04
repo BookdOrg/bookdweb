@@ -64,7 +64,7 @@ app.config([
                 url: '/',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                        templateUrl: '/partials/landingNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -160,7 +160,7 @@ app.config([
                 controller: 'NavCtrl as NavCtrl',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                        templateUrl: '/partials/landingNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
