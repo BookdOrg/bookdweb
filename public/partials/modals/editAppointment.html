@@ -21,6 +21,7 @@
             </div>
             <p>Original Appointment:</p>
             <p>{{dateObj.appointment.start.day}}, {{dateObj.appointment.start.time}} for {{service.duration}} minutes</p>
+            <p ng-if="dateObj.appointment.status === 'paid'">Appointment has been paid for already.</p>
         </div>
         <div class="col col-md-6 text-center">
             <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Schedule</h4>
@@ -36,7 +37,7 @@
             </div>
             <h4 class="text-danger" ng-if="previousDate && dateObj.appointment.status !== 'paid'">The original appointment time has passed, this appointment can no longer be updated. If you would like to reschedule you can schedule a new appointment via the Business' home page.
                 Thank you.</h4>
-            <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid'">This service has been fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
+            <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && previousDate">This service has been fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
         </div>
     </div>
 </div>
