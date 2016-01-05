@@ -2,7 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout,
-                           businessFactory, socketService, $rootScope, Notification,$interval) {
+                           businessFactory, socketService, $rootScope, Notification) {
 
     //Auto toggles which button-group button will be selected
     $scope.radioModel = 'Month';
@@ -220,19 +220,40 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $compile(element)($scope);
     };
 
-    $interval(function(){
-        $scope.lastUpdated = moment().calendar();
-        userFactory.getUserAppts(null, $scope.monthYear)
-            .then(function (data) {
-                $scope.events = [];
-                $scope.appointments = data;
-                //$scope.monthYearArray[$scope.monthYear].appointments = {};
-                //$scope.monthYearArray[$scope.monthYear].appointments = data;
-                createEventsSources($scope.appointments);
-                //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
-                localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-            });
-    },60000);
+    var refreshingPromise;
+    var isRefreshing = false;
+    $scope.startRefreshing = function(){
+        console.log(isRefreshing);
+        if(isRefreshing) return;
+        isRefreshing = true;
+        (function refreshEvery(){
+            userFactory.getUserAppts(null, $scope.monthYear)
+                .then(function (data) {
+                    $scope.events = [];
+                    $scope.appointments = data;
+                    //$scope.monthYearArray[$scope.monthYear].appointments = {};
+                    //$scope.monthYearArray[$scope.monthYear].appointments = data;
+                    createEventsSources($scope.appointments);
+                    $scope.lastUpdated = moment().calendar();
+                    //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+                    refreshingPromise = $timeout(refreshEvery,60000);
+                });
+        }());
+    };
+    //$interval(function(){
+    //    $scope.lastUpdated = moment().calendar();
+    //    userFactory.getUserAppts(null, $scope.monthYear)
+    //        .then(function (data) {
+    //            $scope.events = [];
+    //            $scope.appointments = data;
+    //            //$scope.monthYearArray[$scope.monthYear].appointments = {};
+    //            //$scope.monthYearArray[$scope.monthYear].appointments = data;
+    //            createEventsSources($scope.appointments);
+    //            //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+    //            localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+    //        });
+    //},60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken
@@ -267,7 +288,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     createEventsSources($scope.appointments);
                     //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
                     localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-
+                    $scope.startRefreshing();
                 });
         }
         //else if ($scope.monthYear === previousMonthYear) {

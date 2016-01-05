@@ -1,5 +1,5 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
-                           $uibModal, socketService, $rootScope, Notification,$interval) {
+                           $uibModal, socketService, $rootScope, Notification,$interval,$timeout) {
     $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
@@ -452,9 +452,17 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             });
     };
 
-    $interval(function(){
-        $scope.refreshCalendar();
-    },60000);
+    var refreshingPromise;
+    var isRefreshing = false;
+    $scope.startRefreshing = function(){
+        if(isRefreshing) return;
+        isRefreshing = true;
+        (function refreshEvery(){
+            $scope.refreshCalendar();
+            refreshingPromise = $timeout(refreshEvery,60000);
+        }());
+    };
+    $scope.startRefreshing();
     /**
      *
      * Function that's called whenever actions are taken on the calendar,
