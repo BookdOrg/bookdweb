@@ -40,7 +40,7 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
     //};
 
     //var $scope = this;
-    var bounds = new google.maps.LatLngBounds();
+
     /**
      * Generate map markers based on the search results
      *
@@ -48,22 +48,25 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
      */
     var generateMarkers = function(businesses) {
         $scope.positions = [];
+        var boundsArray = [];
+        boundsArray.push([$rootScope.currLocation.latitude,$rootScope.currLocation.longitude]);
         for (var i = 0; i < businesses.length; i++) {
             var lat = businesses[i].geometry.location.lat;
             var lng = businesses[i].geometry.location.lng;
             var tempArray = [lat,lng];
             $scope.positions.push(tempArray);
+            boundsArray.push(tempArray);
         }
+        var bounds = new google.maps.LatLngBounds();
         //This isn't working yet, but we need to implement bounding the box to fit all results
-        for (var boundsIndex=0; i<$scope.positions.length; boundsIndex++) {
-            var latlng = new google.maps.LatLng($scope.positions[boundsIndex][0], $scope.positions[boundsIndex][1]);
+        for (var boundsIndex=0; boundsIndex<boundsArray.length; boundsIndex++) {
+            var latlng = new google.maps.LatLng(boundsArray[boundsIndex][0], boundsArray[boundsIndex][1]);
             bounds.extend(latlng);
         }
-        //TODO get the bounds to work!
-        //NgMap.getMap().then(function(map) {
-        //    map.setCenter(bounds.getCenter());
-        //    map.fitBounds(bounds);
-        //});
+        NgMap.getMap().then(function(map) {
+            map.setCenter(bounds.getCenter());
+            map.fitBounds(bounds);
+        });
         //console.log("$scope.positions", $scope.positions);
     };
     //If there are results when we get to the page, generate markers
