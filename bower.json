@@ -16,8 +16,6 @@
   "dependencies": {
     "angular-google-places-autocomplete": "~0.2.7",
     "ngGeolocation": "~0.0.5",
-    "oauth-js": "^0.5.0",
-    "angular-bootstrap": "~0.14.3",
     "angular-ui-calendar": "latest",
     "angularjs-dropdown-multiselect": "~1.5.2"
   },

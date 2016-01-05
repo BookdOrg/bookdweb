@@ -3,6 +3,8 @@ window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
 window.moment = require('moment');
+window.humanizeDuration = require('humanize-duration');
+
 
 var angular = require('angular');
 require('angular-file-upload');
@@ -12,6 +14,9 @@ require('angular-ui-notification');
 require('angular-ui-router');
 require('bootstrap');
 require('ngmap');
+require('angular-ui-bootstrap');
+require('fullcalendar');
+require('oauthio-web');
 
 var app = angular.module('cc', [
     require('angular-animate'),
