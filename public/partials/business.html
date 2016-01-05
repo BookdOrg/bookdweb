@@ -164,7 +164,8 @@
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-7" style="margin-top:5px;">
-                    <ng-map class="map-container" zoom="14" center="{{businessCenter}}" geo-fallback-center="{{businessCenter}}">
+                    <ng-map class="map-container" zoom="14" center="{{businessCenter}}">
+                        <!--<marker position="{{businessCenter}}" icon="/images/currLocationIcon.png"></marker>-->
                         <marker position="{{businessCenter}}"></marker>
                     </ng-map>
                 </div>

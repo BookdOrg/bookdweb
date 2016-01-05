@@ -58,7 +58,6 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
             boundsArray.push(tempArray);
         }
         var bounds = new google.maps.LatLngBounds();
-        //This isn't working yet, but we need to implement bounding the box to fit all results
         for (var boundsIndex=0; boundsIndex<boundsArray.length; boundsIndex++) {
             var latlng = new google.maps.LatLng(boundsArray[boundsIndex][0], boundsArray[boundsIndex][1]);
             bounds.extend(latlng);
