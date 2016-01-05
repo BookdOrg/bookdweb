@@ -2,7 +2,7 @@
  * Created by khalilbrown on 10/5/15.
  */
 module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalendarConfig, $uibModal, $timeout,
-                           businessFactory, socketService, $rootScope, Notification) {
+                           businessFactory, socketService, $rootScope, Notification,$interval) {
 
     //Auto toggles which button-group button will be selected
     $scope.radioModel = 'Month';
@@ -219,6 +219,20 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         });
         $compile(element)($scope);
     };
+
+    $interval(function(){
+        $scope.lastUpdated = moment().calendar();
+        userFactory.getUserAppts(null, $scope.monthYear)
+            .then(function (data) {
+                $scope.events = [];
+                $scope.appointments = data;
+                //$scope.monthYearArray[$scope.monthYear].appointments = {};
+                //$scope.monthYearArray[$scope.monthYear].appointments = data;
+                createEventsSources($scope.appointments);
+                //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
+                localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+            });
+    },60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken
@@ -231,6 +245,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
     $scope.viewRender = function(view,element){
+        $scope.lastUpdated = moment().calendar();
         //var fetchedMonthYearArray = localStorage.getItem('monthYearArray');
         //if (fetchedMonthYearArray !== '') {
         //    $scope.monthYearArray = angular.fromJson(fetchedMonthYearArray);
@@ -290,6 +305,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $scope.addEvent(appointment);
     });
     socketService.on('updatedAppt', function (data) {
+        console.log(data);
         /**
          *
          * If the data comes from the appointments customer, we know that the update is for the Employee.

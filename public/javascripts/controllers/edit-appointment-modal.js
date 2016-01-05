@@ -385,7 +385,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 timestamp: moment()
             };
         }
-        socketService.emit('timeDestroyed', $scope.activeTime);
         /**
          * Update the appointment, send a message to sockets who need to know
          *
@@ -398,6 +397,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     'from': $rootScope.currentUser.user._id,
                     'appointment': appointment
                 };
+                socketService.emit('timeDestroyed', $scope.activeTime);
                 socketService.emit('apptUpdated', socketData);
                 $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;

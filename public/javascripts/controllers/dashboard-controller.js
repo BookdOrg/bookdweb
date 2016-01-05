@@ -1,5 +1,5 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
-                           $uibModal, socketService, $rootScope, Notification) {
+                           $uibModal, socketService, $rootScope, Notification,$interval) {
     $scope.radioModel = 'Month';
     /**
      * The business currently selected by the Bookd Associate
@@ -70,6 +70,26 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             });
 
         });
+    };
+    /**
+     * All appointments for the business, this function sorts them by employee
+     *
+     *
+     * @param appointmentArray - All appointments for the business
+     * @returns {{}}
+     */
+    var createMasterEntry = function (appointmentArray) {
+        var responseArray = {};
+        for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
+            if (!responseArray[appointmentArray[appointmentArrayIndex].employee]) {
+                responseArray[appointmentArray[appointmentArrayIndex].employee] = {};
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments = [];
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+            } else {
+                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+            }
+        }
+        return responseArray;
     };
     /**
      *
@@ -311,12 +331,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.switchBusiness = function (business) {
         $scope.activeBusiness.business = business;
         socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
-        businessFactory.getAllAppointments($scope.activeBusiness.business._id)
-            .then(function (response) {
-                $scope.appointmentsMaster = response;
-                $scope.filteredList[$scope.activeBusiness.business.name] = {};
-                $scope.viewRender();
-            });
+        $scope.filteredList[$scope.activeBusiness.business.name] = {};
+        $scope.viewRender();
     };
 
     /**
@@ -416,6 +432,29 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
         $compile(element)($scope);
     };
+
+
+    $scope.refreshCalendar = function(){
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+            .then(function (response) {
+                //take the array of appointments returned and add them to our master entry of appointments for each employee
+                var masterEntry = createMasterEntry(response);
+                $scope.masterList[$scope.activeBusiness.business.name] = {};
+                $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                localStorage.setItem('masterList', angular.toJson($scope.masterList));
+                //create events arrays with the appointments for the business in our masterList of businesses
+                $scope.events = [];
+                createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                $scope.lastUpdated = moment().calendar();
+                //add our monthYear and business to localStorage
+                localStorage['monthYear'] = $scope.monthYear;
+                localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
+            });
+    };
+
+    $interval(function(){
+        $scope.refreshCalendar();
+    },60000);
     /**
      *
      * Function that's called whenever actions are taken on the calendar,
@@ -477,33 +516,18 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
                     localStorage.setItem('masterList', angular.toJson($scope.masterList));
                     //create events arrays with the appointments for the business in our masterList of businesses
+                    $scope.eventsSources = [];
+                    $scope.events = [];
                     createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                    $scope.eventSources.push($scope.events);
+                    $scope.lastUpdated = moment().calendar();
                     //add our monthYear and business to localStorage
                     localStorage['monthYear'] = $scope.monthYear;
                     localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
                 });
         }
     };
-    /**
-     * All appointments for the business, this function sorts them by employee
-     *
-     *
-     * @param appointmentArray - All appointments for the business
-     * @returns {{}}
-     */
-    var createMasterEntry = function (appointmentArray) {
-        var responseArray = {};
-        for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
-            if (!responseArray[appointmentArray[appointmentArrayIndex].employee]) {
-                responseArray[appointmentArray[appointmentArrayIndex].employee] = {};
-                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments = [];
-                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
-            } else {
-                responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
-            }
-        }
-        return responseArray;
-    };
+
     /* config object for UI Calendar*/
     $scope.uiConfig = {
         calendar: {
@@ -645,6 +669,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
                 Notification.info({message: 'An appointment has been re-scheduled!'});
+                $scope.lastUpdated = moment().calendar();
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
         }
@@ -658,6 +683,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
+        $scope.lastUpdated = moment().calendar();
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
     /**
@@ -678,6 +704,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
             }
         }
+        $scope.lastUpdated = moment().calendar();
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
 };

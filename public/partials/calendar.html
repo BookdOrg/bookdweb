@@ -7,22 +7,31 @@
             Calendar Panel
         </div>
         <div class="panel-body">
-            <div class="btn-group col-xs-offset-5">
-                <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')" ng-model="radioModel"
-                        uib-btn-radio="'Month'">Month
-                </button>
-                <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')" ng-model="radioModel"
-                        uib-btn-radio="'Week'">Week
-                </button>
-                <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')" ng-model="radioModel"
-                        uib-btn-radio="'Day'">Day
-                </button>
+            <div class="row">
+                <div class="col col-xs-2 col-xs-offset-4">
+                    <div class="btn-group ">
+                        <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')" ng-model="radioModel"
+                                uib-btn-radio="'Month'">Month
+                        </button>
+                        <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')" ng-model="radioModel"
+                                uib-btn-radio="'Week'">Week
+                        </button>
+                        <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')" ng-model="radioModel"
+                                uib-btn-radio="'Day'">Day
+                        </button>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button class="btn btn-success" ng-click="openAvailabilityModal('lg')"
+                            ng-show="currentUser.user.isAssociate"
+                            uib-tooltip="Click Here to Update Your Weekly Availability" tooltip-placement="top">Update
+                        Availability
+                    </button>
+                </div>
+                <div class="col-xs-3">
+                    <span>Last Updated: {{lastUpdated}}</span>
+                </div>
             </div>
-            <button class="btn btn-success" ng-click="openAvailabilityModal('lg')"
-                    ng-show="currentUser.user.isAssociate"
-                    uib-tooltip="Click Here to Update Your Weekly Availability" tooltip-placement="top">Update
-                Availability
-            </button>
             <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar"
                  ng-model="eventSources"></div>
         </div>
