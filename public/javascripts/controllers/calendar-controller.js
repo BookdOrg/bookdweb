@@ -220,10 +220,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $compile(element)($scope);
     };
 
+    /**
+     *
+     * Refresh the calendar every minute
+     *
+     */
     var refreshingPromise;
     var isRefreshing = false;
     $scope.startRefreshing = function(){
-        console.log(isRefreshing);
         if(isRefreshing) return;
         isRefreshing = true;
         (function refreshEvery(){
@@ -241,19 +245,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 });
         }());
     };
-    //$interval(function(){
-    //    $scope.lastUpdated = moment().calendar();
-    //    userFactory.getUserAppts(null, $scope.monthYear)
-    //        .then(function (data) {
-    //            $scope.events = [];
-    //            $scope.appointments = data;
-    //            //$scope.monthYearArray[$scope.monthYear].appointments = {};
-    //            //$scope.monthYearArray[$scope.monthYear].appointments = data;
-    //            createEventsSources($scope.appointments);
-    //            //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
-    //            localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-    //        });
-    //},60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken

@@ -451,7 +451,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
             });
     };
-
+    /**
+     *
+     * Refresh the calendar every minute
+     *
+     */
     var refreshingPromise;
     var isRefreshing = false;
     $scope.startRefreshing = function(){

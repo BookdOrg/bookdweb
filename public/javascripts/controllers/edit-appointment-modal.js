@@ -22,6 +22,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
     //Auto-select the date of the appointment as the date the calendar opens to
     $scope.selectedDate = data.appointment.start.date;
+    var dateSelected = moment($scope.selectedDate).format();
+    var today = moment().format();
+
+    if(moment(dateSelected).isBefore(today,'hour')){
+        $scope.previousDate = true;
+    }
     //How long should the timer when an appointment is selected be
     $scope.countdown = 600;
     //set the minimum date available on the calendar
