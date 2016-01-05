@@ -158,14 +158,14 @@
 
     ########################################
     -->
-        <uib-tab>
+        <uib-tab select="reRenderMap()">
             <uib-tab-heading>
                 <i class="fa fa-info"></i> Info
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-7" style="margin-top:5px;">
-                    <ng-map class="map-container" ng-if="center" center="{{center}}">
-                        <marker position="{{center}}"></marker>
+                    <ng-map class="map-container" zoom="14" center="{{businessCenter}}" geo-fallback-center="{{businessCenter}}">
+                        <marker position="{{businessCenter}}"></marker>
                     </ng-map>
                 </div>
                 <div class="col-xs-5 text-center">

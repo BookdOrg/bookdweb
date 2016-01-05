@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi, userFactory, Notification, utilService) {
+                           $controller, facebookApi, userFactory, Notification, utilService,$timeout) {
     $scope.business = businessFactory.business;
 
     utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
@@ -26,6 +26,23 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
 
     $scope.max = 5;
     $scope.isReadonly = true;
+    $scope.businessCenter = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
+    $scope.reRenderMap = function() {
+        $timeout(function(){
+            angular.forEach($scope.maps, function(index) {
+                google.maps.event.trigger(index, 'resize');
+            });
+        }, 25);
+    }
+
+    $scope.maps = [];
+
+    $scope.$on('mapInitialized', function(evt, evtMap) {
+        $scope.maps.push(evtMap);
+        $scope.businessCenter = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
+    });
+
+
 
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
@@ -225,5 +242,5 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         });
     };
 
-    $scope.center = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
+
 };
