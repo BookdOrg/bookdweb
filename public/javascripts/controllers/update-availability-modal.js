@@ -1,7 +1,12 @@
 /**
  * Created by khalilbrown on 12/26/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance) {
+module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,employee,$rootScope) {
+    $scope.employee = employee;
+
+    if(employee._id!==$rootScope.currentUser._id){
+        $scope.disableUpdate = true;
+    }
     /**
      * Allows employee to add a break on a given day
      *

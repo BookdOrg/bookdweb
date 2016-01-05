@@ -140,14 +140,19 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      *
      * @param size - the size of the modal
      */
-    $scope.openAvailabilityModal = function (size) {
+    $scope.openAvailabilityModal = function (size,employee) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/updateAvailabilityModal.html',
             controller: 'updatedAvailabilityCtrl',
             backdrop: 'static',
             keyboard: false,
-            size: size
+            size: size,
+            resolve:{
+                employee:function(){
+                    return $rootScope.currentUser.user;
+                }
+            }
         });
 
     };

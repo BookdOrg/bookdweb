@@ -291,7 +291,28 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         });
     };
+    /**
+     *
+     * Opens a modal that allows employees to update their availability.
+     *
+     * @param size - the size of the modal
+     */
+    $scope.openAvailabilityModal = function (size,employee) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/updateAvailabilityModal.html',
+            controller: 'updatedAvailabilityCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: size,
+            resolve:{
+                employee:function(){
+                    return employee;
+                }
+            }
+        });
 
+    };
     /**
      * The default text that the select employee multi-select dropdown should show
      *

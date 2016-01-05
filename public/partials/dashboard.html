@@ -63,10 +63,15 @@
                         </div>
                         <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                             <li>{{associate.name}}
-                                <button class="btn btn-danger pull-right"
-                                        ng-click="removeEmployee(associate, activeBusiness.business)"
-                                        uib-tooltip="Remove Associate" tooltip-placement="left"><i
-                                        class="fa fa-trash"></i></button>
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                    <button class="btn btn-danger"
+                                            ng-click="removeEmployee(associate, activeBusiness.business)"
+                                            uib-tooltip="Remove Associate" tooltip-placement="top"><i
+                                            class="fa fa-trash"></i></button>
+                                    <button class="btn btn-warning" ng-click="openAvailabilityModal('lg',associate)"
+                                            uib-tooltip="View Availability" tooltip-placement="top"><i
+                                            class="fa fa-hourglass"></i></button>
+                                </div>
                             </li>
                         </div>
                     </div>
