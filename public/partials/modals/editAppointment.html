@@ -56,7 +56,7 @@
             dateObj.appointment.employee !== currentUser.user._id"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
-    <button class="btn btn-danger" ng-click="cancel()" ng-show="!previousDate">
+    <button class="btn btn-danger" ng-click="cancel()" ng-show="!previousDate || dateObj.appointment.status !== 'paid'">
         Cancel Appointment <i class="fa fa-calendar-times-o"></i></button>
     <button class="btn btn-warning" ng-click="close()" ng-show="previousDate || dateObj.appointment.status === 'paid'">Close</button>
 </div>
