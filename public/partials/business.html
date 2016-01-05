@@ -85,25 +85,25 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-xs-6">
-                                            <h3 class="text-muted">Description</h3>
-                                            <p>{{service.description}}</p>
+                                            <span class="text-muted">Description:</span>
+                                            <small>{{service.description}}</small>
                                         </div>
                                         <div class="col-xs-6">
-                                            <h3 class="text-muted">Associates</h3>
-                                            <span ng-repeat="associate in service.employees">
+                                            <span class="text-muted">Associates:</span>
+                                            <small ng-repeat="associate in service.employees">
                                                 {{associate.name}},
-                                            </span>
+                                            </small>
 
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-6">
-                                            <h3 class="text-muted">Duration</h3>
-                                            <h4>{{service.duration}} minutes</h4>
+                                            <span class="text-muted">Duration:</span>
+                                            <small>{{service.duration}} minutes</small>
                                         </div>
                                         <div class="col-xs-6">
-                                            <h3 class="text-muted">Price</h3>
-                                            <h4>{{service.price | currency}}</h4>
+                                            <span class="text-muted">Price:</span>
+                                            <small>{{service.price | currency}}</small>
                                         </div>
                                     </div>
 
