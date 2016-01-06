@@ -24,7 +24,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedDate = data.appointment.start.date;
     var dateSelected = moment($scope.selectedDate).format();
     var today = moment().format();
-
+    $scope.previousDate =false;
     if(moment(dateSelected).isBefore(today,'hour')){
         $scope.previousDate = true;
     }
