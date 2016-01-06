@@ -230,36 +230,36 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * Refresh the calendar every minute
      *
      */
-    var refreshingPromise;
-    var isRefreshing = false;
-    $scope.startRefreshing = function(){
-        if(isRefreshing) return;
-        isRefreshing = true;
-        (function refreshEvery(){
-            var lastUpdated = moment($scope.lastUpdated);
-            var now = moment();
-            if(now.diff(lastUpdated,'minutes')>=1){
-                $scope.calLoading=true;
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-                userFactory.getUserAppts(null, $scope.monthYear)
-                    .then(function (data) {
-                        $scope.appointments = data;
-                        createEventsSources($scope.appointments);
-                        $scope.lastUpdatedView = moment().calendar();
-                        $scope.lastUpdated = moment();
-                        localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-                        $scope.calLoading=false;
-                        refreshingPromise = $timeout(refreshEvery,60000);
-                    });
-            }else{
-                refreshingPromise = $timeout(refreshEvery,60000);
-            }
-
-        }());
-    };
-    $timeout(function(){
-        $scope.startRefreshing();
-    },60000);
+    //var refreshingPromise;
+    //var isRefreshing = false;
+    //$scope.startRefreshing = function(){
+    //    if(isRefreshing) return;
+    //    isRefreshing = true;
+    //    (function refreshEvery(){
+    //        var lastUpdated = moment($scope.lastUpdated);
+    //        var now = moment();
+    //        if(now.diff(lastUpdated,'minutes')>=1){
+    //            $scope.calLoading=true;
+    //            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+    //            userFactory.getUserAppts(null, $scope.monthYear)
+    //                .then(function (data) {
+    //                    $scope.appointments = data;
+    //                    createEventsSources($scope.appointments);
+    //                    $scope.lastUpdatedView = moment().calendar();
+    //                    $scope.lastUpdated = moment();
+    //                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+    //                    $scope.calLoading=false;
+    //                    refreshingPromise = $timeout(refreshEvery,60000);
+    //                });
+    //        }else{
+    //            refreshingPromise = $timeout(refreshEvery,60000);
+    //        }
+    //
+    //    }());
+    //};
+    //$timeout(function(){
+    //    $scope.startRefreshing();
+    //},60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken

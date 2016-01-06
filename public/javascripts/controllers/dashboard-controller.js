@@ -480,46 +480,46 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * Refresh the calendar every thiry seconds
      *
      */
-    var refreshingPromise;
-    var isRefreshing = false;
-    $scope.startRefreshing = function(){
-        if(isRefreshing) return;
-        isRefreshing = true;
-        (function refreshEvery(){
-            var lastUpdated = moment($scope.lastUpdated);
-            var now = moment();
-            if(now.diff(lastUpdated,'seconds')>=30){
-                $scope.calLoading=true;
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
-                $scope.eventsSource = [];
-                businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
-                    .then(function (response) {
-                        $scope.events = [];
-                        //take the array of appointments returned and add them to our master entry of appointments for each employee
-                        var masterEntry = createMasterEntry(response);
-                        $scope.masterList[$scope.activeBusiness.business.name] = {};
-                        $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
-                        localStorage.setItem('masterList', angular.toJson($scope.masterList));
-                        //create events arrays with the appointments for the business in our masterList of businesses
-                        $scope.events = [];
-                        $scope.calLoading=false;
-                        createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-                        $scope.lastUpdatedView = moment().calendar();
-                        $scope.lastUpdated = moment();
-                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
-                        //add our monthYear and business to localStorage
-                        localStorage['monthYear'] = $scope.monthYear;
-                        localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
-                        refreshingPromise = $timeout(refreshEvery,30000);
-                    });
-            }else{
-                refreshingPromise = $timeout(refreshEvery,30000);
-            }
-        }());
-    };
-    $timeout(function(){
-        $scope.startRefreshing();
-    },30000);
+    //var refreshingPromise;
+    //var isRefreshing = false;
+    //$scope.startRefreshing = function(){
+    //    if(isRefreshing) return;
+    //    isRefreshing = true;
+    //    (function refreshEvery(){
+    //        var lastUpdated = moment($scope.lastUpdated);
+    //        var now = moment();
+    //        if(now.diff(lastUpdated,'seconds')>=30){
+    //            $scope.calLoading=true;
+    //            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
+    //            $scope.eventsSource = [];
+    //            businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+    //                .then(function (response) {
+    //                    $scope.events = [];
+    //                    //take the array of appointments returned and add them to our master entry of appointments for each employee
+    //                    var masterEntry = createMasterEntry(response);
+    //                    $scope.masterList[$scope.activeBusiness.business.name] = {};
+    //                    $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+    //                    localStorage.setItem('masterList', angular.toJson($scope.masterList));
+    //                    //create events arrays with the appointments for the business in our masterList of businesses
+    //                    $scope.events = [];
+    //                    $scope.calLoading=false;
+    //                    createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+    //                    $scope.lastUpdatedView = moment().calendar();
+    //                    $scope.lastUpdated = moment();
+    //                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
+    //                    //add our monthYear and business to localStorage
+    //                    localStorage['monthYear'] = $scope.monthYear;
+    //                    localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
+    //                    refreshingPromise = $timeout(refreshEvery,30000);
+    //                });
+    //        }else{
+    //            refreshingPromise = $timeout(refreshEvery,30000);
+    //        }
+    //    }());
+    //};
+    //$timeout(function(){
+    //    $scope.startRefreshing();
+    //},30000);
     /**
      *
      * Function that's called whenever actions are taken on the calendar,
