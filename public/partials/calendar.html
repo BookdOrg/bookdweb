@@ -27,9 +27,11 @@
                             uib-tooltip="Click Here to Update Your Weekly Availability" tooltip-placement="top">Update
                         Availability
                     </button>
+
                 </div>
                 <div class="col-xs-3">
-                    <span>Last Updated: {{lastUpdated}}</span>
+                    <span uib-tooltip="Refreshing..." ng-show="calLoading"><i class="fa fa-spinner fa-spin" ></i></span>
+                    <span>Last Updated: {{lastUpdatedView}}</span>
                 </div>
             </div>
             <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar"

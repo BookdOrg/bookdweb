@@ -236,20 +236,30 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         if(isRefreshing) return;
         isRefreshing = true;
         (function refreshEvery(){
-            userFactory.getUserAppts(null, $scope.monthYear)
-                .then(function (data) {
-                    $scope.events = [];
-                    $scope.appointments = data;
-                    //$scope.monthYearArray[$scope.monthYear].appointments = {};
-                    //$scope.monthYearArray[$scope.monthYear].appointments = data;
-                    createEventsSources($scope.appointments);
-                    $scope.lastUpdated = moment().calendar();
-                    //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
-                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-                    refreshingPromise = $timeout(refreshEvery,60000);
-                });
+            var lastUpdated = moment($scope.lastUpdated);
+            var now = moment();
+            if(now.diff(lastUpdated,'minutes')>=1){
+                $scope.calLoading=true;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+                userFactory.getUserAppts(null, $scope.monthYear)
+                    .then(function (data) {
+                        $scope.appointments = data;
+                        createEventsSources($scope.appointments);
+                        $scope.lastUpdatedView = moment().calendar();
+                        $scope.lastUpdated = moment();
+                        localStorage['previousPersonalMonthYear'] = $scope.monthYear;
+                        $scope.calLoading=false;
+                        refreshingPromise = $timeout(refreshEvery,60000);
+                    });
+            }else{
+                refreshingPromise = $timeout(refreshEvery,60000);
+            }
+
         }());
     };
+    $timeout(function(){
+        $scope.startRefreshing();
+    },60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken
@@ -262,7 +272,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
     $scope.viewRender = function(view,element){
-        $scope.lastUpdated = moment().calendar();
+        $scope.lastUpdatedView = moment().calendar();
+        $scope.lastUpdated = moment();
         //var fetchedMonthYearArray = localStorage.getItem('monthYearArray');
         //if (fetchedMonthYearArray !== '') {
         //    $scope.monthYearArray = angular.fromJson(fetchedMonthYearArray);
@@ -284,7 +295,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     createEventsSources($scope.appointments);
                     //localStorage.setItem('monthYearArray', angular.toJson($scope.monthYearArray));
                     localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-                    $scope.startRefreshing();
                 });
         }
         //else if ($scope.monthYear === previousMonthYear) {
@@ -320,9 +330,10 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     socketService.on('newAssociateAppt', function (appointment) {
         Notification.success({message: 'New appointment booked!'});
         $scope.addEvent(appointment);
+        $scope.lastUpdatedView = moment().calendar();
+        $scope.lastUpdated = moment();
     });
     socketService.on('updatedAppt', function (data) {
-        console.log(data);
         /**
          *
          * If the data comes from the appointments customer, we know that the update is for the Employee.
@@ -339,6 +350,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     $scope.events[eventIndex].backgroundColor = '#f70';
                     $scope.events[eventIndex].borderColor = '#f70';
                     Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                    $scope.lastUpdatedView = moment().calendar();
+                    $scope.lastUpdated = moment();
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
@@ -361,6 +374,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     $scope.events[eventIndex].backgroundColor = '#f00';
                     $scope.events[eventIndex].borderColor = '#f00';
                     Notification.warning({message: 'An employee has requested to re-schedule an appointment!'});
+                    $scope.lastUpdatedView = moment().calendar();
+                    $scope.lastUpdated = moment();
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
                 }
             }
@@ -378,6 +393,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [$scope.events[eventIndex]._id]);
+                $scope.lastUpdatedView = moment().calendar();
+                $scope.lastUpdated = moment();
                 Notification.warning({message: 'An appointment has been canceled'});
             }
             //$scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments = _.without($scope.monthYearArray[data.appointment.start.monthYear].appointments.personalAppointments,
