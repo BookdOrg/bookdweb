@@ -477,7 +477,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /**
      *
-     * Refresh the calendar every minute
+     * Refresh the calendar every thiry seconds
      *
      */
     var refreshingPromise;
@@ -488,7 +488,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         (function refreshEvery(){
             var lastUpdated = moment($scope.lastUpdated);
             var now = moment();
-            if(now.diff(lastUpdated,'minutes')>=1){
+            console.log(now.diff(lastUpdated,'seconds'))
+            if(now.diff(lastUpdated,'seconds')>=30){
                 $scope.calLoading=true;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
                 $scope.eventsSource = [];
@@ -502,6 +503,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         localStorage.setItem('masterList', angular.toJson($scope.masterList));
                         //create events arrays with the appointments for the business in our masterList of businesses
                         $scope.events = [];
+                        $scope.calLoading=false;
                         createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
                         $scope.lastUpdatedView = moment().calendar();
                         $scope.lastUpdated = moment();
@@ -509,16 +511,16 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         //add our monthYear and business to localStorage
                         localStorage['monthYear'] = $scope.monthYear;
                         localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
-                        refreshingPromise = $timeout(refreshEvery,60000);
+                        refreshingPromise = $timeout(refreshEvery,30000);
                     });
             }else{
-                refreshingPromise = $timeout(refreshEvery,60000);
+                refreshingPromise = $timeout(refreshEvery,30000);
             }
         }());
     };
     $timeout(function(){
         $scope.startRefreshing();
-    },60000);
+    },30000);
     /**
      *
      * Function that's called whenever actions are taken on the calendar,
