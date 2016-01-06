@@ -488,7 +488,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         (function refreshEvery(){
             var lastUpdated = moment($scope.lastUpdated);
             var now = moment();
-            console.log(now.diff(lastUpdated,'seconds'))
             if(now.diff(lastUpdated,'seconds')>=30){
                 $scope.calLoading=true;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
