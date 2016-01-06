@@ -45,6 +45,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param businessArray - The array of businesses an employee owns,
      */
     var createEventsSources = function (businessArray) {
+        $scope.events = [];
         _.forEach(businessArray, function (appointments, key) {
             _.forEach(appointments, function (appointment, key) {
                 for (var appointmentIndex = 0; appointmentIndex < appointment.length; appointmentIndex++) {
@@ -456,6 +457,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
 
     $scope.refreshCalendar = function(){
+        $scope.events = [];
         businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
             .then(function (response) {
                 //take the array of appointments returned and add them to our master entry of appointments for each employee
@@ -466,7 +468,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 //create events arrays with the appointments for the business in our masterList of businesses
                 $scope.events = [];
                 createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-                $scope.lastUpdated = moment().calendar();
+                $scope.lastUpdatedView = moment().calendar();
+                $scope.lastUpdated = moment();
                 //add our monthYear and business to localStorage
                 localStorage['monthYear'] = $scope.monthYear;
                 localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
@@ -483,11 +486,39 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         if(isRefreshing) return;
         isRefreshing = true;
         (function refreshEvery(){
-            $scope.refreshCalendar();
-            refreshingPromise = $timeout(refreshEvery,60000);
+            var lastUpdated = moment($scope.lastUpdated);
+            var now = moment();
+            if(now.diff(lastUpdated,'minutes')>=1){
+                $scope.calLoading=true;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
+                $scope.eventsSource = [];
+                businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+                    .then(function (response) {
+                        $scope.events = [];
+                        //take the array of appointments returned and add them to our master entry of appointments for each employee
+                        var masterEntry = createMasterEntry(response);
+                        $scope.masterList[$scope.activeBusiness.business.name] = {};
+                        $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                        localStorage.setItem('masterList', angular.toJson($scope.masterList));
+                        //create events arrays with the appointments for the business in our masterList of businesses
+                        $scope.events = [];
+                        createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                        $scope.lastUpdatedView = moment().calendar();
+                        $scope.lastUpdated = moment();
+                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
+                        //add our monthYear and business to localStorage
+                        localStorage['monthYear'] = $scope.monthYear;
+                        localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
+                        refreshingPromise = $timeout(refreshEvery,60000);
+                    });
+            }else{
+                refreshingPromise = $timeout(refreshEvery,60000);
+            }
         }());
     };
-    $scope.startRefreshing();
+    $timeout(function(){
+        $scope.startRefreshing();
+    },60000);
     /**
      *
      * Function that's called whenever actions are taken on the calendar,
@@ -553,7 +584,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events = [];
                     createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
                     $scope.eventSources.push($scope.events);
-                    $scope.lastUpdated = moment().calendar();
+                    $scope.lastUpdatedView = moment().calendar();
+                    $scope.lastUpdated = moment();
                     //add our monthYear and business to localStorage
                     localStorage['monthYear'] = $scope.monthYear;
                     localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
@@ -702,7 +734,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].title = appointment.title;
                 $scope.events[eventIndex].appointment = appointment;
                 Notification.info({message: 'An appointment has been re-scheduled!'});
-                $scope.lastUpdated = moment().calendar();
+                $scope.lastUpdatedView = moment().calendar();
+                $scope.lastUpdated = moment();
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', $scope.events[eventIndex]);
             }
         }
@@ -716,7 +749,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
-        $scope.lastUpdated = moment().calendar();
+        $scope.lastUpdatedView = moment().calendar();
+        $scope.lastUpdated = moment();
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
     /**
@@ -737,7 +771,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
             }
         }
-        $scope.lastUpdated = moment().calendar();
+        $scope.lastUpdatedView = moment().calendar();
+        $scope.lastUpdated = moment();
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
 };
