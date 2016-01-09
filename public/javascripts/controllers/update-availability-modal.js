@@ -3,8 +3,7 @@
  */
 module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,employee,$rootScope) {
     $scope.employee = employee;
-
-    if(employee._id!==$rootScope.currentUser._id){
+    if(employee._id!==$rootScope.currentUser.user._id){
         $scope.disableUpdate = true;
     }
     /**
