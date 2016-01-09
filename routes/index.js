@@ -774,7 +774,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-        console.log(appointment.customer);
         if (appointment.customer !== null) {
             User.findOne({'_id': appointment.customer}).populate({
                 path: 'businessAppointments personalAppointments',
@@ -783,7 +782,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                console.log(user);
                 validateAppointment(appointment, user.businessAppointments);
                 validateAppointment(appointment, user.personalAppointments);
                 user.personalAppointments.push(appointment);
