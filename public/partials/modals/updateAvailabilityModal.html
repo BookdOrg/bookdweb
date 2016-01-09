@@ -4,9 +4,9 @@
 </div>
 <div class="modal-body">
     <div class="col-xs-12">
-        <h3 class="control-label"><i ng-show="showLoading" uib-tooltip="Updating.."
+        <h3 class="control-label"><i ng-if="showLoading" uib-tooltip="Updating.."
                                      class="fa fa-spinner fa-pulse text-center pull-right"></i><i
-                ng-show="showDone" uib-tooltip="Availability Updated"
+                ng-if="showDone" uib-tooltip="Availability Updated"
                 class="fa fa-check-square-o text-success text-center pull-right"></i></h3>
 
         <form class="form-horizontal">
@@ -15,12 +15,12 @@
                     <uib-accordion-group ng-repeat="day in employee.availability track by $index"
                                          is-open="status.open">
                         <uib-accordion-heading>
-                            <i ng-show="day.available" uib-tooltip="Available"
-                               class="fa fa-check text-success"></i><i ng-show="!day.available"
+                            <i ng-if="day.available" uib-tooltip="Available"
+                               class="fa fa-check text-success"></i><i ng-if="!day.available"
                                                                        uib-tooltip="Unavailable"
                                                                        class="fa fa-check text-danger"></i>
                             {{day.day}}
-                            <span ng-show="day.available">, {{day.start | date:'hh:mm a'}}
+                            <span ng-if="day.available">, {{day.start | date:'hh:mm a'}}
                                 - {{day.end | date:'hh:mm a'}}</span><i class="pull-right fa"
                                                                         ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
                         </uib-accordion-heading>
@@ -78,9 +78,9 @@
                     <button type="submit" class="btn btn-primary" ng-if="!disableUpdate"
                             ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                     </button>
-                    <i ng-show="showLoading" uib-tooltip="Updating.."
+                    <i ng-if="showLoading" uib-tooltip="Updating.."
                        class="fa fa-spinner fa-2x fa-pulse text-center"></i>
-                    <i ng-show="showDone" uib-tooltip="Availability Updated"
+                    <i ng-if="showDone" uib-tooltip="Availability Updated"
                        class="fa fa-check-square-o fa-2x text-success text-center"></i>
                 </div>
             </div>
