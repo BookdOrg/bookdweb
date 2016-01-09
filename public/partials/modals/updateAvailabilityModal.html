@@ -27,7 +27,7 @@
                         <div class="checkbox text-center" tooltip-toggle="mouseenter"
                              uib-tooltip="Are you available on {{day.day}}'s">
                             <label>
-                                <input ng-model="day.available" type="checkbox"> Available
+                                <input ng-model="day.available" type="checkbox" ng-disabled="disableUpdate"> Available
                             </label>
                         </div>
                         <div class="col-xs-6">
@@ -39,7 +39,7 @@
                                             minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
                         </div>
                         <div class="col-xs-6">
-                            <h3>Breaks: <a ng-click="addBreak(day)" class="btn btn-success"><i
+                            <h3>Breaks: <a ng-click="addBreak(day)" ng-if="!disableUpdate" class="btn btn-success"><i
                                     class="fa fa-plus"></i></a></h3>
                             <uib-accordion>
                                 <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12 col-xs-offset-5">
-                                            <button class="btn btn-danger text-center"
+                                            <button class="btn btn-danger text-center" ng-if="!disableUpdate"
                                                     ng-click="deleteGap(day,gap,$index)">Delete
                                             </button>
                                         </div>
