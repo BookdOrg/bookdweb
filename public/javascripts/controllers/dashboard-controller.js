@@ -104,7 +104,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     return index;
                 },
                 service: function () {
-                    return angular.copy($scope.activeBusiness.business.services);
+                    return service;
                 },
                 business: function () {
                     return $scope.activeBusiness.business;
