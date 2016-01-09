@@ -1,7 +1,7 @@
 <div class="modal-header text-center">
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">{{service.name}} </h3>
-    <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
+    <timer ng-if="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
     </timer>
@@ -40,7 +40,7 @@
             </div>
             <div class="row text-center">
                 <!--<a data-target="#employ" data-toggle="tab" class="btn btn-warning">Back</a>-->
-                <a data-target="#schedule" data-toggle="tab" ng-show="employee" class="btn btn-primary">Next</a>
+                <a data-target="#schedule" data-toggle="tab" ng-if="employee" class="btn btn-primary">Next</a>
             </div>
         </div>
         <div class="tab-pane" id="schedule">
