@@ -199,7 +199,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         modalInstance.result.then(function () {
             Notification.success('Successfully booked an appointment!');
         }, function (error) {
-            Notification.error({message: error});
+            if(error){
+                Notification.error({message: error});
+            }
         });
     };
     /**

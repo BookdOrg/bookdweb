@@ -379,7 +379,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if ($scope.activeTime) {
             socketService.emit('timeDestroyed', $scope.activeTime);
         }
-        $uibModalInstance.dismiss('Appointment Booking Canceled');
+        $uibModalInstance.dismiss();
     };
 
     var newNotification = function (appointment, personToNotify) {
