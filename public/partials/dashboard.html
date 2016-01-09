@@ -64,13 +64,13 @@
                         <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                             <li>{{associate.name}}
                                 <div class="btn-group pull-right" role="group" aria-label="...">
+                                    <button class="btn btn-warning" ng-click="openAvailabilityModal('lg',associate)"
+                                            uib-tooltip="View Availability" tooltip-placement="top"><i
+                                            class="fa fa-hourglass"></i></button>
                                     <button class="btn btn-danger"
                                             ng-click="removeEmployee(associate, activeBusiness.business)"
                                             uib-tooltip="Remove Associate" tooltip-placement="top"><i
                                             class="fa fa-trash"></i></button>
-                                    <button class="btn btn-warning" ng-click="openAvailabilityModal('lg',associate)"
-                                            uib-tooltip="View Availability" tooltip-placement="top"><i
-                                            class="fa fa-hourglass"></i></button>
                                 </div>
                             </li>
                         </div>
@@ -101,15 +101,15 @@
                              style="height:50px;">
                             <li>{{service.name}}
                                 <div class="btn-group pull-right" role="group" aria-label="...">
-                                    <button class="btn btn-danger" ng-click="openRemoveServiceModal(service,$index)"
-                                            uib-tooltip="Delete Service"><i class="fa fa-trash"></i>
-                                    </button>
+                                    <button class="btn btn-primary" ng-click="openService('lg',false,service) "
+                                            uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i></button>
                                     <button class="btn btn-warning " ng-click="editService(service,$index)"
                                             uib-tooltip="Edit Service"><i
                                             class="fa fa-pencil"></i>
                                     </button>
-                                    <button class="btn btn-primary" ng-click="openService('lg',false,service) "
-                                            uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i></button>
+                                    <button class="btn btn-danger" ng-click="openRemoveServiceModal(service,$index)"
+                                            uib-tooltip="Delete"><i class="fa fa-trash"></i>
+                                    </button>
                                 </div>
                             </li>
                         </div>

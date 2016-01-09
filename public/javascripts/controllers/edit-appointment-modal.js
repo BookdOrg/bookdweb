@@ -202,6 +202,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     if (startTime.isSame(subtractedTime)) {
                         $scope.availableTimes[availableTimesIndex - 1].available = false;
                     }
+                    if(availableTime.isBefore(moment())){
+                        $scope.availableTimes[availableTimesIndex].hide = true;
+                    }
                 }
             }
         });
