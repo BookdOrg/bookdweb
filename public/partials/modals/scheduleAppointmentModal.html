@@ -73,8 +73,6 @@
                     <a data-target="#employees" data-toggle="tab" class="btn btn-warning"> Back
                     </a>
                     <button class="btn btn-Success" ng-show="appointment" ng-if="tier >= 1"
-                            ng-click="newNotification(appointment, appointment.customer);
-                             newNotification(appointment, appointment.employee);"
                             stripe-checkout="ctrl.checkOut"
                             data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
                             data-name="Bookd"
@@ -86,9 +84,7 @@
                         Book Appointment & Pay
                     </button>
                     <button class="btn btn-primary" ng-show="appointment"
-                            ng-click="newNotification(appointment, appointment.customer);
-                             newNotification(appointment, appointment.employee);
-                             book()">
+                            ng-click="book()">
                         Book Appointment Only
                     </button>
                 </div>

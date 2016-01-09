@@ -298,7 +298,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if (personal) {
             customerId = $rootScope.currentUser.user._id;
         } else {
-            customerId = '';
+            customerId = null;
         }
         //The actual appointment object that will be sent to the backend
         $scope.appointment = {
@@ -334,6 +334,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //send the appointment to the backend
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
+                newNotification(appointment,appointment.customer);
+                newNotification(appointment,appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 $scope.appointment.personal = personal;
                 //emit that an appointment was booked, sends to relevant sockets
@@ -358,6 +360,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
+                newNotification(appointment,appointment.customer);
+                newNotification(appointment,appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 $scope.appointment.personal = personal;
                 socketService.emit('apptBooked', appointment);
@@ -375,7 +379,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $uibModalInstance.dismiss('Appointment Booking Canceled');
     };
 
-    $scope.newNotification = function (appointment, personToNotify) {
+    var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
         notificationFactory.addNotification(personToNotify,
                 'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at ' + appointment.start.time

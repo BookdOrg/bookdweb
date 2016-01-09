@@ -168,6 +168,14 @@ io.on('connection', function (socket, data) {
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
         }
+        if(data.from !== data.appointment.employee && data.from !== data.appointment.customer){
+            if(customerSocket){
+                io.to(customerSocket.id).emit('canceledAppt', data);
+            }
+            if(employeeSocket){
+                io.to(employeeSocket.id).emit('canceledAppt', data);
+            }
+        }
     });
     socket.on('isEmployee', function (data) {
         User.findOne({'_id': data}).exec(function (err, user) {
@@ -278,8 +286,10 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                responseArray.push(customer.personalAppointments);
-                responseArray.push(customer.businessAppointments);
+                if(customer){
+                    responseArray.push(customer.personalAppointments);
+                    responseArray.push(customer.businessAppointments);
+                }
                 res.json(responseArray);
             });
         } else {
@@ -347,18 +357,19 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
     notification.type = req.body.type;
     //Whether the notification was viewed or not.
     notification.viewed = 'false';
-
     //Send only an email if the customer is not signed up with Bookd.
-    if (!req.body.id) {
-        sendEmail(notification);
-        return;
-    }
+    //if (!req.body.id) {
+    //    sendEmail(notification);
+    //    return;
+    //}
     User.findOne({'_id': req.body.id}).exec(function (err, user) {
         if (err) {
             next(err);
         }
-
-        notification.user = user;
+        if(user){
+            notification.user = user;
+        }
+        console.log(user);
         notification.save(function (err, response) {
             if (err) {
                 return next(err);
@@ -366,7 +377,7 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
             console.log('Successfully saved notification!');
         });
 
-        if (req.body.sendEmail) {
+        if (req.body.sendEmail && user !== null) {
             sendEmail(notification);
         } else {
             res.send('Successfully saved notification!');
@@ -379,9 +390,8 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
 
         subject = 'Bookd Notification';
         body = notification.content;
-
         var mailOptions = {
-            from: 'Marshall Mathers', // sender address
+            from: 'Book\'d', // sender address
             to: notification.user.email, // list of receivers
             subject: subject, // Subject line
             html: body // html body
@@ -765,8 +775,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 }
             });
         });
-
-        if (appointment.customer !== "") {
+        console.log(appointment.customer);
+        if (appointment.customer !== null) {
             User.findOne({'_id': appointment.customer}).populate({
                 path: 'businessAppointments personalAppointments',
                 match: {'start.date': appointment.start.date}
@@ -774,6 +784,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
+                console.log(user);
                 validateAppointment(appointment, user.businessAppointments);
                 validateAppointment(appointment, user.personalAppointments);
                 user.personalAppointments.push(appointment);
