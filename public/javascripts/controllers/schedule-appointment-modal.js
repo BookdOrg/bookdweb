@@ -162,6 +162,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     if (startTime.isSame(subtractedTime)) {
                         $scope.availableTimes[availableTimesIndex - 1].available = false;
                     }
+                    if(availableTime.isBefore(moment())){
+                        $scope.availableTimes[availableTimesIndex].hide = true;
+                    }
                 }
             }
         });

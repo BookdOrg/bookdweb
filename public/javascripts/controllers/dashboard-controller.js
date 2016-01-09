@@ -50,11 +50,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @type {{events: Array}}
      */
-    //$scope.eventsPersonalSource = {
-    //    //color:'#00',
-    //    //textColor:'blue',
-    //    events: $scope.events
-    //};
+
+    $scope.$on('$destroy',function(){
+        socketService.emit('leaveDashboardRoom',$scope.activeBusiness.business._id);
+    });
     /**
      *
      *  These are toggles for each accordion group

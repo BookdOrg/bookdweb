@@ -119,6 +119,9 @@ io.on('connection', function (socket, data) {
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
     });
+    socket.on('leaveDashboardRoom',function(id){
+        socket.leave(id);
+    });
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
