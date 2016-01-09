@@ -369,7 +369,6 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
         if(user){
             notification.user = user;
         }
-        console.log(user);
         notification.save(function (err, response) {
             if (err) {
                 return next(err);
