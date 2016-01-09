@@ -23,6 +23,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      */
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {
+            $scope.selectedDate = newVal;
             $scope.dayMessage = false;
             getAvailableTimes(newVal, $scope.employee._id);
         }
@@ -48,6 +49,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.availableTimes = [];
         $scope.employee = employee;
         var day = new Date();
+        console.log("DAY");
+        console.log(day);
+        $scope.selectedDate = day;
         getAvailableTimes(day, $scope.employee._id);
     };
 
@@ -139,9 +143,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
              */
             for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
                 //Loop through the current array of appointments
+                var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+                var currentDateTime = moment().set({'year':moment($scope.selectedDate).year(),'month':moment($scope.selectedDate).month(),
+                    'date':moment($scope.selectedDate).date(),'hour':moment(availableTime).hour(),'minute':moment(availableTime).minute()});
+                if(currentDateTime.isBefore(moment())){
+                    $scope.availableTimes[availableTimesIndex].hide = true;
+                }else{
+                    $scope.availableTimes[availableTimesIndex].hide = false;
+                }
                 for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
                     //Format the current available time and the start time of the appointment
-                    var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+
                     var startTime = moment(array[appointmentsIndex].start.time, 'hh:mm a');
 
                     var decreasedTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
@@ -162,9 +174,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     if (startTime.isSame(subtractedTime)) {
                         $scope.availableTimes[availableTimesIndex - 1].available = false;
                     }
-                    if(availableTime.isBefore(moment())){
-                        $scope.availableTimes[availableTimesIndex].hide = true;
-                    }
+
                 }
             }
         });
