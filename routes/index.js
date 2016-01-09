@@ -119,7 +119,7 @@ io.on('connection', function (socket, data) {
     socket.on('joinDashboardRoom', function (id) {
         socket.join(id);
     });
-    socket.on('leaveDashboardRoom',function(id){
+    socket.on('leaveDashboardRoom', function (id) {
         socket.leave(id);
     });
     socket.on('apptBooked', function (appt) {
@@ -171,11 +171,11 @@ io.on('connection', function (socket, data) {
         if (data.from === data.appointment.employee && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
         }
-        if(data.from !== data.appointment.employee && data.from !== data.appointment.customer){
-            if(customerSocket){
+        if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
+            if (customerSocket) {
                 io.to(customerSocket.id).emit('canceledAppt', data);
             }
-            if(employeeSocket){
+            if (employeeSocket) {
                 io.to(employeeSocket.id).emit('canceledAppt', data);
             }
         }
@@ -289,7 +289,7 @@ router.get('/user/appointments', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                if(customer){
+                if (customer) {
                     responseArray.push(customer.personalAppointments);
                     responseArray.push(customer.businessAppointments);
                 }
@@ -349,7 +349,6 @@ router.get('/user/notifications', auth, function (req, res, next) {
 /**
  * Creates a new Notification and saves it to the database.
  */
-//TODO handle the case where there is no userID, appointment being scheduled for NON-Bookd customer
 router.post('/user/notifications/create', auth, function (req, res, next) {
     var notification = new Notification();
     //Content of the notification.
@@ -360,16 +359,12 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
     notification.type = req.body.type;
     //Whether the notification was viewed or not.
     notification.viewed = 'false';
-    //Send only an email if the customer is not signed up with Bookd.
-    //if (!req.body.id) {
-    //    sendEmail(notification);
-    //    return;
-    //}
+
     User.findOne({'_id': req.body.id}).exec(function (err, user) {
         if (err) {
             next(err);
         }
-        if(user){
+        if (user) {
             notification.user = user;
         }
         notification.save(function (err, response) {
@@ -381,9 +376,9 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
 
         if (req.body.sendEmail && user !== null) {
             sendEmail(notification);
-        } else {
-            res.send('Successfully saved notification!');
         }
+
+        res.send('Successfully saved notification!');
     });
 
     function sendEmail(notification) {
@@ -404,8 +399,6 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
             if (error) {
                 console.log(error);
             }
-
-            res.send(info);
         });
     }
 });
