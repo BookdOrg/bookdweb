@@ -13,7 +13,7 @@ module.exports = function (userFactory) {
         if (index === employeeArray.length) {
             //done
         } else {
-            for (var employeeIndex = index; employeeIndex < employeeArray.length; employeeIndex++) {
+            for (var employeeIndex = index; employeeIndex < employeeArray.length - 1; employeeIndex++) {
                 if (employeeArray[employeeIndex].provider === 'google_plus') {
                     break;
                 }
