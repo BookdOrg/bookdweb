@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <button class="btn btn-success btn-lg col-xs-offset-5"
-                        ng-click="partnerForm.$valid && claim(selectedQuery)">Claim
+                        ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
                 </button>
             </form>
             <div class="col-xs-6" ng-if="selectedQuery.name">
