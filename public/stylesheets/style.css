@@ -464,6 +464,7 @@ body {
 }
 
 .btn-faded-green{
+    color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b4ddb4+0,52b152+56,83c783+100 */
     background: #b4ddb4; /* Old browsers */
     border-color: #b4ddb4;
@@ -474,6 +475,7 @@ body {
 
 }
 .btn-gradient-green{
+    color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b4ddb4+0,24af24+56,83c783+100 */
     background: #b4ddb4; /* Old browsers */
     border-color: #b4ddb4;
@@ -483,6 +485,7 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4ddb4', endColorstr='#83c783',GradientType=0 ); /* IE6-9 */
 }
 .btn-gradient-blue{
+    color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0f87e2+0,7db9e8+100 */
     background: #0f87e2; /* Old browsers */
     border-color: #0f87e2;
@@ -493,6 +496,7 @@ body {
 }
 
 .btn-gradient-yellow {
+    color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fefcea+0,f1da36+100;Gold+3D */
     background: #fefcea; /* Old browsers */
     border-color: #fefcea;
@@ -503,6 +507,7 @@ body {
 }
 
 .btn-gradient-red {
+    color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cf0404+0,ff3019+30,ff3019+75,cf0404+100 */
     background: #cf0404; /* Old browsers */
     background: -moz-linear-gradient(top, #cf0404 0%, #ff3019 30%, #ff3019 75%, #cf0404 100%); /* FF3.6-15 */
