@@ -1,7 +1,7 @@
 <div class="modal-header text-center">
     <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">{{service.name}}</h3>
-    <timer ng-if="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
+    <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
     </timer>
@@ -27,10 +27,10 @@
             <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Schedule</h4>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
-            <div class="col col-md-3" ng-if="!previousDate" ng-click="createAppointmentObj(time,$index)"
-                 ng-repeat="time in availableTimes track by $index">
-                <button ng-disabled="!time.available || time.status || time.toggled"
-                        ng-class="{'hide':time.hide,'btn-danger': !time.available,'btn-warning':time.status,'btn-success':time.available && !time.toggled,'btn-primary':time.toggled}"
+            <div class="col col-md-3" ng-if="!previousDate" ng-repeat="time in availableTimes track by $index">
+                <button ng-click="createAppointmentObj(time,$index)"
+                        ng-disabled="!time.available || time.status || time.toggled || time.hide"
+                        ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide,'btn-gradient-yellow':time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                         role="button" class="btn" style="margin-bottom:5px;">
                     {{time.time}}
                 </button>

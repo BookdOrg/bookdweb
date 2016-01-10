@@ -96,14 +96,19 @@ io.on('connection', function (socket, data) {
         io.to(socket.id).emit('oldHold', holdList);
     });
     socket.on('timeTaken', function (data) {
+        console.log("fired");
         socketTimeData = data;
         roomData.push({id: string, user: data.user, data: data});
         io.sockets.in(string).emit('newHold', data);
+        console.log("TIME TAKEN");
+        console.log(roomData);
     });
     socket.on('timeDestroyed', function (data) {
         if (data) {
             roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
         }
+        console.log("TIME DESTROYED");
+        console.log(roomData);
         io.sockets.in(string).emit('destroyOld', data);
     });
     socket.on('disconnect', function () {

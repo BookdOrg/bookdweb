@@ -179,10 +179,22 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
              * Loop through each of the available time slots that were created based on the employees day
              */
             for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
+                //Format the current available time of the appointment
+                var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+                var currentDateTime = moment().set({
+                    'year': moment($scope.selectedDate).year(),
+                    'month': moment($scope.selectedDate).month(),
+                    'date': moment($scope.selectedDate).date(),
+                    'hour': moment(availableTime).hour(),
+                    'minute': moment(availableTime).minute()
+                });
+                $scope.availableTimes[availableTimesIndex].hide = false;
+                if (currentDateTime.isBefore(moment())) {
+                    $scope.availableTimes[availableTimesIndex].hide = true;
+                }
                 //Loop through the current array of appointments
                 for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
-                    //Format the current available time and the start time of the appointment
-                    var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
+                    //Format the current start time of the appointment
                     var startTime = moment(array[appointmentsIndex].start.time, 'hh:mm a');
                     //Format
                     var decreasedTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
@@ -271,6 +283,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
+        if ($scope.activeTime && $scope.availableTimes[indexToReplace].time === $scope.activeTime.time) {
+            $scope.availableTimes[indexToReplace].toggled = true;
+        }
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
             $scope.availableTimes[indexToReplace].status = true;
             indexToReplace += 1;
