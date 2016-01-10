@@ -27,9 +27,10 @@
             <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Schedule</h4>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
+            <uib-alert ng-if="activeTime" type="success">Selected Time: {{activeTime.time}}</uib-alert>
             <div class="col col-md-3" ng-if="!previousDate" ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
-                        ng-disabled="!time.available || time.status || time.toggled || time.hide"
+                        ng-disabled="!time.available || time.status || time.time === activeTime.time && time.toggled || time.hide"
                         ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide,'btn-gradient-yellow':time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                         role="button" class="btn" style="margin-bottom:5px;">
                     {{time.time}}

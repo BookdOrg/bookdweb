@@ -109,13 +109,22 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                  * @param list - NO CLUE
                  */
                 var testTime = function (element, index, list) {
-                    if (element.time === $scope.dateObj.appointment.start.time) {
+                    if (element.time === $scope.dateObj.appointment.start.time && !$scope.activeTime) {
                         $scope.$broadcast('timer-clear');
                         $scope.showCount = false;
                         $scope.availableTimes[index].available = true;
                         $scope.availableTimes[index].status = false;
                         $scope.availableTimes[index].toggled = true;
                         $scope.selectedIndex = index;
+                    } else if ($scope.activeTime && element.time === $scope.activeTime.time) {
+                        $scope.availableTimes[index].available = true;
+                        $scope.availableTimes[index].status = false;
+                        $scope.availableTimes[index].toggled = true;
+                        $scope.selectedIndex = index;
+                    } else if (element.time === $scope.dateObj.appointment.start.time && $scope.activeTime) {
+                        $scope.availableTimes[index].available = true;
+                        $scope.availableTimes[index].status = false;
+                        $scope.availableTimes[index].toggled = true;
                     }
                 };
                 //if the date selected is the same as the start date of the appointment run that function for each value
