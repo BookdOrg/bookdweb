@@ -453,14 +453,27 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         function notifyUser(appointment) {
             businessFactory.serviceDetails(appointment.service)
                 .then(function (service) {
-                    notificationFactory.addNotification(appointment.customer,
-                            'Your ' + service.name + ' on ' + appointment.start.date + ' at '
-                            + appointment.start.time + ' was canceled.', 'alert', true)
-                        .then(function () {
+                    if ($rootScope.currentUser.user._id === appointment.customer) {
+                        // Customer canceled appointment, inform employee, no email.
+                        notificationFactory.addNotification(appointment.employee,
+                                'Your ' + service.name + ' on ' + appointment.start.date + ' at '
+                                + appointment.start.time + ' was canceled.', 'alert', false)
+                            .then(function () {
 
-                        }, function (err) {
-                            console.log(err);
-                        });
+                            }, function (err) {
+                                console.log(err);
+                            });
+                    } else {
+                        // Employee canceled appointment, inform customer, with email.
+                        notificationFactory.addNotification(appointment.customer,
+                                'Your ' + service.name + ' on ' + appointment.start.date + ' at '
+                                + appointment.start.time + ' was canceled.', 'alert', true)
+                            .then(function () {
+
+                            }, function (err) {
+                                console.log(err);
+                            });
+                    }
                 });
         }
     };
