@@ -217,7 +217,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     //When a socket join the appointment room late, we send the list of availabletimes currently being held
     socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-            calculateHold(data[dataIndex].data);
+            if (data[dataIndex].user !== $scope.currentUser.user._id) {
+                calculateHold(data[dataIndex].data);
+            } else {
+                var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
+                $scope.availableTimes[indexToReplace].toggled = true;
+            }
         }
     });
     //when some user selects a time other then this one we recieve it and caluclate holds
@@ -236,9 +241,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
-        if ($scope.activeTime && $scope.availableTimes[indexToReplace].time === $scope.activeTime.time) {
-            $scope.availableTimes[indexToReplace].toggled = true;
-        }
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
             $scope.availableTimes[indexToReplace].status = true;
             indexToReplace += 1;
@@ -269,7 +271,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.activeTime = time;
         //show the countdown
         $scope.showCount = true;
-        socketService.emit('timeTaken', time);
+
         if (!timeStarted) {
             $scope.timerRunning = true;
             timeStarted = true;
@@ -289,6 +291,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             time.toggled = !time.toggled;
             $scope.selectedIndex = index;
         }
+        socketService.emit('timeTaken', time);
         /**
          *
          * If there is no previously selected time we simply toggle the current time, then
