@@ -221,7 +221,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 calculateHold(data[dataIndex].data);
             } else {
                 var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
-                $scope.availableTimes[indexToReplace].toggled = true;
+                if (indexToReplace) {
+                    $scope.availableTimes[indexToReplace].toggled = true;
+                }
             }
         }
     });
@@ -242,8 +244,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
-            $scope.availableTimes[indexToReplace].status = true;
-            indexToReplace += 1;
+            if (indexToReplace) {
+                $scope.availableTimes[indexToReplace].status = true;
+                indexToReplace += 1;
+            }
         }
     };
     //Toggle the held time off
