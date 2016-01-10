@@ -491,3 +491,23 @@ body {
     background: linear-gradient(to bottom,  #0f87e2 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f87e2', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 }
+
+.btn-gradient-yellow {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fefcea+0,f1da36+100;Gold+3D */
+    background: #fefcea; /* Old browsers */
+    border-color: #fefcea;
+    background: -moz-linear-gradient(top, #fefcea 0%, #f1da36 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #fefcea 0%, #f1da36 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #fefcea 0%, #f1da36 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefcea', endColorstr='#f1da36', GradientType=0); /* IE6-9 */
+}
+
+.btn-gradient-red {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cf0404+0,ff3019+30,ff3019+75,cf0404+100 */
+    background: #cf0404; /* Old browsers */
+    background: -moz-linear-gradient(top, #cf0404 0%, #ff3019 30%, #ff3019 75%, #cf0404 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #cf0404 0%, #ff3019 30%, #ff3019 75%, #cf0404 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #cf0404 0%, #ff3019 30%, #ff3019 75%, #cf0404 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf0404', endColorstr='#cf0404', GradientType=0); /* IE6-9 */
+
+}
