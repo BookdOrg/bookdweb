@@ -44,7 +44,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
         businessFactory.claim(claimRequest)
             .then(function (data) {
                     $uibModal.open({
-                        templateUrl: 'myModalContent.html',
+                        templateUrl: '/partials/businessRequestModal.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {
                             message: function () {
@@ -58,7 +58,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
                 },
                 function (error) {
                     $uibModal.open({
-                        templateUrl: 'myModalContent.html',
+                        templateUrl: '/partials/businessRequestModal.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {
                             message: function () {
