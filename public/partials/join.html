@@ -49,7 +49,7 @@
                     <div class="col col-xs-5">
                         <label for="email">Email:</label>
                         <input class="form-control input-lg" type="email" id="email"
-                               placeholder="{{currentUser.user.email}}" value="{{currentUser.user.email}}" disabled
+                               placeholder="{{currentUser.user.email}}" ng-value="currentUser.user.email" disabled
                                required>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <button class="btn btn-success btn-lg col-xs-offset-5"
-                        ng-click="partnerForm.$valid && claim(selectedQuery)">Claim
+                        ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
                 </button>
             </form>
             <div class="col-xs-6" ng-if="selectedQuery.name">
@@ -75,23 +75,9 @@
                     Name: {{selectedQuery.name}}
                     <br>Phone Number: {{selectedQuery.formatted_phone_number}}
                     <br>Address: {{selectedQuery.formatted_address}}
-                    <br>Google Places Page: <a href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
+                    <br>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title text-center">{{business.info.name}}</h3>
-        </div>
-        <div ng-if="status === 400" class="modal-body">
-            {{business.message}}
-        </div>
-        <div ng-if="status === 200" class="modal-body">
-            You request has gone through successfully, we will review the request and contact you with x time frame. Thank you. 
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-        </div>
-    </script>

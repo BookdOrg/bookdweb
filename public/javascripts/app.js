@@ -239,7 +239,7 @@ app.config([
                     }
                 }
             })
-            .state('search', {
+            .state('join', {
                 url: '/join',
                 params: {
                     tier: null
@@ -250,8 +250,8 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/search.html',
-                        controller: 'searchCtrl'
+                        templateUrl: '/partials/join.html',
+                        controller: 'joinCtrl'
                     }
                 }
             })

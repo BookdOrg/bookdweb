@@ -18,6 +18,6 @@ app.controller('ModalInstanceCtrl', require('./modal-controller'));
 app.controller('NavCtrl', require('./nav-controller'));
 app.controller('messagesModalCtrl', require('./messages-modal'));
 app.controller('ProfileCtrl', require('./profile-controller'));
-app.controller('searchCtrl', require('./search-controller'));
+app.controller('joinCtrl', require('./join-controller'));
 app.controller('updatedAvailabilityCtrl', require('./update-availability-modal'));
 app.controller('removeServiceModalCtrl', require('./remove-service-modal'));

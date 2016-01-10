@@ -1,7 +1,8 @@
 /**
  * Created by khalilbrown on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService, personal, $rootScope) {
+module.exports = function ($scope, $uibModalInstance, data, businessFactory, userFactory, socketService, personal,
+                           $rootScope, notificationFactory) {
     //The event object from the calendar, passed into the edit modal
     $scope.dateObj = data;
     $scope.showNoEmployee = false;
@@ -24,8 +25,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedDate = data.appointment.start.date;
     var dateSelected = moment($scope.selectedDate).format();
     var today = moment().format();
-    $scope.previousDate =false;
-    if(moment(dateSelected).isBefore(today,'hour')){
+    $scope.previousDate = false;
+    if (moment(dateSelected).isBefore(today, 'hour')) {
         $scope.previousDate = true;
     }
     //How long should the timer when an appointment is selected be
@@ -74,19 +75,19 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
         var employeeApptObj = {};
         //If the appointment is being edited by the user who it's for this flag will be true
-        if(personal){
+        if (personal) {
             employeeApptObj = {
                 startDate: newDate,
                 employeeId: employeeId,
                 customerId: data.appointment.customer,
-                personal:true
+                personal: true
             };
-        }else{
+        } else {
             employeeApptObj = {
                 startDate: newDate,
                 employeeId: employeeId,
                 customerId: data.appointment.customer,
-                personal:false
+                personal: false
             };
         }
         /**
@@ -202,7 +203,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     if (startTime.isSame(subtractedTime)) {
                         $scope.availableTimes[availableTimesIndex - 1].available = false;
                     }
-                    if(availableTime.isBefore(moment())){
+                    if (availableTime.isBefore(moment())) {
                         $scope.availableTimes[availableTimesIndex].hide = true;
                     }
                 }
@@ -408,7 +409,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 };
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 socketService.emit('apptUpdated', socketData);
-                $scope.dateObj.appointment = {};
+                //$scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);
             });
@@ -419,7 +420,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         //Update the status in the back-end
         businessFactory.updateStatus($scope.dateObj.appointment)
             .then(function (appointment) {
-                $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);
             });
@@ -428,7 +428,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.charge = function (appointment) {
         businessFactory.charge(appointment)
             .then(function (appointment) {
-                $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);
             });
@@ -440,15 +439,43 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         businessFactory.cancelAppointment($scope.dateObj.appointment)
             .then(function () {
+                notifyUser($scope.dateObj.appointment);
+
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
                     'appointment': $scope.dateObj.appointment
                 };
                 socketService.emit('apptCanceled', socketData);
-                $scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = 'canceled';
                 $uibModalInstance.close($scope.dateObj);
             });
+
+        function notifyUser(appointment) {
+            businessFactory.serviceDetails(appointment.service)
+                .then(function (service) {
+                    if ($rootScope.currentUser.user._id === appointment.customer) {
+                        // Customer canceled appointment, inform employee, no email.
+                        notificationFactory.addNotification(appointment.employee,
+                                'Your ' + service.name + ' on ' + appointment.start.date + ' at '
+                                + appointment.start.time + ' was canceled.', 'alert', false)
+                            .then(function () {
+
+                            }, function (err) {
+                                console.log(err);
+                            });
+                    } else {
+                        // Employee canceled appointment, inform customer, with email.
+                        notificationFactory.addNotification(appointment.customer,
+                                'Your ' + service.name + ' on ' + appointment.start.date + ' at '
+                                + appointment.start.time + ' was canceled.', 'alert', true)
+                            .then(function () {
+
+                            }, function (err) {
+                                console.log(err);
+                            });
+                    }
+                });
+        }
     };
     //close the modal
     $scope.close = function () {

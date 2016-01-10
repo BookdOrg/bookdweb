@@ -84,9 +84,9 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      */
     $scope.goToClaim = function (tier) {
         if (!auth.isLoggedIn()) {
-            $scope.open('login', 'search', tier);
+            $scope.open('login', 'join', tier);
         } else {
-            $state.go('search', {tier: tier});
+            $state.go('join', {tier: tier});
         }
     };
 

@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <h3 class="modal-title text-center">{{business.info.name}}</h3>
+</div>
+<div ng-if="status === 400" class="modal-body">
+    {{business.message}}
+</div>
+<div ng-if="status === 200" class="modal-body">
+    You request has gone through successfully, we will review the request and contact you with x time frame. Thank you.
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

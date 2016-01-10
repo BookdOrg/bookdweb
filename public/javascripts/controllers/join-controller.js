@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $stateParams) {
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $stateParams, notificationFactory) {
     if ($stateParams.tier !== null) {
         $scope.tier = $stateParams.tier;
     }
@@ -34,8 +34,9 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
      * Submits a claim request for a business
      *
      * @param request - the selectedQuery object, google places business
+     * @param personToNotify
      */
-    $scope.claim = function (request) {
+    $scope.claim = function (request, personToNotify) {
         var claimRequest = {};
         claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
         claimRequest.placesId = request.place_id;
@@ -43,8 +44,16 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
         claimRequest.tier = $scope.tier;
         businessFactory.claim(claimRequest)
             .then(function (data) {
+                    //TODO Move this string to somewhere we can access it globally!
+                    notificationFactory.addNotification(personToNotify,
+                            'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
+                        .then(function () {
+
+                        }, function (err) {
+                            console.log(err);
+                        });
                     $uibModal.open({
-                        templateUrl: 'myModalContent.html',
+                        templateUrl: 'partials/modals/businessRequestModal.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {
                             message: function () {
@@ -52,13 +61,13 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
                             },
                             info: function () {
                                 return request;
-                            }
+                        }
                         }
                     });
                 },
                 function (error) {
                     $uibModal.open({
-                        templateUrl: 'myModalContent.html',
+                        templateUrl: 'partials/modals/businessRequestModal.html',
                         controller: 'ModalInstanceCtrl',
                         resolve: {
                             message: function () {
@@ -66,7 +75,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
                             },
                             info: function () {
                                 return request;
-                            }
+                        }
                         }
                     });
                 }
