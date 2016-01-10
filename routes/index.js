@@ -90,6 +90,7 @@ io.on('connection', function (socket, data) {
         //socket.join(zip);
     });
     socket.on('joinApptRoom', function (data) {
+        console.log("joineds");
         if (data.previousDate) {
             socket.leave(data.previousDate.toString() + data.employeeId.toString());
         }

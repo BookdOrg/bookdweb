@@ -322,6 +322,19 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             indexToReplace += 1;
         }
     };
+
+    var checkShowUpdate = function (timeObj) {
+        $scope.showUpdate = false;
+        if (moment($scope.selectedDate).date() !== moment($scope.dateObj.appointment.start.date).date()) {
+            if (!$scope.datePassed) {
+                $scope.showUpdate = true;
+            }
+        } else if (moment($scope.selectedDate).date() === moment($scope.dateObj.appointment.start.date).date()) {
+            if (timeObj.time !== $scope.dateObj.appointment.start.time && !$scope.datePassed) {
+                $scope.showUpdate = true;
+            }
+        }
+    };
     /**
      *  Create the actual appointment object when a time is selected
      *
@@ -330,9 +343,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      */
     $scope.selectedIndex = null;
     $scope.createAppointmentObj = function (timeObj, index) {
+        checkShowUpdate(timeObj);
         //Set the activeTime to the time the user selected
         timeObj.roomId = $scope.newRoomDate.toString() + $scope.employee._id;
-        console.log(timeObj);
         //show the countdown
         $scope.showCount = true;
         //if the timer isn't starter, start it

@@ -52,8 +52,8 @@
     <button class="btn btn-success" ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
             ng-click="charge(dateObj.appointment)">Charge <i class="fa fa-credit-card"></i></button>
     <button class="btn btn-primary"
-            ng-if="availableTimes[selectedIndex].time !== dateObj.appointment.start.time && !datePassed"
-            ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time"
+            ng-if="showUpdate"
+            ng-disabled="!appointment || !showUpdate"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update Appointment
     </button>
     <button class="btn btn-primary"
