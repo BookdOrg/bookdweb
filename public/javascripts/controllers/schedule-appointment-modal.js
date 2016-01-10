@@ -49,8 +49,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.availableTimes = [];
         $scope.employee = employee;
         var day = new Date();
-        console.log("DAY");
-        console.log(day);
         $scope.selectedDate = day;
         getAvailableTimes(day, $scope.employee._id);
     };
@@ -146,10 +144,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
                 var currentDateTime = moment().set({'year':moment($scope.selectedDate).year(),'month':moment($scope.selectedDate).month(),
                     'date':moment($scope.selectedDate).date(),'hour':moment(availableTime).hour(),'minute':moment(availableTime).minute()});
+                $scope.availableTimes[availableTimesIndex].hide = false;
                 if(currentDateTime.isBefore(moment())){
                     $scope.availableTimes[availableTimesIndex].hide = true;
-                }else{
-                    $scope.availableTimes[availableTimesIndex].hide = false;
                 }
                 for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
                     //Format the current available time and the start time of the appointment
@@ -239,6 +236,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
+        if ($scope.activeTime && $scope.availableTimes[indexToReplace].time === $scope.activeTime.time) {
+            $scope.availableTimes[indexToReplace].toggled = true;
+        }
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
             $scope.availableTimes[indexToReplace].status = true;
             indexToReplace += 1;
@@ -271,13 +271,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.showCount = true;
         socketService.emit('timeTaken', time);
         if (!timeStarted) {
-            $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
             timeStarted = true;
-        } else if (timeStarted) {
-            $scope.$broadcast('timer-reset');
-            $scope.$broadcast('timer-start');
         }
+        $scope.$broadcast('timer-reset');
+        $scope.$broadcast('timer-start');
 
         /**
          *
