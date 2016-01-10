@@ -79,7 +79,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * @param data - Object - the appointment to be edited
      * @param type - Boolean - is the appointment being edited by the user who's appointment it is or an employee/business owner
      */
-    $scope.open = function (size, data,type) {
+    $scope.open = function (size, data, type) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',
@@ -91,7 +91,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 data: function () {
                     return data;
                 },
-                personal:function(){
+                personal: function () {
                     return type;
                 }
             }
@@ -139,8 +139,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * Opens a modal that allows employees to update their availability.
      *
      * @param size - the size of the modal
+     * @param employee
      */
-    $scope.openAvailabilityModal = function (size,employee) {
+    $scope.openAvailabilityModal = function (size, employee) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/updateAvailabilityModal.html',
@@ -148,8 +149,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             backdrop: 'static',
             keyboard: false,
             size: size,
-            resolve:{
-                employee:function(){
+            resolve: {
+                employee: function () {
                     return $rootScope.currentUser.user;
                 }
             }
@@ -270,9 +271,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * @param view
      * @param element
      */
-    //TODO cache the appointments and only make the calls as needed
+        //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
-    $scope.viewRender = function(view,element){
+    $scope.viewRender = function (view, element) {
         $scope.lastUpdatedView = moment().calendar();
         $scope.lastUpdated = moment();
         var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
@@ -294,7 +295,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         calendar: {
             height: 700,
             editable: true,
-            displayEventEnd:true,
+            displayEventEnd: true,
             defaultView: 'month',
             header: {
                 left: 'title',
@@ -382,9 +383,10 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [$scope.events[eventIndex]._id]);
                 $scope.lastUpdatedView = moment().calendar();
                 $scope.lastUpdated = moment();
-                Notification.warning({message: 'An appointment has been canceled'});
             }
         }
+
+        Notification.warning({message: 'An appointment has been canceled'});
     });
 };
 
