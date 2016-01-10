@@ -259,13 +259,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     socketService.on('update', function () {
         getAvailableTimes($scope.selectedDate, data.appointment.employee);
     });
-    //When a socket join the appointment room late, we send the list of availabletimes currently being held
+    //When a socket join the appointment room late, we send the list of available times currently being held
     socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
             calculateHold(data[dataIndex].data);
         }
     });
-    //when some user selects a time other then this one we recieve it and caluclate holds
+    //when some user selects a time other then this one we receive it and calculate holds
     socketService.on('newHold', function (data) {
         if (data.user !== $rootScope.currentUser.user._id) {
             calculateHold(data);
@@ -424,7 +424,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 };
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 socketService.emit('apptUpdated', socketData);
-                //$scope.dateObj.appointment = {};
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);
             });
@@ -454,7 +453,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         businessFactory.cancelAppointment($scope.dateObj.appointment)
             .then(function () {
-                notifyUser($scope.dateObj.appointment);
+                notifyCancel($scope.dateObj.appointment);
 
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
@@ -465,7 +464,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 $uibModalInstance.close($scope.dateObj);
             });
 
-        function notifyUser(appointment) {
+        function notifyCancel(appointment) {
             businessFactory.serviceDetails(appointment.service)
                 .then(function (service) {
                     if ($rootScope.currentUser.user._id === appointment.customer) {
