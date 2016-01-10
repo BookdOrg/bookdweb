@@ -90,26 +90,29 @@ io.on('connection', function (socket, data) {
         //socket.join(zip);
     });
     socket.on('joinApptRoom', function (data) {
+        if (data.previousDate) {
+            socket.leave(data.previousDate.toString() + data.employeeId.toString());
+        }
         string = data.startDate.toString() + data.employeeId.toString();
-        socket.join(string);
-        var holdList = _.where(roomData, {id: string});
-        io.to(socket.id).emit('oldHold', holdList);
+        if (string) {
+            socket.join(string);
+            var holdList = _.where(roomData, {id: string});
+            io.to(socket.id).emit('oldHold', holdList);
+        } else {
+            socket.emit('appointmentRoomReq');
+        }
+
     });
     socket.on('timeTaken', function (data) {
-        console.log("fired");
         socketTimeData = data;
-        roomData.push({id: string, user: data.user, data: data});
-        io.sockets.in(string).emit('newHold', data);
-        console.log("TIME TAKEN");
-        console.log(roomData);
+        roomData.push({id: data.roomId, user: data.user, data: data});
+        io.sockets.in(data.roomId).emit('newHold', data);
     });
     socket.on('timeDestroyed', function (data) {
         if (data) {
             roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
         }
-        console.log("TIME DESTROYED");
-        console.log(roomData);
-        io.sockets.in(string).emit('destroyOld', data);
+        io.sockets.in(data.roomId).emit('destroyOld', data);
     });
     socket.on('disconnect', function () {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));

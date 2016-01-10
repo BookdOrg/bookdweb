@@ -24,6 +24,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {
             $scope.selectedDate = newVal;
+            if ($scope.selectedIndex) {
+                $scope.availableTimes[$scope.selectedIndex].toggled = false;
+                socketService.emit('timeDestroyed', $scope.activeTime);
+            }
+            $scope.selectedIndex = null;
+            $scope.activeTime = null;
+            $scope.showCount = false;
+            $scope.$broadcast('timer-clear');
+            $scope.previousDate = moment(oldVal).format('MM/DD/YYYY');
             $scope.dayMessage = false;
             getAvailableTimes(newVal, $scope.employee._id);
         }
@@ -59,19 +68,21 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      * @param employeeId - the employee who's availability we need to check
      */
     function getAvailableTimes(date, employeeId) {
-        var newDate = moment(date).format('MM/DD/YYYY');
-        $scope.monthYear = moment(newDate).format('MM/YYYY');
+        $scope.newRoomDate = moment(date).format('MM/DD/YYYY');
+        $scope.monthYear = moment($scope.newRoomDate).format('MM/YYYY');
         var employeeApptObj = {};
         if (personal) {
             employeeApptObj = {
-                startDate: newDate,
+                startDate: $scope.newRoomDate,
+                previousDate: $scope.previousDate,
                 employeeId: employeeId,
                 customerId: $rootScope.currentUser.user._id,
                 personal: true
             };
         } else {
             employeeApptObj = {
-                startDate: newDate,
+                startDate: $scope.newRoomDate,
+                previousDate: $scope.previousDate,
                 employeeId: employeeId,
                 customerId: null,
                 personal: false
@@ -272,10 +283,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      */
     $scope.createAppointmentObj = function (time, index) {
         //Set the activeTime to the time the user selected
+        time.roomId = $scope.newRoomDate.toString() + $scope.employee._id;
         $scope.activeTime = time;
         //show the countdown
         $scope.showCount = true;
-
+        socketService.emit('timeTaken', time);
         if (!timeStarted) {
             $scope.timerRunning = true;
             timeStarted = true;
@@ -291,11 +303,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
          */
         if ($scope.selectedIndex !== null) {
             $scope.availableTimes[$scope.selectedIndex].toggled = false;
+            $scope.availableTimes[$scope.selectedIndex].roomId = $scope.newRoomDate.toString() + $scope.employee._id;
             socketService.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
             time.toggled = !time.toggled;
             $scope.selectedIndex = index;
         }
-        socketService.emit('timeTaken', time);
+        time.roomId = $scope.newRoomDate.toString() + $scope.employee._id;
+
         /**
          *
          * If there is no previously selected time we simply toggle the current time, then

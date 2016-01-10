@@ -25,9 +25,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedDate = data.appointment.start.date;
     var dateSelected = moment($scope.selectedDate).format();
     var today = moment().format();
-    $scope.previousDate = false;
+    $scope.datePassed = false;
     if (moment(dateSelected).isBefore(today, 'hour')) {
-        $scope.previousDate = true;
+        $scope.datePassed = true;
     }
     //How long should the timer when an appointment is selected be
     $scope.countdown = 600;
@@ -47,6 +47,15 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {
             $scope.dayMessage = false;
+            if ($scope.selectedIndex) {
+                $scope.availableTimes[$scope.selectedIndex].toggled = false;
+                socketService.emit('timeDestroyed', $scope.activeTime);
+            }
+            $scope.selectedIndex = null;
+            $scope.activeTime = null;
+            $scope.showCount = false;
+            $scope.$broadcast('timer-clear');
+            $scope.previousDate = moment(oldVal).format('MM/DD/YYYY');
             var selectedDate = new Date(newVal);
             getAvailableTimes(selectedDate, data.appointment.employee);
         }
@@ -70,21 +79,21 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      * @param employeeId - the employee who's availability we need to check
      */
     function getAvailableTimes(date, employeeId) {
-        var newDate = moment(date).format('MM/DD/YYYY');
-        $scope.monthYear = moment(newDate).format('MM/YYYY');
+        $scope.newRoomDate = moment(date).format('MM/DD/YYYY');
+        $scope.monthYear = moment($scope.newRoomDate).format('MM/YYYY');
 
         var employeeApptObj = {};
         //If the appointment is being edited by the user who it's for this flag will be true
         if (personal) {
             employeeApptObj = {
-                startDate: newDate,
+                startDate: $scope.newRoomDate,
                 employeeId: employeeId,
                 customerId: data.appointment.customer,
                 personal: true
             };
         } else {
             employeeApptObj = {
-                startDate: newDate,
+                startDate: $scope.newRoomDate,
                 employeeId: employeeId,
                 customerId: data.appointment.customer,
                 personal: false
@@ -129,7 +138,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 };
                 //if the date selected is the same as the start date of the appointment run that function for each value
                 //in available timess
-                if (newDate === $scope.dateObj.appointment.start.date) {
+                if ($scope.newRoomDate === $scope.dateObj.appointment.start.date) {
                     _.each($scope.availableTimes, testTime);
                 }
                 //Join the socket room with all the other users who are looking at this date for the given employee.
@@ -322,7 +331,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedIndex = null;
     $scope.createAppointmentObj = function (timeObj, index) {
         //Set the activeTime to the time the user selected
-
+        timeObj.roomId = $scope.newRoomDate.toString() + $scope.employee._id;
+        console.log(timeObj);
         //show the countdown
         $scope.showCount = true;
         //if the timer isn't starter, start it
@@ -348,6 +358,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
          */
         if ($scope.selectedIndex !== null) {
             $scope.availableTimes[$scope.selectedIndex].toggled = false;
+            $scope.availableTimes[$scope.selectedIndex].roomId = $scope.newRoomDate.toString() + $scope.employee._id;
             socketService.emit('timeDestroyed', $scope.availableTimes[$scope.selectedIndex]);
             timeObj.toggled = !timeObj.toggled;
             $scope.selectedIndex = index;

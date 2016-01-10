@@ -28,7 +28,7 @@
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
             <uib-alert ng-if="activeTime" type="success">Selected Time: {{activeTime.time}}</uib-alert>
-            <div class="col col-md-3" ng-if="!previousDate" ng-repeat="time in availableTimes track by $index">
+            <div class="col col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
                         ng-disabled="!time.available || time.status || time.time === activeTime.time && time.toggled || time.hide"
                         ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide,'btn-gradient-yellow':time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
@@ -36,9 +36,12 @@
                     {{time.time}}
                 </button>
             </div>
-            <h4 class="text-danger" ng-if="previousDate && dateObj.appointment.status !== 'paid'">The original appointment time has passed, this appointment can no longer be updated. If you would like to reschedule you can schedule a new appointment via the Business' home page.
+            <h4 class="text-danger" ng-if="datePassed && dateObj.appointment.status !== 'paid'">The original appointment
+                time has passed, this appointment can no longer be updated. If you would like to reschedule you can
+                schedule a new appointment via the Business' home page.
                 Thank you.</h4>
-            <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && previousDate">This service has been fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
+            <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && datePassed">This service has been
+                fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
         </div>
     </div>
 </div>
@@ -48,7 +51,8 @@
     </button>
     <button class="btn btn-success" ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
             ng-click="charge(dateObj.appointment)">Charge <i class="fa fa-credit-card"></i></button>
-    <button class="btn btn-primary" ng-if="availableTimes[selectedIndex].time !== dateObj.appointment.start.time && !previousDate"
+    <button class="btn btn-primary"
+            ng-if="availableTimes[selectedIndex].time !== dateObj.appointment.start.time && !datePassed"
             ng-disabled="!appointment || appointment.start.time == dateObj.appointment.start.time"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update Appointment
     </button>
@@ -57,7 +61,9 @@
             dateObj.appointment.employee !== currentUser.user._id"
             ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
-    <button class="btn btn-danger" ng-click="cancel()" ng-if="!previousDate && dateObj.appointment.status !== 'paid'">
+    <button class="btn btn-danger" ng-click="cancel()" ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
         Cancel Appointment <i class="fa fa-calendar-times-o"></i></button>
-    <button class="btn btn-warning" ng-click="close()" ng-if="previousDate || dateObj.appointment.status === 'paid'">Close</button>
+    <button class="btn btn-warning" ng-click="close()" ng-if="datePassed || dateObj.appointment.status === 'paid'">
+        Close
+    </button>
 </div>
