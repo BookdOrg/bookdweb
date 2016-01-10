@@ -110,12 +110,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                  */
                 var testTime = function (element, index, list) {
                     if (element.time === $scope.dateObj.appointment.start.time) {
+                        $scope.$broadcast('timer-clear');
+                        $scope.showCount = false;
                         $scope.availableTimes[index].available = true;
                         $scope.availableTimes[index].status = false;
                         $scope.availableTimes[index].toggled = true;
                         $scope.selectedIndex = index;
-                        //TODO Remove this $apply in favor of the correct way to get the view to update, current fixes the issue though
-                        //$scope.$apply();
                     }
                 };
                 //if the date selected is the same as the start date of the appointment run that function for each value
@@ -262,7 +262,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     //When a socket join the appointment room late, we send the list of availabletimes currently being held
     socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-            calculateHold(data[dataIndex].data);
+            if (data[dataIndex].user !== $scope.currentUser.user._id) {
+                calculateHold(data[dataIndex].data);
+            }
         }
     });
     //when some user selects a time other then this one we recieve it and caluclate holds
@@ -283,12 +285,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
-        if ($scope.activeTime && $scope.availableTimes[indexToReplace].time === $scope.activeTime.time) {
-            $scope.availableTimes[indexToReplace].toggled = true;
-        }
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
-            $scope.availableTimes[indexToReplace].status = true;
-            indexToReplace += 1;
+            if (indexToReplace) {
+                $scope.availableTimes[indexToReplace].status = true;
+                indexToReplace += 1;
+            }
         }
     };
     //Toggle the held time off
@@ -312,20 +313,24 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.selectedIndex = null;
     $scope.createAppointmentObj = function (timeObj, index) {
         //Set the activeTime to the time the user selected
-        $scope.activeTime = timeObj;
+
         //show the countdown
         $scope.showCount = true;
         //if the timer isn't starter, start it
-        if (!timeStarted) {
+        if (!timeStarted && $scope.dateObj.appointment.start.time !== timeObj.time) {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
             timeStarted = true;
             //if it's already running reset it then start it
-        } else if (timeStarted) {
+        } else if (timeStarted && $scope.dateObj.appointment.start.time !== timeObj.time) {
             $scope.$broadcast('timer-reset');
             $scope.$broadcast('timer-start');
+        } else {
+            $scope.showCount = false;
+            $scope.$broadcast('timer-clear');
         }
 
+        $scope.activeTime = timeObj;
         /**
          *
          * If there is a previously selected time and the previous selected time isn't equal to the current one
