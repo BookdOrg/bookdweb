@@ -132,14 +132,12 @@ io.on('connection', function (socket, data) {
     });
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
-        var customerSocket = _.findWhere(clients, {'customId': appt.customer});
         io.sockets.in(appt.roomId).emit('update');
+        io.sockets.in(appt.businessId).emit('newAppt', appt);
         if (appt.personal && employeeSocket) {
-            io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         } else if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
-            io.sockets.in(appt.businessId).emit('newAppt', appt);
         }
     });
     /**
