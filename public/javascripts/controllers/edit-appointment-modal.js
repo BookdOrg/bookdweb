@@ -496,11 +496,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         businessFactory.cancelAppointment($scope.dateObj.appointment)
             .then(function () {
                 notifyCancel($scope.dateObj.appointment);
-
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
                     'appointment': $scope.dateObj.appointment,
-                    'roomId': $scope.activeTime.roomId
+                    'roomId': $scope.newRoomDate.toString() + $scope.employee._id
                 };
                 socketService.emit('apptCanceled', socketData);
                 $scope.dateObj.appointment = 'canceled';
