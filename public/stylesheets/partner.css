@@ -7,10 +7,11 @@
 #pricing table {
     margin: 40px 0;
     width: 100%;
-    /*border-top: 1px solid #0000ff;*/
+    border: 10px solid grey;
 }
 
 #pricing th {
+    height: 50px;
     text-align: center;
     background-color: #EEE;
 }
