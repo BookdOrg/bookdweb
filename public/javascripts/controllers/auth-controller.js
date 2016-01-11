@@ -19,6 +19,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         user: '',
         location: {}
     };
+    $scope.refreshErrors = function () {
+        $scope.error = null;
+        $scope.user = {};
+    };
     //TODO handle all the possible error cases
     $scope.facebookLogin = function () {
         OAuth.popup('facebook', {cache: true})

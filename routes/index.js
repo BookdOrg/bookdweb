@@ -598,7 +598,7 @@ router.post('/login', function (req, res, next) {
             if (user) {
                 return res.json({token: user.generateJWT()});
             } else {
-                return res.status(401).json({message: 'Your account does not exist. Please sign up.'});
+                return res.status(401).json({message: 'Your account does not exist. Please sign up or check to make sure you aren\'t logged in to the wrong Facebook/Google account.'});
             }
         });
     }
@@ -631,7 +631,7 @@ router.post('/register', function (req, res, next) {
 
     user.save(function (err, user) {
         if (err) {
-            return res.status(400).json({message: 'Whoops, looks like you already have an account registered. Try a different provider.'});
+            return res.status(400).json({message: 'Whoops, looks like you already have an account registered. Please Login'});
         }
         return res.json({token: user.generateJWT()});
     });
