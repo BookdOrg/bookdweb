@@ -43,7 +43,8 @@
             <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && datePassed">This service has been
                 fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
         </div>
-        <div ng-if="currentUser.user._id === dateObj.appointment.employee" class="col col-md-6 text-center">
+        <div ng-if="currentUser.user._id === dateObj.appointment.employee && !datePassed"
+             class="col col-md-6 text-center">
             <form name="noteForm">
                 <label for="note">Reason for re-schedule/cancellation</label>
                 <textarea id="note" name="apptNote" ng-model="appointment.note" class="form-control"
