@@ -408,26 +408,26 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $compile(element)($scope);
     };
 
-
-    $scope.refreshCalendar = function(){
-        $scope.events = [];
-        businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
-            .then(function (response) {
-                //take the array of appointments returned and add them to our master entry of appointments for each employee
-                var masterEntry = createMasterEntry(response);
-                $scope.masterList[$scope.activeBusiness.business.name] = {};
-                $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
-                localStorage.setItem('masterList', angular.toJson($scope.masterList));
-                //create events arrays with the appointments for the business in our masterList of businesses
-                $scope.events = [];
-                createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-                $scope.lastUpdatedView = moment().calendar();
-                $scope.lastUpdated = moment();
-                //add our monthYear and business to localStorage
-                localStorage['monthYear'] = $scope.monthYear;
-                localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
-            });
-    };
+    //
+    //$scope.refreshCalendar = function(){
+    //    $scope.events = [];
+    //    businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
+    //        .then(function (response) {
+    //            //take the array of appointments returned and add them to our master entry of appointments for each employee
+    //            var masterEntry = createMasterEntry(response);
+    //            $scope.masterList[$scope.activeBusiness.business.name] = {};
+    //            $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+    //            localStorage.setItem('masterList', angular.toJson($scope.masterList));
+    //            //create events arrays with the appointments for the business in our masterList of businesses
+    //            $scope.events = [];
+    //            createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+    //            $scope.lastUpdatedView = moment().calendar();
+    //            $scope.lastUpdated = moment();
+    //            //add our monthYear and business to localStorage
+    //            localStorage['monthYear'] = $scope.monthYear;
+    //            localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
+    //        });
+    //};
     /**
      *
      * Refresh the calendar every thiry seconds
