@@ -369,7 +369,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 newNotification(appointment,appointment.customer);
                 newNotification(appointment,appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
-                $scope.appointment.personal = personal;
+                appointment.personal = personal;
+                appointment.roomId = $scope.activeTime.roomId;
                 //emit that an appointment was booked, sends to relevant sockets
                 socketService.emit('apptBooked', appointment);
                 if (personal) {
@@ -395,7 +396,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 newNotification(appointment,appointment.customer);
                 newNotification(appointment,appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
-                $scope.appointment.personal = personal;
+                appointment.personal = personal;
+                appointment.roomId = $scope.activeTime.roomId;
                 socketService.emit('apptBooked', appointment);
                 $uibModalInstance.close(appointment);
             }, function (error) {

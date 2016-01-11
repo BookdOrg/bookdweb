@@ -458,7 +458,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             .then(function (appointment) {
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
-                    'appointment': appointment
+                    'appointment': appointment,
+                    'roomId': $scope.activeTime.roomId
                 };
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 socketService.emit('apptUpdated', socketData);
@@ -495,7 +496,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
-                    'appointment': $scope.dateObj.appointment
+                    'appointment': $scope.dateObj.appointment,
+                    'roomId': $scope.activeTime.roomId
                 };
                 socketService.emit('apptCanceled', socketData);
                 $scope.dateObj.appointment = 'canceled';

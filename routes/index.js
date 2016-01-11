@@ -90,7 +90,6 @@ io.on('connection', function (socket, data) {
         //socket.join(zip);
     });
     socket.on('joinApptRoom', function (data) {
-        console.log("joineds");
         if (data.previousDate) {
             socket.leave(data.previousDate.toString() + data.employeeId.toString());
         }
@@ -134,6 +133,7 @@ io.on('connection', function (socket, data) {
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         var customerSocket = _.findWhere(clients, {'customId': appt.customer});
+        io.sockets.in(appt.roomId).emit('update');
         if (appt.personal && employeeSocket) {
             io.sockets.in(appt.businessId).emit('newAppt', appt);
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
@@ -150,6 +150,7 @@ io.on('connection', function (socket, data) {
     socket.on('apptUpdated', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        io.sockets.in(appt.roomId).emit('update');
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedAppt', data);
             io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
@@ -173,6 +174,7 @@ io.on('connection', function (socket, data) {
     socket.on('apptCanceled', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        io.sockets.in(appt.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
