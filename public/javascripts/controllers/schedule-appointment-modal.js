@@ -69,7 +69,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
      */
     function getAvailableTimes(date, employeeId) {
         $scope.newRoomDate = moment(date).format('MM/DD/YYYY');
-        $scope.monthYear = moment($scope.newRoomDate).format('MM/YYYY');
+        $scope.monthYear = moment(new Date($scope.newRoomDate)).format('MM/YYYY');
         var employeeApptObj = {};
         if (personal) {
             employeeApptObj = {
