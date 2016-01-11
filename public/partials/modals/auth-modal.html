@@ -61,17 +61,18 @@
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="signUpEmail" class="form-control" placeholder="johnnyappleseed@me.com"
-                           ng-model="user.email" required ng-model-options="{ updateOn: 'blur' }">
+                           ng-model="user.email" required ng-model-options="{ updateOn: 'default blur' }">
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" name="signUpPassword" class="form-control" placeholder="Password"
-                           ng-model="user.password" ng-minlength="8" required ng-model-options="{ updateOn: 'blur' }">
+                           ng-model="user.password" ng-minlength="8" required
+                           ng-model-options="{ updateOn: 'default blur',debounce: {'default':500} }">
                 </div>
 
                 <div class="form-group">
-                    <button ng-click="register()" class="btn btn-primary col-xs-12"><i
+                    <button ng-click="signUpForm.$valid && register()" class="btn btn-primary col-xs-12"><i
                             class="fa fa-user"></i> Sign Up
                     </button>
                 </div>
