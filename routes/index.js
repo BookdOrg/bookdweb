@@ -132,7 +132,8 @@ io.on('connection', function (socket, data) {
     });
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
-        io.sockets.in(appt.roomId).emit('update');
+        socket.leave(appt.roomId);
+        io.sockets.in(appt.roomId).emit('newRoomAppt', appt);
         io.sockets.in(appt.businessId).emit('newAppt', appt);
         if (appt.personal && employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
@@ -148,7 +149,8 @@ io.on('connection', function (socket, data) {
     socket.on('apptUpdated', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        io.sockets.in(appt.roomId).emit('update');
+        socket.leave(data.roomId);
+        io.sockets.in(data.roomId).emit('update');
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedAppt', data);
             io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
@@ -172,7 +174,8 @@ io.on('connection', function (socket, data) {
     socket.on('apptCanceled', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        io.sockets.in(appt.roomId).emit('update');
+        socket.leave(data.roomId);
+        io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
@@ -968,7 +971,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var customer = req.body.customer;
     var employee = req.body.employee;
 
-    if (customer !== '') {
+    if (customer !== null) {
         User.findOne({'_id': customer}).exec(function (err, user) {
             if (err) {
                 return next(err);

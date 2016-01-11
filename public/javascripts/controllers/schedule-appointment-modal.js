@@ -59,7 +59,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.employee = employee;
         var day = new Date();
         $scope.selectedDate = day;
-        getAvailableTimes(day, $scope.employee._id);
     };
 
     /**
@@ -222,6 +221,14 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     }
 
     //If someone books an appointment, update the current users screen
+    socketService.on('newRoomAppt', function (appointment) {
+        if (appointment) {
+            var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
+            if (indexToUpdate) {
+                $scope.availableTimes[indexToUpdate].available = false;
+            }
+        }
+    });
     socketService.on('update', function () {
         getAvailableTimes($scope.selectedDate, $scope.employee._id);
     });
@@ -269,7 +276,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var destroyDuration = $scope.service.duration;
 
         for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
-            $scope.availableTimes[indexToReplace].status = false;
+            if (indexToReplace) {
+                $scope.availableTimes[indexToReplace].status = false;
+            }
             indexToReplace += 1;
         }
     };
@@ -373,16 +382,16 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 appointment.roomId = $scope.activeTime.roomId;
                 //emit that an appointment was booked, sends to relevant sockets
                 socketService.emit('apptBooked', appointment);
-                if (personal) {
-                    userFactory.getUserAppts().then(
-                        function (data) {
-                            $rootScope.currentUser.user.appointments = data;
-                        },
-                        function (errorMessage) {
-                            console.log(errorMessage);
-                        }
-                    );
-                }
+                //if (personal) {
+                //    userFactory.getUserAppts().then(
+                //        function (data) {
+                //            $rootScope.currentUser.user.appointments = data;
+                //        },
+                //        function (errorMessage) {
+                //            console.log(errorMessage);
+                //        }
+                //    );
+                //}
                 $uibModalInstance.close(appointment);
             }, function (err) {
                 //TODO Really handle this
@@ -409,6 +418,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.cancel = function () {
         if ($scope.activeTime) {
             socketService.emit('timeDestroyed', $scope.activeTime);
+        }
+        if ($scope.newRoomDate && $scope.employee) {
+            socketService.emit('leaveApptRoom', $scope.newRoomDate.toString() + $scope.employee._id);
         }
         $uibModalInstance.dismiss();
     };
