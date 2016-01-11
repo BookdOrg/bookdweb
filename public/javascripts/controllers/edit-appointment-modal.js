@@ -23,7 +23,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
     //Auto-select the date of the appointment as the date the calendar opens to
     $scope.selectedDate = data.appointment.start.date;
-    var dateSelected = moment($scope.selectedDate).format();
+    var dateSelected = moment().set({
+        'date': moment($scope.selectedDate).date(),
+        'hour': moment(data.appointment.start.time, 'hh:mm a').hour()
+    })
     var today = moment().format();
     $scope.datePassed = false;
     if (moment(dateSelected).isBefore(today, 'hour')) {
