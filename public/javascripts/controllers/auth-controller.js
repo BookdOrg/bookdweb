@@ -77,7 +77,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
-                                $window.localStorage.removeItem('oauth_provider_google_plus');
+                                $window.localStorage.removeItem('oauthio_provider_google_plus');
                             });
                     })
                     .fail(function (err) {

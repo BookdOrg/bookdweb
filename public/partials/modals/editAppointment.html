@@ -24,7 +24,9 @@
             <p ng-if="dateObj.appointment.status === 'paid'">Appointment has been paid for already.</p>
         </div>
         <div class="col col-md-6 text-center">
-            <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Schedule</h4>
+            <h4 ng-if="availableTimes.length > 1 && currentUser.user._id !== employee._id">{{employee.name}}'s
+                Schedule</h4>
+            <h4 ng-if="availableTimes.length > 1 && currentUser.user._id === employee._id">Your Schedule</h4>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
             <uib-alert ng-if="activeTime" type="success">Selected Time: {{activeTime.time}}</uib-alert>
