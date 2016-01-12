@@ -9,3 +9,11 @@
 .hours-list {
     list-style: none;
 }
+
+.provider-photo-radius {
+    border-radius: 5%;
+}
+
+.associate-margin-left {
+    margin-left: 40px;
+}

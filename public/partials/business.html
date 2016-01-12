@@ -55,15 +55,15 @@
 
             ########################################
             -->
-                <div class="col-xs-8 col-lg-6 text-center">
+                <div class="col-xs-7 text-center">
                     <button ng-show="editMode" ng-click="openAddServiceModal()"
                             class="btn btn-success btn-default">New Service
                     </button>
                     <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
-
                     <div class="row">
-                        <div class="col col-xs-12">
-                            <div class="panel panel-primary" ng-repeat="service in business.info.services track by $index">
+                        <div class="col col-xs-12 col-sm-12 co-lg-6"
+                             ng-repeat="service in business.info.services track by $index">
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <i class="fa fa-calendar pull-left"></i>
                                     <h2 class="panel-title">{{service.name}}
@@ -124,39 +124,22 @@
 
                  ########################################
                  -->
-                <div class="col-xs-4 col-lg-6 col-lg-offset-0 text-center">
-                    <!--<h1>Our Associates-->
-                        <!--<button ng-show="editMode" ng-click="openAddEmployeeModal(business.info)"-->
-                                <!--class="btn btn-success">Add Associate-->
-                        <!--</button>-->
-                    <!--</h1>-->
-                        <span class="text-center">
-                            <uib-alert ng-show="employeeError.message" type="danger" dismiss-on-timeout="1000"
-                                       close="removeAlert()">
-                                {{employeeError.message}}
-                            </uib-alert>
-                        </span>
-
+                <div class="col-xs-4 text-center associate-margin-left">
                     <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed
                         Yet!</h2>
                     <div class="row">
-                        <div class="col-xs-7 col-lg-4 text-center" ng-repeat="employee in business.info.employees">
-                            <!--<div class="row">-->
-                            <!--<div ng-show="editMode" class="adjustMargins pull-right">-->
-                            <!--<button class="close"-->
-                            <!--ng-click="openRemoveEmployeeModal(employee,business.info)"><i-->
-                            <!--class="fa fa-trash-o text-danger"></i></button>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="row">-->
+                        <div class="col col-xs-12 col-sm-12 col-lg-6 text-center"
+                             ng-repeat="employee in business.info.employees">
                             <a href="/user/{{employee._id}}/profile"
                                uib-tooltip="Visit {{employee.name}}'s Profile"
                                tooltip-placement="bottom">
-                                <img ng-if="employee.provider === 'google_plus' && employee.photo"
+                                <img class="provider-photo-radius"
+                                     ng-if="employee.provider === 'google_plus' && employee.photo"
                                      ng-src="{{employee.photo}}"/>
-                                <img ng-if="employee.provider === 'google_plus' && !employee.photo"
+                                <img class="provider-photo-radius"
+                                     ng-if="employee.provider === 'google_plus' && !employee.photo"
                                      ng-src="{{cloudinaryDefaultPic}}"/>
-                                <img ng-if="employee.provider === 'facebook'"
+                                <img class="provider-photo-radius" ng-if="employee.provider === 'facebook'"
                                      ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
                                 <img ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
@@ -168,7 +151,6 @@
                                     <h4>{{employee.name}}</h4>
                                 </div>
                             </a>
-                            <!--</div>-->
                         </div>
                     </div>
                     <div class="row" ng-if="!business.info.employees">
