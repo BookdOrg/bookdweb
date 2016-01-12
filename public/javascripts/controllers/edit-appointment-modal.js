@@ -470,9 +470,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 var socketData = {
                     'from': $rootScope.currentUser.user._id,
                     'appointment': appointment,
-                    'roomId': $scope.activeTime.roomId
+                    'roomId': $scope.newRoomDate.toString() + $scope.employee._id
                 };
-                socketService.emit('timeDestroyed', $scope.activeTime);
+                if ($scope.activeTime) {
+                    socketService.emit('timeDestroyed', $scope.activeTime);
+                }
                 socketService.emit('apptUpdated', socketData);
                 $scope.dateObj.appointment = appointment;
                 $uibModalInstance.close($scope.dateObj);

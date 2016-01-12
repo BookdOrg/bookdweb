@@ -151,23 +151,19 @@ io.on('connection', function (socket, data) {
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         socket.leave(data.roomId);
         io.sockets.in(data.roomId).emit('update');
+        io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
         if (data.from === data.appointment.customer && employeeSocket) {
-            io.to(employeeSocket.id).emit('updatedAppt', data);
-            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+            io.to(employeeSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from === data.appointment.employee && customerSocket) {
-            io.to(customerSocket.id).emit('updatedAppt', data);
-            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
-        }
-        if (data.from === data.appointment.employee && !customerSocket) {
-            io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+            io.to(customerSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
             if (customerSocket) {
-                io.to(customerSocket.id).emit('updatedAppt', data);
+                io.to(customerSocket.id).emit('updatedCalAppt', data);
             }
             if (employeeSocket) {
-                io.to(employeeSocket.id).emit('updatedAppt', data);
+                io.to(employeeSocket.id).emit('updatedCalAppt', data);
             }
         }
     });

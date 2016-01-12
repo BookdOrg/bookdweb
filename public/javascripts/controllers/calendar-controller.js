@@ -321,7 +321,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         $scope.lastUpdatedView = moment().calendar();
         $scope.lastUpdated = moment();
     });
-    socketService.on('updatedAppt', function (data) {
+    socketService.on('updatedCalAppt', function (data) {
         /**
          *
          * If the data comes from the appointments customer, we know that the update is for the Employee.
