@@ -7,22 +7,37 @@
                 <p class="text-center text-muted" ng-if="businesses.length === 0 ">Go Ahead, Search for Businesses!</p>
             </div>
             <div ng-repeat="business in businesses track by $index">
-                <div class="row">
-                    <div class="col-md-12 text-left">
-                        <div class="text-center">
-                            <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}"
-                                 uib-tooltip="Photos coming soon..." tooltip-placement="right"
-                                 style="border-radius:20%">
-                            <span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
-                                <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=75&maxheight=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
-                            </span>
-                            <br>
-                            <a href="/business/{{business.place_id}}">{{business.name}}</a>
-                            <br><span ng-if="business.rating">Rating: {{business.rating}}</span><span
-                                ng-if="!business.rating">This Business has not been rated yet.</span>
+                <a href="/business/{{business.place_id}}">
+                    <div class="row">
+                        <div class="col-md-12 text-left">
+                            <div class="text-center">
+                                <img ng-if="!business.photos" ng-src="{{business.icon}}"
+                                     uib-tooltip="Photos coming soon..." tooltip-placement="right"
+                                     style="border-radius:20%">
+                                <span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
+                                    <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=75&maxheight=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                                </span>
+                                <br>
+
+                                <h3>{{business.name}}</h3>
+
+                                <div ng-if="business.rating">
+                                    <uib-rating class="text-warning" ng-model="business.rating" max="max"
+                                                readonly="isReadonly"
+                                                on-hover="hoveringOver(value)" on-leave="overStar = null"
+                                                titles="['one','two','three']">
+                                    </uib-rating>
+                                    {{business.rating}}
+                                </div>
+                                <span ng-if="!business.rating">This Business has not been rated yet.</span>
+
+                                <div>
+                                    <i class="fa fa-map-marker"></i> {{business.formatted_address}}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 <hr class="full">
             </div>
             <div>

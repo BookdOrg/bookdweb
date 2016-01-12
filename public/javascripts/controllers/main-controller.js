@@ -40,7 +40,13 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
     //};
 
     //var $scope = this;
+    $scope.hoveringOver = function (value) {
+        $scope.overStar = value;
+        $scope.percent = 100 * (value / $scope.max);
+    };
 
+    $scope.max = 5;
+    $scope.isReadonly = true;
     /**
      * Generate map markers based on the search results
      *
