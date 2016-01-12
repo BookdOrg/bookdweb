@@ -58,7 +58,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.activeTime = null;
             $scope.showCount = false;
             $scope.$broadcast('timer-clear');
-            $scope.previousDate = moment(oldVal).format('MM/DD/YYYY');
+            $scope.previousDate = moment(new Date(oldVal)).format('MM/DD/YYYY');
             var selectedDate = new Date(newVal);
             getAvailableTimes(selectedDate, data.appointment.employee);
         }
@@ -83,7 +83,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      */
     function getAvailableTimes(date, employeeId) {
         $scope.newRoomDate = moment(date).format('MM/DD/YYYY');
-        $scope.monthYear = moment($scope.newRoomDate).format('MM/YYYY');
+        $scope.monthYear = moment(new Date($scope.newRoomDate)).format('MM/YYYY');
 
         var employeeApptObj = {};
         //If the appointment is being edited by the user who it's for this flag will be true
@@ -159,7 +159,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         //Duration - how long does the service last
         var duration = $scope.service.duration;
         //Which day of the week is currently selected
-        var weekDay = moment($scope.selectedDate).format('dddd');
+        var weekDay = moment(new Date($scope.selectedDate)).format('dddd');
         $scope.availableTimes = [];
         //Loop through the employees availability object, each Index being a day of the week
         for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availability.length; dayOfWeek++) {
@@ -203,9 +203,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 //Format the current available time of the appointment
                 var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
                 var currentDateTime = moment().set({
-                    'year': moment($scope.selectedDate).year(),
-                    'month': moment($scope.selectedDate).month(),
-                    'date': moment($scope.selectedDate).date(),
+                    'year': moment(new Date($scope.selectedDate)).year(),
+                    'month': moment(new Date($scope.selectedDate)).month(),
+                    'date': moment(new Date($scope.selectedDate)).date(),
                     'hour': moment(availableTime).hour(),
                     'minute': moment(availableTime).minute()
                 });
@@ -235,9 +235,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     //if the start time of an available time is the same as half the duration, it's not available
                     if (startTime.isSame(subtractedTime)) {
                         $scope.availableTimes[availableTimesIndex - 1].available = false;
-                    }
-                    if (availableTime.isBefore(moment())) {
-                        $scope.availableTimes[availableTimesIndex].hide = true;
                     }
                 }
             }
