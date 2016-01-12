@@ -1,27 +1,33 @@
-<div class="container-fluid">
+<div class="container-fluid" style="background-color:white;">
     <div class="row">
-        <div class="col col-xs-5">
+        <div class="col col-xs-5 searchResults">
             <h1 class="page-header text-center">Results</h1>
 
             <div>
                 <p class="text-center text-muted" ng-if="businesses.length === 0 ">Go Ahead, Search for Businesses!</p>
             </div>
             <div ng-repeat="business in businesses track by $index">
-                <div class="col-md-10 text-left col-md-offset-1">
-                    <span>{{$index + 1}}.</span>
-                    <div class="text-center">
-                        <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}"
-                             uib-tooltip="Photos coming soon..." tooltip-placement="right" style="border-radius:20%">
-                        <span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
-                            <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=75&maxheight=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
-                        </span>
-                        <br>
-                        <a href="/business/{{business.place_id}}">{{business.name}}</a>
-                        <br><span ng-if="business.rating">Rating: {{business.rating}}</span><span
-                            ng-if="!business.rating">This Business has not been rated yet.</span>
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div class="text-center">
+                            <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}"
+                                 uib-tooltip="Photos coming soon..." tooltip-placement="right"
+                                 style="border-radius:20%">
+                            <span ng-if="business.photos.length >1" ng-repeat="photo in business.photos">
+                                <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=75&maxheight=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                            </span>
+                            <br>
+                            <a href="/business/{{business.place_id}}">{{business.name}}</a>
+                            <br><span ng-if="business.rating">Rating: {{business.rating}}</span><span
+                                ng-if="!business.rating">This Business has not been rated yet.</span>
+                        </div>
                     </div>
                 </div>
-                <br>
+                <hr class="full">
+            </div>
+            <div>
+                <p class="text-center" ng-if="businesses.length > 0" class="text-center">{{businesses.length}}
+                    results</p>
             </div>
         </div>
         <div class="col col-xs-7" style="padding:0" ng-if="center">

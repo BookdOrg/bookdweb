@@ -278,6 +278,10 @@ hr.light {
     border-color: #fff;
 }
 
+hr.full {
+    border-color: #337ab7;
+    max-width: 100%;
+}
 a {
     color: #337bc1;
     -webkit-transition: all .35s;
@@ -515,4 +519,12 @@ body {
     background: linear-gradient(to bottom, #cf0404 0%, #ff3019 30%, #ff3019 75%, #cf0404 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf0404', endColorstr='#cf0404', GradientType=0); /* IE6-9 */
 
+}
+
+.searchResults {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 0;
+    padding-left: 5px
 }
