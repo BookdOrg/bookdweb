@@ -141,7 +141,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 };
                 //if the date selected is the same as the start date of the appointment run that function for each value
                 //in available timess
-                if ($scope.newRoomDate === $scope.dateObj.appointment.start.date) {
+                if ($scope.dateObj.appointment !== 'canceled' && $scope.newRoomDate === $scope.dateObj.appointment.start.date) {
                     _.each($scope.availableTimes, testTime);
                 }
                 //Join the socket room with all the other users who are looking at this date for the given employee.

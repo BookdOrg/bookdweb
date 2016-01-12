@@ -149,7 +149,7 @@ io.on('connection', function (socket, data) {
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         socket.leave(data.roomId);
         io.sockets.in(data.roomId).emit('update');
-        io.sockets.in(data.appointment.businessId).emit('updatedAppt', data.appointment);
+        io.sockets.in(data.appointment.businessId).emit('updatedAppt', data);
         if (data.from === data.appointment.customer && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedCalAppt', data);
         }

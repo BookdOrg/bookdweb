@@ -749,28 +749,33 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * we'll need to resolve this eventually
      *
      */
-    socketService.on('updatedAppt', function (appointment) {
+    socketService.on('updatedAppt', function (data) {
         var eventIndex = _.findIndex($scope.events,function(event){
-            return event._id === appointment._id;
+            return event._id === data.appointment._id;
         });
         if(eventIndex !== -1){
-            if ($scope.events[eventIndex]._id === appointment._id && appointment.status !== 'pending') {
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents',[appointment._id]);
-                Notification.info({message: 'A customer has re-scheduled an appointment!'});
+            if ($scope.events[eventIndex]._id === data.appointment._id && data.appointment.status !== 'pending') {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [data.appointment._id]);
+
                 $scope.lastUpdatedView = moment().calendar();
                 $scope.lastUpdated = moment();
-                $scope.events[eventIndex].start = moment(appointment.start.full);
-                $scope.events[eventIndex].end = moment(appointment.end.full);
-                $scope.events[eventIndex].appointment = appointment;
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent',$scope.events[eventIndex]);
-            }else if(appointment.status === 'pending'){
+                $scope.events[eventIndex].start = moment(data.appointment.start.full);
+                $scope.events[eventIndex].end = moment(data.appointment.end.full);
+                $scope.events[eventIndex].appointment = data.appointment;
+                if (data.from !== $rootScope.currentUser.user._id) {
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', $scope.events[eventIndex]);
+                    Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                } else {
+                    Notification.info({message: 'You have re-scheduled an appointment!'});
+                }
+            } else if (data.appointment.status === 'pending') {
                 Notification.info({message: 'An employee has re-scheduled an appointment, ' +
                 'it is pending and has been removed from your calendar.'});
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents',[appointment._id]);
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [data.appointment._id]);
             }
         }else{
             Notification.info({message: 'A customer has accepted a re-scheduled appointment!'});
-            $scope.addEvent(appointment);
+            $scope.addEvent(data.appointment);
         }
     });
     /**
