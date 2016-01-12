@@ -135,9 +135,7 @@ io.on('connection', function (socket, data) {
         socket.leave(appt.roomId);
         io.sockets.in(appt.roomId).emit('newRoomAppt', appt);
         io.sockets.in(appt.businessId).emit('newAppt', appt);
-        if (appt.personal && employeeSocket) {
-            io.to(employeeSocket.id).emit('newAssociateAppt', appt);
-        } else if (employeeSocket) {
+        if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         }
     });
