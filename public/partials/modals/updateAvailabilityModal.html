@@ -4,10 +4,7 @@
 </div>
 <div class="modal-body">
     <div class="col-xs-12">
-        <h3 class="control-label"><i ng-if="showLoading" uib-tooltip="Updating.."
-                                     class="fa fa-spinner fa-pulse text-center pull-right"></i><i
-                ng-if="showDone" uib-tooltip="Availability Updated"
-                class="fa fa-check-square-o text-success text-center pull-right"></i></h3>
+        <h3 class="control-label"></h3>
 
         <form class="form-horizontal">
             <div class="form-group">
@@ -75,13 +72,15 @@
             </div>
             <div class="form-group">
                 <div class="col-xs-offset-5 col-xs-6">
-                    <button type="submit" class="btn btn-primary" ng-if="!disableUpdate"
+                    <button ng-if="!showDone" type="submit" class="btn btn-primary" ng-if="!disableUpdate"
                             ng-click="updateAvailability(currentUser.user.availability)">Update Availability
                     </button>
-                    <i ng-if="showLoading" uib-tooltip="Updating.."
+                </div>
+                <div class="col-xs-offset-6 col-xs-6">
+                    <i ng-if="showLoading && !showDone" uib-tooltip="Updating.."
                        class="fa fa-spinner fa-2x fa-pulse text-center"></i>
                     <i ng-if="showDone" uib-tooltip="Availability Updated"
-                       class="fa fa-check-square-o fa-2x text-success text-center"></i>
+                       class="fa fa-check-square-o fa-2x text-success"></i>
                 </div>
             </div>
         </form>

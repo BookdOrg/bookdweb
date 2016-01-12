@@ -1,7 +1,7 @@
 /**
  * Created by khalilbrown on 12/26/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,employee,$rootScope) {
+module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance, employee, $rootScope, $timeout) {
     $scope.employee = employee;
     if(employee._id!==$rootScope.currentUser.user._id){
         $scope.disableUpdate = true;
@@ -36,18 +36,23 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      */
     $scope.showDone = false;
 
+    //$scope.showLoading = false;
     /**
      * Send the availability object to the backend so the users available times can be updated.
      *
      * @param availability - Object containing the hours for a given employee for each day of the week and for breaks
      */
     $scope.updateAvailability = function (availability) {
-        $scope.showLoading = true;
+        //$scope.showLoading = true;
+        $scope.showDone = false;
         userFactory.updateAvailability(availability)
             .then(function (data) {
                 auth.saveToken(data.token);
-                $scope.showLoading = false;
+                //$scope.showLoading = false;
                 $scope.showDone = true;
+                $timeout(function () {
+                    $scope.showDone = false;
+                }, 2000);
             });
     };
 

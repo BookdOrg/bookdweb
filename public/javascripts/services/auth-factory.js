@@ -83,7 +83,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                         auth.saveProviderInfo(info);
                     }
                     $window.localStorage.setItem('monthYear', '');
-                    $window.localStorage.setItem('masterList', {});
+                    $window.localStorage.setItem('masterList', angular.toJson({}));
                     $window.localStorage.setItem('monthYearArray', '');
                     $window.localStorage.setItem('previousBusiness', '');
                     $window.localStorage.setItem('previousPersonalMonthYear', '');
