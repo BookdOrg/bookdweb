@@ -82,7 +82,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
      * @param employeeId - the employee who's availability we need to check
      */
     function getAvailableTimes(date, employeeId) {
-        $scope.newRoomDate = moment(date).format('MM/DD/YYYY');
+        $scope.newRoomDate = moment(new Date(date)).format('MM/DD/YYYY');
         $scope.monthYear = moment(new Date($scope.newRoomDate)).format('MM/YYYY');
 
         var employeeApptObj = {};
@@ -334,11 +334,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
 
     var checkShowUpdate = function (timeObj) {
         $scope.showUpdate = false;
-        if (moment($scope.selectedDate).date() !== moment($scope.dateObj.appointment.start.date).date()) {
+        if (moment(new Date($scope.selectedDate)).date() !== moment(new Date($scope.dateObj.appointment.start.date)).date()) {
             if (!$scope.datePassed) {
                 $scope.showUpdate = true;
             }
-        } else if (moment($scope.selectedDate).date() === moment($scope.dateObj.appointment.start.date).date()) {
+        } else if (moment(new Date($scope.selectedDate)).date() === moment(new Date($scope.dateObj.appointment.start.date)).date()) {
             if (timeObj.time !== $scope.dateObj.appointment.start.time && !$scope.datePassed) {
                 $scope.showUpdate = true;
             }
@@ -401,8 +401,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         $scope.selectedIndex = index;
         //Format the values of the appointment
-        var apptDay = moment($scope.selectedDate).format('dddd');
-        var apptDate = moment($scope.selectedDate).format('MM/DD/YYYY');
+        var apptDay = moment(new Date($scope.selectedDate)).format('dddd');
+        var apptDate = moment(new Date($scope.selectedDate)).format('MM/DD/YYYY');
         var apptTime = moment(timeObj.time, 'hh:mm a').format('hh:mm a');
         var endTime = moment(timeObj.time, 'hh:mm a').add($scope.service.duration, 'minutes').format('hh:mm a');
         //The actual appointment object that will be sent to the backend
