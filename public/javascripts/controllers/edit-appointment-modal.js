@@ -327,7 +327,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         var destroyDuration = $scope.service.duration;
 
         for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
-            $scope.availableTimes[indexToReplace].status = false;
+            if (indexToReplace) {
+                $scope.availableTimes[indexToReplace].status = false;
+            }
             indexToReplace += 1;
         }
     };
