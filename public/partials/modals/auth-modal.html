@@ -61,7 +61,8 @@
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="signUpEmail" class="form-control" placeholder="johnnyappleseed@me.com"
-                           ng-model="user.email" required ng-model-options="{ updateOn: 'default blur' }">
+                           ng-model="user.email" required
+                           ng-model-options="{ updateOn: 'default blur',debounce: {'default':1000} }">
                 </div>
 
                 <div class="form-group">
