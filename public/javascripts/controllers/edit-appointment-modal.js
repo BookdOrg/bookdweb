@@ -276,6 +276,15 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
     }
 
+    socketService.on('newRoomAppt', function (appointment) {
+        if (appointment) {
+            var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
+            if (indexToUpdate) {
+                $scope.availableTimes[indexToUpdate].available = false;
+            }
+        }
+    });
+
     //If someone books an appointment, update the current users screen
     socketService.on('update', function () {
         getAvailableTimes($scope.selectedDate, data.appointment.employee);

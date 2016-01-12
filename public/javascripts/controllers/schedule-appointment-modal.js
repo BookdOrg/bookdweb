@@ -419,9 +419,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if ($scope.activeTime) {
             socketService.emit('timeDestroyed', $scope.activeTime);
         }
-        if ($scope.newRoomDate && $scope.employee) {
-            socketService.emit('leaveApptRoom', $scope.newRoomDate.toString() + $scope.employee._id);
-        }
+        //TODO more testing to see if this is necessary
+        //if ($scope.newRoomDate && $scope.employee) {
+        //    socketService.emit('leaveApptRoom', $scope.newRoomDate.toString() + $scope.employee._id);
+        //}
         $uibModalInstance.dismiss();
     };
 
