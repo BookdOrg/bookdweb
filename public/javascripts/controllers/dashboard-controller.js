@@ -762,9 +762,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].start = moment(data.appointment.start.full);
                 $scope.events[eventIndex].end = moment(data.appointment.end.full);
                 $scope.events[eventIndex].appointment = data.appointment;
-                if (data.from !== $rootScope.currentUser.user._id) {
+                if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', $scope.events[eventIndex]);
                     Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                } else if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer === null) {
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', $scope.events[eventIndex]);
+                    Notification.info({message: 'An employee has re-scheduled an appointment!'});
                 } else {
                     Notification.info({message: 'You have re-scheduled an appointment!'});
                 }
