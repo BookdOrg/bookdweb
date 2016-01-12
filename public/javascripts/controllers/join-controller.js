@@ -7,6 +7,13 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
         if (newVal !== oldVal) {
             //if it's new and not equal to the oldval update the selectedQuery
             $scope.selectedQuery = $scope.query;
+            $scope.displayPhotos = [];
+            if (newVal.photos) {
+                for (var photoIndex = 0; photoIndex < newVal.photos.length; photoIndex++) {
+                    $scope.displayPhotos.push(newVal.photos[photoIndex].getUrl({'maxWidth': 100, 'maxHeight': 100}));
+                }
+            }
+
         }
         if (!newVal && oldVal) {
             //if there's no new query but there's and old one, set selected equal to the old one
@@ -44,41 +51,41 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
         claimRequest.tier = $scope.tier;
         businessFactory.claim(claimRequest)
             .then(function (data) {
-                    //TODO Move this string to somewhere we can access it globally!
-                    notificationFactory.addNotification(personToNotify,
-                            'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
-                        .then(function () {
+                //TODO Move this string to somewhere we can access it globally!
+                notificationFactory.addNotification(personToNotify,
+                    'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
+                    .then(function () {
 
-                        }, function (err) {
-                            console.log(err);
-                        });
-                    $uibModal.open({
-                        templateUrl: 'partials/modals/businessRequestModal.html',
-                        controller: 'ModalInstanceCtrl',
-                        resolve: {
-                            message: function () {
-                                return data;
-                            },
-                            info: function () {
-                                return request;
-                        }
-                        }
+                    }, function (err) {
+                        console.log(err);
                     });
-                },
-                function (error) {
-                    $uibModal.open({
-                        templateUrl: 'partials/modals/businessRequestModal.html',
-                        controller: 'ModalInstanceCtrl',
-                        resolve: {
-                            message: function () {
-                                return error;
-                            },
-                            info: function () {
-                                return request;
+                $uibModal.open({
+                    templateUrl: 'partials/modals/businessRequestModal.html',
+                    controller: 'ModalInstanceCtrl',
+                    resolve: {
+                        message: function () {
+                            return data;
+                        },
+                        info: function () {
+                            return request;
                         }
+                    }
+                });
+            },
+            function (error) {
+                $uibModal.open({
+                    templateUrl: 'partials/modals/businessRequestModal.html',
+                    controller: 'ModalInstanceCtrl',
+                    resolve: {
+                        message: function () {
+                            return error;
+                        },
+                        info: function () {
+                            return request;
                         }
-                    });
-                }
-            );
+                    }
+                });
+            }
+        );
     };
 };

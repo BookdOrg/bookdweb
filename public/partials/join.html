@@ -5,11 +5,14 @@
                 <h1 class="text-center">Book'd Business Registration</h1>
             </div>
         </div>
-        <div class="row" ng-if="center">
-            <div class="col-xs-12">
-                <ng-map center="{{center}}" zoom="16" class="map-container ">
-                    <marker position="{{center}}"></marker>
-                </ng-map>
+        <div class="row" ng-if="selectedQuery.name">
+            <div class="col well col-xs-12 text-center">
+                <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
+                <br>
+                Name: {{selectedQuery.name}}
+                <br>Phone Number: {{selectedQuery.formatted_phone_number}}
+                <br>Address: {{selectedQuery.formatted_address}}
+                <br>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
             </div>
         </div>
         <div class="row search-place-container ">
@@ -28,29 +31,29 @@
                                placeholder="Salon 23" required>
                     </div>
                 </div>
+                <!--<div class="form-group">-->
+                <!--<div class="col col-xs-5 col-xs-offset-1">-->
+                <!--<label for="firstName">First Name:</label>-->
+                <!--<input class="form-control input-lg" id="firstName" placeholder="{{currentUser.user.name}}"-->
+                <!--required>-->
+                <!--</div>-->
+                <!--<div class="col col-xs-5">-->
+                <!--<label for="lastName">Last Name:</label>-->
+                <!--<input class="form-control input-lg" id="lastName" placeholder="{{currentUser.user.name}}"-->
+                <!--required>-->
+                <!--</div>-->
+                <!--</div>-->
                 <div class="form-group">
                     <div class="col col-xs-5 col-xs-offset-1">
-                        <label for="firstName">First Name:</label>
-                        <input class="form-control input-lg" id="firstName" placeholder="{{currentUser.user.name}}"
-                               required>
-                    </div>
-                    <div class="col col-xs-5">
-                        <label for="lastName">Last Name:</label>
-                        <input class="form-control input-lg" id="lastName" placeholder="{{currentUser.user.name}}"
-                               required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col col-xs-5 col-xs-offset-1">
-                        <label for="phone">Phone Number:</label>
-                        <input class="form-control input-lg" id="phone" type="tel"
-                               ng-modal="selectedQuery.formatted_phone_number" placeholder="" required>
-                    </div>
-                    <div class="col col-xs-5">
                         <label for="email">Email:</label>
                         <input class="form-control input-lg" type="email" id="email"
                                placeholder="{{currentUser.user.email}}" ng-value="currentUser.user.email" disabled
                                required>
+                    </div>
+                    <div class="col col-xs-5 ">
+                        <label for="phone">Phone Number:</label>
+                        <input class="form-control input-lg" id="phone" type="tel"
+                               ng-model="selectedQuery.formatted_phone_number" placeholder="(555)-555-5555" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,8 +62,8 @@
                         <select class="form-control input-lg" ng-model="tier" required>
                             <option value="">Select Plan</option>
                             <option value="0"> Bronze - Free</option>
-                            <option value="1"> Silver - Free</option>
-                            <option value="2"> Gold - $7.99/mo</option>
+                            <option value="1"> Silver - Free (Accept Payments)</option>
+                            <option value="2" disabled uib-tooltip="Coming soon.."> Gold - $7.99/mo</option>
                         </select>
                     </div>
                 </div>
@@ -68,15 +71,10 @@
                         ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
                 </button>
             </form>
-            <div class="col-xs-6" ng-if="selectedQuery.name">
-                <div class="col well col-xs-12 text-center">
-                    <img ng-src="{{selectedQuery.icon}}"/>
-                    <br>
-                    Name: {{selectedQuery.name}}
-                    <br>Phone Number: {{selectedQuery.formatted_phone_number}}
-                    <br>Address: {{selectedQuery.formatted_address}}
-                    <br>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
-                </div>
+            <div class="col-xs-6" ng-if="center">
+                <ng-map center="{{center}}" zoom="16" class="map-container ">
+                    <marker position="{{center}}"></marker>
+                </ng-map>
             </div>
         </div>
     </div>
