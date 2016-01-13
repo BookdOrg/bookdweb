@@ -73,7 +73,7 @@
     <button class="btn btn-primary"
             ng-if="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time &&
             dateObj.appointment.employee !== currentUser.user._id"
-            ng-click="update()"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
+            ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
     <button class="btn btn-danger" ng-click="cancel()" ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
         Cancel Appointment <i class="fa fa-calendar-times-o"></i></button>

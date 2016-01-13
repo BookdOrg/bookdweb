@@ -433,7 +433,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         };
     };
     //If the appointment is being updated
-    $scope.update = function () {
+    $scope.update = function (rescheduled) {
         if (!$scope.appointment) {
             $scope.appointment = {
                 _id: data.appointment._id,
@@ -478,34 +478,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     socketService.emit('timeDestroyed', $scope.activeTime);
                 }
             });
-
-        function notifyReshedule(appointment) {
-            var notification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
-                + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
-                + appointment.start.date + ' at ' + appointment.start.time + '.';
-            if ($rootScope.currentUser.user._id === appointment.customer) {
-                // Customer rescheduled appointment, inform employee, no email.
-                console.log($scope.dateObj.start.date);
-                notificationFactory.addNotification(appointment.employee, notification,
-                    'alert', false)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            } else {
-                // Employee rescheduled appointment, inform customer, with email.
-                notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            }
-
-            $scope.dateObj.appointment = appointment;
-            $uibModalInstance.close($scope.dateObj);
-        }
     };
     //Mark an appointment as paid
     $scope.changeApptStatus = function () {
@@ -542,30 +514,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 $scope.dateObj.appointment = 'canceled';
                 $uibModalInstance.close($scope.dateObj);
             });
-
-        function notifyCancel(appointment) {
-            if ($rootScope.currentUser.user._id === appointment.customer) {
-                // Customer canceled appointment, inform employee, no email.
-                notificationFactory.addNotification(appointment.employee,
-                        'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                        + appointment.start.time + ' was canceled.', 'alert', false)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            } else {
-                // Employee canceled appointment, inform customer, with email.
-                notificationFactory.addNotification(appointment.customer,
-                        'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                        + appointment.start.time + ' was canceled.', 'alert', true)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            }
-        }
     };
     //close the modal
     $scope.close = function () {
@@ -574,4 +522,66 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
         $uibModalInstance.close();
     };
+
+    function notifyReshedule(appointment) {
+        var customerNotification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
+            + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
+            + appointment.start.date + ' at ' + appointment.start.time + '.';
+        var employeeNotification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
+            + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
+            + appointment.start.date + ' at ' + appointment.start.time + '.';
+
+        if (rescheduled) {
+            employeeNotification = 'Your request to reschedule ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
+                + ' at ' + $scope.dateObj.appointment.start.time + ' was accepted and is now '
+                + appointment.start.date + ' at ' + appointment.start.time + '.';
+        }
+
+
+        if ($rootScope.currentUser.user._id === appointment.customer) {
+            // Customer rescheduled appointment, inform employee, no email.
+            notificationFactory.addNotification(appointment.employee, employeeNotification,
+                'alert', false)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+        } else {
+            // Employee rescheduled appointment, inform customer, with email.
+            notificationFactory.addNotification(appointment.customer, customerNotification, 'alert', true)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+        }
+
+        $scope.dateObj.appointment = appointment;
+        $uibModalInstance.close($scope.dateObj);
+    }
+
+    function notifyCancel(appointment) {
+        if ($rootScope.currentUser.user._id === appointment.customer) {
+            // Customer canceled appointment, inform employee, no email.
+            notificationFactory.addNotification(appointment.employee,
+                'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
+                + appointment.start.time + ' was canceled.', 'alert', false)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+        } else {
+            // Employee canceled appointment, inform customer, with email.
+            notificationFactory.addNotification(appointment.customer,
+                'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
+                + appointment.start.time + ' was canceled.', 'alert', true)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+        }
+    }
 };
