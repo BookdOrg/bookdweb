@@ -17,3 +17,11 @@
 .associate-margin-left {
     margin-left: 40px;
 }
+
+.service-panel-footer {
+    padding: 0px;
+}
+
+.service-panel-footer button {
+    border-radius: 0%;
+}
