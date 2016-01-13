@@ -36,18 +36,7 @@
             <uib-tab-heading>
                 <i class="fa fa-calendar"></i> Services & Staff
             </uib-tab-heading>
-            <div class="row" style="padding-top: 1rem">
-                <!--<div class="col-xs-offset-10">-->
-                    <!--<button class="btn btn-lg" ng-if="currentUser.user._id === business.info.owner"-->
-                            <!--ng-click="toggleEdit()"-->
-                            <!--ng-class="{'btn-success': editMode === false,'btn-danger':editMode === true}">-->
-                        <!--<span ng-show="!editMode">Enable </span>-->
-                        <!--<span ng-show="editMode">Disable </span>-->
-                        <!--Edit<i class="fa fa-cog"></i>-->
-                    <!--</button>-->
-                <!--</div>-->
-            </div>
-            <div class="row">
+            <div class="row services-associates-block">
                 <!--
             #########################################
 
@@ -56,9 +45,6 @@
             ########################################
             -->
                 <div class="col-xs-7 text-center">
-                    <button ng-show="editMode" ng-click="openAddServiceModal()"
-                            class="btn btn-success btn-default">New Service
-                    </button>
                     <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
                     <div class="row">
                         <div class="col col-xs-12 col-sm-12 col-md-6 co-lg-6"

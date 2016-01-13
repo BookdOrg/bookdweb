@@ -35,3 +35,7 @@
 #pricing table tr:nth-child(2n) {
     background-color: #EEE;
 }
+
+.partner-section {
+    background-color: #f7f7f7;
+}
