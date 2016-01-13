@@ -33,7 +33,7 @@
             <div class="col col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
                         ng-disabled="!time.available || time.status || time.time === activeTime.time && time.toggled || time.hide"
-                        ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide,'btn-gradient-yellow':time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
+                        ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                         role="button" class="btn" style="margin-bottom:5px;">
                     {{time.time}}
                 </button>
@@ -68,7 +68,7 @@
     <button class="btn btn-primary"
             ng-if="showUpdate"
             ng-disabled="!appointment || !showUpdate"
-            ng-click="update()"><i class="fa fa-calendar-check-o"></i> Update Appointment
+            ng-click="update(false)"><i class="fa fa-calendar-check-o"></i> Update Appointment
     </button>
     <button class="btn btn-primary"
             ng-if="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time &&

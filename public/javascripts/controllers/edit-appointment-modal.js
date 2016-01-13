@@ -473,7 +473,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     'roomId': $scope.newRoomDate.toString() + $scope.employee._id
                 };
                 socketService.emit('apptUpdated', socketData);
-                notifyReshedule(appointment);
+                notifyReshedule(appointment, rescheduled);
                 if ($scope.activeTime) {
                     socketService.emit('timeDestroyed', $scope.activeTime);
                 }
@@ -565,7 +565,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $uibModalInstance.close();
     };
 
-    function notifyReshedule(appointment) {
+    function notifyReshedule(appointment, rescheduled) {
         var customerNotification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
             + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
             + appointment.start.date + ' at ' + appointment.start.time + '.';
