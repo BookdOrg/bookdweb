@@ -1,6 +1,5 @@
 <div class="container-fluid" style="background-color:white;">
-    <h2 class="text-center">Dashboard <i class="fa fa-tachometer"></i></h2>
-    <br>
+    <h2 class="page-header text-center">Dashboard <i class="fa fa-tachometer"></i></h2>
     <div class="row">
         <div class="col-xs-2">
             <div class="row">
@@ -18,7 +17,7 @@
                 </div>
             </div>
             <div class="row dashboard-business-info">
-                <div class="col-xs-12">
+                <div class="col-xs-12 dashboard-panel">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusOne.open">
                             <uib-accordion-heading>
@@ -52,7 +51,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12 dashboard-panel">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusTwo.open">
                             <uib-accordion-heading>
@@ -79,6 +78,7 @@
                                             </div>
                                         </h5>
                                     </li>
+                                    <hr class="full">
                                 </div>
                             </div>
                             <div class="col-xs-12">
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12 dashboard-panel">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusThree.open">
                             <uib-accordion-heading>
@@ -127,6 +127,7 @@
                                             </div>
                                         </h5>
                                     </li>
+                                    <hr class="full">
                                 </div>
                             </div>
                             <div class="col-xs-12">
@@ -151,20 +152,20 @@
                                  selected-model="calendarEmployees" translation-texts="customTexts"
                                  events="dropdownEvents"></div>
                         </div>
-                        <div class="btn-group col-xs-3 col-xs-offset-3 col-md-4 col-md-offset-2">
-                            <button class="btn btn-primary" ng-click="changeView('month', 'myCalendar1')"
+                        <div class="btn-group col-xs-3 col-xs-offset-3 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
+                            <button class="btn btn-default" ng-click="changeView('month', 'myCalendar1')"
                                     ng-model="radioModel" uib-btn-radio="'Month'">
                                 Month
                             </button>
-                            <button class="btn btn-primary" ng-click="changeView('agendaWeek', 'myCalendar1')"
+                            <button class="btn btn-default" ng-click="changeView('agendaWeek', 'myCalendar1')"
                                     ng-model="radioModel" uib-btn-radio="'Week'">Week
                             </button>
-                            <button class="btn btn-primary" ng-click="changeView('agendaDay', 'myCalendar1')"
+                            <button class="btn btn-default" ng-click="changeView('agendaDay', 'myCalendar1')"
                                     ng-model="radioModel" uib-btn-radio="'Day'">Day
                             </button>
                             <span uib-tooltip="Refreshing..." ng-show="calLoading"><i class="fa fa-spinner fa-spin" ></i></span>
                         </div>
-                        <div class="col-xs-3 col-xs-offset-1 col-md-4 col-md-offset-0 text-right">
+                        <div class="col-xs-3 col-xs-offset-1 col-md-4 col-md-offset-0 col-lg-offset-0 text-right">
                             Last Updated: {{lastUpdatedView}}
                             <!--<button disabled class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"-->
                             <!--tooltip-placement="top" ng-click="refreshCalendar()"></button>-->

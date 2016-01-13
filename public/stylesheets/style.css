@@ -554,6 +554,9 @@ body {
     margin-left: 0px;
 }
 
+.dashboard-panel {
+    padding-right: 0px;
+}
 .dashboard-panel-list {
     padding: 0px;
     list-style: none;
@@ -564,5 +567,5 @@ body {
 }
 
 .dashboard-business-info {
-    margin-top: 15px;
+    margin-top: 69px;
 }
