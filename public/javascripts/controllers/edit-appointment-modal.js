@@ -485,7 +485,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 + appointment.start.date + ' at ' + appointment.start.time + '.';
             if ($rootScope.currentUser.user._id === appointment.customer) {
                 // Customer rescheduled appointment, inform employee, no email.
-                console.log($scope.dateObj.start.date);
                 notificationFactory.addNotification(appointment.employee, notification,
                     'alert', false)
                     .then(function () {
@@ -493,9 +492,24 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     }, function (err) {
                         console.log(err);
                     });
-            } else {
+            } else if ($rootScope.currentUser.user._id === appointment.employee) {
                 // Employee rescheduled appointment, inform customer, with email.
                 notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
+                    .then(function () {
+
+                    }, function (err) {
+                        console.log(err);
+                    });
+            } else {
+                // Business owner rescheduled appointment, inform customer and employee, with email.
+                notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
+                    .then(function () {
+
+                    }, function (err) {
+                        console.log(err);
+                    });
+
+                notificationFactory.addNotification(appointment.employee, notification, 'alert', true)
                     .then(function () {
 
                     }, function (err) {
