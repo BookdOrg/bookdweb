@@ -473,53 +473,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     'roomId': $scope.newRoomDate.toString() + $scope.employee._id
                 };
                 socketService.emit('apptUpdated', socketData);
-                notifyReshedule(appointment, rescheduled);
+                notifyReschedule(appointment, rescheduled);
                 if ($scope.activeTime) {
                     socketService.emit('timeDestroyed', $scope.activeTime);
                 }
             });
-
-        function notifyReshedule(appointment) {
-            var notification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
-                + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
-                + appointment.start.date + ' at ' + appointment.start.time + '.';
-            if ($rootScope.currentUser.user._id === appointment.customer) {
-                // Customer rescheduled appointment, inform employee, no email.
-                notificationFactory.addNotification(appointment.employee, notification,
-                    'alert', false)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            } else if ($rootScope.currentUser.user._id === appointment.employee) {
-                // Employee rescheduled appointment, inform customer, with email.
-                notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            } else {
-                // Business owner rescheduled appointment, inform customer and employee, with email.
-                notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-
-                notificationFactory.addNotification(appointment.employee, notification, 'alert', true)
-                    .then(function () {
-
-                    }, function (err) {
-                        console.log(err);
-                    });
-            }
-
-            $scope.dateObj.appointment = appointment;
-            $uibModalInstance.close($scope.dateObj);
-        }
     };
     //Mark an appointment as paid
     $scope.changeApptStatus = function () {
@@ -565,7 +523,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $uibModalInstance.close();
     };
 
-    function notifyReshedule(appointment, rescheduled) {
+    function notifyReschedule(appointment, rescheduled) {
         var customerNotification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
             + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
             + appointment.start.date + ' at ' + appointment.start.time + '.';
