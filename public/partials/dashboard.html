@@ -1,23 +1,188 @@
 <div class="container-fluid">
-    <h2 class="page-header text-center">Dashboard <i class="fa fa-tachometer"></i></h2>
-    <div class="row">
-        <div class="col-xs-2">
-            <div class="row">
-                <div class="col-xs-12" ng-if="businesses.length > 1">
-                    <div class="btn-group-md switch-business-dropdown" uib-dropdown>
-                        <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
-                            {{activeBusiness.business.name}} <span class="caret"></span>
-                        </button>
-                        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-                            <li role="menuitem" ng-repeat="business in businesses" ng-click="switchBusiness(business)">
-                                <a
-                                        href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
-                        </ul>
+    <div class="row page-header dashboard-header">
+        <h1 class=" text-center">
+            <div class="col-xs-1" ng-if="businesses.length > 1" style="padding-bottom:10px;">
+                <div class="btn-group-lg switch-business-dropdown" uib-dropdown>
+                    <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+                        {{activeBusiness.business.name}} <span class="caret"></span>
+                    </button>
+                    <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-repeat="business in businesses" ng-click="switchBusiness(business)">
+                            <a
+                                    href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
+                    </ul>
+            </div>
+        </div>
+            {{activeBusiness.business.name}}
+        </h1>
+    </div>
+    <!--
+    #################################
+    ##
+    ##    Appointments Tab
+    ##
+    ##
+    #################################
+    -->
+    <uib-tabset justified="true">
+        <uib-tab select="renderCalender()">
+            <uib-tab-heading>
+                <i class="fa fa-calendar"></i> Appointments
+            </uib-tab-heading>
+            <div class="row dashboard-content">
+                <div class="col-xs-2">
+                    <!--- Services Block     -->
+                    <div class="row">
+                        <div class="col-xs-12 dashboard-panel">
+                            <uib-accordion>
+                                <uib-accordion-group is-open="statusThree.open">
+                                    <uib-accordion-heading>
+                                        Services
+                                        <i class="pull-right glyphicon"
+                                           ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
+                                    </uib-accordion-heading>
+                                    <div class="col-xs-12 dashboard-panel-list">
+                                        <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
+                                            <p>Add Your First Service From The Manage Tab.</p>
+                                        </div>
+                                        <div ng-repeat="service in activeBusiness.business.services track by $index"
+                                             style="height:50px;">
+                                            <li>
+                                                <h5>{{service.name}}
+                                                    <div class="btn-group pull-right" role="group" aria-label="...">
+                                                        <button class="btn btn-md btn-primary"
+                                                                ng-click="openService('lg',false,service) "
+                                                                uib-tooltip="Book Appointment"><i
+                                                                class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </div>
+                                                </h5>
+                                            </li>
+                                            <hr class="full">
+                                        </div>
+                                    </div>
+                                </uib-accordion-group>
+                            </uib-accordion>
+                        </div>
+                    </div>
+
+                    <!--
+                    #################################
+                    ##
+                    ##    Business Info Block
+                    ##
+                    ##
+                    #################################
+                    -->
+                    <div class="row">
+                        <div class="col-xs-12 dashboard-panel dashboard-panel-body">
+                            <uib-accordion>
+                                <uib-accordion-group is-open="statusOne.open">
+                                    <uib-accordion-heading>
+                                        Business Info
+                                        <i class="pull-right glyphicon"
+                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                                    </uib-accordion-heading>
+                                    <div class="col-xs-12 text-center">
+                                        <h4>{{activeBusiness.business.name}}</h4>
+                                        <a href="/business/{{activeBusiness.business.placesId}}">Visit Business Page</a>
+
+                                        <div class="">
+                                            Tier: <span ng-if="activeBusiness.business.tier === 0"
+                                                        style="color:#CD7F32;"><i
+                                                class="fa fa-certificate"></i> Bronze</span>
+                            <span ng-if="activeBusiness.business.tier === 1" style="color:#C0C0C0;"><i
+                                    class="fa fa-certificate"></i> Silver</span>
+                            <span ng-if="activeBusiness.business.tier === 2" style="color:#FFD700;"><i
+                                    class="fa fa-certificate"></i> Gold</span>
+                                        </div>
+                                    </div>
+                                    <div class="dashboard-panel-footer">
+                                        <button class="btn btn-success" disabled
+                                                ng-hide="activeBusiness.business.tier === 2">
+                                            Upgrade!
+                                        </button>
+                                    </div>
+                                </uib-accordion-group>
+                            </uib-accordion>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                #################################
+                ##
+                ##    Calendar Block
+                ##
+                ##
+                #################################
+                -->
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="btn-group col-xs-3">
+                                    <button class="btn btn-default" ng-click="changeView('month', 'myCalendar1')"
+                                            ng-model="radioModel" uib-btn-radio="'Month'">
+                                        Month
+                                    </button>
+                                    <button class="btn btn-default" ng-click="changeView('agendaWeek', 'myCalendar1')"
+                                            ng-model="radioModel" uib-btn-radio="'Week'">Week
+                                    </button>
+                                    <button class="btn btn-default" ng-click="changeView('agendaDay', 'myCalendar1')"
+                                            ng-model="radioModel" uib-btn-radio="'Day'">Day
+                                    </button>
+                                    <span uib-tooltip="Refreshing..." ng-show="calLoading"><i
+                                            class="fa fa-spinner fa-spin"></i></span>
+                                </div>
+                                <div class="col-xs-3 col-xs-offset-2 text-center">
+                                    <div id="employeeDropdown" ng-dropdown-multiselect=""
+                                         options="activeBusiness.business.employees" extra-settings="settings"
+                                         selected-model="calendarEmployees" translation-texts="customTexts"
+                                         events="dropdownEvents"></div>
+                                </div>
+                                <div class="col-xs-3 col-xs-offset-1 text-right">
+                                    Last Updated: {{lastUpdatedView}}
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar"
+                                         ng-model="eventSources"></div>
+                                    <div class="text-center" ng-if="loadingCal" style="margin-top:150px;">
+                                        <i class="fa fa-spinner fa-pulse fa-4x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row dashboard-business-info">
-                <div class="col-xs-12 dashboard-panel">
+        </uib-tab>
+
+        <!--
+        #################################
+        ##
+        ##    Manage Tab
+        ##
+        ##
+        #################################
+        -->
+        <uib-tab>
+            <uib-tab-heading>
+                <i class="fa fa-tachometer"></i> Manage
+            </uib-tab-heading>
+            <!--
+            #################################
+            ##
+            ##    Manage Tab
+            ##
+            ##
+            #################################
+            -->
+            <div class="row">
+                <div class="col-xs-6 dashboard-business-info dashboard-panel-body">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusOne.open">
                             <uib-accordion-heading>
@@ -25,76 +190,38 @@
                                 <i class="pull-right glyphicon"
                                    ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
                             </uib-accordion-heading>
-                            <div class="col-xs-12">
+
+                            <div class="col-xs-12 text-center">
                                 <h4>{{activeBusiness.business.name}}</h4>
                                 <a href="/business/{{activeBusiness.business.placesId}}">Visit Business Page</a>
 
                                 <div class="">
                                     Tier: <span ng-if="activeBusiness.business.tier === 0" style="color:#CD7F32;"><i
                                         class="fa fa-certificate"></i> Bronze</span>
-                            <span ng-if="activeBusiness.business.tier === 1" style="color:#C0C0C0;"><i
-                                    class="fa fa-certificate"></i> Silver</span>
-                            <span ng-if="activeBusiness.business.tier === 2" style="color:#FFD700;"><i
-                                    class="fa fa-certificate"></i> Gold</span>
+                                <span ng-if="activeBusiness.business.tier === 1" style="color:#C0C0C0;"><i
+                                        class="fa fa-certificate"></i> Silver</span>
+                                <span ng-if="activeBusiness.business.tier === 2" style="color:#FFD700;"><i
+                                        class="fa fa-certificate"></i> Gold</span>
                                 </div>
-                                <div class="row">
-                                    <div class="text-center">
-                                        <button class="btn btn-success" disabled
-                                                ng-hide="activeBusiness.business.tier === 2">
-                                            Upgrade!
-                                        </button>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="dashboard-panel-footer">
+                                <button class="btn btn-success" disabled
+                                        ng-hide="activeBusiness.business.tier === 2">
+                                    Upgrade!
+                                </button>
                             </div>
                         </uib-accordion-group>
                     </uib-accordion>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 dashboard-panel">
-                    <uib-accordion>
-                        <uib-accordion-group is-open="statusTwo.open">
-                            <uib-accordion-heading>
-                                Associates
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
-                            </uib-accordion-heading>
-                            <div class="col-xs-12 dashboard-panel-list">
-                                <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
-                                    <p>Add your First Associate!</p>
-                                </div>
-                                <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
-                                    <li>
-                                        <h5>{{associate.name}}
-                                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-xs btn-warning"
-                                                        ng-click="openAvailabilityModal('lg',associate)"
-                                                        uib-tooltip="View Availability" tooltip-placement="top"><i
-                                                        class="fa fa-hourglass"></i></button>
-                                                <button class="btn btn-xs btn-danger"
-                                                        ng-click="removeEmployee(associate, activeBusiness.business)"
-                                                        uib-tooltip="Remove Associate" tooltip-placement="top"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </div>
-                                        </h5>
-                                    </li>
-                                    <hr class="full">
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="text-center">
-                                    <button class="btn btn-sm btn-success"
-                                            ng-click="openEmployee(activeBusiness.business)">
-                                        New Associate
-                                    </button>
-                                </div>
-                            </div>
-                        </uib-accordion-group>
-                    </uib-accordion>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 dashboard-panel">
+                <!--
+                #################################
+                ##
+                ##    Services  Block
+                ##
+                ##
+                #################################
+                -->
+                <div class="col-xs-6 dashboard-business-info dashboard-panel-body">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusThree.open">
                             <uib-accordion-heading>
@@ -102,7 +229,7 @@
                                 <i class="pull-right glyphicon"
                                    ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                             </uib-accordion-heading>
-                            <div class="col-xs-12 dashboard-panel-list">
+                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
                                 <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
                                     <p>Add your First Service!</p>
                                 </div>
@@ -111,16 +238,16 @@
                                     <li>
                                         <h5>{{service.name}}
                                             <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-xs btn-primary"
+                                                <button class="btn btn-md btn-primary"
                                                         ng-click="openService('lg',false,service) "
                                                         uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i>
                                                 </button>
-                                                <button class="btn btn-xs btn-warning "
+                                                <button class="btn btn-md btn-warning "
                                                         ng-click="editService(service,$index)"
                                                         uib-tooltip="Edit Service"><i
                                                         class="fa fa-pencil"></i>
                                                 </button>
-                                                <button class="btn btn-xs btn-danger"
+                                                <button class="btn btn-md btn-danger"
                                                         ng-click="openRemoveServiceModal(service,$index)"
                                                         uib-tooltip="Delete"><i class="fa fa-trash"></i>
                                                 </button>
@@ -130,56 +257,77 @@
                                     <hr class="full">
                                 </div>
                             </div>
-                            <div class="col-xs-12">
-                                <div class="text-center">
-                                    <button class="btn btn-sm btn-success" ng-click="newService()">
-                                        New Service
-                                    </button>
+                            <div class="dashboard-panel-footer">
+                                <button class="btn btn-sm btn-success" ng-click="newService()">
+                                    New Service
+                                </button>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+        </div>
+            <!--
+                #################################
+                ##
+                ##    Associates  Block
+                ##
+                ##
+                #################################
+            -->
+            <div class="row">
+                <div class="col-xs-6 dashboard-panel-body">
+                    <uib-accordion>
+                        <uib-accordion-group is-open="statusTwo.open">
+                            <uib-accordion-heading>
+                                Associates
+                                <i class="pull-right glyphicon"
+                                   ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
+                            </uib-accordion-heading>
+                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
+                                <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
+                                    <p>Add your First Associate!</p>
                                 </div>
+                                <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
+                                    <li>
+                                        <h5>{{associate.name}}
+                                            <div class="btn-group pull-right" role="group" aria-label="...">
+                                                <button class="btn btn-md btn-warning"
+                                                        ng-click="openAvailabilityModal('lg',associate)"
+                                                        uib-tooltip="View Availability" tooltip-placement="top"><i
+                                                        class="fa fa-hourglass"></i></button>
+                                                <button class="btn btn-md btn-danger"
+                                                        ng-click="removeEmployee(associate, activeBusiness.business)"
+                                                        uib-tooltip="Remove Associate" tooltip-placement="top"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </h5>
+                                    </li>
+                                    <hr class="full">
+                                </div>
+                            </div>
+                            <div class="dashboard-panel-footer">
+                                <button class="btn btn-sm btn-success"
+                                        ng-click="openEmployee(activeBusiness.business)">
+                                    New Associate
+                                </button>
                             </div>
                         </uib-accordion-group>
                     </uib-accordion>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-10">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="row">
-                        <div class="btn-group col-xs-3 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-lg-3 col-lg-offset-5">
-                            <button class="btn btn-default" ng-click="changeView('month', 'myCalendar1')"
-                                    ng-model="radioModel" uib-btn-radio="'Month'">
-                                Month
-                            </button>
-                            <button class="btn btn-default" ng-click="changeView('agendaWeek', 'myCalendar1')"
-                                    ng-model="radioModel" uib-btn-radio="'Week'">Week
-                            </button>
-                            <button class="btn btn-default" ng-click="changeView('agendaDay', 'myCalendar1')"
-                                    ng-model="radioModel" uib-btn-radio="'Day'">Day
-                            </button>
-                            <span uib-tooltip="Refreshing..." ng-show="calLoading"><i class="fa fa-spinner fa-spin" ></i></span>
-                        </div>
-                        <div class="col-xs-3 col-xs-offset-1 col-sm-4 col-sm-offset-0 col-md-4 col-md-offset-0 col-lg-offset-0 text-center">
-                            <div id="employeeDropdown" ng-dropdown-multiselect=""
-                                 options="activeBusiness.business.employees" extra-settings="settings"
-                                 selected-model="calendarEmployees" translation-texts="customTexts"
-                                 events="dropdownEvents"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-3 col-xs-offset-9 text-right">
-                            Last Updated: {{lastUpdatedView}}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="span8 calendar"
-                                 ng-model="eventSources"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        </uib-tab>
+        <!--
+        #################################
+        ##
+        ##    Reports  Tab
+        ##
+        ##
+        #################################
+        -->
+        <uib-tab disable="true">
+            <uib-tab-heading>
+                <i class="fa fa-line-chart"></i> Reports
+            </uib-tab-heading>
+        </uib-tab>
+    </uib-tabset>
 </div>

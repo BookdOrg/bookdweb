@@ -271,7 +271,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @type {{buttonDefaultText: string}}
      */
     $scope.customTexts = {
-        buttonDefaultText: 'Filter by Associate'
+        buttonDefaultText: 'Filter by Employees'
     };
 
     /**
@@ -389,9 +389,15 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
     /* Change View */
+    var render = true;
     $scope.renderCalender = function (calendar) {
-        if (uiCalendarConfig.calendars[calendar]) {
-            uiCalendarConfig.calendars[calendar].fullCalendar('render');
+        if (render) {
+            render = false;
+            $scope.loadingCal = true;
+            $timeout(function () {
+                $scope.loadingCal = false;
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('render');
+            }, 2000);
         }
     };
     /* Render Tooltip */

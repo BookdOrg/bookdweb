@@ -564,3 +564,30 @@ header .intro-text .intro-heading {
 .dashboard-business-info {
     margin-top: 69px;
 }
+
+.dashboard-content {
+    margin-top: 25px;
+}
+
+.dashboard-header {
+    border: none;
+}
+
+.dashboard-panel-content {
+    padding: 10px;
+}
+
+.dashboard-panel-footer {
+    padding: 0px;
+}
+
+.dashboard-panel-footer button {
+    margin-top: 10px;
+    width: 100%;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+}
+
+.dashboard-panel-body .panel-body {
+    padding: 0px;
+}
