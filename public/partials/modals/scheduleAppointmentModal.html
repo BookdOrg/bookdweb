@@ -49,7 +49,7 @@
                     <h4>Select a Date to see Available Times</h4>
 
                     <div style="display:inline-block; min-height:290px;">
-                        <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="true"
+                        <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false"
                                         class="well well-sm"
                                         custom-class="getDayClass(date, mode)"></uib-datepicker>
                     </div>
@@ -58,7 +58,6 @@
                     <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <uib-alert ng-if="activeTime" type="success">Selected Time: {{activeTime.time}}</uib-alert>
                     <div class="col col-md-3"
                          ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)" ng-disabled="!time.available || time.status || time.toggled || time.hide"
