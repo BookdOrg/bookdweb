@@ -547,9 +547,24 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 }, function (err) {
                     console.log(err);
                 });
-        } else {
+        } else if ($rootScope.currentUser.user._id === appointment.employee) {
             // Employee rescheduled appointment, inform customer, with email.
             notificationFactory.addNotification(appointment.customer, customerNotification, 'alert', true)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+        } else {
+            // Business owner rescheduled appointment, inform customer and employee, with email.
+            notificationFactory.addNotification(appointment.customer, customerNotification, 'alert', true)
+                .then(function () {
+
+                }, function (err) {
+                    console.log(err);
+                });
+
+            notificationFactory.addNotification(appointment.employee, employeeNotification, 'alert', true)
                 .then(function () {
 
                 }, function (err) {
