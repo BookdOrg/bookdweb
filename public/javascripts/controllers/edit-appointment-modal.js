@@ -26,7 +26,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     var dateSelected = moment().set({
         'date': moment(new Date($scope.selectedDate)).date(),
         'hour': moment(data.appointment.start.time, 'hh:mm a').hour()
-    })
+    });
     var today = moment().format();
     $scope.datePassed = false;
     if (moment(dateSelected).isBefore(today, 'hour')) {
@@ -472,13 +472,40 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     'appointment': appointment,
                     'roomId': $scope.newRoomDate.toString() + $scope.employee._id
                 };
+                socketService.emit('apptUpdated', socketData);
+                notifyReshedule(appointment);
                 if ($scope.activeTime) {
                     socketService.emit('timeDestroyed', $scope.activeTime);
                 }
-                socketService.emit('apptUpdated', socketData);
-                $scope.dateObj.appointment = appointment;
-                $uibModalInstance.close($scope.dateObj);
             });
+
+        function notifyReshedule(appointment) {
+            var notification = 'Your ' + $scope.service.name + ' on ' + $scope.dateObj.appointment.start.date
+                + ' at ' + $scope.dateObj.appointment.start.time + ' was rescheduled to '
+                + appointment.start.date + ' at ' + appointment.start.time + '.';
+            if ($rootScope.currentUser.user._id === appointment.customer) {
+                // Customer rescheduled appointment, inform employee, no email.
+                console.log($scope.dateObj.start.date);
+                notificationFactory.addNotification(appointment.employee, notification,
+                    'alert', false)
+                    .then(function () {
+
+                    }, function (err) {
+                        console.log(err);
+                    });
+            } else {
+                // Employee rescheduled appointment, inform customer, with email.
+                notificationFactory.addNotification(appointment.customer, notification, 'alert', true)
+                    .then(function () {
+
+                    }, function (err) {
+                        console.log(err);
+                    });
+            }
+
+            $scope.dateObj.appointment = appointment;
+            $uibModalInstance.close($scope.dateObj);
+        }
     };
     //Mark an appointment as paid
     $scope.changeApptStatus = function () {
