@@ -545,3 +545,24 @@ body {
 .searchResults a:link {
     text-decoration: none;
 }
+
+#single-button {
+    z-index: 999;
+}
+
+.switch-business-dropdown {
+    margin-left: 0px;
+}
+
+.dashboard-panel-list {
+    padding: 0px;
+    list-style: none;
+}
+
+.dashboard-panel-services {
+    font-size: 15px;
+}
+
+.dashboard-business-info {
+    margin-top: 15px;
+}

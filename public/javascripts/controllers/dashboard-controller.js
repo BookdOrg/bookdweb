@@ -271,7 +271,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @type {{buttonDefaultText: string}}
      */
     $scope.customTexts = {
-        buttonDefaultText: 'Select Calendars to View'
+        buttonDefaultText: 'Filter by Associate'
     };
 
     /**
