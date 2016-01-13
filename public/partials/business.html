@@ -117,23 +117,26 @@
                     <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed
                         Yet!</h2>
                     <div class="row">
-                        <div class="col col-xs-12 col-sm-12 col-lg-6 text-center"
+                        <div class="col col-xs-12 col-sm-6 col-lg-4 text-center"
                              ng-repeat="employee in business.info.employees">
                             <a href="/user/{{employee._id}}/profile"
                                uib-tooltip="Visit {{employee.name}}'s Profile"
                                tooltip-placement="bottom">
-                                <img class="provider-photo-radius"
+                                <img class="associate-photo provider-photo-radius"
                                      ng-if="employee.provider === 'google_plus' && employee.photo"
                                      ng-src="{{employee.photo}}"/>
-                                <img class="provider-photo-radius"
+                                <img class="associate-photo provider-photo-radius"
                                      ng-if="employee.provider === 'google_plus' && !employee.photo"
                                      ng-src="{{cloudinaryDefaultPic}}"/>
-                                <img class="provider-photo-radius" ng-if="employee.provider === 'facebook'"
+                                <img class="associate-photo provider-photo-radius"
+                                     ng-if="employee.provider === 'facebook'"
                                      ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                                <img ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                <img class="associate-photo"
+                                     ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
                                      ng-src="{{cloudinaryDefaultPic}}">
-                                <img ng-if="employee.avatarVersion && employee.provider === 'bookd'"
+                                <img class="associate-photo"
+                                     ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                                      ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
 
                                 <div class="">
