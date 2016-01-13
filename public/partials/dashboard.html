@@ -1,4 +1,4 @@
-<div class="container-fluid" style="background-color:white;">
+<div class="container-fluid">
     <h2 class="page-header text-center">Dashboard <i class="fa fa-tachometer"></i></h2>
     <div class="row">
         <div class="col-xs-2">
@@ -143,16 +143,10 @@
             </div>
         </div>
         <div class="col-xs-10">
-            <div class="row" style="background-color:white;">
+            <div class="row">
                 <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-xs-2 ">
-                            <div id="employeeDropdown" ng-dropdown-multiselect=""
-                                 options="activeBusiness.business.employees" extra-settings="settings"
-                                 selected-model="calendarEmployees" translation-texts="customTexts"
-                                 events="dropdownEvents"></div>
-                        </div>
-                        <div class="btn-group col-xs-3 col-xs-offset-3 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
+                        <div class="btn-group col-xs-3 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-lg-3 col-lg-offset-5">
                             <button class="btn btn-default" ng-click="changeView('month', 'myCalendar1')"
                                     ng-model="radioModel" uib-btn-radio="'Month'">
                                 Month
@@ -165,10 +159,16 @@
                             </button>
                             <span uib-tooltip="Refreshing..." ng-show="calLoading"><i class="fa fa-spinner fa-spin" ></i></span>
                         </div>
-                        <div class="col-xs-3 col-xs-offset-1 col-md-4 col-md-offset-0 col-lg-offset-0 text-right">
+                        <div class="col-xs-3 col-xs-offset-1 col-sm-4 col-sm-offset-0 col-md-4 col-md-offset-0 col-lg-offset-0 text-center">
+                            <div id="employeeDropdown" ng-dropdown-multiselect=""
+                                 options="activeBusiness.business.employees" extra-settings="settings"
+                                 selected-model="calendarEmployees" translation-texts="customTexts"
+                                 events="dropdownEvents"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-xs-offset-9 text-right">
                             Last Updated: {{lastUpdatedView}}
-                            <!--<button disabled class="btn btn-warning fa fa-refresh fa-1x" uib-tooltip="Refresh"-->
-                            <!--tooltip-placement="top" ng-click="refreshCalendar()"></button>-->
                         </div>
                     </div>
                     <br>
@@ -178,8 +178,6 @@
                                  ng-model="eventSources"></div>
                         </div>
                     </div>
-                    <!--</uib-accordion-group>-->
-                    <!--</uib-accordion>-->
                 </div>
             </div>
         </div>
