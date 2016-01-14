@@ -109,19 +109,21 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //Which day of the week is currently selected
         var weekDay = moment($scope.selectedDate).format('dddd');
         $scope.availableTimes = [];
+        var availabilityIndex = _.findIndex($scope.employee.availabilityArray, {'businessId': $scope.service.businessId});
         //Loop through the employees availability object, each Index being a day of the week
-        for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availability.length; dayOfWeek++) {
+        for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availabilityArray[availabilityIndex].availability.length; dayOfWeek++) {
             //if that weekDay is in the employees availability format the hours that he/she works based on
             //the start/end times
-            if (weekDay === $scope.employee.availability[dayOfWeek].day) {
-                var formatStart = moment($scope.employee.availability[dayOfWeek].start).format('hh:mm a');
-                var formatEnd = moment($scope.employee.availability[dayOfWeek].end).format('hh:mm a');
+            if (weekDay === $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].day) {
+                var formatStart = moment($scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].start).format('hh:mm a');
+                var formatEnd = moment($scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].end).format('hh:mm a');
                 var startTime = moment(formatStart, 'hh:mm a');
                 var endTime = moment(formatEnd, 'hh:mm a');
             }
             //If the employee is not available on that given day set the dayMessage to true, show the user
             //that they cannot book with that employee
-            if (weekDay === $scope.employee.availability[dayOfWeek].day && $scope.employee.availability[dayOfWeek].available === false) {
+            if (weekDay === $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].day &&
+                $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].available === false) {
                 $scope.dayMessage = true;
                 return;
             }
@@ -188,13 +190,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //Loop through the available times again
         for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
             //Loop through the employees available days, from his/her availability
-            for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availability.length; availableDaysIndex++) {
-                if (weekDay == $scope.employee.availability[availableDaysIndex].day) {
+            for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availabilityArray[availabilityIndex].availability.length; availableDaysIndex++) {
+                if (weekDay == $scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].day) {
                     //Loop through the gaps for that day (Breaks the employee has added)
-                    for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
+                    for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
 
-                        var formattedStart = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
-                        var formattedEnd = moment($scope.employee.availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
+                        var formattedStart = moment($scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
+                        var formattedEnd = moment($scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
 
                         var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
                         var gapStartTime = moment(formattedStart, 'hh:mm a');
