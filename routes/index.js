@@ -1200,8 +1200,6 @@ router.post('/user/availability/update', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log("AVAILABILITY FROM DB");
-            console.log(responseEmployee.availabilityArray[availabilityIndex].availability);
             res.json({message: 'Success'});
         });
     });
