@@ -193,6 +193,9 @@
     line-height: 28px;
 }
 
+.navbar-default .navbar-toggle {
+    margin-top: 20px;
+}
 .navbar-default .navbar-toggle .icon-bar {
     background-color: white;
 }
