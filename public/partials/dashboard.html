@@ -31,7 +31,14 @@
             </uib-tab-heading>
             <div class="row dashboard-content">
                 <div class="col-xs-2">
-                    <!--- Services Block     -->
+                    <!--
+                    #################################
+                    ##
+                    ##    Services
+                    ##
+                    ##
+                    #################################
+                    -->
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel cal-services-content">
                             <uib-accordion>
@@ -48,17 +55,13 @@
                                         <div ng-repeat="service in activeBusiness.business.services track by $index"
                                              style="height:50px;">
                                             <li>
-                                                <h5>{{service.name}}
-                                                    <div class="btn-group pull-right" style="padding-right:5px;"
-                                                         role="group" aria-label="...">
-                                                        <button class="btn btn-md btn-primary"
-                                                                ng-click="openService('lg',false,service) "
-                                                                uib-tooltip="Book Appointment"
-                                                                tooltip-append-to-body="true" tooltip-placement="top"><i
-                                                                class="fa fa-calendar"></i>
-                                                        </button>
-                                                    </div>
-                                                </h5>
+                                                <button class="btn btn-md btn-primary pull-left"
+                                                        ng-click="openService('lg',false,service) "
+                                                        uib-tooltip="Book Appointment" tooltip-append-to-body="true"
+                                                        tooltip-placement="top">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                                <h5>{{service.name}}</h5>
                                             </li>
                                             <hr class="full">
                                         </div>
@@ -175,16 +178,116 @@
             <uib-tab-heading>
                 <i class="fa fa-tachometer"></i> Manage
             </uib-tab-heading>
+                <!--
+                #################################
+                ##
+                ##    Services  Block
+                ##
+                ##
+                #################################
+                -->
+            <div class="row dashboard-business-info">
+                <div class="col-xs-6 dashboard-panel-body">
+                    <uib-accordion class="accordion-height">
+                        <uib-accordion-group is-open="statusThree.open">
+                            <uib-accordion-heading>
+                                Services
+                                <i class="pull-right glyphicon"
+                                   ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
+                            </uib-accordion-heading>
+                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
+                                <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
+                                    <p>Add your First Service!</p>
+                                </div>
+                                <div ng-repeat="service in activeBusiness.business.services track by $index"
+                                     style="height:50px;">
+                                    <li>
+                                        <h5>{{service.name}}
+                                            <div class="btn-group pull-right" role="group" aria-label="...">
+                                                <button class="btn btn-md btn-warning "
+                                                        ng-click="editService(service,$index)"
+                                                        uib-tooltip="Edit Service" tooltip-append-to-body="true"><i
+                                                        class="fa fa-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-md btn-danger"
+                                                        ng-click="openRemoveServiceModal(service,$index)"
+                                                        uib-tooltip="Delete" tooltip-append-to-body="true"><i
+                                                        class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </h5>
+                                    </li>
+                                    <hr class="full">
+                                </div>
+                            </div>
+                            <div class="dashboard-panel-footer">
+                                <button class="btn btn-sm btn-success" ng-click="newService()">
+                                    New Service
+                                </button>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+            <!--
+                #################################
+                ##
+                ##    Associates  Block
+                ##
+                ##
+                #################################
+            -->
+                <div class="col-xs-6 dashboard-panel-body">
+                    <uib-accordion>
+                        <uib-accordion-group is-open="statusTwo.open">
+                            <uib-accordion-heading>
+                                Associates
+                                <i class="pull-right glyphicon"
+                                   ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
+                            </uib-accordion-heading>
+                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
+                                <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
+                                    <p>Add your First Associate!</p>
+                                </div>
+                                <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
+                                    <li>
+                                        <h5>{{associate.name}}
+                                            <div class="btn-group pull-right" role="group" aria-label="...">
+                                                <button class="btn btn-md btn-warning"
+                                                        ng-click="openAvailabilityModal('lg',associate)"
+                                                        uib-tooltip="View Availability" tooltip-placement="top"
+                                                        tooltip-append-to-body="true"><i
+                                                        class="fa fa-hourglass"></i></button>
+                                                <button class="btn btn-md btn-danger"
+                                                        ng-click="removeEmployee(associate, activeBusiness.business)"
+                                                        uib-tooltip="Remove Associate" tooltip-placement="top"
+                                                        tooltip-append-to-body="true"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </h5>
+                                    </li>
+                                    <hr class="full">
+                                </div>
+                            </div>
+                            <div class="dashboard-panel-footer">
+                                <button class="btn btn-sm btn-success"
+                                        ng-click="openEmployee(activeBusiness.business)">
+                                    New Associate
+                                </button>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+            </div>
             <!--
             #################################
             ##
-            ##    Manage Tab
+            ##    Business Info Block
             ##
             ##
             #################################
             -->
             <div class="row">
-                <div class="col-xs-12 dashboard-business-info">
+                <div class="col-xs-12">
                     <uib-accordion>
                         <uib-accordion-group is-open="statusOne.open">
                             <uib-accordion-heading>
@@ -297,113 +400,6 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                            <!--<div class="dashboard-panel-footer">-->
-                            <!--<button class="btn btn-success" disabled-->
-                            <!--ng-hide="activeBusiness.business.tier === 2">-->
-                            <!--Upgrade!-->
-                            <!--</button>-->
-                            <!--</div>-->
-                        </uib-accordion-group>
-                    </uib-accordion>
-                </div>
-            </div>
-                <!--
-                #################################
-                ##
-                ##    Services  Block
-                ##
-                ##
-                #################################
-                -->
-            <div class="row">
-                <div class="col-xs-6 dashboard-panel-body">
-                    <uib-accordion class="accordion-height">
-                        <uib-accordion-group is-open="statusThree.open">
-                            <uib-accordion-heading>
-                                Services
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
-                            </uib-accordion-heading>
-                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
-                                <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
-                                    <p>Add your First Service!</p>
-                                </div>
-                                <div ng-repeat="service in activeBusiness.business.services track by $index"
-                                     style="height:50px;">
-                                    <li>
-                                        <h5>{{service.name}}
-                                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-md btn-primary"
-                                                        ng-click="openService('lg',false,service) "
-                                                        uib-tooltip="Book Appointment"><i class="fa fa-calendar"></i>
-                                                </button>
-                                                <button class="btn btn-md btn-warning "
-                                                        ng-click="editService(service,$index)"
-                                                        uib-tooltip="Edit Service"><i
-                                                        class="fa fa-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-md btn-danger"
-                                                        ng-click="openRemoveServiceModal(service,$index)"
-                                                        uib-tooltip="Delete"><i class="fa fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </h5>
-                                    </li>
-                                    <hr class="full">
-                                </div>
-                            </div>
-                            <div class="dashboard-panel-footer">
-                                <button class="btn btn-sm btn-success" ng-click="newService()">
-                                    New Service
-                                </button>
-                            </div>
-                        </uib-accordion-group>
-                    </uib-accordion>
-                </div>
-            <!--
-                #################################
-                ##
-                ##    Associates  Block
-                ##
-                ##
-                #################################
-            -->
-                <div class="col-xs-6 dashboard-panel-body">
-                    <uib-accordion>
-                        <uib-accordion-group is-open="statusTwo.open">
-                            <uib-accordion-heading>
-                                Associates
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
-                            </uib-accordion-heading>
-                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
-                                <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
-                                    <p>Add your First Associate!</p>
-                                </div>
-                                <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
-                                    <li>
-                                        <h5>{{associate.name}}
-                                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-md btn-warning"
-                                                        ng-click="openAvailabilityModal('lg',associate)"
-                                                        uib-tooltip="View Availability" tooltip-placement="top"><i
-                                                        class="fa fa-hourglass"></i></button>
-                                                <button class="btn btn-md btn-danger"
-                                                        ng-click="removeEmployee(associate, activeBusiness.business)"
-                                                        uib-tooltip="Remove Associate" tooltip-placement="top"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </div>
-                                        </h5>
-                                    </li>
-                                    <hr class="full">
-                                </div>
-                            </div>
-                            <div class="dashboard-panel-footer">
-                                <button class="btn btn-sm btn-success"
-                                        ng-click="openEmployee(activeBusiness.business)">
-                                    New Associate
-                                </button>
                             </div>
                         </uib-accordion-group>
                     </uib-accordion>
