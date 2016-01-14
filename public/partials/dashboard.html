@@ -33,15 +33,15 @@
                 <div class="col-xs-2">
                     <!--- Services Block     -->
                     <div class="row">
-                        <div class="col-xs-12 dashboard-panel">
+                        <div class="col-xs-12 dashboard-panel cal-services-content">
                             <uib-accordion>
                                 <uib-accordion-group is-open="statusThree.open">
                                     <uib-accordion-heading>
-                                        Services
+                                        Schedule Appointments
                                         <i class="pull-right glyphicon"
                                            ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                                     </uib-accordion-heading>
-                                    <div class="col-xs-12 dashboard-panel-list">
+                                    <div class="col-xs-12 dashboard-panel-list cal-dashboard-panel-content">
                                         <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
                                             <p>Add Your First Service From The Manage Tab.</p>
                                         </div>
@@ -49,10 +49,12 @@
                                              style="height:50px;">
                                             <li>
                                                 <h5>{{service.name}}
-                                                    <div class="btn-group pull-right" role="group" aria-label="...">
+                                                    <div class="btn-group pull-right" style="padding-right:5px;"
+                                                         role="group" aria-label="...">
                                                         <button class="btn btn-md btn-primary"
                                                                 ng-click="openService('lg',false,service) "
-                                                                uib-tooltip="Book Appointment"><i
+                                                                uib-tooltip="Book Appointment"
+                                                                tooltip-append-to-body="true" tooltip-placement="top"><i
                                                                 class="fa fa-calendar"></i>
                                                         </button>
                                                     </div>
