@@ -392,12 +392,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     var render = true;
     $scope.renderCalender = function (calendar) {
         if (render) {
-            render = false;
             $scope.loadingCal = true;
             $timeout(function () {
                 $scope.loadingCal = false;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('render');
-            }, 2000);
+                render = false;
+            }, 0);
         }
     };
     /* Render Tooltip */
