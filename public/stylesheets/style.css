@@ -575,6 +575,8 @@ header .intro-text .intro-heading {
 
 .dashboard-panel-content {
     padding: 10px;
+    max-height: 250px;
+    overflow-y: scroll;
 }
 
 .dashboard-panel-footer {
