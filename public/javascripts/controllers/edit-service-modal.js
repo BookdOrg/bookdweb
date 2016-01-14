@@ -8,6 +8,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
 
     $scope.serviceEmployees = [];
 
+    var duration = parseInt(service.duration);
+    var durationAsMinutes = moment.duration(duration, 'minutes');
+    $scope.editService.hours = moment.duration(durationAsMinutes).hours();
+    $scope.editService.minutes = moment.duration(durationAsMinutes).minutes();
     /**
      *
      * Create the serviceEmployees array we're going to use as the model for the multi-select

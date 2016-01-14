@@ -22,6 +22,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business)
             return itemText;
         }
     };
+    $scope.customTexts = {
+        buttonDefaultText: 'Select Associates'
+    };
     /**
      *
      * Method to confirm the creation of a new service
@@ -30,6 +33,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business)
      * have added to their business
      */
     $scope.ok = function (service) {
+        var hours = moment.duration(service.hours, 'hours');
+        var minutes = moment.duration(hours).asMinutes();
+        service.duration = minutes + service.minutes;
         service.businessId = business._id;
         /**
          * For each employee in the serviceEmployees array, we grab their id and put them
