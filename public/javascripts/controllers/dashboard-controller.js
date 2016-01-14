@@ -490,22 +490,22 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     var createEventsSources = function (businessArray) {
         $scope.events = [];
-        _.forEach(businessArray, function (appointments, key) {
-            _.forEach(appointments, function (appointment, key) {
-                for (var appointmentIndex = 0; appointmentIndex < appointment.length; appointmentIndex++) {
+        _.forEach(businessArray, function (employeesArray, key) {
+            _.forEach(employeesArray, function (appointmentsArray, key) {
+                for (var appointmentIndex = 0; appointmentIndex < appointmentsArray.length; appointmentIndex++) {
                     var tempObj = {
-                        _id: appointment[appointmentIndex]._id,
-                        title: appointment[appointmentIndex].title,
-                        start: appointment[appointmentIndex].start.full,
-                        end: appointment[appointmentIndex].end.full,
-                        appointment: appointment[appointmentIndex]
+                        _id: appointmentsArray[appointmentIndex]._id,
+                        title: appointmentsArray[appointmentIndex].title,
+                        start: appointmentsArray[appointmentIndex].start.full,
+                        end: appointmentsArray[appointmentIndex].end.full,
+                        appointment: appointmentsArray[appointmentIndex]
                     };
-                    if (appointment[appointmentIndex].status === 'pending') {
+                    if (appointmentsArray[appointmentIndex].status === 'pending') {
                         tempObj.backgroundColor = '#f00';
                         tempObj.borderColor = '#f00';
                         $scope.events.push(tempObj);
 
-                    } else if (appointment[appointmentIndex].status === 'paid') {
+                    } else if (appointmentsArray[appointmentIndex].status === 'paid') {
                         tempObj.backgroundColor = '#f39';
                         tempObj.borderColor = '#f39';
                         $scope.events.push(tempObj);
