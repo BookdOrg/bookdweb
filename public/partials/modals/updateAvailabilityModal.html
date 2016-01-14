@@ -1,89 +1,107 @@
 <div class="modal-header">
     <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">{{employee.name}}'s Weekly Availability <small ng-if="disableUpdate">(View Only)</small></h3>
+    <div class="row">
+        <div class="text-center" ng-if="employee.availability.length >= 1 && currentUser.user._id === employee._id"
+             style="padding-bottom:10px;">
+            <div class="btn-group-lg switch-business-dropdown" uib-dropdown>
+                <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle>
+                    {{activeAvailability.businessName}} <span class="caret"></span>
+                </button>
+                <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-repeat="businessKey in employee.availability"
+                        ng-click="switchAvailability(businessKey.businessId)">
+                        <a
+                                href="#"><i class="fa fa-home"></i> {{businessKey.businessName}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal-body">
-    <div class="col-xs-12">
-        <h3 class="control-label"></h3>
-
-        <form class="form-horizontal">
-            <div class="form-group">
-                <uib-accordion>
-                    <uib-accordion-group ng-repeat="day in employee.availability track by $index"
-                                         is-open="status.open">
-                        <uib-accordion-heading>
-                            <i ng-if="day.available" uib-tooltip="Available"
-                               class="fa fa-check text-success"></i><i ng-if="!day.available"
-                                                                       uib-tooltip="Unavailable"
-                                                                       class="fa fa-check text-danger"></i>
-                            {{day.day}}
-                            <span ng-if="day.available">, {{day.start | date:'hh:mm a'}}
-                                - {{day.end | date:'hh:mm a'}}</span><i class="pull-right fa"
-                                                                        ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
-                        </uib-accordion-heading>
-                        <div class="checkbox text-center" tooltip-toggle="mouseenter"
-                             uib-tooltip="Are you available on {{day.day}}'s">
-                            <label>
-                                <input ng-model="day.available" type="checkbox" ng-disabled="disableUpdate"> Available
-                            </label>
-                        </div>
-                        <div class="col-xs-6">
-                            Start:
-                            <uib-timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
-                                            minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
-                            End:
-                            <uib-timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
-                                            minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
-                        </div>
-                        <div class="col-xs-6">
-                            <h3>Breaks: <a ng-click="addBreak(day)" ng-if="!disableUpdate" class="btn btn-success"><i
-                                    class="fa fa-plus"></i></a></h3>
-                            <uib-accordion>
-                                <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
-                                    <uib-accordion-heading>
-                                        <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
-                                            - {{gap.end | date:'hh:mm a'}}</span><i
-                                            class="pull-right fa fa-chevron-down"></i>
-                                    </uib-accordion-heading>
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            Start:
-                                            <uib-timepicker ng-model="gap.start" ng-change="changed()"
-                                                            hour-step="hstep" minute-step="mstep"
-                                                            show-meridian="ismeridian"></uib-timepicker>
-                                            End:
-                                            <uib-timepicker ng-model="gap.end" ng-change="changed()"
-                                                            hour-step="hstep" minute-step="mstep"
-                                                            show-meridian="ismeridian"></uib-timepicker>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <uib-accordion>
+                        <uib-accordion-group ng-repeat="day in activeAvailability.availability track by $index"
+                                             is-open="status.open">
+                            <uib-accordion-heading>
+                                <i ng-if="day.available" uib-tooltip="Available"
+                                   class="fa fa-check text-success"></i><i ng-if="!day.available"
+                                                                           uib-tooltip="Unavailable"
+                                                                           class="fa fa-check text-danger"></i>
+                                {{day.day}}
+                                <span ng-if="day.available">, {{day.start | date:'hh:mm a'}}
+                                    - {{day.end | date:'hh:mm a'}}</span><i class="pull-right fa"
+                                                                            ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
+                            </uib-accordion-heading>
+                            <div class="checkbox text-center" tooltip-toggle="mouseenter"
+                                 uib-tooltip="Are you available on {{day.day}}'s">
+                                <label>
+                                    <input ng-model="day.available" type="checkbox" ng-disabled="disableUpdate">
+                                    Available
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                Start:
+                                <uib-timepicker ng-model="day.start" ng-change="changed()" hour-step="hstep"
+                                                minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+                                End:
+                                <uib-timepicker ng-model="day.end" ng-change="changed()" hour-step="hstep"
+                                                minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>
+                            </div>
+                            <div class="col-xs-6">
+                                <h3>Breaks: <a ng-click="addBreak(day)" ng-if="!disableUpdate"
+                                               class="btn btn-success"><i
+                                        class="fa fa-plus"></i></a></h3>
+                                <uib-accordion>
+                                    <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
+                                        <uib-accordion-heading>
+                                            <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
+                                                - {{gap.end | date:'hh:mm a'}}</span><i
+                                                class="pull-right fa fa-chevron-down"></i>
+                                        </uib-accordion-heading>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Start:
+                                                <uib-timepicker ng-model="gap.start" ng-change="changed()"
+                                                                hour-step="hstep" minute-step="mstep"
+                                                                show-meridian="ismeridian"></uib-timepicker>
+                                                End:
+                                                <uib-timepicker ng-model="gap.end" ng-change="changed()"
+                                                                hour-step="hstep" minute-step="mstep"
+                                                                show-meridian="ismeridian"></uib-timepicker>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-xs-offset-5">
-                                            <button class="btn btn-danger text-center" ng-if="!disableUpdate"
-                                                    ng-click="deleteGap(day,gap,$index)">Delete
-                                            </button>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-xs-offset-5">
+                                                <button class="btn btn-danger text-center" ng-if="!disableUpdate"
+                                                        ng-click="deleteGap(day,gap,$index)">Delete
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </uib-accordion-group>
-                            </uib-accordion>
-                        </div>
-                    </uib-accordion-group>
-                </uib-accordion>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-offset-5 col-xs-6">
-                    <button ng-if="!showDone" type="submit" class="btn btn-primary" ng-if="!disableUpdate"
-                            ng-click="updateAvailability(currentUser.user.availability)">Update Availability
-                    </button>
+                                    </uib-accordion-group>
+                                </uib-accordion>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
                 </div>
-                <div class="col-xs-offset-6 col-xs-6">
-                    <i ng-if="showLoading && !showDone" uib-tooltip="Updating.."
-                       class="fa fa-spinner fa-2x fa-pulse text-center"></i>
-                    <i ng-if="showDone" uib-tooltip="Availability Updated"
-                       class="fa fa-check-square-o fa-2x text-success"></i>
+                <div class="form-group">
+                    <div class="col-xs-offset-5 col-xs-6">
+                        <button ng-if="!showDone" type="submit" class="btn btn-primary" ng-disabled="disableUpdate"
+                                ng-click="updateAvailability(activeAvailability.availability)">Update Availability
+                        </button>
+                    </div>
+                    <div class="col-xs-offset-6 col-xs-6">
+                        <i ng-if="showLoading && !showDone" uib-tooltip="Updating.."
+                           class="fa fa-spinner fa-2x fa-pulse text-center"></i>
+                        <i ng-if="showDone" uib-tooltip="Availability Updated"
+                           class="fa fa-check-square-o fa-2x text-success"></i>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <div class="modal-footer">

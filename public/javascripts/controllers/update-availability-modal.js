@@ -1,8 +1,18 @@
 /**
  * Created by khalilbrown on 12/26/15.
  */
-module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance, employee, $rootScope, $timeout) {
+module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance, employee, $rootScope, $timeout, business) {
     $scope.employee = employee;
+    var businessInfo = business;
+    if (business) {
+        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': businessInfo._id});
+    } else {
+        $scope.activeAvailability = $scope.employee.availabilityArray[0];
+    }
+
+    $scope.switchAvailability = function (id) {
+        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': id});
+    };
     if(employee._id!==$rootScope.currentUser.user._id){
         $scope.disableUpdate = true;
     }
@@ -35,7 +45,6 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      * @type {boolean}
      */
     $scope.showDone = false;
-
     //$scope.showLoading = false;
     /**
      * Send the availability object to the backend so the users available times can be updated.
@@ -43,11 +52,16 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      * @param availability - Object containing the hours for a given employee for each day of the week and for breaks
      */
     $scope.updateAvailability = function (availability) {
+        var updateObj = {
+            businessName: $scope.activeAvailability.businessName,
+            businessId: $scope.activeAvailability.businessId,
+            id: employee._id,
+            availability: availability
+        };
         //$scope.showLoading = true;
         $scope.showDone = false;
-        userFactory.updateAvailability(availability)
+        userFactory.updateAvailability(updateObj)
             .then(function (data) {
-                auth.saveToken(data.token);
                 //$scope.showLoading = false;
                 $scope.showDone = true;
                 $timeout(function () {

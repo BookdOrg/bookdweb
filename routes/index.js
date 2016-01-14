@@ -186,80 +186,18 @@ io.on('connection', function (socket, data) {
             }
         }
     });
-    socket.on('isEmployee', function (data) {
-        User.findOne({'_id': data}).exec(function (err, user) {
-            if (err) {
-                console.log(err);
-                //TODO send the socket error back to the client
-                //return next(err);
-            }
-            user.isAssociate = true;
-
-            user.availability = [
-                {
-                    day: 'Monday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Tuesday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Wednesday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Thursday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Friday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Saturday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                },
-                {
-                    day: 'Sunday',
-                    start: moment().hour(6).minute(0).format(),
-                    end: moment().hour(19).minute(0).format(),
-                    gaps: [],
-                    available: false
-                }
-            ];
-            user.save(function (err, response) {
-                if (err) {
-                    //TODO send the socket error back to the client
-                    //return next(err);
-                }
-                io.sockets.in(data).emit('clientUpdate', {token: user.generateJWT()});
-                //if (socket.rooms.indexOf(data) >= 0) {
-                //    console.log('here')
-                //
-                //}
-            });
-
-        });
-    });
+    //socket.on('isEmployee', function (data) {
+    //    var userSocket = _.findWhere(clients,{'customId':data});
+    //    User.findOne({'_id': data}).exec(function (err, user) {
+    //        if (err) {
+    //            console.log(err);
+    //            //io.to(userSocket.id).emit('');
+    //        }
+    //        if(userSocket){
+    //            io.to(userSocket.id).emit('associateRequest',user.availability);
+    //        }
+    //    });
+    //});
 });
 
 /**
@@ -505,14 +443,14 @@ router.get('/user/dashboard', auth, function (req, res, next) {
         async.each(user.businesses, function (currBusiness, businessCallback) {
             Business.findOne({'_id': currBusiness._id}).populate([{path: 'services', select: ''}, {
                 path: 'employees',
-                select: '_id name avatarVersion provider providerId availability'
+                select: '_id name avatarVersion provider providerId availabilityArray'
             }]).exec(function (error, response) {
                 if (error) {
                     return businessCallback(error);
                 }
                 Service.populate(response.services, {
                     path: 'employees',
-                    select: '_id name avatarVersion availability provider providerId'
+                    select: '_id name avatarVersion availabilityArray provider providerId'
                 }, function (err) {
                     if (err) {
                         return businessCallback(err);
@@ -544,24 +482,24 @@ router.get('/user/google-photo', auth, function (req, res, next) {
  *
  */
 
-router.post('/user/availability/update', auth, function (req, res, next) {
-    var id = req.payload._id;
-    var availability = req.body;
-
-    User.findOne({'_id': id}).exec(function (err, user) {
-        if (err) {
-            return next(err);
-        }
-        user.availability = availability;
-
-        user.save(function (err, user) {
-            if (err) {
-                return next(err);
-            }
-            res.json({token: user.generateJWT()});
-        });
-    });
-});
+//router.post('/user/availability/update', auth, function (req, res, next) {
+//    var id = req.payload._id;
+//    var availability = req.body;
+//
+//    User.findOne({'_id': id}).exec(function (err, user) {
+//        if (err) {
+//            return next(err);
+//        }
+//        user.availability = availability;
+//
+//        user.save(function (err, user) {
+//            if (err) {
+//                return next(err);
+//            }
+//            res.json({token: user.generateJWT()});
+//        });
+//    });
+//});
 
 /**
  *   Logs in a valid user using passport.
@@ -1022,7 +960,7 @@ router.get('/business/search', function (req, res, next) {
     var updatedBusinesses = [];
     var populateQuery = [{path: 'services', select: ''}, {
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion provider providerId availability'
+        select: '_id businessAppointments name avatarVersion provider providerId availabilityArray'
     }];
     googleplaces.textSearch({query: query}, function (error, response) {
         if (error) {
@@ -1045,7 +983,7 @@ router.get('/business/search', function (req, res, next) {
                 }
                 Service.populate(business.services, {
                     path: 'employees',
-                    select: '_id businessAppointments name avatarVersion provider providerId availability'
+                    select: '_id businessAppointments name avatarVersion provider providerId availabilityArray'
                 }, function (err, newBusiness) {
                     if (err) {
                         return responseCallback(err);
@@ -1079,7 +1017,7 @@ router.get('/business/details', function (req, res, next) {
     var id = req.param('placesId');
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availability provider providerId'
+        select: '_id businessAppointments name avatarVersion availabilityArray provider providerId'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
@@ -1090,7 +1028,7 @@ router.get('/business/details', function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion availability provider providerId'
+                select: '_id businessAppointments name avatarVersion availabilityArray provider providerId'
             }, function (err, finalobj) {
                 if (error) {
                     return next(error);
@@ -1111,14 +1049,14 @@ router.get('/business/info', function (req, res, next) {
     var id = req.param('id');
     Business.findOne({'_id': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availability providerId provider'
+        select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
         }
         Service.populate(business.services, {
             path: 'employees',
-            select: '_id businessAppointments name avatarVersion availability providerId provider'
+            select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
         }, function (err, finalobj) {
             if (error) {
                 return next(error);
@@ -1137,6 +1075,7 @@ router.get('/business/info', function (req, res, next) {
 router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
+    var businessName = req.body.businessName;
 
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         if (err) {
@@ -1149,17 +1088,87 @@ router.post('/business/add-employee', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            User.findOne({'_id': employeeId}).exec(function (err, employee) {
+                if (err) {
+                    return next(err);
+                }
+                if (!employee.isAssociate) {
+                    employee.isAssociate = true;
+                }
+                var availability = [
+                    {
+                        day: 'Monday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Tuesday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Wednesday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Thursday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Friday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Saturday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Sunday',
+                        start: moment().hour(6).minute(0).format(),
+                        end: moment().hour(19).minute(0).format(),
+                        gaps: [],
+                        available: false
+                    }];
+
+                employee.availabilityArray.push({
+                    'businessName': businessName,
+                    'businessId': businessId,
+                    'availability': availability
+                });
+
+                employee.save(function (err, employee) {
+                    if (err) {
+                        return next(err);
+                    }
+                });
+            });
         });
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion availability provider providerId'
+            select: '_id appointments name avatarVersion availabilityArray provider providerId'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availability provider providerId'
+                select: '_id appointments name avatarVersion availabilityArray provider providerId'
             }, function (err, services) {
                 if (err) {
                     return next(err);
@@ -1170,7 +1179,34 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         });
     });
 });
+router.post('/user/availability/update', auth, function (req, res, next) {
+    var availabilityObj = req.body.availability;
+    var employeeId = req.body.id;
+    var businessId = req.body.businessId;
+    var businessName = req.body.businessName;
 
+    User.findOne({'_id': employeeId}).exec(function (err, employee) {
+        if (err) {
+            return next(err);
+        }
+        var newAvailability = {
+            businessName: businessName,
+            businessId: businessId,
+            availability: availabilityObj
+        };
+        var availabilityIndex = _.findIndex(employee.availabilityArray, {'businessId': businessId});
+        employee.availabilityArray.set(availabilityIndex, newAvailability);
+        employee.save(function (err, responseEmployee) {
+            if (err) {
+                return next(err);
+            }
+            console.log("AVAILABILITY FROM DB");
+            console.log(responseEmployee.availabilityArray[availabilityIndex].availability);
+            res.json({message: 'Success'});
+        });
+    });
+
+});
 /**
  *   Deletes an employee from a Business.
 
@@ -1282,7 +1318,7 @@ router.post('/business/add-service', auth, function (req, res, next) {
             });
             Service.populate(service, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availability provider providerId'
+                select: '_id appointments name avatarVersion availabilityArray provider providerId'
             }, function (err, responseService) {
                 if (err) {
                     return next(err);
@@ -1311,7 +1347,7 @@ router.post('/business/update-service', auth, function (req, res, next) {
     };
     Service.findOneAndUpdate({'_id': newService._id}, newService, {new: true}).populate({
         path: 'employees',
-        select: '_id businessAppointments appointments name avatarVersion availability provider providerId'
+        select: '_id businessAppointments appointments name avatarVersion availabilityArray provider providerId'
     }).exec(function (err, service) {
         if (err) {
             return next(err);
@@ -1392,7 +1428,7 @@ router.get('/business/service-detail', auth, function (req, res, next) {
     var serviceId = req.param('service');
     Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
-        select: '_id appointments name avatarVersion availability provider providerId'
+        select: '_id appointments name avatarVersion availabilityArray provider providerId'
     }).exec(function (err, response) {
         if (err) {
             return next(err);

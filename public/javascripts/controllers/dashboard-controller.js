@@ -260,6 +260,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             resolve:{
                 employee:function(){
                     return employee;
+                },
+                business: function () {
+                    return $scope.activeBusiness.business
                 }
             }
         });

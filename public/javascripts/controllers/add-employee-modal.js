@@ -18,7 +18,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
          */
         var newEmployee = {
             businessId: businessInfo._id,
-            employeeId: id
+            employeeId: id,
+            businessName: businessInfo.name
         };
 
         notificationFactory.addNotification(newEmployee.employeeId,
@@ -31,10 +32,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
             });
 
         businessFactory.addEmployee(newEmployee)
-            .then(function (data) {
-                //Let the server know that a user has been set as an employee
+            .then(function () {
+                //tell the employee to update dynamically
                 socketService.emit('isEmployee', newEmployee.employeeId);
-
                 $uibModalInstance.close(businessInfo._id);
             });
     };
