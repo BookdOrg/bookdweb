@@ -226,7 +226,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
             var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
-            if (indexToUpdate) {
+            if (indexToUpdate !== -1) {
                 $scope.availableTimes[indexToUpdate].available = false;
             }
         }
@@ -241,7 +241,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 calculateHold(data[dataIndex].data);
             } else {
                 var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
-                if (indexToReplace) {
+                if (indexToReplace !== -1) {
                     $scope.availableTimes[indexToReplace].toggled = true;
                 }
             }
@@ -264,7 +264,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var endTime = moment(timeObj.end, 'hh:mm a');
         var calculatedDuration = $scope.service.duration;
         for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
-            if (indexToReplace) {
+            if (indexToReplace !== -1) {
                 $scope.availableTimes[indexToReplace].status = true;
                 indexToReplace += 1;
             }
@@ -278,7 +278,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         var destroyDuration = $scope.service.duration;
 
         for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
-            if (indexToReplace) {
+            if (indexToReplace !== -1) {
                 $scope.availableTimes[indexToReplace].status = false;
             }
             indexToReplace += 1;
