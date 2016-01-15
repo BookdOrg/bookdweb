@@ -601,8 +601,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         }
     }
-
     $scope.$on('$destroy', function (event) {
+        if ($scope.selectedDate) {
+            var roomId = $scope.newRoomDate.toString() + $scope.employee._id;
+            socketService.emit('leaveApptRoom', roomId);
+        }
         socketService.removeAllListeners();
     });
 };

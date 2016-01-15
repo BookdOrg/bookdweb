@@ -7,5 +7,6 @@ module.exports = function (socketFactory) {
     var mySocket = socketFactory({
         ioSocket: myIoSocket
     });
+    mySocket.forward('error');
     return mySocket;
 };
