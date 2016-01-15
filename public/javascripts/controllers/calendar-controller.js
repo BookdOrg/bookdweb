@@ -361,7 +361,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         } else {
             for (eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
-                    console.log("updating");
                     var fromEmployeeEvent = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
                     fromEmployeeEvent[0].start = moment(data.appointment.start.full).format();
                     fromEmployeeEvent[0].end = moment(data.appointment.end.full).format();
@@ -398,7 +397,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     });
 
     $scope.$on('$destroy', function (event) {
-        socketService.removeAllListeners();
+        socketService.removeListener('newAssociateAppt');
+        socketService.removeListener('updatedCalAppt');
+        socketService.removeListener('canceledAppt');
     });
 };
 

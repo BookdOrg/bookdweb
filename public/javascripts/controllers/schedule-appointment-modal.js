@@ -444,6 +444,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             var roomId = $scope.newRoomDate.toString() + $scope.employee._id;
             socketService.emit('leaveApptRoom', roomId);
         }
-        socketService.removeAllListeners();
+        socketService.removeListener('oldHold');
+        socketService.removeListener('destroyOld');
+        socketService.removeListener('newHold');
+        socketService.removeListener('update');
+        socketService.removeListener('newRoomAppt');
     });
 };
