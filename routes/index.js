@@ -91,7 +91,11 @@ io.on('connection', function (socket, data) {
     });
     socket.on('joinApptRoom', function (data) {
         if (data.previousDate) {
-            socket.leave(data.previousDate.toString() + data.employeeId.toString());
+            socket.leave(data.previousDate.toString() + data.employeeId.toString(), function (err) {
+                if (err) {
+                    console.log(err)
+                }
+            });
         }
         string = data.startDate.toString() + data.employeeId.toString();
         if (string) {
@@ -103,6 +107,13 @@ io.on('connection', function (socket, data) {
         }
 
     });
+    socket.on('leaveApptRoom', function (data) {
+        socket.leave(data, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
     socket.on('timeTaken', function (data) {
         socketTimeData = data;
         roomData.push({id: data.roomId, user: data.user, data: data});
@@ -111,8 +122,8 @@ io.on('connection', function (socket, data) {
     socket.on('timeDestroyed', function (data) {
         if (data) {
             roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
+            io.sockets.in(data.roomId).emit('destroyOld', data);
         }
-        io.sockets.in(data.roomId).emit('destroyOld', data);
     });
     socket.on('disconnect', function () {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
@@ -125,14 +136,28 @@ io.on('connection', function (socket, data) {
     });
     //Join the business dashboard room, id = Business ID
     socket.on('joinDashboardRoom', function (id) {
-        socket.join(id);
+        var room = id.toString();
+        socket.join(room, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
     socket.on('leaveDashboardRoom', function (id) {
-        socket.leave(id);
+        var room = id.toString();
+        socket.leave(room, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
-        socket.leave(appt.roomId);
+        socket.leave(appt.roomId, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
         io.sockets.in(appt.roomId).emit('newRoomAppt', appt);
         io.sockets.in(appt.businessId).emit('newAppt', appt);
         if (employeeSocket) {
@@ -145,22 +170,44 @@ io.on('connection', function (socket, data) {
      *
      */
     socket.on('apptUpdated', function (data) {
+        console.log(socket.rooms);
+        console.log("APPOINTMENT UPDATED")
+        console.log(data);
+        if (data) {
+            console.log(data);
+        } else {
+            console.log("no data");
+        }
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        socket.leave(data.roomId);
+        console.log("EMPLOYEE")
+        console.log(employeeSocket)
+        console.log("CUSTOMER")
+        console.log(customerSocket)
+        socket.leave(data.roomId, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('updatedAppt', data);
+        console.log("SENDING TO THE BUSINESS")
         if (data.from === data.appointment.customer && employeeSocket) {
+            console.log("DATA FROM CUSTOMER, SENDING TO EMPLOYEE")
             io.to(employeeSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from === data.appointment.employee && customerSocket) {
+            console.log("DATA FROM EMPLOYEE, SENDING TO THE CUSTOMER")
+            console.log(data);
             io.to(customerSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
             if (customerSocket) {
+                console.log("DATA FROM THE BUSINESS, SENDING TO CUSTOMER")
                 io.to(customerSocket.id).emit('updatedCalAppt', data);
             }
             if (employeeSocket) {
+                console.log("DATA FROM THE BUSINESS, SENDING TO EMPLOYEE")
                 io.to(employeeSocket.id).emit('updatedCalAppt', data);
             }
         }
@@ -186,18 +233,6 @@ io.on('connection', function (socket, data) {
             }
         }
     });
-    //socket.on('isEmployee', function (data) {
-    //    var userSocket = _.findWhere(clients,{'customId':data});
-    //    User.findOne({'_id': data}).exec(function (err, user) {
-    //        if (err) {
-    //            console.log(err);
-    //            //io.to(userSocket.id).emit('');
-    //        }
-    //        if(userSocket){
-    //            io.to(userSocket.id).emit('associateRequest',user.availability);
-    //        }
-    //    });
-    //});
 });
 
 /**
