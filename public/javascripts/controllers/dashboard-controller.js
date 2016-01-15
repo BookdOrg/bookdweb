@@ -677,9 +677,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     date.borderColor = '#f39';
                 }
                 if (date.appointment.status == 'pending') {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
-                    //date.backgroundColor = '#f00';
-                    //date.borderColor = '#f00';
+                    date.backgroundColor = '#f00';
+                    date.borderColor = '#f00';
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
                 }
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
@@ -770,6 +770,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     event[0].end = moment(data.appointment.end.full);
                     event[0].appointment = data.appointment;
                     event[0].backgroundColor = null;
+                    event[0].borderColor = null;
                     if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'A customer has re-scheduled an appointment!'});
@@ -790,6 +791,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].end = data.appointment.end.full;
                     $scope.events[eventIndex].appointment = data.appointment;
                     $scope.events[eventIndex].backgroundColor = null;
+                    $scope.events[eventIndex].borderColor = null;
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
                     Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                 }
@@ -802,10 +804,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 $scope.events[eventIndex].end = data.appointment.end.full;
                 $scope.events[eventIndex].appointment = data.appointment;
                 $scope.events[eventIndex].backgroundColor = '#f00';
+                $scope.events[eventIndex].borderColor = '#f00';
                 pendingEvent[0].start = data.appointment.start.full;
                 pendingEvent[0].end = data.appointment.end.full;
                 pendingEvent[0].appointment = data.appointment;
                 pendingEvent[0].backgroundColor = '#f00';
+                pendingEvent[0].borderColor = '#f00';
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
             }
         }else{
