@@ -766,20 +766,33 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         if(eventIndex !== -1){
             if ($scope.events[eventIndex]._id === data.appointment._id && data.appointment.status !== 'pending') {
                 var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
-                $scope.lastUpdatedView = moment().calendar();
-                $scope.lastUpdated = moment();
-                event[0].start = moment(data.appointment.start.full);
-                event[0].end = moment(data.appointment.end.full);
-                event[0].appointment = data.appointment;
-                if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
-                    Notification.info({message: 'A customer has re-scheduled an appointment!'});
-                } else if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer === null) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
-                    Notification.info({message: 'An employee has re-scheduled an appointment!'});
+                if (event.length > 0) {
+                    $scope.lastUpdatedView = moment().calendar();
+                    $scope.lastUpdated = moment();
+                    event[0].start = moment(data.appointment.start.full);
+                    event[0].end = moment(data.appointment.end.full);
+                    event[0].appointment = data.appointment;
+                    if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
+                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
+                        Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                    } else if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer === null) {
+                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
+                        Notification.info({message: 'An employee has re-scheduled an appointment!'});
+                    } else {
+                        Notification.info({message: 'You have re-scheduled an appointment!'});
+                    }
                 } else {
-                    Notification.info({message: 'You have re-scheduled an appointment!'});
+                    var newEvent = {
+                        title: data.appointment.title,
+                        start: data.appointment.start.full,
+                        end: data.appointment.end.full,
+                        appointment: data.appointment
+                    }
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
+                    Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                 }
+
+
             } else if (data.appointment.status === 'pending') {
                 Notification.info({message: 'An employee has re-scheduled an appointment, ' +
                 'it is pending and has been removed from your calendar.'});
