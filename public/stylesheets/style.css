@@ -645,7 +645,15 @@ header .intro-text .intro-heading {
     padding: 0px;
 }
 
+.dashboard-cal-service {
+    height: 50px;
+}
 #dashboard-cal-service-list h5 {
-    line-height: 25px;
+    line-height: 27px;
+    margin-bottom: 0px;
     padding-left: 45px;
+}
+
+.service-hr {
+    margin-top: 10px;
 }

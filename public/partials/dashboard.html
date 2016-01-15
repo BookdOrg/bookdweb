@@ -52,8 +52,8 @@
                                         <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
                                             <p>Add Your First Service From The Manage Tab.</p>
                                         </div>
-                                        <div ng-repeat="service in activeBusiness.business.services track by $index"
-                                             style="height:50px;">
+                                        <div class="dashboard-cal-service"
+                                             ng-repeat="service in activeBusiness.business.services track by $index">
                                             <li id="dashboard-cal-service-list">
                                                 <button class="btn btn-md btn-gradient-primary pull-left"
                                                         ng-click="openService('lg',false,service) "
@@ -63,7 +63,7 @@
                                                 </button>
                                                 <h5>{{service.name}}</h5>
                                             </li>
-                                            <hr class="full">
+                                            <hr class="full service-hr">
                                         </div>
                                     </div>
                                 </uib-accordion-group>
