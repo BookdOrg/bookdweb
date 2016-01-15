@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <h3>Breaks: <a ng-click="addBreak(day)" ng-if="!disableUpdate"
-                                               class="btn btn-success"><i
+                                               class="btn btn-gradient-success"><i
                                         class="fa fa-plus"></i></a></h3>
                                 <uib-accordion>
                                     <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
@@ -76,7 +76,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-xs-offset-5">
-                                                <button class="btn btn-danger text-center" ng-if="!disableUpdate"
+                                                <button class="btn btn-gradient-danger text-center"
+                                                        ng-if="!disableUpdate"
                                                         ng-click="deleteGap(day,gap,$index)">Delete
                                                 </button>
                                             </div>
@@ -89,7 +90,8 @@
                 </div>
                 <div class="form-group">
                     <div class="col-xs-offset-5 col-xs-6">
-                        <button ng-if="!showDone" type="submit" class="btn btn-primary" ng-disabled="disableUpdate"
+                        <button ng-if="!showDone" type="submit" class="btn btn-gradient-primary"
+                                ng-disabled="disableUpdate"
                                 ng-click="updateAvailability(activeAvailability.availability)">Update Availability
                         </button>
                     </div>
@@ -105,5 +107,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-click="close()">Close</button>
+    <button class="btn btn-gradient-warning" ng-click="close()">Close</button>
 </div>

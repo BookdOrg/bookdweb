@@ -489,7 +489,7 @@ header .intro-text .intro-heading {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4ddb4', endColorstr='#83c783',GradientType=0 ); /* IE6-9 */
 }
 
-.btn-success {
+.btn-gradient-success {
     color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b4ddb4+0,24af24+56,83c783+100 */
     background: #b4ddb4; /* Old browsers */
@@ -510,7 +510,7 @@ header .intro-text .intro-heading {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f87e2', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 }
 
-.btn-primary {
+.btn-gradient-primary {
     color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0f87e2+0,7db9e8+100 */
     background: #0f87e2; /* Old browsers */
@@ -532,7 +532,7 @@ header .intro-text .intro-heading {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefcea', endColorstr='#f1da36', GradientType=0); /* IE6-9 */
 }
 
-.btn-warning {
+.btn-gradient-warning {
     color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fefcea+0,f1da36+100;Gold+3D */
     background: #fefcea; /* Old browsers */
@@ -553,7 +553,7 @@ header .intro-text .intro-heading {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf0404', endColorstr='#cf0404', GradientType=0); /* IE6-9 */
 }
 
-.btn-danger {
+.btn-gradient-danger {
     color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cf0404+0,ff3019+30,ff3019+75,cf0404+100 */
     background: #cf0404; /* Old browsers */

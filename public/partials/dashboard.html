@@ -55,7 +55,7 @@
                                         <div ng-repeat="service in activeBusiness.business.services track by $index"
                                              style="height:50px;">
                                             <li>
-                                                <button class="btn btn-md btn-primary pull-left"
+                                                <button class="btn btn-md btn-gradient-primary pull-left"
                                                         ng-click="openService('lg',false,service) "
                                                         uib-tooltip="Book Appointment" tooltip-append-to-body="true"
                                                         tooltip-placement="top">
@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                     <div class="dashboard-panel-footer">
-                                        <button class="btn btn-success" disabled
+                                        <button class="btn btn-gradient-success" disabled
                                                 ng-hide="activeBusiness.business.tier === 2">
                                             Upgrade!
                                         </button>
@@ -204,12 +204,12 @@
                                     <li>
                                         <h5>{{service.name}}
                                             <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-md btn-warning "
+                                                <button class="btn btn-md btn-gradient-warning "
                                                         ng-click="editService(service,$index)"
                                                         uib-tooltip="Edit Service" tooltip-append-to-body="true"><i
                                                         class="fa fa-pencil"></i>
                                                 </button>
-                                                <button class="btn btn-md btn-danger"
+                                                <button class="btn btn-md btn-gradient-danger"
                                                         ng-click="openRemoveServiceModal(service,$index)"
                                                         uib-tooltip="Delete" tooltip-append-to-body="true"><i
                                                         class="fa fa-trash"></i>
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                             <div class="dashboard-panel-footer">
-                                <button class="btn btn-sm btn-success" ng-click="newService()">
+                                <button class="btn btn-sm btn-gradient-success" ng-click="newService()">
                                     New Service
                                 </button>
                             </div>
@@ -252,12 +252,12 @@
                                     <li>
                                         <h5>{{associate.name}}
                                             <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-md btn-warning"
+                                                <button class="btn btn-md btn-gradient-warning"
                                                         ng-click="openAvailabilityModal('lg',associate)"
                                                         uib-tooltip="View Availability" tooltip-placement="top"
                                                         tooltip-append-to-body="true"><i
                                                         class="fa fa-hourglass"></i></button>
-                                                <button class="btn btn-md btn-danger"
+                                                <button class="btn btn-md btn-gradient-danger"
                                                         ng-click="removeEmployee(associate, activeBusiness.business)"
                                                         uib-tooltip="Remove Associate" tooltip-placement="top"
                                                         tooltip-append-to-body="true"><i
@@ -269,7 +269,7 @@
                                 </div>
                             </div>
                             <div class="dashboard-panel-footer">
-                                <button class="btn btn-sm btn-success"
+                                <button class="btn btn-sm btn-gradient-success"
                                         ng-click="openEmployee(activeBusiness.business)">
                                     New Associate
                                 </button>
@@ -308,7 +308,7 @@
                                 <span ng-if="activeBusiness.business.tier === 2" style="color:#FFD700;"><i
                                         class="fa fa-certificate"></i> Gold</span>
                                 </div>
-                                <button class="btn btn-success" ng-click="upgrade = !upgrade"
+                                <button class="btn btn-gradient-success" ng-click="upgrade = !upgrade"
                                         ng-hide="activeBusiness.business.tier === 2">
                                     Upgrade!
                                 </button>
@@ -390,7 +390,7 @@
                                                 <!-- Submit -->
                                                 <div class="control-group">
                                                     <div class="controls text-center">
-                                                        <button class="btn btn-success" disabled
+                                                        <button class="btn btn-gradient-success" disabled
                                                                 ng-hide="activeBusiness.business.tier === 2">
                                                             Upgrade!
                                                         </button>

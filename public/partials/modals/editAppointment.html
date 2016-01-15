@@ -65,24 +65,28 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
+    <button class="btn btn-gradient-warning"
+            ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
             ng-click="changeApptStatus()">Paid <i class="fa fa-credit-card"></i>
     </button>
-    <button class="btn btn-success" ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
+    <button class="btn btn-gradient-success"
+            ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
             ng-click="charge(dateObj.appointment)">Charge <i class="fa fa-credit-card"></i></button>
-    <button class="btn btn-primary"
+    <button class="btn btn-gradient-primary"
             ng-if="showUpdate"
             ng-disabled="!appointment || !showUpdate"
             ng-click="update(false)"><i class="fa fa-calendar-check-o"></i> Update Appointment
     </button>
-    <button class="btn btn-primary"
+    <button class="btn btn-gradient-primary"
             ng-if="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time &&
             dateObj.appointment.employee !== currentUser.user._id"
             ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
-    <button class="btn btn-danger" ng-click="cancel()" ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
+    <button class="btn btn-gradient-danger" ng-click="cancel()"
+            ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
         Cancel Appointment <i class="fa fa-calendar-times-o"></i></button>
-    <button class="btn btn-warning" ng-click="close()" ng-if="datePassed || dateObj.appointment.status === 'paid'">
+    <button class="btn btn-gradient-warning" ng-click="close()"
+            ng-if="datePassed || dateObj.appointment.status === 'paid'">
         Close
     </button>
 </div>
