@@ -765,18 +765,17 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         });
         if(eventIndex !== -1){
             if ($scope.events[eventIndex]._id === data.appointment._id && data.appointment.status !== 'pending') {
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [data.appointment._id]);
-
+                var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
                 $scope.lastUpdatedView = moment().calendar();
                 $scope.lastUpdated = moment();
-                $scope.events[eventIndex].start = moment(data.appointment.start.full);
-                $scope.events[eventIndex].end = moment(data.appointment.end.full);
-                $scope.events[eventIndex].appointment = data.appointment;
+                event[0].start = moment(data.appointment.start.full);
+                event[0].end = moment(data.appointment.end.full);
+                event[0].appointment = data.appointment;
                 if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', $scope.events[eventIndex]);
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                     Notification.info({message: 'A customer has re-scheduled an appointment!'});
                 } else if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer === null) {
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', $scope.events[eventIndex]);
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                     Notification.info({message: 'An employee has re-scheduled an appointment!'});
                 } else {
                     Notification.info({message: 'You have re-scheduled an appointment!'});
@@ -797,7 +796,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('newAppt', function (appointment) {
-        console.log("NEW APPOINTMENT");
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
