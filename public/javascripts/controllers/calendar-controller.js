@@ -358,20 +358,21 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
              *
              * This appointment should not show up for the employee since it has a status of pending.
              */
-        } else if (data.from === data.appointment.employee || data.from !== data.appointment.customer) {
+        } else {
             for (eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
-                    var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
-                    event[0].start = moment(data.appointment.start.full).format();
-                    event[0].end = moment(data.appointment.end.full).format();
-                    event[0].title = data.appointment.title;
-                    event[0].appointment = data.appointment;
-                    event[0].backgroundColor = '#f00';
-                    event[0].borderColor = '#f00';
+                    console.log("updating");
+                    var fromEmployeeEvent = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
+                    fromEmployeeEvent[0].start = moment(data.appointment.start.full).format();
+                    fromEmployeeEvent[0].end = moment(data.appointment.end.full).format();
+                    fromEmployeeEvent[0].title = data.appointment.title;
+                    fromEmployeeEvent[0].appointment = data.appointment;
+                    fromEmployeeEvent[0].backgroundColor = '#f00';
+                    fromEmployeeEvent[0].borderColor = '#f00';
                     Notification.warning({message: 'An employee has requested to re-schedule an appointment!'});
                     $scope.lastUpdatedView = moment().calendar();
                     $scope.lastUpdated = moment();
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', fromEmployeeEvent[0]);
                 }
             }
         }
