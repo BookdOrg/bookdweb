@@ -50,10 +50,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @type {{events: Array}}
      */
-    $scope.$on('$destroy',function(){
-        socketService.emit('leaveDashboardRoom',$scope.activeBusiness.business._id);
-        socketService.removeAllListeners();
-    });
+
     /**
      *
      *  These are toggles for each accordion group
@@ -772,6 +769,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     event[0].start = moment(data.appointment.start.full);
                     event[0].end = moment(data.appointment.end.full);
                     event[0].appointment = data.appointment;
+                    event[0].backgroundColor = null;
                     if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'A customer has re-scheduled an appointment!'});
@@ -787,16 +785,28 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         start: data.appointment.start.full,
                         end: data.appointment.end.full,
                         appointment: data.appointment
-                    }
+                    };
+                    $scope.events[eventIndex].start = data.appointment.start.full;
+                    $scope.events[eventIndex].end = data.appointment.end.full;
+                    $scope.events[eventIndex].appointment = data.appointment;
+                    $scope.events[eventIndex].backgroundColor = null;
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
                     Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                 }
-
-
             } else if (data.appointment.status === 'pending') {
                 Notification.info({message: 'An employee has re-scheduled an appointment, ' +
-                'it is pending and has been removed from your calendar.'});
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [data.appointment._id]);
+                'it is pending and will be updated when the customer accepts.'
+                });
+                var pendingEvent = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [data.appointment._id]);
+                $scope.events[eventIndex].start = data.appointment.start.full;
+                $scope.events[eventIndex].end = data.appointment.end.full;
+                $scope.events[eventIndex].appointment = data.appointment;
+                $scope.events[eventIndex].backgroundColor = '#f00';
+                pendingEvent[0].start = data.appointment.start.full;
+                pendingEvent[0].end = data.appointment.end.full;
+                pendingEvent[0].appointment = data.appointment;
+                pendingEvent[0].backgroundColor = '#f00';
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
             }
         }else{
             Notification.info({message: 'A customer has accepted a re-scheduled appointment!'});
@@ -837,5 +847,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.lastUpdatedView = moment().calendar();
         $scope.lastUpdated = moment();
         localStorage.setItem('masterList', angular.toJson($scope.masterList));
+    });
+
+    $scope.$on('$destroy', function () {
+        socketService.emit('leaveDashboardRoom', $scope.activeBusiness.business._id);
+        socketService.removeListener('newAppt');
+        socketService.removeListener('canceledAppt');
+        socketService.removeListener('updatedAppt');
     });
 };
