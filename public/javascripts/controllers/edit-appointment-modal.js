@@ -60,6 +60,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.$broadcast('timer-clear');
             $scope.previousDate = moment(new Date(oldVal)).format('MM/DD/YYYY');
             var selectedDate = new Date(newVal);
+            //var roomId = moment(selectedDate).format('MM/YYYY') + data.appointment.employee;
             getAvailableTimes(selectedDate, data.appointment.employee);
         }
     });
@@ -91,6 +92,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             employeeApptObj = {
                 startDate: $scope.newRoomDate,
                 employeeId: employeeId,
+                previousDate: $scope.previousDate,
                 customerId: data.appointment.customer,
                 personal: true
             };
@@ -98,10 +100,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             employeeApptObj = {
                 startDate: $scope.newRoomDate,
                 employeeId: employeeId,
+                previousDate: $scope.previousDate,
                 customerId: data.appointment.customer,
                 personal: false
             };
         }
+        //Join the socket room with all the other users who are looking at this date for the given employee.
+        socketService.emit('joinApptRoom', employeeApptObj);
         /**
          * Make a request for both the customer and employee's appointments, returns
          * all appointments on the given selected start date
@@ -144,8 +149,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 if ($scope.dateObj.appointment !== 'canceled' && $scope.newRoomDate === $scope.dateObj.appointment.start.date) {
                     _.each($scope.availableTimes, testTime);
                 }
-                //Join the socket room with all the other users who are looking at this date for the given employee.
-                socketService.emit('joinApptRoom', employeeApptObj);
             });
     }
 
