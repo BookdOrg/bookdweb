@@ -54,7 +54,7 @@
                                         </div>
                                         <div ng-repeat="service in activeBusiness.business.services track by $index"
                                              style="height:50px;">
-                                            <li>
+                                            <li id="dashboard-cal-service-list">
                                                 <button class="btn btn-md btn-gradient-primary pull-left"
                                                         ng-click="openService('lg',false,service) "
                                                         uib-tooltip="Book Appointment" tooltip-append-to-body="true"

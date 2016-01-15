@@ -644,3 +644,8 @@ header .intro-text .intro-heading {
 .dashboard-panel-body .panel-body {
     padding: 0px;
 }
+
+#dashboard-cal-service-list h5 {
+    line-height: 25px;
+    padding-left: 45px;
+}
