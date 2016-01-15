@@ -70,7 +70,38 @@
                             </uib-accordion>
                         </div>
                     </div>
-
+                    <!--
+                    #################################
+                    ##
+                    ##    calendar Key Block
+                    ##
+                    ##
+                    #################################
+                    -->
+                    <div class="row">
+                        <div class="col-xs-12 dashboard-panel dashboard-panel-body">
+                            <uib-accordion>
+                                <uib-accordion-group is-open="statusOne.open">
+                                    <uib-accordion-heading>
+                                        Calendar Key
+                                        <i class="pull-right glyphicon"
+                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                                    </uib-accordion-heading>
+                                    <div class="col-xs-12 text-left">
+                                        <li style="color:#3a87ad;">Active</li>
+                                        <li style="color:#f00;">Pending</li>
+                                        <li style="color:#f39;">Paid</li>
+                                    </div>
+                                    <!--<div class="dashboard-panel-footer">-->
+                                    <!--<button class="btn btn-gradient-success" disabled-->
+                                    <!--ng-hide="activeBusiness.business.tier === 2">-->
+                                    <!--Upgrade!-->
+                                    <!--</button>-->
+                                    <!--</div>-->
+                                </uib-accordion-group>
+                            </uib-accordion>
+                        </div>
+                    </div>
                     <!--
                     #################################
                     ##
