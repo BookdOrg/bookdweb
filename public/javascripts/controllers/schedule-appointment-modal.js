@@ -439,4 +439,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 console.log(err);
             });
     };
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
+    });
 };

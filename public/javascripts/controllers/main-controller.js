@@ -1,4 +1,4 @@
-module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap) {
+module.exports = function ($scope, businessFactory, $controller, $rootScope, NgMap, socketService) {
     $scope.businesses = businessFactory.businesses;
 
     /**
@@ -98,5 +98,9 @@ module.exports = function ($scope, businessFactory, $controller,$rootScope,NgMap
         if(newVal){
             $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
         }
+    });
+
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
     });
 };

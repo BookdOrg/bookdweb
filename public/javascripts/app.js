@@ -17,6 +17,7 @@ require('ngmap');
 require('angular-ui-bootstrap');
 require('fullcalendar');
 require('oauthio-web');
+require('angular-socket-io');
 
 var app = angular.module('cc', [
     require('angular-animate'),
@@ -31,9 +32,9 @@ var app = angular.module('cc', [
     'ui.bootstrap',
     'ui.calendar',
     'ui-notification',
-    'ui.router'
+    'ui.router',
+    'btford.socket-io'
 ]);
-
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
     .constant('localDevHost', 'localhost')

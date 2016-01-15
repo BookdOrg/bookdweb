@@ -69,4 +69,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
+    });
 };

@@ -219,4 +219,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         );
     };
 
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
+    });
+
 };

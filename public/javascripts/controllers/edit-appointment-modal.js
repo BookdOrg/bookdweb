@@ -601,4 +601,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         }
     }
+
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
+    });
 };

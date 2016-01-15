@@ -50,9 +50,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @type {{events: Array}}
      */
-
     $scope.$on('$destroy',function(){
         socketService.emit('leaveDashboardRoom',$scope.activeBusiness.business._id);
+        socketService.removeAllListeners();
     });
     /**
      *
@@ -305,6 +305,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param business
      */
     $scope.switchBusiness = function (business) {
+        socketService.emit('leaveDashboardRoom', $scope.activeBusiness.business._id);
         $scope.activeBusiness.business = business;
         socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
         $scope.filteredList[$scope.activeBusiness.business.name] = {};
@@ -796,6 +797,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('newAppt', function (appointment) {
+        console.log("NEW APPOINTMENT");
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
         $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);

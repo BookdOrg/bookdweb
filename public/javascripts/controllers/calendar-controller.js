@@ -319,6 +319,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.eventSources = [$scope.eventsSource];
 
     socketService.on('newAssociateAppt', function (appointment) {
+        console.log('NEW APPOINTMENT WAS BOOKED');
         Notification.success({message: 'New appointment booked!'});
         $scope.addEvent(appointment);
         $scope.lastUpdatedView = moment().calendar();
@@ -390,6 +391,10 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         }
 
         Notification.warning({message: 'An appointment has been canceled'});
+    });
+
+    $scope.$on('$destroy', function (event) {
+        socketService.removeAllListeners();
     });
 };
 
