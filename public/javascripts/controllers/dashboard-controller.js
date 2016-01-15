@@ -1,6 +1,6 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
                            $uibModal, socketService, $rootScope, Notification,$interval,$timeout) {
-    $scope.radioModel = 'Month';
+    $scope.radioModel = 'Week';
     /**
      * The business currently selected by the Bookd Associate
      * @type {{business: {}}}
@@ -624,6 +624,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             height: 700,
             editable: true,
             displayEventEnd: true,
+            defaultView: 'agendaWeek',
             header: {
                 left: 'title',
                 center: '',

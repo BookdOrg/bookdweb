@@ -236,14 +236,12 @@
                                         <h5>{{service.name}}
                                             <div class="btn-group pull-right" role="group" aria-label="...">
                                                 <button class="btn btn-md btn-gradient-warning "
-                                                        ng-click="editService(service,$index)"
-                                                        uib-tooltip="Edit Service" tooltip-append-to-body="true"><i
-                                                        class="fa fa-pencil"></i>
+                                                        ng-click="editService(service,$index)">
+                                                    <i class="fa fa-pencil"></i>
                                                 </button>
                                                 <button class="btn btn-md btn-gradient-danger"
-                                                        ng-click="openRemoveServiceModal(service,$index)"
-                                                        uib-tooltip="Delete" tooltip-append-to-body="true"><i
-                                                        class="fa fa-trash"></i>
+                                                        ng-click="openRemoveServiceModal(service,$index)">
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
                                         </h5>
@@ -284,14 +282,10 @@
                                         <h5>{{associate.name}}
                                             <div class="btn-group pull-right" role="group" aria-label="...">
                                                 <button class="btn btn-md btn-gradient-warning"
-                                                        ng-click="openAvailabilityModal('lg',associate)"
-                                                        uib-tooltip="View Availability" tooltip-placement="top"
-                                                        tooltip-append-to-body="true"><i
+                                                        ng-click="openAvailabilityModal('lg',associate)"><i
                                                         class="fa fa-hourglass"></i></button>
                                                 <button class="btn btn-md btn-gradient-danger"
-                                                        ng-click="removeEmployee(associate, activeBusiness.business)"
-                                                        uib-tooltip="Remove Associate" tooltip-placement="top"
-                                                        tooltip-append-to-body="true"><i
+                                                        ng-click="removeEmployee(associate, activeBusiness.business)"><i
                                                         class="fa fa-trash"></i></button>
                                             </div>
                                         </h5>
