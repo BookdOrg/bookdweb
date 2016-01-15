@@ -170,20 +170,8 @@ io.on('connection', function (socket, data) {
      *
      */
     socket.on('apptUpdated', function (data) {
-        console.log(socket.rooms);
-        console.log("APPOINTMENT UPDATED")
-        console.log(data);
-        if (data) {
-            console.log(data);
-        } else {
-            console.log("no data");
-        }
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
-        console.log("EMPLOYEE")
-        console.log(employeeSocket)
-        console.log("CUSTOMER")
-        console.log(customerSocket)
         socket.leave(data.roomId, function (err) {
             if (err) {
                 console.log(err);
@@ -191,23 +179,17 @@ io.on('connection', function (socket, data) {
         });
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('updatedAppt', data);
-        console.log("SENDING TO THE BUSINESS")
         if (data.from === data.appointment.customer && employeeSocket) {
-            console.log("DATA FROM CUSTOMER, SENDING TO EMPLOYEE")
             io.to(employeeSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from === data.appointment.employee && customerSocket) {
-            console.log("DATA FROM EMPLOYEE, SENDING TO THE CUSTOMER")
-            console.log(data);
             io.to(customerSocket.id).emit('updatedCalAppt', data);
         }
         if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
             if (customerSocket) {
-                console.log("DATA FROM THE BUSINESS, SENDING TO CUSTOMER")
                 io.to(customerSocket.id).emit('updatedCalAppt', data);
             }
             if (employeeSocket) {
-                console.log("DATA FROM THE BUSINESS, SENDING TO EMPLOYEE")
                 io.to(employeeSocket.id).emit('updatedCalAppt', data);
             }
         }
