@@ -302,10 +302,19 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             editable: true,
             displayEventEnd: true,
             defaultView: 'agendaWeek',
+            eventLimit: true,
             header: {
                 left: 'title',
                 center: '',
                 right: 'today prev,next'
+            },
+            views: {
+                month: {
+                    eventLimit: 10
+                },
+                week: {
+                    eventLimit: 15
+                }
             },
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,

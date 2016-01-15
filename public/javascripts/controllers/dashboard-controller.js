@@ -624,11 +624,20 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             height: 700,
             editable: true,
             displayEventEnd: true,
+            eventLimit: true,
             defaultView: 'agendaWeek',
             header: {
                 left: 'title',
                 center: '',
                 right: 'today prev,next'
+            },
+            views: {
+                month: {
+                    eventLimit: 10
+                },
+                week: {
+                    eventLimit: 15
+                }
             },
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
