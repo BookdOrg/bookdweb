@@ -3,7 +3,8 @@
     "angular": 1,
     "moment": 1,
     "io": 1,
-    "_": 1
+    "_": 1,
+    "google": 1
   },
   "plugins": [
     "angular"
