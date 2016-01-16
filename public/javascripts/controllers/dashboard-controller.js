@@ -302,11 +302,15 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param business
      */
     $scope.switchBusiness = function (business) {
-        socketService.emit('leaveDashboardRoom', $scope.activeBusiness.business._id);
-        $scope.activeBusiness.business = business;
-        socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
-        $scope.filteredList[$scope.activeBusiness.business.name] = {};
-        $scope.viewRender();
+        if (business._id !== $scope.activeBusiness._id) {
+            socketService.emit('leaveDashboardRoom', $scope.activeBusiness.business._id);
+            $scope.activeBusiness.business = business;
+            socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
+            $scope.filteredList[$scope.activeBusiness.business.name] = {};
+            $scope.events = [];
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+        }
+
     };
 
     /**
@@ -422,7 +426,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * @param businessArray - The array of businesses an employee owns,
      */
     var createEventsSources = function (businessArray) {
-        $scope.events = [];
+        var events = [];
         _.forEach(businessArray, function (employeesArray, key) {
             _.forEach(employeesArray, function (appointmentsArray, key) {
                 for (var appointmentIndex = 0; appointmentIndex < appointmentsArray.length; appointmentIndex++) {
@@ -436,19 +440,20 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     if (appointmentsArray[appointmentIndex].status === 'pending') {
                         tempObj.backgroundColor = '#f00';
                         tempObj.borderColor = '#f00';
-                        $scope.events.push(tempObj);
+                        events.push(tempObj);
 
                     } else if (appointmentsArray[appointmentIndex].status === 'paid') {
                         tempObj.backgroundColor = '#f39';
                         tempObj.borderColor = '#f39';
-                        $scope.events.push(tempObj);
+                        events.push(tempObj);
                     } else {
-                        $scope.events.push(tempObj);
+                        events.push(tempObj);
                     }
                 }
             });
 
         });
+        return events;
     };
     /**
      * All appointments for the business, this function sorts them by employee
@@ -480,79 +485,26 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         return responseArray;
     };
-    /**
-     *
-     * Function that's called whenever actions are taken on the calendar,
-     * when a month is switched, day, etc.
-     *
-     * We get the current date selected on the calendar and format that date
-     * into MM/YYYY, the monthYear is used to select all appointmnts in the DB
-     * that are in the same month/year
-     *
-     * We check to see if the previousMonthYear selected or previousBusinessYear selected are the same
-     * as the one currently being selected, if not we remove all events on the calendar
-     * then make a request for new business for that month.
-     *
-     * In the getAllAppointments callback we create a new masterEntry list of appointments.
-     *
-     * The schema of which is:
-     *
-     *              masterList:{
-     *                  businessName:{
-     *                      appointments:{
-     *                          [0],
-     *                          [1].
-     *                     }
-     *                  },
-     *                  businessName:{
-     *                          [0],
-     *                          [1],
-     *                 }
-     *              }
-     *
-     *
-     * After the master entry is created we run our create eventsSources function and store
-     * the parameters for the getAllAppointments request in localStorage
-     *
-     *
-     * @param view
-     * @param element
-     */
 
-    //var storedList = localStorage.getItem('masterList');
-    $scope.viewRender = function (view, element) {
-        //monthYear = current date of the calendar
-        var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
-        //convert monthYear into the correct format
-        $scope.monthYear = moment(monthYear).format('MM/YYYY');
-        //get the previous monthYear/business if they exists
-        var previousMonthYear = localStorage['monthYear'];
-        var previousBusiness = localStorage['previousBusiness'];
-        //if the current monthYear isn't equal to the one stored and there's no master list for the previousBusiness
-        if ($scope.monthYear !== previousMonthYear || !$scope.masterList[$scope.activeBusiness.business.name] || previousBusiness !== $scope.activeBusiness.business.name) {
-            //remove all events from the calendar
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            //make a request for all appointments for the activeBusiness that are schedueld for the same month of this year
-            businessFactory.getAllAppointments($scope.activeBusiness.business._id, $scope.monthYear)
-                .then(function (response) {
-                    //take the array of appointments returned and add them to our master entry of appointments for each employee
-                    var masterEntry = createMasterEntry(response);
-                    $scope.masterList[$scope.activeBusiness.business.name] = {};
-                    $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
-                    localStorage.setItem('masterList', angular.toJson($scope.masterList));
-                    //create events arrays with the appointments for the business in our masterList of businesses
-                    $scope.events = [];
-                    createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-                    $scope.eventSources.push($scope.events);
-                    $scope.lastUpdatedView = moment().calendar();
-                    $scope.lastUpdated = moment();
-                    //add our monthYear and business to localStorage
-                    localStorage['monthYear'] = $scope.monthYear;
-                    localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
-                });
-        }
+    $scope.getEvents = function (start, end, timezone, callback) {
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id, start, end)
+            .then(function (response) {
+                //take the array of appointments returned and add them to our master entry of appointments for each employee
+                var masterEntry = createMasterEntry(response);
+                $scope.masterList[$scope.activeBusiness.business.name] = {};
+                $scope.masterList[$scope.activeBusiness.business.name] = masterEntry;
+                //create events arrays with the appointments for the business in our masterList of businesses
+                $scope.events = [];
+                var events = createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
+                $scope.eventSources.push($scope.events);
+                $scope.lastUpdatedView = moment().calendar();
+                $scope.lastUpdated = moment();
+                //add our monthYear and business to localStorage
+                localStorage['previousBusiness'] = $scope.activeBusiness.business.name;
+                $scope.events = events;
+                callback(events);
+            });
     };
-
     /* config object for UI Calendar*/
     $scope.uiConfig = {
         calendar: {
@@ -574,11 +526,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     eventLimit: 15
                 }
             },
+            events: $scope.getEvents,
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
-            viewRender: $scope.viewRender,
             addEvent: $scope.addEvent
         }
     };
@@ -729,7 +681,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].backgroundColor = null;
                     $scope.events[eventIndex].borderColor = null;
                     $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
-                    localStorage.setItem('masterList', angular.toJson($scope.masterList));
                     if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'A customer has re-scheduled an appointment!'});
@@ -752,7 +703,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].backgroundColor = null;
                     $scope.events[eventIndex].borderColor = null;
                     $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
-                    localStorage.setItem('masterList', angular.toJson($scope.masterList));
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
                     Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                 }
@@ -772,7 +722,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 pendingEvent[0].backgroundColor = '#f00';
                 pendingEvent[0].borderColor = '#f00';
                 $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
-                localStorage.setItem('masterList', angular.toJson($scope.masterList));
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
             }
         }else{
@@ -798,7 +747,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
         $scope.lastUpdatedView = moment().calendar();
         $scope.lastUpdated = moment();
-        localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
     /**
      *
@@ -820,7 +768,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
         $scope.lastUpdatedView = moment().calendar();
         $scope.lastUpdated = moment();
-        localStorage.setItem('masterList', angular.toJson($scope.masterList));
     });
 
     $scope.$on('$destroy', function () {

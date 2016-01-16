@@ -771,10 +771,13 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.param('id');
-    var monthYear = req.param('monthYear');
+    var start = new Date(req.param('start'));
+    var end = new Date(req.param('end'));
+    var isoStart = moment(start).format();
+    var isoEnd = moment(end).format();
     Appointment.find({
         'businessId': businessId,
-        'start.monthYear': monthYear,
+        'start.full': {'$gte': isoStart, $lt: isoEnd},
         $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
     }).exec(function (error, response) {
         if (error) {
