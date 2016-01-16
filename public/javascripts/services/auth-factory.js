@@ -102,6 +102,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             $window.localStorage.removeItem('providerInfo');
             $window.localStorage.removeItem('previousBusiness');
             $window.localStorage.removeItem('previousPersonalMonthYear');
+            $window.localStorage.removeItem('oauthio_provider_google_plus');
             $rootScope.currentUser = null;
             //socketService.disconnect();
             $state.go('landing');

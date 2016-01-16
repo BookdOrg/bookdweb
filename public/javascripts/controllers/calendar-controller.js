@@ -252,6 +252,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 $scope.appointments = data;
                 var events = createEventsSources(data);
                 $scope.events = events;
+                $scope.lastUpdatedView = moment().calendar();
+                $scope.lastUpdated = moment();
                 callback(events);
             });
     };
