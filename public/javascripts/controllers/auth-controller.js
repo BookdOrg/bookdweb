@@ -39,7 +39,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                                 onlineData.user = $rootScope.currentUser.user._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
-                                getAppointments();
                                 getNotifications();
                                 $uibModalInstance.close();
                             }, function (error) {
@@ -72,7 +71,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                                 onlineData.user = $rootScope.currentUser.user._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
-                                getAppointments();
                                 getNotifications();
                                 $uibModalInstance.close();
                             }, function (error) {
@@ -182,7 +180,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             .then(function () {
                 onlineData.user = $rootScope.currentUser.user._id;
                 socketService.emit('online', onlineData);
-                getAppointments();
                 getNotifications();
                 $state.go(state, {tier: tier});
                 $uibModalInstance.close();
@@ -193,19 +190,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('close');
-    };
-    /**
-     * Function to get a users appointments after they have successfully logged in
-     */
-    var getAppointments = function () {
-        userFactory.getUserAppts().then(
-            function (data) {
-                $rootScope.currentUser.user.appointments = data;
-            },
-            function (errorMessage) {
-                console.log(errorMessage);
-            }
-        );
     };
 
     var getNotifications = function () {

@@ -29,15 +29,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
      */
     uploader.onCompleteItem = function (item) {
         uploader.removeFromQueue(item);
-
-        userFactory.getUserAppts().then(
-            function (data) {
-                $rootScope.currentUser.user.appointments = data;
-            },
-            function (errorMessage) {
-                console.log(errorMessage);
-            }
-        );
     };
 
     /**
