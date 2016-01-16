@@ -27,6 +27,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      *
      */
     var createEventsSources = function (appointmentsArray) {
+        var events = [];
         for (var pappointmentIndex = 0; pappointmentIndex < appointmentsArray.personalAppointments.length; pappointmentIndex++) {
             var personalTempObj = {
                 _id: appointmentsArray.personalAppointments[pappointmentIndex]._id,
@@ -36,11 +37,11 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 appointment: appointmentsArray.personalAppointments[pappointmentIndex]
             };
             if (appointmentsArray.personalAppointments[pappointmentIndex].status !== 'pending') {
-                $scope.events.push(personalTempObj);
+                events.push(personalTempObj);
             } else {
                 personalTempObj.backgroundColor = '#f00';
                 personalTempObj.borderColor = '#f00';
-                $scope.events.push(personalTempObj);
+                events.push(personalTempObj);
             }
         }
         for (var bappointmentIndex = 0; bappointmentIndex < appointmentsArray.businessAppointments.length; bappointmentIndex++) {
@@ -54,13 +55,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             if (appointmentsArray.businessAppointments[bappointmentIndex].status !== 'pending') {
                 businessTempObj.backgroundColor = '#f70';
                 businessTempObj.borderColor = '#f70';
-                $scope.events.push(businessTempObj);
+                events.push(businessTempObj);
             } else {
                 businessTempObj.backgroundColor = '#f00';
                 businessTempObj.borderColor = '#f00';
-                $scope.events.push(businessTempObj);
+                events.push(businessTempObj);
             }
         }
+        return events;
     };
     /**
      *
@@ -70,9 +72,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      *
      * @type {{events: Array}}
      */
-    $scope.eventsSource = {
-        events: $scope.events
-    };
+    //$scope.eventsSource = {
+    //    events: $scope.events
+    //};
 
     /**
      * Opens the edit Appointment modal, for editing appointments
@@ -197,7 +199,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     };
     /* add custom event to the calendar*/
     $scope.addEvent = function (appointment) {
-        $scope.events.push({
+        var event = {
             _id: appointment._id,
             title: appointment.title,
             start: appointment.start.full,
@@ -205,7 +207,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             appointment: appointment,
             backgroundColor: '#f70',
             borderColor: '#f70'
-        });
+        };
+        $scope.events.push(event);
+        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
     };
     /* remove event */
     $scope.remove = function (index) {
@@ -231,42 +235,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         });
         $compile(element)($scope);
     };
-
-    /**
-     *
-     * Refresh the calendar every minute
-     *
-     */
-    //var refreshingPromise;
-    //var isRefreshing = false;
-    //$scope.startRefreshing = function(){
-    //    if(isRefreshing) return;
-    //    isRefreshing = true;
-    //    (function refreshEvery(){
-    //        var lastUpdated = moment($scope.lastUpdated);
-    //        var now = moment();
-    //        if(now.diff(lastUpdated,'minutes')>=1){
-    //            $scope.calLoading=true;
-    //            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-    //            userFactory.getUserAppts(null, $scope.monthYear)
-    //                .then(function (data) {
-    //                    $scope.appointments = data;
-    //                    createEventsSources($scope.appointments);
-    //                    $scope.lastUpdatedView = moment().calendar();
-    //                    $scope.lastUpdated = moment();
-    //                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-    //                    $scope.calLoading=false;
-    //                    refreshingPromise = $timeout(refreshEvery,60000);
-    //                });
-    //        }else{
-    //            refreshingPromise = $timeout(refreshEvery,60000);
-    //        }
-    //
-    //    }());
-    //};
-    //$timeout(function(){
-    //    $scope.startRefreshing();
-    //},60000);
     /**
      *
      * Renders the view whenever actions on the calendar are taken
@@ -278,22 +246,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      */
         //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
-    $scope.viewRender = function (view, element) {
-        $scope.lastUpdatedView = moment().calendar();
-        $scope.lastUpdated = moment();
-        var monthYear = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('getDate');
-        //convert monthYear into the correct format
-        $scope.monthYear = moment(monthYear).format('MM/YYYY');
-        var previousMonthYear = localStorage['previousPersonalMonthYear'];
-        if ($scope.monthYear !== previousMonthYear || !$scope.appointments) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
-            userFactory.getUserAppts(null, $scope.monthYear)
-                .then(function (data) {
-                    $scope.appointments = data;
-                    createEventsSources($scope.appointments);
-                    localStorage['previousPersonalMonthYear'] = $scope.monthYear;
-                });
-        }
+    $scope.getEvents = function (start, end, timezone, callback) {
+        userFactory.getUserAppts(null, start, end)
+            .then(function (data) {
+                $scope.appointments = data;
+                var events = createEventsSources(data);
+                $scope.events = events;
+                callback(events);
+            });
     };
     /* Calendar config object */
     $scope.uiConfig = {
@@ -303,6 +263,8 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             displayEventEnd: true,
             defaultView: 'agendaWeek',
             eventLimit: true,
+            startParam: 'start',
+            endParam: 'end',
             header: {
                 left: 'title',
                 center: '',
@@ -316,6 +278,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                     eventLimit: 15
                 }
             },
+            events: $scope.getEvents,
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
@@ -324,10 +287,9 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             addEvent: $scope.addEvent
         }
     };
-
     $scope.calendars = uiCalendarConfig.calendars;
     //Creates the eventsSources array that the calendar will display, initialize it with the values created earlier
-    $scope.eventSources = [$scope.eventsSource];
+    $scope.eventSources = [$scope.events];
 
     socketService.on('newAssociateAppt', function (appointment) {
         Notification.success({message: 'New appointment booked!'});

@@ -18,22 +18,6 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();
     });
-
-    /**
-     * If the user is logged in we want to retrieve their
-     * appointments and update the current user with those appointments
-     * so that they can be used in the navbar.
-     */
-    if (auth.isLoggedIn()) {
-        userFactory.getUserAppts().then(
-            function (data) {
-                $rootScope.currentUser.user.appointments = data;
-            },
-            function (errorMessage) {
-                console.log(errorMessage);
-            }
-        );
-    }
     /**
      * Helper function, used to determine which pages we should show the search
      * bar in the navbar. Gets called in the template

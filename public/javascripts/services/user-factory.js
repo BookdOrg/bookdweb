@@ -56,17 +56,16 @@ var userFactory = function ($http, auth, $q) {
      * Returns all a users personal and business appointments
      * @returns {*}
      */
-    o.getUserAppts = function (id, monthYear) {
+    o.getUserAppts = function (id, start, end) {
         return $http.get('/user/appointments-all', {
             params: {
                 id: id,
-                monthYear: monthYear
+                start: start,
+                end: end
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-            angular.copy(data.data, o.appointments);
             return data.data;
-            //console.log(data);
         }, handleError);
     };
     /**

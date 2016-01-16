@@ -268,7 +268,13 @@ router.get('/user/appointments', auth, function (req, res, next) {
  * Returns the appointments of a specified user.
  */
 router.get('/user/appointments-all', auth, function (req, res, next) {
+    var start = new Date(req.param('start'));
+    var end = new Date(req.param('end'));
+    var isoStart = moment(start).format();
+    var isoEnd = moment(end).format();
     var id;
+    var d = new Date();
+    var year = d.getFullYear();
     if (req.param('id') !== undefined) {
         id = req.param('id');
     } else {
@@ -279,13 +285,21 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         personalAppointments: [],
         businessAppointments: []
     };
-    Appointment.find({'customer': id, 'start.monthYear': monthYear}).exec(function (err, customerAppointments) {
+    Appointment.find({
+        'customer': id,
+        'start.full': {'$gte': isoStart, $lt: isoEnd}
+    }).exec(function (err, customerAppointments) {
         if (err) {
+            console.log(err);
             return next(err);
         }
         response.personalAppointments = customerAppointments;
-        Appointment.find({'employee': id, 'start.monthYear': monthYear}).exec(function (err, employeeAppointments) {
+        Appointment.find({
+            'employee': id,
+            'start.full': {$gte: isoStart, $lt: isoEnd}
+        }).exec(function (err, employeeAppointments) {
             if (err) {
+                console.log(err);
                 return next(err);
             }
             response.businessAppointments = employeeAppointments;
@@ -683,7 +697,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.end = req.body.end;
     appointment.title = req.body.title;
     appointment.timestamp = req.body.timestamp;
-
+    appointment.isoStart = req.body.isoStart;
     appointment.card = req.body.stripeToken;
     appointment.price = req.body.price;
 
