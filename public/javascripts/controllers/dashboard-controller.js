@@ -809,7 +809,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     socketService.on('canceledAppt', function (data) {
         var eventId;
         var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments;
-        employeeAppointments = _.without(masterList, _.findWhere(masterList, {'_id': data.appointment._id}));
+        employeeAppointments = _.without(employeeAppointments, _.findWhere(employeeAppointments, {'_id': data.appointment._id}));
         $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments = employeeAppointments;
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
