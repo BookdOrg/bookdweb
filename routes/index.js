@@ -159,7 +159,9 @@ io.on('connection', function (socket, data) {
             }
         });
         io.sockets.in(appt.roomId).emit('newRoomAppt', appt);
-        io.sockets.in(appt.businessId).emit('newAppt', appt);
+        if (appt.customer !== null) {
+            io.sockets.in(appt.businessId).emit('newAppt', appt);
+        }
         if (employeeSocket) {
             io.to(employeeSocket.id).emit('newAssociateAppt', appt);
         }
