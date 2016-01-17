@@ -19,11 +19,12 @@
                 <h3>Select an Associate</h3>
                 <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees">
                     <label>
-                        <img class="fitContainer" ng-if="employee.provider === 'google_plus'"
+                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
                              ng-src="{{employee.photo}}"/>
-                        <img class="fitContainer" ng-if="employee.provider === 'google_plus' && !employee.photo"
+                        <img class="fitContainer provider-photo-radius"
+                             ng-if="employee.provider === 'google_plus' && !employee.photo"
                              ng-src="{{cloudinaryDefaultPic}}"/>
-                        <img class="fitContainer" ng-if="employee.provider === 'facebook'"
+                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
                              ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
                         <img class="fitContainer" ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
@@ -72,6 +73,10 @@
                 <div class="col-xs-12">
                     <a data-target="#employees" data-toggle="tab" class="btn btn-gradient-warning"> Back
                     </a>
+                    <button class="btn btn-gradient-primary" ng-show="appointment"
+                            ng-click="book()">
+                        Book Appointment
+                    </button>
                     <button class="btn btn-gradient-success" ng-show="appointment" ng-if="tier >= 1"
                             stripe-checkout="ctrl.checkOut"
                             data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
@@ -81,11 +86,7 @@
                             data-image="/images/icon.png"
                             data-label="Book Appointment"
                             data-panel-label="Book">
-                        Book Appointment & Pay
-                    </button>
-                    <button class="btn btn-gradient-primary" ng-show="appointment"
-                            ng-click="book()">
-                        Book Appointment Only
+                        Book w/ Payment
                     </button>
                 </div>
             </div>

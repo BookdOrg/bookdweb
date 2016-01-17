@@ -24,7 +24,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.$watch('selectedDate', function (newVal, oldVal) {
         if (newVal) {
             $scope.selectedDate = newVal;
-            if ($scope.selectedIndex) {
+            if ($scope.selectedIndex !== null) {
                 $scope.availableTimes[$scope.selectedIndex].toggled = false;
                 socketService.emit('timeDestroyed', $scope.activeTime);
             }
