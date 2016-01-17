@@ -611,9 +611,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             end: appointment.end.full,
             appointment: appointment
         };
-        if($scope.events.length === 0){
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent',event);
-        }
+        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
         $scope.events.push(event);
 
     };
@@ -659,6 +657,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 appointment: appointment
             };
             if (event) {
+                $scope.events.push(event);
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
             }
         }, function () {
