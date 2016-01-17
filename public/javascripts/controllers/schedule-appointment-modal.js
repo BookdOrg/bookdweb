@@ -35,6 +35,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             $scope.previousDate = moment(oldVal).format('MM/DD/YYYY');
             $scope.dayMessage = false;
             getAvailableTimes(newVal, $scope.employee._id);
+            $scope.appointment = null;
         }
     });
     /**

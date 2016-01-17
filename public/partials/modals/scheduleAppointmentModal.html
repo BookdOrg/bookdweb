@@ -58,12 +58,12 @@
                     <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <div class="col col-md-3"
+                    <div class="col col-md-5"
                          ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)" ng-disabled="!time.available || time.status || time.toggled || time.hide"
                                 ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                                 role="button" class="btn" style="margin-bottom:5px;">
-                            {{time.time}}
+                            {{time.time}} - {{time.end}}
                         </button>
                     </div>
                 </div>
