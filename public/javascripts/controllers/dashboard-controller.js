@@ -285,7 +285,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
         enableSearch: true,
-        showCheckAll: true,
+        showCheckAll: false,
         showUncheckAll: false,
         smartButtonTextConverter: function (itemText, originalItem) {
             return itemText;
