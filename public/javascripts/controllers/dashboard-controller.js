@@ -10,6 +10,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
 
     $scope.animationsEnabled = true;
+    $scope.calendarEmployees = [];
     /**
      * If the business owner has dashboards, store the data is businesses,
      * pre-select the first business in the array as the active business
@@ -79,8 +80,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusCal = {
         open: true
     };
-
-    $scope.calendarEmployees = [];
 
     /**
      *
@@ -324,6 +323,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             //}
         });
     };
+    var removeFilteredSources = function (filteredList) {
+        _.forEach(filteredList, function (value, key) {
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource', filteredList[key]);
+        });
+    };
     /**
      *
      * Define which actions to take when employees are selected on the multi-select dropdown.
@@ -503,6 +507,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.getEvents = function (start, end, timezone, callback) {
         businessFactory.getAllAppointments($scope.activeBusiness.business._id, start, end)
             .then(function (response) {
+                removeFilteredSources($scope.filteredList[$scope.activeBusiness.business.name]);
+                $scope.calendarEmployees = [];
+                $scope.filteredList[$scope.activeBusiness.business.name] = {};
                 //take the array of appointments returned and add them to our master entry of appointments for each employee
                 var masterEntry = createMasterEntry(response);
                 $scope.masterList[$scope.activeBusiness.business.name] = {};
