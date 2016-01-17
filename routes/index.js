@@ -675,7 +675,7 @@ router.post('/categories/add-category', auth, function (req, res, next) {
     });
 });
 /**
- * Creates a new appointment for both the Employee and Customer.
+ * Creates a new 4ointment for both the Employee and Customer.
  * Takes in the appointment object.
  *
  * Parameters:
