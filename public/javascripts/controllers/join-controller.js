@@ -4,7 +4,7 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
     }
     //Watch the query being entered into the places autocomplete field
     $scope.$watch('query', function (newVal, oldVal) {
-        if (newVal !== oldVal) {
+        if (newVal && newVal !== oldVal) {
             //if it's new and not equal to the oldval update the selectedQuery
             $scope.selectedQuery = $scope.query;
             $scope.displayPhotos = [];
