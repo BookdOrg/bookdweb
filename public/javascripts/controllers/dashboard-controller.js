@@ -308,6 +308,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
             $scope.filteredList[$scope.activeBusiness.business.name] = {};
             $scope.events = [];
+            $scope.calendarEmployees = [];
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
         }
 
