@@ -273,6 +273,10 @@ span.tab-space {
     margin-top: 18px;
 }
 
+.notification-link {
+    margin-top: 13px;
+}
+
 hr {
     max-width: 50px;
     border-color: #337ab7;
