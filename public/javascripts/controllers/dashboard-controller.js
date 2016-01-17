@@ -286,7 +286,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
         enableSearch: true,
-        showCheckAll: false,
+        showCheckAll: true,
         showUncheckAll: false,
         smartButtonTextConverter: function (itemText, originalItem) {
             return itemText;
@@ -312,7 +312,16 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
 
     };
-
+    var createFilteredSource = function (filteredList, select) {
+        _.forEach(filteredList, function (value, key) {
+            if (value.length > 0 && select) {
+                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource', filteredList[key]);
+            }
+            //if(value.length > 0 && !select){
+            //    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',filteredList[key]);
+            //}
+        });
+    };
     /**
      *
      * Define which actions to take when employees are selected on the multi-select dropdown.
@@ -321,27 +330,30 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     $scope.dropdownEvents = {
         onItemSelect: function (item) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
-            $scope.filteredList[$scope.activeBusiness.business.name][item._id] = $scope.masterList[$scope.activeBusiness.business.name][item._id];
-            createEventsSources($scope.filteredList[$scope.activeBusiness.business.name]);
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
+            var employeeEvents = [];
+            for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+                if ($scope.events[eventIndex].appointment.employee === item._id) {
+                    employeeEvents.push($scope.events[eventIndex]);
+                }
+            }
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            if (!$scope.filteredList[$scope.activeBusiness.business.name][item._id]) {
+                $scope.filteredList[$scope.activeBusiness.business.name][item._id] = employeeEvents;
+                createFilteredSource($scope.filteredList[$scope.activeBusiness.business.name], true);
+            } else {
+                $scope.filteredList[$scope.activeBusiness.business.name][item._id] = employeeEvents;
+                createFilteredSource($scope.filteredList[$scope.activeBusiness.business.name], true);
+            }
         },
         onItemDeselect: function (item) {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
+            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource', $scope.filteredList[$scope.activeBusiness.business.name][item._id]);
             $scope.filteredList[$scope.activeBusiness.business.name][item._id] = {};
-            createEventsSources($scope.filteredList[$scope.activeBusiness.business.name]);
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
         },
         onSelectAll: function () {
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEventSource',$scope.events);
-            $scope.masterList[$scope.activeBusiness.name] = {};
-            createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('addEventSource',$scope.events);
         },
         onUnselectAll: function () {
-            //$scope.masterList[$scope.activeBusiness.name] = {};
-            //createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
+            //createFilteredSource($scope.filteredList[$scope.activeBusiness.business.name],false);
+            //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
         }
     };
     var date = new Date();
@@ -496,7 +508,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 //create events arrays with the appointments for the business in our masterList of businesses
                 $scope.events = [];
                 var events = createEventsSources($scope.masterList[$scope.activeBusiness.business.name]);
-                $scope.eventSources.push($scope.events);
+                //$scope.eventSources.push($scope.events);
                 $scope.lastUpdatedView = moment().calendar();
                 $scope.lastUpdated = moment();
                 //add our monthYear and business to localStorage
@@ -526,7 +538,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     eventLimit: 15
                 }
             },
-            events: $scope.getEvents,
+            //events: $scope.getEvents,
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
@@ -535,7 +547,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         }
     };
     /* event sources array for ui-calendar*/
-    $scope.eventSources = [$scope.events];
+    $scope.eventSources = [$scope.getEvents];
 
     /**
      * Opens the edit Appointment modal, for editing appointments
