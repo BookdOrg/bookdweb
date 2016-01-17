@@ -32,3 +32,8 @@
 .service-panel-footer button {
     border-radius: 0%;
 }
+
+.service-panel-body {
+    min-height: 120px;
+    max-height: 120px;
+}
