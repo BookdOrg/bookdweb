@@ -6,8 +6,7 @@
             <div>
                 <p class="text-center text-muted" ng-if="businesses.length === 0 ">Go Ahead, Search for Businesses!</p>
             </div>
-            <div ng-repeat="business in businesses track by $index" ng-mouseover="showDetail(business)"
-                 ng-mouseleave="hideDetail(business)">
+            <div ng-repeat="business in businesses track by $index" ng-mouseover="showDetail(business)">
                 <a href="/business/{{business.place_id}}">
                     <div class="row">
                         <div class="col-md-12 text-center">
