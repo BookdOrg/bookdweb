@@ -173,10 +173,12 @@
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-7" style="margin-top:5px;">
-                    <ng-map class="map-container" zoom="14" center="{{businessCenter}}">
-                        <!--<marker position="{{businessCenter}}" icon="/images/currLocationIcon.png"></marker>-->
-                        <marker position="{{businessCenter}}"></marker>
-                    </ng-map>
+                    <iframe
+                            width="100%"
+                            height="50%"
+                            frameborder="0" style="border:0"
+                            ng-src="{{ business.place_id | staticMapsFilter }}" allowfullscreen>
+                    </iframe>
                 </div>
                 <div class="col-xs-5 text-center">
                     <p>
