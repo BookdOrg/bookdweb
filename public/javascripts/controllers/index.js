@@ -13,7 +13,7 @@ app.controller('addEmployeeModalCtrl', require('./add-employee-modal'));
 app.controller('removeEmployeeModalCtrl', require('./remove-employee-modal'));
 app.controller('dashboardCtrl', require('./dashboard-controller'));
 app.controller('LandingCtrl', require('./landing-controller'));
-app.controller('MainCtrl', require('./main-controller'));
+app.controller('SearchCtrl', require('./search-controller'));
 app.controller('ModalInstanceCtrl', require('./modal-controller'));
 app.controller('NavCtrl', require('./nav-controller'));
 app.controller('messagesModalCtrl', require('./messages-modal'));

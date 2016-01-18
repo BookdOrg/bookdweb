@@ -79,17 +79,17 @@ app.config([
                     }
                 }
             })
-            .state('feed', {
-                url: '/feed',
-                controller: 'MainCtrl',
+            .state('search', {
+                url: '/search',
+                controller: 'SearchCtrl',
                 views: {
                     'nav': {
                         templateUrl: '/partials/bookdNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/feed.html',
-                        controller: 'MainCtrl'
+                        templateUrl: '/partials/search.html',
+                        controller: 'SearchCtrl'
                     }
                 }
             })
@@ -388,8 +388,8 @@ app.config([
         businessFactory.search(formattedQuery)
             .then(function (data) {
                 $rootScope.fetchingQuery = false;
-                if (!$state.is('feed')) {
-                    $state.go('feed');
+                if (!$state.is('search')) {
+                    $state.go('search');
                 }
             });
     };
