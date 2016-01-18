@@ -143,7 +143,10 @@
                         </div>
                         <div class="col col-xs-8 text-center">
                             <h4>{{employee.name}}</h4>
-
+                            <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
+                                        on-hover="hoveringOver(value)" on-leave="overStar = null"
+                                        titles="['one','two','three']">
+                            </uib-rating>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet sapien odio.
                                 Fusce massa risus, pulvinar quis dui id, commodo laoreet felis.</p>
                             <a href="/user/{{employee._id}}/profile">View Profile</a>

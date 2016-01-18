@@ -23,7 +23,7 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
         $scope.overStar = value;
         $scope.percent = 100 * (value / $scope.max);
     };
-
+    $scope.rate = 3.5;
     $scope.max = 5;
     $scope.isReadonly = true;
     $scope.$watch('currLocation', function (newVal, oldVal) {
