@@ -12,15 +12,24 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.animationsEnabled = true;
     $scope.calendarEmployees = [];
     /**
-     * If the business owner has dashboards, store the data is businesses,
-     * pre-select the first business in the array as the active business
      *
+     * Retrieve the users dashboard
      */
-    if (userFactory.dashboard.length > -1) {
-        $scope.businesses = userFactory.dashboard;
-        $scope.activeBusiness.business = $scope.businesses[0];
-        socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
-    }
+    userFactory.getDashboard()
+        .then(function (data) {
+            /**
+             * If the business owner has dashboards, store the data is businesses,
+             * pre-select the first business in the array as the active business
+             *
+             */
+            if (data.length > -1) {
+                $scope.businesses = data;
+                $scope.activeBusiness.business = $scope.businesses[0];
+                socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
+            }
+
+        });
+
 
     /**
      *

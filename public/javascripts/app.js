@@ -188,9 +188,6 @@ app.config([
                     }
                 },
                 resolve: {
-                    businesses: ['userFactory', function (userFactory) {
-                        return userFactory.getDashboard();
-                    }],
                     isAuthenticated: function ($state, $q, auth) {
                         var redirect = false;
                         if (!auth.isLoggedIn()) {

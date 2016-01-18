@@ -112,7 +112,8 @@ var userFactory = function ($http, auth, $q) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function (data) {
-            angular.copy(data.data, o.dashboard);
+            return data.data;
+            //angular.copy(data.data, o.dashboard);
         }, handleError);
     };
     o.updateProfile = function (data) {
