@@ -542,11 +542,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 + appointment.start.date + ' at ' + appointment.start.time + '.';
         }
 
-
         if ($rootScope.currentUser.user._id === appointment.customer) {
             // Customer rescheduled appointment, inform employee, no email.
-            notificationFactory.addNotification(appointment.employee, employeeNotification,
-                'actionable', false)
+            notificationFactory.addNotification(appointment.employee, employeeNotification, 'calendar', false)
                 .then(function () {
 
                 }, function (err) {
@@ -554,7 +552,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         } else if ($rootScope.currentUser.user._id === appointment.employee) {
             // Employee rescheduled appointment, inform customer, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, 'actionable', true)
+            notificationFactory.addNotification(appointment.customer, customerNotification, 'calendar', true)
                 .then(function () {
 
                 }, function (err) {
@@ -562,14 +560,14 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         } else {
             // Business owner rescheduled appointment, inform customer and employee, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, 'actionable', true)
+            notificationFactory.addNotification(appointment.customer, customerNotification, 'calendar', true)
                 .then(function () {
 
                 }, function (err) {
                     console.log(err);
                 });
 
-            notificationFactory.addNotification(appointment.employee, employeeNotification, 'actionable', true)
+            notificationFactory.addNotification(appointment.employee, employeeNotification, 'calendar', true)
                 .then(function () {
 
                 }, function (err) {
@@ -586,7 +584,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             // Customer canceled appointment, inform employee, no email.
             notificationFactory.addNotification(appointment.employee,
                 'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                + appointment.start.time + ' was canceled.', 'actionable', false)
+                + appointment.start.time + ' was canceled.', 'calendar', false)
                 .then(function () {
 
                 }, function (err) {
@@ -596,7 +594,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             // Employee canceled appointment, inform customer, with email.
             notificationFactory.addNotification(appointment.customer,
                 'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                + appointment.start.time + ' was canceled.', 'actionable', true)
+                + appointment.start.time + ' was canceled.', 'calendar', true)
                 .then(function () {
 
                 }, function (err) {
