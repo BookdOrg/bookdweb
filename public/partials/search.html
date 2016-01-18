@@ -1,8 +1,8 @@
 <div class="container-fluid" style="background-color:white;">
-    <div class="row" style="margin-top:10px;">
+    <div class="row">
         <div class="col col-xs-5 searchResults">
-            <div class="page-header" ng-if="businesses.length === 0 ">
-                <p class="text-center text-muted">Go Ahead, Search for Businesses!</p>
+            <div class="page-header">
+                <p class="text-center text-muted" ng-if="businesses.length === 0 ">Go Ahead, Search for Businesses!</p>
             </div>
             <div ng-repeat="business in businesses track by $index" ng-mouseover="showDetail(business)">
                 <a href="/business/{{business.place_id}}" ng-click="selectBusiness(business)">
