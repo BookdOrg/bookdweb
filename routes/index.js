@@ -514,7 +514,7 @@ router.get('/business/dashboard/stripe-account', auth, function (req, res, next)
         }
     );
 });
-router.get('/user/google-photo', auth, function (req, res, next) {
+router.get('/user/google-photo', function (req, res, next) {
     var id = req.param('id');
     request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
         if (err) {
