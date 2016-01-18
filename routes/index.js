@@ -466,45 +466,53 @@ router.get('/user/search', auth, function (req, res, next) {
  *
  *
  */
-router.get('/user/dashboard', auth, function (req, res, next) {
+router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
-    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate('businesses').exec(function (error, user) {
-        if (error) {
-            return next(error);
-        }
-        async.each(user.businesses, function (currBusiness, businessCallback) {
-            Business.findOne({'_id': currBusiness._id}).populate([{path: 'services', select: ''}, {
-                path: 'employees',
-                select: '_id name avatarVersion provider providerId availabilityArray'
-            }]).exec(function (error, response) {
-                if (error) {
-                    return businessCallback(error);
-                }
-                Service.populate(response.services, {
-                    path: 'employees',
-                    select: '_id name avatarVersion availabilityArray provider providerId'
-                }, function (err) {
-                    if (err) {
-                        return businessCallback(err);
-                    }
-                    stripe.accounts.retrieve(
-                        response.stripeId,
-                        function (err, account) {
-                            response.stripeAccount = account;
+    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
+        path: 'businesses',
+        select: 'name services employees placesId dateCreated tier stripeId stripeAccount'
+    }])
+        .exec(function (error, user) {
+            if (error) {
+                return next(error);
+            }
+            async.each(user.businesses, function (currBusiness, businessCallback) {
+                Business.findOne({'_id': currBusiness._id}).select('name services employees placesId dateCreated tier stripeId stripeAccount')
+                    .populate([{path: 'services', select: ''}, {
+                        path: 'employees', select: '_id name avatarVersion provider providerId availabilityArray'
+                    }]).exec(function (error, response) {
+                        if (error) {
+                            return businessCallback(error);
+                        }
+                        Service.populate(response.services, {
+                            path: 'employees',
+                            select: '_id name avatarVersion availabilityArray provider providerId'
+                        }, function (err) {
+                            if (err) {
+                                return businessCallback(err);
+                            }
                             updatedBusinesses.push(response);
                             businessCallback();
-                        }
-                    );
+                        });
+                    });
+            }, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.json(updatedBusinesses);
                 });
-            });
-        }, function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.json(updatedBusinesses);
         });
-    });
+});
+router.get('/business/dashboard/stripe-account', auth, function (req, res, next) {
+    var stripeId = req.param('stripeId');
+    stripe.accounts.retrieve(
+        stripeId,
+        function (err, account) {
+            res.json(account);
+
+        }
+    );
 });
 router.get('/user/google-photo', auth, function (req, res, next) {
     var id = req.param('id');
@@ -1203,14 +1211,14 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         });
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion availabilityArray provider providerId'
+            select: '_id appointments name avatarVersion availabilityArray provider providerId stripeAccount stripeId'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availabilityArray provider providerId'
+                select: '_id appointments name avatarVersion availabilityArray provider providerId stripeAccount stripeId'
             }, function (err, services) {
                 if (err) {
                     return next(err);

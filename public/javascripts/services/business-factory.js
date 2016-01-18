@@ -14,7 +14,8 @@ module.exports = function ($http, auth, $q) {
         error: {},
         service: {},
         requests: [],
-        businesses: []
+        businesses: [],
+        dashboard: [],
     };
 
     /**
@@ -326,6 +327,26 @@ module.exports = function ($http, auth, $q) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             angular.copy(data.data, o.requests);
+        }, handleError);
+    };
+    o.getDashboard = function () {
+        return $http.get('/business/dashboard', {
+            headers: {
+                Authorization: 'Bearer ' + auth.getToken(),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (data) {
+            angular.copy(data.data, o.dashboard);
+        }, handleError);
+    };
+    o.getStripeAccount = function (stripeId) {
+        return $http.get('/business/dashboard/stripe-account', {
+            params: {
+                stripeId: stripeId
+            },
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
         }, handleError);
     };
     /**

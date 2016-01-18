@@ -12,24 +12,19 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.animationsEnabled = true;
     $scope.calendarEmployees = [];
     /**
+     * If the business owner has dashboards, store the data is businesses,
+     * pre-select the first business in the array as the active business
      *
-     * Retrieve the users dashboard
      */
-    userFactory.getDashboard()
-        .then(function (data) {
-            /**
-             * If the business owner has dashboards, store the data is businesses,
-             * pre-select the first business in the array as the active business
-             *
-             */
-            if (data.length > -1) {
-                $scope.businesses = data;
-                $scope.activeBusiness.business = $scope.businesses[0];
-                socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
-            }
-
-        });
-
+    if (businessFactory.dashboard.length > -1) {
+        $scope.businesses = businessFactory.dashboard;
+        $scope.activeBusiness.business = $scope.businesses[0];
+        socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
+        businessFactory.getStripeAccount($scope.activeBusiness.business.stripeId)
+            .then(function (data) {
+                $scope.activeBusiness.business.stripeAccount = data;
+            });
+    }
 
     /**
      *
@@ -324,6 +319,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             $scope.calendarEmployees = [];
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents');
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+            businessFactory.getStripeAccount(business.stripeId)
+                .then(function (data) {
+                    $scope.activeBusiness.business.stripeAccount = data;
+                });
         }
 
     };

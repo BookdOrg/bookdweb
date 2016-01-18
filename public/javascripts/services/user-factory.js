@@ -104,18 +104,6 @@ var userFactory = function ($http, auth, $q) {
             return data.data;
         }, handleError);
     };
-
-    o.getDashboard = function () {
-        return $http.get('/user/dashboard', {
-            headers: {
-                Authorization: 'Bearer ' + auth.getToken(),
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(function (data) {
-            return data.data;
-            //angular.copy(data.data, o.dashboard);
-        }, handleError);
-    };
     o.updateProfile = function (data) {
         return $http.post('/user/profile/update', data, {
             headers: {
