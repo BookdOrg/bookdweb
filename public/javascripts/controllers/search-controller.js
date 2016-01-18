@@ -54,6 +54,7 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
      * @param businesses - array of businesses returned thanks to Google :)
      */
     var generateMarkers = function (businesses) {
+        console.log('HereeRere');
         $scope.business = businesses[0];
         $scope.positions = [];
         var boundsArray = [];
