@@ -30,36 +30,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
             $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
         }
     });
-    $scope.reRenderMap = function () {
-        $timeout(function () {
-            angular.forEach($scope.maps, function (index) {
-                google.maps.event.trigger(index, 'resize');
-            });
-        }, 25);
-    };
-
-    $scope.maps = [];
-
-    $scope.$on('mapInitialized', function (evt, evtMap) {
-        $scope.businessCenter = $scope.business.geometry.location.lat + ',' + $scope.business.geometry.location.lng;
-        $scope.maps.push(evtMap);
-        var boundsArray = [];
-        var bounds = new google.maps.LatLngBounds();
-        //tried to set a bounding box of itself for the business marker, still slightly off to the left.
-        //TODO fix this so that the marker is visible on the info tab
-        boundsArray.push([$scope.business.geometry.location.lat, $scope.business.geometry.location.lng]);
-        boundsArray.push([$scope.business.geometry.location.lat, $scope.business.geometry.location.lng]);
-        for (var boundsIndex = 0; boundsIndex < boundsArray.length; boundsIndex++) {
-            var latlng = new google.maps.LatLng(boundsArray[boundsIndex][0], boundsArray[boundsIndex][1]);
-            bounds.extend(latlng);
-        }
-        NgMap.getMap().then(function (map) {
-            map.setCenter(bounds.getCenter());
-            map.fitBounds(bounds);
-        });
-    });
-
-
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
     $scope.scheduleAppointment = function (type, state, service) {

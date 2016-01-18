@@ -167,11 +167,11 @@
 
     ########################################
     -->
-        <uib-tab select="reRenderMap()">
+        <uib-tab>
             <uib-tab-heading>
                 <i class="fa fa-info"></i> Info
             </uib-tab-heading>
-            <div class="row">
+            <div class="row services-associates-block">
                 <div class="col-xs-7" style="margin-top:5px;">
                     <iframe
                             width="100%"
@@ -180,28 +180,29 @@
                             ng-src="{{ business.place_id | staticMapsFilter }}" allowfullscreen>
                     </iframe>
                 </div>
-                <div class="col-xs-5 text-center">
-                    <p>
-                        <a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
-                    </p>
+                <div class="col-xs-4 text-center panel panel-default">
+                    <div class="panel-body">
+                        <p>
+                            <a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
+                        </p>
 
-                    <p>
-                        <a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i>
-                            {{business.website}}</a>
-                    </p>
+                        <p>
+                            <a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i>
+                                {{business.website}}</a>
+                        </p>
 
-                    <p>Location: {{business.formatted_address}}</p>
+                        <p>{{business.formatted_address}}</p>
 
-                    <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
+                        <p><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</p>
 
-                    <p>Hours:</p>
-                    <ul class="hours-list" ng-if="business.opening_hours"
-                        ng-repeat="hours in business.opening_hours.weekday_text">
-                        <li>{{hours}}</li>
-                    </ul>
-                        <span ng-if="!business.opening_hours">
-                                No information about {{business.name}}'s hours of operation is available.
-                        </span>
+                        <ul class="hours-list" ng-if="business.opening_hours"
+                            ng-repeat="hours in business.opening_hours.weekday_text">
+                            <li>{{hours}}</li>
+                        </ul>
+                            <span ng-if="!business.opening_hours">
+                                    No information about {{business.name}}'s hours of operation is available.
+                            </span>
+                    </div>
                 </div>
             </div>
         </uib-tab>
@@ -218,22 +219,18 @@
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-12">
-                    <h1 class="text-center">Reviews</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
                     <h2 class="text-center" ng-if="!business.reviews">No Reviews Yet!</h2>
                 </div>
             </div>
-            <div class="row">
-                <div class="well col-xs-4 reviewBox" ng-repeat="review in business.reviews track by $index">
+            <div class="row" style="margin-top:20px;">
+                <div class="col-xs-4 reviewBox" ng-repeat="review in business.reviews track by $index">
                     <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
                     <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
                     <br>
                     Rating: {{review.rating}}
                     <br>
                     {{review.text}}
+                    <hr>
                 </div>
             </div>
             <div class="row text-center">

@@ -107,7 +107,12 @@ app.config([
                 },
                 resolve: {
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
-                        return businessFactory.getBusiness($stateParams.businessid);
+                        if (!businessFactory.business.name) {
+                            return businessFactory.getBusiness($stateParams.businessid);
+                        } else {
+                            return businessFactory.business;
+                        }
+
                     }]
                 }
             })
