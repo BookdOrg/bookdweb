@@ -5,3 +5,4 @@
 var app = require('angular').module('cc');
 
 app.filter('notificationFilter', require('./notificationFilter'));
+app.filter('staticMapsFilter', require('./staticMapsFilter'));
