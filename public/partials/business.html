@@ -34,7 +34,7 @@
     <uib-tabset justified="true">
         <uib-tab>
             <uib-tab-heading>
-                <i class="fa fa-calendar"></i> Services & Staff
+                <i class="fa fa-calendar"></i> Services
             </uib-tab-heading>
             <div class="row services-associates-block">
                 <!--
@@ -46,12 +46,14 @@
             -->
                 <div class="col-xs-7 text-center">
                     <h2 ng-if="business.info.services.length === 0">Services coming soon!</h2>
+
                     <div class="row">
                         <div class="col col-xs-12 col-sm-12 col-md-6 co-lg-6"
                              ng-repeat="service in business.info.services track by $index">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <i class="fa fa-calendar pull-left"></i>
+
                                     <h2 class="panel-title">{{service.name}}
                                     <span ng-show="editMode" class="pull-right">
                                         <div class="btn-group">
@@ -103,16 +105,24 @@
                         </div>
                     </div>
                 </div>
-                <!--
-                 #########################################
+            </div>
+        </uib-tab>
+        <!--
+ #########################################
 
-                     Employee Block
+     Employee Block
 
-                 ########################################
-                 -->
-                <div class="col-xs-4 text-center associate-margin-left">
+ ########################################
+ -->
+        <uib-tab>
+            <uib-tab-heading>
+                <i class="fa fa-calendar"></i> Staff
+            </uib-tab-heading>
+            <div class="row services-associates-block">
+                <div class="col-xs-6 text-center associate-margin-left">
                     <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed
                         Yet!</h2>
+
                     <div class="row">
                         <div class="col col-xs-12 col-sm-6 col-lg-4 text-center"
                              ng-repeat="employee in business.info.employees">
