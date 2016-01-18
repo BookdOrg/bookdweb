@@ -488,8 +488,14 @@ router.get('/user/dashboard', auth, function (req, res, next) {
                     if (err) {
                         return businessCallback(err);
                     }
-                    updatedBusinesses.push(response);
-                    businessCallback();
+                    stripe.accounts.retrieve(
+                        response.stripeId,
+                        function (err, account) {
+                            response.stripeAccount = account;
+                            updatedBusinesses.push(response);
+                            businessCallback();
+                        }
+                    );
                 });
             });
         }, function (err) {
@@ -1471,4 +1477,54 @@ router.get('/business/service-detail', auth, function (req, res, next) {
     });
 });
 
+/**
+ *
+ * Create a Businesses Managed Account
+ *
+ */
+
+router.post('/business/update-payments-account', auth, function (req, res, next) {
+    var businessId = req.body.businessId;
+    var month = req.body.month;
+    var day = req.body.day;
+    var year = req.body.year;
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var bankAccount = req.body.bankAccount;
+
+    Business.findOne({'_id': businessId}).exec(function (err, business) {
+        if (err) {
+            return next(err);
+        }
+        //stripe.accounts.create({
+        //    country:'US',
+        //    managed:true,
+        //    tos_acceptance:{
+        //        date: Math.floor(Date.now()/1000),
+        //        ip:request.connect.remoteAddress
+        //    },
+        //    legal_entity:{
+        //        dob:{
+        //            day:day,
+        //            month:month,
+        //            year:year
+        //        },
+        //        first_name:firstName,
+        //        last_Name:lastName
+        //    },
+        //    bank_account:bankAccount
+        //},function(err,response){
+        //    console.log(err);
+        //    console.log(response);
+        //    business.stripeSecret = response.keys.secret;
+        //    business.stripePublishable = response.keys.publishable;
+        //
+        //    business.save(function(err){
+        //        if(err){
+        //            return next(err);
+        //        }
+        //    });
+        //});
+    });
+});
 module.exports = router;

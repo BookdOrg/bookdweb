@@ -330,6 +330,17 @@ module.exports = function ($http, auth, $q) {
     };
     /**
      *
+     *
+     */
+    o.createPaymentsAccount = function () {
+        return $http.post('/business/create-payments-account', null, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+
+        }, handleError);
+    };
+    /**
+     *
      *  changeStatus - Updates the status of the businesses object, from
      *  pending to claimed.
      *  Params :

@@ -80,7 +80,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusCal = {
         open: true
     };
-
+    $scope.createPaymentsAccount = function () {
+        businessFactory.createPaymentsAccount()
+            .then(function (data) {
+                console.log(data);
+            });
+    };
     /**
      *
      * Removes a service from the business

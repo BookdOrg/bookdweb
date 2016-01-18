@@ -11,7 +11,11 @@ var BusinessSchema = new mongoose.Schema({
     dateCreated: String,
     pending: Boolean,
     claimed: Boolean,
-    tier: Number
+    tier: Number,
+    payments: Boolean,
+    stripeId: String,
+    stripeKeys: Object,
+    stripeAccount: Object
 });
 
 mongoose.model('Business', BusinessSchema);
