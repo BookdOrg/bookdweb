@@ -37,7 +37,7 @@
                                                                             ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
                             </uib-accordion-heading>
                             <div class="checkbox text-center" tooltip-toggle="mouseenter"
-                                 uib-tooltip="Are you available on {{day.day}}'s">
+                                 uib-tooltip="Are you available on {{day.day}}'s" tooltip-append-to-body="true">
                                 <label>
                                     <input ng-model="day.available" type="checkbox" ng-disabled="disableUpdate">
                                     Available
