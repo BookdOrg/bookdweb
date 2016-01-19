@@ -45,7 +45,7 @@
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
                 <marker position="{{center}}" icon="/images/currLocationIcon.png"></marker>
                 <marker id="{{businesses[$index].id}}" ng-repeat="pos in positions"
-                        position="{{pos}}" on-click="showDetailClicked(businesses[$index])"></marker>
+                        position="{{pos}}" on-mouseover="showDetailClicked(businesses[$index])"></marker>
                 <info-window id="info">
                     <div>
                         {{business.name}}
