@@ -6,7 +6,7 @@
  *
  */
 
-module.exports = function ($http, $window, $rootScope, $state, $q, socketService) {
+module.exports = function ($http, $window, $rootScope, $state, $q, socketService, $interval) {
     var auth = {
         /**
          * Save the users authentication token
@@ -104,7 +104,6 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             $window.localStorage.removeItem('previousPersonalMonthYear');
             $window.localStorage.removeItem('oauthio_provider_google_plus');
             $rootScope.currentUser = null;
-            //socketService.disconnect();
             $state.go('landing');
         }
     };

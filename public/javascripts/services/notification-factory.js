@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 12/24/15.
  */
-module.exports = function ($http, auth, $q) {
+module.exports = function ($http, auth, $q, $interval) {
     var o = {};
     o.addNotification = function (id, content, type, sendEmail) {
         var body = {

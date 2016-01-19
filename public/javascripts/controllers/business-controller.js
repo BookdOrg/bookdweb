@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi, userFactory, Notification, utilService, $timeout, business) {
+                           $controller, facebookApi, userFactory, Notification, utilService, business) {
     $scope.business = business;
     utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
 
@@ -48,7 +48,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
      * The current business is passed into the modal
      *
      */
-
     $scope.openAddServiceModal = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,

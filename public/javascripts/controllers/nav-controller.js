@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory, socketService,
-                           $timeout, notificationFactory) {
+                           notificationFactory) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
