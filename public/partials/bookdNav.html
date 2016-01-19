@@ -13,7 +13,7 @@
                 <span style="font-size:25px;">Book'd</span>
             </a>
         </div>
-        <form ng-if="show" name="navQuery" class="navbar-form hidden-md hidden-sm hidden-xs">
+        <form ng-if="show" name="navQuery" class="navbar-form hidden-sm hidden-xs">
             <div class="row text-center form-inline form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-search"></i>
@@ -37,8 +37,8 @@
             </div>
         </form>
         <div class="uib-collapse navbar-collapse" uib-collapse="navbarCollapsed">
-            <ul class="nav navbar-nav">
-                <li>
+            <ul class="nav navbar-nav" style="background-color:lightgray">
+                <li class="hidden-sm hidden-md hidden-lg">
                     <a ui-sref="search" ui-sref-active="active"
                        ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
                         <i class="fa fa-search"></i> Search
@@ -49,7 +49,7 @@
                         <i class="fa fa-calendar"></i> Calendar
                     </a>
                 </li>
-                <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
+                <li class="hidden-sm hidden-md hidden-lg" ng-if="isLoggedIn() && currentUser.user.isAssociate">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
                        ui-sref="user({id:currentUser.user._id})">
                         <i class="fa fa-user"></i> Profile
@@ -87,7 +87,7 @@
                 User avatar and dropdown
             -->
             <div class="navbar-inner">
-                <ul class="nav navbar-nav navbar-right hidden-xs">
+                <ul class="nav navbar-nav navbar-right hidden-xs hidden-md">
                     <li uib-dropdown class="hidden-lg">
                         <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
                         <ul class="uib-dropdown-menu notifications">
@@ -180,13 +180,24 @@
                         </a>
                         <ul class="uib-dropdown-menu">
                             <li>
+                                <a ui-sref="search" ui-sref-active="active"
+                                   ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                                    <i class="fa fa-search"></i> Search
+                                </a>
+                            </li>
+                            <li>
                                 <a ui-sref="calendar" ng-click="showSearch(false)">
                                     <i class="fa fa-calendar"></i> Calendar
                                 </a>
                             </li>
-                            <li>
-                                <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
-                                   ui-sref="dashboard">
+                            <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
+                                <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                                   ui-sref="user({id:currentUser.user._id})">
+                                    <i class="fa fa-user"></i> Profile
+                                </a>
+                            </li>
+                            <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
+                                <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ui-sref="dashboard">
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
                             </li>
@@ -198,15 +209,21 @@
                             <hr>
                             <li>
                                 <a ng-click="logOut()">
-                                    <i class="fa fa-sign-out"></i> Log Out
+                                    LogOut
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('login')"><i
-                            class="fa fa-sign-in"></i> Log In</a></li>
-                    <li ng-hide="isLoggedIn()"><a href="" ng-click="checkStateandLogin('signup')"><i
-                            class="fa fa-user"></i> Sign Up</a></li>
+                    <li ng-hide="isLoggedIn()">
+                        <a ng-click="checkStateandLogin('login')">
+                            <i class="fa fa-sign-in"></i>Log In
+                        </a>
+                    </li>
+                    <li ng-hide="isLoggedIn()">
+                        <a ng-click="checkStateandLogin('signup');checkStateandLogin()">
+                            <i class="fa fa-user"></i> Sign Up
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
