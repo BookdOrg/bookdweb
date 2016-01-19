@@ -1,6 +1,8 @@
 <div class="modal-header text-center">
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">{{service.name}} </h3>
+    <h5 style="margin:0px;">{{service.description}}</h5>
+    <h5 style="margin:0px;">{{service.duration}} minutes , {{service.price | currency}}</h5>
     <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
@@ -35,7 +37,7 @@
                         <br>
                         <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
                                type="radio">
-                        Select
+                        Choose
                     </label>
                 </div>
             </div>
@@ -46,7 +48,7 @@
         </div>
         <div class="tab-pane" id="schedule">
             <div class="row">
-                <div class="col col-md-6 text-center">
+                <div class="col col-md-4 text-center">
                     <h4>Select a Date to see Available Times</h4>
 
                     <div style="display:inline-block; min-height:290px;">
@@ -55,18 +57,17 @@
                                         custom-class="getDayClass(date, mode)"></uib-datepicker>
                     </div>
                 </div>
-                <div class="col col-md-6 text-center">
+                <div class="col col-md-8 text-center">
                     <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <div class="col col-md-5"
-                         ng-repeat="time in availableTimes track by $index">
+                    <span ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)" ng-disabled="!time.available || time.status || time.toggled || time.hide"
                                 ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                                 role="button" class="btn" style="margin-bottom:5px;">
-                            {{time.time}} - {{time.end}}
+                            {{time.time}}
                         </button>
-                    </div>
+                    </span>
                 </div>
             </div>
             <div class="row text-center">
