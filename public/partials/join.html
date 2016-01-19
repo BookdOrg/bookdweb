@@ -60,10 +60,13 @@
                         ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
                 </button>
             </form>
-            <div class="col-xs-6" ng-if="center">
-                <ng-map center="{{center}}" zoom="16" class="map-container ">
-                    <marker position="{{center}}"></marker>
-                </ng-map>
+            <div class="col-xs-6" ng-if="selectedQuery.place_id">
+                <iframe
+                        width="100%"
+                        height="70%"
+                        frameborder="0" style="border:0"
+                        ng-src="{{ selectedQuery.place_id | staticMapsFilter }}" allowfullscreen>
+                </iframe>
             </div>
         </div>
     </div>

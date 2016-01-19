@@ -19,11 +19,6 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
             //if there's no new query but there's and old one, set selected equal to the old one
             $scope.selectedQuery = oldVal;
         }
-
-        if ($scope.query && $scope.query.geometry) {
-            //if there's a query and it has geometry, set the center of the map to be the business
-            $scope.center = $scope.query.geometry.location.lat() + ',' + $scope.query.geometry.location.lng();
-        }
     });
 
     $scope.autocompleteOptions = {
