@@ -62,6 +62,10 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
         $scope.showDone = false;
         userFactory.updateAvailability(updateObj)
             .then(function (data) {
+                var socketId = $rootScope.currentUser.socketId;
+                auth.saveToken(data);
+                $rootScope.currentUser = auth.currentUser();
+                $rootScope.currentUser.socketId = socketId;
                 //$scope.showLoading = false;
                 $scope.showDone = true;
                 $timeout(function () {
