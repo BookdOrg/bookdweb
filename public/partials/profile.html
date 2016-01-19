@@ -4,16 +4,19 @@
           <div ng-if="currentUser.user._id == user._id">
               <img ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
               <img ng-if="currentUser.user.avatarVersion && currentUser.user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
-              <img ng-if="currentUser.user.provider == 'google_plus'"  ng-src="{{currentUser.providerInfo}}"/>
-              <img ng-if="currentUser.user.provider == 'facebook'"  ng-src="{{currentUser.providerInfo}}"/>
+              <img class="provider-photo-radius" ng-if="currentUser.user.provider == 'google_plus'"
+                   ng-src="{{currentUser.providerInfo}}"/>
+              <img class="provider-photo-radius" ng-if="currentUser.user.provider == 'facebook'"
+                   ng-src="{{currentUser.providerInfo}}"/>
           </div>
           <div ng-if="currentUser.user._id !== user._id">
               <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
               <img ng-if="user.avatarVersion && user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
-              <img ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
-              <img ng-if="user.provider === 'google_plus' && !user.photo"
+              <img class="provider-photo-radius" ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
+              <img class="provider-photo-radius" ng-if="user.provider === 'google_plus' && !user.photo"
                    ng-src="{{cloudinaryDefaultPic}}"/>
-              <img ng-if="user.provider === 'facebook'" ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
+              <img class="provider-photo-radius" ng-if="user.provider === 'facebook'"
+                   ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
           </div>
       </div>
       <div class="col-md-8">

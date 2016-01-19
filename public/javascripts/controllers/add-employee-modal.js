@@ -50,6 +50,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
      */
     $scope.findEmployee = function (email) {
         $scope.searched = false;
+        $scope.searching = true;
         userFactory.search(email).then(function (data) {
             $scope.searched = true;
             $scope.employee = data;
@@ -59,10 +60,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
                         if (!response.error) {
                             $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
                         }
+                        $scope.searching = false;
+                    }, function (err) {
+                        $scope.searching = false;
                     });
             }
+            $scope.searching = false;
         }, function (error) {
             $scope.searched = true;
+            $scope.searching = false;
         });
     };
 
