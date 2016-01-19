@@ -2,13 +2,16 @@
   <div class="page-header">
       <div class="panel panel-default">
           <div class="panel-heading">
-              <h3 class="panel-title">Profile Info</h3>
+              <h3 class="panel-title">Profile</h3>
           </div>
           <div class="panel-body">
-              <div class="row">
-                  <div class="form-group col-sm-4">
-                      <img ng-if="currentUser.user.provider === 'google_plus'" ng-src="{{currentUser.providerInfo}}"/>
-                      <img ng-if="currentUser.user.provider === 'facebook'" ng-src="{{currentUser.providerInfo}}"/>
+              <div class="row text-center">
+                  <div class="form-group col-sm-3">
+                      <h3>{{currentUser.user.name}}</h3>
+                      <img class="provider-photo-radius" ng-if="currentUser.user.provider === 'google_plus'"
+                           ng-src="{{currentUser.providerInfo}}"/>
+                      <img class="provider-photo-radius" ng-if="currentUser.user.provider === 'facebook'"
+                           ng-src="{{currentUser.providerInfo}}"/>
 
                       <div ng-if="currentUser.user.provider === 'bookd' " nv-file-drop="" uploader="uploader"
                            removeAfterUpload="true">
@@ -21,9 +24,51 @@
                         </div>
                     </div>
                   </div>
-                  <div class="col-sm-4 text-center">
-                      <h3>{{currentUser.user.name}}</h3>
-                      <h4>{{currentUser.user.email}}</h4>
+                  <div class="col-sm-6">
+                      <h3>Account Information</h3>
+
+                      <form class="form-horizontal">
+                          <div class="form-group">
+                              <label for="newEmail" class="col-sm-4 control-label">New Email Address</label>
+
+                              <div class="col-sm-8">
+                                  <input type="email" class="form-control" id="newEmail" disabled
+                                         placeholder="{{currentUser.user.email}}" value="{{currentUser.user.email}}">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="currentPassword" class="col-sm-4 control-label">Current password</label>
+
+                              <div class="col-sm-8">
+                                  <input type="password" class="form-control" id="currentPassword"
+                                         placeholder="Password"
+                                         disabled>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="currentPassword" class="col-sm-4 control-label">New password</label>
+
+                              <div class="col-sm-8">
+                                  <input type="password" class="form-control" id="newPassword"
+                                         placeholder="New password"
+                                         disabled>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="confirmPassword" class="col-sm-4 control-label">Confirm new password</label>
+
+                              <div class="col-sm-8">
+                                  <input type="password" class="form-control" id="confirmPassword"
+                                         placeholder="Confirm new password" disabled>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-sm-offset-4 col-sm-4 text-center">
+                                  <button type="submit" class="btn btn-gradient-primary" disabled>Update
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
                   </div>
               </div>
                   <form style="margin-top:30px;">
@@ -89,9 +134,7 @@
           <div class="panel-body">
               <div class="col-sm-12">
                   <div class="col-xs-4 text-center">
-                      <label class="control-label">Profile Info:</label>
-
-                      <div uib-tooltip="The email employers will request from you.">Associate Email:
+                      <div uib-tooltip="Give this email to your manager">Associate Email:
                           {{currentUser.user.email}}
                       </div>
                   </div>
@@ -105,67 +148,6 @@
                               class="fa fa-instagram fa-2x"></i> Authorize Instagram
                       </button>
                   </div>
-              </div>
-          </div>
-      </div>
-      <div class="panel panel-default" uib-tooltip="Coming Soon..." tooltip-placement="top">
-          <div class="panel-heading">
-              Update Email Address
-          </div>
-          <div class="panel-body">
-              <div class="col-sm-offset-3 col-sm-6">
-                  <form class="form-horizontal">
-                      <div class="form-group">
-                          <label for="newEmail" class="col-sm-4 control-label">New Email Address</label>
-                          <div class="col-sm-8">
-                              <input type="email" class="form-control" id="newEmail" disabled placeholder="Email">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <div class="col-sm-offset-4 col-sm-4">
-                              <button type="submit" class="btn btn-gradient-primary" disabled>Update Email Address
-                              </button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-
-      <div class="panel panel-default" uib-tooltip="Coming Soon..." tooltip-placement="top">
-          <div class="panel-heading">
-              Update Password
-          </div>
-          <div class="panel-body">
-              <div class="col-sm-offset-3 col-sm-6">
-                  <form class="form-horizontal">
-                      <div class="form-group">
-                          <label for="currentPassword" class="col-sm-4 control-label">Current password</label>
-                          <div class="col-sm-8">
-                              <input type="password" class="form-control" id="currentPassword" placeholder="Password"
-                                     disabled>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label for="currentPassword" class="col-sm-4 control-label">New password</label>
-                          <div class="col-sm-8">
-                              <input type="password" class="form-control" id="newPassword" placeholder="New password"
-                                     disabled>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label for="confirmPassword" class="col-sm-4 control-label">Confirm new password</label>
-                          <div class="col-sm-8">
-                              <input type="password" class="form-control" id="confirmPassword"
-                                     placeholder="Confirm new password" disabled>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <div class="col-sm-offset-4 col-sm-4">
-                              <button type="submit" class="btn btn-gradient-primary" disabled>Update Password</button>
-                          </div>
-                      </div>
-                  </form>
               </div>
           </div>
       </div>
