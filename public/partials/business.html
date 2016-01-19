@@ -16,7 +16,7 @@
                                  ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=200&minheight=150&maxheight=200&photoreference={{business.photos[0].photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                         </span>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6 text-center">
             <h1 class='text-center' style="margin-top:5px;">{{business.name}}</h1>
             <h4 class="text-center">
                 <uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
@@ -24,7 +24,7 @@
                             titles="['one','two','three']">
                 </uib-rating>
             </h4>
-            <div class="col-xs-6 text-left">
+            <div class="col-xs-6 text-center">
                 <h5><a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google Plus Page</a>
                 </h5>
                 <h5><a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> Visit
@@ -40,7 +40,7 @@
                     available.</h5>
             </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-3">
             <iframe
                     width="100%"
                     height="40%"
