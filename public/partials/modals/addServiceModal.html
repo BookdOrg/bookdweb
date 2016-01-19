@@ -9,49 +9,53 @@
     <!--</uib-alert>-->
     <div class="row">
         <form name="addServiceForm">
-            <div class="form-group col-md-12">
-                <label for="serviceName">Service Title:</label>
-                <input type="text" class="form-control" id="serviceName" name="serviceName" ng-model="service.name"
-                       required>
-            </div>
-            <div class="col-md-12">
-                <label>Service Associates:</label>
-            </div>
-            <div class="col-md-12">
-                <div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings"
-                     selected-model="serviceEmployees" translation-texts="customTexts"></div>
-            </div>
-            <!--<div class="row">-->
-            <div class="form-group col-md-4">
-                <label for="price">Price:</label>
+            <div class="row col-xs-offset-1">
+                <div class="form-group col-md-6">
+                    <label for="serviceName">Service Title:</label>
+                    <input type="text" class="form-control" id="serviceName" name="serviceName" ng-model="service.name"
+                           required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Service Associates:</label>
 
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input type="text" name="price" id="price" ng-model="service.price" class="form-control" required>
+                    <div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings"
+                         selected-model="serviceEmployees" translation-texts="customTexts"></div>
                 </div>
             </div>
-            <div class="form-group col-md-3">
-                <label>Hours:</label>
+            <div class="row col-xs-offset-1">
+                <div class="form-group col-md-3">
+                    <label for="price">Price:</label>
 
-                <div class="input-group">
-                    <input type="number" class="form-control" ng-model="service.hours" min="0" max="12" required>
-                    <span class="input-group-addon">hours</span>
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" name="price" id="price" ng-model="service.price" class="form-control"
+                               required>
+                    </div>
                 </div>
+                <div class="form-group col-md-3">
+                    <label>Hours:</label>
 
-            </div>
-            <div class="form-group col-md-4">
-                <label>Minutes:</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="service.hours" min="0" max="12" required>
+                        <span class="input-group-addon">hours</span>
+                    </div>
 
-                <div class="input-group">
-                    <input type="number" class="form-control" ng-model="service.minutes" min="0" max="59" required>
-                    <span class="input-group-addon">minutes</span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Minutes:</label>
+
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="service.minutes" min="0" max="59" required>
+                        <span class="input-group-addon">minutes</span>
+                    </div>
                 </div>
             </div>
-            <!--</div>-->
-            <div class="form-group col-md-12">
-                <label for="serviceDescription">Description:</label>
-                <textarea class="form-control" id="serviceDescription" ng-model="service.description"
-                          required></textarea>
+            <div class="row col-xs-offset-1">
+                <div class="form-group col-md-10">
+                    <label for="serviceDescription">Description:</label>
+                    <textarea class="form-control" id="serviceDescription" ng-model="service.description"
+                              required></textarea>
+                </div>
             </div>
         </form>
     </div>
