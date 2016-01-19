@@ -8,10 +8,6 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.radioModel = 'Week';
     //Enables modal animations
     $scope.animationsEnabled = true;
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
 
     /**
      * Define the three types of events that will be displayed on the calendar
@@ -145,7 +141,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * @param size - the size of the modal
      * @param employee
      */
-    $scope.openAvailabilityModal = function (size, employee) {
+    $scope.openAvailabilityModal = function (size) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/updateAvailabilityModal.html',
@@ -162,11 +158,14 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 }
             }
         });
+        modalInstance.result.then(function () {
+
+        });
 
     };
     /* event source that calls a function on every view switch */
     /* alert on eventClick */
-    $scope.alertOnEventClick = function (date, jsEvent, view) {
+    $scope.alertOnEventClick = function (date) {
         var personal = false;
         if (date.appointment.customer) {
             personal = true;
@@ -175,15 +174,15 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     };
     //TODO when drag and drop finished used the delta to calculate when the new appointment should be and open the update modal
     /* alert on Drop */
-    $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
-        //$scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
-        //console.log(delta);
-        //console.log(event);
-    };
-    /* alert on Resize */
-    $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-        //$scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
+    //$scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
+    //    //$scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
+    //    //console.log(delta);
+    //    //console.log(event);
+    //};
+    ///* alert on Resize */
+    //$scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
+    //    //$scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+    //};
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function (sources, source) {
         var canAdd = 0;
@@ -220,15 +219,15 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
     /* Change View */
-    $scope.renderCalender = function (calendar) {
-        $timeout(function () {
-            if (uiCalendarConfig.calendars[calendar]) {
-                uiCalendarConfig.calendars[calendar].fullCalendar('render');
-            }
-        });
-    };
+    //$scope.renderCalender = function (calendar) {
+    //    $timeout(function () {
+    //        if (uiCalendarConfig.calendars[calendar]) {
+    //            uiCalendarConfig.calendars[calendar].fullCalendar('render');
+    //        }
+    //    });
+    //};
     /* Render Tooltip */
-    $scope.eventRender = function (event, element, view) {
+    $scope.eventRender = function (event, element) {
         element.attr({
             'uib-tooltip': event.title,
             'tooltip-append-to-body': true
@@ -369,7 +368,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
         Notification.warning({message: 'An appointment has been canceled'});
     });
 
-    $scope.$on('$destroy', function (event) {
+    $scope.$on('$destroy', function () {
         socketService.removeListener('newAssociateAppt');
         socketService.removeListener('updatedCalAppt');
         socketService.removeListener('canceledAppt');
