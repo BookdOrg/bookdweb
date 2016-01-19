@@ -216,7 +216,7 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/favorites.html',
+                        templateUrl: '/partials/favorites.html'
                     }
                 }
             })
@@ -286,18 +286,18 @@ app.config([
                 console.log(err);
             }
         );
-    }
-    /**
-     *
-     * Send the ID of the currently authorized user
-     *
-     */
-    socketService.on('authorizationReq', function (data) {
-        if ($rootScope.currentUser) {
-            $rootScope.currentUser.socketId = data;
-            socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
         }
-    });
+        /**
+         *
+         * Send the ID of the currently authorized user
+         *
+         */
+        socketService.on('authorizationReq', function (data) {
+            if ($rootScope.currentUser) {
+                $rootScope.currentUser.socketId = data;
+                socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
+            }
+        });
     socketService.on('error', function (data) {
         console.log(data);
     });
@@ -320,9 +320,9 @@ app.config([
             var navViewModel = $rootScope.$new();
             $controller('NavCtrl', {$scope: navViewModel});
             navViewModel.open('md', 'landing');
-        }
+            }
 
-    });
+        });
 
     //TODO Move this to a service!
     $rootScope.query = {
@@ -361,11 +361,11 @@ app.config([
                         }
                     }, function (error) {
                         //TODO Google wants us to access this API from a server, not a client.
-                        console.log("If seeing this, probably CORS error with googleapis geocode");
+                        console.log('If seeing this, probably CORS error with googleapis geocode');
                         console.log(error);
                     });
-            }
-        });
+                }
+            });
     }
     /**
      *
