@@ -244,14 +244,16 @@
                 </div>
             </div>
             <div class="row" style="margin-top:20px;">
-                <div class="col-xs-4 reviewBox" ng-repeat="review in business.reviews track by $index">
-                    <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
-                    <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
-                    <br>
-                    Rating: {{review.rating}}
-                    <br>
-                    {{review.text}}
-                    <hr>
+                <div class="col-xs-4 " ng-repeat="review in business.reviews track by $index">
+                    <div class="reviewBox">
+                        <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
+                        <br>User: <span><a href="{{review.author_url}}">{{review.author_name}}</a></span>
+                        <br>
+                        Rating: {{review.rating}}
+                        <br>
+                        {{review.text}}
+                    </div>
+                    <hr class="full">
                 </div>
             </div>
             <div class="row text-center">
