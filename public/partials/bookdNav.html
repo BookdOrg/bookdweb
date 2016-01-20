@@ -149,7 +149,8 @@
                                         <h5>{{notification.content}}</h5>
                                         <div class="row">
                                             <div class="col-xs-6">
-                                                <h5 class="notification-timestamp"><i>{{notification.timestamp}}</i>
+                                                <h5 class="notification-timestamp"><i>{{notification.timestamp |
+                                                    timeStampFilter}}</i>
                                                 </h5>
                                             </div>
                                             <div class="col-xs-6">
