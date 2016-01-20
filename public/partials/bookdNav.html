@@ -8,12 +8,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-click="showSearch(false)" ui-sref="landing">
+            <a class="navbar-brand" ng-click="" ui-sref="landing">
                 <i class="fa fa-2x fa-calendar"></i>
                 <span style="font-size:25px;">Book'd</span>
             </a>
         </div>
-        <form ng-if="show" name="navQuery" class="navbar-form hidden-sm hidden-xs">
+        <form name="navQuery" class="navbar-form hidden-sm hidden-xs">
             <div class="row text-center form-inline form-group">
                 <span class="left-inner-addon">
                         <i class="fa fa-search"></i>
@@ -40,39 +40,39 @@
             <ul class="nav navbar-nav" style="background-color:lightgray">
                 <li class="hidden-sm hidden-md hidden-lg">
                     <a ui-sref="search" ui-sref-active="active"
-                       ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                       ng-click="navbarCollapsed = !navbarCollapsed;">
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ui-sref-active="active">
-                    <a ui-sref="calendar" ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                    <a ui-sref="calendar" ng-click="navbarCollapsed = !navbarCollapsed;">
                         <i class="fa fa-calendar"></i> Calendar
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-if="isLoggedIn() && currentUser.user.isAssociate">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;"
                        ui-sref="user({id:currentUser.user._id})">
                         <i class="fa fa-user"></i> Profile
                     </a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;"
                        ui-sref="account({id:currentUser.user._id})">
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>
                 <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ui-sref="dashboard">
+                    <a ng-click="navbarCollapsed = !navbarCollapsed;" ui-sref="dashboard">
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); checkStateandLogin('login')">
+                    <a ng-click="; checkStateandLogin('login')">
                         <i class="fa fa-sign-in"></i>Log In
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="showSearch(false); checkStateandLogin('signup');checkStateandLogin()">
+                    <a ng-click="; checkStateandLogin('signup');checkStateandLogin()">
                         <i class="fa fa-user"></i> Sign Up
                     </a>
                 </li>
@@ -181,28 +181,28 @@
                         <ul class="uib-dropdown-menu">
                             <li>
                                 <a ui-sref="search" ui-sref-active="active"
-                                   ng-click="navbarCollapsed = !navbarCollapsed;showSearch(true)">
+                                   ng-click="navbarCollapsed = !navbarCollapsed;">
                                     <i class="fa fa-search"></i> Search
                                 </a>
                             </li>
                             <li>
-                                <a ui-sref="calendar" ng-click="showSearch(false)">
+                                <a ui-sref="calendar" ng-click="">
                                     <i class="fa fa-calendar"></i> Calendar
                                 </a>
                             </li>
                             <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
-                                <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)"
+                                <a ng-click="navbarCollapsed = !navbarCollapsed;"
                                    ui-sref="user({id:currentUser.user._id})">
                                     <i class="fa fa-user"></i> Profile
                                 </a>
                             </li>
                             <li ng-if="currentUser.user.businessOwner">
-                                <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ui-sref="dashboard">
+                                <a ng-click="navbarCollapsed = !navbarCollapsed;" ui-sref="dashboard">
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
                             </li>
                             <li>
-                                <a ui-sref="account({id:currentUser.user._id})" ng-click="showSearch(false)">
+                                <a ui-sref="account({id:currentUser.user._id})" ng-click="">
                                     <i class="fa fa-cog"></i> Settings
                                 </a>
                             </li>
