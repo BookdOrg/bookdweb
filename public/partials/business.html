@@ -24,7 +24,7 @@
                             titles="['one','two','three']">
                 </uib-rating>
             </h4>
-            <div class="col-xs-6 text-center">
+            <div class="col-xs-6 text-right">
                 <h5><a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google Plus Page</a>
                 </h5>
                 <h5><a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> Visit
@@ -32,7 +32,7 @@
                 <h5><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</h5>
             </div>
             <div class="business-hours col-xs-6">
-                <li class="hours-list" ng-if="business.opening_hours"
+                <li class="hours-list text-left" ng-if="business.opening_hours"
                     ng-repeat="hours in business.opening_hours.weekday_text">
                     <h5 style="margin-top:2px; margin-bottom:2px;">{{hours}}</h5>
                 </li>
