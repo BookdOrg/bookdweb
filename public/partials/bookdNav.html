@@ -67,12 +67,12 @@
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="; checkStateandLogin('login')">
+                    <a ng-click="checkStateandLogin('login')">
                         <i class="fa fa-sign-in"></i>Log In
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
-                    <a ng-click="; checkStateandLogin('signup');checkStateandLogin()">
+                    <a ng-click="checkStateandLogin('signup');checkStateandLogin()">
                         <i class="fa fa-user"></i> Sign Up
                     </a>
                 </li>
@@ -86,7 +86,7 @@
             <!--
                 User avatar and dropdown
             -->
-            <div class="navbar-inner">
+            <div class="navbar-inner hidden-xs">
                 <ul class="nav navbar-nav navbar-right">
                     <li uib-dropdown class="hidden-lg hidden-md">
                         <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>

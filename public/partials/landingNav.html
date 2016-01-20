@@ -17,9 +17,6 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
                 <li style="border:1px solid black;margin-right:50px;">
                     <a class="partnerBox" ui-sref="partner" ng-if="forBusiness">List Your Business</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Back To Booking</a>
@@ -29,17 +26,6 @@
                 </li>
                 <li ng-hide="isLoggedIn()">
                     <a ng-click="checkStateandLogin('signup')"><i class="fa fa-user"></i> Sign Up</a>
-                </li>
-                <li ng-hide="!isLoggedIn()">
-                    <a ui-sref="search">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                <li ng-hide="!isLoggedIn()">
-                    <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
-                       ui-sref="dashboard">
-                        <i class="fa fa-tachometer"></i> Manage
-                    </a>
                 </li>
                 <li uib-dropdown ng-show="isLoggedIn()">
                     <a href="" uib-dropdown-toggle class=" avatarPadding">
@@ -56,6 +42,11 @@
                         {{currentUser.user.name}} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="uib-dropdown-menu droplinks">
+                        <li ng-hide="!isLoggedIn()">
+                            <a ui-sref="search">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
                         <li>
                             <a ui-sref="calendar" ng-click="showSearch(false)">
                                 <i class="fa fa-calendar"></i> Calendar
