@@ -30,7 +30,7 @@
                     <button class="btn btn-md sectionBtn" ng-click="navQuery.$valid && search(query)"
                             type="submit">
                         <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
-                           ng-class="{'fa-spin' : fetchingQuery}"></i>
+                           ng-class="{'fa-pulse' : fetchingQuery}"></i>
                         <span ng-show="!fetchingQuery">Search</span>
                     </button>
                 </span>
@@ -114,7 +114,7 @@
                                     <button class="btn btn-md sectionBtn" ng-click="miniQuery.$valid && search(query)"
                                             type="submit">
                                         <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
-                                           ng-class="{'fa-spin' : fetchingQuery}"></i>
+                                           ng-class="{'fa-pulse' : fetchingQuery}"></i>
                                         <span ng-show="!fetchingQuery">Search</span>
                                     </button>
                                 </div>
