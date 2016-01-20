@@ -12,6 +12,7 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     };
     $scope.max = 5;
     $scope.isReadonly = true;
+    $scope.personalCenter = false;
     /**
      * Generate map markers based on the search results
      *
@@ -21,7 +22,9 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
         $scope.business = businesses[0];
         $scope.positions = [];
         var boundsArray = [];
-        boundsArray.push([$rootScope.currLocation.latitude, $rootScope.currLocation.longitude]);
+        if ($rootScope.currLocation !== undefined) {
+            boundsArray.push([$rootScope.currLocation.latitude, $rootScope.currLocation.longitude]);
+        }
         for (var i = 0; i < businesses.length; i++) {
             var lat = businesses[i].geometry.location.lat;
             var lng = businesses[i].geometry.location.lng;
@@ -54,6 +57,9 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     //If there are no businesses and we have the users currentlocation, set the center of the map to be the users
     if ($scope.businesses.length == 0 && $rootScope.currLocation) {
         $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
+        $scope.personalCenter = true;
+    } else if ($scope.businesses.length > 0 && !$rootScope.currLocation) {
+        $scope.center = $scope.businesses[0].geometry.location.lat + ',' + $scope.businesses[0].geometry.location.lng;
     }
     //Inject the navCtrl to use it's showSearch method
     var navViewModel = $scope.$new();
@@ -62,8 +68,11 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     navViewModel.showSearch(true);
     //Watch the current location of the user
     $scope.$watch('currLocation', function (newVal, oldVal) {
-        if (newVal) {
+        if (angular.isDefined(newVal)) {
             $scope.center = $rootScope.currLocation.latitude + ',' + $rootScope.currLocation.longitude;
+            $scope.personalCenter = true;
+        } else {
+            $scope.center = '40.4867,-74.4444';
         }
     });
 
@@ -73,7 +82,9 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
 
     $scope.showDetail = function (business) {
         $scope.business = business;
-        vm.map.showInfoWindow('info', business.id);
+        if (vm.map) {
+            vm.map.showInfoWindow('info', business.id);
+        }
     };
 
     $scope.showDetailClicked = function (e, business) {

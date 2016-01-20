@@ -41,9 +41,9 @@
                     results</p>
             </div>
         </div>
-        <div class="col col-xs-7" style="padding:0" ng-if="center">
+        <div class="col col-xs-7" style="padding:0">
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
-                <marker position="{{center}}" icon="/images/currLocationIcon.png"></marker>
+                <marker ng-if="personalCenter" position="{{center}}" icon="/images/currLocationIcon.png"></marker>
                 <marker id="{{businesses[$index].id}}" ng-repeat="pos in positions"
                         position="{{pos}}" on-mouseover="showDetailClicked(businesses[$index])"></marker>
                 <info-window id="info">
