@@ -79,7 +79,7 @@
                 <hr>
                 <li class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="logOut();navbarCollapsed = !navbarCollapsed">
-                        LogOut
+                        <i class="fa fa-sign-out"></i> LogOut
                     </a>
                 </li>
             </ul>
@@ -87,8 +87,8 @@
                 User avatar and dropdown
             -->
             <div class="navbar-inner">
-                <ul class="nav navbar-nav navbar-right hidden-xs hidden-md">
-                    <li uib-dropdown class="hidden-lg">
+                <ul class="nav navbar-nav navbar-right">
+                    <li uib-dropdown class="hidden-lg hidden-md">
                         <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
                         <ul class="uib-dropdown-menu notifications">
                             <form name="miniQuery">
@@ -196,7 +196,7 @@
                                     <i class="fa fa-user"></i> Profile
                                 </a>
                             </li>
-                            <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
+                            <li ng-if="currentUser.user.businessOwner">
                                 <a ng-click="navbarCollapsed = !navbarCollapsed;showSearch(false)" ui-sref="dashboard">
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
@@ -209,7 +209,7 @@
                             <hr>
                             <li>
                                 <a ng-click="logOut()">
-                                    LogOut
+                                    <i class="fa fa-sign-out"></i> LogOut
                                 </a>
                             </li>
                         </ul>
