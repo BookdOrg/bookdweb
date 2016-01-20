@@ -6,14 +6,14 @@
 ########################################
 -->
 <div class="container-fluid">
-    <div class="row" style="margin-top:20px; margin-bottom:20px;">
-        <div class="col-xs-2 col-xs-offset-1" style="padding:0px;">
+    <div class="row" style="margin-top:20px; margin-bottom:20px; margin-left:10px; margin-right:10px;">
+        <div class="col-xs-3">
             <img ng-if="!business.photos" class="text-center" ng-src="{{business.icon}}"
                  uib-tooltip="Photos coming soon..."
                  tooltip-placement="right" style="border-radius:5%"></image>
                         <span ng-if="business.photos.length >1">
                             <img class="provider-photo-radius"
-                                 ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=200&minheight=150&maxheight=200&photoreference={{business.photos[0].photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                                 ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=300&maxwidth=300&minheight=300&maxheight=300&photoreference={{business.photos[0].photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                         </span>
         </div>
         <div class="col-xs-6 text-center">
