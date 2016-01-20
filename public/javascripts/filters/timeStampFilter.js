@@ -8,7 +8,7 @@ module.exports = function () {
         if (angular.isUndefined(timestamp)) {
             return;
         }
-        var calendarStamp = moment(timestamp).calendar();
+        var calendarStamp = moment(new Date(timestamp)).calendar();
         return calendarStamp;
     };
 };
