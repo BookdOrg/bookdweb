@@ -2,7 +2,7 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
-                           userFactory, personal, tier, service, notificationFactory, facebookApi, utilService) {
+                           userFactory, personal, payments, service, notificationFactory, facebookApi, utilService) {
 
     $scope.facebookApi = facebookApi;
     $scope.service = service;
@@ -14,7 +14,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.progressBar = 100;
     $scope.showCount = false;
     $scope.countdown = 600;
-    $scope.tier = tier;
+    $scope.payments = payments;
     var timeStarted = false;
     /**
      * Watch which date is selected on the calendar,

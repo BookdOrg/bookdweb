@@ -353,11 +353,11 @@ module.exports = function ($http, auth, $q) {
      *
      *
      */
-    o.createPaymentsAccount = function () {
-        return $http.post('/business/create-payments-account', null, {
+    o.createPaymentsAccount = function (updatedObj) {
+        return $http.post('/business/update-payments-account', updatedObj, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-
+            return data.data;
         }, handleError);
     };
     /**

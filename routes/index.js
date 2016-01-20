@@ -471,14 +471,14 @@ router.get('/business/dashboard', auth, function (req, res, next) {
     var updatedBusinesses = [];
     User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
         path: 'businesses',
-        select: 'name services employees placesId dateCreated tier stripeId'
+        select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
     }])
         .exec(function (error, user) {
             if (error) {
                 return next(error);
             }
             async.each(user.businesses, function (currBusiness, businessCallback) {
-                Business.findOne({'_id': currBusiness._id}).select('name services employees placesId dateCreated tier stripeId')
+                Business.findOne({'_id': currBusiness._id}).select('name services employees placesId dateCreated tier owner stripeId stripeAccount payments')
                     .populate([{path: 'services', select: ''}, {
                         path: 'employees', select: '_id name avatarVersion provider providerId availabilityArray'
                     }]).exec(function (error, response) {
@@ -875,31 +875,39 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
 });
 
 router.post('/business/appointment/charge', auth, function (req, res, next) {
-    //var card =  req.body.card;
     var appointmentId = req.body._id;
     var appointmentCard = req.body.card;
     var price = req.body.price;
-    stripe.charges.create({
-        amount: price,
-        currency: 'usd',
-        source: appointmentCard.id,
-        description: 'Book\'d Appointment'
-    }, function (err, charge) {
-        if (err && err.type === 'StripeCardError') {
-            // The card has been declined
-            return (next(err));
-        }
-        Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
-            if (err) {
-                return next(err);
-            }
-            appointment.status = 'paid';
+    var businessId = req.body.businessId;
 
-            appointment.save(function (err, resAppointment) {
+    var fee = (price * .035) + 30;
+
+    Business.findOne({"_id": businessId}).exec(function (err, business) {
+        var stripeId = business.stripeId;
+        stripe.charges.create({
+            amount: price,
+            currency: 'usd',
+            source: appointmentCard.id,
+            application_fee: fee,
+            destination: stripeId,
+            description: 'Book\'d Appointment'
+        }, function (err, charge) {
+            if (err && err.type === 'StripeCardError') {
+                // The card has been declined
+                return (next(err));
+            }
+            Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
                 if (err) {
                     return next(err);
                 }
-                res.json(resAppointment);
+                appointment.status = 'paid';
+
+                appointment.save(function (err, resAppointment) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.json(resAppointment);
+                });
             });
         });
     });
@@ -1073,7 +1081,7 @@ router.get('/business/details', function (req, res, next) {
  **/
 router.get('/business/info', function (req, res, next) {
     var id = req.param('id');
-    Business.findOne({'_id': id}).select('').populate([{
+    Business.findOne({'_id': id}).populate([{
         path: 'employees',
         select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
@@ -1387,13 +1395,13 @@ router.post('/business/update-service', auth, function (req, res, next) {
 router.post('/business/remove-service', auth, function (req, res, next) {
     var serviceId = req.body.serviceId;
     var businessId = req.body.businessId;
-    Service.remove({'_id': serviceId}).exec(function (err, result) {
-        if (err) {
-            return next(err);
-        }
-    });
+    //TODO give the status a pending deletion status
+    //Service.remove({'_id': serviceId}).exec(function (err, result) {
+    //    if (err) {
+    //        return next(err);
+    //    }
+    //});
 
-    //TODO businessId, index, response are all non existent, how does this work?
     Business.findOne({'_id': businessId}).exec(function (err, business) {
         var index = business.services.indexOf(serviceId);
         if (index > -1) {
@@ -1468,47 +1476,61 @@ router.get('/business/service-detail', auth, function (req, res, next) {
  */
 
 router.post('/business/update-payments-account', auth, function (req, res, next) {
+
     var businessId = req.body.businessId;
-    var month = req.body.month;
-    var day = req.body.day;
-    var year = req.body.year;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var bankAccount = req.body.bankAccount;
+    var bankInfo = req.body.bankAccount;
+    var stripeInfo = req.body.stripeAccount;
+
+    var month = moment(stripeInfo.dob).month() + 1;
+    var day = moment(stripeInfo.dob).date();
+    var year = moment(stripeInfo.dob).year();
+    var fullName = stripeInfo.firstName + ' ' + stripeInfo.lastName;
+    var acceptanceTimeStamp = Math.floor(Date.now() / 1000);
+    var remoteAddress = req.connection.remoteAddress;
 
     Business.findOne({'_id': businessId}).exec(function (err, business) {
         if (err) {
             return next(err);
         }
-        //stripe.accounts.create({
-        //    country:'US',
-        //    managed:true,
-        //    tos_acceptance:{
-        //        date: Math.floor(Date.now()/1000),
-        //        ip:request.connect.remoteAddress
-        //    },
-        //    legal_entity:{
-        //        dob:{
-        //            day:day,
-        //            month:month,
-        //            year:year
-        //        },
-        //        first_name:firstName,
-        //        last_Name:lastName
-        //    },
-        //    bank_account:bankAccount
-        //},function(err,response){
-        //    console.log(err);
-        //    console.log(response);
-        //    business.stripeSecret = response.keys.secret;
-        //    business.stripePublishable = response.keys.publishable;
-        //
-        //    business.save(function(err){
-        //        if(err){
-        //            return next(err);
-        //        }
-        //    });
-        //});
+        stripe.accounts.update(business.stripeId, {
+            external_account: {
+                object: 'bank_account',
+                account_number: bankInfo.checking,
+                country: 'US',
+                currency: 'USD',
+                account_holder_type: bankInfo.type,
+                name: fullName,
+                routing_number: bankInfo.routing
+            },
+            legal_entity: {
+                dob: {
+                    day: day,
+                    month: month,
+                    year: year
+                },
+                first_name: stripeInfo.firstName,
+                last_name: stripeInfo.lastName,
+                type: stripeInfo.type
+            },
+            tos_acceptance: {
+                date: acceptanceTimeStamp,
+                ip: remoteAddress
+            },
+            business_name: business.name
+        }, function (err, stripeResponse) {
+            if (err) {
+                res.json(err);
+            } else {
+                business.payments = true;
+                business.save(function (err, business) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.json(stripeResponse);
+                });
+            }
+        });
+
     });
 });
 module.exports = router;

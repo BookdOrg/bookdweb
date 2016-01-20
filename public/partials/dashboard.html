@@ -27,7 +27,7 @@
     <uib-tabset justified="true">
         <uib-tab select="renderCalender()">
             <uib-tab-heading>
-                <i class="fa fa-calendar"></i> Appointments
+                <i class="fa fa-calendar"></i> Calendar
             </uib-tab-heading>
             <div class="row dashboard-content">
                 <div class="col-xs-2">
@@ -275,7 +275,7 @@
                             </uib-accordion-heading>
                             <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
                                 <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
-                                    <p>Add your First Associate!</p>
+                                    <p style="margin-top:auto;margin-bottom:auto;">Add your First Associate!</p>
                                 </div>
                                 <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
                                     <li>
@@ -303,87 +303,6 @@
                     </uib-accordion>
                 </div>
             </div>
-            <!--
-            #################################
-            ##
-            ##    Business Info Block
-            ##
-            ##
-            #################################
-            -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <uib-accordion>
-                        <uib-accordion-group is-open="statusOne.open">
-                            <uib-accordion-heading>
-                                Account
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
-                            </uib-accordion-heading>
-                            <div class="row text-center">
-                                <h2>Start Accepting Payments Today</h2>
-
-                                <div ng-if="activeBusiness.business.stripeAccount.bank_accounts.total_count === 0"
-                                     class="col col-xs-6">
-                                    <form action="" class="form-horizontal">
-                                        <div class="row row-centered">
-                                            <fieldset>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Checking Account #</label>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Routing #</label>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-4 control-label">Type:</label>
-                                                    <div class="col-sm-6">
-                                                        <select required class="form-control">
-                                                            <option disabled value="">Type</option>
-                                                            <option value="individual">Individual</option>
-                                                            <option value="company">Company</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-xs-6 text-center">
-                                    <div ng-repeat="field in activeBusiness.business.stripeAccount.verification.fields_needed">
-                                        <form action="" id="info-form" class="form-horizontal">
-                                            <div class="row row-centered"
-                                                 ng-if="field !== 'tos_acceptance.date' && field !=='tos_acceptance.ip' && field !=='bank_account' && field !=='legal_entity.type'">
-                                                <fieldset>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-4 control-label">{{field}}</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="text" name="cardholdername" maxlength="70"
-                                                                   placeholder="{{field}}"
-                                                                   ng-model="activeBusiness.business.stripeAccount[field]"
-                                                                   class="card-holder-name form-control">
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 text-center">
-                                    <button class="btn btn-gradient-green" ng-click="createPaymentsAccount()" disabled>
-                                        Update Account
-                                    </button>
-                                </div>
-                            </div>
-                        </uib-accordion-group>
-                    </uib-accordion>
-                </div>
-            </div>
         </uib-tab>
         <!--
         #################################
@@ -397,6 +316,131 @@
             <uib-tab-heading>
                 <i class="fa fa-line-chart"></i> Reports
             </uib-tab-heading>
+        </uib-tab>
+        <!--
+            #################################
+            ##
+            ##    Settings  Tab
+            ##
+            ##
+            #################################
+            -->
+        <uib-tab select="renderCalender()">
+            <uib-tab-heading>
+                <i class="fa fa-cog"></i> Settings
+            </uib-tab-heading>
+            <div class="row dashboard-business-info">
+                <div class="col-xs-12">
+                    <uib-accordion>
+                        <uib-accordion-group is-open="statusOne.open">
+                            <uib-accordion-heading>
+                                Account
+                                <i class="pull-right glyphicon"
+                                   ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                            </uib-accordion-heading>
+                            <div class="row text-center">
+                                <h2 ng-if="activeBusiness.business.stripeAccount.bank_accounts.total_count === 0">Start
+                                    Accepting Payments Today</h2>
+
+                                <h2 ng-if="activeBusiness.business.stripeAccount.bank_accounts.total_count > 0 ">Update
+                                    Banking Information</h2>
+
+                                <div class="col-xs-4 col-xs-offset-4">
+                                    <uib-alert type="danger" ng-if="stripeError" role="alert">
+                                        {{stripeError}}
+                                    </uib-alert>
+                                    <uib-alert type="success" ng-if="stripeUpdateSuccess" role="alert">
+                                        Hurray! You've successfully updated payment information for your account.
+                                    </uib-alert>
+                                </div>
+                                <form name="bankForm" class="form-horizontal">
+                                    <div class="col col-xs-6">
+                                        <div class="row row-centered">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Checking Account #</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control"
+                                                               ng-model="updatedBankAccount.checking" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Routing #</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control"
+                                                               ng-model="updatedBankAccount.routing" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Type:</label>
+                                                    <div class="col-sm-6">
+                                                        <select required class="form-control"
+                                                                ng-model="updatedBankAccount.type">
+                                                            <option disabled value="">Type</option>
+                                                            <option value="individual">Individual</option>
+                                                            <option value="company">Company</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 text-center">
+                                        <div class="row row-centered">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">First Name:</label>
+
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control"
+                                                               ng-model="updatedStripeAccount.firstName" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Last Name:</label>
+
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control"
+                                                               ng-model="updatedStripeAccount.lastName" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Date of Birth:</label>
+
+                                                    <div class="col-sm-6">
+                                                        <input type="date" class="form-control"
+                                                               ng-model="updatedStripeAccount.dob" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Type:</label>
+
+                                                    <div class="col-sm-6">
+                                                        <select required class="form-control"
+                                                                ng-model="updatedStripeAccount.type">
+                                                            <option disabled value="">Type</option>
+                                                            <option value="individual">Individual</option>
+                                                            <option value="company">Company</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-gradient-green" type="submit"
+                                                ng-click="bankForm.$valid && createPaymentsAccount(updatedBankAccount,updatedStripeAccount)">
+                                            <i class="fa fa-spinner fa-2x" ng-class="{'fa-pulse' : updatingPayments}"
+                                               ng-show="updatingPayments"></i><span ng-show="!updatingPayments">Update Account</span>
+                                        </button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </uib-accordion-group>
+                    </uib-accordion>
+                </div>
+            </div>
         </uib-tab>
     </uib-tabset>
 </div>

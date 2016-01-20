@@ -496,9 +496,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     };
     //Charge the customer via stripe if they entered their card information
     $scope.charge = function (appointment) {
+        $scope.charging = true;
         businessFactory.charge(appointment)
             .then(function (appointment) {
                 $scope.dateObj.appointment = appointment;
+                $scope.charging = false;
                 $uibModalInstance.close($scope.dateObj);
             });
     };

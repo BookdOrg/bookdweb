@@ -84,10 +84,25 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.statusCal = {
         open: true
     };
-    $scope.createPaymentsAccount = function () {
-        businessFactory.createPaymentsAccount()
+    $scope.updatedBankAccount = {};
+    $scope.updatedStripeAccount = {};
+    $scope.createPaymentsAccount = function (bankAccount, stripeAccount) {
+        $scope.updatingPayments = true;
+        var updateObj = {
+            businessId: $scope.activeBusiness.business._id,
+            bankAccount: bankAccount,
+            stripeAccount: stripeAccount
+        };
+        $scope.stripeError = null;
+        businessFactory.createPaymentsAccount(updateObj)
             .then(function (data) {
-                console.log(data);
+                $scope.updatingPayments = false;
+                if (data.statusCode === 400) {
+                    $scope.stripeError = data.message;
+                } else {
+                    $scope.activeBusiness.business.stripeAccount = data;
+                    $scope.stripeUpdateSuccess = true;
+                }
             });
     };
     /**
@@ -658,8 +673,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 personal: function () {
                     return type;
                 },
-                tier: function () {
-                    return $scope.activeBusiness.business.tier;
+                payments: function () {
+                    return $scope.activeBusiness.business.payments;
                 },
                 service: function () {
                     return service;

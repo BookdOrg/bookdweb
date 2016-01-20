@@ -611,7 +611,7 @@ header .intro-text .intro-heading {
 }
 
 .dashboard-business-info {
-    margin-top: 69px;
+    margin-top: 30px;
 }
 
 .dashboard-content {
@@ -624,7 +624,8 @@ header .intro-text .intro-heading {
 
 .dashboard-panel-content {
     padding: 10px;
-    max-height: 250px;
+    min-height: 100px;
+    max-height: 200px;
     overflow-y: scroll;
 }
 

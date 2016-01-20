@@ -154,8 +154,8 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 personal: function () {
                     return type;
                 },
-                tier: function () {
-                    return $scope.business.info.tier;
+                payments: function () {
+                    return $scope.business.info.payments;
                 },
                 service: function () {
                     return service;

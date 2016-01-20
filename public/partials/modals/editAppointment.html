@@ -73,7 +73,9 @@
     </button>
     <button class="btn btn-gradient-success"
             ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
-            ng-click="charge(dateObj.appointment)">Charge <i class="fa fa-credit-card"></i></button>
+            ng-click="charge(dateObj.appointment)"><span ng-show="!charging">Charge <i
+            class="fa fa-credit-card"></i></span><span ng-show="charging"><i class="fa fa-spinner fa-pulse"></i></span>
+    </button>
     <button class="btn btn-gradient-primary"
             ng-if="showUpdate"
             ng-disabled="!appointment || !showUpdate"
