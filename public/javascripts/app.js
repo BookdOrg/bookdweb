@@ -330,12 +330,18 @@ app.config([
         term: null
     };
     if (!location.currPosition) {
-        $geolocation.watchPosition({
+        $geolocation.getCurrentPosition({
             timeout: 60000,
             maximumAge: 250,
             enableHighAccuracy: true
-        });
-        $rootScope.myPosition = $geolocation.position;
+        }).then(function (position) {
+            console.log(position);
+            $rootScope.myPosition = position;
+            getLocationInfo(position);
+        }).then(function (err) {
+            console.log(err);
+        })
+    }
         /**
          *
          * Watch for when the users location changes, make a call to the google maps api to
@@ -344,29 +350,26 @@ app.config([
          * Auto populate that information in the query location object, to be displayed in the navbar.
          *
          */
-        $rootScope.$watch('myPosition.coords.latitude', function (newVal, oldVal) {
+        var getLocationInfo = function (position) {
             $rootScope.loadingLocation = true;
-            if (newVal) {
-                $rootScope.loadingLocation = false;
-                $http.get('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
-                        + $rootScope.myPosition.coords.latitude + ','
-                        + $rootScope.myPosition.coords.longitude)
-                    .then(function (data) {
-                        $rootScope.loadingLocation = false;
-                        if (data) {
-                            location.setPosition(data.data.results);
-                            $rootScope.currLocation = location.currPosition;
-                            $rootScope.query.location = $rootScope.currLocation.city;
+            $http.get('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
+                + position.coords.latitude + ','
+                + position.coords.longitude)
+                .then(function (data) {
+                    $rootScope.loadingLocation = false;
+                    if (data) {
+                        location.setPosition(data.data.results);
+                        $rootScope.currLocation = location.currPosition;
+                        $rootScope.query.location = $rootScope.currLocation.city;
 
-                        }
-                    }, function (error) {
-                        //TODO Google wants us to access this API from a server, not a client.
-                        console.log('If seeing this, probably CORS error with googleapis geocode');
-                        console.log(error);
-                    });
-                }
-            });
-    }
+                    }
+                }, function (error) {
+                    //TODO Google wants us to access this API from a server, not a client.
+                    console.log('If seeing this, probably CORS error with googleapis geocode');
+                    console.log(error);
+                });
+        };
+
     /**
      *
      * Concatenates the query term and query location entered in the Navbar
