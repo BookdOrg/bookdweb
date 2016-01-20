@@ -2,8 +2,8 @@
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">New Employee</h3>
 </div>
-<div class="modal-body">
-    <form name="addEmployeeForm">
+<form name="addEmployeeForm">
+    <div class="modal-body">
         <div class="row form-inline employee-search">
             <div class="form-group col-md-12">
                 <label for="employeeId">Employee Email:</label>
@@ -36,11 +36,11 @@
                 <p>No employee with that email found.</p>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 <div class="modal-footer">
     <button class="btn btn-gradient-primary" ng-disabled="!employee"
-            ng-click="addEmployeeForm.$valid && create(employee._id)"
+            ng-click="create(employee._id)"
             type="submit">Register Employee
     </button>
     <button class="btn btn-gradient-warning" ng-click="cancel()">Cancel</button>
