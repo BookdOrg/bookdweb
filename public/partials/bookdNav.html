@@ -10,7 +10,7 @@
             </button>
             <a class="navbar-brand" ng-click="" ui-sref="landing">
                 <i class="fa fa-2x fa-calendar"></i>
-                <span style="font-size:25px;">Book'd</span>
+                <span style="font-size:25px;">Bookd</span>
             </a>
         </div>
         <form name="navQuery" class="navbar-form hidden-sm hidden-xs">
@@ -46,7 +46,7 @@
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ui-sref-active="active">
                     <a ui-sref="calendar" ng-click="navbarCollapsed = !navbarCollapsed;">
-                        <i class="fa fa-calendar"></i> Calendar
+                        <i class="fa fa-thumb-tack"></i> Appointments
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-if="isLoggedIn() && currentUser.user.isAssociate">
@@ -188,7 +188,7 @@
                             </li>
                             <li>
                                 <a ui-sref="calendar" ng-click="">
-                                    <i class="fa fa-calendar"></i> Calendar
+                                    <i class="fa fa-thumb-tack"></i> Appointments
                                 </a>
                             </li>
                             <li ng-if="isLoggedIn() && currentUser.user.isAssociate">
