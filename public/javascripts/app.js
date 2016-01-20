@@ -335,11 +335,9 @@ app.config([
             maximumAge: 250,
             enableHighAccuracy: true
         }).then(function (position) {
-            console.log(position);
             $rootScope.myPosition = position;
             getLocationInfo(position);
         }).then(function (err) {
-            console.log(err);
         })
     }
         /**
