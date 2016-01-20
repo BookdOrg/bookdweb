@@ -48,7 +48,7 @@
         </div>
         <div class="tab-pane" id="schedule">
             <div class="row">
-                <div class="col col-md-4 text-center">
+                <div class="col col-md-6 text-center">
                     <h4>Select a Date to see Available Times</h4>
 
                     <div style="display:inline-block; min-height:290px;">
@@ -57,17 +57,17 @@
                                         custom-class="getDayClass(date, mode)"></uib-datepicker>
                     </div>
                 </div>
-                <div class="col col-md-8 text-center">
+                <div class="col col-md-6 text-center">
                     <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <span ng-repeat="time in availableTimes track by $index">
+                    <div class="col-md-3" ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)" ng-disabled="!time.available || time.status || time.toggled || time.hide"
                                 ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                                 role="button" class="btn" style="margin-bottom:5px;">
                             {{time.time}}
                         </button>
-                    </span>
+                    </div>
                 </div>
             </div>
             <div class="row text-center">
