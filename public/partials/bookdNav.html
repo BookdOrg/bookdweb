@@ -24,7 +24,7 @@
                     <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                     <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
                     <input class="form-control" aria-describedby="near" g-places-autocomplete
-                           options="autocompleteOptions" ng-model="query.location" required>
+                           options="autocompleteOptions" ng-model="query.location" placeholder="Near.." required>
                 </span>
                 <span>
                     <button class="btn btn-md sectionBtn" ng-click="navQuery.$valid && search(query)"
@@ -98,7 +98,7 @@
                                                 <i class="fa fa-building"></i>
                                                 <input class="form-control" aria-describedby="search"
                                                        ng-model="query.term"
-                                                       placeholder="Barbershops" required>
+                                                       placeholder="Hair Salons" required>
                                         </span>
                                     </div>
                                     <div class="col-xs-12">
