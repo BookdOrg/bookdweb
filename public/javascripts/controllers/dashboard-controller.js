@@ -154,9 +154,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
          * then update the active business to the business returned
          */
         modalInstance.result.then(function (businessId) {
+            var stripeAccount = $scope.activeBusiness.business.stripeAccount;
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
                     $scope.activeBusiness.business = business;
+                    $scope.activeBusiness.business.stripeAccount = stripeAccount;
                 });
         });
     };
@@ -185,9 +187,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
          *
          */
         modalInstance.result.then(function (businessId) {
+            var stripeAccount = $scope.activeBusiness.business.stripeAccount;
             businessFactory.getBusinessInfo(businessId)
                 .then(function (business) {
                     $scope.activeBusiness.business = business;
+                    $scope.activeBusiness.business.stripeAccount = stripeAccount;
                 });
         }, function () {
             //console.log('Modal dismissed at: ' + new Date());
