@@ -107,7 +107,7 @@ app.config([
                 },
                 resolve: {
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
-                        if (!businessFactory.business.name) {
+                        if (businessFactory.business.place_id !== $stateParams.businessid) {
                             return businessFactory.getBusiness($stateParams.businessid);
                         } else {
                             return businessFactory.business;
