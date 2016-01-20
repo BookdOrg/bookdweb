@@ -22,7 +22,7 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
         $scope.business = businesses[0];
         $scope.positions = [];
         var boundsArray = [];
-        if ($rootScope.currLocation !== undefined) {
+        if (angular.isDefined($rootScope.currLocation)) {
             boundsArray.push([$rootScope.currLocation.latitude, $rootScope.currLocation.longitude]);
         }
         for (var i = 0; i < businesses.length; i++) {
@@ -65,7 +65,6 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     var navViewModel = $scope.$new();
     $controller('NavCtrl', {$scope: navViewModel});
 
-    navViewModel.showSearch(true);
     //Watch the current location of the user
     $scope.$watch('currLocation', function (newVal, oldVal) {
         if (angular.isDefined(newVal)) {

@@ -381,7 +381,7 @@ app.config([
      *
      * @param query - Object with term and location properties. Location will either be a string or an object.
      */
-
+    $rootScope.searched = false;
     $rootScope.search = function (query) {
         $rootScope.fetchingQuery = true;
         var formattedQuery;
@@ -393,6 +393,7 @@ app.config([
 
         businessFactory.search(formattedQuery)
             .then(function (data) {
+                $rootScope.searched = true;
                 $rootScope.fetchingQuery = false;
                 if (!$state.is('search')) {
                     $state.go('search');
