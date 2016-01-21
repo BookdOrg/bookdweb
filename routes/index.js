@@ -771,16 +771,10 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.query.id;
-    console.log(req.query.start);
-    console.log(req.query.start);
     var start = new Date(req.query.start);
     var end = new Date(req.query.end);
-    console.log(start);
-    console.log(end);
     var isoStart = moment(start).format();
     var isoEnd = moment(end).format();
-    console.log(isoStart);
-    console.log(isoEnd);
     Appointment.find({
         'businessId': businessId,
         'start.full': {'$gte': isoStart, $lt: isoEnd},

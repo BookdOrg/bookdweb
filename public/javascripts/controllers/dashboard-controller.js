@@ -537,7 +537,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
 
     $scope.getEvents = function (start, end, timezone, callback) {
-        businessFactory.getAllAppointments($scope.activeBusiness.business._id, start, end)
+        var calStart = moment(start).format('YYYY-MM-DD');
+        var calEnd = moment(end).format('YYYY-MM-DD');
+        businessFactory.getAllAppointments($scope.activeBusiness.business._id, calStart, calEnd)
             .then(function (response) {
                 removeFilteredSources($scope.filteredList[$scope.activeBusiness.business.name]);
                 $scope.calendarEmployees = [];
