@@ -75,7 +75,6 @@ io.on('connection', function (socket, data) {
         client.id = socket.id;
         clients.push(client);
     });
-    //console.log(socket);
     socket.on('online', function (data) {
         //socket.join(data.user);
 
@@ -212,6 +211,22 @@ io.on('connection', function (socket, data) {
             if (employeeSocket) {
                 io.to(employeeSocket.id).emit('canceledAppt', data);
             }
+        }
+    });
+
+    socket.on('newNotifGenerated', function (data) {
+        var socket = _.findWhere(clients, {'customId': data.id});
+        if (socket) {
+            var notification = new Notification();
+            //Content of the notification.
+            notification.content = data.notification;
+            //Timestamp of when notifications was created which is always now.
+            notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+            //Type of notification. To be used for indicating importance.
+            notification.type = data.type;
+            //Whether the notification was viewed or not.
+            notification.viewed = 'false';
+            io.to(socket.id).emit('newNotif', notification);
         }
     });
 });

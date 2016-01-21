@@ -155,10 +155,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
                 //Loop through the current array of appointments
                 var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
-                var currentDateTime = moment().set({'year':moment($scope.selectedDate).year(),'month':moment($scope.selectedDate).month(),
-                    'date':moment($scope.selectedDate).date(),'hour':moment(availableTime).hour(),'minute':moment(availableTime).minute()});
+                var currentDateTime = moment().set({
+                    'year': moment($scope.selectedDate).year(),
+                    'month': moment($scope.selectedDate).month(),
+                    'date': moment($scope.selectedDate).date(),
+                    'hour': moment(availableTime).hour(),
+                    'minute': moment(availableTime).minute()
+                });
                 $scope.availableTimes[availableTimesIndex].hide = false;
-                if(currentDateTime.isBefore(moment())){
+                if (currentDateTime.isBefore(moment())) {
                     $scope.availableTimes[availableTimesIndex].hide = true;
                 }
                 for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
@@ -378,8 +383,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //send the appointment to the backend
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
-                newNotification(appointment,appointment.customer);
-                newNotification(appointment,appointment.employee);
+                newNotification(appointment, appointment.customer);
+                newNotification(appointment, appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;
@@ -405,8 +410,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
-                newNotification(appointment,appointment.customer);
-                newNotification(appointment,appointment.employee);
+                newNotification(appointment, appointment.customer);
+                newNotification(appointment, appointment.employee);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;
@@ -431,11 +436,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
-        notificationFactory.addNotification(personToNotify,
-                'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at ' + appointment.start.time
-                + '.', 'actionable', true)
+        var notification = 'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at ' + appointment.start.time
+                + '.',
+            type = 'actionable';
+        notificationFactory.addNotification(personToNotify, notification, type, true)
             .then(function () {
-
+                var data = {
+                    id: personToNotify,
+                    notification: notification,
+                    type: type
+                };
+                socketService.emit('newNotifGenerated', data);
             }, function (err) {
                 console.log(err);
             });

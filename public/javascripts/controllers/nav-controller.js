@@ -18,6 +18,8 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();
     });
+
+
     /**
      * Helper function, used to determine which pages we should show the search
      * bar in the navbar. Gets called in the template
@@ -85,8 +87,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 console.log(err);
             });
 
-        $scope.newNotifications = [];
-        changeAllNotifViewed($scope.notifications);
+        changeAllNotifViewed($rootScope.currentUser.user.notifications);
     };
 
     /**
@@ -94,7 +95,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * @param index
      */
     $scope.viewNotification = function (index) {
-        var id = $scope.notifications[index]._id;
+        var id = $rootScope.currentUser.user.notifications[index]._id;
         notificationFactory.notificationViewed(id).then(
             function (data) {
 
@@ -102,21 +103,13 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 console.log(err);
             });
 
-        $scope.notifications[index].viewed = true;
-
-        //Remove the notification from the newNotifications array.
-        var arrIndex = _.indexOf($scope.newNotifications, _.find($scope.newNotifications, {_id: id}));
-        if (arrIndex > -1) {
-            $scope.newNotifications.splice(arrIndex, 1);
-        }
+        $rootScope.currentUser.user.notifications[index].viewed = true;
     };
 
     if (auth.isLoggedIn()) {
         notificationFactory.getNotifications().then(
             function (data) {
                 $rootScope.currentUser.user.notifications = data;
-                $scope.notifications = $rootScope.currentUser.user.notifications;
-                $scope.newNotifications = _.filter($scope.notifications, {viewed: false});
             },
             function (err) {
                 console.log(err);

@@ -544,34 +544,55 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 + appointment.start.date + ' at ' + appointment.start.time + '.';
         }
 
+        var type = 'calendar';
         if ($rootScope.currentUser.user._id === appointment.customer) {
             // Customer rescheduled appointment, inform employee, no email.
-            notificationFactory.addNotification(appointment.employee, employeeNotification, 'calendar', false)
+            notificationFactory.addNotification(appointment.employee, employeeNotification, type, false)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: employeeNotification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });
         } else if ($rootScope.currentUser.user._id === appointment.employee) {
             // Employee rescheduled appointment, inform customer, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, 'calendar', true)
+            notificationFactory.addNotification(appointment.customer, customerNotification, type, true)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: customerNotification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });
         } else {
             // Business owner rescheduled appointment, inform customer and employee, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, 'calendar', true)
+            notificationFactory.addNotification(appointment.customer, customerNotification, type, true)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: customerNotification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });
 
-            notificationFactory.addNotification(appointment.employee, employeeNotification, 'calendar', true)
+            notificationFactory.addNotification(appointment.employee, employeeNotification, type, true)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: employeeNotification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });
@@ -582,23 +603,32 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     }
 
     function notifyCancel(appointment) {
+        var notification = 'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
+                + appointment.start.time + ' was canceled.',
+            type = 'calendar';
         if ($rootScope.currentUser.user._id === appointment.customer) {
             // Customer canceled appointment, inform employee, no email.
-            notificationFactory.addNotification(appointment.employee,
-                'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                + appointment.start.time + ' was canceled.', 'calendar', false)
+            notificationFactory.addNotification(appointment.employee, notification, type, false)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: notification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });
         } else {
             // Employee canceled appointment, inform customer, with email.
-            notificationFactory.addNotification(appointment.customer,
-                'Your ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
-                + appointment.start.time + ' was canceled.', 'calendar', true)
+            notificationFactory.addNotification(appointment.customer, notification, type, true)
                 .then(function () {
-
+                    var data = {
+                        id: appointment.employee,
+                        notification: notification,
+                        type: type
+                    };
+                    socketService.emit('newNotifGenerated', data);
                 }, function (err) {
                     console.log(err);
                 });

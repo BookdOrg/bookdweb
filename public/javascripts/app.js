@@ -322,6 +322,10 @@ app.config([
                 socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
             }
         });
+
+    socketService.on('newNotif', function (data) {
+        $rootScope.currentUser.user.notifications.unshift(data);
+    });
     socketService.on('error', function (data) {
         console.log(data);
     });

@@ -5,5 +5,6 @@
 var app = require('angular').module('cc');
 
 app.filter('notificationFilter', require('./notificationFilter'));
+app.filter('newNotificationFilter', require('./newNotificationFilter'));
 app.filter('staticMapsFilter', require('./staticMapsFilter'));
 app.filter('timeStampFilter', require('./timeStampFilter'));
