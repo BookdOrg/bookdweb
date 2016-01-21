@@ -5,7 +5,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                            businessFactory, socketService, $rootScope, Notification) {
 
     //Auto toggles which button-group button will be selected
-    $scope.radioModel = 'Week';
+    $scope.radioModel = 'Month';
     //Enables modal animations
     $scope.animationsEnabled = true;
 
@@ -264,7 +264,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             height: 700,
             editable: true,
             displayEventEnd: true,
-            defaultView: 'agendaWeek',
+            defaultView: 'month',
             eventLimit: true,
             startParam: 'start',
             endParam: 'end',

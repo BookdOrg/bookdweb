@@ -24,6 +24,7 @@
                             titles="['one','two','three']">
                 </uib-rating>
             </h4>
+            <h4 ng-if="!business.rating">{{business.name}} has not been rated yet.</h4>
             <div class="col-xs-12 col-sm-12 col-md-6 col-xs-pull-5 col-md-pull-0 text-right">
                 <h5><a href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google Plus Page</a>
                 </h5>
@@ -179,11 +180,6 @@
                     <hr class="full">
                 </div>
             </div>
-            <!--<div class="row text-center">-->
-            <!--<div class="col-xs-12">-->
-            <!--<img src="/images/powered_by_google_on_white_hdpi.png">-->
-            <!--</div>-->
-            <!--</div>-->
         </uib-tab>
     </uib-tabset>
 </div>
