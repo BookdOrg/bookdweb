@@ -92,26 +92,23 @@
                         <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
                         <ul class="uib-dropdown-menu notifications">
                             <form name="miniQuery">
-                                <div class="text-center col-xs-12 form-group">
-                                    <div class="col-xs-12 ">
-                                        <span class="left-inner-addon form-inline">
-                                                <i class="fa fa-building"></i>
-                                                <input class="form-control" aria-describedby="search"
-                                                       ng-model="query.term"
-                                                       placeholder="Hair Salons" required>
-                                        </span>
-                                    </div>
-                                    <div class="col-xs-12">
-                                        <span class="left-inner-addon form-inline">
-                                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                                            <input class="form-control form-inline" aria-describedby="near"
-                                                   g-places-autocomplete
-                                                   options="autocompleteOptions" ng-model="query.location"
-                                                   placeholder="Near.." required>
-                                        </span>
-                                    </div>
-                                    <button class="btn btn-md sectionBtn" ng-click="miniQuery.$valid && search(query)"
+                                <div class="text-center form-group" style="margin-top:20px;">
+                                    <span class="left-inner-addon form-inline">
+                                            <i class="fa fa-building"></i>
+                                            <input class="form-control" aria-describedby="search"
+                                                   ng-model="query.term"
+                                                   placeholder="Hair Salons" required>
+                                    </span>
+                                    <span class="left-inner-addon form-inline">
+                                        <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                                        <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                                        <input class="form-control form-inline" aria-describedby="near"
+                                               g-places-autocomplete
+                                               options="autocompleteOptions" ng-model="query.location"
+                                               placeholder="Near.." required>
+                                    </span>
+                                    <button class="btn btn-md sectionBtn" style="margin-top:20px;"
+                                            ng-click="miniQuery.$valid && search(query)"
                                             type="submit">
                                         <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
                                            ng-class="{'fa-pulse' : fetchingQuery}"></i>
