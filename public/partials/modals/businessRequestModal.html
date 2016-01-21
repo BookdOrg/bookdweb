@@ -1,8 +1,10 @@
 <div class="modal-header">
     <h3 class="modal-title text-center">{{business.info.name}}</h3>
 </div>
-<div ng-if="status === 400" class="modal-body">
-    {{business.message}}
+<div ng-if="status === 400" class="modal-body text-center">
+    <h4>{{business.message}}</h4>
+    <h4>If this is your business and you have not yet claimed it please contact us and we work to resolve the claim.
+        Thank you.</h4>
 </div>
 <div ng-if="status === 200" class="modal-body">
     You request has gone through successfully, we will review the request and contact you soon. Thank you!
