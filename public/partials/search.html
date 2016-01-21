@@ -1,6 +1,6 @@
 <div class="container-fluid" style="background-color:white;">
     <div class="row">
-        <div class="col col-xs-5 searchResults">
+        <div class="col col-xs-12 col-sm-5 searchResults">
             <div class="page-header">
                 <p class="text-center text-muted" ng-if="businesses.length === 0 && !searched">Go Ahead, Search for
                     Businesses!</p>
@@ -47,7 +47,7 @@
                     results</p>
             </div>
         </div>
-        <div class="col col-xs-7" style="padding:0">
+        <div class="col col-sm-7 hidden-xs" style="padding:0">
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
                 <marker ng-if="personalCenter" position="{{center}}" icon="/images/currLocationIcon.png"></marker>
                 <marker id="{{businesses[$index].id}}" ng-repeat="pos in positions"
