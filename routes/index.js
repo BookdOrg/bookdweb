@@ -1451,6 +1451,9 @@ router.post('/business/claim-request', auth, function (req, res, next) {
     business.tier = req.body.tier;
 
     Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
+        if (err) {
+            return next(err);
+        }
         if (response) {
             return res.status(400).json({message: 'This business has already been claimed or has a request pending.'});
         }
