@@ -261,6 +261,30 @@ app.config([
                     }
                 }
             })
+            .state('terms', {
+                url: '/terms',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'partials/terms.html'
+                    }
+                }
+            })
+            .state('privacy', {
+                url: '/privacy',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'partials/privacy.html'
+                    }
+                }
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: 'partials/about.html'
