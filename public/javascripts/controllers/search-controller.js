@@ -89,7 +89,6 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     $scope.showDetailClicked = function (e, business) {
         $scope.business = business;
         vm.map.showInfoWindow('info', business.id);
-        console.log(vm);
     };
 
     $scope.hideDetail = function () {
