@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row" ng-if="selectedQuery.name">
-            <div class="col well col-xs-12 text-center">
+            <div class="col col-xs-12 text-center">
                 <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
                 <img ng-if="!displayPhotos.length >0 " ng-src="{{selectedQuery.icon}}"/>
                 <br>
