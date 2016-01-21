@@ -29,7 +29,10 @@
                 </h5>
                 <h5><a href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> Visit
                     {{business.name}}'s Website</a></h5>
-                <h5><i class="fa fa-phone"></i> {{business.formatted_phone_number}}</h5>
+                <h5><i class="fa fa-phone"></i> <a href="tel:{{business.international_phone_number}}">{{business.formatted_phone_number}}</a>
+                </h5>
+                <h5 ng-if="business.opening_hours.open_now === true" class="text-success">Open Now!</h5>
+                <h5 ng-if="business.opening_hours.open_now === false" class="text-danger">Closed</h5>
             </div>
             <div class="business-hours col-xs-12 col-sm-12 col-md-6 col-xs-push-5 col-md-push-0 text-left">
                 <li class="hours-list text-left" ng-if="business.opening_hours"
