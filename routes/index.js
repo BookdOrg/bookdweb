@@ -60,9 +60,6 @@ Array.prototype.getIndexBy = function (name, value) {
 server.listen(process.env.devsocketPort);
 var roomData = [];
 var clients = [];
-var employeeAppointmentsArray = [];
-var userAppointmentsArray = [];
-var businessAppointmentsArray = [];
 
 io.on('connection', function (socket, data) {
     var string;

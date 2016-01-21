@@ -70,6 +70,14 @@
     color: black
 }
 
+.navbar-default.navbar-shrink .nav li a:hover {
+    color: #337ab7;
+}
+
+.navbar-default.navbar-shrink .nav li {
+    border-color: white;
+}
+
 .navbar-default .navbar-header .navbar-brand {
     color: black;
 }
