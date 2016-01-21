@@ -204,3 +204,7 @@
 .new-notification {
     background: #ccc;
 }
+
+ul.nav.navbar-nav.navbar-right {
+    color: white;
+}

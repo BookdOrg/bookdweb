@@ -415,7 +415,7 @@ img.fitContainer {
 }
 
 header {
-    background-image: url(../images/header-test-sized.jpg);
+    background-image: url(../images/header-bg.jpg);
     background-attachment: scroll;
     background-position: center center;
     -webkit-background-size: cover;
@@ -423,7 +423,7 @@ header {
     background-size: cover;
     -o-background-size: cover;
     text-align: center;
-    color: black
+    color: white
 }
 
 header .intro-text {
@@ -455,7 +455,7 @@ header .intro-text .intro-heading {
 
     header .intro-text .intro-lead-in {
         font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 50px;
+        font-size: 40px;
         font-weight: 900;
         line-height: 40px;
         margin-bottom: 25px color : white;

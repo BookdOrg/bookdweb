@@ -17,8 +17,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li style="border:1px solid black;margin-right:50px;">
-                    <a class="partnerBox" ui-sref="partner" ng-if="forBusiness">List Your Business</a>
+                <li class="partnerbox">
+                    <a ui-sref="partner" ng-if="forBusiness">List Your Business</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Back To Booking</a>
                 </li>
                 <li ng-hide="isLoggedIn()">

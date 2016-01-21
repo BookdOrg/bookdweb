@@ -6,8 +6,8 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
+    color: white;
 }
-
 .navbarAvatar {
     border-radius: 50%;
     height: 25px;
@@ -20,17 +20,22 @@
 }
 
 .uib-dropdown-menu a {
-    color: black;
+    color: white;
 }
 
 .navbar-default.navbar-shrink .nav .droplinks li a {
-    color: black
+    color: white
 }
 
 .navbar-default .navbar-header .navbar-brand {
-    color: black;
+    color: white;
 }
 
 .navbar-default.navbar-shrink .navbar-header .navbar-brand {
     color: white;
+}
+
+.partnerBox {
+    border: 1px solid white;
+    margin-right: 50px;
 }
