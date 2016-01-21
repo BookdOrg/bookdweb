@@ -227,7 +227,6 @@ span.tab-space {
 .notifications {
     min-width: 420px;
 }
-
 .notifications-wrapper {
     overflow: auto;
     max-height: 250px;
@@ -266,6 +265,7 @@ span.tab-space {
 }
 
 .notification-item {
+    color: black;
     padding: 10px;
     margin: 5px;
     background: #e9eaed;
