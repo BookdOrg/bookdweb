@@ -238,11 +238,11 @@ io.on('connection', function (socket, data) {
  *
  **/
 router.get('/user/appointments', auth, function (req, res, next) {
-    var startDate = req.param('startDate');
-    var employeeId = req.param('employeeId');
-    var customerId = req.param('customerId');
+    var startDate = req.query.startDate;
+    var employeeId = req.query.employeeId;
+    var customerId = req.query.customerId;
 
-    var personal = req.param('personal');
+    var personal = req.query.personal;
     var responseArray = [];
 
     User.findOne({'_id': employeeId}).populate({
@@ -282,19 +282,17 @@ router.get('/user/appointments', auth, function (req, res, next) {
  * Returns the appointments of a specified user.
  */
 router.get('/user/appointments-all', auth, function (req, res, next) {
-    var start = new Date(req.param('start'));
-    var end = new Date(req.param('end'));
+    var start = new Date(req.query.start);
+    var end = new Date(req.query.end);
     var isoStart = moment(start).format();
     var isoEnd = moment(end).format();
     var id;
     var d = new Date();
-    var year = d.getFullYear();
-    if (req.param('id') !== undefined) {
-        id = req.param('id');
+    if (req.query.id !== undefined) {
+        id = req.query.id;
     } else {
         id = req.payload._id;
     }
-    var monthYear = req.param('monthYear');
     var response = {
         personalAppointments: [],
         businessAppointments: []
@@ -424,7 +422,7 @@ router.post('/user/notification/viewed', auth, function (req, res, next) {
  * Returns the profile of a specified user.
  **/
 router.get('/user/profile', auth, function (req, res, next) {
-    var id = req.param('id');
+    var id = req.query.id;
     User.findOne({'_id': id})
         .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
@@ -465,7 +463,7 @@ router.post('/user/profile/update', auth, function (req, res, next) {
  * id - The id of the employee.
  **/
 router.get('/user/search', auth, function (req, res, next) {
-    var email = req.param('email');
+    var email = req.query.email;
     User.findOne({'email': email}).select('_id name avatarVersion provider providerId').exec(function (error, user) {
         if (error) {
             return next(error);
@@ -517,7 +515,7 @@ router.get('/business/dashboard', auth, function (req, res, next) {
         });
 });
 router.get('/business/dashboard/stripe-account', auth, function (req, res, next) {
-    var stripeId = req.param('stripeId');
+    var stripeId = req.query.stripeId;
     stripe.accounts.retrieve(
         stripeId,
         function (err, account) {
@@ -527,7 +525,7 @@ router.get('/business/dashboard/stripe-account', auth, function (req, res, next)
     );
 });
 router.get('/user/google-photo', function (req, res, next) {
-    var id = req.param('id');
+    var id = req.query.id;
     request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
         if (err) {
             return next(err);
@@ -772,9 +770,9 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     });
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
-    var businessId = req.param('id');
-    var start = new Date(req.param('start'));
-    var end = new Date(req.param('end'));
+    var businessId = req.query.id;
+    var start = new Date(req.query.start);
+    var end = new Date(req.query.end);
     var isoStart = moment(start).format();
     var isoEnd = moment(end).format();
     Appointment.find({
@@ -1002,7 +1000,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
  *   text search.
  **/
 router.get('/business/search', function (req, res, next) {
-    var query = req.param('query');
+    var query = req.query.query;
     var updatedBusinesses = [];
     var populateQuery = [{path: 'services', select: ''}, {
         path: 'employees',
@@ -1060,7 +1058,7 @@ router.get('/business/search', function (req, res, next) {
  * placeId -
  **/
 router.get('/business/details', function (req, res, next) {
-    var id = req.param('placesId');
+    var id = req.query.placesId;
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
         select: '_id businessAppointments name avatarVersion availabilityArray provider providerId'
@@ -1092,7 +1090,7 @@ router.get('/business/details', function (req, res, next) {
  * placeId -
  **/
 router.get('/business/info', function (req, res, next) {
-    var id = req.param('id');
+    var id = req.query.id;
     Business.findOne({'_id': id}).populate([{
         path: 'employees',
         select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
@@ -1469,7 +1467,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
  * Get the Details for a Given Service
  */
 router.get('/business/service-detail', auth, function (req, res, next) {
-    var serviceId = req.param('service');
+    var serviceId = req.query.service;
     Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
         select: '_id appointments name avatarVersion availabilityArray provider providerId'
