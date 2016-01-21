@@ -47,13 +47,15 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
         businessFactory.claim(claimRequest)
             .then(function (data) {
                 //TODO Move this string to somewhere we can access it globally!
-                notificationFactory.addNotification(personToNotify,
-                    'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
-                    .then(function () {
+                if (data.status === 200) {
+                    notificationFactory.addNotification(personToNotify,
+                        'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
+                        .then(function () {
 
-                    }, function (err) {
-                        console.log(err);
-                    });
+                        }, function (err) {
+                            console.log(err);
+                        });
+                }
                 $uibModal.open({
                     templateUrl: 'partials/modals/businessRequestModal.html',
                     controller: 'ModalInstanceCtrl',
