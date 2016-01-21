@@ -771,6 +771,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
     var businessId = req.query.id;
+    console.log(req.query.start);
+    console.log(req.query.start);
     var start = new Date(req.query.start);
     var end = new Date(req.query.end);
     console.log(start);
