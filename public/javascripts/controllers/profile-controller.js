@@ -5,8 +5,8 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
         $scope.percent = 100 * (value / $scope.max);
     };
     $scope.max = 5;
-    $scope.isReadonly = false;
-    $scope.rate = 2.5;
+    $scope.isReadonly = true;
+    $scope.rate = 0;
     //get the profile information of the user
     userFactory.get($stateParams.id).then(function (data) {
         $scope.user = data.user;
