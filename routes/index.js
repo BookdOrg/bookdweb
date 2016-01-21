@@ -413,14 +413,14 @@ router.get('/user/profile', auth, function (req, res, next) {
     User.findOne({'_id': id})
         .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
-        if (err) {
-            return next(err);
-        }
+            if (err) {
+                return next(err);
+            }
 
-        var profile = {};
-        profile.user = user;
-        res.json(profile);
-    });
+            var profile = {};
+            profile.user = user;
+            res.json(profile);
+        });
 });
 /**
  * Updates the profile of a specified user.
