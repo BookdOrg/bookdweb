@@ -42,11 +42,11 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel cal-services-content">
                             <uib-accordion>
-                                <uib-accordion-group is-open="statusThree.open">
+                                <uib-accordion-group is-open="statusOne.open">
                                     <uib-accordion-heading>
                                         Schedule Appointments
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
+                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 dashboard-panel-list cal-dashboard-panel-content">
                                         <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
@@ -81,11 +81,11 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <uib-accordion-group is-open="statusOne.open">
+                                <uib-accordion-group is-open="statusTwo.open">
                                     <uib-accordion-heading>
                                         Calendar Key
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                                           ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 text-left">
                                         <li style="color:#3a87ad;">Active</li>
@@ -113,11 +113,11 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <uib-accordion-group is-open="statusOne.open">
+                                <uib-accordion-group is-open="statusThree.open">
                                     <uib-accordion-heading>
                                         Business Info
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                                           ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 text-center">
                                         <h4>{{activeBusiness.business.name}}</h4>
