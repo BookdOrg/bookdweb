@@ -1,0 +1,4 @@
+mongod
+mongo-express -d clientconnect
+scripts/gulp-watch.sh
+npm start
