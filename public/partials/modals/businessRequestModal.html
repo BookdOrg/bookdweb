@@ -8,5 +8,6 @@
     You request has gone through successfully, we will review the request and contact you soon. Thank you!
 </div>
 <div class="modal-footer">
-    <button class="btn btn-gradient-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-gradient-primary" ng-if="status === 200" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-gradient-primary" ng-if="status === 400" type="button" ng-click="cancel()">Cancel</button>
 </div>
