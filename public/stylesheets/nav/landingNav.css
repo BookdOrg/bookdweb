@@ -31,6 +31,10 @@
     color: white;
 }
 
+.navbar-default.navbar-shrink .navbar-header .navbar-brand:hover {
+    color: #f05f40;
+}
+
 .navbar-default.navbar-shrink .navbar-header .navbar-brand {
     color: white;
 }

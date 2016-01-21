@@ -85,8 +85,7 @@
         /*color: rgba(255,255,255,.7);*/
     }
 
-    .navbar-default .navbar-header .navbar-brand:hover,
-    .navbar-default .navbar-header .navbar-brand:focus {
+    .navbar-default .navbar-header .navbar-brand:hover {
         color: #f05f40;
     }
 
