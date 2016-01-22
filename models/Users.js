@@ -18,6 +18,7 @@ var UserSchema = new mongoose.Schema({
     notifications: [],
     availabilityArray: [],
     associatePhotos: [],
+    associateDescription: String,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
     personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
     businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}]
