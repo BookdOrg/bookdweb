@@ -25,7 +25,18 @@ var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
-var server = require('http').createServer(app);
+var server;
+if (process.env.NODE_ENV === 'development') {
+    server = require('http').createServer(app);
+} else {
+    var fs = require('fs');
+    var options = {
+        key: fs.readFileSync('/etc/ssl/private/domain.key'),
+        cert: fs.readFileSync('/etc/ssl/certs/chained.pem'),
+        requestCert: true
+    };
+    server = require('https').createServer(options, app);
+}
 var io = require('socket.io')(server);
 
 // create reusable transporter object using SMTP transport
@@ -426,14 +437,14 @@ router.get('/user/profile', auth, function (req, res, next) {
     User.findOne({'_id': id})
         .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
-            if (err) {
-                return next(err);
-            }
+        if (err) {
+            return next(err);
+        }
 
-            var profile = {};
-            profile.user = user;
-            res.json(profile);
-        });
+        var profile = {};
+        profile.user = user;
+        res.json(profile);
+    });
 });
 /**
  * Updates the profile of a specified user.
@@ -497,9 +508,9 @@ router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
     User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
-        path: 'businesses',
-        select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
-    }])
+            path: 'businesses',
+            select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
+        }])
         .exec(function (error, user) {
             if (error) {
                 return next(error);
@@ -509,20 +520,20 @@ router.get('/business/dashboard', auth, function (req, res, next) {
                     .populate([{path: 'services', select: ''}, {
                         path: 'employees', select: '_id name avatarVersion provider providerId availabilityArray'
                     }]).exec(function (error, response) {
-                        if (error) {
-                            return businessCallback(error);
+                    if (error) {
+                        return businessCallback(error);
+                    }
+                    Service.populate(response.services, {
+                        path: 'employees',
+                        select: '_id name avatarVersion availabilityArray provider providerId'
+                    }, function (err) {
+                        if (err) {
+                            return businessCallback(err);
                         }
-                        Service.populate(response.services, {
-                            path: 'employees',
-                            select: '_id name avatarVersion availabilityArray provider providerId'
-                        }, function (err) {
-                            if (err) {
-                                return businessCallback(err);
-                            }
-                            updatedBusinesses.push(response);
-                            businessCallback();
-                        });
+                        updatedBusinesses.push(response);
+                        businessCallback();
                     });
+                });
             }, function (err) {
                 if (err) {
                     return next(err);
