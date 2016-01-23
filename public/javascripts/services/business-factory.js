@@ -374,6 +374,13 @@ module.exports = function ($http, auth, $q) {
             angular.copy(data.data, o.requests);
         }, handleError);
     };
+    o.contactUs = function (contactObj) {
+        return $http.post('/business/contact', contactObj, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function () {
+
+        }, handleError);
+    };
     return o;
 
     // I transform the error response, unwrapping the application dta from

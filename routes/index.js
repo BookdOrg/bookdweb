@@ -1546,4 +1546,37 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
 
     });
 });
+
+router.post('/business/contact', function (req, res, next) {
+    var name = req.body.name;
+    var phone = req.body.phone;
+    var email = req.body.email;
+    var message = req.body.message;
+    if (message) {
+        sendEmail(name, phone, email, message);
+        res.json(200);
+    } else {
+        res.json(400);
+    }
+    function sendEmail(name, phone, email, message) {
+        var subject,
+            body;
+
+        subject = 'Business Inquiry';
+        body = '<br>' + name + '</br>' + '<br>' + message + '</br>' + '<br>' + phone + '</br>' + '<br>' + email + '</br>';
+        var mailOptions = {
+            from: 'Book\'d', // sender address
+            to: 'contact.bookd@gmail.com', // list of receivers
+            subject: subject, // Subject line
+            html: body // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+        });
+    }
+});
 module.exports = router;

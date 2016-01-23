@@ -115,6 +115,12 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 console.log(err);
             });
     }
+    $scope.sent = false;
+    $scope.contact = {};
+    $scope.contactUs = function (contactObj) {
+        businessFactory.contactUs(contactObj);
+        $scope.sent = true;
+    };
 
     /**
      * Change notifications.viewed to true when "Mark all as viewed" is clicked.
