@@ -107,7 +107,7 @@ var userFactory = function ($http, auth, $q) {
     o.updateProfile = function (data) {
         return $http.post('/user/profile/update', data, {
             headers: {
-                Authorization: 'Bearer ' + auth.getToken(),
+                Authorization: 'Bearer ' + auth.getToken()
             }
         }).then(function (data) {
             //TODO Handle success
@@ -128,6 +128,13 @@ var userFactory = function ($http, auth, $q) {
         }, handleError);
     };
 
+    o.updateDescription = function (description) {
+        return $http.post('/user/description/update', description, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
+        }, handleError);
+    };
     return o;
 
     // I transform the error response, unwrapping the application dta from

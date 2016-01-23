@@ -28,7 +28,7 @@
               Your Profile
           </h1>
 
-          <h3 class="text-center">
+          <h3 class="text-center" ng-if="rate>0">
               <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
                           on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
               </uib-rating>
@@ -36,7 +36,7 @@
           <h3 class="text-center" ng-if="rate === 0">Associate has not been rated yet.</h3>
           <!--<div class="col-md-3 col-md-offset-5">-->
           <h4 class="text-center">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec interdum nibh.
+              {{user.associateDescription}}
           </h4>
           <!--</div>-->
       </div>

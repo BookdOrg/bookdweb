@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope) {
+module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope, $timeout) {
     //TODO Add callbacks for error cases
     /**
      * Lines 9-43
@@ -96,6 +96,23 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
             .fail(function (err) {
                 console.log(err);
                 //handle error with err
+            });
+    };
+    $scope.updatingDescription = false;
+    $scope.descriptionUpdated = false;
+    $scope.updateDescription = function (newDescription) {
+        $scope.updatingDescription = true;
+        var associateDescription = {
+            description: newDescription
+        };
+        userFactory.updateDescription(associateDescription)
+            .then(function (data) {
+                $rootScope.currentUser.user.associateDescription = data;
+                $scope.updatingDescription = false;
+                $scope.descriptionUpdated = true;
+                $timeout(function () {
+                    $scope.descriptionUpdated = false;
+                }, 1500);
             });
     };
     /**

@@ -52,6 +52,7 @@ UserSchema.methods.generateJWT = function () {
         exp: parseInt(exp.getTime() / 1000),
         isAdmin: this.isAdmin,
         isAssociate: this.isAssociate,
+        associateDescription: this.associateDescription,
         name: this.name,
         provider: this.provider,
         email: this.email,

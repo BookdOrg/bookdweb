@@ -424,7 +424,7 @@ router.post('/user/notification/viewed', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.query.id;
     User.findOne({'_id': id})
-        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId')
+        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
                 return next(err);
@@ -469,6 +469,23 @@ router.get('/user/search', auth, function (req, res, next) {
             return next(error);
         }
         res.json(user);
+    });
+});
+router.post('/user/description/update', auth, function (req, res, next) {
+    var id = req.payload._id;
+    var description = req.body.description;
+    User.findOne({'_id': id}).exec(function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        user.associateDescription = description;
+        user.save(function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            res.json(user.associateDescription);
+        });
+
     });
 });
 /**
@@ -628,51 +645,6 @@ router.post('/upload', auth, function (req, res, next) {
         file.pipe(stream);
     });
     req.pipe(busboy);
-});
-/**
- *   Returns all categories that Bookd offers
- *
- **/
-
-router.get('/categories/all', auth, function (req, res, next) {
-    Category.find({}).exec(function (err, categories) {
-        if (err) {
-            return next(err);
-        }
-        res.json(categories);
-    });
-});
-
-/**
- *   Adds a new category to the Bookd System.
-
- Parameters:
- id-
- name-
- description-
- image- cloudinary id
- *
- **/
-router.post('/categories/add-category', auth, function (req, res, next) {
-    var category = new Category();
-
-    category.id = req.body.id;
-    category.name = req.body.name;
-    category.description = req.body.description;
-    category.image = req.body.image;
-
-    Category.findOne(req.body.name).exec(function (err, tempCat) {
-        if (err) {
-            return next(err);
-        }
-        if (tempCat) {
-            return res.status(400).json({message: 'That category already exists!'});
-        } else {
-            category.save(function (err, category) {
-                res.json({message: 'Success'});
-            });
-        }
-    });
 });
 /**
  * Creates a new 4ointment for both the Employee and Customer.
@@ -1004,7 +976,7 @@ router.get('/business/search', function (req, res, next) {
     var updatedBusinesses = [];
     var populateQuery = [{path: 'services', select: ''}, {
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion provider providerId availabilityArray'
+        select: '_id businessAppointments name avatarVersion provider providerId availabilityArray associateDescription'
     }];
     googleplaces.textSearch({query: query}, function (error, response) {
         if (error) {
@@ -1027,7 +999,7 @@ router.get('/business/search', function (req, res, next) {
                 }
                 Service.populate(business.services, {
                     path: 'employees',
-                    select: '_id businessAppointments name avatarVersion provider providerId availabilityArray'
+                    select: '_id businessAppointments name avatarVersion provider providerId availabilityArray associateDescription'
                 }, function (err, newBusiness) {
                     if (err) {
                         return responseCallback(err);
@@ -1061,7 +1033,7 @@ router.get('/business/details', function (req, res, next) {
     var id = req.query.placesId;
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availabilityArray provider providerId'
+        select: '_id businessAppointments name avatarVersion availabilityArray provider providerId associateDescription'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
@@ -1072,7 +1044,7 @@ router.get('/business/details', function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion availabilityArray provider providerId'
+                select: '_id businessAppointments name avatarVersion availabilityArray provider providerId associateDescription'
             }, function (err, finalobj) {
                 if (error) {
                     return next(error);
@@ -1093,14 +1065,14 @@ router.get('/business/info', function (req, res, next) {
     var id = req.query.id;
     Business.findOne({'_id': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
+        select: '_id businessAppointments name avatarVersion availabilityArray providerId provider associateDescription'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
         }
         Service.populate(business.services, {
             path: 'employees',
-            select: '_id businessAppointments name avatarVersion availabilityArray providerId provider'
+            select: '_id businessAppointments name avatarVersion availabilityArray providerId provider associateDescription'
         }, function (err, finalobj) {
             if (error) {
                 return next(error);
@@ -1205,14 +1177,14 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         });
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion availabilityArray provider providerId'
+            select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availabilityArray provider providerId'
+                select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
             }, function (err, services) {
                 if (err) {
                     return next(err);

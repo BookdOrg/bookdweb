@@ -146,30 +146,40 @@
                                   </div>
                               </form>
                           </div>
-                          <div class="col-xs-12 col-sm-8 text-center">
-                              <div class="col col-xs-2" ng-repeat="photo in photos">
-                                  <img ng-src="{{photo.images.standard_resolution.url}}"
-                                       style="height:100px;width:100px;"/>
-                              </div>
-                          </div>
-                          <div class="text-center">
-                              <button class="btn btn-gradient-primary" disabled ng-click="authorizeInstagram()"><i
-                                      class="fa fa-instagram fa-2x"></i> Authorize Instagram
-                              </button>
-                          </div>
+                          <!--<div class="col-xs-12 col-sm-8 text-center">-->
+                          <!--<div class="col col-xs-2" ng-repeat="photo in photos">-->
+                          <!--<img ng-src="{{photo.images.standard_resolution.url}}"-->
+                          <!--style="height:100px;width:100px;"/>-->
+                          <!--</div>-->
+                          <!--</div>-->
+                          <!--<div class="text-center">-->
+                          <!--<button class="btn btn-gradient-primary" disabled ng-click="authorizeInstagram()"><i-->
+                          <!--class="fa fa-instagram fa-2x"></i> Authorize Instagram-->
+                          <!--</button>-->
+                          <!--</div>-->
                       </div>
                   </div>
               </div>
               <div class="row">
-                  <div class="col-xs-12">
+                  <div class="col-xs-12 col-sm-6">
                       <div class="row">
-                          <div class="col-xs-6">
-                              <form class="form-inline">
-                                  <label for="associateDescription" class="control-label col-xs-4">Associate
+                          <form name="updateDescForm" class="form-inline">
+                              <div class="form-group col-xs-4">
+                                  <label for="associateDescription" class="control-label">Associate
                                       Description:</label>
-                                  <textarea id="associateDescription" class="form-control"></textarea>
-                              </form>
-                          </div>
+                              </div>
+                              <textarea id="associateDescription" ng-model="currentUser.user.associateDescription"
+                                        class="form-control" cols="45" rows="5" required></textarea>
+
+                              <div class="form-group col-xs-12 text-center" style="margin-top:20px;">
+                                  <button class="btn btn-gradient-primary"
+                                          ng-click="updateDescForm.$valid && updateDescription(currentUser.user.associateDescription)">
+                                      <span ng-if="!updatingDescription">Update Description</span>
+                                      <span ng-if="updatingDescription"><i class="fa fa-spinner fa-pulse"></i></span>
+                                  </button>
+                                  <i class="fa fa-check text-success pull-right fa-2x" ng-if="descriptionUpdated"></i>
+                              </div>
+                          </form>
                       </div>
                   </div>
               </div>
