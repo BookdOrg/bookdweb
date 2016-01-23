@@ -877,21 +877,22 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
         }, function (err, charge) {
             if (err && err.type === 'StripeCardError') {
                 // The card has been declined
-                return (next(err));
-            }
-            Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
-                if (err) {
-                    return next(err);
-                }
-                appointment.status = 'paid';
-
-                appointment.save(function (err, resAppointment) {
+                res.status(400).json(err);
+            } else {
+                Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
                     if (err) {
                         return next(err);
                     }
-                    res.json(resAppointment);
+                    appointment.status = 'paid';
+
+                    appointment.save(function (err, resAppointment) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.json(resAppointment);
+                    });
                 });
-            });
+            }
         });
     });
 });

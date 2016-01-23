@@ -54,6 +54,11 @@
             <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && datePassed">This service has been
                 fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
         </div>
+        <div class="col col-md-6 text-center">
+            <uib-alert type="danger" ng-if="error">Sorry, looks like there was a problem: <br>{{error.message}}<br> You
+                can accept another form of payment and update the status of this appointment manually by clicking 'Paid'
+            </uib-alert>
+        </div>
         <div ng-if="currentUser.user._id === dateObj.appointment.employee && !datePassed"
              class="col col-md-6 text-center">
             <form name="noteForm">
@@ -70,7 +75,7 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-gradient-warning"
-            ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
+            ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid' || error"
             ng-click="changeApptStatus()">Paid <i class="fa fa-credit-card"></i>
     </button>
     <button class="btn btn-gradient-success"

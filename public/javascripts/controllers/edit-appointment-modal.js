@@ -501,14 +501,22 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 $uibModalInstance.close($scope.dateObj);
             });
     };
+    $scope.error = null;
     //Charge the customer via stripe if they entered their card information
     $scope.charge = function (appointment) {
         $scope.charging = true;
         businessFactory.charge(appointment)
-            .then(function (appointment) {
-                $scope.dateObj.appointment = appointment;
-                $scope.charging = false;
-                $uibModalInstance.close($scope.dateObj);
+            .then(function (response) {
+                if (!response.statusCode) {
+                    $scope.dateObj.appointment = appointment;
+                    $scope.charging = false;
+                    $uibModalInstance.close($scope.dateObj);
+                } else {
+                    $scope.error = response;
+                    $scope.charging = false;
+                }
+            }, function (err) {
+                console.log(err);
             });
     };
     //Cancel the appointment
