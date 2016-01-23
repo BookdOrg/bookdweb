@@ -142,7 +142,11 @@
                                     <div class="notification-item"
                                          ng-class="{'new-notification': notification.viewed === false}">
                                         <h5 class="pull-right" ng-click="viewNotification($index)"
-                                            ng-if="notification.viewed === false"><i class="fa fa-times"></i></h5>
+                                            ng-if="notification.viewed === false"><i class="fa fa-times-circle-o"
+                                                                                     uib-tooltip="Mark Read"
+                                                                                     tooltip-placement="top"
+                                                                                     tooltip-append-to-body="true"></i>
+                                        </h5>
                                         <h5>{{notification.content}}</h5>
                                         <div class="row">
                                             <div class="col-xs-6">
