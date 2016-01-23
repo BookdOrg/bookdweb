@@ -56,6 +56,20 @@
                                         class="well well-sm"
                                         custom-class="getDayClass(date, mode)"></uib-datepicker>
                     </div>
+                    <div class="col-xs-6 col-xs-push-3" ng-if="!personal">
+                        <form name="externalCustomerForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="externalName" class="label-control">Customer Name:</label>
+                                <input name="externalName" ng-model="appointment.externalCustomer.name"
+                                       id="externalName" class="form-control" placeholder="Jim">
+                            </div>
+                            <div class="form-group">
+                                <label for="externalPhone" class="label-control">Customer Phone Number:</label>
+                                <input id="externalPhone" ng-model="appointment.externalCustomer.phone"
+                                       class="form-control" placeholder="(555)-555-5555">
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="col col-md-6 text-center">
                     <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>

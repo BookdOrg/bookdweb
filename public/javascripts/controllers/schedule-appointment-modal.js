@@ -15,7 +15,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.showCount = false;
     $scope.countdown = 600;
     $scope.payments = payments;
+    $scope.personal = personal;
     var timeStarted = false;
+    $scope.externalCustomer = {};
     /**
      * Watch which date is selected on the calendar,
      * each time a new date is selected we need to call the getAvailable times function

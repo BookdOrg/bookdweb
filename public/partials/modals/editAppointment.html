@@ -24,6 +24,8 @@
             <p>Original Appointment:</p>
             <p>{{dateObj.appointment.start.day}}, {{dateObj.appointment.start.time}} for {{service.duration}} minutes</p>
             <p ng-if="dateObj.appointment.status === 'paid'">Appointment has been paid for already.</p>
+
+            <p>{{customer.name}}: {{customer.phone}}</p>
         </div>
         <div class="col col-md-6 text-center">
             <h4 ng-if="availableTimes.length > 1 && currentUser.user._id !== employee._id">{{employee.name}}'s

@@ -674,6 +674,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.isoStart = req.body.isoStart;
     appointment.card = req.body.stripeToken;
     appointment.price = req.body.price;
+    appointment.externalCustomer = req.body.externalCustomer;
 
     appointment.status = 'active';
 

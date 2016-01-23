@@ -6,6 +6,7 @@ var AppointmentsSchema = new mongoose.Schema({
     customer: String,
     start: Object,
     end: Object,
+    externalCustomer: Object,
     title: String,
     service: String,
     timestamp: String,

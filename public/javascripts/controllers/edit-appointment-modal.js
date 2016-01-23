@@ -7,6 +7,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.dateObj = data;
     $scope.showNoEmployee = false;
     $scope.business = data.business;
+    $scope.customer = {};
+    if (data.appointment.customer !== null) {
+        $scope.customer.name = data.appointment.customer.name;
+    } else {
+        $scope.customer.name = data.appointment.externalCustomer.name;
+        $scope.customer.phone = data.appointment.externalCustomer.phone;
+    }
     //Make a request to get the details for the service this appointment was scheduled for.
     businessFactory.serviceDetails($scope.dateObj.appointment.service)
         .then(function (data) {
