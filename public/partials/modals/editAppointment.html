@@ -46,7 +46,7 @@
                 schedule a new appointment via the Business' home page.
                 Thank you.</h4>
             <h4 class="text-danger"
-                ng-if="datePassed && dateobj.appointment.status !== 'paid' && currentUser.user._id !== dateObj.appointment.customer">
+                ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser.user._id !== dateObj.appointment.customer">
                 The original appointment time has passed, this appointment can no longer be updated.
             </h4>
             <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && datePassed">This service has been
