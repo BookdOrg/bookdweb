@@ -3,15 +3,17 @@
  */
 module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance, employee, $rootScope, $timeout, business) {
     $scope.employee = employee;
-    var businessInfo = business;
     if (business) {
-        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': businessInfo._id});
+        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': business._id});
+        $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     } else {
         $scope.activeAvailability = $scope.employee.availabilityArray[0];
+        $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     }
 
     $scope.switchAvailability = function (id) {
         $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': id});
+        $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     };
     if(employee._id!==$rootScope.currentUser.user._id){
         $scope.disableUpdate = true;
@@ -45,18 +47,44 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      * @type {boolean}
      */
     $scope.showDone = false;
-    //$scope.showLoading = false;
+    function formatTimes(availability) {
+        var updatedAvailability = angular.copy(availability);
+        _.forEach(updatedAvailability, function (availabilityObj) {
+            availabilityObj.start = moment(availabilityObj.start, 'hh:mm a');
+            availabilityObj.end = moment(availabilityObj.end, 'hh:mm a');
+            _.forEach(availabilityObj.gaps, function (gap) {
+                gap.start = moment(gap.start, 'hh:mm a');
+                gap.end = moment(gap.end, 'hh:mm a');
+            });
+        });
+        return updatedAvailability;
+    }
+
+    var unFormatTimes = function (availability) {
+        var updatedAvailability = angular.copy(availability);
+        _.forEach(updatedAvailability, function (availabilityObj) {
+            availabilityObj.start = moment(availabilityObj.start, 'hh:mm a').format('hh:mm a');
+            availabilityObj.end = moment(availabilityObj.end, 'hh:mm a').format('hh:mm a');
+            _.forEach(availabilityObj.gaps, function (gap) {
+                gap.start = moment(gap.start, 'hh:mm a').format('hh:mm a');
+                gap.end = moment(gap.end, 'hh:mm a').format('hh:mm a');
+            });
+        });
+        return updatedAvailability;
+    };
     /**
      * Send the availability object to the backend so the users available times can be updated.
      *
      * @param availability - Object containing the hours for a given employee for each day of the week and for breaks
      */
     $scope.updateAvailability = function (availability) {
+        var updatedAvailability = unFormatTimes(availability);
+        ;
         var updateObj = {
             businessName: $scope.activeAvailability.businessName,
             businessId: $scope.activeAvailability.businessId,
             id: employee._id,
-            availability: availability
+            availability: updatedAvailability
         };
         //$scope.showLoading = true;
         $scope.showDone = false;

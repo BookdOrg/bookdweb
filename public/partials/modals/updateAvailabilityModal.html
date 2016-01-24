@@ -32,8 +32,8 @@
                                                                            uib-tooltip="Unavailable"
                                                                            class="fa fa-check text-danger"></i>
                                 {{day.day}}
-                                <span ng-if="day.available">, {{day.start | date:'hh:mm a'}}
-                                    - {{day.end | date:'hh:mm a'}}</span><i class="pull-right fa"
+                                <span ng-if="day.available">, {{day.start | availabilityFilter}}
+                                    - {{day.end | availabilityFilter}}</span><i class="pull-right fa"
                                                                             ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
                             </uib-accordion-heading>
                             <div class="checkbox text-center" tooltip-toggle="mouseenter"

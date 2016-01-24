@@ -8,3 +8,4 @@ app.filter('notificationFilter', require('./notificationFilter'));
 app.filter('newNotificationFilter', require('./newNotificationFilter'));
 app.filter('staticMapsFilter', require('./staticMapsFilter'));
 app.filter('timeStampFilter', require('./timeStampFilter'));
+app.filter('availabilityFilter', require('./availabilityFilter'));
