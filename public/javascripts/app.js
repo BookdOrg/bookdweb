@@ -3,6 +3,7 @@ window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
 window.moment = require('moment');
+require('moment-range');
 window.humanizeDuration = require('humanize-duration');
 
 
