@@ -1,6 +1,6 @@
 .navbar-default .nav > li > a,
 .navbar-default .nav > li > a:focus {
-    padding-top: 19px;
+    padding-top: 10px;
     height: 50px;
     font-size: 14px;
     font-weight: 200;
@@ -24,7 +24,7 @@
 }
 
 .navbar-default.navbar-shrink .nav .droplinks li a {
-    color: white
+    color: black;
 }
 
 .navbar-default .navbar-header .navbar-brand {

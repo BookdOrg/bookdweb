@@ -44,7 +44,7 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg" ui-sref-active="active">
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg" ui-sref-active="active">
                     <a ui-sref="calendar" ng-click="navbarCollapsed = !navbarCollapsed;">
                         <i class="fa fa-thumb-tack"></i> Appointments
                     </a>
@@ -66,20 +66,20 @@
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
+                <hr>
+                <li class="hidden-sm hidden-md hidden-lg" ng-if="!isLoggedIn()">
                     <a ng-click="checkStateandLogin('login')">
                         <i class="fa fa-sign-in"></i>Log In
                     </a>
                 </li>
-                <li class="hidden-sm hidden-md hidden-lg" ng-hide="isLoggedIn()">
+                <li class="hidden-sm hidden-md hidden-lg" ng-if="!isLoggedIn()">
                     <a ng-click="checkStateandLogin('signup');checkStateandLogin()">
                         <i class="fa fa-user"></i> Sign Up
                     </a>
                 </li>
-                <hr>
-                <li class="hidden-sm hidden-md hidden-lg">
+                <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="logOut();navbarCollapsed = !navbarCollapsed">
-                        <i class="fa fa-sign-out"></i> LogOut
+                        <i class="fa fa-sign-out"></i> Log Out
                     </a>
                 </li>
             </ul>
@@ -166,8 +166,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li uib-dropdown ng-show="isLoggedIn()">
-                        <a href="" uib-dropdown-toggle class=" avatarPadding">
+                    <li uib-dropdown ng-if="!isLoggedIn()">
+                        <a href="" uib-dropdown-toggle class="avatarPadding">
                             <img class="navbarAvatar"
                                  ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
                                  ng-src="{{cloudinaryDefaultPic}}"/>
@@ -203,7 +203,7 @@
                                     <i class="fa fa-tachometer"></i> Manage
                                 </a>
                             </li>
-                            <li>
+                            <li ng-if="isLoggedIn()">
                                 <a ui-sref="account({id:currentUser.user._id})" ng-click="">
                                     <i class="fa fa-cog"></i> Settings
                                 </a>
@@ -211,17 +211,17 @@
                             <hr>
                             <li>
                                 <a ng-click="logOut()">
-                                    <i class="fa fa-sign-out"></i> LogOut
+                                    <i class="fa fa-sign-out"></i> Log Out
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li ng-hide="isLoggedIn()">
+                    <li ng-if="!isLoggedIn()">
                         <a ng-click="checkStateandLogin('login')">
                             <i class="fa fa-sign-in"></i>Log In
                         </a>
                     </li>
-                    <li ng-hide="isLoggedIn()">
+                    <li ng-if="!isLoggedIn()">
                         <a ng-click="checkStateandLogin('signup');checkStateandLogin()">
                             <i class="fa fa-user"></i> Sign Up
                         </a>
