@@ -580,6 +580,12 @@ header .intro-text .intro-heading {
     margin-bottom: 1em;
 }
 
+@media (max-width: 768px) {
+    .nav-container {
+        background-color: gray;
+    }
+}
+
 .searchResults {
     height: 100%;
     overflow-y: scroll;
@@ -605,15 +611,15 @@ header .intro-text .intro-heading {
 }
 
 .switch-business-dropdown {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 .dashboard-panel {
-    padding-right: 0px;
+    padding-right: 0;
 }
 
 .dashboard-panel-list {
-    padding: 0px;
+    padding: 0;
     list-style: none;
 }
 
@@ -640,29 +646,25 @@ header .intro-text .intro-heading {
     overflow-y: scroll;
 }
 
-/*.cal-services-content .panel-body{*/
-/*padding-left:2px;*/
-/*padding-right:0px;*/
-/*}*/
 .cal-dashboard-panel-content {
-    padding-left: 0px;
+    padding-left: 0;
     max-height: 250px;
     overflow-y: scroll;
 }
 
 .dashboard-panel-footer {
-    padding: 0px;
+    padding: 0;
 }
 
 .dashboard-panel-footer button {
     margin-top: 10px;
     width: 100%;
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .dashboard-panel-body .panel-body {
-    padding: 0px;
+    padding: 0;
 }
 
 .dashboard-cal-service {
@@ -671,7 +673,7 @@ header .intro-text .intro-heading {
 
 #dashboard-cal-service-list h5 {
     line-height: 27px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding-left: 45px;
 }
 
