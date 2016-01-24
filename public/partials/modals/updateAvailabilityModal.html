@@ -58,8 +58,8 @@
                                 <uib-accordion>
                                     <uib-accordion-group ng-repeat="gap in day.gaps track by $index">
                                         <uib-accordion-heading>
-                                            <span ng-show="gap.start">{{gap.start | date:'hh:mm a'}}
-                                                - {{gap.end | date:'hh:mm a'}}</span><i
+                                            <span ng-show="gap.start">{{gap.start | availabilityFilter}}
+                                                - {{gap.end | availabilityFilter}}</span><i
                                                 class="pull-right fa fa-chevron-down"></i>
                                         </uib-accordion-heading>
                                         <div class="row">
