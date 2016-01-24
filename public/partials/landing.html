@@ -1,15 +1,15 @@
 <header>
     <div class="container">
         <div class="intro-text">
-            <div class="intro-lead-in">Book Appointments</div>
-            <div class="intro-lead-in">It's That Simple</div>
+            <div class="intro-lead-in">Book appointments.</div>
+            <div class="intro-lead-in">It's that simple.</div>
             <div class="row form-inline form-group">
                 <div class="col-xs-12">
                     <form name="landingQuery">
                         <div class="col-xs-12">
                             <span class="left-inner-addon left-inner-addon-landing">
                             <i class="fa fa-search"></i>
-                            <input class="form-control input-lg" aria-describedby="search" ng-model="query.term"
+                            <input class="form-control input-lg search" aria-describedby="search" ng-model="query.term"
                                    placeholder="Hair Salons" id="search" required>
                             </span>
                             <!--</div>-->
@@ -17,14 +17,14 @@
                             <span class="left-inner-addon left-inner-addon-landing">
                             <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
                             <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                            <input class="form-control input-lg" aria-describedby="near" g-places-autocomplete
+                            <input class="form-control input-lg search" aria-describedby="near" g-places-autocomplete
                                    options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
                                    required>
                             </span>
                             <!--</div>-->
                             <!--<div class="col-xs-2 col-sm-2">-->
                             <span>
-                            <button class="btn btn-lg sectionBtn" ng-click="landingQuery.$valid && search(query)"
+                            <button class="btn btn-lg sectionBtn search" ng-click="landingQuery.$valid && search(query)"
                                     type="submit">
                                 <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
                                    ng-class="{'fa-pulse' : fetchingQuery}"></i>
