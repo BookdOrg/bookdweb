@@ -63,11 +63,11 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
     var unFormatTimes = function (availability) {
         var updatedAvailability = angular.copy(availability);
         _.forEach(updatedAvailability, function (availabilityObj) {
-            availabilityObj.start = moment(availabilityObj.start, 'hh:mm a').format('hh:mm a');
-            availabilityObj.end = moment(availabilityObj.end, 'hh:mm a').format('hh:mm a');
+            availabilityObj.start = moment(availabilityObj.start).format('hh:mm a');
+            availabilityObj.end = moment(availabilityObj.end).format('hh:mm a');
             _.forEach(availabilityObj.gaps, function (gap) {
-                gap.start = moment(gap.start, 'hh:mm a').format('hh:mm a');
-                gap.end = moment(gap.end, 'hh:mm a').format('hh:mm a');
+                gap.start = moment(gap.start).format('hh:mm a');
+                gap.end = moment(gap.end).format('hh:mm a');
             });
         });
         return updatedAvailability;
@@ -79,7 +79,6 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      */
     $scope.updateAvailability = function (availability) {
         var updatedAvailability = unFormatTimes(availability);
-        ;
         var updateObj = {
             businessName: $scope.activeAvailability.businessName,
             businessId: $scope.activeAvailability.businessId,
