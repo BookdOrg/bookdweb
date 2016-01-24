@@ -1127,50 +1127,50 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                 var availability = [
                     {
                         day: 'Monday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Tuesday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Wednesday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Thursday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Friday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Saturday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     },
                     {
                         day: 'Sunday',
-                        start: moment().hour(6).minute(0).format(),
-                        end: moment().hour(19).minute(0).format(),
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
                         gaps: [],
                         available: false
                     }];
