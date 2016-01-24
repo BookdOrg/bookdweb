@@ -166,7 +166,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li uib-dropdown ng-if="!isLoggedIn()">
+                    <li uib-dropdown ng-if="isLoggedIn()">
                         <a href="" uib-dropdown-toggle class="avatarPadding">
                             <img class="navbarAvatar"
                                  ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
