@@ -21,7 +21,7 @@
                     <a ui-sref="partner" ng-if="forBusiness">List Your Business</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Back To Booking</a>
                 </li>
-                <li uib-dropdown ng-show="isLoggedIn()">
+                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
                     <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                     <a href="#" uib-dropdown-toggle>
                         <i class="fa fa-bell badge {{currentUser.user.notifications | newNotificationFilter}}">
