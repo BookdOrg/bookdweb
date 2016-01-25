@@ -15,6 +15,9 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
+var EmailTemplate = require('email-templates').EmailTemplate;
+var path = require('path');
+var templateDir = path.join(__dirname, '../templates', 'welcome');
 var request = require('request');
 
 var User = mongoose.model('User');
@@ -627,6 +630,30 @@ router.post('/register', function (req, res, next) {
         if (err) {
             return res.status(400).json({message: 'Whoops, looks like you already have an account registered. Please Login'});
         }
+        var subject,
+            body;
+        var welcome = new EmailTemplate(templateDir);
+        var name = user.name.split(' ', 1);
+        var usrObj = {
+            name: name
+        };
+        welcome.render(usrObj, function (err, results) {
+            subject = 'Welcome to Bookd!';
+            body = results.html;
+            var mailOptions = {
+                from: 'Book\'d', // sender address
+                to: user.email, // list of receivers
+                subject: subject, // Subject line
+                html: body // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+        });
         return res.json({token: user.generateJWT()});
     });
 });
