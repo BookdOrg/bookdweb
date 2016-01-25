@@ -17,7 +17,6 @@ var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
-var templateDir = path.join(__dirname, '../templates', 'welcome');
 var request = require('request');
 
 var User = mongoose.model('User');
@@ -609,6 +608,7 @@ router.post('/login', function (req, res, next) {
  **/
 router.post('/register', function (req, res, next) {
     var user = new User();
+    var welcomeTemplateDir = path.join(__dirname, '../templates', 'welcome');
     if (req.body.provider === 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
@@ -632,7 +632,7 @@ router.post('/register', function (req, res, next) {
         }
         var subject,
             body;
-        var welcome = new EmailTemplate(templateDir);
+        var welcome = new EmailTemplate(welcomeTemplateDir);
         var name = user.name.split(' ', 1);
         var usrObj = {
             name: name
