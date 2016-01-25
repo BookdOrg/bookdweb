@@ -175,7 +175,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     }
                 });
             });
-            availableTimes.push(timeObj);
+            var timeEndhour = moment(availableTimeEnd, 'hh:mm a').hour();
+            var timeEndMinute = moment(availableTimeEnd, 'hh:mm a').minute();
+            var timeEnd = moment(employeeAvailability.date).set({'hour': timeEndhour, 'minute': timeEndMinute});
+            if (!timeEnd.isAfter(employeeAvailability.dayEnd)) {
+                availableTimes.push(timeObj);
+            }
         }
         return availableTimes;
     };
