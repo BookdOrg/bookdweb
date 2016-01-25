@@ -8,28 +8,27 @@
                     <form name="landingQuery">
                         <div class="col-xs-12">
                             <span class="left-inner-addon left-inner-addon-landing">
-                            <i class="fa fa-search"></i>
-                            <input class="form-control input-lg search" aria-describedby="search" ng-model="query.term"
-                                   placeholder="Hair Salons" id="search" required>
+                                <i class="fa fa-search"></i>
+                                <input class="form-control input-lg search" aria-describedby="search"
+                                       ng-model="query.term"
+                                       placeholder="Hair Salons" id="search" required>
                             </span>
-                            <!--</div>-->
-                            <!--<div class="col-xs-5 col-sm-3">-->
                             <span class="left-inner-addon left-inner-addon-landing">
-                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
-                            <input class="form-control input-lg search" aria-describedby="near" g-places-autocomplete
-                                   options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
-                                   required>
-                            </span>
-                            <!--</div>-->
-                            <!--<div class="col-xs-2 col-sm-2">-->
+                                <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                                <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                                <input class="form-control input-lg search" aria-describedby="near"
+                                       g-places-autocomplete
+                                       options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
+                                       required>
+                                </span>
                             <span>
-                            <button class="btn btn-lg sectionBtn search" ng-click="landingQuery.$valid && search(query)"
-                                    type="submit">
-                                <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
-                                   ng-class="{'fa-pulse' : fetchingQuery}"></i>
-                                <span ng-show="!fetchingQuery">Search</span>
-                            </button>
+                                <button class="btn btn-lg sectionBtn search"
+                                        ng-click="landingQuery.$valid && search(query)"
+                                        type="submit">
+                                    <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                                       ng-class="{'fa-pulse' : fetchingQuery}"></i>
+                                    <span ng-show="!fetchingQuery">Search</span>
+                                </button>
                             </span>
                         </div>
                     </form>
@@ -100,12 +99,12 @@
             </div>
             <div class="col-md-4">
                 <!--<ul class="list-inline social-buttons">-->
-                    <!--<li><a href="#"><i class="fa fa-twitter"></i></a>-->
-                    <!--</li>-->
-                    <!--<li><a href="#"><i class="fa fa-facebook"></i></a>-->
-                    <!--</li>-->
-                    <!--<li><a href="#"><i class="fa fa-linkedin"></i></a>-->
-                    <!--</li>-->
+                <!--<li><a href="#"><i class="fa fa-twitter"></i></a>-->
+                <!--</li>-->
+                <!--<li><a href="#"><i class="fa fa-facebook"></i></a>-->
+                <!--</li>-->
+                <!--<li><a href="#"><i class="fa fa-linkedin"></i></a>-->
+                <!--</li>-->
                 <!--</ul>-->
             </div>
             <div class="col-md-4">
