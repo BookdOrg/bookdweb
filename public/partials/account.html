@@ -137,13 +137,13 @@
                       <div class="row">
                           <div class="col-xs-12 col-sm-6">
                               <form class="form-inline">
-                                  <div uib-tooltip="Give this email to your manager">
-                                      <label for="associateDisplayEmail" class="control-label col-xs-4">Associate
-                                          Email:</label>
-                                      <input class="form-control" id="associateDisplayEmail"
-                                             name="associateDisplayEmail" type="text" value="{{currentUser.user.email}}"
-                                             disabled>
-                                  </div>
+                                  <label for="associateDisplayEmail" class="control-label col-xs-4">Associate
+                                      Email:</label>
+                                  <span uib-tooltip="Give this email to your manager" tooltip-placement="top">
+                                  <input class="form-control" id="associateDisplayEmail"
+                                         name="associateDisplayEmail" type="text" value="{{currentUser.user.email}}"
+                                         disabled>
+                                  </span>
                               </form>
                               <div class="col" style="padding-right:10px;">
                                   <label class="control-label col-xs-4">Set Weekly Availability:</label>
