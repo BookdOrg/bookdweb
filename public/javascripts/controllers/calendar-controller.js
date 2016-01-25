@@ -134,7 +134,35 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
 
         });
     };
+    /**
+     *
+     * Opens a modal that allows employees to update their availability.
+     *
+     * @param size - the size of the modal
+     * @param employee
+     */
+    $scope.openAvailabilityModal = function (size) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/updateAvailabilityModal.html',
+            controller: 'updatedAvailabilityCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: size,
+            resolve: {
+                employee: function () {
+                    return $rootScope.currentUser.user;
+                },
+                business: function () {
+                    return null;
+                }
+            }
+        });
+        modalInstance.result.then(function () {
 
+        });
+
+    };
     /* event source that calls a function on every view switch */
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date) {
