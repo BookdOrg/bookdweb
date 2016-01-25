@@ -151,7 +151,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     timeObj.end = moment(gapEnd).add(duration, 'minutes').format('hh:mm a');
                     timeObj.time = m.set({'hour': gapEndHour, 'minute': gapEndMinute}).format('hh:mm a');
                 } else {
-                    ame
                     timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
                 }
             });
