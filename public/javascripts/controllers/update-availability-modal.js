@@ -37,7 +37,7 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
      * @type {number}
      */
     $scope.hstep = 1;
-    $scope.mstep = 15;
+    $scope.mstep = 5;
     $scope.ismeridian = true;
     $scope.toggleMode = function () {
         $scope.ismeridian = !$scope.ismeridian;

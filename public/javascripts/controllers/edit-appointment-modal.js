@@ -84,6 +84,101 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $scope.$apply();
         socketService.emit('timeDestroyed', $scope.activeTime);
     };
+    var setEmployeeAvailability = function (dateObj) {
+        var weekDay = moment(dateObj).format('dddd');
+        var businessIndex = _.findIndex($scope.employee.availabilityArray, {'businessId': $scope.service.businessId});
+        var availabilityIndex = _.findIndex($scope.employee.availabilityArray[businessIndex].availability, {'day': weekDay});
+        var date = moment(dateObj).get('date');
+        var year = moment(dateObj).get('year');
+        var month = moment(dateObj).get('month');
+        var startHour = moment($scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].start, 'hh:mma').hour();
+        var startMinute = moment($scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].start, 'hh:mma').minute();
+        var endHour = moment($scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].end, 'hh:mma').hour();
+        var endMinute = moment($scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].end, 'hh:mma').minute();
+        var employeeAvailability = {};
+        if (weekDay === $scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].day &&
+            $scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].available === false) {
+            $scope.dayMessage = true;
+            return null;
+        } else {
+            employeeAvailability = {
+                date: moment().set({'year': year, 'date': date, 'month': month}),
+                dayStart: moment().set({
+                    'year': year,
+                    'date': date,
+                    'month': month,
+                    'hour': startHour,
+                    'minute': startMinute
+                }),
+                dayEnd: moment().set({
+                    'year': year,
+                    'date': date,
+                    'month': month,
+                    'hour': endHour,
+                    'minute': endMinute
+                }),
+                gaps: $scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].gaps
+            };
+            return employeeAvailability;
+        }
+
+    };
+    var createAvailableTimes = function (employeeAvailability, appointmentsArray, duration) {
+        var availableTimes = [];
+        var minutes = moment.duration(parseInt(duration), 'minutes');
+        for (var m = employeeAvailability.dayStart; employeeAvailability.dayStart.isBefore(employeeAvailability.dayEnd); m.add(duration, 'minutes')) {
+            var availableTimeStart = moment(angular.copy(m));
+            var startPlusEndTime = availableTimeStart.add(minutes);
+            var availableTimeEnd = moment(startPlusEndTime);
+            var availableTimeRange = moment.range(m, availableTimeEnd);
+            var timeObj = {
+                time: m.format('hh:mm a'),
+                available: true,
+                toggled: false,
+                status: false,
+                user: $scope.currentUser.user._id
+            };
+            _.forEach(employeeAvailability.gaps, function (gap) {
+                var gapStartHour = moment(gap.start, 'hh:mm a').hour();
+                var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
+                var gapEndHour = moment(gap.end, 'hh:mm a').hour();
+                var gapEndMinute = moment(gap.end, 'hh:mm a').minute();
+                var gapStart = moment(employeeAvailability.date).set({'hour': gapStartHour, 'minute': gapStartMinute});
+                var gapEnd = moment(employeeAvailability.date).set({'hour': gapEndHour, 'minute': gapEndMinute});
+                var gapRange = moment.range(gapStart, gapEnd);
+
+                if (gapRange.intersect(availableTimeRange) || availableTimeRange.intersect(gapRange)) {
+                    timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                    timeObj.time = m.set({'hour': gapEndHour, 'minute': gapEndMinute}).format('hh:mm a');
+                } else {
+                    timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                }
+            });
+            _.forEach(appointmentsArray, function (appointmentArray) {
+                _.forEach(appointmentArray, function (appointment) {
+                    var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
+                    var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
+                    var apptEndHour = moment(appointment.end.time, 'hh:mm a').hour();
+                    var apptEndMinute = moment(appointment.end.time, 'hh:mm a').minute();
+                    var apptStart = moment(employeeAvailability.date).set({
+                        'hour': apptStartHour,
+                        'minute': apptStartMinute
+                    });
+                    var apptEnd = moment(employeeAvailability.date).set({'hour': apptEndHour, 'minute': apptEndMinute});
+                    var apptRange = moment.range(apptStart, apptEnd);
+
+                    if (apptRange.intersect(availableTimeRange) || availableTimeRange.intersect(apptRange)) {
+                        timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                        timeObj.time = m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
+                    } else {
+                        timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                    }
+                });
+            });
+            availableTimes.push(timeObj);
+        }
+        return availableTimes;
+    };
     /**
      *
      * @param date - the date selected on the calendar
@@ -119,10 +214,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
          * all appointments on the given selected start date
          */
         userFactory.getAppts(employeeApptObj)
-            .then(function (data) {
+            .then(function (appointmentsArray) {
+                $scope.availableTimes = [];
+                var employeeAvailability = setEmployeeAvailability(date);
                 //If an employee has been selected calculate the time slots available for the day
-                if ($scope.employee) {
-                    calculateAppointments(data);
+                if (employeeAvailability !== null) {
+                    $scope.availableTimes = createAvailableTimes(employeeAvailability, appointmentsArray, $scope.service.duration);
                 }
                 /**
                  * Auto-select the current appointments start time if the user/employee
@@ -158,133 +255,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 }
             });
     }
-
-    /**
-     *  Calculate the availability for both the customer and the employee, based on their scheduled appointments
-     *  and indicated breaks during the day
-     *
-     * @param data - array containing all the customer and employees personal and business appointments
-     */
-    function calculateAppointments(data) {
-        //Duration - how long does the service last
-        var duration = $scope.service.duration;
-        //Which day of the week is currently selected
-        var weekDay = moment(new Date($scope.selectedDate)).format('dddd');
-        $scope.availableTimes = [];
-        var availabilityIndex = _.findIndex($scope.employee.availabilityArray, {'businessId': $scope.service.businessId});
-        //Loop through the employees availability object, each Index being a day of the week
-        for (var dayOfWeek = 0; dayOfWeek < $scope.employee.availabilityArray[availabilityIndex].availability.length; dayOfWeek++) {
-            //if that weekDay is in the employees availability format the hours that he/she works based on
-            //the start/end times
-            if (weekDay == $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].day) {
-                var formatStart = moment($scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].start).format('hh:mm a');
-                var formatEnd = moment($scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].end).format('hh:mm a');
-                var startTime = moment(formatStart, 'hh:mm a');
-                var endTime = moment(formatEnd, 'hh:mm a');
-            }
-            //If the employee is not available on that given day set the dayMessage to true, show the user
-            //that they cannot book with that employee
-            if (weekDay == $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].day
-                && $scope.employee.availabilityArray[availabilityIndex].availability[dayOfWeek].available === false) {
-                $scope.dayMessage = true;
-                return;
-            }
-
-        }
-        //Create available time objects by adding the length of the service over and over from the
-        //employees start time in the morning until their end time. Push them into an array
-        for (var m = startTime; startTime.isBefore(endTime); m.add(duration, 'minutes')) {
-            var timeObj = {
-                time: m.format('hh:mm a'),
-                end: moment(startTime).add(duration, 'minutes').format('hh:mm a'),
-                available: true,
-                toggled: false,
-                status: false,
-                user: $rootScope.currentUser.user._id
-            };
-            $scope.availableTimes.push(timeObj);
-        }
-        /**
-         * For each of the appointment arrays, at max 4. - Customer Peronsl and Business. Employee Personal and Business
-         */
-        data.forEach(function (array) {
-            /**
-             * Loop through each of the available time slots that were created based on the employees day
-             */
-            for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
-                //Format the current available time of the appointment
-                var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
-                var currentDateTime = moment().set({
-                    'year': moment(new Date($scope.selectedDate)).year(),
-                    'month': moment(new Date($scope.selectedDate)).month(),
-                    'date': moment(new Date($scope.selectedDate)).date(),
-                    'hour': moment(availableTime).hour(),
-                    'minute': moment(availableTime).minute()
-                });
-                $scope.availableTimes[availableTimesIndex].hide = false;
-                if (currentDateTime.isBefore(moment())) {
-                    $scope.availableTimes[availableTimesIndex].hide = true;
-                }
-                //Loop through the current array of appointments
-                for (var appointmentsIndex = 0; appointmentsIndex < array.length; appointmentsIndex++) {
-                    //Format the current start time of the appointment
-                    var startTime = moment(array[appointmentsIndex].start.time, 'hh:mm a');
-                    //Format
-                    var decreasedTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
-                    //Format the time the appointment ends
-                    var endTime = moment(array[appointmentsIndex].end.time, 'hh:mm a');
-                    //We subtract half the duration of the service from the available time
-                    var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
-
-                    //If the availableTime is the same as the appointment start time, the available time isn't available
-                    if (availableTime.isSame(startTime)) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
-                    //if the available time is between the start and end time, it's not available
-                    if (availableTime.isBetween(startTime, endTime, 'minute')) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
-                    //if the start time of an available time is the same as half the duration, it's not available
-                    if (startTime.isSame(subtractedTime)) {
-                        $scope.availableTimes[availableTimesIndex - 1].available = false;
-                    }
-                }
-            }
-        });
-        //Loop through the available times again
-        for (var availableTimesIndex = 0; availableTimesIndex < $scope.availableTimes.length; availableTimesIndex++) {
-            //Loop through the employees available days, from his/her availability
-            for (var availableDaysIndex = 0; availableDaysIndex < $scope.employee.availabilityArray[availabilityIndex].availability.length; availableDaysIndex++) {
-                //Loop through the gaps for that day (Breaks the employee has added)
-                for (var gapsInDayIndex = 0; gapsInDayIndex < $scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps.length; gapsInDayIndex++) {
-                    //same as above
-                    var formattedStart = moment($scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps[gapsInDayIndex].start).format('hh:mm a');
-                    var formattedEnd = moment($scope.employee.availabilityArray[availabilityIndex].availability[availableDaysIndex].gaps[gapsInDayIndex].end).format('hh:mm a');
-                    //the available Time
-                    var availableTime = moment($scope.availableTimes[availableTimesIndex].time, 'hh:mm a');
-                    //start time of the break
-                    var gapStartTime = moment(formattedStart, 'hh:mm a');
-
-                    var decreasedTime = moment(formattedEnd, 'hh:mm a');
-
-                    var gapEndTime = moment(formattedEnd, 'hh:mm a');
-                    var subtractedTime = decreasedTime.subtract(duration / 2, 'minutes');
-
-                    if (availableTime.isSame(gapStartTime)) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
-                    if (availableTime.isBetween(gapStartTime, gapEndTime, 'minute')) {
-                        $scope.availableTimes[availableTimesIndex].available = false;
-                    }
-
-                    if (gapStartTime.isSame(subtractedTime)) {
-                        $scope.availableTimes[availableTimesIndex - 1].available = false;
-                    }
-                }
-            }
-        }
-    }
-
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
             var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
@@ -320,30 +290,33 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     });
     //Calculate what availableTime/how many we should disabled
     var calculateHold = function (timeObj) {
-        var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': timeObj.time}));
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
-        var calculatedDuration = $scope.service.duration;
-        for (var m = startTime; startTime.isBefore(endTime); m.add(calculatedDuration, 'minutes')) {
-            if (indexToReplace !== -1) {
-                $scope.availableTimes[indexToReplace].status = true;
-                indexToReplace += 1;
+        var timeRange = moment.range(startTime, endTime);
+        _.forEach($scope.availableTimes, function (availableTime) {
+            var currentStartTime = moment(availableTime.time, 'hh:mm a');
+            var currentEndTime = moment(availableTime.end, 'hh:mm a');
+            var currentTimeRange = moment.range(currentStartTime, currentEndTime);
+
+            if (timeRange.intersect(currentTimeRange) || currentTimeRange.intersect(timeRange)) {
+                availableTime.status = true;
             }
-        }
+        });
     };
     //Toggle the held time off
     var destroyOld = function (timeObj) {
-        var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': timeObj.time}));
         var startTime = moment(timeObj.time, 'hh:mm a');
         var endTime = moment(timeObj.end, 'hh:mm a');
-        var destroyDuration = $scope.service.duration;
+        var timeRange = moment.range(startTime, endTime);
+        _.forEach($scope.availableTimes, function (availableTime) {
+            var currentStartTime = moment(availableTime.time, 'hh:mm a');
+            var currentEndTime = moment(availableTime.end, 'hh:mm a');
+            var currentTimeRange = moment.range(currentStartTime, currentEndTime);
 
-        for (var m = startTime; startTime.isBefore(endTime); m.add(destroyDuration, 'minutes')) {
-            if (indexToReplace !== -1) {
-                $scope.availableTimes[indexToReplace].status = false;
+            if (timeRange.intersect(currentTimeRange) || currentTimeRange.intersect(timeRange)) {
+                availableTime.status = false;
             }
-            indexToReplace += 1;
-        }
+        });
     };
 
     var checkShowUpdate = function (timeObj) {
