@@ -148,9 +148,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 var gapRange = moment.range(gapStart, gapEnd);
 
                 if (gapRange.intersect(availableTimeRange) || availableTimeRange.intersect(gapRange)) {
-                    timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                    timeObj.end = moment(gapEnd).add(duration, 'minutes').format('hh:mm a');
                     timeObj.time = m.set({'hour': gapEndHour, 'minute': gapEndMinute}).format('hh:mm a');
                 } else {
+                    ame
                     timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
                 }
             });
@@ -168,7 +169,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     var apptRange = moment.range(apptStart, apptEnd);
 
                     if (apptRange.intersect(availableTimeRange) || availableTimeRange.intersect(apptRange)) {
-                        timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                        timeObj.end = moment(apptEnd).add(duration, 'minutes').format('hh:mm a');
                         timeObj.time = m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
                     } else {
                         timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
