@@ -21,6 +21,55 @@
                     <a ui-sref="partner" ng-if="forBusiness">List Your Business</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Back To Booking</a>
                 </li>
+                <li uib-dropdown ng-show="isLoggedIn()">
+                    <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
+                    <a href="#" uib-dropdown-toggle>
+                        <i class="fa fa-bell badge {{currentUser.user.notifications | newNotificationFilter}}">
+                            {{currentUser.user.notifications | notificationFilter}}
+                        </i>
+                    </a>
+
+                    <div class="uib-dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
+                         aria-labelledby="dLabel">
+                        <div class="notification-heading" ng-if="currentUser.user.notifications.length > 0">
+                            <h4 class="menu-title">Notifications</h4>
+                            <h4 class="menu-title pull-right" ng-click="viewAllNotifications()">Mark all as
+                                viewed</h4>
+                        </div>
+                        <span class="divider"></span>
+
+                        <h3 class="text-center" ng-if="currentUser.user.notifications.length === 0">You have no
+                            notifications!</h3>
+                        <ul class="notifications-wrapper">
+                            <li class="content" ng-repeat="notification in currentUser.user.notifications">
+                                <div class="notification-item"
+                                     ng-class="{'new-notification': notification.viewed === false}">
+                                    <h5 class="pull-right" ng-click="viewNotification($index)"
+                                        ng-if="notification.viewed === false"><i class="fa fa-times-circle-o"
+                                                                                 uib-tooltip="Mark Read"
+                                                                                 tooltip-placement="top"
+                                                                                 tooltip-append-to-body="true"></i>
+                                    </h5>
+                                    <h5>{{notification.content}}</h5>
+
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <h5 class="notification-timestamp"><i>{{notification.timestamp |
+                                                timeStampFilter}}</i>
+                                            </h5>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <a id="calendarLink" ng-if="notification.type === 'calendar'"
+                                               class="pull-right notification-link" ui-sref="calendar">Go to
+                                                calendar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
                     <a href="" uib-dropdown-toggle class=" avatarPadding">
                         <img class="navbarAvatar"

@@ -32,9 +32,8 @@ a:hover, a:focus, a:active, a.active {
     color: #f05f40
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
     font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
     font-weight: 700
 }
 
@@ -144,7 +143,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-default .nav li a {
     font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
     font-weight: 400;
     letter-spacing: 1px;
     color: black;

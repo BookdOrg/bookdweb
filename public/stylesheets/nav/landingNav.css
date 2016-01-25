@@ -1,6 +1,6 @@
 .navbar-default .nav > li > a,
 .navbar-default .nav > li > a:focus {
-    padding-top: 10px;
+    padding-top: 19px;
     height: 50px;
     font-size: 14px;
     font-weight: 200;
@@ -41,4 +41,8 @@
 
 .partnerBox {
     border: 1px solid white;
+}
+
+h3, h4, h5, h6 {
+    font-family: "Abel", arial, sans-serif;
 }

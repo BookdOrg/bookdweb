@@ -282,6 +282,10 @@ span.tab-space {
     margin-top: 13px;
 }
 
+#calendarLink {
+    color: #337ab7;
+}
+
 hr {
     max-width: 50px;
     border-color: #337ab7;
