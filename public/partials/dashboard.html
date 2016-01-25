@@ -209,6 +209,51 @@
             <uib-tab-heading>
                 <i class="fa fa-tachometer"></i> Manage
             </uib-tab-heading>
+            <!--
+               #################################
+               ##
+               ##    Associates  Block
+               ##
+               ##
+               #################################
+           -->
+            <div class="col-xs-12 col-sm-6 dashboard-panel-body">
+                <uib-accordion>
+                    <uib-accordion-group is-open="statusTwo.open">
+                        <uib-accordion-heading>
+                            Associates
+                            <i class="pull-right glyphicon"
+                               ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
+                            <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
+                                <p style="margin-top:auto;margin-bottom:auto;">Add your First Associate!</p>
+                            </div>
+                            <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
+                                <li>
+                                    <h5>{{associate.name}}
+                                        <div class="btn-group pull-right" role="group" aria-label="...">
+                                            <button class="btn btn-md btn-gradient-warning"
+                                                    ng-click="openAvailabilityModal('lg',associate)"><i
+                                                    class="fa fa-hourglass"></i></button>
+                                            <button class="btn btn-md btn-gradient-danger"
+                                                    ng-click="removeEmployee(associate, activeBusiness.business)"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </div>
+                                    </h5>
+                                </li>
+                                <hr class="full">
+                            </div>
+                        </div>
+                        <div class="dashboard-panel-footer">
+                            <button class="btn btn-sm btn-gradient-success"
+                                    ng-click="openEmployee(activeBusiness.business)">
+                                New Associate
+                            </button>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+            </div>
                 <!--
                 #################################
                 ##
@@ -252,51 +297,6 @@
                             <div class="dashboard-panel-footer">
                                 <button class="btn btn-sm btn-gradient-success" ng-click="newService()">
                                     New Service
-                                </button>
-                            </div>
-                        </uib-accordion-group>
-                    </uib-accordion>
-                </div>
-            <!--
-                #################################
-                ##
-                ##    Associates  Block
-                ##
-                ##
-                #################################
-            -->
-                <div class="col-xs-12 col-sm-6 dashboard-panel-body">
-                    <uib-accordion>
-                        <uib-accordion-group is-open="statusTwo.open">
-                            <uib-accordion-heading>
-                                Associates
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
-                            </uib-accordion-heading>
-                            <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
-                                <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
-                                    <p style="margin-top:auto;margin-bottom:auto;">Add your First Associate!</p>
-                                </div>
-                                <div ng-repeat="associate in activeBusiness.business.employees" style="height:50px;">
-                                    <li>
-                                        <h5>{{associate.name}}
-                                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                                <button class="btn btn-md btn-gradient-warning"
-                                                        ng-click="openAvailabilityModal('lg',associate)"><i
-                                                        class="fa fa-hourglass"></i></button>
-                                                <button class="btn btn-md btn-gradient-danger"
-                                                        ng-click="removeEmployee(associate, activeBusiness.business)"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </div>
-                                        </h5>
-                                    </li>
-                                    <hr class="full">
-                                </div>
-                            </div>
-                            <div class="dashboard-panel-footer">
-                                <button class="btn btn-sm btn-gradient-success"
-                                        ng-click="openEmployee(activeBusiness.business)">
-                                    New Associate
                                 </button>
                             </div>
                         </uib-accordion-group>
