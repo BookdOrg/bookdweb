@@ -132,7 +132,7 @@
               Associate Panel
           </div>
           <div class="panel-body">
-              <div class="row">
+              <div class="row text-center">
                   <div class="col-xs-12">
                       <div class="row">
                           <div class="col-xs-12 col-sm-6">
@@ -145,6 +145,12 @@
                                              disabled>
                                   </div>
                               </form>
+                              <div class="col" style="padding-right:10px;">
+                                  <label class="control-label col-xs-4">Set Weekly Availability:</label>
+                                  <button class="btn btn-gradient-success" ng-click="openAvailabilityModal('lg')">
+                                      Availability <i class="fa fa-hourglass"></i>
+                                  </button>
+                              </div>
                           </div>
                           <!--<div class="col-xs-12 col-sm-8 text-center">-->
                           <!--<div class="col col-xs-2" ng-repeat="photo in photos">-->
@@ -159,25 +165,26 @@
                           <!--</div>-->
                       </div>
                   </div>
-              </div>
-              <div class="row">
                   <div class="col-xs-12 col-sm-6">
-                      <div class="row">
+                      <div class="row" style="margin-top:20px;">
                           <form name="updateDescForm" class="form-inline">
-                              <div class="form-group col-xs-4">
-                                  <label for="associateDescription" class="control-label">Associate
-                                      Description:</label>
-                              </div>
-                              <textarea id="associateDescription" ng-model="currentUser.user.associateDescription"
-                                        class="form-control" cols="45" rows="5" required></textarea>
+                              <label for="associateDescription" class="control-label col-xs-4">Associate
+                                  Description:</label>
 
-                              <div class="form-group col-xs-12 text-center" style="margin-top:20px;">
-                                  <button class="btn btn-gradient-primary"
-                                          ng-click="updateDescForm.$valid && updateDescription(currentUser.user.associateDescription)">
-                                      <span ng-if="!updatingDescription">Update Description</span>
-                                      <span ng-if="updatingDescription"><i class="fa fa-spinner fa-pulse"></i></span>
-                                  </button>
-                                  <i class="fa fa-check text-success pull-right fa-2x" ng-if="descriptionUpdated"></i>
+                              <div class="form-group text-center">
+                                  <textarea id="associateDescription" ng-model="currentUser.user.associateDescription"
+                                            class="form-control" cols="40" rows="5" required></textarea>
+
+                                  <div style="margin-top:20px;">
+                                      <button class="btn btn-gradient-primary pull-left"
+                                              ng-click="updateDescForm.$valid && updateDescription(currentUser.user.associateDescription)">
+                                          <span ng-if="!updatingDescription">Update Description</span>
+                                          <span ng-if="updatingDescription"><i
+                                                  class="fa fa-spinner fa-pulse"></i></span>
+                                      </button>
+                                      <i class="fa fa-check text-success pull-right fa-2x"
+                                         ng-if="descriptionUpdated"></i>
+                                  </div>
                               </div>
                           </form>
                       </div>

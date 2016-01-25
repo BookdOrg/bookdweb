@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope, $timeout) {
+module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, $rootScope, $timeout, $uibModal) {
     //TODO Add callbacks for error cases
     /**
      * Lines 9-43
@@ -55,7 +55,36 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
         }
     });
+    $scope.animationsEnabled = true;
+    /**
+     *
+     * Opens a modal that allows employees to update their availability.
+     *
+     * @param size - the size of the modal
+     * @param employee
+     */
+    $scope.openAvailabilityModal = function (size) {
+        var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: '/partials/modals/updateAvailabilityModal.html',
+            controller: 'updatedAvailabilityCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: size,
+            resolve: {
+                employee: function () {
+                    return $rootScope.currentUser.user;
+                },
+                business: function () {
+                    return null;
+                }
+            }
+        });
+        modalInstance.result.then(function () {
 
+        });
+
+    };
     /**
      * Use Oauth.io to access instagram and pull 10 pictures from a users account,
      * build out a view for the user to scroll and select the photos they want to add to their profile
