@@ -91,18 +91,24 @@
                             </a>
                         </li>
                         <li>
-                            <a ui-sref="calendar" ng-click="showSearch(false)">
+                            <a ui-sref="calendar">
                                 <i class="fa fa-thumb-tack"></i> Appointments
                             </a>
                         </li>
                         <li>
-                            <a ng-if="currentUser.user.businessOwner" ng-click="showSearch(false)"
-                               ui-sref="dashboard">
+                            <a ng-if="isLoggedIn() && currentUser.user.isAssociate"
+                               ng-click="navbarCollapsed = !navbarCollapsed;"
+                               ui-sref="user({id:currentUser.user._id})">
+                                <i class="fa fa-user"></i> Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-if="currentUser.user.businessOwner" ui-sref="dashboard">
                                 <i class="fa fa-tachometer"></i> Manage
                             </a>
                         </li>
                         <li>
-                            <a ui-sref="account({id:currentUser.user._id})" ng-click="showSearch(false)">
+                            <a ui-sref="account({id:currentUser.user._id})">
                                 <i class="fa fa-cog"></i> Settings
                             </a>
                         </li>
