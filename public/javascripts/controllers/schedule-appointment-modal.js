@@ -114,8 +114,19 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 available: true,
                 toggled: false,
                 status: false,
+                hide: false,
                 user: $scope.currentUser.user._id
             };
+            var currentDateTime = moment().set({
+                'year': moment(employeeAvailability.date).year(),
+                'month': moment(employeeAvailability.date).month(),
+                'date': moment(employeeAvailability.date).date(),
+                'hour': moment(timeObj.time, 'hh:mm a').hour(),
+                'minute': moment(timeObj.time, 'hh:mm a').minute()
+            });
+            if (currentDateTime.isBefore(moment())) {
+                timeObj.hide = true;
+            }
             _.forEach(employeeAvailability.gaps, function (gap) {
                 var gapStartHour = moment(gap.start, 'hh:mm a').hour();
                 var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
@@ -132,6 +143,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
                 }
             });
+            var appointmentCalcCount = 0;
             _.forEach(appointmentsArray, function (appointmentArray) {
                 _.forEach(appointmentArray, function (appointment) {
                     var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
@@ -144,8 +156,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     });
                     var apptEnd = moment(employeeAvailability.date).set({'hour': apptEndHour, 'minute': apptEndMinute});
                     var apptRange = moment.range(apptStart, apptEnd);
-
-                    if (apptRange.intersect(availableTimeRange) || availableTimeRange.intersect(apptRange)) {
+                    appointmentCalcCount++;
+                    if (apptRange.intersect(availableTimeRange) || availableTimeStart.isSame(apptStart)) {
+                        console.log("Appointment Intersects Available Time " + apptRange.intersect(availableTimeRange) + " " + apptStart.format("hh:mm a") + " " + availableTimeStart.format("hh:mm a"));
+                        console.log("Available Time IS SAME AS Appointment  " + availableTimeStart.isSame(apptStart));
                         timeObj.end = moment(apptEnd).add(duration, 'minutes').format('hh:mm a');
                         timeObj.time = m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
                     } else {
@@ -163,6 +177,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         }
         return availableTimes;
     };
+
     /**
      *
      * @param date - the date selected on the calendar
@@ -197,6 +212,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 socketService.emit('joinApptRoom', employeeApptObj);
             });
     }
+
     //If someone books an appointment, update the current users screen
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
