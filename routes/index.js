@@ -373,32 +373,32 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
         });
 
         if (req.body.sendEmail && user !== null) {
-            sendEmail(notification);
+            //sendEmail(notification);
         }
 
         res.send('Successfully saved notification!');
     });
-
-    function sendEmail(notification) {
-        var subject,
-            body;
-
-        subject = 'Bookd Notification';
-        body = notification.content;
-        var mailOptions = {
-            from: 'Book\'d', // sender address
-            to: notification.user.email, // list of receivers
-            subject: subject, // Subject line
-            html: body // html body
-        };
-
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, function (error) {
-            if (error) {
-                //console.log(error);
-            }
-        });
-    }
+    //
+    //function sendEmail(notification) {
+    //    var subject,
+    //        body;
+    //
+    //    subject = 'Bookd Notification';
+    //    body = notification.content;
+    //    var mailOptions = {
+    //        from: 'Book\'d', // sender address
+    //        to: notification.user.email, // list of receivers
+    //        subject: subject, // Subject line
+    //        html: body // html body
+    //    };
+    //
+    //    // send mail with defined transport object
+    //    transporter.sendMail(mailOptions, function (error) {
+    //        if (error) {
+    //            //console.log(error);
+    //        }
+    //    });
+    //}
 });
 
 /**
@@ -1115,6 +1115,7 @@ router.get('/business/info', function (req, res, next) {
  * employeeId -
  **/
 router.post('/business/add-employee', auth, function (req, res, next) {
+    var addEmployeeTemplateDir = path.join(__dirname, '../templates', 'add-employee');
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var businessName = req.body.businessName;
@@ -1194,10 +1195,30 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                     'availability': availability
                 });
 
-                employee.save(function (err) {
+                employee.save(function (err, user) {
                     if (err) {
                         return next(err);
                     }
+                    var addEmployeeTemplate = new EmailTemplate(addEmployeeTemplateDir);
+                    var templateObj = {
+                        name: user.name.split(' ', 1),
+                        business: businessName
+                    };
+                    addEmployeeTemplate.render(templateObj, function (error, results) {
+                        var mailOptions = {
+                            from: 'Book\'d', // sender address
+                            to: user.email, // list of receivers
+                            subject: 'Bookd Associates', // Subject line
+                            html: results.html // html body
+                        };
+
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, function (error) {
+                            if (error) {
+                                //return next(error);
+                            }
+                        });
+                    });
                 });
             });
         });
@@ -1267,8 +1288,13 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
+
+    var removeEmployeeTemplateDir = path.join(__dirname, '../templates', 'remove-employee');
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {
+        if (err) {
+            return next(err);
+        }
         var index = response.employees.indexOf(employeeId);
 
         if (index > -1) {
@@ -1277,6 +1303,31 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
+                User.findOne({"_id": employeeId}).exec(function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+                    var removeEmployeeTemplate = new EmailTemplate(removeEmployeeTemplateDir);
+                    var templateObj = {
+                        name: user.name.split(' ', 1),
+                        business: response.name
+                    };
+                    removeEmployeeTemplate.render(templateObj, function (error, results) {
+                        var mailOptions = {
+                            from: 'Book\'d', // sender address
+                            to: user.email, // list of receivers
+                            subject: 'Bookd Associates', // Subject line
+                            html: results.html // html body
+                        };
+
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, function (error) {
+                            if (error) {
+                                //return next(error);
+                            }
+                        });
+                    });
+                })
             });
         } else {
             //console.log('employeeID not associated with this business. id=', employeeId);
@@ -1288,6 +1339,9 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
         }
         //find all service(s) employee was part of
         Service.find({'_id': {$in: serviceIds}}).exec(function (err, services) {
+            if (err) {
+                return next(err);
+            }
             //services - an array of services
 
             for (var serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {
@@ -1509,7 +1563,8 @@ router.get('/business/service-detail', auth, function (req, res, next) {
  */
 
 router.post('/business/update-payments-account', auth, function (req, res, next) {
-
+    var bankingUpdatedSuccesDir = path.join(__dirname, '../templates', 'banking-updated-success');
+    var bankingUpdatedFailureDir = path.join(__dirname, '../templates', 'banking-updated-failure');
     var businessId = req.body.businessId;
     var bankInfo = req.body.bankAccount;
     var stripeInfo = req.body.stripeAccount;
@@ -1525,6 +1580,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
         if (err) {
             return next(err);
         }
+        var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccessTemplate);
         stripe.accounts.update(business.stripeId, {
             external_account: {
                 object: 'bank_account',
@@ -1560,6 +1616,27 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                         return next(err);
                     }
                     res.json(stripeResponse);
+                    var bankingTemplateObj = {
+                        businessName: business.name,
+                        legalEntity: stripeResponse.legal_entity
+                    };
+                    User.findOne({"_id": req.payload._id}).exec(function (error, user) {
+                        //TODO add content to this tempplate
+                        bankingUpdatedSuccessTemplate.render(bankingTemplateObj, function (error, results) {
+                            var mailOptions = {
+                                from: 'Bookd', // sender address
+                                to: user.email, // list of receivers
+                                subject: 'Bookd Claim Request', // Subject line
+                                html: results.html // html body
+                            };
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error) {
+                                if (error) {
+                                    ////console.log(error);
+                                }
+                            });
+                        });
+                    });
                 });
             }
         });
