@@ -944,13 +944,24 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body._id;
     var customer = req.body.customer;
     var employee = req.body.employee;
-
+    var templateDir;
+    var templateObj = {};
+    switch (req.payload._id) {
+        case customer:
+            templateDir = path.join(__dirname, '../templates', 'customer-cancel');
+            break;
+        case employee:
+            templateDir = path.join(__dirname, '../templates', 'employee-cancel');
+            break;
+        default:
+            templateDir = path.join(__dirname, '../templates', 'employee-cancel');
+    }
     if (customer !== null) {
         User.findOne({'_id': customer}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
-
+            templateObj.user = user;
             var index = user.personalAppointments.indexOf(appointment);
 
             if (index > -1) {
@@ -988,6 +999,24 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
+        templateObj.appointment = resAppointment;
+        templateObj.user.name = templateObj.user.name.split(' ', 1);
+        var template = new EmailTemplate(templateDir);
+        template.render(templateObj, function (err, results) {
+            var mailOptions = {
+                from: 'Book\'d', // sender address
+                to: templateObj.user.email, // list of receivers
+                subject: 'Appointment Canceled', // Subject line
+                html: results.html // html body
+            };
+
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, function (error) {
+                if (error) {
+                    //return next(error);
+                }
+            });
+        });
         res.status(200).json(resAppointment);
     });
 });
