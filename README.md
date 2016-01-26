@@ -34,6 +34,8 @@ export GOOGLE_PLACES_OUTPUT_FORMAT=json
 
 export devsocketPort=3001
 
+export jwtSecret=RANDOMWODIJMWEOIFJWEGOIUERNGIUERGNEGIUERIGNRI8493274018247914
+
 ```
 
 Finally in your terminal type:
