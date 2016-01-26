@@ -715,27 +715,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     appointment.status = 'active';
 
     var room = appointment.start.date.toString() + appointment.employee.toString();
-
-    function validateAppointment(requestedAppointment, userAppointments) {
-        var appointmentIndex;
-        for (appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
-            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
-                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
-            }
-            if (moment(requestedAppointment.start.time, 'hh:mm a').isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
-                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
-            }
-        }
-        for (appointmentIndex = 0; appointmentIndex < userAppointments.length; appointmentIndex++) {
-            if (moment(userAppointments[appointmentIndex].start.time, 'hh:mm a ').isSame(moment(requestedAppointment.start.time, 'hh:mm a'))) {
-                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
-            }
-            if (moment(requestedAppointment.start.time, 'hh:mm a').isBetween(moment(userAppointments[appointmentIndex].start.time, 'hh:mm a'), moment(userAppointments[appointmentIndex].end.time, 'hh:mm a'), 'minute')) {
-                return res.status(400).json([{message: 'This appointment conflicts with a previously scheduled time'}, {data: [userAppointments[appointmentIndex], requestedAppointment]}]);
-            }
-        }
-    }
-
     appointment.save(function (err, appointment) {
         if (err) {
             return next(err);
@@ -747,8 +726,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            validateAppointment(appointment, user.businessAppointments);
-            validateAppointment(appointment, user.personalAppointments);
             user.businessAppointments.push(appointment);
             user.save(function (err) {
                 if (err) {
@@ -764,8 +741,6 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                validateAppointment(appointment, user.businessAppointments);
-                validateAppointment(appointment, user.personalAppointments);
                 user.personalAppointments.push(appointment);
                 user.save(function (err) {
                     if (err) {
