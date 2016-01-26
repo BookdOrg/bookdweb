@@ -228,8 +228,8 @@ io.on('connection', function (socket, data) {
     });
 
     socket.on('newNotifGenerated', function (data) {
-        var socket = _.findWhere(clients, {'customId': data.id});
-        if (socket) {
+        var userSocket = _.findWhere(clients, {'customId': data.id});
+        if (userSocket) {
             var notification = new Notification();
             //Content of the notification.
             notification.content = data.notification;
@@ -239,7 +239,7 @@ io.on('connection', function (socket, data) {
             notification.type = data.type;
             //Whether the notification was viewed or not.
             notification.viewed = 'false';
-            io.to(socket.id).emit('newNotif', notification);
+            io.to(userSocket.id).emit('newNotif', notification);
         }
     });
 });
@@ -1463,6 +1463,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
     business.tier = req.body.tier;
 
     Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
+        var businessRequestDir = path.join(__dirname, '../templates', 'business-request');
         if (err) {
             return next(err);
         }
@@ -1474,6 +1475,27 @@ router.post('/business/claim-request', auth, function (req, res, next) {
                 return next(err);
             }
             res.json(business);
+            User.findOne({'_id': business.owner}).exec(function (err, user) {
+                var templateObj = {
+                    user: user.name.split(' ', 1),
+                    business: business.name
+                };
+                var businessRequestTemplate = new EmailTemplate(businessRequestDir);
+                businessRequestTemplate.render(templateObj, function (err, results) {
+                    var mailOptions = {
+                        from: 'Bookd', // sender address
+                        to: user.email, // list of receivers
+                        subject: 'Bookd Claim Request', // Subject line
+                        html: results.html // html body
+                    };
+                    // send mail with defined transport object
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
         });
     });
 });
