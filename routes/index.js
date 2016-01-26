@@ -22,7 +22,6 @@ var request = require('request');
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
-var Category = mongoose.model('Category');
 var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
@@ -74,13 +73,13 @@ server.listen(process.env.devsocketPort);
 var roomData = [];
 var clients = [];
 
-io.on('connection', function (socket, data) {
+io.on('connection', function (socket) {
     var string;
-    var city, state, zip;
+    //var city, state, zip;
     var socketTimeData = {};
     io.to(socket.id).emit('authorizationReq', socket.id);
-    socket.on('error', function (data) {
-        console.log(data);
+    socket.on('error', function () {
+        //console.log(data);
     });
     socket.on('authorizationRes', function (data) {
         var client = {};
@@ -88,7 +87,7 @@ io.on('connection', function (socket, data) {
         client.id = socket.id;
         clients.push(client);
     });
-    socket.on('online', function (data) {
+    socket.on('online', function () {
         //socket.join(data.user);
 
         //city = data.location.city;
@@ -102,7 +101,7 @@ io.on('connection', function (socket, data) {
         if (data.previousDate) {
             socket.leave(data.previousDate.toString() + data.employeeId.toString(), function (err) {
                 if (err) {
-                    console.log(err)
+                    //console.log(err)
                 }
             });
         }
@@ -119,7 +118,7 @@ io.on('connection', function (socket, data) {
     socket.on('leaveApptRoom', function (data) {
         socket.leave(data, function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     });
@@ -148,7 +147,7 @@ io.on('connection', function (socket, data) {
         var room = id.toString();
         socket.join(room, function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     });
@@ -156,7 +155,7 @@ io.on('connection', function (socket, data) {
         var room = id.toString();
         socket.leave(room, function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
     });
@@ -164,7 +163,7 @@ io.on('connection', function (socket, data) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         socket.leave(appt.roomId, function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
         io.sockets.in(appt.roomId).emit('newRoomAppt', appt);
@@ -185,7 +184,7 @@ io.on('connection', function (socket, data) {
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
         socket.leave(data.roomId, function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
         });
         io.sockets.in(data.roomId).emit('update');
@@ -300,7 +299,6 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
     var isoStart = moment(start).format();
     var isoEnd = moment(end).format();
     var id;
-    var d = new Date();
     if (req.query.id !== undefined) {
         id = req.query.id;
     } else {
@@ -315,7 +313,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         'start.full': {'$gte': isoStart, $lt: isoEnd}
     }).exec(function (err, customerAppointments) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             return next(err);
         }
         response.personalAppointments = customerAppointments;
@@ -324,7 +322,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
             'start.full': {$gte: isoStart, $lt: isoEnd}
         }).exec(function (err, employeeAppointments) {
             if (err) {
-                console.log(err);
+                //console.log(err);
                 return next(err);
             }
             response.businessAppointments = employeeAppointments;
@@ -367,11 +365,11 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
         if (user) {
             notification.user = user;
         }
-        notification.save(function (err, response) {
+        notification.save(function (err) {
             if (err) {
                 return next(err);
             }
-            console.log('Successfully saved notification!');
+            //console.log('Successfully saved notification!');
         });
 
         if (req.body.sendEmail && user !== null) {
@@ -395,9 +393,9 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
         };
 
         // send mail with defined transport object
-        transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function (error) {
             if (error) {
-                console.log(error);
+                //console.log(error);
             }
         });
     }
@@ -406,12 +404,12 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
 /**
  * Modify all the new Notifications by changing viewed to true.
  */
-router.get('/user/notifications/viewed', auth, function (req, res, next) {
+router.get('/user/notifications/viewed', auth, function (req, res) {
     var id = req.payload._id;
     Notification.update({user: id, viewed: false}, {$set: {viewed: true}}, {multi: true},
         function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             res.send('Changed notifications to viewed=true successfully');
         });
@@ -420,12 +418,12 @@ router.get('/user/notifications/viewed', auth, function (req, res, next) {
 /**
  * Modify a single new Notifications by changing viewed to true.
  */
-router.post('/user/notification/viewed', auth, function (req, res, next) {
+router.post('/user/notification/viewed', auth, function (req, res) {
     var id = req.body.id;
     Notification.findOneAndUpdate({_id: id}, {$set: {viewed: true}},
         function (err) {
             if (err) {
-                console.log(err);
+                //console.log(err);
             }
             res.send('Changed notification to viewed=true successfully');
         });
@@ -439,14 +437,14 @@ router.get('/user/profile', auth, function (req, res, next) {
     User.findOne({'_id': id})
         .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
-        if (err) {
-            return next(err);
-        }
+            if (err) {
+                return next(err);
+            }
 
-        var profile = {};
-        profile.user = user;
-        res.json(profile);
-    });
+            var profile = {};
+            profile.user = user;
+            res.json(profile);
+        });
 });
 /**
  * Updates the profile of a specified user.
@@ -510,9 +508,9 @@ router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
     User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
-            path: 'businesses',
-            select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
-        }])
+        path: 'businesses',
+        select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
+    }])
         .exec(function (error, user) {
             if (error) {
                 return next(error);
@@ -522,20 +520,20 @@ router.get('/business/dashboard', auth, function (req, res, next) {
                     .populate([{path: 'services', select: ''}, {
                         path: 'employees', select: '_id name avatarVersion provider providerId availabilityArray'
                     }]).exec(function (error, response) {
-                    if (error) {
-                        return businessCallback(error);
-                    }
-                    Service.populate(response.services, {
-                        path: 'employees',
-                        select: '_id name avatarVersion availabilityArray provider providerId'
-                    }, function (err) {
-                        if (err) {
-                            return businessCallback(err);
+                        if (error) {
+                            return businessCallback(error);
                         }
-                        updatedBusinesses.push(response);
-                        businessCallback();
+                        Service.populate(response.services, {
+                            path: 'employees',
+                            select: '_id name avatarVersion availabilityArray provider providerId'
+                        }, function (err) {
+                            if (err) {
+                                return businessCallback(err);
+                            }
+                            updatedBusinesses.push(response);
+                            businessCallback();
+                        });
                     });
-                });
             }, function (err) {
                 if (err) {
                     return next(err);
@@ -544,7 +542,7 @@ router.get('/business/dashboard', auth, function (req, res, next) {
             });
         });
 });
-router.get('/business/dashboard/stripe-account', auth, function (req, res, next) {
+router.get('/business/dashboard/stripe-account', auth, function (req, res) {
     var stripeId = req.query.stripeId;
     stripe.accounts.retrieve(
         stripeId,
@@ -587,7 +585,7 @@ router.post('/login', function (req, res, next) {
             }
         })(req, res, next);
     } else if (req.body.provider === 'facebook' || 'google_plus') {
-        User.findOne({'email': req.body.username}).exec(function (err, user, info) {
+        User.findOne({'email': req.body.username}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -606,7 +604,7 @@ router.post('/login', function (req, res, next) {
  *   Req.body.username == the email of the user, passport requires this be called username
  *
  **/
-router.post('/register', function (req, res, next) {
+router.post('/register', function (req, res) {
     var user = new User();
     var welcomeTemplateDir = path.join(__dirname, '../templates', 'welcome');
     if (req.body.provider === 'bookd') {
@@ -648,9 +646,9 @@ router.post('/register', function (req, res, next) {
             };
 
             // send mail with defined transport object
-            transporter.sendMail(mailOptions, function (error, info) {
+            transporter.sendMail(mailOptions, function (error) {
                 if (error) {
-                    console.log(error);
+                    //console.log(error);
                 }
             });
         });
@@ -664,7 +662,7 @@ router.post('/register', function (req, res, next) {
 router.post('/upload', auth, function (req, res, next) {
     var id = req.payload._id;
     var busboy = new Busboy({headers: req.headers});
-    busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+    busboy.on('file', function (fieldname, file) {
 
         var stream = cloudinary.uploader.upload_stream(function (result) {
             User.findOne({'_id': id}, function (err, user) {
@@ -752,7 +750,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             validateAppointment(appointment, user.businessAppointments);
             validateAppointment(appointment, user.personalAppointments);
             user.businessAppointments.push(appointment);
-            user.save(function (err, response) {
+            user.save(function (err) {
                 if (err) {
                     return next(err);
                 }
@@ -769,7 +767,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 validateAppointment(appointment, user.businessAppointments);
                 validateAppointment(appointment, user.personalAppointments);
                 user.personalAppointments.push(appointment);
-                user.save(function (err, response) {
+                user.save(function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -852,7 +850,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                         return next(err);
                     }
                     user.businessAppointments.pull({_id: appointment._id});
-                    user.save(function (err, user) {
+                    user.save(function (err) {
                         if (err) {
                             return next(err);
                         }
@@ -865,22 +863,10 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    //user.personalAppointments.pull({_id:appointment._id});
-                    //TODO notify the user that the employee has requested to reschedule
-                    var notification = {
-                        'title': 'Appointment Reschedule Requested',
-                        'appointment': appointment,
-                        'proposed': {
-                            'proposedStart': updatedAppointmentStart,
-                            'proposedEnd': updatedAppointmentEnd
-                        }
-                    };
-                    //user.notifications.push(notification);
-                    user.save(function (err, user) {
+                    user.save(function (err) {
                         if (err) {
                             return next(err);
                         }
-                        //res.status(200).json({message: 'Success'});
                     });
                 });
             }
@@ -903,7 +889,7 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
 
     var fee = (price * .035) + 30;
 
-    Business.findOne({"_id": businessId}).exec(function (err, business) {
+    Business.findOne({'_id': businessId}).exec(function (err, business) {
         var stripeId = business.stripeId;
         stripe.charges.create({
             amount: price,
@@ -975,7 +961,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
                     }
                 });
             } else {
-                console.log('appointment not associated with this user. id=', appointment);
+                //console.log('appointment not associated with this user. id=', appointment);
             }
 
         });
@@ -995,7 +981,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
                 }
             });
         } else {
-            console.log('appointment not associated with this user. id=', appointment);
+            //console.log('appointment not associated with this user. id=', appointment);
         }
     });
     Appointment.findOneAndRemove({'_id': appointment}, function (err, resAppointment) {
@@ -1040,7 +1026,7 @@ router.get('/business/search', function (req, res, next) {
                 Service.populate(business.services, {
                     path: 'employees',
                     select: '_id businessAppointments name avatarVersion provider providerId availabilityArray associateDescription'
-                }, function (err, newBusiness) {
+                }, function (err) {
                     if (err) {
                         return responseCallback(err);
                     }
@@ -1085,7 +1071,7 @@ router.get('/business/details', function (req, res, next) {
             Service.populate(business.services, {
                 path: 'employees',
                 select: '_id businessAppointments name avatarVersion availabilityArray provider providerId associateDescription'
-            }, function (err, finalobj) {
+            }, function (error) {
                 if (error) {
                     return next(error);
                 }
@@ -1113,7 +1099,7 @@ router.get('/business/info', function (req, res, next) {
         Service.populate(business.services, {
             path: 'employees',
             select: '_id businessAppointments name avatarVersion availabilityArray providerId provider associateDescription'
-        }, function (err, finalobj) {
+        }, function (error) {
             if (error) {
                 return next(error);
             }
@@ -1208,7 +1194,7 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                     'availability': availability
                 });
 
-                employee.save(function (err, employee) {
+                employee.save(function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -1293,7 +1279,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                 }
             });
         } else {
-            console.log('employeeID not associated with this business. id=', employeeId);
+            //console.log('employeeID not associated with this business. id=', employeeId);
         }
 
         //need to convert string to objectIds for the Service 'find $in' query to work
@@ -1310,16 +1296,16 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
 
                 if (employeeIndex > -1) {
                     service.employees.splice(employeeIndex, 1);
-                    service.save(function (err, result) {
+                    service.save(function (err) {
                         if (err) {
                             return next(err);
                         }
                     });
                 } else {
-                    console.log('employee not found in service');
+                    //console.log('employee not found in service');
                 }
             }
-            res.json({message: "Success"});
+            res.json({message: 'Success'});
         });
     });
 });
@@ -1348,7 +1334,7 @@ router.post('/business/add-service', auth, function (req, res, next) {
     service.price = req.body.price;
     service.businessId = req.body.businessId;
 
-    //User.findOne({"_id": id}).exec(function(err,user){
+    //User.findOne({'_id': id}).exec(function(err,user){
     //if(err){return next(err);}
     Business.findOne({'_id': req.body.businessId}).exec(function (err, business) {
         if (err) {
@@ -1365,7 +1351,7 @@ router.post('/business/add-service', auth, function (req, res, next) {
             business.services.pushIfNotExist(service, function (e) {
                 return e == service;
             });
-            business.save(function (err, business) {
+            business.save(function (err) {
                 if (err) {
                     return next(err);
                 }
@@ -1377,7 +1363,7 @@ router.post('/business/add-service', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.json(responseService)
+                res.json(responseService);
             });
         });
     });
@@ -1434,7 +1420,7 @@ router.post('/business/remove-service', auth, function (req, res, next) {
                 }
             });
         } else {
-            //console.log('serviceId not associated with this business. id=', serviceId);
+            ////console.log('serviceId not associated with this business. id=', serviceId);
         }
     });
 
@@ -1489,9 +1475,9 @@ router.post('/business/claim-request', auth, function (req, res, next) {
                         html: results.html // html body
                     };
                     // send mail with defined transport object
-                    transporter.sendMail(mailOptions, function (error, info) {
+                    transporter.sendMail(mailOptions, function (error) {
                         if (error) {
-                            console.log(error);
+                            ////console.log(error);
                         }
                     });
                 });
@@ -1569,7 +1555,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                 res.json(err);
             } else {
                 business.payments = true;
-                business.save(function (err, business) {
+                business.save(function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -1581,7 +1567,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
     });
 });
 
-router.post('/business/contact', function (req, res, next) {
+router.post('/business/contact', function (req, res) {
     var name = req.body.name;
     var phone = req.body.phone;
     var email = req.body.email;
@@ -1606,9 +1592,9 @@ router.post('/business/contact', function (req, res, next) {
         };
 
         // send mail with defined transport object
-        transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function (error) {
             if (error) {
-                console.log(error);
+                //return next(error);
             }
         });
     }
