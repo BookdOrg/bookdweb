@@ -105,6 +105,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                                 onlineData.user = $rootScope.currentUser.user._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
+                                $rootScope.currentUser.user.notifications = [];
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -134,6 +135,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                                 onlineData.user = $rootScope.currentUser.user._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
+                                $rootScope.currentUser.user.notifications = [];
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -162,6 +164,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                 onlineData.user = $rootScope.currentUser.user._id;
                 socketService.emit('online', onlineData);
                 $state.go(state, {tier: tier});
+                $rootScope.currentUser.user.notifications = [];
                 $uibModalInstance.close();
             }, function (error) {
                 $scope.error = error.message;
