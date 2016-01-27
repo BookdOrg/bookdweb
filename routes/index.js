@@ -39,12 +39,13 @@ if (process.env.NODE_ENV === 'development') {
     server = require('https').createServer(options, app);
 }
 var io = require('socket.io')(server);
-
+var wellknown = require('nodemailer-wellknown');
+var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: 'Zoho',
     auth: {
-        user: 'contact.bookd@gmail.com',
+        user: 'contact@bookd.me',
         pass: process.env.emailPass
     }
 });
@@ -639,14 +640,14 @@ router.post('/register', function (req, res) {
             subject = 'Welcome to Bookd!';
             body = results.html;
             var mailOptions = {
-                from: 'Book\'d', // sender address
+                from: 'contact@bookd.me', // sender address
                 to: user.email, // list of receivers
                 subject: subject, // Subject line
                 html: body // html body
             };
 
             // send mail with defined transport object
-            transporter.sendMail(mailOptions, function (error) {
+            transporter.sendMail(mailOptions, function (error, response) {
                 if (error) {
                     //console.log(error);
                 }
@@ -979,7 +980,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
         var template = new EmailTemplate(templateDir);
         template.render(templateObj, function (err, results) {
             var mailOptions = {
-                from: 'Book\'d', // sender address
+                from: 'contact@bookd.me', // sender address
                 to: templateObj.user.email, // list of receivers
                 subject: 'Appointment Canceled', // Subject line
                 html: results.html // html body
@@ -1210,7 +1211,7 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                     };
                     addEmployeeTemplate.render(templateObj, function (error, results) {
                         var mailOptions = {
-                            from: 'Book\'d', // sender address
+                            from: 'contact@bookd.me', // sender address
                             to: user.email, // list of receivers
                             subject: 'Bookd Associates', // Subject line
                             html: results.html // html body
@@ -1318,7 +1319,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     };
                     removeEmployeeTemplate.render(templateObj, function (error, results) {
                         var mailOptions = {
-                            from: 'Book\'d', // sender address
+                            from: 'contact@bookd.me', // sender address
                             to: user.email, // list of receivers
                             subject: 'Bookd Associates', // Subject line
                             html: results.html // html body
@@ -1527,7 +1528,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
                 var businessRequestTemplate = new EmailTemplate(businessRequestDir);
                 businessRequestTemplate.render(templateObj, function (err, results) {
                     var mailOptions = {
-                        from: 'Bookd', // sender address
+                        from: 'contact@bookd.me', // sender address
                         to: user.email, // list of receivers
                         subject: 'Bookd Claim Request', // Subject line
                         html: results.html // html body
@@ -1628,7 +1629,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                         //TODO add content to this tempplate
                         bankingUpdatedSuccessTemplate.render(bankingTemplateObj, function (error, results) {
                             var mailOptions = {
-                                from: 'Bookd', // sender address
+                                from: 'contact@bookd.me', // sender address
                                 to: user.email, // list of receivers
                                 subject: 'Bookd Claim Request', // Subject line
                                 html: results.html // html body
@@ -1666,7 +1667,7 @@ router.post('/business/contact', function (req, res) {
         subject = 'Business Inquiry';
         body = '<br>' + name + '</br>' + '<br>' + message + '</br>' + '<br>' + phone + '</br>' + '<br>' + email + '</br>';
         var mailOptions = {
-            from: 'Book\'d', // sender address
+            from: 'contact@bookd.me', // sender address
             to: 'contact.bookd@gmail.com', // list of receivers
             subject: subject, // Subject line
             html: body // html body
