@@ -1668,7 +1668,7 @@ router.post('/business/contact', function (req, res) {
         body = '<br>' + name + '</br>' + '<br>' + message + '</br>' + '<br>' + phone + '</br>' + '<br>' + email + '</br>';
         var mailOptions = {
             from: 'contact@bookd.me', // sender address
-            to: 'contact.bookd@gmail.com', // list of receivers
+            to: 'contact@bookd.me', // list of receivers
             subject: subject, // Subject line
             html: body // html body
         };
