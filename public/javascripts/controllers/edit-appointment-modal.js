@@ -544,7 +544,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         businessFactory.charge(appointment)
             .then(function (response) {
                 if (!response.statusCode) {
-                    $scope.dateObj.appointment = appointment;
+                    $scope.dateObj.appointment = response;
                     $scope.charging = false;
                     $uibModalInstance.close($scope.dateObj);
                 } else {
