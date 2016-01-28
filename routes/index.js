@@ -1585,7 +1585,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
         if (err) {
             return next(err);
         }
-        var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccessTemplate);
+        var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccesDir);
         stripe.accounts.update(business.stripeId, {
             external_account: {
                 object: 'bank_account',
