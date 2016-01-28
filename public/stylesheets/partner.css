@@ -1,6 +1,3 @@
-.partner-section {
-    background-color: lightgray;
-}
 
 .navbar-default .nav > li > a,
 .navbar-default .nav > li > a:focus {
@@ -50,8 +47,4 @@
 
 .navbar-default.navbar-shrink .navbar-header .navbar-brand {
     color: white;
-}
-
-.partnerBox {
-    border: 1px solid black;
 }

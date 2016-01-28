@@ -725,3 +725,7 @@ Hack so the table styles load before we're on the page
 #pricing table tr:nth-child(2n) {
     background-color: #EEE;
 }
+
+.partner-section {
+    background-color: lightgray;
+}
