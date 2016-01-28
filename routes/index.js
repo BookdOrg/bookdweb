@@ -1568,12 +1568,13 @@ router.get('/business/service-detail', auth, function (req, res, next) {
  */
 
 router.post('/business/update-payments-account', auth, function (req, res, next) {
-    var bankingUpdatedSuccesDir = path.join(__dirname, '../templates', 'banking-updated-success');
-    var bankingUpdatedFailureDir = path.join(__dirname, '../templates', 'banking-updated-failure');
+    var bankingUpdatedSuccessDir = path.join(__dirname, '../templates', 'banking-updated-success');
+    //var bankingUpdatedFailureDir = path.join(__dirname, '../templates', 'banking-updated-failure');
+    var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccessDir);
     var businessId = req.body.businessId;
     var bankInfo = req.body.bankAccount;
     var stripeInfo = req.body.stripeAccount;
-
+    var bankingTemplateObj = {};
     var month = moment(stripeInfo.dob).month() + 1;
     var day = moment(stripeInfo.dob).date();
     var year = moment(stripeInfo.dob).year();
@@ -1585,7 +1586,6 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
         if (err) {
             return next(err);
         }
-        var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccesDir);
         stripe.accounts.update(business.stripeId, {
             external_account: {
                 object: 'bank_account',
@@ -1621,30 +1621,33 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                         return next(err);
                     }
                     res.json(stripeResponse);
-                    var bankingTemplateObj = {
-                        businessName: business.name,
-                        legalEntity: stripeResponse.legal_entity
-                    };
-                    User.findOne({"_id": req.payload._id}).exec(function (error, user) {
-                        //TODO add content to this tempplate
-                        bankingUpdatedSuccessTemplate.render(bankingTemplateObj, function (error, results) {
-                            var mailOptions = {
-                                from: 'contact@bookd.me', // sender address
-                                to: user.email, // list of receivers
-                                subject: 'Bookd Claim Request', // Subject line
-                                html: results.html // html body
-                            };
-                            // send mail with defined transport object
-                            transporter.sendMail(mailOptions, function (error) {
-                                if (error) {
-                                    ////console.log(error);
-                                }
-                            });
-                        });
-                    });
+                    bankingTemplateObj.businessName = business.name;
+                    bankingTemplateObj.legalEntity = stripeResponse.legal_entity;
+                    sendEmail(bankingTemplateObj);
+
                 });
             }
         });
+        function sendEmail(bankingTemplateObj) {
+            User.findOne({"_id": req.payload._id}).exec(function (error, user) {
+                bankingTemplateObj.user = user.name;
+                bankingUpdatedSuccessTemplate.render(bankingTemplateObj, function (error, results) {
+                    var mailOptions = {
+                        from: 'contact@bookd.me', // sender address
+                        to: user.email, // list of receivers
+                        subject: 'Bookd Updated Info', // Subject line
+                        html: results.html // html body
+                    };
+                    // send mail with defined transport object
+                    transporter.sendMail(mailOptions, function (error) {
+                        if (error) {
+                            ////console.log(error);
+                        }
+                    });
+                });
+            });
+        }
+
 
     });
 });
