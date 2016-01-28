@@ -80,20 +80,29 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             return null;
         } else {
             employeeAvailability = {
-                date: moment().set({'year': year, 'date': date, 'month': month}),
+                date: moment().set({
+                    'year': year,
+                    'date': date,
+                    'month': month,
+                    'hour': '00',
+                    'minute': '00',
+                    'second': '00'
+                }),
                 dayStart: moment().set({
                     'year': year,
                     'date': date,
                     'month': month,
                     'hour': startHour,
-                    'minute': startMinute
+                    'minute': startMinute,
+                    'second': '00'
                 }),
                 dayEnd: moment().set({
                     'year': year,
                     'date': date,
                     'month': month,
                     'hour': endHour,
-                    'minute': endMinute
+                    'minute': endMinute,
+                    'second': '00'
                 }),
                 gaps: $scope.employee.availabilityArray[businessIndex].availability[availabilityIndex].gaps
             };
@@ -104,6 +113,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     var createAvailableTimes = function (employeeAvailability, appointmentsArray, duration) {
         var availableTimes = [];
         var minutes = moment.duration(parseInt(duration), 'minutes');
+        var employeeDate = employeeAvailability.date.clone();
         for (var m = employeeAvailability.dayStart; employeeAvailability.dayStart.isBefore(employeeAvailability.dayEnd); m.add(duration, 'minutes')) {
 
             var availableTimeStart = m.clone();
@@ -124,9 +134,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 user: $scope.currentUser.user._id
             };
             var currentDateTime = moment().set({
-                'year': moment(employeeAvailability.date).year(),
-                'month': moment(employeeAvailability.date).month(),
-                'date': moment(employeeAvailability.date).date(),
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'date': moment(employeeDate).date(),
                 'hour': moment(timeObj.time, 'hh:mm a').hour(),
                 'minute': moment(timeObj.time, 'hh:mm a').minute(),
                 'second': '00'
@@ -136,12 +146,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
                 var gapEndHour = moment(gap.end, 'hh:mm a').hour();
                 var gapEndMinute = moment(gap.end, 'hh:mm a').minute();
-                var gapStart = moment(employeeAvailability.date).set({
+                var gapStart = moment(employeeDate).set({
                     'hour': gapStartHour,
                     'minute': gapStartMinute,
                     'second': '00'
                 });
-                var gapEnd = moment(employeeAvailability.date).set({
+                var gapEnd = moment(employeeDate).set({
                     'hour': gapEndHour,
                     'minute': gapEndMinute,
                     'second': '00'
@@ -164,12 +174,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
                     var apptEndHour = moment(appointment.end.time, 'hh:mm a').hour();
                     var apptEndMinute = moment(appointment.end.time, 'hh:mm a').minute();
-                    var apptStart = moment(employeeAvailability.date).set({
+                    var apptStart = moment(employeeDate).set({
                         'hour': apptStartHour,
                         'minute': apptStartMinute,
                         'second': '00'
                     });
-                    var apptEnd = moment(employeeAvailability.date).set({
+                    var apptEnd = moment(employeeDate).set({
                         'hour': apptEndHour,
                         'minute': apptEndMinute,
                         'second': '00'
@@ -181,12 +191,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     var currentAvailableTimeEndHour = moment(timeObj.end, 'hh:mm a').hour();
                     var currentAvailableTimeEndMinute = moment(timeObj.end, 'hh:mm a').minute();
 
-                    var currAvailableStart = moment(employeeAvailability.date).set({
+                    var currAvailableStart = moment(employeeDate).set({
                         'minute': currentAvailableTimeStartMinute,
                         'hour': currentAvailableTimeStartHour,
                         'second': '00'
                     });
-                    var currAvailableEnd = moment(employeeAvailability.date).set({
+                    var currAvailableEnd = moment(employeeDate).set({
                         'minute': currentAvailableTimeEndMinute,
                         'hour': currentAvailableTimeEndHour,
                         'second': '00'
@@ -209,12 +219,12 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             }
             var timeEndhour = moment(availableTimeEnd, 'hh:mm a').hour();
             var timeEndMinute = moment(availableTimeEnd, 'hh:mm a').minute();
-            var timeEnd = moment(employeeAvailability.date).set({
+            var timeEnd = moment(employeeDate).set({
                 'hour': timeEndhour,
                 'minute': timeEndMinute,
                 'second': '00'
             });
-            if (!timeEnd.isAfter(employeeAvailability.dayEnd)) {
+            if (!moment(timeObj.end, 'hh:mm a').isAfter(employeeAvailability.dayEnd)) {
                 availableTimes.push(timeObj);
             }
         }
