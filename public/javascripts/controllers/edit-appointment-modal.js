@@ -127,12 +127,18 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         var availableTimes = [];
         var minutes = moment.duration(parseInt(duration), 'minutes');
         for (var m = employeeAvailability.dayStart; employeeAvailability.dayStart.isBefore(employeeAvailability.dayEnd); m.add(duration, 'minutes')) {
-            var availableTimeStart = moment(angular.copy(m));
-            var startPlusEndTime = availableTimeStart.add(minutes);
-            var availableTimeEnd = moment(startPlusEndTime);
-            var availableTimeRange = moment.range(m, availableTimeEnd);
+
+            var availableTimeStart = m.clone();
+            availableTimeStart.set('second', '00');
+            var startPlusEnd = m.clone();
+            startPlusEnd.set('second', '00');
+            startPlusEnd.add(minutes);
+            var availableTimeEnd = startPlusEnd.clone();
+            var availableTimeRange = moment.range(availableTimeStart, availableTimeEnd);
+
             var timeObj = {
-                time: m.format('hh:mm a'),
+                time: availableTimeStart.format('hh:mm a'),
+                end: availableTimeEnd.format('hh:mm a'),
                 available: true,
                 toggled: false,
                 status: false,
@@ -144,25 +150,34 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 'month': moment(employeeAvailability.date).month(),
                 'date': moment(employeeAvailability.date).date(),
                 'hour': moment(timeObj.time, 'hh:mm a').hour(),
-                'minute': moment(timeObj.time, 'hh:mm a').minute()
+                'minute': moment(timeObj.time, 'hh:mm a').minute(),
+                'second': '00'
             });
-            if (currentDateTime.isBefore(moment())) {
-                timeObj.hide = true;
-            }
             _.forEach(employeeAvailability.gaps, function (gap) {
                 var gapStartHour = moment(gap.start, 'hh:mm a').hour();
                 var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
                 var gapEndHour = moment(gap.end, 'hh:mm a').hour();
                 var gapEndMinute = moment(gap.end, 'hh:mm a').minute();
-                var gapStart = moment(employeeAvailability.date).set({'hour': gapStartHour, 'minute': gapStartMinute});
-                var gapEnd = moment(employeeAvailability.date).set({'hour': gapEndHour, 'minute': gapEndMinute});
+                var gapStart = moment(employeeAvailability.date).set({
+                    'hour': gapStartHour,
+                    'minute': gapStartMinute,
+                    'second': '00'
+                });
+                var gapEnd = moment(employeeAvailability.date).set({
+                    'hour': gapEndHour,
+                    'minute': gapEndMinute,
+                    'second': '00'
+                });
                 var gapRange = moment.range(gapStart, gapEnd);
-
-                if (gapRange.intersect(availableTimeRange) || availableTimeRange.intersect(gapRange)) {
-                    timeObj.end = moment(gapEnd).add(duration, 'minutes').format('hh:mm a');
-                    timeObj.time = m.set({'hour': gapEndHour, 'minute': gapEndMinute}).format('hh:mm a');
+                var adjustedEnd = m.clone();
+                if (gapRange.intersect(availableTimeRange)) {
+                    adjustedEnd.add(duration, 'minutes');
+                    timeObj.end = adjustedEnd.format('hh:mm a');
+                    m.set({'hour': gapEndHour, 'minute': gapEndMinute}).format('hh:mm a');
+                    timeObj.time = m.clone().format('hh:mm a');
                 } else {
-                    timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                    adjustedEnd.add(duration, 'minutes');
+                    timeObj.end = adjustedEnd.format('hh:mm a');
                 }
             });
             _.forEach(appointmentsArray, function (appointmentArray) {
@@ -173,22 +188,54 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     var apptEndMinute = moment(appointment.end.time, 'hh:mm a').minute();
                     var apptStart = moment(employeeAvailability.date).set({
                         'hour': apptStartHour,
-                        'minute': apptStartMinute
+                        'minute': apptStartMinute,
+                        'second': '00'
                     });
-                    var apptEnd = moment(employeeAvailability.date).set({'hour': apptEndHour, 'minute': apptEndMinute});
+                    var apptEnd = moment(employeeAvailability.date).set({
+                        'hour': apptEndHour,
+                        'minute': apptEndMinute,
+                        'second': '00'
+                    });
                     var apptRange = moment.range(apptStart, apptEnd);
+                    var availableTimeAdjustedEnd = m.clone();
+                    var currentAvailableTimeStartHour = moment(timeObj.time, 'hh:mm a').hour();
+                    var currentAvailableTimeStartMinute = moment(timeObj.time, 'hh:mm a').minute();
+                    var currentAvailableTimeEndHour = moment(timeObj.end, 'hh:mm a').hour();
+                    var currentAvailableTimeEndMinute = moment(timeObj.end, 'hh:mm a').minute();
 
-                    if (apptRange.intersect(availableTimeRange) || availableTimeRange.intersect(apptRange)) {
-                        timeObj.end = moment(apptEnd).add(duration, 'minutes').format('hh:mm a');
-                        timeObj.time = m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
+                    var currAvailableStart = moment(employeeAvailability.date).set({
+                        'minute': currentAvailableTimeStartMinute,
+                        'hour': currentAvailableTimeStartHour,
+                        'second': '00'
+                    });
+                    var currAvailableEnd = moment(employeeAvailability.date).set({
+                        'minute': currentAvailableTimeEndMinute,
+                        'hour': currentAvailableTimeEndHour,
+                        'second': '00'
+                    });
+                    var currAvailableRange = moment.range(currAvailableStart, currAvailableEnd);
+                    if (apptRange.intersect(currAvailableRange)) {
+                        availableTimeAdjustedEnd.add(duration, 'minutes');
+                        timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
+                        m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
+                        timeObj.time = m.clone().format('hh:mm a');
                     } else {
-                        timeObj.end = moment(m).add(duration, 'minutes').format('hh:mm a');
+                        availableTimeAdjustedEnd.add(duration, 'minutes');
+                        timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
                     }
+
                 });
             });
+            if (currentDateTime.isBefore(moment())) {
+                timeObj.hide = true;
+            }
             var timeEndhour = moment(availableTimeEnd, 'hh:mm a').hour();
             var timeEndMinute = moment(availableTimeEnd, 'hh:mm a').minute();
-            var timeEnd = moment(employeeAvailability.date).set({'hour': timeEndhour, 'minute': timeEndMinute});
+            var timeEnd = moment(employeeAvailability.date).set({
+                'hour': timeEndhour,
+                'minute': timeEndMinute,
+                'second': '00'
+            });
             if (!timeEnd.isAfter(employeeAvailability.dayEnd)) {
                 availableTimes.push(timeObj);
             }
