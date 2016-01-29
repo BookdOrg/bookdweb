@@ -9,7 +9,7 @@
                     <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
                         <li role="menuitem" ng-repeat="business in businesses" ng-click="switchBusiness(business)">
                             <a
-                                    href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
+                                    ng-href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
                     </ul>
             </div>
         </div>
@@ -121,7 +121,8 @@
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 text-center">
                                         <h4>{{activeBusiness.business.name}}</h4>
-                                        <a href="/business/{{activeBusiness.business.placesId}}">Visit Business Page</a>
+                                        <a ng-href="/business/{{activeBusiness.business.placesId}}">Visit Business
+                                            Page</a>
 
                                         <div class="">
                                             <span ng-if="activeBusiness.business.tier === 0"

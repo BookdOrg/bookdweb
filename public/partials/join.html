@@ -13,7 +13,7 @@
                 Name: {{selectedQuery.name}}
                 <br>Phone Number: {{selectedQuery.formatted_phone_number}}
                 <br>Address: {{selectedQuery.formatted_address}}
-                <br>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
+                <br>Google Places Page: <a ng-ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
             </div>
         </div>
         <div class="row search-place-container ">
@@ -59,8 +59,9 @@
                 <button class="btn btn-gradient-success btn-lg col-xs-offset-5"
                         ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
                 </button>
-                <h6 class="text-center text-muted">By claiming your account, you agree to our <a href="/terms">Terms of
-                    Service</a> and the <a href="https://stripe.com/connect/account-terms">Stripe Connected Account
+                <h6 class="text-center text-muted">By claiming your account, you agree to our <a ng-href="/terms">Terms
+                    of
+                    Service</a> and the <a ng-href="https://stripe.com/connect/account-terms">Stripe Connected Account
                     Agreement</a>.</h6>
             </form>
             <div class="col-xs-6" ng-if="selectedQuery.place_id">

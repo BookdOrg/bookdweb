@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" ng-click="" ui-sref="landing">
-                <a class="navbar-brand" href="/"><img src="/images/booked-1.png" height="30px" width="120px"></a>
+                <a class="navbar-brand" ng-href="/"><img src="/images/booked-1.png" height="30px" width="120px"></a>
             </a>
         </div>
         <form name="navQuery" class="navbar-form hidden-sm hidden-xs">
@@ -87,7 +87,7 @@
             <div class="navbar-inner hidden-xs">
                 <ul class="nav navbar-nav navbar-right">
                     <li uib-dropdown class="hidden-lg hidden-md">
-                        <a href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
+                        <a ng-href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
                         <ul class="uib-dropdown-menu notifications">
                             <form name="miniQuery">
                                 <div class="text-center form-group" style="margin-top:20px;">
@@ -119,7 +119,7 @@
                     </li>
                     <li uib-dropdown ng-show="isLoggedIn()">
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
-                        <a href="#" uib-dropdown-toggle>
+                        <a ng-href="#" uib-dropdown-toggle>
                             <i class="fa fa-bell badge {{currentUser.user.notifications | newNotificationFilter}}">
                                 {{currentUser.user.notifications | notificationFilter}}
                             </i>
@@ -166,7 +166,7 @@
                         </div>
                     </li>
                     <li uib-dropdown ng-if="isLoggedIn()">
-                        <a href="" uib-dropdown-toggle class="avatarPadding">
+                        <a ng-href="" uib-dropdown-toggle class="avatarPadding">
                             <img class="navbarAvatar"
                                  ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
                                  ng-src="{{cloudinaryDefaultPic}}"/>
