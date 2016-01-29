@@ -347,7 +347,9 @@ module.exports = function ($http, auth, $q) {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             return data.data;
-        }, handleError);
+        }, function (error) {
+            return error.data;
+        });
     };
     /**
      *

@@ -62,14 +62,6 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
         this.push(element);
     }
 };
-
-Array.prototype.getIndexBy = function (name, value) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i][name] == value) {
-            return i;
-        }
-    }
-};
 server.listen(process.env.devsocketPort);
 var roomData = [];
 var clients = [];
@@ -79,9 +71,6 @@ io.on('connection', function (socket) {
     //var city, state, zip;
     var socketTimeData = {};
     io.to(socket.id).emit('authorizationReq', socket.id);
-    socket.on('error', function () {
-        //console.log(data);
-    });
     socket.on('authorizationRes', function (data) {
         var client = {};
         client.customId = data;
@@ -90,7 +79,6 @@ io.on('connection', function (socket) {
     });
     socket.on('online', function () {
         //socket.join(data.user);
-
         //city = data.location.city;
         //state = data.location.state;
         //zip = data.location.zip;
@@ -98,6 +86,11 @@ io.on('connection', function (socket) {
         //socket.join(state);
         //socket.join(zip);
     });
+    /**
+     *
+     * Join the socket room corresponding to the employee ID and the date selected from the front-end
+     *
+     */
     socket.on('joinApptRoom', function (data) {
         if (data.previousDate) {
             socket.leave(data.previousDate.toString() + data.employeeId.toString(), function (err) {
@@ -116,6 +109,11 @@ io.on('connection', function (socket) {
         }
 
     });
+    /**
+     *
+     * Leave the socket room corresponding to the employee ID and the date selected from the front-end
+     *
+     */
     socket.on('leaveApptRoom', function (data) {
         socket.leave(data, function (err) {
             if (err) {
@@ -123,17 +121,32 @@ io.on('connection', function (socket) {
             }
         });
     });
+    /**
+     *
+     * When an available time is taken update all sockets in the corresponding room
+     *
+     */
     socket.on('timeTaken', function (data) {
         socketTimeData = data;
         roomData.push({id: data.roomId, user: data.user, data: data});
         io.sockets.in(data.roomId).emit('newHold', data);
     });
+    /**
+     *
+     * When an available time is de-selected tell all sockets in the room to remove the hold
+     *
+     */
     socket.on('timeDestroyed', function (data) {
         if (data) {
             roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
             io.sockets.in(data.roomId).emit('destroyOld', data);
         }
     });
+    /**
+     *
+     * When the socket disconnects for whatever reason we want to remove them for any places where they were stored.
+     *
+     */
     socket.on('disconnect', function () {
         roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
@@ -143,7 +156,11 @@ io.on('connection', function (socket) {
     socket.on('joinCalendarRoom', function (id) {
         socket.join(id);
     });
-    //Join the business dashboard room, id = Business ID
+    /**
+     *
+     * Join the business dashboard room, id = Business ID
+     *
+     */
     socket.on('joinDashboardRoom', function (id) {
         var room = id.toString();
         socket.join(room, function (err) {
@@ -152,6 +169,11 @@ io.on('connection', function (socket) {
             }
         });
     });
+    /**
+     *
+     * Leave the business dashboard room, id = Business ID
+     *
+     */
     socket.on('leaveDashboardRoom', function (id) {
         var room = id.toString();
         socket.leave(room, function (err) {
@@ -160,6 +182,11 @@ io.on('connection', function (socket) {
             }
         });
     });
+    /**
+     *
+     * When an appointment is booked remove the socket from the room, tell other sockets to update.
+     *
+     */
     socket.on('apptBooked', function (appt) {
         var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
         socket.leave(appt.roomId, function (err) {
@@ -177,7 +204,7 @@ io.on('connection', function (socket) {
     });
     /**
      *
-     * Probably consolidate update & cancel into one
+     * When a socket is re-scheduled we need to update relevant users who are logged in
      *
      */
     socket.on('apptUpdated', function (data) {
@@ -205,6 +232,11 @@ io.on('connection', function (socket) {
             }
         }
     });
+    /**
+     *
+     * When a socket is canceled we need to update relevant users who are logged in
+     *
+     */
     socket.on('apptCanceled', function (data) {
         var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
         var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
@@ -226,7 +258,12 @@ io.on('connection', function (socket) {
             }
         }
     });
-
+    /**
+     *
+     * When a new notification is created, send it to the appropriate user socket.
+     *
+     */
+        //TODO debug this, find out why it's not working.
     socket.on('newNotifGenerated', function (data) {
         var userSocket = _.findWhere(clients, {'customId': data.id});
         if (userSocket) {
@@ -370,63 +407,36 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            //console.log('Successfully saved notification!');
         });
-
-        if (req.body.sendEmail && user !== null) {
-            //sendEmail(notification);
-        }
-
-        res.send('Successfully saved notification!');
+        res.status(200);
     });
-    //
-    //function sendEmail(notification) {
-    //    var subject,
-    //        body;
-    //
-    //    subject = 'Bookd Notification';
-    //    body = notification.content;
-    //    var mailOptions = {
-    //        from: 'Book\'d', // sender address
-    //        to: notification.user.email, // list of receivers
-    //        subject: subject, // Subject line
-    //        html: body // html body
-    //    };
-    //
-    //    // send mail with defined transport object
-    //    transporter.sendMail(mailOptions, function (error) {
-    //        if (error) {
-    //            //console.log(error);
-    //        }
-    //    });
-    //}
 });
 
 /**
  * Modify all the new Notifications by changing viewed to true.
  */
-router.get('/user/notifications/viewed', auth, function (req, res) {
+router.get('/user/notifications/viewed', auth, function (req, res, next) {
     var id = req.payload._id;
     Notification.update({user: id, viewed: false}, {$set: {viewed: true}}, {multi: true},
         function (err) {
             if (err) {
-                //console.log(err);
+                return next(err);
             }
-            res.send('Changed notifications to viewed=true successfully');
+            res.status(200);
         });
 });
 
 /**
  * Modify a single new Notifications by changing viewed to true.
  */
-router.post('/user/notification/viewed', auth, function (req, res) {
+router.post('/user/notification/viewed', auth, function (req, res, next) {
     var id = req.body.id;
     Notification.findOneAndUpdate({_id: id}, {$set: {viewed: true}},
         function (err) {
             if (err) {
-                //console.log(err);
+                return next(err);
             }
-            res.send('Changed notification to viewed=true successfully');
+            res.status(200);
         });
 });
 
@@ -478,9 +488,10 @@ router.get('/user/search', auth, function (req, res, next) {
     var email = req.query.email;
     User.findOne({'email': email}).select('_id name avatarVersion provider providerId').exec(function (error, user) {
         if (error) {
-            return next(error);
+            res.status(400).json(error);
+        } else {
+            res.json(user);
         }
-        res.json(user);
     });
 });
 router.post('/user/description/update', auth, function (req, res, next) {
@@ -543,13 +554,54 @@ router.get('/business/dashboard', auth, function (req, res, next) {
             });
         });
 });
-router.get('/business/dashboard/stripe-account', auth, function (req, res) {
+router.get('/business/dashboard/stripe-account', auth, function (req, res, next) {
     var stripeId = req.query.stripeId;
     stripe.accounts.retrieve(
         stripeId,
         function (err, account) {
-            res.json(account);
-
+            if (err) {
+                res.status(400).json(err);
+            } else {
+                res.json(account);
+            }
+        }
+    );
+});
+router.get('/business/dashboard/stripe-balance', auth, function (req, res, next) {
+    var stripeId = req.query.stripeId;
+    stripe.balance.retrieve(
+        stripeId,
+        function (err, balance) {
+            if (err) {
+                res.status(400).json(err);
+            } else {
+                res.json(balance);
+            }
+        }
+    );
+});
+router.get('/business/dashboard/stripe-balance-history', auth, function (req, res, next) {
+    var stripeId = req.query.stripeId;
+    stripe.balance.listTransactions(stripeId, {},
+        function (err, transactions) {
+            if (err) {
+                res.status(400).json(err);
+            } else {
+                res.json(transactions)
+            }
+        }
+    )
+});
+router.get('/business/dashboard/stripe-charges', auth, function (req, res, next) {
+    var stripeId = req.query.stripeId;
+    stripe.charges.list(stripeId,
+        {limit: 3},
+        function (err, charges) {
+            if (err) {
+                res.status(400).json(err);
+            } else {
+                res.json(charges);
+            }
         }
     );
 });
@@ -557,9 +609,10 @@ router.get('/user/google-photo', function (req, res, next) {
     var id = req.query.id;
     request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
         if (err) {
-            return next(err);
+            res.status(400).json(err);
+        } else {
+            res.json(JSON.parse(response.body));
         }
-        res.json(JSON.parse(response.body));
     });
 });
 
@@ -863,7 +916,7 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     var price = req.body.price;
     var businessId = req.body.businessId;
 
-    var fee = (price * .035) + 30;
+    var fee = (price * .05) + 30;
 
     Business.findOne({'_id': businessId}).exec(function (err, business) {
         var stripeId = business.stripeId;
@@ -873,7 +926,7 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
             source: appointmentCard.id,
             application_fee: fee,
             destination: stripeId,
-            description: 'Book\'d Appointment'
+            description: 'Bookd Appointment'
         }, function (err, charge) {
             if (err && err.type === 'StripeCardError') {
                 // The card has been declined

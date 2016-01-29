@@ -22,7 +22,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
         businessFactory.getStripeAccount($scope.activeBusiness.business.stripeId)
             .then(function (data) {
-                $scope.activeBusiness.business.stripeAccount = data;
+                if (data.statusCode !== 401) {
+                    $scope.activeBusiness.business.stripeAccount = data;
+                } else {
+                    $scope.activeBusiness.business.stripeError = data.message;
+                }
+            }, function (error) {
+                console.log(error);
             });
     }
 
@@ -98,7 +104,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             .then(function (data) {
                 $scope.updatingPayments = false;
                 if (data.statusCode === 400) {
-                    $scope.stripeError = data.message;
+                    $scope.activeBusiness.business.stripeError = data.message;
                 } else {
                     $scope.activeBusiness.business.stripeAccount = data;
                     $scope.stripeUpdateSuccess = true;
@@ -340,7 +346,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
             businessFactory.getStripeAccount(business.stripeId)
                 .then(function (data) {
-                    $scope.activeBusiness.business.stripeAccount = data;
+                    if (data.statusCode !== 401) {
+                        $scope.activeBusiness.business.stripeAccount = data;
+                    } else {
+                        $scope.activeBusiness.business.stripeError = data.message;
+                    }
                 });
         }
 
