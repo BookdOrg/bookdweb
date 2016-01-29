@@ -33,7 +33,7 @@
             <h4 ng-if="availableTimes.length > 1 && currentUser.user._id === employee._id">Your Schedule</h4>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
-            <div class="col col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
+            <div class="col col-xs-2 col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
                         ng-disabled="!time.available || time.status || time.time === activeTime.time && time.toggled || time.hide"
                         ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
