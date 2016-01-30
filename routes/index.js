@@ -408,7 +408,7 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
                 return next(err);
             }
         });
-        res.status(200);
+        res.status(200).send('Success!');
     });
 });
 
@@ -422,7 +422,7 @@ router.get('/user/notifications/viewed', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.status(200);
+            res.status(200).send('Success');
         });
 });
 

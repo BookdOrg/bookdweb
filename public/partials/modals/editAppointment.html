@@ -2,7 +2,7 @@
     <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
     <h3 class="modal-title text-center">{{service.name}}</h3>
     <h5 style="margin:0px;">{{service.description}}</h5>
-    <h5 style="margin:0px;">{{service.duration}} minutes , {{service.price | currency}}</h5>
+    <h5 style="margin:0px;">{{service.duration}} minutes, {{service.price | currency}}</h5>
     <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}

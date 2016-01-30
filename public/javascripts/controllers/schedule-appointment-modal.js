@@ -459,8 +459,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;
                 socketService.emit('apptBooked', appointment);
-                removeAllListeners();
-                $uibModalInstance.close(appointment);
+
             }, function (error) {
                 removeAllListeners();
                 $uibModalInstance.dismiss(error);
@@ -481,8 +480,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
-        var notification = 'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at ' + appointment.start.time
-                + '.',
+        var notification = 'You have a ' + $scope.service.name + ' on ' + appointment.start.date + ' at '
+                + appointment.start.time + '.',
             type = 'calendar';
         notificationFactory.addNotification(personToNotify, notification, type, true)
             .then(function () {
@@ -492,6 +491,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     type: type
                 };
                 socketService.emit('newNotifGenerated', data);
+                removeAllListeners();
+                $uibModalInstance.close(appointment);
             }, function (err) {
                 console.log(err);
             });

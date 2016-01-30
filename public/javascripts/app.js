@@ -340,8 +340,7 @@ app.config([
     //} else {
     //    $rootScope.showLandingNav = false;
     //}
-    $rootScope.$on('$stateChangeError', function (event, toState, toStateParams,
-                                                  fromState, fromStateParams, error) {
+    $rootScope.$on('$stateChangeError', function (event, toState, toStateParams, fromState, fromStateParams, error) {
 
         if (error) {
             console.log(error);
@@ -349,9 +348,8 @@ app.config([
             var navViewModel = $rootScope.$new();
             $controller('NavCtrl', {$scope: navViewModel});
             navViewModel.open('md', 'landing');
-            }
-
-        });
+        }
+    });
 
     //TODO Move this to a service!
     $rootScope.query = {
