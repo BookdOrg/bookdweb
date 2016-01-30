@@ -151,7 +151,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
             size: size,
             resolve: {
                 employee: function () {
-                    return $rootScope.currentUser.user;
+                    return $rootScope.currentUser;
                 },
                 business: function () {
                     return null;
