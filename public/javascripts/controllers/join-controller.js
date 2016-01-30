@@ -40,6 +40,8 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
      */
     $scope.claim = function (request, personToNotify) {
         var claimRequest = {};
+        claimRequest.phoneNumber = request.formatted_phone_number;
+        claimRequest.address = request.formatted_address;
         claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
         claimRequest.placesId = request.place_id;
         claimRequest.name = request.name;

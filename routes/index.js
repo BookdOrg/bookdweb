@@ -1551,11 +1551,12 @@ router.post('/business/remove-service', auth, function (req, res, next) {
  **/
 router.post('/business/claim-request', auth, function (req, res, next) {
     var business = new Business();
-
     business.name = req.body.name;
     business.owner = req.payload._id;
     business.placesId = req.body.placesId;
-    business.dateCreated = req.body.timestamp;
+    business.dateCreated = req.body.now;
+    business.address = req.body.address;
+    business.phoneNumber = req.body.phoneNumber;
     business.pending = true;
     business.claimed = false;
     business.tier = req.body.tier;

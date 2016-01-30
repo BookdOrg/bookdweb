@@ -8,6 +8,8 @@ var BusinessSchema = new mongoose.Schema({
     category: String,
     employees: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     placesId: String,
+    address: String,
+    phoneNumber: String,
     dateCreated: String,
     pending: Boolean,
     claimed: Boolean,
