@@ -12,8 +12,9 @@
                            required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Service Associates:</label>
-
+                    <label uib-popover="At least 1 employee is required to create a service."
+                           popover-is-open="showServiceError" popover-trigger="none">
+                        Service Associates:</label>
                     <div ng-dropdown-multiselect="" options="business.employees" extra-settings="settings"
                          selected-model="serviceEmployees" translation-texts="customTexts"></div>
                 </div>

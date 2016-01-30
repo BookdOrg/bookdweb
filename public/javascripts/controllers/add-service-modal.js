@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, business) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, business, $timeout) {
 
     $scope.business = business;
 
@@ -44,6 +44,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business)
          * @type {*|Array}
          */
         service.employees = _.pluck($scope.serviceEmployees, '_id');
+        if (service.employees.length == 0) {
+            $scope.showServiceError = true;
+            $timeout(function () {
+                $scope.showServiceError = false;
+            }, 3000);
+            return;
+        }
         businessFactory.addService(service)
             .then(function (serviceResponse) {
                 $uibModalInstance.close(serviceResponse);

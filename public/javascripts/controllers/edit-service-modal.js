@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 11/28/15.
  */
-module.exports = function ($scope, $uibModalInstance, businessFactory, service, business, serviceIndex) {
+module.exports = function ($scope, $uibModalInstance, businessFactory, service, business, serviceIndex, $timeout) {
 
     $scope.editService = service;
     $scope.business = business;
@@ -52,6 +52,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
         service.businessId = business._id;
         //Set the services array of employees equal to the ones selected in the multi-select. Array of _id;s
         service.employees = _.pluck($scope.serviceEmployees, '_id');
+        if (service.employees.length == 0) {
+            $scope.showServiceError = true;
+            $timeout(function () {
+                $scope.showServiceError = false;
+            }, 3000);
+            return;
+        }
         businessFactory.updateService(service)
             .then(function (data) {
                 business.services[serviceIndex] = data;
