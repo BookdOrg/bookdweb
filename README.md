@@ -38,6 +38,8 @@ export emailPass=ASKFORPASSWORD
 
 export jwtSecret=GENERATERANDOM
 
+export stripeDevSecret=ASKFORSECRET
+
 ```
 
 Finally in your terminal type:
