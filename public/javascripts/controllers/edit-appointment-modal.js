@@ -7,10 +7,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     $scope.dateObj = data;
     $scope.showNoEmployee = false;
     $scope.business = data.business;
-    $scope.customer = {};
-    if (data.appointment.customer !== null) {
-        $scope.customer.name = data.appointment.customer.name;
-    } else {
+    if (data.appointment.externalCustomer) {
+        $scope.customer = {};
         $scope.customer.name = data.appointment.externalCustomer.name;
         $scope.customer.phone = data.appointment.externalCustomer.phone;
     }

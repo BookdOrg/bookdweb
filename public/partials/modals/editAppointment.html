@@ -25,7 +25,7 @@
             <p>{{dateObj.appointment.start.day}}, {{dateObj.appointment.start.time}} for {{service.duration}} minutes</p>
             <p ng-if="dateObj.appointment.status === 'paid'">Appointment has been paid for already.</p>
 
-            <p>{{customer.name}}: {{customer.phone}}</p>
+            <p ng-if="customer.name">{{customer.name}}: {{customer.phone}}</p>
         </div>
         <div class="col col-md-6 text-center">
             <h4 ng-if="availableTimes.length > 1 && currentUser.user._id !== employee._id">{{employee.name}}'s
@@ -74,6 +74,12 @@
     </div>
 </div>
 <div class="modal-footer">
+    <div class="pull-left">
+        <button class="btn btn-gradient-green"
+                ng-if="dateObj.appointment.status == 'pending' && dateObj.appointment.customer === currentUser.user._id"
+                ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept & Reschedule
+        </button>
+    </div>
     <button class="btn btn-gradient-warning"
             ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid' || error"
             ng-click="changeApptStatus()">Paid <i class="fa fa-credit-card"></i>
@@ -87,11 +93,6 @@
             ng-if="showUpdate"
             ng-disabled="!appointment || !showUpdate"
             ng-click="update(false)"><i class="fa fa-calendar-check-o"></i> Update Appointment
-    </button>
-    <button class="btn btn-gradient-primary"
-            ng-if="dateObj.appointment.status == 'pending' && availableTimes[selectedIndex].time == dateObj.appointment.start.time &&
-            dateObj.appointment.employee !== currentUser.user._id"
-            ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept Re-schedule
     </button>
     <button class="btn btn-gradient-danger" ng-click="cancel()"
             ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
