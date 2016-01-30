@@ -1365,6 +1365,13 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
+                    var availabilityIndex = _.findIndex(user.availabilityArray, {'businessId': businessId});
+                    user.availabilityArray.splice(availabilityIndex, 1);
+                    user.save(function (err) {
+                        if (err) {
+                            res.status(400).json(err);
+                        }
+                    });
                     var removeEmployeeTemplate = new EmailTemplate(removeEmployeeTemplateDir);
                     var templateObj = {
                         name: user.name.split(' ', 1),

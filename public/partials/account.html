@@ -145,7 +145,8 @@
                                          disabled>
                                   </span>
                               </form>
-                              <div class="col" style="padding-right:10px;">
+                              <div class="col" style="padding-right:10px;"
+                                   ng-show="currentUser.user.availabilityArray.length >0">
                                   <label class="control-label col-xs-4">Set Weekly Availability:</label>
                                   <button class="btn btn-gradient-success" ng-click="openAvailabilityModal('lg')">
                                       Availability <i class="fa fa-hourglass"></i>
