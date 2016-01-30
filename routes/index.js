@@ -696,7 +696,7 @@ router.post('/register', function (req, res) {
             subject = 'Welcome to Bookd!';
             body = results.html;
             var mailOptions = {
-                from: 'contact@bookd.me', // sender address
+                from: 'Bookd <contact@bookd.me>', // sender address
                 to: user.email, // list of receivers
                 subject: subject, // Subject line
                 html: body // html body
@@ -910,7 +910,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                             var subject = 'Appointment Reschduled';
                             var body = results.html;
                             var mailOptions = {
-                                from: 'contact@bookd.me', // sender address
+                                from: 'Bookd <contact@bookd.me>', // sender address
                                 to: user.email, // list of receivers
                                 subject: subject, // Subject line
                                 html: body // html body
@@ -1062,7 +1062,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             var template = new EmailTemplate(templateDir);
             template.render(templateObj, function (err, results) {
                 var mailOptions = {
-                    from: 'contact@bookd.me', // sender address
+                    from: 'Bookd <contact@bookd.me>', // sender address
                     to: templateObj.user.email, // list of receivers
                     subject: 'Appointment Canceled', // Subject line
                     html: results.html // html body
@@ -1294,7 +1294,7 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                     };
                     addEmployeeTemplate.render(templateObj, function (error, results) {
                         var mailOptions = {
-                            from: 'contact@bookd.me', // sender address
+                            from: 'Bookd <contact@bookd.me>', // sender address
                             to: user.email, // list of receivers
                             subject: 'Bookd Associates', // Subject line
                             html: results.html // html body
@@ -1409,7 +1409,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     };
                     removeEmployeeTemplate.render(templateObj, function (error, results) {
                         var mailOptions = {
-                            from: 'contact@bookd.me', // sender address
+                            from: 'Bookd <contact@bookd.me>', // sender address
                             to: user.email, // list of receivers
                             subject: 'Bookd Associates', // Subject line
                             html: results.html // html body
@@ -1619,7 +1619,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
                 var businessRequestTemplate = new EmailTemplate(businessRequestDir);
                 businessRequestTemplate.render(templateObj, function (err, results) {
                     var mailOptions = {
-                        from: 'contact@bookd.me', // sender address
+                        from: 'Bookd <contact@bookd.me>', // sender address
                         to: user.email, // list of receivers
                         subject: 'Bookd Claim Request', // Subject line
                         html: results.html // html body
@@ -1724,7 +1724,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                 bankingTemplateObj.user = user.name;
                 bankingUpdatedSuccessTemplate.render(bankingTemplateObj, function (error, results) {
                     var mailOptions = {
-                        from: 'contact@bookd.me', // sender address
+                        from: 'Bookd <contact@bookd.me>', // sender address
                         to: user.email, // list of receivers
                         subject: 'Bookd Updated Info', // Subject line
                         html: results.html // html body
@@ -1761,8 +1761,8 @@ router.post('/business/contact', function (req, res) {
         subject = 'Business Inquiry';
         body = '<br>' + name + '</br>' + '<br>' + message + '</br>' + '<br>' + phone + '</br>' + '<br>' + email + '</br>';
         var mailOptions = {
-            from: 'contact@bookd.me', // sender address
-            to: 'contact@bookd.me', // list of receivers
+            from: 'Bookd <contact@bookd.me>', // sender address
+            to: 'Bookd <contact@bookd.me>', // list of receivers
             subject: subject, // Subject line
             html: body // html body
         };
