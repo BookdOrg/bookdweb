@@ -519,11 +519,13 @@ router.post('/user/description/update', auth, function (req, res, next) {
 router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
+    console.log(id);
     User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
         path: 'businesses',
         select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
     }])
         .exec(function (error, user) {
+            console.log(user);
             if (error) {
                 return next(error);
             }
@@ -633,18 +635,19 @@ router.post('/login', function (req, res, next) {
                 return next(err);
             }
             if (user) {
-                return res.json({token: user.generateJWT()});
+                return res.json({token: user.generateJWT(), user: user});
             } else {
                 return res.status(401).json({message: info.message});
             }
         })(req, res, next);
     } else if (req.body.provider === 'facebook' || 'google_plus') {
-        User.findOne({'email': req.body.username}).exec(function (err, user) {
+        User.findOne({'email': req.body.username}).select('_id name email availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
+            .exec(function (err, user) {
             if (err) {
                 return next(err);
             }
             if (user) {
-                return res.json({token: user.generateJWT()});
+                return res.json({token: user.generateJWT(), user: user});
             } else {
                 return res.status(401).json({message: 'Your account does not exist. Please sign up or check to make sure you aren\'t logged in to the wrong Facebook/Google account.'});
             }
@@ -706,7 +709,9 @@ router.post('/register', function (req, res) {
                 }
             });
         });
-        return res.json({token: user.generateJWT()});
+        user.hash = "";
+        user.salt = "";
+        return res.json({token: user.generateJWT(), user: user});
     });
 });
 /**
@@ -725,7 +730,7 @@ router.post('/upload', auth, function (req, res, next) {
                 }
                 user.avatarVersion = result.version;
                 user.save(function (err, user) {
-                    res.json({token: user.generateJWT()});
+                    res.json(user.avatarVersion);
                     if (err) {
                         return next(err);
                     }
@@ -1346,7 +1351,7 @@ router.post('/user/availability/update', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.json(responseEmployee.generateJWT());
+            res.json(responseEmployee.availabilityArray);
         });
     });
 

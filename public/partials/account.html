@@ -7,17 +7,19 @@
           <div class="panel-body">
               <div class="row text-center">
                   <div class="form-group col-sm-3">
-                      <h3>{{currentUser.user.name}}</h3>
-                      <img class="provider-photo-radius" ng-if="currentUser.user.provider === 'google_plus'"
+                      <h3>{{currentUser.name}}</h3>
+                      <img class="provider-photo-radius" ng-if="currentUser.provider === 'google_plus'"
                            ng-src="{{currentUser.providerInfo}}"/>
-                      <img class="provider-photo-radius" ng-if="currentUser.user.provider === 'facebook'"
+                      <img class="provider-photo-radius" ng-if="currentUser.provider === 'facebook'"
                            ng-src="{{currentUser.providerInfo}}"/>
 
-                      <div ng-if="currentUser.user.provider === 'bookd' " nv-file-drop="" uploader="uploader"
+                      <div ng-if="currentUser.provider === 'bookd' " nv-file-drop="" uploader="uploader"
                            removeAfterUpload="true">
                         <div nv-file-over="" uploader="uploader" style="border-style:dashed;border-width:5px;" over-class="dropZoneHover" class="well my-drop-zone text-center" >
-                            <img ng-if="!currentUser.user.avatarVersion && currentUser.user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
-                            <img ng-if="currentUser.user.avatarVersion && currentUser.user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
+                            <img ng-if="!currentUser.avatarVersion && currentUser.provider =='bookd'"
+                                 ng-src="{{cloudinaryDefaultPic}}"/>
+                            <img ng-if="currentUser.avatarVersion && currentUser.provider == 'bookd'"
+                                 ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
                             <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
                             <div>OR</div>
                             <input class="form-control" type="file" nv-file-select uploader="uploader" removeAfterUpload="true">
@@ -33,7 +35,7 @@
 
                               <div class="col-sm-8">
                                   <input type="email" class="form-control" id="newEmail" disabled
-                                         placeholder="{{currentUser.user.email}}" value="{{currentUser.user.email}}">
+                                         placeholder="{{currentUser.email}}" value="{{currentUser.email}}">
                               </div>
                           </div>
                           <div class="form-group">
@@ -127,7 +129,7 @@
 
           </div>
       </div>
-      <div class="panel panel-default" ng-show="currentUser.user.isAssociate">
+      <div class="panel panel-default" ng-show="currentUser.isAssociate">
           <div class="panel-heading">
               Associate Panel
           </div>
@@ -141,12 +143,12 @@
                                       Email:</label>
                                   <span uib-tooltip="Give this email to your manager" tooltip-placement="top">
                                   <input class="form-control" id="associateDisplayEmail"
-                                         name="associateDisplayEmail" type="text" value="{{currentUser.user.email}}"
+                                         name="associateDisplayEmail" type="text" value="{{currentUser.email}}"
                                          disabled>
                                   </span>
                               </form>
                               <div class="col" style="padding-right:10px;"
-                                   ng-show="currentUser.user.availabilityArray.length >0">
+                                   ng-show="currentUser.availabilityArray.length >0">
                                   <label class="control-label col-xs-4">Set Weekly Availability:</label>
                                   <button class="btn btn-gradient-success" ng-click="openAvailabilityModal('lg')">
                                       Availability <i class="fa fa-hourglass"></i>
@@ -173,12 +175,12 @@
                                   Description:</label>
 
                               <div class="form-group text-center">
-                                  <textarea id="associateDescription" ng-model="currentUser.user.associateDescription"
+                                  <textarea id="associateDescription" ng-model="currentUser.associateDescription"
                                             class="form-control" cols="40" rows="5" required></textarea>
 
                                   <div style="margin-top:20px;">
                                       <button class="btn btn-gradient-primary pull-left"
-                                              ng-click="updateDescForm.$valid && updateDescription(currentUser.user.associateDescription)">
+                                              ng-click="updateDescForm.$valid && updateDescription(currentUser.associateDescription)">
                                           <span ng-if="!updatingDescription">Update Description</span>
                                           <span ng-if="updatingDescription"><i
                                                   class="fa fa-spinner fa-pulse"></i></span>

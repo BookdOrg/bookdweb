@@ -46,17 +46,8 @@ UserSchema.methods.generateJWT = function () {
     //TODO change secret to something better
     return jwt.sign({
         _id: this._id,
-        avatarVersion: this.avatarVersion,
-        businessOwner: this.businessOwner,
-        businessPage: this.businessPage,
         exp: parseInt(exp.getTime() / 1000),
-        isAdmin: this.isAdmin,
-        isAssociate: this.isAssociate,
-        associateDescription: this.associateDescription,
-        name: this.name,
-        provider: this.provider,
-        email: this.email,
-        availabilityArray: this.availabilityArray
+
     }, process.env.jwtSecret);
 };
 

@@ -305,7 +305,7 @@ app.config([
     if (auth.isLoggedIn()) {
         notificationFactory.getNotifications().then(
             function (data) {
-                $rootScope.currentUser.user.notifications = data;
+                $rootScope.currentUser.notifications = data;
             },
             function (err) {
                 console.log(err);
@@ -320,12 +320,12 @@ app.config([
         socketService.on('authorizationReq', function (data) {
             if ($rootScope.currentUser) {
                 $rootScope.currentUser.socketId = data;
-                socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
+                socketService.emit('authorizationRes', $rootScope.currentUser._id);
             }
         });
 
     socketService.on('newNotif', function (data) {
-        $rootScope.currentUser.user.notifications.unshift(data);
+        $rootScope.currentUser.notifications.unshift(data);
     });
     socketService.on('error', function (data) {
         console.log(data);

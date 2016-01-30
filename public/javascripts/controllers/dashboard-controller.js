@@ -745,10 +745,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].backgroundColor = null;
                     $scope.events[eventIndex].borderColor = null;
                     $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
-                    if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer !== null) {
+                    if (data.from !== $rootScope.currentUser._id && data.appointment.customer !== null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'A customer has re-scheduled an appointment!'});
-                    } else if (data.from !== $rootScope.currentUser.user._id && data.appointment.customer === null) {
+                    } else if (data.from !== $rootScope.currentUser._id && data.appointment.customer === null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'An employee has re-scheduled an appointment!'});
                     } else {

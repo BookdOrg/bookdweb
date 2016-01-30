@@ -28,9 +28,9 @@
             <p ng-if="customer.name">{{customer.name}}: {{customer.phone}}</p>
         </div>
         <div class="col col-md-6 text-center">
-            <h4 ng-if="availableTimes.length > 1 && currentUser.user._id !== employee._id">{{employee.name}}'s
+            <h4 ng-if="availableTimes.length > 1 && currentUser._id !== employee._id">{{employee.name}}'s
                 Schedule</h4>
-            <h4 ng-if="availableTimes.length > 1 && currentUser.user._id === employee._id">Your Schedule</h4>
+            <h4 ng-if="availableTimes.length > 1 && currentUser._id === employee._id">Your Schedule</h4>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
             <div class="col col-xs-4 col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
@@ -42,13 +42,13 @@
                 </button>
             </div>
             <h4 class="text-danger"
-                ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser.user._id === dateObj.appointment.customer">
+                ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser._id === dateObj.appointment.customer">
                 The original appointment time has passed, this appointment can no longer be updated. If you would like
                 to reschedule you can
                 schedule a new appointment via the Business' home page.
                 Thank you.</h4>
             <h4 class="text-danger"
-                ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser.user._id !== dateObj.appointment.customer">
+                ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser._id !== dateObj.appointment.customer">
                 The original appointment time has passed, this appointment can no longer be updated.
             </h4>
             <h4 class="text-danger" ng-if="dateObj.appointment.status === 'paid' && datePassed">This service has been
@@ -59,7 +59,7 @@
                 can accept another form of payment and update the status of this appointment manually by clicking 'Paid'
             </uib-alert>
         </div>
-        <div ng-if="currentUser.user._id === dateObj.appointment.employee && !datePassed"
+        <div ng-if="currentUser._id === dateObj.appointment.employee && !datePassed"
              class="col col-md-6 text-center">
             <form name="noteForm">
                 <label for="note">Reason for re-schedule/cancellation</label>
@@ -76,16 +76,16 @@
 <div class="modal-footer">
     <div class="pull-left">
         <button class="btn btn-gradient-green"
-                ng-if="dateObj.appointment.status == 'pending' && dateObj.appointment.customer === currentUser.user._id"
+                ng-if="dateObj.appointment.status == 'pending' && dateObj.appointment.customer === currentUser._id"
                 ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept & Reschedule
         </button>
     </div>
     <button class="btn btn-gradient-warning"
-            ng-if="currentUser.user._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid' || error"
+            ng-if="currentUser._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid' || error"
             ng-click="changeApptStatus()">Paid <i class="fa fa-credit-card"></i>
     </button>
     <button class="btn btn-gradient-success"
-            ng-if="currentUser.user._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
+            ng-if="currentUser._id === business.owner && dateObj.appointment.card && dateObj.appointment.status !== 'paid'"
             ng-click="charge(dateObj.appointment)"><span ng-show="!charging">Charge <i
             class="fa fa-credit-card"></i></span><span ng-show="charging"><i class="fa fa-spinner fa-pulse"></i></span>
     </button>

@@ -15,7 +15,7 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
         $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': id});
         $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     };
-    if(employee._id!==$rootScope.currentUser.user._id){
+    if (employee._id !== $rootScope.currentUser._id) {
         $scope.disableUpdate = true;
     }
     /**
@@ -89,10 +89,8 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
         $scope.showDone = false;
         userFactory.updateAvailability(updateObj)
             .then(function (data) {
-                var socketId = $rootScope.currentUser.socketId;
-                auth.saveToken(data);
-                $rootScope.currentUser = auth.currentUser();
-                $rootScope.currentUser.socketId = socketId;
+                $rootScope.currentUser.availabilityArray = data;
+                auth.saveUser(null, $rootScope.currentUser);
                 //$scope.showLoading = false;
                 $scope.showDone = true;
                 $timeout(function () {

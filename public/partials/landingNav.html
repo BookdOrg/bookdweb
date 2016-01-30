@@ -24,25 +24,25 @@
                 <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
                     <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                     <a ng-href="#" uib-dropdown-toggle>
-                        <i class="fa fa-bell badge {{currentUser.user.notifications | newNotificationFilter}}">
-                            {{currentUser.user.notifications | notificationFilter}}
+                        <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
+                            {{currentUser.notifications | notificationFilter}}
                         </i>
                     </a>
 
                     <div class="uib-dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
                          aria-labelledby="dLabel">
-                        <div class="notification-heading" ng-if="currentUser.user.notifications.length > 0">
+                        <div class="notification-heading" ng-if="currentUser.notifications.length > 0">
                             <h4 class="menu-title">Notifications</h4>
                             <h4 class="menu-title pull-right" ng-click="viewAllNotifications()">Mark all as
                                 viewed</h4>
                         </div>
                         <span class="divider"></span>
 
-                        <h3 class="text-center" style="color:black" ng-if="currentUser.user.notifications.length === 0">
+                        <h3 class="text-center" style="color:black" ng-if="currentUser.notifications.length === 0">
                             You have no
                             notifications!</h3>
                         <ul class="notifications-wrapper">
-                            <li class="content" ng-repeat="notification in currentUser.user.notifications">
+                            <li class="content" ng-repeat="notification in currentUser.notifications">
                                 <div class="notification-item"
                                      ng-class="{'new-notification': notification.viewed === false}">
                                     <h5 class="pull-right" ng-click="viewNotification($index)"
@@ -74,16 +74,16 @@
                 <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
                     <a ng-href="" uib-dropdown-toggle class=" avatarPadding">
                         <img class="navbarAvatar"
-                             ng-if="!currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
+                             ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
                              ng-src="{{cloudinaryDefaultPic}}"/>
                         <img class="navbarAvatar"
-                             ng-if="currentUser.user.avatarVersion && currentUser.user.provider === 'bookd'"
-                             ng-src="{{cloudinaryBaseUrl}}{{currentUser.user.avatarVersion}}/profile/{{currentUser.user._id}}"/>
-                        <img class="navbarAvatar" ng-if="currentUser.user.provider === 'google_plus'"
+                             ng-if="currentUser.avatarVersion && currentUser.provider === 'bookd'"
+                             ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
+                        <img class="navbarAvatar" ng-if="currentUser.provider === 'google_plus'"
                              ng-src="{{currentUser.providerInfo}}"/>
-                        <img class="navbarAvatar" ng-if="currentUser.user.provider === 'facebook'"
+                        <img class="navbarAvatar" ng-if="currentUser.provider === 'facebook'"
                              ng-src="{{currentUser.providerInfo}}"/>
-                        {{currentUser.user.name}} <i class="fa fa-caret-down"></i>
+                        {{currentUser.name}} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="uib-dropdown-menu droplinks">
                         <li ng-hide="!isLoggedIn()">
@@ -97,19 +97,19 @@
                             </a>
                         </li>
                         <li>
-                            <a ng-if="isLoggedIn() && currentUser.user.isAssociate"
+                            <a ng-if="isLoggedIn() && currentUser.isAssociate"
                                ng-click="navbarCollapsed = !navbarCollapsed;"
-                               ui-sref="user({id:currentUser.user._id})">
+                               ui-sref="user({id:currentUser._id})">
                                 <i class="fa fa-user"></i> Profile
                             </a>
                         </li>
                         <li>
-                            <a ng-if="currentUser.user.businessOwner" ui-sref="dashboard">
+                            <a ng-if="currentUser.businessOwner" ui-sref="dashboard">
                                 <i class="fa fa-tachometer"></i> Manage
                             </a>
                         </li>
                         <li>
-                            <a ui-sref="account({id:currentUser.user._id})">
+                            <a ui-sref="account({id:currentUser._id})">
                                 <i class="fa fa-cog"></i> Settings
                             </a>
                         </li>
@@ -132,19 +132,19 @@
                         <i class="fa fa-thumb-tack"></i> Appointments
                     </a>
                 </li>
-                <li ng-if="isLoggedIn() && currentUser.user.isAssociate" class="hidden-sm hidden-md hidden-lg">
+                <li ng-if="isLoggedIn() && currentUser.isAssociate" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;"
-                       ui-sref="user({id:currentUser.user._id})">
+                       ui-sref="user({id:currentUser._id})">
                         <i class="fa fa-user"></i> Profile
                     </a>
                 </li>
-                <li ng-if="currentUser.user.businessOwner" class="hidden-sm hidden-md hidden-lg">
+                <li ng-if="currentUser.businessOwner" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;" ui-sref="dashboard">
                         <i class="fa fa-tachometer"></i> Manage
                     </a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
-                    <a ui-sref="account({id:currentUser.user._id})" ng-click="">
+                    <a ui-sref="account({id:currentUser._id})" ng-click="">
                         <i class="fa fa-cog"></i> Settings
                     </a>
                 </li>

@@ -36,7 +36,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         };
                         auth.logIn(user, response.picture.data.url)
                             .then(function () {
-                                onlineData.user = $rootScope.currentUser.user._id;
+                                onlineData.user = $rootScope.currentUser._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
                                 getNotifications();
@@ -68,7 +68,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var profilePicture = response.image.url.replace('sz=50', 'sz=200');
                         auth.logIn(user, profilePicture)
                             .then(function () {
-                                onlineData.user = $rootScope.currentUser.user._id;
+                                onlineData.user = $rootScope.currentUser._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
                                 getNotifications();
@@ -102,10 +102,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         var profilePicture = response.picture.data.url;
                         auth.register(user, profilePicture)
                             .then(function () {
-                                onlineData.user = $rootScope.currentUser.user._id;
+                                onlineData.user = $rootScope.currentUser._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
-                                $rootScope.currentUser.user.notifications = [];
+                                $rootScope.currentUser.notifications = [];
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -132,10 +132,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                         };
                         auth.register(user, response.image.url)
                             .then(function () {
-                                onlineData.user = $rootScope.currentUser.user._id;
+                                onlineData.user = $rootScope.currentUser._id;
                                 socketService.emit('online', onlineData);
                                 $state.go(state, {tier: tier});
-                                $rootScope.currentUser.user.notifications = [];
+                                $rootScope.currentUser.notifications = [];
                                 $uibModalInstance.close();
                             }, function (error) {
                                 $scope.error = error.message;
@@ -161,10 +161,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         };
         auth.register(user)
             .then(function () {
-                onlineData.user = $rootScope.currentUser.user._id;
+                onlineData.user = $rootScope.currentUser._id;
                 socketService.emit('online', onlineData);
                 $state.go(state, {tier: tier});
-                $rootScope.currentUser.user.notifications = [];
+                $rootScope.currentUser.notifications = [];
                 $uibModalInstance.close();
             }, function (error) {
                 $scope.error = error.message;
@@ -181,7 +181,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         };
         auth.logIn(user)
             .then(function () {
-                onlineData.user = $rootScope.currentUser.user._id;
+                onlineData.user = $rootScope.currentUser._id;
                 socketService.emit('online', onlineData);
                 getNotifications();
                 $state.go(state, {tier: tier});
@@ -198,7 +198,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     var getNotifications = function () {
         notificationFactory.getNotifications().then(
             function (data) {
-                $rootScope.currentUser.user.notifications = data;
+                $rootScope.currentUser.notifications = data;
             },
             function (err) {
                 console.log(err);

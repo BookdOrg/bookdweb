@@ -36,7 +36,7 @@
                     <div class="col col-xs-5 col-xs-offset-1">
                         <label for="email">Email:</label>
                         <input class="form-control input-lg" type="email" id="email"
-                               placeholder="{{currentUser.user.email}}" ng-value="currentUser.user.email" disabled
+                               placeholder="{{currentUser.email}}" ng-value="currentUser.email" disabled
                                required>
                     </div>
                     <div class="col col-xs-5 ">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <button class="btn btn-gradient-success btn-lg col-xs-offset-5"
-                        ng-click="partnerForm.$valid && claim(selectedQuery, currentUser.user._id)">Claim
+                        ng-click="partnerForm.$valid && claim(selectedQuery, currentUser._id)">Claim
                 </button>
                 <h6 class="text-center text-muted">By claiming your account, you agree to our <a ng-href="/terms">Terms
                     of

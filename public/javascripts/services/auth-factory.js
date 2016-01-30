@@ -13,8 +13,13 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
          *
          * @param token
          */
-        saveToken: function (token) {
-            $window.localStorage['cc-token'] = token;
+        saveUser: function (token, user) {
+            if (user) {
+                $window.localStorage['user'] = angular.toJson(user);
+            }
+            if (token) {
+                $window.localStorage['bookd-token'] = token;
+            }
         },
         /**
          * Retrieve the authentication token currently stored
@@ -22,7 +27,10 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
          * @returns {*}
          */
         getToken: function () {
-            return $window.localStorage['cc-token'];
+            return $window.localStorage['bookd-token'];
+        },
+        getUser: function () {
+            return $window.localStorage['user'];
         },
         /**
          * Save the provider information so it's not lost when the
@@ -54,23 +62,21 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
         },
         currentUser: function () {
             if (auth.isLoggedIn()) {
-                var token = auth.getToken();
-                return {
-                    'user': angular.fromJson($window.atob(token.split('.')[1])),
-                    'providerInfo': auth.getProviderInfo()
-                };
+                var user = angular.fromJson(auth.getUser());
+                user.providerInfo = auth.getProviderInfo();
+                return user;
             }
         },
         register: function (user, info) {
             return $http.post('/register', user)
                 .then(function (data) {
-                    auth.saveToken(data.data.token);
+                    auth.saveUser(data.data.token, data.data.user);
                     if (info) {
                         auth.saveProviderInfo(info);
                     }
-                    $rootScope.currentUser = auth.currentUser();
+                    $rootScope.currentUser = angular.fromJson(auth.currentUser());
                     $rootScope.currentUser.providerInfo = auth.getProviderInfo();
-                    socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
+                    socketService.emit('authorizationRes', $rootScope.currentUser._id);
                 }, function (error) {
                     throw error.data;
                 });
@@ -78,7 +84,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
         logIn: function (user, info) {
             return $http.post('/login', user)
                 .then(function (data) {
-                    auth.saveToken(data.data.token);
+                    auth.saveUser(data.data.token, data.data.user);
                     if (info) {
                         auth.saveProviderInfo(info);
                     }
@@ -87,15 +93,15 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                     $window.localStorage.setItem('monthYearArray', '');
                     $window.localStorage.setItem('previousBusiness', '');
                     $window.localStorage.setItem('previousPersonalMonthYear', '');
-                    $rootScope.currentUser = auth.currentUser();
+                    $rootScope.currentUser = angular.fromJson(auth.currentUser());
                     $rootScope.currentUser.providerInfo = auth.getProviderInfo();
-                    socketService.emit('authorizationRes', $rootScope.currentUser.user._id);
+                    socketService.emit('authorizationRes', $rootScope.currentUser._id);
                 }, function (error) {
                     throw error.data;
                 });
         },
         logOut: function () {
-            $window.localStorage.removeItem('cc-token');
+            $window.localStorage.removeItem('bookd-token');
             $window.localStorage.removeItem('monthYear');
             $window.localStorage.removeItem('masterList');
             $window.localStorage.removeItem('monthYearArray');

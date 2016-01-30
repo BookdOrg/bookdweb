@@ -131,7 +131,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 toggled: false,
                 status: false,
                 hide: false,
-                user: $scope.currentUser.user._id
+                user: $scope.currentUser._id
             };
             var currentDateTime = moment().set({
                 'year': moment(employeeDate).year(),
@@ -245,7 +245,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             employeeId: employeeId
         };
         if (personal) {
-            employeeApptObj.customerId = $rootScope.currentUser.user._id;
+            employeeApptObj.customerId = $rootScope.currentUser._id;
             employeeApptObj.personal = true;
         } else {
             employeeApptObj.customerId = null;
@@ -281,7 +281,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     //When a socket join the appointment room late, we send the list of availabletimes currently being held
     socketService.on('oldHold', function (data) {
         for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-            if (data[dataIndex].user !== $scope.currentUser.user._id) {
+            if (data[dataIndex].user !== $scope.currentUser._id) {
                 calculateHold(data[dataIndex].data);
             } else {
                 var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
@@ -293,7 +293,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     });
     //when some user selects a time other then this one we recieve it and caluclate holds
     socketService.on('newHold', function (data) {
-        if (data.user !== $scope.currentUser.user._id) {
+        if (data.user !== $scope.currentUser._id) {
             calculateHold(data);
         }
     });
@@ -386,7 +386,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
         var customerId;
         if (personal) {
-            customerId = $rootScope.currentUser.user._id;
+            customerId = $rootScope.currentUser._id;
         } else {
             customerId = null;
         }
@@ -434,7 +434,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 //if (personal) {
                 //    userFactory.getUserAppts().then(
                 //        function (data) {
-                //            $rootScope.currentUser.user.appointments = data;
+                //            $rootScope.currentUser.appointments = data;
                 //        },
                 //        function (errorMessage) {
                 //            console.log(errorMessage);

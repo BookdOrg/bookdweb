@@ -43,8 +43,8 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
      * @param item - the photo that waas uploaded
      */
     uploader.onSuccessItem = function (item, response, status) {
-        auth.saveToken(response.token);
-        $rootScope.currentUser = auth.currentUser();
+        $rootScope.currentUser.avatarVersion = response;
+        auth.saveUser(null, $rootScope.currentUser);
         $scope.showLoader = false;
 
     };
@@ -73,7 +73,7 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
             size: size,
             resolve: {
                 employee: function () {
-                    return $rootScope.currentUser.user;
+                    return $rootScope.currentUser;
                 },
                 business: function () {
                     return null;
@@ -136,7 +136,7 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
         };
         userFactory.updateDescription(associateDescription)
             .then(function (data) {
-                $rootScope.currentUser.user.associateDescription = data;
+                $rootScope.currentUser.associateDescription = data;
                 $scope.updatingDescription = false;
                 $scope.descriptionUpdated = true;
                 $timeout(function () {

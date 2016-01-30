@@ -87,7 +87,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 console.log(err);
             });
 
-        changeAllNotifViewed($rootScope.currentUser.user.notifications);
+        changeAllNotifViewed($rootScope.currentUser.notifications);
     };
 
     /**
@@ -95,7 +95,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * @param index
      */
     $scope.viewNotification = function (index) {
-        var id = $rootScope.currentUser.user.notifications[index]._id;
+        var id = $rootScope.currentUser.notifications[index]._id;
         notificationFactory.notificationViewed(id).then(
             function (data) {
 
@@ -103,13 +103,13 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 console.log(err);
             });
 
-        $rootScope.currentUser.user.notifications[index].viewed = true;
+        $rootScope.currentUser.notifications[index].viewed = true;
     };
 
     if (auth.isLoggedIn()) {
         notificationFactory.getNotifications().then(
             function (data) {
-                $rootScope.currentUser.user.notifications = data;
+                $rootScope.currentUser.notifications = data;
             },
             function (err) {
                 console.log(err);
