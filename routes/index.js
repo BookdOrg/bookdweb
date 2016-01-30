@@ -833,7 +833,8 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-
+    var reScheduleTemplatedir = path.join(__dirname, '../templates', 'employee-reschedule');
+    var templateObj = {};
     if (req.body.customer && req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
             if (err) {
@@ -878,6 +879,8 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
+                    templateObj.appointment = appointment;
+                    templateObj.employee = user.name;
                     user.businessAppointments.pull({_id: appointment._id});
                     user.save(function (err) {
                         if (err) {
@@ -888,6 +891,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                 });
             }
             if (req.body.customer) {
+                var reScheduleTemplate = new EmailTemplate(reScheduleTemplatedir);
                 User.findOne({'_id': req.body.customer}).exec(function (err, user) {
                     if (err) {
                         return next(err);
@@ -896,6 +900,24 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                         if (err) {
                             return next(err);
                         }
+                        templateObj.customer = user.name;
+                        reScheduleTemplate.render(templateObj, function (err, results) {
+                            var subject = 'Appointment Reschduled';
+                            var body = results.html;
+                            var mailOptions = {
+                                from: 'contact@bookd.me', // sender address
+                                to: user.email, // list of receivers
+                                subject: subject, // Subject line
+                                html: body // html body
+                            };
+
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error, response) {
+                                if (error) {
+                                    //console.log(error);
+                                }
+                            });
+                        })
                     });
                 });
             }
