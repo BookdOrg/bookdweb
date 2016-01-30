@@ -990,9 +990,10 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            templateObj.user = user;
-            var index = user.personalAppointments.indexOf(appointment);
-
+            if (user) {
+                templateObj.user = user;
+                var index = user.personalAppointments.indexOf(appointment);
+            }
             if (index > -1) {
                 user.personalAppointments.splice(index, 1);
                 user.save(function (err) {
@@ -1029,23 +1030,25 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             return next(err);
         }
         templateObj.appointment = resAppointment;
-        templateObj.user.name = templateObj.user.name.split(' ', 1);
-        var template = new EmailTemplate(templateDir);
-        template.render(templateObj, function (err, results) {
-            var mailOptions = {
-                from: 'contact@bookd.me', // sender address
-                to: templateObj.user.email, // list of receivers
-                subject: 'Appointment Canceled', // Subject line
-                html: results.html // html body
-            };
+        if (templateObj.user) {
+            templateObj.user.name = templateObj.user.name.split(' ', 1);
+            var template = new EmailTemplate(templateDir);
+            template.render(templateObj, function (err, results) {
+                var mailOptions = {
+                    from: 'contact@bookd.me', // sender address
+                    to: templateObj.user.email, // list of receivers
+                    subject: 'Appointment Canceled', // Subject line
+                    html: results.html // html body
+                };
 
-            // send mail with defined transport object
-            transporter.sendMail(mailOptions, function (error) {
-                if (error) {
-                    //return next(error);
-                }
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, function (error) {
+                    if (error) {
+                        //return next(error);
+                    }
+                });
             });
-        });
+        }
         res.status(200).json(resAppointment);
     });
 });
