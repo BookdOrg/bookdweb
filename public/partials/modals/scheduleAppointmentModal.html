@@ -148,7 +148,7 @@
 
                     <button class="btn btn-gradient-primary" ng-show="appointment"
                             ng-click="book()">
-                        Book Appointment
+                        Book
                     </button>
                     <button class="btn btn-gradient-success" ng-show="appointment" ng-if="payments"
                             stripe-checkout="ctrl.checkOut"
@@ -156,7 +156,7 @@
                             data-name="Bookd"
                             data-description="{{service.name}}"
                             data-amount="{{stripePrice}}"
-                            data-image="/images/icon.png"
+                            data-image="/images/favicon.ico"
                             data-label="Book Appointment"
                             data-panel-label="Book">
                         Book w/ Payment
