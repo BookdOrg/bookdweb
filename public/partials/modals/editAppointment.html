@@ -80,7 +80,7 @@
                 ng-click="update(true)"><i class="fa fa-calendar-check-o"></i> Accept & Reschedule
         </button>
     </div>
-    <button class="btn btn-gradient-warning"
+    <button class="btn btn-warning"
             ng-if="currentUser._id === business.owner && !dateObj.appointment.card && dateObj.appointment.status !== 'paid' || error"
             ng-click="changeApptStatus()">Paid <i class="fa fa-credit-card"></i>
     </button>
@@ -97,7 +97,7 @@
     <button class="btn btn-gradient-danger" ng-click="cancel()"
             ng-if="!datePassed && dateObj.appointment.status !== 'paid'">
         Cancel Appointment <i class="fa fa-calendar-times-o"></i></button>
-    <button class="btn btn-gradient-warning" ng-click="close()"
+    <button class="btn btn-danger" ng-click="close()"
             ng-if="datePassed || dateObj.appointment.status === 'paid'">
         Close
     </button>
