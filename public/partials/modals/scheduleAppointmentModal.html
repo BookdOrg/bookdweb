@@ -1,8 +1,13 @@
 <div class="modal-header text-center">
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
-    <h3 class="modal-title text-center">{{service.name}} </h3>
-    <h5 style="margin:0px;">{{service.description}}</h5>
-    <h5 style="margin:0px;">{{service.duration | humanizeDurationFilter}} - {{service.price | currency}}</h5>
+    <div ng-if="activeTab !== 'pay'">
+        <h3 class="modal-title text-center">{{service.name}} </h3>
+        <h5 style="margin:0px;">{{service.description}}</h5>
+        <h5 style="margin:0px;">{{service.duration | humanizeDurationFilter}} - {{service.price | currency}}</h5>
+    </div>
+    <div ng-if="activeTab === 'pay'">
+        <h3 class="modal-title text-center">Confirm Appointment</h3>
+    </div>
     <timer ng-show="showCount" countdown="countdown" max-time-unit="'minute'" interval="1000" auto-start="false"
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
@@ -16,11 +21,14 @@
         <li><a data-target="#pay" data-toggle="tab"></a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="employees">
+        <div class="tab-pane fade in active" id="employees">
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                 <h3>Select an Associate</h3>
-                <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees">
-                    <label>
+
+                <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees"
+                     ng-click="selectEmployee(employee)">
+                    <!--<label>-->
+                    <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
                         <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
                              ng-src="{{employee.photo}}"/>
                         <img class="fitContainer provider-photo-radius"
@@ -35,18 +43,11 @@
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                         <h5>{{employee.name}}</h5>
                         <br>
-                        <input name="selectEmployee" id="selectEmployee" ng-click="selectEmployee(employee)"
-                               type="radio">
-                        Choose
-                    </label>
+                    </a>
                 </div>
             </div>
-            <div class="row text-center">
-                <!--<a data-target="#employ" data-toggle="tab" class="btn btn-warning">Back</a>-->
-                <a data-target="#schedule" data-toggle="tab" ng-if="employee" class="btn btn-primary">Next</a>
-            </div>
         </div>
-        <div class="tab-pane" id="schedule">
+        <div class="tab-pane fade in" id="schedule">
             <div class="row">
                 <div class="col col-md-6 text-center">
                     <h4>Select a Date to see Available Times</h4>
@@ -84,10 +85,30 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <a data-target="#employees" data-toggle="tab" class="btn btn-gradient-warning"
+                       ng-click="back();changeTab('employees')"> Back
+                    </a>
+                    <a data-target="#pay" data-toggle="tab" class="btn btn-gradient-primary" ng-if="appointment"
+                       ng-click="changeTab('pay')">Confirm</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade in" id="pay">
+            <div class="row">
+                <h2 class="modal-title text-center">{{service.name}} </h2>
+
+                <h3 class="modal-title text-center">{{employee.name}}</h3>
+                <h4 class="modal-title text-center">{{appointment.start.time}} - {{appointment.end.time}}</h4>
+
+                <h3 class="modal-title text-center">{{service.description}}</h3>
+
+                <h3 class="modal-title text-center">{{service.duration | humanizeDurationFilter}} - {{service.price |
+                    currency}}</h3>
+            </div>
             <div class="row text-center">
                 <div class="col-xs-12">
-                    <a data-target="#employees" data-toggle="tab" class="btn btn-gradient-warning"> Back
-                    </a>
                     <button class="btn btn-gradient-primary" ng-show="appointment"
                             ng-click="book()">
                         Book Appointment
@@ -104,6 +125,7 @@
                         Book w/ Payment
                     </button>
                 </div>
+                <a data-target="#schedule" data-toggle="tab" class="btn btn-warning" ng-click="changeTab('schedule')">Back</a>
             </div>
         </div>
     </div>

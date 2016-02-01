@@ -17,6 +17,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.payments = payments;
     $scope.personal = personal;
     var timeStarted = false;
+    $scope.activeTab = 'employees';
+    $scope.changeTab = function (tab) {
+        $scope.activeTab = tab;
+    };
     $scope.externalCustomer = {};
     /**
      * Watch which date is selected on the calendar,
@@ -40,6 +44,19 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             $scope.appointment = null;
         }
     });
+    $scope.back = function () {
+        if ($scope.selectedIndex !== null) {
+            $scope.availableTimes[$scope.selectedIndex].toggled = false;
+            socketService.emit('timeDestroyed', $scope.activeTime);
+        }
+        $scope.selectedIndex = null;
+        $scope.activeTime = null;
+        $scope.showCount = false;
+        $scope.$broadcast('timer-clear');
+        $scope.dayMessage = false;
+        $scope.appointment = null;
+        $scope.employee = null;
+    };
     /**
      *
      * When the timer is finished we untoggle the actively selected appointment time
@@ -505,7 +522,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         socketService.removeListener('newRoomAppt');
     };
     $scope.$on('$destroy', function (event) {
-        if ($scope.selectedDate) {
+        if ($scope.selectedDate && $scope.employee) {
             var roomId = $scope.newRoomDate.toString() + $scope.employee._id;
             socketService.emit('leaveApptRoom', roomId);
         }
