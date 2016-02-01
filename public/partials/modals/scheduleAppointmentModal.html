@@ -48,7 +48,9 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade in" ng-class="{active:activeTab === 'schedule'}" id="schedule">
+        <div class="tab-pane fade in"
+             ng-class="{active:activeTab === 'schedule',fade:activeTab !== 'employees',hide:activeTab==='pay'}"
+             id="schedule">
             <div class="row">
                 <div class="col col-md-6 text-center">
                     <h4>Select a Date to see Available Times</h4>
