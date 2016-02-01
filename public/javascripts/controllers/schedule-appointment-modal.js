@@ -67,6 +67,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.timerFinished = function () {
         $scope.activeTime.toggled = !$scope.activeTime.toggled;
         $scope.showCount = false;
+        $scope.selectedIndex = null;
+        if ($scope.activeTab === 'pay') {
+            $scope.activeTab = 'employees';
+        }
+        if ($scope.appointment) {
+            $scope.appointment = null;
+        }
         $scope.$apply();
         socketService.emit('timeDestroyed', $scope.activeTime);
     };
