@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema = new mongoose.Schema({
     name: String,
@@ -21,7 +22,9 @@ var UserSchema = new mongoose.Schema({
     associateDescription: String,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
     personalAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
-    businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}]
+    businessAppointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 UserSchema.methods.validPassword = function (password) {
@@ -43,11 +46,9 @@ UserSchema.methods.generateJWT = function () {
     var exp = new Date(today);
     exp.setDate(today.getDate() + 1);
 
-    //TODO change secret to something better
     return jwt.sign({
         _id: this._id,
-        exp: parseInt(exp.getTime() / 1000),
-
+        exp: parseInt(exp.getTime() / 1000)
     }, process.env.jwtSecret);
 };
 

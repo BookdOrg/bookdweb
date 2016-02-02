@@ -12,6 +12,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
          * Save the users authentication token
          *
          * @param token
+         * @param user
          */
         saveUser: function (token, user) {
             if (user) {
@@ -111,6 +112,17 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             $window.localStorage.removeItem('oauthio_provider_google_plus');
             $rootScope.currentUser = null;
             $state.go('landing');
+        },
+        reset: function (email) {
+            var data = {
+                email: email
+            };
+            return $http.post('/reset', data)
+                .then(function (data) {
+                    console.log(data);
+                }, function (error) {
+                    throw error.data;
+                });
         }
     };
 
