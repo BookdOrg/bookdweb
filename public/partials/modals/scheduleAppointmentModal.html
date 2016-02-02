@@ -25,11 +25,9 @@
              id="employees">
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                 <h3>Select an Associate</h3>
-
-                <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees"
-                     ng-click="selectEmployee(employee)">
-                    <!--<label>-->
-                    <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
+                <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
+                    <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees"
+                         ng-click="selectEmployee(employee)">
                         <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
                              ng-src="{{employee.photo}}"/>
                         <img class="fitContainer provider-photo-radius"
@@ -43,9 +41,8 @@
                         <img class="fitContainer" ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                         <h5>{{employee.name}}</h5>
-                        <br>
-                    </a>
                 </div>
+                </a>
             </div>
         </div>
         <div class="tab-pane fade in"
