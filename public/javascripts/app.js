@@ -293,6 +293,32 @@ app.config([
             .state('contact', {
                 url: '/contactUs',
                 templateUrl: 'partials/contact.html'
+            })
+            .state('reset', {
+                url: '/reset',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'partials/reset.html',
+                        controller: 'resetCtrl'
+                    }
+                }
+            })
+            .state('new', {
+                url: '/reset/{token}',
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'partials/newPassword.html',
+                        controller: 'newPasswordCtrl'
+                    }
+                }
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory,

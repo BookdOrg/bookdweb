@@ -1,0 +1,50 @@
+<section class="background wrapper">
+    <div class="container-fluid">
+        <div class="row text-center center-screen">
+            <div class="col-xs-12">
+                <div id="reset-container">
+                    <form class="form-inline">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>Reset your password</h2>
+                            </div>
+                        </div>
+                        <p>Enter your email address below and we'll send you a link to reset your password.</p>
+                        <label for="email">
+                            Your Email
+                        </label>
+                        <input ng-model="email" class="form-control" type="email" id="email" placeholder="Your email"/>
+                        <button type="submit" class="btn btn-primary reset-button" ng-click="reset()">
+                            Send reset password email
+                        </button>
+                    </form>
+                </div>
+                <div class="row" id="reset-confirm">
+                    <div class="col-xs-12">
+                        <p>An email is on its way to you. Follow the instructions to reset your password.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="push"></div>
+</section>
+<footer style="background-color:#28282a;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" style="color:white;">
+                <span class="copyright">Copyright &copy; Book'd 2016</span>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                    <li><a href="/privacy">Privacy</a>
+                    </li>
+                    <li><a href="/terms">Terms</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

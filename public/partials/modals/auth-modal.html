@@ -1,54 +1,77 @@
 <uib-tabset justified="true">
     <uib-tab heading="{{tabs[0].title}}" active="tabs[0].active" select="refreshErrors()">
-        <div class="modal-body row">
-            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
-                {{error}}
-            </uib-alert>
-            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                       ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert" close="">
-                Please enter a valid email!
-            </uib-alert>
-            <form name="loginForm" class="col-xs-offset-2 col-xs-8 css-form">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="loginEmail" class="form-control" placeholder="johnnyappleseed@me.com"
-                           ng-model="user.email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" ng-model="user.password"
-                           required>
-                </div>
-                <div class="form-group">
-                    <button type="submit" ng-click="loginForm.$valid && logIn()"
-                            class="btn btn-gradient-primary col-xs-12"><i
-                            class="fa fa-sign-in"></i> Log In
-                    </button>
-                </div>
-            </form>
-            <div class="col-xs-12 text-center">
-                <h4 class="text-center">Or</h4>
+        <div class="modal-body">
+            <div class="row">
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
+                    {{error}}
+                </uib-alert>
             </div>
-            <div class="btn-group col-xs-offset-2 col-xs-8">
+            <div class="row">
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                           ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert"
+                           close="">
+                    Please enter a valid email!
+                </uib-alert>
+            </div>
+            <div class="row">
+                <form name="loginForm" class="col-xs-offset-2 col-xs-8 css-form">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="loginEmail" class="form-control" placeholder="johnnyappleseed@me.com"
+                               ng-model="user.email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" placeholder="Password" ng-model="user.password"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-click="loginForm.$valid && logIn()"
+                                class="btn btn-gradient-primary col-xs-12"><i
+                                class="fa fa-sign-in"></i> Log In
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h4 class="text-center">Or</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group col-xs-offset-2 col-xs-8">
                 <button class="btn btn-primary col-xs-6" ng-click="facebookLogin()"><i class="fa fa-facebook-official fa-2x"></i> Facebook</button>
                 <button class="btn btn-danger col-xs-6"  ng-click="googleLogin()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
+            </div>
+            </div>
+            <div class="row text-center forgot-pass-container">
+                <div class="col-xs-12">
+                    <a class="forgot-pass" ui-sref="reset" ng-click="reset()">Forgot password?</a>
+                </div>
             </div>
         </div>
     </uib-tab>
     <uib-tab heading="{{tabs[1].title}}" active="tabs[1].active" select="refreshErrors()">
         <div class="modal-body row">
-            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
-                {{error}}
-            </uib-alert>
+            <div class="row">
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
+                    {{error}}
+                </uib-alert>
+            </div>
+            <div class="row">
             <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
                        ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
                 Please enter a valid email
             </uib-alert>
+            </div>
+            <div class="row">
             <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
                        ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
                 Your password must have more than 8 characters.
             </uib-alert>
-            <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
+            </div>
+            <div class="row">
+                <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
                 <div class="form-group">
                     <label>First Name</label>
                     <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName" required>
@@ -79,12 +102,17 @@
                     </button>
                 </div>
             </form>
-            <div class="col-xs-12 text-center">
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
                 <h4 class="text-center">Or</h4>
             </div>
-            <div class="btn-group col-xs-offset-2 col-xs-8">
+            </div>
+            <div class="row">
+                <div class="btn-group col-xs-offset-2 col-xs-8">
                 <button class="btn btn-primary col-xs-6" ng-click="facebookSignup()"><i class="fa fa-facebook-official fa-2x"></i> Facebook</button>
                 <button class="btn btn-danger col-xs-6" ng-click="googleSignup()"><i class="fa fa-google-plus-square fa-2x"></i> Google</button>
+                </div>
             </div>
         </div>
     </uib-tab>

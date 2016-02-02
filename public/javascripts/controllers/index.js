@@ -21,3 +21,5 @@ app.controller('ProfileCtrl', require('./profile-controller'));
 app.controller('joinCtrl', require('./join-controller'));
 app.controller('updatedAvailabilityCtrl', require('./update-availability-modal'));
 app.controller('removeServiceModalCtrl', require('./remove-service-modal'));
+app.controller('resetCtrl', require('./reset-controller'));
+app.controller('newPasswordCtrl', require('./new-password-controller'));

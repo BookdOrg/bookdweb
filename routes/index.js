@@ -8,6 +8,7 @@ var cloudinary = require('cloudinary');
 var Busboy = require('busboy');
 var async = require('async');
 var moment = require('moment');
+var crypto = require('crypto');
 require('moment-range');
 var GooglePlaces = require('googleplaces');
 var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
@@ -1654,10 +1655,9 @@ router.get('/business/service-detail', auth, function (req, res, next) {
 
 /**
  *
- * Create a Businesses Managed Account
+ * Create a Business's Managed Account
  *
  */
-
 router.post('/business/update-payments-account', auth, function (req, res, next) {
     var bankingUpdatedSuccessDir = path.join(__dirname, '../templates', 'banking-updated-success');
     //var bankingUpdatedFailureDir = path.join(__dirname, '../templates', 'banking-updated-failure');
@@ -1732,7 +1732,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                     // send mail with defined transport object
                     transporter.sendMail(mailOptions, function (error) {
                         if (error) {
-                            ////console.log(error);
+                            console.log(error);
                         }
                     });
                 });
@@ -1743,7 +1743,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
     });
 });
 
-router.post('/business/contact', function (req, res) {
+router.post('/business/contact', function (req, res, next) {
     var name = req.body.name;
     var phone = req.body.phone;
     var email = req.body.email;
@@ -1775,4 +1775,74 @@ router.post('/business/contact', function (req, res) {
         });
     }
 });
+
+router.post('/reset', function (req, res, next) {
+    async.waterfall([
+        function (done) {
+            crypto.randomBytes(20, function (err, buf) {
+                var token = buf.toString('hex');
+                done(err, token);
+            });
+        },
+        function (token, done) {
+            User.findOne({'email': req.body.email}, function (err, user) {
+                if (!user) {
+                    console.log('No user with that email exists!');
+                    return res.send('Success');
+                }
+
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+                user.save(function (err) {
+                    done(err, token, user);
+                });
+            });
+        },
+        function (token, user, done) {
+            var resetPassDir = path.join(__dirname, '../templates', 'password-reset');
+            var resetPasswordTemplate = new EmailTemplate(resetPassDir);
+            var data = {
+                token: token,
+                user: user
+            };
+            resetPasswordTemplate.render(data, function (err, res) {
+                if (err) {
+                    console.log(err);
+                }
+
+                var mailOptions = {
+                    to: user.email,
+                    from: 'Bookd <contact@bookd.me>',
+                    subject: 'Bookd Password Reset',
+                    html: res.html
+                };
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, function (error) {
+                    if (error) {
+                        console.log(error);
+                        done(err, 'done');
+                    }
+                });
+            });
+        }
+    ], function (err) {
+        if (err) return next(err);
+        res.send(err);
+    });
+});
+
+router.get('/reset/:token', function (req, res, next) {
+    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            res.json({error: 'Password reset token is invalid or has expired.'});
+            return next();
+        }
+        res.json({message: 'Success!'});
+    });
+});
+
 module.exports = router;

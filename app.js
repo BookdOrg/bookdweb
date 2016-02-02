@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var cloudinary = require('cloudinary');
 var helmet = require('helmet');
+var session = require('express-session');
 
 mongoose.connect('mongodb://localhost/clientconnect');
 
@@ -28,7 +29,7 @@ var app = express();
 app.use(helmet());
 
 cloudinary.config({
-    cloud_name:'dvvtn4u9h',
+    cloud_name: 'dvvtn4u9h',
     api_key: '357545475786479',
     api_secret: process.env.devcloudinarySecret
 });
@@ -44,11 +45,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(session({
+    secret: '87a8ce31eb24443cef222fa8cbae5da1e4876f92ec87b0b81c37ce137d52c23d',
+    resave: false,
+    saveUninitialized: false
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Authorization,Content-Type');
@@ -57,6 +63,7 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', routes);
 app.all('/*', function (req, res) {
     //TODO Find out why this works
@@ -69,7 +76,7 @@ app.all('/*', function (req, res) {
 });
 
 /// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -79,7 +86,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         console.log(err.stack);
         res.status(err.status || 500);
         res.render('error', {
@@ -91,13 +98,13 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
         error: {}
     });
 });
-console.log('Server started using settings: Port: ' +process.env.devlocalPort + "\nhost: "
+console.log('Server started using settings: Port: ' + process.env.devlocalPort + "\nhost: "
     + process.env.devhost + "\nenvironment: " + process.env.NODE_ENV);
 module.exports = app;
