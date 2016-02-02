@@ -1643,7 +1643,7 @@ router.get('/business/service-detail', auth, function (req, res, next) {
     var serviceId = req.query.service;
     Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
-        select: '_id appointments name avatarVersion availabilityArray provider providerId'
+        select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
     }).exec(function (err, response) {
         if (err) {
             return next(err);
