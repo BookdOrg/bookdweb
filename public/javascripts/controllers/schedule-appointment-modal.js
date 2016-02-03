@@ -258,7 +258,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 'minutes': moment(employeeAvailability.dayEnd).minute(),
                 'seconds': moment(employeeAvailability.dayEnd).second()
             });
-            if (!timeEnd.isSameOrAfter(dayEnd)) {
+            if (timeEnd.isSameOrBefore(dayEnd)) {
                 availableTimes.push(timeObj);
             }
         }
