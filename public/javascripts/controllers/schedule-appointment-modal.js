@@ -241,14 +241,24 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             if (currentDateTime.isBefore(moment())) {
                 timeObj.hide = true;
             }
-            var timeEndhour = moment(availableTimeEnd, 'hh:mm a').hour();
-            var timeEndMinute = moment(availableTimeEnd, 'hh:mm a').minute();
-            var timeEnd = moment(employeeDate).set({
-                'hour': timeEndhour,
-                'minute': timeEndMinute,
-                'second': '00'
+            var timeEnd = moment({
+                'date': moment(employeeDate).date(),
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'hour': moment(timeObj.end, 'hh:mm a').hour(),
+                'minutes': moment(timeObj.end, 'hh:mm a').minute(),
+                'seconds': 00,
+                'milliseconds': 00
             });
-            if (!moment(timeObj.end, 'hh:mm a').isAfter(employeeAvailability.dayEnd)) {
+            var dayEnd = moment({
+                'date': moment(employeeDate).date(),
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'hour': moment(employeeAvailability.dayEnd).hour(),
+                'minutes': moment(employeeAvailability.dayEnd).minute(),
+                'seconds': moment(employeeAvailability.dayEnd).second()
+            });
+            if (!timeEnd.isAfter(dayEnd)) {
                 availableTimes.push(timeObj);
             }
         }
