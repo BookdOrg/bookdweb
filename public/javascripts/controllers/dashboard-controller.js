@@ -111,6 +111,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
             });
     };
+    $scope.activeTab = 'calendar';
+    $scope.switchTab = function (tab) {
+        $scope.activeTab = tab;
+    };
     /**
      *
      * Removes a service from the business
@@ -461,7 +465,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             $timeout(function () {
                 $scope.loadingCal = false;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('render');
-                render = false;
+                if ($scope.activeTab === 'calendar') {
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('refetchEvents');
+                }
             }, 0);
         }
     };
