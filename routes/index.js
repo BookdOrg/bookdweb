@@ -34,8 +34,7 @@ if (process.env.NODE_ENV === 'development') {
     var fs = require('fs');
     var options = {
         key: fs.readFileSync('/etc/ssl/private/domain.key'),
-        cert: fs.readFileSync('/etc/ssl/certs/chained.pem'),
-        requestCert: true
+        cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
     };
     server = require('https').createServer(options, app);
 }
@@ -1776,7 +1775,7 @@ router.post('/business/contact', function (req, res, next) {
     }
 });
 
-router.post('/reset', function (req, res, next) {
+router.post('/user/reset', function (req, res, next) {
     async.waterfall([
         function (done) {
             crypto.randomBytes(20, function (err, buf) {
@@ -1832,7 +1831,7 @@ router.post('/reset', function (req, res, next) {
     });
 });
 
-router.get('/reset/:token', function (req, res, next) {
+router.get('/user/reset/:token', function (req, res, next) {
     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
         if (err) {
             return next(err);
@@ -1843,6 +1842,22 @@ router.get('/reset/:token', function (req, res, next) {
         }
         res.json({message: 'Success!'});
     });
+});
+
+router.post('/user/reset/:token/new', function (req, res, next) {
+    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            res.json({error: 'Password reset token is invalid or has expired.'});
+            return next();
+        }
+    });
+
+    User.salt = crypto.randomBytes(16).toString('hex');
+    User.hash = crypto.pbkdf2Sync(req.body.password, User.salt, 1000, 64).toString('hex');
+    res.json({message: 'Success!'});
 });
 
 module.exports = router;

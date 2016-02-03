@@ -117,7 +117,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             var data = {
                 email: email
             };
-            return $http.post('/reset', data)
+            return $http.post('/user/reset', data)
                 .then(function (data) {
                     console.log(data);
                 }, function (error) {
