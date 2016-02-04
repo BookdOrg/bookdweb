@@ -123,6 +123,18 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                 }, function (error) {
                     throw error.data;
                 });
+        },
+        newPassword: function (password, token) {
+            var data = {
+                password: password,
+                token: token
+            };
+            return $http.post('/user/reset/new', data)
+                .then(function (data) {
+                    console.log(data);
+                }, function (error) {
+                    throw error.data;
+                });
         }
     };
 

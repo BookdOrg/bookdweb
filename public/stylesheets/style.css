@@ -745,7 +745,7 @@ Hack so the table styles load before we're on the page
 
 #reset-container {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
-    height: 250px;
+    min-height: 250px;
     position: relative;
     width: 350px;
     perspective-origin: 165px 132px;
@@ -758,6 +758,7 @@ Hack so the table styles load before we're on the page
 
 #reset-container .reset-button {
     margin-top: 2em;
+    margin-bottom: 1em;
 }
 
 #reset-confirm {

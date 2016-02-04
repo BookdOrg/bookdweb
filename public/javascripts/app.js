@@ -16,6 +16,7 @@ require('angular-ui-router');
 require('bootstrap');
 require('ngmap');
 require('angular-ui-bootstrap');
+require('angular-ui-validate');
 require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
@@ -34,6 +35,7 @@ var app = angular.module('cc', [
     'ui.calendar',
     'ui-notification',
     'ui.router',
+    'ui.validate',
     'btford.socket-io'
 ]);
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')

@@ -1837,27 +1837,26 @@ router.get('/user/reset/:token', function (req, res, next) {
             return next(err);
         }
         if (!user) {
-            res.json({error: 'Password reset token is invalid or has expired.'});
-            return next();
+            res.status(401).json({error: 'Password reset token is invalid or has expired.'});
         }
         res.json({message: 'Success!'});
     });
 });
 
-router.post('/user/reset/:token/new', function (req, res, next) {
-    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
+router.post('/user/reset/new', function (req, res, next) {
+    User.findOne({resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
         if (err) {
             return next(err);
         }
+
         if (!user) {
-            res.json({error: 'Password reset token is invalid or has expired.'});
-            return next();
+            res.status(401).json({error: 'Password reset token is invalid or has expired.'});
+        } else {
+            User.salt = crypto.randomBytes(16).toString('hex');
+            User.hash = crypto.pbkdf2Sync(req.body.password, User.salt, 1000, 64).toString('hex');
+            res.json({message: 'Success!'});
         }
     });
-
-    User.salt = crypto.randomBytes(16).toString('hex');
-    User.hash = crypto.pbkdf2Sync(req.body.password, User.salt, 1000, 64).toString('hex');
-    res.json({message: 'Success!'});
 });
 
 module.exports = router;

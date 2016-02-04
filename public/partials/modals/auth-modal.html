@@ -59,16 +59,22 @@
                 </uib-alert>
             </div>
             <div class="row">
-            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                       ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                           ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
                 Please enter a valid email
             </uib-alert>
             </div>
             <div class="row">
-            <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                       ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
-                Your password must have more than 8 characters.
-            </uib-alert>
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                           ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
+                    Your password must have more than 8 characters.
+                </uib-alert>
+            </div>
+            <div class="row">
+                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                           ng-show="signUpForm.passwordVerify.$error.validator" role="alert">
+                    Password do not match.
+                </uib-alert>
             </div>
             <div class="row">
                 <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
@@ -93,8 +99,15 @@
                     <label>Password</label>
                     <input type="password" name="signUpPassword" class="form-control" placeholder="Password"
                            ng-model="user.password" ng-minlength="8" required
-                           ng-model-options="{ updateOn: 'default blur',debounce: {'default':500} }">
+                           ng-model-options="{ updateOn: 'default blur', debounce: {'default':500} }">
                 </div>
+                    <div class="form-group">
+                        <label for="passwordVerify">Confirm Password</label>
+                        <input ng-model="passwordVerify" class="form-control" type="password" name="passwordVerify"
+                               id="passwordVerify" ng-minlength="8" required placeholder="Confirm password"
+                               ui-validate=" '$value==user.password' " ui-validate-watch=" 'user.password' "
+                               ng-model-options="{ updateOn: 'default blur', debounce: {'default':500} }"/>
+                    </div>
 
                 <div class="form-group">
                     <button ng-click="signUpForm.$valid && register()" class="btn btn-gradient-primary col-xs-12"><i
