@@ -238,7 +238,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
                 });
             });
-            if (currentDateTime.isBefore(moment())) {
+            if (moment(timeObj.time, 'hh:mm a').isBefore(moment())) {
                 timeObj.hide = true;
             }
             var timeEnd = moment({
