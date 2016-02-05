@@ -779,6 +779,14 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 
     appointment.status = 'active';
 
+    var firstApptTemplateDir = path.join(__dirname, '../templates', 'customer-first-appointment');
+    var genApptTemplateDir = path.join(__dirname, '../templates', 'customer-general-appointment');
+
+    var firstApptTemplate = new EmailTemplate(firstApptTemplateDir);
+    var genApptTemplate = new EmailTemplate(genApptTemplateDir);
+    var templateObj = {};
+    templateObj.appointment = moment(appointment.start.full).format('MMM Do YYYY, h:mm a');
+
     var room = appointment.start.date.toString() + appointment.employee.toString();
     appointment.save(function (err, appointment) {
         if (err) {
@@ -791,6 +799,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            templateObj.employeeName = user.name;
+            templateObj.employeeName = templateObj.employeeName.split(' ', 1);
             user.businessAppointments.push(appointment);
             user.save(function (err) {
                 if (err) {
@@ -806,7 +816,41 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
+                templateObj.user = user.name;
+                templateObj.user = templateObj.user.split(' ', 1);
+
                 user.personalAppointments.push(appointment);
+                if (user.personalAppointments.length === 1) {
+                    firstApptTemplate.render(templateObj, function (err, results) {
+                        var mailOptions = {
+                            from: 'Bookd <contact@bookd.me>', // sender address
+                            to: user.email, // list of receivers
+                            subject: 'Bookd Appointment', // Subject line
+                            html: results.html // html body
+                        };
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, function (error) {
+                            if (error) {
+                                console.log(error);
+                            }
+                        });
+                    })
+                } else {
+                    genApptTemplate.render(templateObj, function (err, results) {
+                        var mailOptions = {
+                            from: 'Bookd <contact@bookd.me>', // sender address
+                            to: user.email, // list of receivers
+                            subject: 'Bookd Appointment', // Subject line
+                            html: results.html // html body
+                        };
+                        // send mail with defined transport object
+                        transporter.sendMail(mailOptions, function (error) {
+                            if (error) {
+                                console.log(error);
+                            }
+                        });
+                    })
+                }
                 user.save(function (err) {
                     if (err) {
                         return next(err);
@@ -844,7 +888,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-    var reScheduleTemplatedir = path.join(__dirname, '../templates', 'employee-reschedule');
+    var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
     var templateObj = {};
     if (req.body.customer && req.body.customer == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
@@ -902,7 +946,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                 });
             }
             if (req.body.customer) {
-                var reScheduleTemplate = new EmailTemplate(reScheduleTemplatedir);
+                var reScheduleTemplate = new EmailTemplate(rescheduleTemplateDir);
                 User.findOne({'_id': req.body.customer}).exec(function (err, user) {
                     if (err) {
                         return next(err);
