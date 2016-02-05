@@ -51,8 +51,9 @@
                                                                                  tooltip-placement="top"
                                                                                  tooltip-append-to-body="true"></i>
                                     </h5>
-                                    <h5>{{notification.content}}</h5>
-
+                                    <h5 ng-if="notification.type !== 'calendar'">{{notification.content}}</h5>
+                                    <h5 ng-if="notification.type ==='calendar'">
+                                        {{notification.content}}{{notification.date | notificationDateFilter }}</h5>
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <h5 class="notification-timestamp"><i>{{notification.timestamp |

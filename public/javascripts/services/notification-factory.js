@@ -3,12 +3,13 @@
  */
 module.exports = function ($http, auth, $q, $interval) {
     var o = {};
-    o.addNotification = function (id, content, type, sendEmail) {
+    o.addNotification = function (id, content, type, sendEmail, date) {
         var body = {
             id: id,
             content: content,
             type: type,
-            sendEmail: sendEmail
+            sendEmail: sendEmail,
+            date: date
         };
         return $http.post('/user/notifications/create', body, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}

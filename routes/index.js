@@ -270,6 +270,10 @@ io.on('connection', function (socket) {
             var notification = new Notification();
             //Content of the notification.
             notification.content = data.notification;
+            //Date of calendar notification
+            if (data.date) {
+                notification.date = data.date;
+            }
             //Timestamp of when notifications was created which is always now.
             notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
             //Type of notification. To be used for indicating importance.
@@ -389,8 +393,10 @@ router.post('/user/notifications/create', auth, function (req, res, next) {
     var notification = new Notification();
     //Content of the notification.
     notification.content = req.body.content;
+    //Date of the calendar notification
+    notification.date = req.body.date;
     //Timestamp of when notifications was created which is always now.
-    notification.timestamp = moment().format('MM/DD/YYYY, h:mm A');
+    notification.timestamp = moment().format();
     //Type of notification. To be used for indicating importance.
     notification.type = req.body.type;
     //Whether the notification was viewed or not.

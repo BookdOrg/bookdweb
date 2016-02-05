@@ -511,11 +511,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
-        var notification = 'You have a ' + $scope.service.name + ' on ' + moment(appointment.start.full, ['YYYY-MM-DDTHH:mm:ssZ', moment.ISO_8601]).calendar(null, {
-                    sameElse: 'dddd' + ', ' + 'Do' + ' - ' + 'hh:mm a'
-                }) + '.',
+        var notification = 'You have a ' + $scope.service.name + ' ',
             type = 'calendar';
-        notificationFactory.addNotification(personToNotify, notification, type, true)
+        notificationFactory.addNotification(personToNotify, notification, type, true, appointment.start.full)
             .then(function () {
                 var data = {
                     id: personToNotify,
