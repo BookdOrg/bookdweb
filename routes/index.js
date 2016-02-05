@@ -948,8 +948,12 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     var appointmentCard = req.body.card;
     var price = req.body.price;
     var businessId = req.body.businessId;
-
+    var successTemplateDir = path.join(__dirname, '../templates', 'customer-transaction-success');
+    //var failureTemplateDir = path.join(__dirname, '../templates', 'customer-transaction-failure');
     var fee = (price * .05) + 30;
+
+    var successTemplate = new EmailTemplate(successTemplateDir);
+    //var failureTemplate = new EmailTemplate(failureTemplateDir);
 
     Business.findOne({'_id': businessId}).exec(function (err, business) {
         var stripeId = business.stripeId;
@@ -962,6 +966,13 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
             description: 'Bookd Appointment'
         }, function (err, charge) {
             if (err && err.type === 'StripeCardError') {
+                //var templateObj = {
+                //    price:price
+                //};
+                //failureTemplate.render(templateObj,function(err,results){
+                //    sendEmail();
+                //});
+
                 // The card has been declined
                 res.status(400).json(err);
             } else {
@@ -975,12 +986,40 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
                         if (err) {
                             return next(err);
                         }
+                        var templateObj = {
+                            price: price / 100,
+                            brand: charge.source.brand,
+                            lastFour: charge.source.last4
+                        };
+                        sendSuccessEmail(templateObj);
                         res.json(resAppointment);
                     });
                 });
             }
         });
     });
+
+    function sendSuccessEmail(templateObj) {
+        User.findOne({"_id": req.body.customer}).exec(function (error, user) {
+            if (user) {
+                templateObj.user = user.name.split(' ', 1);
+                successTemplate.render(templateObj, function (error, results) {
+                    var mailOptions = {
+                        from: 'Bookd <contact@bookd.me>', // sender address
+                        to: user.email, // list of receivers
+                        subject: 'Bookd Transaction', // Subject line
+                        html: results.html // html body
+                    };
+                    // send mail with defined transport object
+                    transporter.sendMail(mailOptions, function (error) {
+                        if (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            }
+        });
+    }
 });
 
 router.post('/business/appointment/status-update', auth, function (req, res, next) {
@@ -1719,6 +1758,8 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                     res.json(stripeResponse);
                     bankingTemplateObj.businessName = business.name;
                     bankingTemplateObj.legalEntity = stripeResponse.legal_entity;
+                    bankingTemplateObj.lastFour = stripeResponse.bank_accounts.data[0].last4;
+                    bankingTemplateObj.bankName = stripeResponse.bank_accounts.data[0].bank_name;
                     sendEmail(bankingTemplateObj);
 
                 });
@@ -1731,7 +1772,7 @@ router.post('/business/update-payments-account', auth, function (req, res, next)
                     var mailOptions = {
                         from: 'Bookd <contact@bookd.me>', // sender address
                         to: user.email, // list of receivers
-                        subject: 'Bookd Updated Info', // Subject line
+                        subject: 'Bookd Updated Information', // Subject line
                         html: results.html // html body
                     };
                     // send mail with defined transport object
