@@ -342,10 +342,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     }
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
-            var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
-            if (indexToUpdate !== -1) {
-                $scope.availableTimes[indexToUpdate].available = false;
-            }
+            getAvailableTimes($scope.selectedDate, data.appointment.employee);
         }
     });
 

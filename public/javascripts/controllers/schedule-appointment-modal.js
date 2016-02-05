@@ -303,10 +303,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     //If someone books an appointment, update the current users screen
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
-            var indexToUpdate = parseInt(_.findKey($scope.availableTimes, {'time': appointment.start.time}));
-            if (indexToUpdate !== -1) {
-                $scope.availableTimes[indexToUpdate].available = false;
-            }
+            getEmployeeAppts($scope.selectedDate, $scope.employee._id);
         }
     });
     socketService.on('update', function () {
