@@ -377,7 +377,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
  * Gets the last 100 notifications for the given user.
  */
 router.get('/user/notifications', auth, function (req, res, next) {
-    Notification.find({'user': req.payload._id}).sort({_id: -1}).limit(25).exec(function (err, notifications) {
+    Notification.find({'user': req.payload._id}).sort({timestamp: -1, viewed: -1}).exec(function (err, notifications) {
         if (err) {
             return next(err);
         }
