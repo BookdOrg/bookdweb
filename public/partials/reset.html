@@ -3,7 +3,15 @@
         <div class="row text-center center-screen">
             <div class="col-xs-12">
                 <div id="reset-container">
-                    <form class="form-inline">
+                    <form class="form-inline" name="emailForm">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <uib-alert class="text-center" type="danger"
+                                           ng-show="error" role="alert">
+                                    {{error}}
+                                </uib-alert>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <h2>Reset your password</h2>
@@ -13,15 +21,17 @@
                         <label for="email">
                             Your Email
                         </label>
-                        <input ng-model="email" class="form-control" type="email" id="email" placeholder="Your email"/>
-                        <button type="submit" class="btn btn-primary reset-button" ng-click="reset()">
+                        <input ng-model="email" class="form-control" required type="email" id="email"
+                               placeholder="Your email"/>
+                        <button type="submit" class="btn btn-primary reset-button"
+                                ng-click="emailForm.$valid && reset()">
                             Send reset password email
                         </button>
                     </form>
-                </div>
-                <div class="row" id="reset-confirm">
-                    <div class="col-xs-12">
-                        <p>An email is on its way to you. Follow the instructions to reset your password.</p>
+                    <div class="row" ng-show="emailSent">
+                        <div class="col-xs-12">
+                            <p>An email is on its way to you. Follow the instructions to reset your password.</p>
+                        </div>
                     </div>
                 </div>
             </div>
