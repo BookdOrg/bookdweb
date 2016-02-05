@@ -157,14 +157,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 hide: false,
                 user: $scope.currentUser._id
             };
-            var currentDateTime = moment().set({
-                'year': moment(employeeDate).year(),
-                'month': moment(employeeDate).month(),
-                'date': moment(employeeDate).date(),
-                'hour': moment(timeObj.time, 'hh:mm a').hour(),
-                'minute': moment(timeObj.time, 'hh:mm a').minute(),
-                'second': '00'
-            });
             _.forEach(employeeAvailability.gaps, function (gap) {
                 var gapStartHour = moment(gap.start, 'hh:mm a').hour();
                 var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
@@ -238,7 +230,16 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
                 });
             });
-            if (moment(timeObj.time, 'hh:mm a').isBefore(moment())) {
+            var currentDateTime = moment().set({
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'date': moment(employeeDate).date(),
+                'hour': moment(timeObj.time, 'hh:mm a').hour(),
+                'minute': moment(timeObj.time, 'hh:mm a').minute(),
+                'second': 0,
+                'milliseconds': 0
+            });
+            if (currentDateTime.isBefore(moment())) {
                 timeObj.hide = true;
             }
             var timeEnd = moment({
