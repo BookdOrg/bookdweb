@@ -1850,16 +1850,21 @@ router.get('/user/reset/:token', function (req, res, next) {
 });
 
 router.post('/user/reset/new', function (req, res, next) {
-    User.findOne({resetPasswordToken: req.body.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
+    User.findOne({
+        resetPasswordToken: req.body.token,
+        resetPasswordExpires: {$gt: Date.now()}
+    }).exec(function (err, user) {
         if (err) {
-            return next(err);
+            console.log(err);
         }
-
+        console.log(user);
         if (!user) {
             res.status(401).json({error: 'Password reset token is invalid or has expired.'});
         } else {
-            User.salt = crypto.randomBytes(16).toString('hex');
-            User.hash = crypto.pbkdf2Sync(req.body.password, User.salt, 1000, 64).toString('hex');
+            user.setPassword(req.body.password);
+            user.resetPasswordToken = '';
+            user.resetPasswordExpires = null;
+            user.save();
             res.json({message: 'Success!'});
         }
     });

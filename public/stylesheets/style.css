@@ -761,10 +761,6 @@ Hack so the table styles load before we're on the page
     margin-bottom: 1em;
 }
 
-#reset-confirm {
-    display: none;
-}
-
 .wrapper {
     min-height: 100%;
     height: 100%;
