@@ -301,7 +301,8 @@ router.get('/user/appointments', auth, function (req, res, next) {
 
     User.findOne({'_id': employeeId}).populate({
         path: 'businessAppointments personalAppointments',
-        match: {'start.date': startDate}
+        match: {'start.date': startDate},
+        $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
     }).exec(function (err, employee) {
         if (err) {
             return next(err);
@@ -352,7 +353,8 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
     };
     Appointment.find({
         'customer': id,
-        'start.full': {'$gte': isoStart, $lt: isoEnd}
+        'start.full': {'$gte': isoStart, $lt: isoEnd},
+        $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
     }).exec(function (err, customerAppointments) {
         if (err) {
             //console.log(err);
@@ -1141,7 +1143,7 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             //console.log('appointment not associated with this user. id=', appointment);
         }
     });
-    Appointment.findOneAndRemove({'_id': appointment}, function (err, resAppointment) {
+    Appointment.findOneAndUpdate({'_id': appointment}, {$set: {status: 'canceled'}}, {new: true}, function (err, resAppointment) {
         if (err) {
             return next(err);
         }
