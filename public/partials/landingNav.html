@@ -73,7 +73,7 @@
                     </div>
                 </li>
                 <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
-                    <a ng-href="" uib-dropdown-toggle class=" avatarPadding">
+                    <a ng-href="" uib-dropdown-toggle class=" avatarPadding truncateTrunc">
                         <img class="navbarAvatar"
                              ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
                              ng-src="{{cloudinaryDefaultPic}}"/>
