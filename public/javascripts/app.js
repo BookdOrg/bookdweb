@@ -294,7 +294,16 @@ app.config([
             })
             .state('contact', {
                 url: '/contactUs',
-                templateUrl: 'partials/contact.html'
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'partials/contact.html',
+                        controller: 'NavCtrl'
+                    }
+                }
             })
             .state('reset', {
                 url: '/reset',
