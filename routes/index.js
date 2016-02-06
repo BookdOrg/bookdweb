@@ -527,13 +527,11 @@ router.post('/user/description/update', auth, function (req, res, next) {
 router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
-    console.log(id);
     User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
         path: 'businesses',
         select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
     }])
         .exec(function (error, user) {
-            console.log(user);
             if (error) {
                 return next(error);
             }
