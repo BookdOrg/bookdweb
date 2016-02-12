@@ -41,7 +41,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.use(logger('dev'));
+if (process.env.NODE_ENV === 'development') {
+    app.use(logger('dev'));
+} else {
+    app.use(logger('combined'));
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
