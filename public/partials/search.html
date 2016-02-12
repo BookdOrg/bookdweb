@@ -11,8 +11,8 @@
                 <p class="text-center text-muted" ng-if="businesses.length > 0">Results</p>
             </div>
             <div ng-repeat="business in businesses track by $index" ng-mouseover="showDetail(business)">
-                <a ng-href="/business/{{business.place_id}}" ng-click="selectBusiness(business)">
-                    <div class="row">
+                <a href="#">
+                    <div class="row" ng-click="selectBusiness(business)">
                         <div class="col-md-12 text-center">
                             <img ng-if="!business.photos" ng-src="{{business.icon}}"
                                  uib-tooltip="Photos coming soon..." tooltip-placement="right"

@@ -1,4 +1,4 @@
-module.exports = function ($scope, businessFactory, $controller, $rootScope, NgMap, socketService) {
+module.exports = function ($scope, businessFactory, $controller, $rootScope, NgMap, socketService, $state) {
 
     var vm = this;
     $scope.businesses = businessFactory.businesses;
@@ -9,6 +9,7 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     };
     $scope.selectBusiness = function (business) {
         businessFactory.business = business;
+        $state.go('business', {'businessid': business.place_id});
     };
     $scope.max = 5;
     $scope.isReadonly = true;
