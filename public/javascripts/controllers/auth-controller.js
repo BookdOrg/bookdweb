@@ -130,7 +130,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                             'provider': result.provider,
                             'providerId': response.id
                         };
-                        auth.register(user, response.image.url)
+                        var profilePicture = response.image.url.replace('sz=50', 'sz=200');
+                        auth.register(user, profilePicture)
                             .then(function () {
                                 onlineData.user = $rootScope.currentUser._id;
                                 socketService.emit('online', onlineData);

@@ -355,7 +355,7 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         'customer': id,
         'start.full': {'$gte': isoStart, $lt: isoEnd},
         $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
-    }).exec(function (err, customerAppointments) {
+    }).populate('customer employee').exec(function (err, customerAppointments) {
         if (err) {
             //console.log(err);
             return next(err);
@@ -872,7 +872,7 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
         'businessId': businessId,
         'start.full': {'$gte': isoStart, $lt: isoEnd},
         $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
-    }).exec(function (error, response) {
+    }).populate('customer employee').exec(function (error, response) {
         if (error) {
             return next(error);
         }
@@ -891,7 +891,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
     var templateObj = {};
     if (req.body.customer && req.body.customer == req.payload._id) {
-        Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
+        Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
             if (err) {
                 return next(err);
             }
@@ -920,7 +920,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             });
         });
     } else {
-        Appointment.findOne({'_id': updatedAppointmentId}).exec(function (err, appointment) {
+        Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
             if (err) {
                 return next(err);
             }

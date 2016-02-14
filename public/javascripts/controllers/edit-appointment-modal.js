@@ -18,7 +18,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             //set the service to the $scope property
             $scope.service = data;
             //grab the employee details from the services list of employees based on the appointments employeeID
-            $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
+            $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
             //if there's no employee we set this flag to true
             if (!$scope.employee) {
                 $scope.showNoEmployee = true;
@@ -69,8 +69,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.$broadcast('timer-clear');
             $scope.previousDate = moment(new Date(oldVal)).format('MM/DD/YYYY');
             var selectedDate = new Date(newVal);
-            //var roomId = moment(selectedDate).format('MM/YYYY') + data.appointment.employee;
-            getAvailableTimes(selectedDate, data.appointment.employee);
+            //var roomId = moment(selectedDate).format('MM/YYYY') + data.appointment.employee._id._id;
+            getAvailableTimes(selectedDate, data.appointment.employee._id);
         }
     });
     /**
@@ -281,7 +281,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 startDate: $scope.newRoomDate,
                 employeeId: employeeId,
                 previousDate: $scope.previousDate,
-                customerId: data.appointment.customer,
+                customerId: data.appointment.customer._id,
                 personal: true
             };
         } else {
@@ -289,7 +289,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 startDate: $scope.newRoomDate,
                 employeeId: employeeId,
                 previousDate: $scope.previousDate,
-                customerId: data.appointment.customer,
+                customerId: data.appointment.customer._id,
                 personal: false
             };
         }
@@ -343,13 +343,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     }
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
-            getAvailableTimes($scope.selectedDate, data.appointment.employee);
+            getAvailableTimes($scope.selectedDate, data.appointment.employee._id);
         }
     });
 
     //If someone books an appointment, update the current users screen
     socketService.on('update', function () {
-        getAvailableTimes($scope.selectedDate, data.appointment.employee);
+        getAvailableTimes($scope.selectedDate, data.appointment.employee._id);
     });
     //When a socket join the appointment room late, we send the list of available times currently being held
     socketService.on('oldHold', function (data) {
@@ -479,8 +479,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $scope.appointment = {
             _id: data.appointment._id,
             businessId: data.appointment.businessId,
-            employee: data.appointment.employee,
-            customer: data.appointment.customer,
+            employee: data.appointment.employee._id,
+            customer: data.appointment.customer._id,
             start: {
                 date: apptDate,
                 monthYear: $scope.monthYear,
@@ -506,8 +506,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.appointment = {
                 _id: data.appointment._id,
                 businessId: data.appointment.businessId,
-                employee: data.appointment.employee,
-                customer: data.appointment.customer,
                 start: {
                     date: data.appointment.start.date,
                     monthYear: $scope.monthYear,
