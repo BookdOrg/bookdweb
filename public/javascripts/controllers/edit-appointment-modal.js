@@ -274,24 +274,19 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $scope.newRoomDate = moment(new Date(date)).format('MM/DD/YYYY');
         $scope.monthYear = moment(new Date($scope.newRoomDate)).format('MM/YYYY');
 
-        var employeeApptObj = {};
+        var employeeApptObj = {
+            startDate: $scope.newRoomDate,
+            employeeId: employeeId,
+            previousDate: $scope.previousDate
+        };
+        if (data.appointment.customer !== null) {
+            employeeApptObj.customerId = data.appointment.customer._id;
+        }
         //If the appointment is being edited by the user who it's for this flag will be true
         if (personal) {
-            employeeApptObj = {
-                startDate: $scope.newRoomDate,
-                employeeId: employeeId,
-                previousDate: $scope.previousDate,
-                customerId: data.appointment.customer._id,
-                personal: true
-            };
+            employeeApptObj.personal = true;
         } else {
-            employeeApptObj = {
-                startDate: $scope.newRoomDate,
-                employeeId: employeeId,
-                previousDate: $scope.previousDate,
-                customerId: data.appointment.customer._id,
-                personal: false
-            };
+            employeeApptObj.personal = false;
         }
         //Join the socket room with all the other users who are looking at this date for the given employee.
         socketService.emit('joinApptRoom', employeeApptObj);
