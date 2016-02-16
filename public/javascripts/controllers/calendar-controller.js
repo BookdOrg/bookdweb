@@ -262,7 +262,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     $scope.uiConfig = {
         calendar: {
             height: 700,
-            editable: true,
+            editable: false,
             displayEventEnd: true,
             defaultView: 'month',
             eventLimit: true,

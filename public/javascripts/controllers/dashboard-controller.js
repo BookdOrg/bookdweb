@@ -580,7 +580,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.uiConfig = {
         calendar: {
             height: 700,
-            editable: true,
+            editable: false,
             displayEventEnd: true,
             eventLimit: true,
             defaultView: 'agendaWeek',
