@@ -781,3 +781,7 @@ Hack so the table styles load before we're on the page
 .background {
     background-color: lightgray;
 }
+
+.fc-event {
+    cursor: pointer;
+}
