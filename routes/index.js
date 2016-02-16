@@ -1310,7 +1310,7 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var businessName = req.body.businessName;
-
+    var employeeSocketObj = _.findWhere(clients, {'customId': employeeId});
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         if (err) {
             return next(err);
@@ -1379,13 +1379,14 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                         gaps: [],
                         available: false
                     }];
-
                 employee.availabilityArray.push({
                     'businessName': businessName,
                     'businessId': businessId,
                     'availability': availability
                 });
-
+                if (employeeSocketObj) {
+                    io.to(employeeSocketObj.id).emit('update-user', employee);
+                }
                 employee.save(function (err, user) {
                     if (err) {
                         return next(err);
@@ -1479,7 +1480,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
-
+    var employeeSocketObj = _.findWhere(clients, {'customId': employeeId});
     var removeEmployeeTemplateDir = path.join(__dirname, '../templates', 'remove-employee');
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {
@@ -1500,6 +1501,9 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                     }
                     var availabilityIndex = _.findIndex(user.availabilityArray, {'businessId': businessId});
                     user.availabilityArray.splice(availabilityIndex, 1);
+                    if (employeeSocketObj) {
+                        io.to(employeeSocketObj.id).emit('update-user', user);
+                    }
                     user.save(function (err) {
                         if (err) {
                             res.status(400).json(err);
