@@ -16,6 +16,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
          */
         saveUser: function (token, user) {
             if (user) {
+                $window.localStorage.removeItem('user');
                 $window.localStorage['user'] = angular.toJson(user);
             }
             if (token) {

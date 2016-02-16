@@ -367,6 +367,10 @@ app.config([
     socketService.on('error', function (data) {
         console.log(data);
     });
+    socketService.on('update-user', function (data) {
+        auth.saveUser(null, data);
+        $rootScope.currentUser = auth.currentUser();
+    });
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {
             $templateCache.remove(current.templateUrl);

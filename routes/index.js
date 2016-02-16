@@ -519,6 +519,20 @@ router.post('/user/description/update', auth, function (req, res, next) {
 
     });
 });
+router.post('/user/claimed-success', function (req, res, next) {
+    var user = _.findWhere(clients, {'customId': req.query.user});
+    if (user) {
+        User.findOne({'_id': user.customId}).exec(function (error, activeUser) {
+            if (error) {
+                return next(error);
+            }
+            activeUser.hash = '';
+            activeUser.salt = '';
+            io.to(user.id).emit('update-user', activeUser);
+            res.json({message: 'Success'});
+        });
+    }
+});
 /**
  *  Returns all Dashboard information
  *
