@@ -273,7 +273,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 'minutes': moment(employeeAvailability.dayEnd).minute(),
                 'seconds': moment(employeeAvailability.dayEnd).second()
             });
-            if (moment(timeEnd).isSameOrBefore(moment(dayEnd)) && moment(timeStart).isBefore(moment(dayEnd))) {
+            if (moment(timeEnd.format()).isSameOrBefore(moment(dayEnd.format())) && !moment(timeStart.format()).isSameOrAfter(moment(dayEnd.format()))
+                && !moment(timeStart.format()).isSameOrAfter(moment(timeEnd).format())) {
                 availableTimes.push(timeObj);
             }
         }

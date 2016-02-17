@@ -251,6 +251,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 'seconds': 00,
                 'milliseconds': 00
             });
+            var timeStart = moment({
+                'date': moment(employeeDate).date(),
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'hour': moment(timeObj.time, 'hh:mm a').hour(),
+                'minutes': moment(timeObj.time, 'hh:mm a').minute(),
+                'seconds': 00,
+                'milliseconds': 00
+            });
             var dayEnd = moment({
                 'date': moment(employeeDate).date(),
                 'year': moment(employeeDate).year(),
@@ -259,7 +268,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 'minutes': moment(employeeAvailability.dayEnd).minute(),
                 'seconds': moment(employeeAvailability.dayEnd).second()
             });
-            if (timeEnd.isSameOrBefore(dayEnd)) {
+            if (moment(timeEnd.format()).isSameOrBefore(moment(dayEnd.format())) && !moment(timeStart.format()).isSameOrAfter(moment(timeEnd).format())
+                && !moment(timeStart.format()).isSameOrAfter(moment(dayEnd.format()))) {
                 availableTimes.push(timeObj);
             }
         }
