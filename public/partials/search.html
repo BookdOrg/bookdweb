@@ -1,7 +1,44 @@
 <div class="container-fluid" style="background-color:white;">
     <div class="row">
         <div class="col col-xs-12 col-sm-5 searchResults">
-            <div class="page-header">
+            <div class="page-header hidden-xs">
+                <p class="text-center text-muted" ng-if="businesses.length === 0 && !searched">Go Ahead, Search for
+                    Businesses!</p>
+
+                <p class="text-center text-muted" ng-if="businesses.length === 0 && searched">Sorry, no results for that
+                    business/service.</p>
+
+                <p class="text-center text-muted" ng-if="businesses.length > 0">Results</p>
+            </div>
+            <div class="row page-header hidden-sm hidden-md hidden-lg" style="margin-top:10px;">
+                <form name="navQuery" class="form-inline">
+                    <div class="col-xs-12">
+                        <div class="form-group left-inner-addon">
+                            <i class="fa fa-search"></i>
+                            <input class="form-control input-md" aria-describedby="search" ng-model="query.term"
+                                   placeholder="Hair Salons" required>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group left-inner-addon">
+                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                            <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                            <input class="form-control input-md" aria-describedby="near" g-places-autocomplete
+                                   options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
+                                   required>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-xs-offset-2">
+                        <button class="btn btn-lg btn-block sectionBtn" ng-click="navQuery.$valid && search(query)"
+                                type="submit">
+                            <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                               ng-class="{'fa-pulse' : fetchingQuery}"></i>
+                            <span ng-show="!fetchingQuery">Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="hidden-sm hidden-md hidden-lg">
                 <p class="text-center text-muted" ng-if="businesses.length === 0 && !searched">Go Ahead, Search for
                     Businesses!</p>
 
