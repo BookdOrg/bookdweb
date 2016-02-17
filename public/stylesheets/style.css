@@ -26,18 +26,6 @@ body {
     font-family: "Lucida Grande", Arial, sans-serif;
     /*font-weight: 400;*/
 }
-
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-}
-
 .disabled {
     opacity: .5;
     cursor: not-allowed;
@@ -176,11 +164,12 @@ span.tab-space {
 }
 
 .left-inner-addon input {
+    color: black !important;
     padding-left: 30px;
 }
 
 .left-inner-addon i {
-    color: black;
+    color: black !important;
     position: absolute;
     padding: 10px 10px;
     pointer-events: none;
