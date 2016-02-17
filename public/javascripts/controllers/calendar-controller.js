@@ -108,10 +108,13 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
                 //if the appointment is active and the person on the calendar is the customer enter this block, set bgcolor
-                if (date.appointment.status === 'active' && date.appointment.customer._id === $rootScope.currentUser._id) {
+                if (date.appointment.status === 'active' && date.appointment.customer._id && date.appointment.customer._id === $rootScope.currentUser._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
                     //if the appointment is active and the person on the calendar is the employee enter this block, set bgColor
+                } else if (date.appointment.status === 'active' && date.appointment.customer && date.appointment.customer === $rootScope.currentUser._id) {
+                    date.backgroundColor = '#3A87BA';
+                    date.borderColor = '#3A87BA';
                 } else if (date.appointment.status === 'active' && date.appointment.employee._id == $rootScope.currentUser._id) {
                     date.backgroundColor = '#f70';
                     date.borderColor = '#f70';

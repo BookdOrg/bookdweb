@@ -640,7 +640,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
          *
          */
         modalInstance.result.then(function (date) {
-            console.log(date);
             if (date && date.appointment !== 'canceled') {
                 if (date.appointment.status == 'paid') {
                     date.backgroundColor = '#f39';
@@ -649,10 +648,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 if (date.appointment.status == 'pending') {
                     date.backgroundColor = '#f00';
                     date.borderColor = '#f00';
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
                 }
-                date.start = new Date(date.appointment.start.full);
-                date.end = new Date(date.appointment.end.full);
+                date.start = moment(date.appointment.start.full);
+                date.end = moment(date.appointment.end.full);
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
             } else if (date && date.appointment === 'canceled') {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
@@ -733,72 +731,75 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('updatedAppt', function (data) {
-        var eventIndex = _.findIndex($scope.events,function(event){
-            return event._id === data.appointment._id;
-        });
-        if(eventIndex !== -1){
-            if ($scope.events[eventIndex]._id === data.appointment._id && data.appointment.status !== 'pending') {
-                var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
-                if (event.length > 0) {
-                    $scope.lastUpdatedView = moment().calendar();
-                    $scope.lastUpdated = moment();
-                    event[0].start = moment(data.appointment.start.full);
-                    event[0].end = moment(data.appointment.end.full);
-                    event[0].appointment = data.appointment;
-                    event[0].backgroundColor = null;
-                    event[0].borderColor = null;
-                    $scope.events[eventIndex].start = data.appointment.start.full;
-                    $scope.events[eventIndex].end = data.appointment.end.full;
-                    $scope.events[eventIndex].appointment = data.appointment;
-                    $scope.events[eventIndex].backgroundColor = null;
-                    $scope.events[eventIndex].borderColor = null;
-                    $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
-                    if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id !== null) {
-                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
-                        Notification.info({message: 'A customer has re-scheduled an appointment!'});
-                    } else if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id === null) {
-                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
-                        Notification.info({message: 'An employee has re-scheduled an appointment!'});
+        if (data.from !== $rootScope.currentUser._id) {
+            var eventIndex = _.findIndex($scope.events, function (event) {
+                return event._id === data.appointment._id;
+            });
+            if (eventIndex !== -1) {
+                if ($scope.events[eventIndex]._id === data.appointment._id && data.appointment.status !== 'pending') {
+                    var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);
+                    if (event.length > 0) {
+                        $scope.lastUpdatedView = moment().calendar();
+                        $scope.lastUpdated = moment();
+                        event[0].start = moment(data.appointment.start.full);
+                        event[0].end = moment(data.appointment.end.full);
+                        event[0].appointment = data.appointment;
+                        event[0].backgroundColor = null;
+                        event[0].borderColor = null;
+                        $scope.events[eventIndex].start = data.appointment.start.full;
+                        $scope.events[eventIndex].end = data.appointment.end.full;
+                        $scope.events[eventIndex].appointment = data.appointment;
+                        $scope.events[eventIndex].backgroundColor = null;
+                        $scope.events[eventIndex].borderColor = null;
+                        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
+                        if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id !== null) {
+                            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
+                            Notification.info({message: 'A customer has re-scheduled an appointment!'});
+                        } else if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id === null) {
+                            uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
+                            Notification.info({message: 'An employee has re-scheduled an appointment!'});
+                        } else {
+                            Notification.info({message: 'You have re-scheduled an appointment!'});
+                        }
                     } else {
-                        Notification.info({message: 'You have re-scheduled an appointment!'});
+                        var newEvent = {
+                            title: data.appointment.title,
+                            start: data.appointment.start.full,
+                            end: data.appointment.end.full,
+                            appointment: data.appointment
+                        };
+                        $scope.events[eventIndex].start = data.appointment.start.full;
+                        $scope.events[eventIndex].end = data.appointment.end.full;
+                        $scope.events[eventIndex].appointment = data.appointment;
+                        $scope.events[eventIndex].backgroundColor = null;
+                        $scope.events[eventIndex].borderColor = null;
+                        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
+                        uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
+                        Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                     }
-                } else {
-                    var newEvent = {
-                        title: data.appointment.title,
-                        start: data.appointment.start.full,
-                        end: data.appointment.end.full,
-                        appointment: data.appointment
-                    };
+                } else if (data.appointment.status === 'pending') {
+                    Notification.info({
+                        message: 'An employee has re-scheduled an appointment, ' +
+                        'it is pending and will be updated when the customer accepts.'
+                    });
+                    var pendingEvent = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [data.appointment._id]);
                     $scope.events[eventIndex].start = data.appointment.start.full;
                     $scope.events[eventIndex].end = data.appointment.end.full;
                     $scope.events[eventIndex].appointment = data.appointment;
-                    $scope.events[eventIndex].backgroundColor = null;
-                    $scope.events[eventIndex].borderColor = null;
+                    $scope.events[eventIndex].backgroundColor = '#f00';
+                    $scope.events[eventIndex].borderColor = '#f00';
+                    pendingEvent[0].start = data.appointment.start.full;
+                    pendingEvent[0].end = data.appointment.end.full;
+                    pendingEvent[0].appointment = data.appointment;
+                    pendingEvent[0].backgroundColor = '#f00';
+                    pendingEvent[0].borderColor = '#f00';
                     $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
-                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
-                    Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
                 }
-            } else if (data.appointment.status === 'pending') {
-                Notification.info({message: 'An employee has re-scheduled an appointment, ' +
-                'it is pending and will be updated when the customer accepts.'
-                });
-                var pendingEvent = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [data.appointment._id]);
-                $scope.events[eventIndex].start = data.appointment.start.full;
-                $scope.events[eventIndex].end = data.appointment.end.full;
-                $scope.events[eventIndex].appointment = data.appointment;
-                $scope.events[eventIndex].backgroundColor = '#f00';
-                $scope.events[eventIndex].borderColor = '#f00';
-                pendingEvent[0].start = data.appointment.start.full;
-                pendingEvent[0].end = data.appointment.end.full;
-                pendingEvent[0].appointment = data.appointment;
-                pendingEvent[0].backgroundColor = '#f00';
-                pendingEvent[0].borderColor = '#f00';
-                $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
+            } else {
+                Notification.info({message: 'A customer has accepted a re-scheduled appointment!'});
+                $scope.addEvent(data.appointment);
             }
-        }else{
-            Notification.info({message: 'A customer has accepted a re-scheduled appointment!'});
-            $scope.addEvent(data.appointment);
         }
     });
     /**
@@ -807,18 +808,20 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('newAppt', function (appointment) {
-        $scope.addEvent(appointment);
-        Notification.success({message: 'New appointment booked!'});
-        if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
-        } else {
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id] = {};
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments = [];
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
-        }
+        if (data.from !== $rootScope.currentUser._id) {
+            $scope.addEvent(appointment);
+            Notification.success({message: 'New appointment booked!'});
+            if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
+                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
+            } else {
+                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id] = {};
+                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments = [];
+                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
+            }
 
-        $scope.lastUpdatedView = moment().calendar();
-        $scope.lastUpdated = moment();
+            $scope.lastUpdatedView = moment().calendar();
+            $scope.lastUpdated = moment();
+        }
     });
     /**
      *
@@ -827,19 +830,21 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('canceledAppt', function (data) {
-        var eventId;
-        var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments;
-        employeeAppointments = _.without(employeeAppointments, _.findWhere(employeeAppointments, {'_id': data.appointment._id}));
-        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments = employeeAppointments;
-        for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
-            if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
-                eventId = $scope.events[eventIndex]._id;
-                Notification.warning({message: 'An appointment has been canceled'});
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
+        if (data.from !== $rootScope.currentUser._id) {
+            var eventId;
+            var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments;
+            employeeAppointments = _.without(employeeAppointments, _.findWhere(employeeAppointments, {'_id': data.appointment._id}));
+            $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments = employeeAppointments;
+            for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
+                if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
+                    eventId = $scope.events[eventIndex]._id;
+                    Notification.warning({message: 'An appointment has been canceled'});
+                    uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [eventId]);
+                }
             }
+            $scope.lastUpdatedView = moment().calendar();
+            $scope.lastUpdated = moment();
         }
-        $scope.lastUpdatedView = moment().calendar();
-        $scope.lastUpdated = moment();
     });
 
     $scope.$on('$destroy', function () {
