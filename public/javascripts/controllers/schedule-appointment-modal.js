@@ -463,22 +463,13 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 appointment.roomId = $scope.activeTime.roomId;
                 //emit that an appointment was booked, sends to relevant sockets
                 socketService.emit('apptBooked', appointment);
-                //if (personal) {
-                //    userFactory.getUserAppts().then(
-                //        function (data) {
-                //            $rootScope.currentUser.appointments = data;
-                //        },
-                //        function (errorMessage) {
-                //            console.log(errorMessage);
-                //        }
-                //    );
-                //}
                 removeAllListeners();
                 $uibModalInstance.close(appointment);
             }, function (err) {
                 removeAllListeners();
                 //TODO Really handle this
                 console.log(err);
+                $uibModalInstance.dismiss(error);
             });
     };
     //Books the appointment without stripe
@@ -491,7 +482,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;
                 socketService.emit('apptBooked', appointment);
-
+                removeAllListeners();
+                $uibModalInstance.close(appointment);
             }, function (error) {
                 removeAllListeners();
                 $uibModalInstance.dismiss(error);
@@ -512,7 +504,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
-        var notification = 'You have a ' + $scope.service.name + ' ',
+        var notification = $scope.service.name + ' ',
             type = 'calendar';
         notificationFactory.addNotification(personToNotify, notification, type, true, appointment.start.full)
             .then(function () {
@@ -522,8 +514,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     type: type
                 };
                 socketService.emit('newNotifGenerated', data);
-                removeAllListeners();
-                $uibModalInstance.close(appointment);
             }, function (err) {
                 console.log(err);
             });

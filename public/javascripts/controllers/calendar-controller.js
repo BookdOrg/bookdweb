@@ -108,16 +108,16 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
                 date.start = date.appointment.start.full;
                 date.end = date.appointment.end.full;
                 //if the appointment is active and the person on the calendar is the customer enter this block, set bgcolor
-                if (date.appointment.status === 'active' && date.appointment.customer === $rootScope.currentUser._id) {
+                if (date.appointment.status === 'active' && date.appointment.customer._id === $rootScope.currentUser._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
                     //if the appointment is active and the person on the calendar is the employee enter this block, set bgColor
-                } else if (date.appointment.status === 'active' && date.appointment.employee == $rootScope.currentUser._id) {
+                } else if (date.appointment.status === 'active' && date.appointment.employee._id == $rootScope.currentUser._id) {
                     date.backgroundColor = '#f70';
                     date.borderColor = '#f70';
                     //if the appointment is active and there's no customer we set the bgColor as blue -- THIS MAY BE REDUNDANT (For dashboard)
-                } else if (date.appointment.status === 'active' && date.appointment.employee !== $rootScope.currentUser._id ||
-                    date.appointment.customer !== $rootScope.currentUser._id) {
+                } else if (date.appointment.status === 'active' && date.appointment.employee._id !== $rootScope.currentUser._id ||
+                    date.appointment.customer._id !== $rootScope.currentUser._id) {
                     date.backgroundColor = '#3A87BA';
                     date.borderColor = '#3A87BA';
                 }
@@ -167,7 +167,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date) {
         var personal = false;
-        if (date.appointment.customer) {
+        if (date.appointment.customer !== null) {
             personal = true;
         }
         $scope.open('lg', date, personal);
@@ -307,7 +307,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
          *
          * Find the appointment in the events array and then update the appointment for the employee.
          */
-        if (data.from === data.appointment.customer) {
+        if (data.from === data.appointment.customer._id) {
             for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
                     var event = uiCalendarConfig.calendars['myCalendar1'].fullCalendar('clientEvents', [$scope.events[eventIndex]._id]);

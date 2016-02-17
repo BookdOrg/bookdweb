@@ -18,7 +18,12 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             //set the service to the $scope property
             $scope.service = data;
             //grab the employee details from the services list of employees based on the appointments employeeID
-            $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
+            if ($scope.dateObj.appointment.employee._id) {
+                $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
+            } else {
+                $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
+            }
+
             //if there's no employee we set this flag to true
             if (!$scope.employee) {
                 $scope.showNoEmployee = true;
@@ -251,6 +256,15 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 'seconds': 00,
                 'milliseconds': 00
             });
+            var timeStart = moment({
+                'date': moment(employeeDate).date(),
+                'year': moment(employeeDate).year(),
+                'month': moment(employeeDate).month(),
+                'hour': moment(timeObj.time, 'hh:mm a').hour(),
+                'minutes': moment(timeObj.time, 'hh:mm a').minute(),
+                'seconds': 00,
+                'milliseconds': 00
+            });
             var dayEnd = moment({
                 'date': moment(employeeDate).date(),
                 'year': moment(employeeDate).year(),
@@ -259,7 +273,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 'minutes': moment(employeeAvailability.dayEnd).minute(),
                 'seconds': moment(employeeAvailability.dayEnd).second()
             });
-            if (timeEnd.isSameOrBefore(dayEnd)) {
+            if (moment(timeEnd).isSameOrBefore(moment(dayEnd)) && moment(timeStart).isBefore(moment(dayEnd))) {
                 availableTimes.push(timeObj);
             }
         }
@@ -474,8 +488,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         $scope.appointment = {
             _id: data.appointment._id,
             businessId: data.appointment.businessId,
-            employee: data.appointment.employee._id,
-            customer: data.appointment.customer._id,
+            employee: data.appointment.employee,
             start: {
                 date: apptDate,
                 monthYear: $scope.monthYear,
@@ -494,31 +507,16 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             title: $scope.service.name,
             timestamp: moment()
         };
+        if (typeof(data.appointment.customer) === 'string') {
+            $scope.appointment.customer = data.appointment.customer;
+        } else if (data.appointment.customer !== null) {
+            $scope.appointment.customer = data.appointment.customer._id
+        }
     };
     //If the appointment is being updated
     $scope.update = function (rescheduled) {
         if (!$scope.appointment) {
-            $scope.appointment = {
-                _id: data.appointment._id,
-                businessId: data.appointment.businessId,
-                start: {
-                    date: data.appointment.start.date,
-                    monthYear: $scope.monthYear,
-                    time: data.appointment.start.time,
-                    day: data.appointment.start.day,
-                    full: data.appointment.start.full
-                },
-                end: {
-                    date: data.appointment.end.date,
-                    time: data.appointment.end.time,
-                    day: data.appointment.end.day,
-                    full: data.appointment.end.full
-
-                },
-                service: $scope.service._id,
-                title: $scope.service.name,
-                timestamp: moment()
-            };
+            $scope.appointment = data.appointment;
         }
         /**
          * Update the appointment, send a message to sockets who need to know

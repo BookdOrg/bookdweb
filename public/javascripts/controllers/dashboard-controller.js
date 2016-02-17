@@ -384,7 +384,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         onItemSelect: function (item) {
             var employeeEvents = [];
             for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
-                if ($scope.events[eventIndex].appointment.employee === item._id) {
+                if ($scope.events[eventIndex].appointment.employee._id === item._id) {
                     employeeEvents.push($scope.events[eventIndex]);
                 }
             }
@@ -421,7 +421,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         var personal = false;
-        if (date.appointment.customer) {
+        if (date.appointment.customer !== null) {
             personal = true;
         }
         $scope.open('lg', date, personal);
@@ -474,7 +474,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
         for (var employeeIndex = 0; employeeIndex < $scope.activeBusiness.business.employees.length; employeeIndex++) {
-            if ($scope.activeBusiness.business.employees[employeeIndex]._id == event.appointment.employee) {
+            if ($scope.activeBusiness.business.employees[employeeIndex]._id == event.appointment.employee._id) {
                 var employeeName = $scope.activeBusiness.business.employees[employeeIndex].name;
             }
         }
@@ -534,12 +534,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         var responseArray = {};
         if(appointmentArray.length > 0){
             for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
-                if (!responseArray[appointmentArray[appointmentArrayIndex].employee]) {
-                    responseArray[appointmentArray[appointmentArrayIndex].employee] = {};
-                    responseArray[appointmentArray[appointmentArrayIndex].employee].appointments = [];
-                    responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+                if (!responseArray[appointmentArray[appointmentArrayIndex].employee._id]) {
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id] = {};
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments = [];
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
                 } else {
-                    responseArray[appointmentArray[appointmentArrayIndex].employee].appointments.push(appointmentArray[appointmentArrayIndex]);
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
                 }
             }
         }else{
@@ -617,6 +617,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     $scope.open = function (size, data, type) {
         data.business = $scope.activeBusiness.business;
+        console.log(data);
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/editAppointment.html',
@@ -639,6 +640,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
          *
          */
         modalInstance.result.then(function (date) {
+            console.log(date);
             if (date && date.appointment !== 'canceled') {
                 if (date.appointment.status == 'paid') {
                     date.backgroundColor = '#f39';
@@ -649,14 +651,14 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     date.borderColor = '#f00';
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
                 }
-                date.start = date.appointment.start.full;
-                date.end = date.appointment.end.full;
+                date.start = new Date(date.appointment.start.full);
+                date.end = new Date(date.appointment.end.full);
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', date);
             } else if (date && date.appointment === 'canceled') {
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('removeEvents', [date._id]);
             }
-        }, function () {
-
+        }, function (error) {
+            console.log(error);
         });
     };
     /* add custom event*/
@@ -750,11 +752,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].appointment = data.appointment;
                     $scope.events[eventIndex].backgroundColor = null;
                     $scope.events[eventIndex].borderColor = null;
-                    $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
-                    if (data.from !== $rootScope.currentUser._id && data.appointment.customer !== null) {
+                    $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
+                    if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id !== null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'A customer has re-scheduled an appointment!'});
-                    } else if (data.from !== $rootScope.currentUser._id && data.appointment.customer === null) {
+                    } else if (data.from !== $rootScope.currentUser._id && data.appointment.customer._id === null) {
                         uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', event[0]);
                         Notification.info({message: 'An employee has re-scheduled an appointment!'});
                     } else {
@@ -772,7 +774,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.events[eventIndex].appointment = data.appointment;
                     $scope.events[eventIndex].backgroundColor = null;
                     $scope.events[eventIndex].borderColor = null;
-                    $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
+                    $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
                     uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', newEvent);
                     Notification.info({message: 'A customer has accepted a re-scheduled appointment'});
                 }
@@ -791,7 +793,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 pendingEvent[0].appointment = data.appointment;
                 pendingEvent[0].backgroundColor = '#f00';
                 pendingEvent[0].borderColor = '#f00';
-                $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments[eventIndex] = data.appointment;
+                $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments[eventIndex] = data.appointment;
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('updateEvent', pendingEvent[0]);
             }
         }else{
@@ -807,12 +809,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     socketService.on('newAppt', function (appointment) {
         $scope.addEvent(appointment);
         Notification.success({message: 'New appointment booked!'});
-        if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee]) {
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
+        if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
         } else {
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee] = {};
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments = [];
-            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee].appointments.push(appointment);
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id] = {};
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments = [];
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
         }
 
         $scope.lastUpdatedView = moment().calendar();
@@ -826,9 +828,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     socketService.on('canceledAppt', function (data) {
         var eventId;
-        var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments;
+        var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments;
         employeeAppointments = _.without(employeeAppointments, _.findWhere(employeeAppointments, {'_id': data.appointment._id}));
-        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee].appointments = employeeAppointments;
+        $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments = employeeAppointments;
         for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
             if ($scope.events[eventIndex].appointment._id === data.appointment._id) {
                 eventId = $scope.events[eventIndex]._id;
