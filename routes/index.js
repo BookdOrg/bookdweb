@@ -76,6 +76,14 @@ io.on('connection', function (socket) {
         client.customId = data;
         client.id = socket.id;
         clients.push(client);
+        User.findOne({'_id': data}).exec(function (err, user) {
+            if (err) {
+                io.to(socket.id).emit('noUser', {message: "No User Found"});
+            }
+            user.hash = '';
+            user.salt = '';
+            io.to(socket.id).emit('update-user', user);
+        });
     });
     socket.on('online', function () {
         //socket.join(data.user);
