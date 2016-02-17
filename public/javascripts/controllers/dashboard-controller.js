@@ -807,7 +807,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('newAppt', function (appointment) {
-        if (data.from !== $rootScope.currentUser._id) {
             $scope.addEvent(appointment);
             Notification.success({message: 'New appointment booked!'});
             if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
@@ -820,7 +819,6 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
 
             $scope.lastUpdatedView = moment().calendar();
             $scope.lastUpdated = moment();
-        }
     });
     /**
      *
