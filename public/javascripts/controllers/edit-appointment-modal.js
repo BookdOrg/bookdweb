@@ -75,7 +75,13 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.previousDate = moment(new Date(oldVal)).format('MM/DD/YYYY');
             var selectedDate = new Date(newVal);
             //var roomId = moment(selectedDate).format('MM/YYYY') + data.appointment.employee._id._id;
-            getAvailableTimes(selectedDate, data.appointment.employee._id);
+            var employeeId;
+            if (angular.isDefined(data.appointment.employee._id)) {
+                employeeId = data.appointment.employee._id;
+            } else {
+                employeeId = data.appointment.employee;
+            }
+            getAvailableTimes(selectedDate, employeeId);
         }
     });
     /**
@@ -146,7 +152,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     function getAvailableTimes(date, employeeId) {
         $scope.newRoomDate = moment(new Date(date)).format('MM/DD/YYYY');
         $scope.monthYear = moment(new Date($scope.newRoomDate)).format('MM/YYYY');
-
+        $scope.availableTimes = [];
         var employeeApptObj = {
             startDate: $scope.newRoomDate,
             employeeId: employeeId,

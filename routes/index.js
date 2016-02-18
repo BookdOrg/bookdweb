@@ -842,7 +842,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 templateObj.user = templateObj.user.split(' ', 1);
 
                 user.personalAppointments.push(appointment);
-                if (user.personalAppointments.length === 1) {
+                if (user.personalAppointments.length <= 1) {
                     firstApptTemplate.render(templateObj, function (err, results) {
                         var mailOptions = {
                             from: 'Bookd <contact@bookd.me>', // sender address
