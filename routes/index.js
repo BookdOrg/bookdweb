@@ -1066,7 +1066,7 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     });
 
     function sendSuccessEmail(templateObj) {
-        User.findOne({"_id": req.body.customer}).exec(function (error, user) {
+        User.findOne({"_id": req.body.customer._id}).exec(function (error, user) {
             if (user) {
                 templateObj.user = user.name.split(' ', 1);
                 successTemplate.render(templateObj, function (error, results) {
@@ -1109,7 +1109,7 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body._id;
-    var customer = req.body.customer;
+    var customer = req.body.customer._id;
     var employee = req.body.employee;
     var templateDir;
     var templateObj = {};
