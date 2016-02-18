@@ -163,7 +163,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 $scope.availableTimes = [];
                 var employeeAvailability = setEmployeeAvailability(date);
                 if (employeeAvailability !== null) {
-                    $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, service.duration);
+                    $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, service.duration, $rootScope.currentUser._id);
                 }
                 socketService.emit('joinApptRoom', employeeApptObj);
             });

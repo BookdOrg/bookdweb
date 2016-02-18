@@ -173,7 +173,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 var employeeAvailability = setEmployeeAvailability(date);
                 //If an employee has been selected calculate the time slots available for the day
                 if (employeeAvailability !== null) {
-                    $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, $scope.service.duration);
+                    $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, $scope.service.duration, $rootScope.currentUser._id);
                 }
                 /**
                  * Auto-select the current appointments start time if the user/employee
