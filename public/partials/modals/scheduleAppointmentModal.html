@@ -73,8 +73,11 @@
                     </div>
                 </div>
                 <div class="col col-md-6 text-center">
-                    <h4 ng-if="availableTimes.length > 1">{{employee.name}}'s Available Times</h4>
+                    <h4 ng-if="availableTimes.length >= 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                    </uib-alert>
+                    <uib-alert ng-if="availableTimes.length === 0" type="danger">{{employee.name}} has no more
+                        availability for this day.
                     </uib-alert>
                     <div ng-show="!calculatingAppointments" class="col-xs-4 col-md-3"
                          ng-repeat="time in availableTimes track by $index">
