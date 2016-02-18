@@ -161,6 +161,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         } else {
             employeeApptObj.personal = false;
         }
+        $scope.calculatingAppointments = true;
         //Join the socket room with all the other users who are looking at this date for the given employee.
         socketService.emit('joinApptRoom', employeeApptObj);
         /**
@@ -174,6 +175,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 //If an employee has been selected calculate the time slots available for the day
                 if (employeeAvailability !== null) {
                     $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, $scope.service.duration, $rootScope.currentUser._id);
+                    $scope.calculatingAppointments = false;
                 }
                 /**
                  * Auto-select the current appointments start time if the user/employee

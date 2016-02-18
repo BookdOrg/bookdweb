@@ -2,7 +2,7 @@
  * Created by khalilbrown on 2/17/16.
  */
 module.exports = function () {
-    function createAvailableTimes(employeeAvailability, appointmentsArray, duration) {
+    function createAvailableTimes(employeeAvailability, appointmentsArray, duration, user) {
         var availableTimes = [];
         var minutes = moment.duration(parseInt(duration), 'minutes');
         var employeeDate = employeeAvailability.date.clone();
@@ -23,7 +23,7 @@ module.exports = function () {
                 toggled: false,
                 status: false,
                 hide: false,
-                user: $scope.currentUser._id
+                user: user
             };
             _.forEach(employeeAvailability.gaps, function (gap) {
                 var gapStartHour = moment(gap.start, 'hh:mm a').hour();
@@ -52,52 +52,63 @@ module.exports = function () {
                     timeObj.end = adjustedEnd.format('hh:mm a');
                 }
             });
+
+
             _.forEach(appointmentsArray, function (appointmentArray) {
-                _.forEach(appointmentArray, function (appointment) {
-                    var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
-                    var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
-                    var apptEndHour = moment(appointment.end.time, 'hh:mm a').hour();
-                    var apptEndMinute = moment(appointment.end.time, 'hh:mm a').minute();
-                    var apptStart = moment(employeeDate).set({
-                        'hour': apptStartHour,
-                        'minute': apptStartMinute,
-                        'second': '00'
-                    });
-                    var apptEnd = moment(employeeDate).set({
-                        'hour': apptEndHour,
-                        'minute': apptEndMinute,
-                        'second': '00'
-                    });
-                    var apptRange = moment.range(apptStart, apptEnd);
-                    var availableTimeAdjustedEnd = m.clone();
-                    var currentAvailableTimeStartHour = moment(timeObj.time, 'hh:mm a').hour();
-                    var currentAvailableTimeStartMinute = moment(timeObj.time, 'hh:mm a').minute();
-                    var currentAvailableTimeEndHour = moment(timeObj.end, 'hh:mm a').hour();
-                    var currentAvailableTimeEndMinute = moment(timeObj.end, 'hh:mm a').minute();
-
-                    var currAvailableStart = moment(employeeDate).set({
-                        'minute': currentAvailableTimeStartMinute,
-                        'hour': currentAvailableTimeStartHour,
-                        'second': '00'
-                    });
-                    var currAvailableEnd = moment(employeeDate).set({
-                        'minute': currentAvailableTimeEndMinute,
-                        'hour': currentAvailableTimeEndHour,
-                        'second': '00'
-                    });
-                    var currAvailableRange = moment.range(currAvailableStart, currAvailableEnd);
-                    if (apptRange.intersect(currAvailableRange)) {
-                        availableTimeAdjustedEnd.add(duration, 'minutes');
-                        timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
-                        m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
-                        timeObj.time = m.clone().format('hh:mm a');
-                    } else {
-                        availableTimeAdjustedEnd.add(duration, 'minutes');
-                        timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
-                    }
-
-                });
+                calculateAppointmentBlocks(appointmentArray);
             });
+            function calculateAppointmentBlocks(appointmentArray) {
+                _.forEach(appointmentArray, function (appointment) {
+                    calculateAppointment(appointmentArray, appointment, timeObj, m);
+                });
+            }
+
+            function calculateAppointment(appointmentArray, appointment, timeObj, m) {
+                var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
+                var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
+                var apptEndHour = moment(appointment.end.time, 'hh:mm a').hour();
+                var apptEndMinute = moment(appointment.end.time, 'hh:mm a').minute();
+                var apptStart = moment(employeeDate).set({
+                    'hour': apptStartHour,
+                    'minute': apptStartMinute,
+                    'second': '00'
+                });
+                var apptEnd = moment(employeeDate).set({
+                    'hour': apptEndHour,
+                    'minute': apptEndMinute,
+                    'second': '00'
+                });
+                var apptRange = moment.range(apptStart, apptEnd);
+                var availableTimeAdjustedEnd = m.clone();
+                var currentAvailableTimeStartHour = moment(timeObj.time, 'hh:mm a').hour();
+                var currentAvailableTimeStartMinute = moment(timeObj.time, 'hh:mm a').minute();
+                var currentAvailableTimeEndHour = moment(timeObj.end, 'hh:mm a').hour();
+                var currentAvailableTimeEndMinute = moment(timeObj.end, 'hh:mm a').minute();
+
+                var currAvailableStart = moment(employeeDate).set({
+                    'minute': currentAvailableTimeStartMinute,
+                    'hour': currentAvailableTimeStartHour,
+                    'second': '00'
+                });
+                var currAvailableEnd = moment(employeeDate).set({
+                    'minute': currentAvailableTimeEndMinute,
+                    'hour': currentAvailableTimeEndHour,
+                    'second': '00'
+                });
+                var currAvailableRange = moment.range(currAvailableStart, currAvailableEnd);
+
+                if (apptRange.intersect(currAvailableRange) || apptRange.isSame(currAvailableRange)) {
+                    m.set({'hour': apptEndHour, 'minute': apptEndMinute}).format('hh:mm a');
+                    availableTimeAdjustedEnd = m.clone();
+                    timeObj.time = m.clone().format('hh:mm a');
+                    availableTimeAdjustedEnd.add(duration, 'minutes');
+                    timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
+                    calculateAppointmentBlocks(appointmentArray);
+                } else {
+                    availableTimeAdjustedEnd.add(duration, 'minutes');
+                    timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
+                }
+            };
             var currentDateTime = moment().set({
                 'year': moment(employeeDate).year(),
                 'month': moment(employeeDate).month(),

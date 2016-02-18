@@ -53,13 +53,18 @@
                 appointment)</h5>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
             </uib-alert>
-            <div class="col col-xs-4 col-md-3" ng-if="!datePassed" ng-repeat="time in availableTimes track by $index">
+            <div ng-show="!calculatingAppointments" class="col col-xs-4 col-md-3" ng-if="!datePassed"
+                 ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
                         ng-disabled="!time.available || time.status || time.time === activeTime.time && time.toggled || time.hide"
                         ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                         role="button" class="btn" style="margin-bottom:5px;">
                     {{time.time}}
                 </button>
+            </div>
+            <div>
+                <i ng-show="calculatingAppointments" class="fa fa-2x fa-spinner fa-pulse"
+                   ng-class="{'fa-pulse' : calculatingAppointments}"></i>
             </div>
             <h4 class="text-danger"
                 ng-if="datePassed && dateObj.appointment.status !== 'paid' && currentUser._id === dateObj.appointment.customer._id">
