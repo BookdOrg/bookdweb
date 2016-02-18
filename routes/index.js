@@ -912,7 +912,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
     var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
     var templateObj = {};
-    if (req.body.customer && req.body.customer == req.payload._id) {
+    if (req.body.customer && req.body.customer._id == req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
             if (err) {
                 return next(err);

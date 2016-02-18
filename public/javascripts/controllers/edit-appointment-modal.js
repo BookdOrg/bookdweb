@@ -397,6 +397,8 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 if ($scope.activeTime) {
                     socketService.emit('timeDestroyed', $scope.activeTime);
                 }
+                $scope.dateObj.appointment = appointment;
+                $uibModalInstance.close($scope.dateObj);
             });
     };
     //Mark an appointment as paid
@@ -519,7 +521,6 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         }
 
         $scope.dateObj.appointment = appointment;
-        $uibModalInstance.close($scope.dateObj);
     }
 
     function notifyCancel(appointment) {
