@@ -118,7 +118,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             var data = {
                 email: email
             };
-            return $http.post('/user/reset', data)
+            return $http.post('/user/password', data)
                 .then(function (data) {
                     console.log(data);
                 }, function (error) {
@@ -130,11 +130,25 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                 password: password,
                 token: token
             };
-            return $http.post('/user/reset/new', data)
+            return $http.post('/user/password/new', data)
                 .then(function (data) {
                     console.log(data);
                 }, function (error) {
                     throw error.data;
+                });
+        },
+        changePassword: function (currPass, newPass) {
+            var data = {
+                id: $rootScope.currentUser._id,
+                currPass: currPass,
+                newPass: newPass
+            };
+
+            return $http.post('user/password/change', data)
+                .then(function (data) {
+                    console.log(data);
+                }, function (err) {
+                    throw err.data;
                 });
         }
     };
