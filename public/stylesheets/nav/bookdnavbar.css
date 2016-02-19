@@ -157,7 +157,7 @@
 }
 
 .navbar-default .navbar .nav > li.dropdown.open > a {
-    color: #f05f40;;
+    color: #f05f40;
     background-color: #f05f40;
     border-color: black;
 }
@@ -166,6 +166,10 @@
     border-top-color: lightgrey;
 }
 
+.avatar {
+    margin-right: 20px;
+    margin-left: 0px;
+}
 .navbarAvatar {
     border-radius: 50%;
     height: 25px;
@@ -208,6 +212,17 @@
     background-color: black;
 }
 
+.notification-bell > a:hover i {
+    color: #f05f40;
+}
+
+.notification-bell .badge {
+    background-color: white;
+}
+
+.notification-bell i {
+    color: black;
+}
 .new-notification-alert {
     background-color: red;
 }

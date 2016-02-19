@@ -46,3 +46,15 @@
 h3, h4, h5, h6 {
     font-family: "Abel", arial, sans-serif;
 }
+
+.landing-notification-bell > a:hover i {
+    color: #337ab7;
+}
+
+.landing-notification-bell .badge {
+    background-color: transparent;
+}
+
+.landing-notification-bell i {
+    color: white;
+}

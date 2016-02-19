@@ -21,7 +21,7 @@
                     <a ui-sref="partner" ng-if="forBusiness">List Your Business</a>
                     <a ui-sref="landing" ng-if="!forBusiness">Back To Booking</a>
                 </li>
-                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
+                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs landing-notification-bell">
                     <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                     <a ng-href="#" uib-dropdown-toggle>
                         <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
@@ -72,7 +72,7 @@
                         </ul>
                     </div>
                 </li>
-                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs">
+                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs avatar">
                     <a ng-href="" uib-dropdown-toggle class=" avatarPadding truncateTrunc">
                         <img class="navbarAvatar"
                              ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"

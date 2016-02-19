@@ -117,7 +117,7 @@
                         </ul>
 
                     </li>
-                    <li uib-dropdown ng-show="isLoggedIn()">
+                    <li uib-dropdown ng-show="isLoggedIn()" class="notification-bell">
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                         <a ng-href="#" uib-dropdown-toggle>
                             <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
@@ -167,7 +167,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li uib-dropdown ng-if="isLoggedIn()">
+                    <li uib-dropdown ng-if="isLoggedIn()" class="avatar">
                         <a ng-href="" uib-dropdown-toggle class="avatarPadding truncate">
                             <img class="navbarAvatar"
                                  ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
