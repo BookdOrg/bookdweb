@@ -509,8 +509,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                         events.push(tempObj);
 
                     } else if (appointmentsArray[appointmentIndex].status === 'paid') {
-                        tempObj.backgroundColor = '#f39';
-                        tempObj.borderColor = '#f39';
+                        tempObj.backgroundColor = '#2a4';
+                        tempObj.borderColor = '#2a4';
                         events.push(tempObj);
                     } else {
                         events.push(tempObj);
@@ -641,8 +641,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         modalInstance.result.then(function (date) {
             if (date && date.appointment !== 'canceled') {
                 if (date.appointment.status == 'paid') {
-                    date.backgroundColor = '#f39';
-                    date.borderColor = '#f39';
+                    date.backgroundColor = '#2a4';
+                    date.borderColor = '#2a4';
                 }
                 if (date.appointment.status == 'pending') {
                     date.backgroundColor = '#f00';
