@@ -1952,7 +1952,7 @@ router.post('/user/reset', function (req, res, next) {
     });
 });
 
-router.get('/user/reset/:token', function (req, res, next) {
+router.get('/user/password/:token', function (req, res, next) {
     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function (err, user) {
         if (err) {
             return next(err);
@@ -1964,7 +1964,7 @@ router.get('/user/reset/:token', function (req, res, next) {
     });
 });
 
-router.post('/user/reset/new', function (req, res, next) {
+router.post('/user/password/new', function (req, res, next) {
     User.findOne({
         resetPasswordToken: req.body.token,
         resetPasswordExpires: {$gt: Date.now()}
@@ -1972,7 +1972,6 @@ router.post('/user/reset/new', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        console.log(user);
         if (!user) {
             res.status(401).json({error: 'Password reset token is invalid or has expired.'});
         } else {
@@ -1981,6 +1980,26 @@ router.post('/user/reset/new', function (req, res, next) {
             user.resetPasswordExpires = null;
             user.save();
             res.json({message: 'Success!'});
+        }
+    });
+});
+
+router.post('/user/password/change', function (req, res, next) {
+    User.findOne({
+        _id: req.body.id
+    }).exec(function (err, user) {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log(req.body.currPass);
+        console.log(user);
+        if (user.validPassword(req.body.currPass)) {
+            user.setPassword(req.body.newPass);
+            user.save();
+            res.json({message: 'Success!'});
+        } else {
+            res.status(401).json({error: 'Current password is incorrect!'});
         }
     });
 });

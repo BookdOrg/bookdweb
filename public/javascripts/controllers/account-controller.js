@@ -37,10 +37,12 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
      * When the request is successfully completed the backend will
      * return the response object which is the users authentication
      * token, we save the new one and update the currentUser based
-     * the unencrytped token
+     * the unencrypted token
      *
      *
-     * @param item - the photo that waas uploaded
+     * @param item - the photo that was uploaded
+     * @param response
+     * @param status
      */
     uploader.onSuccessItem = function (item, response, status) {
         $rootScope.currentUser.avatarVersion = response;
@@ -61,7 +63,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
      * Opens a modal that allows employees to update their availability.
      *
      * @param size - the size of the modal
-     * @param employee
      */
     $scope.openAvailabilityModal = function (size) {
         var modalInstance = $uibModal.open({
@@ -86,7 +87,7 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
 
     };
     /**
-     * Use Oauth.io to access instagram and pull 10 pictures from a users account,
+     * Use Oauth.io to access Instagram and pull 10 pictures from a users account,
      * build out a view for the user to scroll and select the photos they want to add to their profile
      *
      */
@@ -97,7 +98,7 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
          */
             .done(function (result) {
                 /**
-                 * accessing the GET function of the authenticated user, to hit any instagram
+                 * accessing the GET function of the authenticated user, to hit any Instagram
                  * endpoint
                  */
                 result.get('v1/users/self/media/recent/?count=10')
@@ -144,11 +145,23 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
                 }, 1500);
             });
     };
+
+    $scope.changePassword = function () {
+        console.log('Here');
+        auth.changePassword($scope.currPass, $scope.newPass)
+            .then(function (data) {
+                $scope.passwordChanged = true;
+                $scope.error = null;
+            }, function (error) {
+                $scope.error = error.error;
+            })
+    };
+
     /**
      *
-     * Compile an array of just the photo urls of photos returned from isntagram
+     * Compile an array of just the photo urls of photos returned from Instagram
      *
-     * @param photosArray - array of photo objects returned from instagram
+     * @param photosArray - array of photo objects returned from Instagram
      * @returns {Array} - Returns just the url of each photo from the photo array
      */
     var compilePhotos = function (photosArray) {

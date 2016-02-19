@@ -1,66 +1,67 @@
 <div class="container-fluid bg-light-gray">
-  <div class="row page-header">
-      <div class="text-left col-md-2">
-          <div ng-if="currentUser._id == user._id">
-              <img ng-if="!currentUser.avatarVersion && currentUser.provider =='bookd'"
-                   ng-src="{{cloudinaryDefaultPic}}"/>
-              <img ng-if="currentUser.avatarVersion && currentUser.provider == 'bookd'"
-                   ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
-              <img class="provider-photo-radius" ng-if="currentUser.provider == 'google_plus'"
-                   ng-src="{{currentUser.providerInfo}}"/>
-              <img class="provider-photo-radius" ng-if="currentUser.provider == 'facebook'"
-                   ng-src="{{currentUser.providerInfo}}"/>
-          </div>
-          <div ng-if="currentUser._id !== user._id">
-              <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
-              <img ng-if="user.avatarVersion && user.provider == 'bookd'"  ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
-              <img class="provider-photo-radius" ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
-              <img class="provider-photo-radius" ng-if="user.provider === 'google_plus' && !user.photo"
-                   ng-src="{{cloudinaryDefaultPic}}"/>
-              <img class="provider-photo-radius" ng-if="user.provider === 'facebook'"
-                   ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
-          </div>
-      </div>
-      <div class="col-md-8">
-          <h1 ng-if="currentUser._id !== user._id" class="text-center">
-              {{user.firstName}}'s Profile
-          </h1>
+    <div class="row page-header">
+        <div class="text-left col-md-2">
+            <div ng-if="currentUser._id == user._id">
+                <img ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
+                     ng-src="{{cloudinaryDefaultPic}}"/>
+                <img ng-if="currentUser.avatarVersion && currentUser.provider === 'bookd'"
+                     ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
+                <img class="provider-photo-radius" ng-if="currentUser.provider === 'google_plus'"
+                     ng-src="{{currentUser.providerInfo}}"/>
+                <img class="provider-photo-radius" ng-if="currentUser.provider === 'facebook'"
+                     ng-src="{{currentUser.providerInfo}}"/>
+            </div>
+            <div ng-if="currentUser._id !== user._id">
+                <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
+                <img ng-if="user.avatarVersion && user.provider == 'bookd'"
+                     ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
+                <img class="provider-photo-radius" ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
+                <img class="provider-photo-radius" ng-if="user.provider === 'google_plus' && !user.photo"
+                     ng-src="{{cloudinaryDefaultPic}}"/>
+                <img class="provider-photo-radius" ng-if="user.provider === 'facebook'"
+                     ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h1 ng-if="currentUser._id !== user._id" class="text-center">
+                {{user.firstName}}'s Profile
+            </h1>
 
-          <h1 ng-if="currentUser._id == user._id" class="text-center">
-              Your Profile
-          </h1>
+            <h1 ng-if="currentUser._id == user._id" class="text-center">
+                Your Profile
+            </h1>
 
-          <h3 class="text-center" ng-if="rate>0">
-              <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
-                          on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
-              </uib-rating>
-          </h3>
-          <h3 class="text-center" ng-if="rate === 0">Associate has not been rated yet.</h3>
-          <!--<div class="col-md-3 col-md-offset-5">-->
-          <h4 class="text-center">
-              {{user.associateDescription}}
-          </h4>
-          <!--</div>-->
-      </div>
-  </div>
+            <h3 class="text-center" ng-if="rate > 0">
+                <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
+                            on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']">
+                </uib-rating>
+            </h3>
+            <h3 class="text-center" ng-if="rate === 0">Associate has not been rated yet.</h3>
+            <!--<div class="col-md-3 col-md-offset-5">-->
+            <h4 class="text-center">
+                {{user.associateDescription}}
+            </h4>
+            <!--</div>-->
+        </div>
+    </div>
     <div class="row">
         <h1 class="text-center">Associate Profile Pages Coming Soon!</h1>
-      <!--<div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">-->
+        <!--<div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">-->
         <!--<h3 class="text-center">Recent Instagram Photos</h3>-->
 
-          <!--<div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="photo in user.associatePhotos">-->
-              <!--<img style="padding-top:5px;border-radius: 20%;height:150px;width:150px;" ng-src="{{photo}}">-->
+        <!--<div class="col-lg-3 col-md-4 col-sm-5 col-xs-6" ng-repeat="photo in user.associatePhotos">-->
+        <!--<img style="padding-top:5px;border-radius: 20%;height:150px;width:150px;" ng-src="{{photo}}">-->
         <!--</div>-->
-      <!--</div>-->
-      <!--<div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">-->
+        <!--</div>-->
+        <!--<div class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">-->
         <!--<h3 class="text-center">Customer Reviews</h3>-->
         <!--<div class="well" style="overflow-y: scroll; height:300px">-->
-          <!--<div class="row" ng-repeat="business in user.businesses">-->
-            <!--<div class="col-md-2">-->
-              <!--<img ng-src="{{business.icon}}" style="border-radius:20%;">-->
-            <!--</div>-->
-          <!--</div>-->
+        <!--<div class="row" ng-repeat="business in user.businesses">-->
+        <!--<div class="col-md-2">-->
+        <!--<img ng-src="{{business.icon}}" style="border-radius:20%;">-->
         <!--</div>-->
-      <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
