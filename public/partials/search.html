@@ -86,7 +86,7 @@
         </div>
         <div class="col col-sm-7 hidden-xs" style="padding:0">
             <ng-map center="{{center}}" zoom="12" style="height:100%;">
-                <marker ng-if="personalCenter" position="{{center}}" icon="/images/currLocationIcon.png"></marker>
+                <marker ng-if="personalCenter" position="{{center}}" icon="/images/currLocation.png"></marker>
                 <marker id="{{businesses[$index].id}}" ng-repeat="pos in positions"
                         position="{{pos}}" on-mouseover="showDetailClicked(businesses[$index])"></marker>
                 <info-window id="info">
