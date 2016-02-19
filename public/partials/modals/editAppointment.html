@@ -30,7 +30,7 @@
 
             <p ng-if="customer.name">{{customer.name}}: {{customer.phone}}</p>
 
-            <p ng-if="dateObj.appointment.customer">{{dateObj.appointment.customer.name}}:
+            <p ng-if="dateObj.appointment.customer">{{dateObj.appointment.customer.firstName}}:
                 {{dateObj.appointment.customer.email}}</p>
             <button class="btn btn-gradient-primary"
                     ng-if="showUpdate"
@@ -46,15 +46,16 @@
             </button>
         </div>
         <div class="col col-md-6 text-center">
-            <h4 ng-if="availableTimes.length >= 1 && currentUser._id !== employee._id">{{employee.name}}'s
+            <h4 ng-if="availableTimes.length >= 1 && currentUser._id !== employee._id">{{employee.firstName}}'s
                 Schedule</h4>
             <h4 ng-if="availableTimes.length >= 1 && currentUser._id === employee._id">Your Schedule</h4>
             <h5 class="text-muted" ng-if="availableTimes.length > 1">(Select a new time to re-schedule this
                 appointment)</h5>
-            <uib-alert ng-if="availableTimes.length === 0" type="danger">{{employee.name}} has no more availability for
+            <uib-alert ng-if="availableTimes.length === 0" type="danger">{{employee.firstName}} has no more availability
+                for
                 this day.
             </uib-alert>
-            <uib-alert ng-if="dayMessage" type="danger">{{employee.name}} is not available today.
+            <uib-alert ng-if="dayMessage" type="danger">{{employee.firstName}} is not available today.
             </uib-alert>
             <div ng-show="!calculatingAppointments" class="col col-xs-4 col-md-3" ng-if="!datePassed"
                  ng-repeat="time in availableTimes track by $index">

@@ -40,7 +40,7 @@
                              ng-src="{{cloudinaryDefaultPic}}">
                         <img class="fitContainer" ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-                        <h5>{{employee.name}}</h5>
+                        <h5>{{employee.firstName}}</h5>
                 </div>
                 </a>
             </div>
@@ -136,7 +136,7 @@
                                 <div class="media-body">
                                     <h4 class="media-heading">{{service.name}}</h4>
                                     <h5>{{service.description}}</h5>
-                                    <h5>{{employee.name}}</h5>
+                                    <h5>{{employee.firstName}}</h5>
                                     <h5>{{appointment.start.time}} - {{appointment.end.time}}</h5>
 
                                     <h5>{{service.duration | humanizeDurationFilter}} - {{service.price |
