@@ -370,6 +370,13 @@ app.config([
     socketService.on('update-user', function (data) {
         auth.saveUser(null, data);
         $rootScope.currentUser = auth.currentUser();
+        notificationFactory.getNotifications().then(
+            function (data) {
+                $rootScope.currentUser.notifications = data;
+            },
+            function (err) {
+                console.log(err);
+            });
     });
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         if (typeof(current) !== 'undefined') {

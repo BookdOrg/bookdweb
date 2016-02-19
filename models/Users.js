@@ -17,7 +17,6 @@ var UserSchema = new mongoose.Schema({
     isAssociate: Boolean,
     isAdmin: Boolean,
     settings: Object,
-    notifications: [],
     availabilityArray: [],
     associatePhotos: [],
     associateDescription: String,
