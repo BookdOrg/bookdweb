@@ -55,7 +55,7 @@
                                  uib-tooltip="Photos coming soon..." tooltip-placement="right"
                                  style="border-radius:20%">
                             <span ng-if="business.photos.length > 1" ng-repeat="photo in business.photos">
-                                <img ng-src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=75&maxheight=50&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                                <img ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=75&maxwidth=75&minheight=75&maxheight=75&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                             </span>
                             <br>
 

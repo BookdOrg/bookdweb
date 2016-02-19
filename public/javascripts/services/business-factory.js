@@ -5,7 +5,7 @@
  *
  * All Routes under the /business endpoint
  */
-module.exports = function ($http, auth, $q) {
+module.exports = function ($http, auth, $q, utilService) {
     var o = {
         categories: [],
         business: {
@@ -30,7 +30,8 @@ module.exports = function ($http, auth, $q) {
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
-            angular.copy(data.data, o.businesses);
+            data = utilService.selectPhotos(data.data);
+            angular.copy(data, o.businesses);
             return data.data;
         }, function (err) {
             return err.data;

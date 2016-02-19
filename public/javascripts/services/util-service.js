@@ -29,9 +29,16 @@ module.exports = function (userFactory) {
                     getGooglePlusPhotos(employeeArray, employeeIndex + 1);
                 });
         }
+    };
+    function selectPhotos(businessArray) {
+        _.forEach(businessArray, function (business) {
+            business.photos = _.pullAt(business.photos, 0, 1, 2)
+        });
+        return businessArray;
     }
 
     return {
-        getGooglePlusPhotos: getGooglePlusPhotos
+        getGooglePlusPhotos: getGooglePlusPhotos,
+        selectPhotos: selectPhotos
     };
 };

@@ -1,4 +1,4 @@
-module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $stateParams, notificationFactory) {
+module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $stateParams, notificationFactory, utilService) {
     if ($stateParams.tier !== null) {
         $scope.tier = $stateParams.tier;
     }
@@ -9,8 +9,13 @@ module.exports = function ($scope, $state, auth, businessFactory, $uibModal, $st
             $scope.selectedQuery = $scope.query;
             $scope.displayPhotos = [];
             if (newVal.photos) {
-                for (var photoIndex = 0; photoIndex < newVal.photos.length; photoIndex++) {
-                    $scope.displayPhotos.push(newVal.photos[photoIndex].getUrl({'maxWidth': 100, 'maxHeight': 100}));
+                for (var photoIndex = 0; photoIndex < 3; photoIndex++) {
+                    if (newVal.photos[photoIndex]) {
+                        $scope.displayPhotos.push(newVal.photos[photoIndex].getUrl({
+                            'maxWidth': 100,
+                            'maxHeight': 100
+                        }));
+                    }
                 }
             }
 
