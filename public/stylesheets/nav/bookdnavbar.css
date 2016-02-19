@@ -217,7 +217,7 @@
 }
 
 .notification-bell .badge {
-    background-color: white;
+    background-color: transparent;
 }
 
 .notification-bell i {
