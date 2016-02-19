@@ -462,7 +462,7 @@ router.post('/user/notification/viewed', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.query.id;
     User.findOne({'_id': id})
-        .select('_id name provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
+        .select('_id name firstName lastName provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
         .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
             if (err) {
                 return next(err);
@@ -502,7 +502,7 @@ router.post('/user/profile/update', auth, function (req, res, next) {
  **/
 router.get('/user/search', auth, function (req, res, next) {
     var email = req.query.email;
-    User.findOne({'email': email}).select('_id name avatarVersion provider providerId').exec(function (error, user) {
+    User.findOne({'email': email}).select('_id name firstName lastName avatarVersion provider providerId').exec(function (error, user) {
         if (error) {
             res.status(400).json(error);
         } else {
@@ -549,7 +549,7 @@ router.post('/user/claimed-success', function (req, res, next) {
 router.get('/business/dashboard', auth, function (req, res, next) {
     var id = req.payload._id;
     var updatedBusinesses = [];
-    User.findOne({'_id': id}).select('_id name avatarVersion businesses').populate([{
+    User.findOne({'_id': id}).select('_id name firstName lastName avatarVersion businesses').populate([{
         path: 'businesses',
         select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
     }])
@@ -560,14 +560,15 @@ router.get('/business/dashboard', auth, function (req, res, next) {
             async.each(user.businesses, function (currBusiness, businessCallback) {
                 Business.findOne({'_id': currBusiness._id}).select('name services employees placesId dateCreated tier owner stripeId stripeAccount payments')
                     .populate([{path: 'services', select: ''}, {
-                        path: 'employees', select: '_id name avatarVersion provider providerId availabilityArray'
+                        path: 'employees',
+                        select: '_id name firstName lastName avatarVersion provider providerId availabilityArray'
                     }]).exec(function (error, response) {
                         if (error) {
                             return businessCallback(error);
                         }
                         Service.populate(response.services, {
                             path: 'employees',
-                            select: '_id name avatarVersion availabilityArray provider providerId'
+                            select: '_id name firstName lastName avatarVersion availabilityArray provider providerId'
                         }, function (err) {
                             if (err) {
                                 return businessCallback(err);
@@ -669,7 +670,7 @@ router.post('/login', function (req, res, next) {
             }
         })(req, res, next);
     } else if (req.body.provider === 'facebook' || 'google_plus') {
-        User.findOne({'email': req.body.username}).select('_id name email firstName lastName availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
+        User.findOne({'email': req.body.username}).select('_id name firstName lastName email firstName lastName availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
             .exec(function (err, user) {
             if (err) {
                 return next(err);
@@ -1203,7 +1204,7 @@ router.get('/business/search', function (req, res, next) {
     var updatedBusinesses = [];
     var populateQuery = [{path: 'services', select: ''}, {
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion provider providerId availabilityArray associateDescription'
+        select: '_id businessAppointments name firstName lastName avatarVersion provider providerId availabilityArray associateDescription'
     }];
     googleplaces.textSearch({query: query}, function (error, response) {
         if (error) {
@@ -1226,7 +1227,7 @@ router.get('/business/search', function (req, res, next) {
                 }
                 Service.populate(business.services, {
                     path: 'employees',
-                    select: '_id businessAppointments name avatarVersion provider providerId availabilityArray associateDescription'
+                    select: '_id businessAppointments name firstName lastName avatarVersion provider providerId availabilityArray associateDescription'
                 }, function (err) {
                     if (err) {
                         return responseCallback(err);
@@ -1260,7 +1261,7 @@ router.get('/business/details', function (req, res, next) {
     var id = req.query.placesId;
     Business.findOne({'placesId': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availabilityArray provider providerId associateDescription'
+        select: '_id businessAppointments name firstName lastName avatarVersion availabilityArray provider providerId associateDescription'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
@@ -1271,7 +1272,7 @@ router.get('/business/details', function (req, res, next) {
             }
             Service.populate(business.services, {
                 path: 'employees',
-                select: '_id businessAppointments name avatarVersion availabilityArray provider providerId associateDescription'
+                select: '_id businessAppointments name firstName lastName avatarVersion availabilityArray provider providerId associateDescription'
             }, function (error) {
                 if (error) {
                     return next(error);
@@ -1292,14 +1293,14 @@ router.get('/business/info', function (req, res, next) {
     var id = req.query.id;
     Business.findOne({'_id': id}).populate([{
         path: 'employees',
-        select: '_id businessAppointments name avatarVersion availabilityArray providerId provider associateDescription'
+        select: '_id businessAppointments name firstName lastName avatarVersion availabilityArray providerId provider associateDescription'
     }, {path: 'services', select: ''}]).exec(function (error, business) {
         if (error) {
             return next(error);
         }
         Service.populate(business.services, {
             path: 'employees',
-            select: '_id businessAppointments name avatarVersion availabilityArray providerId provider associateDescription'
+            select: '_id businessAppointments name firstName lastName avatarVersion availabilityArray providerId provider associateDescription'
         }, function (error) {
             if (error) {
                 return next(error);
@@ -1426,14 +1427,14 @@ router.post('/business/add-employee', auth, function (req, res, next) {
         });
         Business.populate(response, [{
             path: 'employees',
-            select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
+            select: '_id appointments name firstName lastName avatarVersion availabilityArray provider providerId associateDescription'
         }, {path: 'services', select: ''}], function (err, busResponse) {
             if (err) {
                 return next(err);
             }
             Service.populate(busResponse.services, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
+                select: '_id appointments name firstName lastName avatarVersion availabilityArray provider providerId associateDescription'
             }, function (err, services) {
                 if (err) {
                     return next(err);
@@ -1624,7 +1625,7 @@ router.post('/business/add-service', auth, function (req, res, next) {
             });
             Service.populate(service, {
                 path: 'employees',
-                select: '_id appointments name avatarVersion availabilityArray provider providerId'
+                select: '_id appointments name firstName lastName avatarVersion availabilityArray provider providerId'
             }, function (err, responseService) {
                 if (err) {
                     return next(err);
@@ -1653,7 +1654,7 @@ router.post('/business/update-service', auth, function (req, res, next) {
     };
     Service.findOneAndUpdate({'_id': newService._id}, newService, {new: true}).populate({
         path: 'employees',
-        select: '_id businessAppointments appointments name avatarVersion availabilityArray provider providerId'
+        select: '_id businessAppointments appointments name firstName lastName avatarVersion availabilityArray provider providerId'
     }).exec(function (err, service) {
         if (err) {
             return next(err);
@@ -1760,7 +1761,7 @@ router.get('/business/service-detail', auth, function (req, res, next) {
     var serviceId = req.query.service;
     Service.findOne({'_id': serviceId}).populate({
         path: 'employees',
-        select: '_id appointments name avatarVersion availabilityArray provider providerId associateDescription'
+        select: '_id appointments name firstName lastName avatarVersion availabilityArray provider providerId associateDescription'
     }).exec(function (err, response) {
         if (err) {
             return next(err);
