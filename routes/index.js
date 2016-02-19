@@ -707,6 +707,8 @@ router.post('/register', function (req, res) {
 
     user.email = req.body.username;
     user.name = req.body.name;
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
     user.provider = req.body.provider;
 
     user.save(function (err, user) {

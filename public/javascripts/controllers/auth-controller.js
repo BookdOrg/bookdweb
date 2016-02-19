@@ -93,9 +93,14 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             .done(function (result) {
                 result.get('/me?fields=id,name,picture.type(large),email')
                     .done(function (response) {
+                        var firstLast = response.name.split(' ', 2);
+                        var firstName = firstLast[0];
+                        var lastName = firstLast[1];
                         var user = {
                             'username': response.email,
                             'name': response.name,
+                            'firstName': firstName,
+                            'lastName': lastName,
                             'provider': result.provider,
                             'providerId': response.id
                         };
@@ -124,9 +129,14 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             .done(function (result) {
                 result.get('plus/v1/people/me')
                     .done(function (response) {
+                        var firstLast = response.displayName.split(' ', 2);
+                        var firstName = firstLast[0];
+                        var lastName = firstLast[1];
                         var user = {
                             'username': response.emails[0].value,
                             'name': response.displayName,
+                            'firstName': firstName,
+                            'lastName': lastName,
                             'provider': result.provider,
                             'providerId': response.id
                         };
@@ -157,6 +167,8 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         var user = {
             'username': $scope.user.email,
             'name': $scope.user.firstName + ' ' + $scope.user.lastName,
+            'firstName': $scope.user.firstName,
+            'lastName': $scope.user.lastName,
             'password': $scope.user.password,
             'provider': 'bookd'
         };
