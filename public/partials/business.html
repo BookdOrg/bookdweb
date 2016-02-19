@@ -137,33 +137,40 @@
                     <h2 class="text-center" ng-if="business.info.employees.length === 0">No Associates Listed
                         Yet!</h2>
 
-                    <div class="row" ng-repeat="employee in business.info.employees" style="margin-bottom:20px;">
-                        <div class="col col-xs-12 col-sm-3">
-                                <img class="associate-photo provider-photo-radius"
-                                     ng-if="employee.provider === 'google_plus' && employee.photo"
-                                     ng-src="{{employee.photo}}"/>
-                                <img class="associate-photo provider-photo-radius"
-                                     ng-if="employee.provider === 'google_plus' && !employee.photo"
-                                     ng-src="{{cloudinaryDefaultPic}}"/>
-                                <img class="associate-photo provider-photo-radius"
-                                     ng-if="employee.provider === 'facebook'"
-                                     ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+                    <div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-0 col-md-5 col-md-offset-1"
+                         ng-repeat="employee in business.info.employees" style="margin-bottom:20px;">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="associate-photo provider-photo-radius media-object"
+                                         ng-if="employee.provider === 'google_plus' && employee.photo"
+                                         ng-src="{{employee.photo}}"/>
+                                    <img class="associate-photo provider-photo-radius media-object"
+                                         ng-if="employee.provider === 'google_plus' && !employee.photo"
+                                         ng-src="{{cloudinaryDefaultPic}}"/>
+                                    <img class="associate-photo provider-photo-radius media-object"
+                                         ng-if="employee.provider === 'facebook'"
+                                         ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                                <img class="associate-photo"
-                                     ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
-                                     ng-src="{{cloudinaryDefaultPic}}">
-                                <img class="associate-photo"
-                                     ng-if="employee.avatarVersion && employee.provider === 'bookd'"
-                                     ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-                        </div>
-                        <div class="col col-xs-12 col-sm-8 text-center">
-                            <h4>{{employee.firstName}}</h4>
-                            <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
-                                        on-hover="hoveringOver(value)" on-leave="overStar = null"
-                                        titles="['one','two','three']">
-                            </uib-rating>
-                            <p>{{employee.associateDescription}}</p>
-                            <a ng-href="/user/{{employee._id}}/profile">View Profile</a>
+                                    <img class="associate-photo media-object"
+                                         ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                         ng-src="{{cloudinaryDefaultPic}}">
+                                    <img class="associate-photo media-object"
+                                         ng-if="employee.avatarVersion && employee.provider === 'bookd'"
+                                         ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                                </a>
+                            </div>
+                            <div class="media-body text-left">
+                                <h4 class="media-heading">{{employee.firstName}}</h4>
+                                <uib-rating class="text-warning" ng-model="rate" max="max" readonly="isReadonly"
+                                            on-hover="hoveringOver(value)" on-leave="overStar = null"
+                                            titles="['one','two','three']">
+                                </uib-rating>
+                                <p ng-if="employee.associateDescription">{{employee.associateDescription}}</p>
+
+                                <p ng-if="!employee.associateDescription">No associate description.</p>
+                                <a ng-href="/user/{{employee._id}}/profile">View Profile</a>
+                            </div>
                         </div>
                     </div>
                     <div class="row" ng-if="!business.info.employees">
