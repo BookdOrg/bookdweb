@@ -76,7 +76,8 @@
                     <h4 ng-if="availableTimes.length >= 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <uib-alert ng-if="availableTimes.length === 0" type="danger">{{employee.name}} has no more
+                    <uib-alert ng-if="availableTimes.length === 0 && !dayMessage" type="danger">{{employee.name}} has no
+                        more
                         availability for this day.
                     </uib-alert>
                     <div ng-show="!calculatingAppointments" class="col-xs-4 col-md-3"
@@ -89,7 +90,7 @@
                         </button>
                     </div>
                     <div>
-                        <i ng-show="calculatingAppointments" class="fa fa-2x fa-spinner fa-pulse"
+                        <i ng-show="calculatingAppointments && !dayMessage" class="fa fa-2x fa-spinner fa-pulse"
                            ng-class="{'fa-pulse' : calculatingAppointments}"></i>
                     </div>
                 </div>

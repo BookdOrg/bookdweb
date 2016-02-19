@@ -51,7 +51,8 @@
             <h4 ng-if="availableTimes.length >= 1 && currentUser._id === employee._id">Your Schedule</h4>
             <h5 class="text-muted" ng-if="availableTimes.length > 1">(Select a new time to re-schedule this
                 appointment)</h5>
-            <uib-alert ng-if="availableTimes.length === 0" type="danger">{{employee.firstName}} has no more availability
+            <uib-alert ng-if="availableTimes.length === 0  && !dayMessage" type="danger">{{employee.firstName}} has no
+                more availability
                 for
                 this day.
             </uib-alert>
@@ -67,7 +68,7 @@
                 </button>
             </div>
             <div>
-                <i ng-show="calculatingAppointments" class="fa fa-2x fa-spinner fa-pulse"
+                <i ng-show="calculatingAppointments  && !dayMessage" class="fa fa-2x fa-spinner fa-pulse"
                    ng-class="{'fa-pulse' : calculatingAppointments}"></i>
             </div>
             <h4 class="text-danger"
