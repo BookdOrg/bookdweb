@@ -669,7 +669,7 @@ router.post('/login', function (req, res, next) {
             }
         })(req, res, next);
     } else if (req.body.provider === 'facebook' || 'google_plus') {
-        User.findOne({'email': req.body.username}).select('_id name email availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
+        User.findOne({'email': req.body.username}).select('_id name email firstName lastName availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
             .exec(function (err, user) {
             if (err) {
                 return next(err);
