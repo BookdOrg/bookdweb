@@ -80,9 +80,11 @@ io.on('connection', function (socket) {
             if (err) {
                 io.to(socket.id).emit('noUser', {message: "No User Found"});
             }
-            user.hash = '';
-            user.salt = '';
-            io.to(socket.id).emit('update-user', user);
+            if (user) {
+                user.hash = '';
+                user.salt = '';
+                io.to(socket.id).emit('update-user', user);
+            }
         });
     });
     socket.on('online', function () {
