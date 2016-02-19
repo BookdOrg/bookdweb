@@ -375,7 +375,10 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         'customer': id,
         'start.full': {'$gte': isoStart, $lt: isoEnd},
         $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
-    }).populate('customer employee').exec(function (err, customerAppointments) {
+    }).populate([
+        {path: 'customer', select: '_id firstName lastName name email'},
+        {path: 'employee', select: '_id firstName lastName name email'}])
+        .exec(function (err, customerAppointments) {
         if (err) {
             //console.log(err);
             return next(err);
@@ -384,7 +387,10 @@ router.get('/user/appointments-all', auth, function (req, res, next) {
         Appointment.find({
             'employee': id,
             'start.full': {$gte: isoStart, $lt: isoEnd}
-        }).exec(function (err, employeeAppointments) {
+        }).populate([
+            {path: 'customer', select: '_id firstName lastName name email'},
+            {path: 'employee', select: '_id firstName lastName name email'}])
+            .exec(function (err, employeeAppointments) {
             if (err) {
                 //console.log(err);
                 return next(err);
@@ -838,7 +844,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             }
             templateObj.employeeName = user.name;
             templateObj.employeeName = templateObj.employeeName.split(' ', 1);
-            user.businessAppointments.push(appointment);
+            user.appointments.push(appointment);
             user.save(function (err) {
                 if (err) {
                     return next(err);
@@ -856,8 +862,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                 templateObj.user = user.name;
                 templateObj.user = templateObj.user.split(' ', 1);
 
-                user.personalAppointments.push(appointment);
-                if (user.personalAppointments.length <= 1) {
+                user.appointments.push(appointment);
+                if (user.appointments.length <= 1) {
                     firstApptTemplate.render(templateObj, function (err, results) {
                         var mailOptions = {
                             from: 'Bookd <contact@bookd.me>', // sender address
@@ -941,7 +947,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     if (err) {
                         next(err);
                     }
-                    user.businessAppointments.push({_id: appointment._id});
+                    user.appointments.push({_id: appointment._id});
                     user.save(function (err) {
                         if (err) {
                             return next(err);
@@ -973,7 +979,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
                     }
                     templateObj.appointment = appointment;
                     templateObj.employee = user.name;
-                    user.businessAppointments.pull({_id: appointment._id});
+                    user.appointments.pull({_id: appointment._id});
                     user.save(function (err) {
                         if (err) {
                             return next(err);
@@ -1145,10 +1151,10 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             }
             if (user) {
                 templateObj.user = user;
-                var index = user.personalAppointments.indexOf(appointment);
+                var index = user.appointments.indexOf(appointment);
             }
             if (index > -1) {
-                user.personalAppointments.splice(index, 1);
+                user.appointments.splice(index, 1);
                 user.save(function (err) {
                     if (err) {
                         return next(err);
@@ -1165,10 +1171,10 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
             return next(err);
         }
 
-        var index = user.businessAppointments.indexOf(appointment);
+        var index = user.appointments.indexOf(appointment);
 
         if (index > -1) {
-            user.businessAppointments.splice(index, 1);
+            user.appointments.splice(index, 1);
             user.save(function (err) {
                 if (err) {
                     return next(err);
