@@ -1924,7 +1924,7 @@ router.post('/user/reset', function (req, res, next) {
                 token: token,
                 user: user
             };
-            resetPasswordTemplate.render(data, function (err, res) {
+            resetPasswordTemplate.render(data, function (err, template) {
                 if (err) {
                     console.log(err);
                 }
@@ -1933,7 +1933,7 @@ router.post('/user/reset', function (req, res, next) {
                     to: user.email,
                     from: 'Bookd <contact@bookd.me>',
                     subject: 'Bookd Password Reset',
-                    html: res.html
+                    html: template.html
                 };
                 // send mail with defined transport object
                 transporter.sendMail(mailOptions, function (error) {
@@ -1941,6 +1941,7 @@ router.post('/user/reset', function (req, res, next) {
                         console.log(error);
                         done(err, 'done');
                     }
+                    res.json(200, {message: 'Success'});
                 });
             });
         }
