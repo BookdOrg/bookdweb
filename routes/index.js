@@ -831,78 +831,84 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
     templateObj.appointment = moment(appointment.start.full).format('MMM Do YYYY, h:mm a');
 
     var room = appointment.start.date.toString() + appointment.employee.toString();
-    appointment.save(function (err, appointment) {
+    async.waterfall([
+        function (done) {
+            appointment.save(function (err, appointment) {
+                done(err, appointment)
+            })
+        },
+        function (appointment, done) {
+            User.findOne({'_id': appointment.employee})
+                .exec(function (err, user) {
+                    if (err) {
+                        done(err, 'done');
+                    }
+                    templateObj.employeeName = user.name;
+                    templateObj.employeeName = templateObj.employeeName.split(' ', 1);
+                    user.appointments.push(appointment);
+                    appointment.employee = user;
+                    user.save(function (err) {
+                        done(err, appointment);
+                    })
+                })
+        }, function (appointment, done) {
+            if (appointment.customer !== null) {
+                User.findOne({'_id': appointment.customer}).populate({
+                    path: 'businessAppointments personalAppointments',
+                    match: {'start.date': appointment.start.date}
+                }).exec(function (err, user) {
+                    if (err) {
+                        done(err, 'done');
+                    }
+                    templateObj.user = user.name;
+                    templateObj.user = templateObj.user.split(' ', 1);
+
+                    user.appointments.push(appointment);
+                    if (user.appointments.length <= 1) {
+                        firstApptTemplate.render(templateObj, function (err, results) {
+                            var mailOptions = {
+                                from: 'Bookd <contact@bookd.me>', // sender address
+                                to: user.email, // list of receivers
+                                subject: 'Bookd Appointment', // Subject line
+                                html: results.html // html body
+                            };
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error) {
+                                if (error) {
+                                    console.log(error);
+                                }
+                            });
+                        })
+                    } else {
+                        genApptTemplate.render(templateObj, function (err, results) {
+                            var mailOptions = {
+                                from: 'Bookd <contact@bookd.me>', // sender address
+                                to: user.email, // list of receivers
+                                subject: 'Bookd Appointment', // Subject line
+                                html: results.html // html body
+                            };
+                            // send mail with defined transport object
+                            transporter.sendMail(mailOptions, function (error) {
+                                if (error) {
+                                    console.log(error);
+                                }
+                            });
+                        })
+                    }
+                    user.save(function (err) {
+                        if (err) {
+                            done(err, 'done');
+                        }
+                    });
+                });
+            }
+            io.sockets.in(room).emit('update');
+            res.status(200).json(appointment);
+        }
+    ], function (err) {
         if (err) {
             return next(err);
         }
-        User.findOne({'_id': appointment.employee}).populate({
-            path: 'businessAppointments personalAppointments',
-            match: {'start.date': appointment.start.date}
-        }).exec(function (err, user) {
-            if (err) {
-                return next(err);
-            }
-            templateObj.employeeName = user.name;
-            templateObj.employeeName = templateObj.employeeName.split(' ', 1);
-            user.appointments.push(appointment);
-            user.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-            });
-        });
-        if (appointment.customer !== null) {
-            User.findOne({'_id': appointment.customer}).populate({
-                path: 'businessAppointments personalAppointments',
-                match: {'start.date': appointment.start.date}
-            }).exec(function (err, user) {
-                if (err) {
-                    return next(err);
-                }
-                templateObj.user = user.name;
-                templateObj.user = templateObj.user.split(' ', 1);
-
-                user.appointments.push(appointment);
-                if (user.appointments.length <= 1) {
-                    firstApptTemplate.render(templateObj, function (err, results) {
-                        var mailOptions = {
-                            from: 'Bookd <contact@bookd.me>', // sender address
-                            to: user.email, // list of receivers
-                            subject: 'Bookd Appointment', // Subject line
-                            html: results.html // html body
-                        };
-                        // send mail with defined transport object
-                        transporter.sendMail(mailOptions, function (error) {
-                            if (error) {
-                                console.log(error);
-                            }
-                        });
-                    })
-                } else {
-                    genApptTemplate.render(templateObj, function (err, results) {
-                        var mailOptions = {
-                            from: 'Bookd <contact@bookd.me>', // sender address
-                            to: user.email, // list of receivers
-                            subject: 'Bookd Appointment', // Subject line
-                            html: results.html // html body
-                        };
-                        // send mail with defined transport object
-                        transporter.sendMail(mailOptions, function (error) {
-                            if (error) {
-                                console.log(error);
-                            }
-                        });
-                    })
-                }
-                user.save(function (err) {
-                    if (err) {
-                        return next(err);
-                    }
-                });
-            });
-        }
-        io.sockets.in(room).emit('update');
-        res.status(200).json(appointment);
     });
 });
 router.get('/business/appointments/all', auth, function (req, res, next) {
