@@ -196,7 +196,7 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptBooked', function (appt) {
-        var employeeSocket = _.findWhere(clients, {'customId': appt.employee});
+        var employeeSocket = _.findWhere(clients, {'customId': appt.employee._id});
         socket.leave(appt.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -216,8 +216,8 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptUpdated', function (data) {
-        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
-        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee._id});
+        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -225,13 +225,13 @@ io.on('connection', function (socket) {
         });
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('updatedAppt', data);
-        if (data.from === data.appointment.customer && employeeSocket) {
+        if (data.from === data.appointment.customer._id && employeeSocket) {
             io.to(employeeSocket.id).emit('updatedCalAppt', data);
         }
-        if (data.from === data.appointment.employee && customerSocket) {
+        if (data.from === data.appointment.employee._id && customerSocket) {
             io.to(customerSocket.id).emit('updatedCalAppt', data);
         }
-        if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
+        if (data.from !== data.appointment.employee._id && data.from !== data.appointment.customer._id) {
             if (customerSocket) {
                 io.to(customerSocket.id).emit('updatedCalAppt', data);
             }
@@ -246,18 +246,18 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptCanceled', function (data) {
-        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee});
-        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer});
+        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee._id});
+        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId);
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
-        if (data.from === data.appointment.customer && employeeSocket) {
+        if (data.from === data.appointment.customer._id && employeeSocket) {
             io.to(employeeSocket.id).emit('canceledAppt', data);
         }
-        if (data.from === data.appointment.employee && customerSocket) {
+        if (data.from === data.appointment.employee._id && customerSocket) {
             io.to(customerSocket.id).emit('canceledAppt', data);
         }
-        if (data.from !== data.appointment.employee && data.from !== data.appointment.customer) {
+        if (data.from !== data.appointment.employee._id && data.from !== data.appointment.customer._id) {
             if (customerSocket) {
                 io.to(customerSocket.id).emit('canceledAppt', data);
             }
@@ -316,8 +316,10 @@ router.get('/user/appointments', auth, function (req, res, next) {
             return next(err);
         }
         if (employee) {
-            responseArray.push(employee.businessAppointments);
-            responseArray.push(employee.personalAppointments);
+            var businessAppts = populateAppointments(employee.businessAppointments);
+            var personalAppts = populateAppointments(employee.personalAppointments);
+            responseArray.push(businessAppts);
+            responseArray.push(personalAppts);
         }
         if (personal === 'true') {
             User.findOne({'_id': customerId}).populate({
@@ -328,8 +330,10 @@ router.get('/user/appointments', auth, function (req, res, next) {
                     return next(err);
                 }
                 if (customer) {
-                    responseArray.push(customer.personalAppointments);
-                    responseArray.push(customer.businessAppointments);
+                    var businessAppts = populateAppointments(customer.businessAppointments);
+                    var personalAppts = populateAppointments(customer.personalAppointments);
+                    responseArray.push(businessAppts);
+                    responseArray.push(personalAppts);
                 }
                 res.json(responseArray);
             });
@@ -338,6 +342,24 @@ router.get('/user/appointments', auth, function (req, res, next) {
         }
 
     });
+    function populateAppointments(appointmentsArray) {
+        var appointments = [];
+        async.each(appointmentsArray, function (appointment, appointmentCallback) {
+            Appointment.findOne({'_id': appointment._id}).populate([
+                {path: 'customer', select: '_id firstName lastName name email'},
+                {path: 'employee', select: '_id firstName lastName name email'}
+            ]).exec(function (error, response) {
+                appointments.push(response);
+                appointmentCallback()
+            });
+        }, function (err) {
+            if (err) {
+                return next(err);
+            }
+            ;
+        });
+        return appointments
+    };
 });
 
 /**
@@ -915,7 +937,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentId = req.body._id;
     var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
     var templateObj = {};
-    if (req.body.customer && req.body.customer._id == req.payload._id) {
+    if (req.body.customer && req.body.customer._id === req.payload._id || req.body.customer === req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
             if (err) {
                 return next(err);
@@ -925,7 +947,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
 
             if (appointment.status == 'pending') {
                 appointment.status = 'active';
-                User.findOne({'_id': req.body.employee}).exec(function (err, user) {
+                User.findOne({'_id': req.body.employee._id}).exec(function (err, user) {
                     if (err) {
                         next(err);
                     }
@@ -955,7 +977,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             appointment.start = updatedAppointmentStart;
             appointment.end = updatedAppointmentEnd;
             if (req.body.customer) {
-                User.findOne({'_id': req.body.employee}).exec(function (err, user) {
+                User.findOne({'_id': req.body.employee._id}).exec(function (err, user) {
                     if (err) {
                         return next(err);
                     }
@@ -1992,8 +2014,6 @@ router.post('/user/password/change', function (req, res, next) {
             console.log(err);
         }
 
-        console.log(req.body.currPass);
-        console.log(user);
         if (user.validPassword(req.body.currPass)) {
             user.setPassword(req.body.newPass);
             user.save();
