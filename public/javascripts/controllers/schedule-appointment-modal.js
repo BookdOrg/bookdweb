@@ -326,8 +326,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //send the appointment to the backend
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
-                newNotification(appointment, appointment.customer);
-                newNotification(appointment, appointment.employee);
+                newNotification(appointment, appointment.customer._id);
+                newNotification(appointment, appointment.employee._id);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;
@@ -346,8 +346,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.book = function () {
         businessFactory.addAppointment($scope.appointment)
             .then(function (appointment) {
-                newNotification(appointment, appointment.customer);
-                newNotification(appointment, appointment.employee);
+                newNotification(appointment, appointment.customer._id);
+                newNotification(appointment, appointment.employee._id);
                 socketService.emit('timeDestroyed', $scope.activeTime);
                 appointment.personal = personal;
                 appointment.roomId = $scope.activeTime.roomId;

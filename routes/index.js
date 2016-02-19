@@ -308,60 +308,48 @@ router.get('/user/appointments', auth, function (req, res, next) {
 
     var personal = req.query.personal;
     var responseArray = [];
-
-    User.findOne({'_id': employeeId}).populate({
-        path: 'businessAppointments personalAppointments',
-        match: {'start.date': startDate},
-        $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
-    }).exec(function (err, employee) {
+    async.waterfall([
+        function (done) {
+            Appointment.find({
+                employee: employeeId,
+                'start.date': startDate,
+                $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
+            })
+                .populate([
+                    {path: 'customer', select: '_id firstName lastName name email'},
+                    {path: 'employee', select: '_id firstName lastName name email'}])
+                .exec(function (err, appointments) {
+                    done(err, appointments);
+                });
+        },
+        function (employeeAppointments, done) {
+            var responseArray = [];
+            responseArray.push(employeeAppointments);
+            if (personal === 'true') {
+                Appointment.find({
+                    customer: customerId,
+                    'start.date': startDate,
+                    $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
+                })
+                    .populate([
+                        {path: 'customer', select: '_id firstName lastName name email'},
+                        {path: 'employee', select: '_id firstName lastName name email'}])
+                    .exec(function (err, appointments) {
+                        if (err) {
+                            done(err, 'done')
+                        }
+                        responseArray.push(appointments);
+                        res.json(responseArray);
+                    });
+            } else {
+                res.json(responseArray);
+            }
+        }
+    ], function (err) {
         if (err) {
             return next(err);
         }
-        if (employee) {
-            var businessAppts = populateAppointments(employee.businessAppointments);
-            var personalAppts = populateAppointments(employee.personalAppointments);
-            responseArray.push(businessAppts);
-            responseArray.push(personalAppts);
-        }
-        if (personal === 'true') {
-            User.findOne({'_id': customerId}).populate({
-                path: 'personalAppointments businessAppointments',
-                match: {'start.date': startDate}
-            }).exec(function (err, customer) {
-                if (err) {
-                    return next(err);
-                }
-                if (customer) {
-                    var businessAppts = populateAppointments(customer.businessAppointments);
-                    var personalAppts = populateAppointments(customer.personalAppointments);
-                    responseArray.push(businessAppts);
-                    responseArray.push(personalAppts);
-                }
-                res.json(responseArray);
-            });
-        } else {
-            res.json(responseArray);
-        }
-
     });
-    function populateAppointments(appointmentsArray) {
-        var appointments = [];
-        async.each(appointmentsArray, function (appointment, appointmentCallback) {
-            Appointment.findOne({'_id': appointment._id}).populate([
-                {path: 'customer', select: '_id firstName lastName name email'},
-                {path: 'employee', select: '_id firstName lastName name email'}
-            ]).exec(function (error, response) {
-                appointments.push(response);
-                appointmentCallback()
-            });
-        }, function (err) {
-            if (err) {
-                return next(err);
-            }
-            ;
-        });
-        return appointments
-    };
 });
 
 /**

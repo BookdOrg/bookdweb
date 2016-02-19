@@ -475,10 +475,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
         var type = 'calendar';
         if ($rootScope.currentUser._id === appointment.customer) {
             // Customer rescheduled appointment, inform employee, no email.
-            notificationFactory.addNotification(appointment.employee, employeeNotification, type, false, appointment.start.full)
+            notificationFactory.addNotification(appointment.employee._id, employeeNotification, type, false, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: employeeNotification,
                         type: type
                     };
@@ -488,10 +488,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         } else if ($rootScope.currentUser._id === appointment.employee) {
             // Employee rescheduled appointment, inform customer, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, type, true, appointment.start.full)
+            notificationFactory.addNotification(appointment.customer._id, customerNotification, type, true, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: customerNotification,
                         type: type
                     };
@@ -501,10 +501,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         } else {
             // Business owner rescheduled appointment, inform customer and employee, with email.
-            notificationFactory.addNotification(appointment.customer, customerNotification, type, true, appointment.start.full)
+            notificationFactory.addNotification(appointment.customer._id, customerNotification, type, true, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: customerNotification,
                         type: type
                     };
@@ -513,10 +513,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                     console.log(err);
                 });
 
-            notificationFactory.addNotification(appointment.employee, employeeNotification, type, true, appointment.start.full)
+            notificationFactory.addNotification(appointment.employee._id, employeeNotification, type, true, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: employeeNotification,
                         type: type
                     };
@@ -534,10 +534,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             type = 'calendar';
         if ($rootScope.currentUser._id === appointment.customer) {
             // Customer canceled appointment, inform employee, no email.
-            notificationFactory.addNotification(appointment.employee, notification, type, false, appointment.start.full)
+            notificationFactory.addNotification(appointment.employee._id, notification, type, false, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: notification,
                         type: type
                     };
@@ -547,10 +547,10 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         } else {
             // Employee canceled appointment, inform customer, with email.
-            notificationFactory.addNotification(appointment.customer, notification, type, true, appointment.start.full)
+            notificationFactory.addNotification(appointment.customer._id, notification, type, true, appointment.start.full)
                 .then(function () {
                     var data = {
-                        id: appointment.employee,
+                        id: appointment.employee._id,
                         notification: notification,
                         type: type
                     };
