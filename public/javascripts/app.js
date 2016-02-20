@@ -1,5 +1,5 @@
 window.jQuery = require('jquery');
-require('jquery-ui');
+//require('jquery-ui');
 window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
@@ -23,7 +23,7 @@ require('bootstrap');
 require('ngmap');
 require('angular-ui-bootstrap');
 require('angular-ui-validate');
-//require('fullcalendar');
+require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
 
