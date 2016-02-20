@@ -23,7 +23,7 @@ require('bootstrap');
 require('ngmap');
 require('angular-ui-bootstrap');
 require('angular-ui-validate');
-//require('fullcalendar');
+require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
 
