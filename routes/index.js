@@ -857,6 +857,7 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                     if (err) {
                         done(err, 'done');
                     }
+                    appointment.customer = user;
                     templateObj.user = user.name;
                     templateObj.user = templateObj.user.split(' ', 1);
 
@@ -899,6 +900,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                     });
                 });
             }
+            appointment.customer.hash = '';
+            appointment.employee.hash = '';
             io.sockets.in(room).emit('update');
             res.status(200).json(appointment);
         }
@@ -918,7 +921,10 @@ router.get('/business/appointments/all', auth, function (req, res, next) {
         'businessId': businessId,
         'start.full': {'$gte': isoStart, $lt: isoEnd},
         $or: [{'status': 'paid'}, {'status': 'active'}, {'status': 'pending'}]
-    }).populate('customer employee').exec(function (error, response) {
+    }).populate([
+        {path: 'customer', select: '_id firstName lastName name email'},
+        {path: 'employee', select: '_id firstName lastName name email'}
+    ]).exec(function (error, response) {
         if (error) {
             return next(error);
         }
@@ -937,7 +943,10 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
     var templateObj = {};
     if (req.body.customer && req.body.customer._id === req.payload._id || req.body.customer === req.payload._id) {
-        Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
+        Appointment.findOne({'_id': updatedAppointmentId}).populate([
+            {path: 'customer', select: '_id firstName lastName name email'},
+            {path: 'employee', select: '_id firstName lastName name email'}
+        ]).exec(function (err, appointment) {
             if (err) {
                 return next(err);
             }
@@ -966,7 +975,10 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
             });
         });
     } else {
-        Appointment.findOne({'_id': updatedAppointmentId}).populate('customer employee').exec(function (err, appointment) {
+        Appointment.findOne({'_id': updatedAppointmentId}).populate([[
+            {path: 'customer', select: '_id firstName lastName name email'},
+            {path: 'employee', select: '_id firstName lastName name email'}
+        ]]).exec(function (err, appointment) {
             if (err) {
                 return next(err);
             }
@@ -1057,7 +1069,10 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
                 // The card has been declined
                 res.status(400).json(err);
             } else {
-                Appointment.findOne({'_id': appointmentId}).populate('customer employee').exec(function (err, appointment) {
+                Appointment.findOne({'_id': appointmentId}).populate([[
+                    {path: 'customer', select: '_id firstName lastName name email'},
+                    {path: 'employee', select: '_id firstName lastName name email'}
+                ]]).exec(function (err, appointment) {
                     if (err) {
                         return next(err);
                     }
@@ -1106,7 +1121,10 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
 
 router.post('/business/appointment/status-update', auth, function (req, res, next) {
     var appointmentId = req.body._id;
-    Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
+    Appointment.findOne({'_id': appointmentId}).populate([[
+        {path: 'customer', select: '_id firstName lastName name email'},
+        {path: 'employee', select: '_id firstName lastName name email'}
+    ]]).exec(function (err, appointment) {
         if (err) {
             return next(err);
         }
