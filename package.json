@@ -40,7 +40,7 @@
     "express-jwt": "~3.3.0",
     "express-session": "^1.13.0",
     "font-awesome": "^4.4.0",
-    "fullcalendar": "^2.6.0",
+    "fullcalendar": "2.4.0",
     "googleplaces": "^0.6.0",
     "gulp": "^3.9.1",
     "gulp-load-plugins": "^1.2.0",
