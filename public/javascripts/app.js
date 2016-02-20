@@ -24,7 +24,6 @@ require('ngmap');
 require('angular-ui-bootstrap');
 require('angular-ui-validate');
 require('fullcalendar');
-window.fullCalendar = require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
 
