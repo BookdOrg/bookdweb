@@ -900,10 +900,14 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                         done(err, appointment);
                     });
                 });
+            } else {
+                done(null, appointment)
             }
         },
-        function (appointment, done) {
-            appointment.customer.hash = '';
+        function (appointment) {
+            if (appointment.customer) {
+                appointment.customer.hash = '';
+            }
             appointment.employee.hash = '';
             io.sockets.in(room).emit('update');
             res.status(200).json(appointment);
