@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
     rating: Number,
     businessOwner: Boolean,
     hash: String,
-    salt: String,
     isAssociate: Boolean,
     isAdmin: Boolean,
     settings: Object,
