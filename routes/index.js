@@ -897,9 +897,12 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
                         if (err) {
                             done(err, 'done');
                         }
+                        done(err, appointment);
                     });
                 });
             }
+        },
+        function (appointment, done) {
             appointment.customer.hash = '';
             appointment.employee.hash = '';
             io.sockets.in(room).emit('update');
