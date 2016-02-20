@@ -17,6 +17,7 @@
     "angular-google-places-autocomplete": "~0.2.7",
     "ngGeolocation": "~0.0.5",
     "angular-ui-calendar": "latest",
-    "angularjs-dropdown-multiselect": "~1.5.2"
+    "angularjs-dropdown-multiselect": "~1.5.2",
+    "fullcalendar": "~2.6.1"
   }
 }
