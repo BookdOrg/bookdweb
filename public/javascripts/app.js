@@ -13,7 +13,7 @@ try {
     // there was an error so...
     alert('Whoops, looks like you are in Privacy Mode\nSome of our features won\'t work in this mode\nPlease deactivate Privacy Mode and then reload the page.');
 }
-
+require('fullcalendar');
 var angular = require('angular');
 require('angular-file-upload');
 require('angular-timer');
@@ -23,7 +23,6 @@ require('bootstrap');
 require('ngmap');
 require('angular-ui-bootstrap');
 require('angular-ui-validate');
-require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
 
