@@ -316,8 +316,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             timestamp: moment()
         };
     };
-
-    //TODO Handle the case where the add appointment callback returns 400 because of overlapping appointments
     //When the user chooses to checkout w/ stripe
     this.checkOut = function (token) {
         //set the stripeToken returned from checkout
@@ -374,7 +372,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     var newNotification = function (appointment, personToNotify) {
         //TODO Move this string to somewhere we can access it globally!
-        var notification = $scope.service.name + ' ',
+        var notification = 'You have a ' + $scope.service.name + ' ',
             type = 'calendar';
         notificationFactory.addNotification(personToNotify, notification, type, true, appointment.start.full)
             .then(function () {
