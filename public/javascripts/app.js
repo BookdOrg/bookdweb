@@ -6,6 +6,13 @@ window.moment = require('moment');
 require('moment-range');
 window.humanizeDuration = require('humanize-duration');
 
+try {
+    // try to use localStorage
+    localStorage.test = 2;
+} catch (e) {
+    // there was an error so...
+    alert('Whoops, looks like you are in Privacy Mode\nSome of our features won\'t work in this mode\nPlease deactivate Privacy Mode and then reload the page.');
+}
 
 var angular = require('angular');
 require('angular-file-upload');
