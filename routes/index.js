@@ -1919,7 +1919,7 @@ router.post('/business/contact', function (req, res, next) {
     }
 });
 
-router.post('/user/reset', function (req, res, next) {
+router.post('/user/password', function (req, res, next) {
     async.waterfall([
         function (done) {
             crypto.randomBytes(20, function (err, buf) {
@@ -1966,7 +1966,7 @@ router.post('/user/reset', function (req, res, next) {
                         console.log(error);
                         done(err, 'done');
                     }
-                    res.json(200, {message: 'Success'});
+                    res.json({message: 'Success'});
                 });
             });
         }
