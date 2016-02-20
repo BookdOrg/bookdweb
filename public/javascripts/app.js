@@ -1,5 +1,6 @@
 var angular = require('angular');
 window.jQuery = require('jquery');
+require('jquery-ui');
 window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
