@@ -82,7 +82,6 @@ io.on('connection', function (socket) {
             }
             if (user) {
                 user.hash = '';
-                user.salt = '';
                 io.to(socket.id).emit('update-user', user);
             }
         });
@@ -553,7 +552,6 @@ router.post('/user/claimed-success', function (req, res, next) {
                 return next(error);
             }
             activeUser.hash = '';
-            activeUser.salt = '';
             io.to(user.id).emit('update-user', activeUser);
             res.json({message: 'Success'});
         });
@@ -759,7 +757,6 @@ router.post('/register', function (req, res) {
             });
         });
         user.hash = "";
-        user.salt = "";
         return res.json({token: user.generateJWT(), user: user});
     });
 });
@@ -1042,11 +1039,9 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     var price = req.body.price;
     var businessId = req.body.businessId;
     var successTemplateDir = path.join(__dirname, '../templates', 'customer-transaction-success');
-    //var failureTemplateDir = path.join(__dirname, '../templates', 'customer-transaction-failure');
     var fee = (price * .05) + 30;
 
     var successTemplate = new EmailTemplate(successTemplateDir);
-    //var failureTemplate = new EmailTemplate(failureTemplateDir);
 
     Business.findOne({'_id': businessId}).exec(function (err, business) {
         var stripeId = business.stripeId;
@@ -1059,22 +1054,16 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
             description: 'Bookd Appointment'
         }, function (err, charge) {
             if (err && err.type === 'StripeCardError') {
-                //var templateObj = {
-                //    price:price
-                //};
-                //failureTemplate.render(templateObj,function(err,results){
-                //    sendEmail();
-                //});
-
                 // The card has been declined
                 res.status(400).json(err);
             } else {
-                Appointment.findOne({'_id': appointmentId}).exec(function (err, appointment) {
+                Appointment.findOne({'_id': appointmentId}).populate('customer employee').exec(function (err, appointment) {
                     if (err) {
                         return next(err);
                     }
                     appointment.status = 'paid';
-
+                    appointment.customer.hash = '';
+                    appointment.employee.hash = '';
                     appointment.save(function (err, resAppointment) {
                         if (err) {
                             return next(err);
