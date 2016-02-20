@@ -5,6 +5,7 @@ var UserSchema = new mongoose.Schema({
     name: String,
     firstName: String,
     lastName: String,
+    phone: String,
     email: {type: String, unique: true},
     avatarVersion: String,
     provider: String,
