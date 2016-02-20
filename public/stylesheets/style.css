@@ -774,3 +774,8 @@ Hack so the table styles load before we're on the page
 .fc-event {
     cursor: pointer;
 }
+
+.email-success {
+    background-color: rgb(92, 184, 92);
+    color: white;
+}
