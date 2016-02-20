@@ -1,4 +1,6 @@
+var angular = require('angular');
 window.jQuery = require('jquery');
+require('jquery-ui');
 window.$ = global.jQuery;
 window._ = require('lodash');
 window.io = require('socket.io-client');
@@ -13,8 +15,6 @@ try {
     // there was an error so...
     alert('Whoops, looks like you are in Privacy Mode\nSome of our features won\'t work in this mode\nPlease deactivate Privacy Mode and then reload the page.');
 }
-
-var angular = require('angular');
 require('angular-file-upload');
 require('angular-timer');
 require('angular-ui-notification');
