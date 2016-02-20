@@ -28,7 +28,6 @@ var app = angular.module('cc', [
     'google.places',
     'ngGeolocation',
     'ngMap',
-    'stripe.checkout',
     'timer',
     'ui.bootstrap',
     'ui.calendar',
