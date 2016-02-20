@@ -9,7 +9,6 @@ window.humanizeDuration = require('humanize-duration');
 
 var angular = require('angular');
 require('angular-file-upload');
-require('angular-stripe-checkout');
 require('angular-timer');
 require('angular-ui-notification');
 require('angular-ui-router');
