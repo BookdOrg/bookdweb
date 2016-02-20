@@ -1150,7 +1150,9 @@ router.post('/business/appointment/status-update', auth, function (req, res, nex
  */
 router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var appointment = req.body._id;
-    var customer = req.body.customer._id;
+    if (req.body.customer) {
+        var customer = req.body.customer._id;
+    }
     var employee = req.body.employee;
     var templateDir;
     var templateObj = {};
