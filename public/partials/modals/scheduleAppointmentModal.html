@@ -41,7 +41,7 @@
                         <img class="fitContainer" ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                              ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                         <h5>{{employee.firstName}}</h5>
-                </div>
+                    </div>
                 </a>
             </div>
         </div>
@@ -54,8 +54,7 @@
 
                     <div style="display:inline-block; min-height:290px;">
                         <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false"
-                                        class="well well-sm"
-                                        custom-class="getDayClass(date, mode)"></uib-datepicker>
+                                        class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
                     </div>
                     <div class="col-xs-6 col-xs-push-3" ng-if="!personal">
                         <form name="externalCustomerForm" class="form-horizontal">
@@ -84,7 +83,8 @@
                          ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)"
                                 ng-disabled="!time.available || time.status || time.toggled || time.hide"
-                                ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
+                                ng-class="{'btn-faded-green':time.hide,'btn-gradient-red': !time.available && !time.hide
+                                 || time.status,'btn-gradient-green':time.available && !time.toggled && !time.hide,'btn-gradient-blue':time.toggled}"
                                 role="button" class="btn" style="margin-bottom:5px;">
                             {{time.time}}
                         </button>

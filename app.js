@@ -26,6 +26,7 @@ var routes = require('./routes/index');
 var app = express();
 
 app.use(helmet());
+app.use(frameguard('allow-from', 'https://jonfor.net'));
 
 cloudinary.config({
     cloud_name: 'dvvtn4u9h',
