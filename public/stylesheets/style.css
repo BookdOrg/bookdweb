@@ -411,7 +411,7 @@ img.fitContainer {
 
 header {
     background-image: url(../images/bookd_background-compressor.jpeg);
-
+    background-position: center bottom;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
