@@ -53,16 +53,14 @@ module.exports = function () {
                 }
             });
 
-
-            _.forEach(appointmentsArray, function (appointmentArray) {
-                calculateAppointmentBlocks(appointmentArray);
-            });
             function calculateAppointmentBlocks(appointmentArray) {
                 _.forEach(appointmentArray, function (appointment) {
                     calculateAppointment(appointmentArray, appointment, timeObj, m);
                 });
             }
-
+            _.forEach(appointmentsArray, function (appointmentArray) {
+                calculateAppointmentBlocks(appointmentArray);
+            });
             function calculateAppointment(appointmentArray, appointment, timeObj, m) {
                 var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
                 var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
