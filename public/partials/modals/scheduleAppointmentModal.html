@@ -110,7 +110,7 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Appointment</h3>
+                            <h3 class="panel-title text-center">Your Appointment</h3>
                         </div>
                         <div class="panel-body">
                             <div class="media">
@@ -148,17 +148,8 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 text-center">
-                    <h4>Book Your Appointment!</h4>
-                    <h4>Praesent magna quam, tempor blandit lectus ut, maximus interdum lacus. Phasellus eget est justo.
-                        Sed faucibus nisi ex, a interdum odio accumsan sit amet. Phasellus faucibus justo ligula, id
-                        imperdiet enim porttitor sed. Duis eleifend turpis nibh, sit amet varius sem pulvinar
-                        tempus.</h4>
-
-                    <button class="btn btn-gradient-primary" ng-show="appointment"
-                            ng-click="book()">
-                        Book
-                    </button>
-                    <button class="btn btn-gradient-success" ng-show="appointment" ng-if="payments"
+                    <h3>Leave Your Wallet At Home</h3>
+                    <button class="btn btn-gradient-success btn-md" ng-show="appointment" ng-if="payments"
                             stripe-checkout="ctrl.checkOut"
                             data-key="pk_test_Hfdo0VXXOa2Om7YyYohtdRcb"
                             data-name="Bookd"
@@ -167,10 +158,21 @@
                             data-image="/images/favicon.ico"
                             data-label="Book Appointment"
                             data-panel-label="Book">
-                        Book w/ Payment
+                        Book Appointment <i class="fa fa-credit-card"></i>
                     </button>
+                    <h4 class="text-danger">"Leave Your Wallet" simply files your payment information, you will not be
+                        charged
+                        until your service has been completed.</h4>
+
+                    <h3>Book Traditionally</h3>
+                    <button class="btn btn-gradient-primary btn-md" ng-show="appointment"
+                            ng-click="book()">
+                        Book Appointment
+                    </button>
+
                 </div>
             </div>
+            <br>
             <div class="row text-center">
                 <a data-target="#schedule" data-toggle="tab" class="btn btn-warning" ng-click="changeTab('schedule')">Back</a>
             </div>
