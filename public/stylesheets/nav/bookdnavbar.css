@@ -15,7 +15,7 @@
 .navbar-default {
     border-color: rgba(34, 34, 34, .05);
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-    background-color: white;
+    background-color: transparent;
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -50,7 +50,7 @@
     font-weight: 200;
     color: black;
     text-align: center;
-    border-bottom: 1px solid lightgrey;
+    /*border-bottom: 1px solid lightgrey;*/
 }
 
 .navbar-default ul.nav hr {
@@ -75,8 +75,8 @@
 
 @media (min-width: 768px) {
     .navbar-default {
-        background-color: white;
-        border-color: rgba(255, 255, 255, .3);
+        background-color: transparent;
+        /*border-color: rgba(255, 255, 255, .3);*/
         /*background-color: transparent;*/
     }
 
@@ -126,6 +126,10 @@
     .navbar-default .nav > li > a:hover,
     .navbar-default .nav > li > a:focus:hover {
         color: #f05f40;
+    }
+
+    .badge {
+        background-color: transparent;
     }
 }
 
@@ -223,8 +227,17 @@
 .notification-bell i {
     color: black;
 }
+
 .new-notification-alert {
-    background-color: red;
+    color: red !important;
+}
+
+#notificationNumber-landing {
+    color: white;
+}
+
+#notificationNumber-app {
+    color: black;
 }
 
 .new-notification {

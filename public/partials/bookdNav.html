@@ -121,7 +121,7 @@
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                         <a ng-href="#" uib-dropdown-toggle>
                             <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
-                                {{currentUser.notifications | notificationFilter}}
+                                <span id="notificationNumber-app">{{currentUser.notifications | notificationFilter}}</span>
                             </i>
                         </a>
 
