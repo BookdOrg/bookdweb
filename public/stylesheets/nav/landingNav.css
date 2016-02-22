@@ -27,6 +27,9 @@
     color: black;
 }
 
+.navbar-default.navbar-shrink .nav .droplinks li a i {
+    color: black;
+}
 .navbar-default .navbar-header .navbar-brand {
     color: white;
 }
@@ -47,6 +50,9 @@ h3, h4, h5, h6 {
     font-family: "Abel", arial, sans-serif;
 }
 
+.navbar-default.navbar-shrink .nav li > a > i > span {
+    color: white !important;
+}
 .landing-notification-bell > a:hover i {
     color: #337ab7;
 }

@@ -53,6 +53,18 @@ section#services {
     padding-top: 120px;
 }
 
-#notificationNumber-landing {
+.navbar-default .nav li > a > i {
     color: black;
+}
+
+.navbar-default .nav li > a > i > span {
+    color: black;
+}
+
+.navbar-default .navbar-shrink .nav li > a > i > span {
+    color: white !important;
+}
+
+.navbar-default.navbar-shrink .nav li > a > i {
+    color: white;
 }

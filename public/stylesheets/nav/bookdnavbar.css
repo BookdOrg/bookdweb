@@ -126,8 +126,12 @@
     .navbar-default .nav > li > a:hover,
     .navbar-default .nav > li > a:focus:hover {
         color: #f05f40;
+        background-color: transparent;
     }
 
+    .navbar-default .nav > li {
+        background-color: transparent;
+    }
     .badge {
         background-color: transparent;
     }
@@ -232,7 +236,7 @@
     color: red !important;
 }
 
-#notificationNumber-landing {
+.navbar-default .nav li > a > i > span {
     color: white;
 }
 
