@@ -12,10 +12,10 @@ module.exports = function ($scope, $controller) {
 
     $scope.slides = [
         {
-            image: '/images/header-bg.jpg',
+            image: '/images/fem.jpg',
             id: 0
         }, {
-            image: '/images/bookd_background-compressor.jpeg',
+            image: '/images/masc.jpg',
             id: 1
         }
     ]
