@@ -6,6 +6,13 @@
 /*html, body {*/
 /*height: 100%;*/
 /*}*/
+.carousel-indicators {
+    visibility: hidden;
+}
+
+.carousel-control {
+    visibility: hidden;
+}
 
 a {
     color: #00B7FF;
