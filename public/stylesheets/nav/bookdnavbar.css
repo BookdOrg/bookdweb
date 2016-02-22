@@ -274,3 +274,7 @@ ul.nav.navbar-nav.navbar-right {
     border-left: 6px solid transparent;
     content: '';
 }
+
+#bookd-toggle {
+    margin-top: 20px;
+}
