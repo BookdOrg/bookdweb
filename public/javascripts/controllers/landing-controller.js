@@ -7,4 +7,16 @@ module.exports = function ($scope, $controller) {
     $scope.openSignup = function (type, state) {
         navViewModel.open(type, state);
     };
+    $scope.myInterval = 5000;
+    $scope.noWrapSlides = false;
+
+    $scope.slides = [
+        {
+            image: '/images/header-bg.jpg',
+            id: 0
+        }, {
+            image: '/images/bookd_background-compressor.jpeg',
+            id: 1
+        }
+    ]
 };

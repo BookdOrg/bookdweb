@@ -1,21 +1,25 @@
 <header>
-    <div class="container">
-        <div class="intro-text">
-            <div class="intro-lead-in">Book appointments</div>
-            <div class="intro-lead-in">It's that simple</div>
-            <div class="row form-inline form-group">
-                <div class="col-xs-12">
-                    <form name="landingQuery">
+    <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+        <uib-slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
+            <img ng-src="{{slide.image}}" style="margin:auto;width:1416px;height:579px;">
+
+            <div class="carousel-caption">
+                <div class="intro-text full-width">
+                    <div class="intro-lead-in">Book appointments</div>
+                    <div class="intro-lead-in">It's that simple</div>
+                    <div class="row form-inline form-group">
                         <div class="col-xs-12">
-                            <span class="left-inner-addon left-inner-addon-landing">
-                                <i class="fa fa-search"></i>
+                            <form name="landingQuery">
+                                <div class="col-xs-12">
+                            <span class="">
+                                <!--<i class="fa fa-search"></i>-->
                                 <input class="form-control input-lg search" aria-describedby="search"
                                        ng-model="query.term"
                                        placeholder="Hair Salons" id="search" required>
                             </span>
-                            <span class="left-inner-addon left-inner-addon-landing">
-                                <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
-                                <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
+                            <span class="">
+                                <!--<i ng-show="!loadingLocation" class="fa fa-map-marker"></i>-->
+                                <!--<i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>-->
                                 <input class="form-control input-lg search" aria-describedby="near"
                                        g-places-autocomplete
                                        options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
@@ -30,12 +34,14 @@
                                     <span ng-show="!fetchingQuery">Search</span>
                                 </button>
                             </span>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </uib-slide>
+    </uib-carousel>
 </header>
 <section id="services">
     <div class="container">

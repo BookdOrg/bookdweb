@@ -410,8 +410,8 @@ img.fitContainer {
 }
 
 header {
-    background-image: url(../images/header-bg.jpg);
-    background-position: center bottom;
+    /*background-image: url(../images/header-bg.jpg);*/
+    /*background-position: center bottom;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
