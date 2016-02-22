@@ -1,11 +1,11 @@
 <header>
     <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
         <uib-slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
-            <img ng-src="{{slide.image}}" style="margin:auto;width:1416px;height:579px;">
+            <img ng-src="{{slide.image}}" style="margin:auto;min-width:880px;min-height:579px;max-height:579px;">
 
             <div class="carousel-caption">
                 <div class="intro-text full-width">
-                    <div class="intro-lead-in">Book appointments</div>
+                    <div class="intro-lead-in">Book Appointments</div>
                     <div class="intro-lead-in">It's that simple</div>
                     <div class="row form-inline form-group">
                         <div class="col-xs-12">
