@@ -410,7 +410,7 @@ img.fitContainer {
 }
 
 header {
-    background-image: url(../images/bookd_background-compressor.jpeg);
+    background-image: url(../images/header-bg.jpg);
     background-position: center bottom;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -421,7 +421,7 @@ header {
 }
 
 header .intro-text {
-    padding-top: 100px;
+    padding-top: 200px;
     padding-bottom: 50px
 }
 
@@ -443,7 +443,7 @@ header .intro-text .intro-heading {
 
 @media (min-width: 768px) {
     header .intro-text {
-        padding-top: 120px;
+        padding-top: 170px;
         padding-bottom: 200px
     }
 
