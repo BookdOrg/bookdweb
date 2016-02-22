@@ -15,7 +15,7 @@ module.exports = function ($scope, $controller) {
             image: '/images/fem.jpg',
             id: 0
         }, {
-            image: '/images/masc.jpg',
+            image: '../images/masc.jpg',
             id: 1
         }
     ]
