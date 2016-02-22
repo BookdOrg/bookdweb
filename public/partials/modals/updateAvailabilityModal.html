@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <button type="button" class="close" ng-click="close()" aria-hidden="true"><i class="fa fa-times"></i></button>
     <h3 class="modal-title text-center">{{employee.name}}'s Weekly Availability <small ng-if="disableUpdate">(View Only)</small></h3>
     <div class="row">
         <div class="text-center" ng-if="employee.availabilityArray.length >= 1 && currentUser._id === employee._id"
