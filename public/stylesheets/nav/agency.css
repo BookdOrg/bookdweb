@@ -112,7 +112,7 @@ h1, h2, h3 {
 
 .navbar-default {
     padding: 10px 0;
-    background-color: #222;
+    background-color: rgba(34, 34, 34, .4);
     border-color: transparent
 }
 
@@ -126,7 +126,14 @@ h1, h2, h3 {
 }
 
 .navbar-default .navbar-collapse {
+    background-color: rgba(34, 34, 34, .4);
     border-color: rgba(255, 255, 255, .02)
+}
+
+@media (min-width: 768px) {
+    .navbar-default .navbar-collapse {
+        background-color: transparent;
+    }
 }
 
 .navbar-default .navbar-toggle {
@@ -168,7 +175,7 @@ h1, h2, h3 {
 @media (min-width: 768px) {
     .navbar-default {
         background-color: rgba(34, 34, 34, .4);
-        border-bottom-color: rgba(34, 34, 34, .05) padding : 10 px 0;
+        border-bottom-color: rgba(34, 34, 34, .4) padding : 10 px 0;
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;
