@@ -42,6 +42,9 @@
     color: white;
 }
 
+.navbar-default.navbar-shrink .nav li a:hover {
+    color: #337ab7;
+}
 .partnerBox {
     border: 1px solid white;
 }

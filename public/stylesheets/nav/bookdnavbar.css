@@ -8,14 +8,14 @@
 }
 
 .navbar {
-    background-color: transparent;
+    background-color: rgba(34, 34, 34, .05);
     margin-bottom: 0;
 }
 
 .navbar-default {
     border-color: rgba(34, 34, 34, .05);
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-    background-color: transparent;
+    background-color: rgba(34, 34, 34, .05);
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -65,12 +65,12 @@
 .navbar-default .nav > li.active > a,
 .navbar-default .nav > li.active > a:focus {
     color: black;
-    background-color: transparent;
+    background-color: rgba(34, 34, 34, .05);
 }
 
 .navbar-default .nav > li.active > a:hover,
 .navbar-default .nav > li.active > a:focus:hover {
-    background-color: transparent;
+    background-color: rgba(34, 34, 34, .05);
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
@@ -79,7 +79,7 @@
 }
 @media (min-width: 768px) {
     .navbar-default {
-        background-color: transparent;
+        background-color: rgba(34, 34, 34, .05);
         /*border-color: rgba(255, 255, 255, .3);*/
         /*background-color: transparent;*/
     }
@@ -212,7 +212,7 @@
 }
 
 .navbar-brand {
-    padding: 20px 12px;
+    /*padding: 20px 12px;*/
     font-size: 16px;
     line-height: 28px;
 }

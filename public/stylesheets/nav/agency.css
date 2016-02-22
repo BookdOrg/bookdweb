@@ -111,6 +111,7 @@ h1, h2, h3 {
 }
 
 .navbar-default {
+    padding: 10px 0;
     background-color: #222;
     border-color: transparent
 }
@@ -166,8 +167,8 @@ h1, h2, h3 {
 
 @media (min-width: 768px) {
     .navbar-default {
-        background-color: transparent;
-        padding: 25px 0;
+        background-color: rgba(34, 34, 34, .4);
+        border-bottom-color: rgba(34, 34, 34, .05) padding : 10 px 0;
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;
@@ -186,8 +187,8 @@ h1, h2, h3 {
     }
 
     .navbar-default.navbar-shrink {
-        background-color: #222;
-        padding: 10px 0
+        background-color: rgba(34, 34, 34, .9);
+        padding: 10px 0;
     }
 
     .navbar-default.navbar-shrink .nav li a {

@@ -7,7 +7,7 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
-    color: black;
+    color: white;
 }
 
 .navbarAvatar {
@@ -33,6 +33,9 @@
     color: #337ab7;
 }
 
+.navbar-default.navbar-shrink .nav li a:hover > i {
+    color: #337ab7;
+}
 .navbar-default.navbar-shrink .nav li {
     border-color: white;
 }
@@ -53,12 +56,12 @@ section#services {
     padding-top: 120px;
 }
 
-.navbar-default .nav li > a > i {
+.dropdown-menu li > a > i {
     color: black;
 }
 
 .navbar-default .nav li > a > i > span {
-    color: black;
+    color: white;
 }
 
 .navbar-default .navbar-shrink .nav li > a > i > span {
