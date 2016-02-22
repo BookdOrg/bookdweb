@@ -48,3 +48,7 @@
 .navbar-default.navbar-shrink .navbar-header .navbar-brand {
     color: white;
 }
+
+section#services {
+    padding-top: 120px;
+}
