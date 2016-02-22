@@ -7,7 +7,7 @@ module.exports = function ($scope, $controller) {
     $scope.openSignup = function (type, state) {
         navViewModel.open(type, state);
     };
-    $scope.myInterval = 5000;
+    $scope.myInterval = 10000;
     $scope.noWrapSlides = false;
 
     $scope.slides = [
