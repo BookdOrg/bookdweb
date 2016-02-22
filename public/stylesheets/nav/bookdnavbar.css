@@ -275,6 +275,16 @@ ul.nav.navbar-nav.navbar-right {
     content: '';
 }
 
+.miniQuery-dropdown > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 95%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid black;
+    border-left: 6px solid transparent;
+    content: '';
+}
 #bookd-toggle {
     margin-top: 20px;
 }
