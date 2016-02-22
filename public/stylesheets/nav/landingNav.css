@@ -64,3 +64,25 @@ h3, h4, h5, h6 {
 .landing-notification-bell a > i {
     color: white;
 }
+
+.landing-notification-bell > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 90%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
+.avatar > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 70%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}

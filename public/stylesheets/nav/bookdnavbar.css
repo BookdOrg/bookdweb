@@ -73,6 +73,10 @@
     background-color: transparent;
 }
 
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+    color: #555;
+    background-color: transparent;
+}
 @media (min-width: 768px) {
     .navbar-default {
         background-color: transparent;
@@ -126,7 +130,6 @@
     .navbar-default .nav > li > a:hover,
     .navbar-default .nav > li > a:focus:hover {
         color: #f05f40;
-        background-color: transparent;
     }
 
     .navbar-default .nav > li {
@@ -185,6 +188,7 @@
 }
 
 .avatarPadding {
+    height: 70px;
     padding-top: 25px !important;
     padding-bottom: 12px !important;
 }
@@ -250,4 +254,26 @@
 
 ul.nav.navbar-nav.navbar-right {
     color: white;
+}
+
+.notification-bell > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 90%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid black;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
+.avatar > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 70%;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid black;
+    border-left: 6px solid transparent;
+    content: '';
 }
