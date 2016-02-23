@@ -154,6 +154,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             employeeApptObj.customerId = null;
             employeeApptObj.personal = false;
         }
+        $scope.availableTimes = [];
         $scope.calculatingAppointments = true;
         /**
          * Make a request for both the customer and employee's appointments, returns
@@ -161,7 +162,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
          */
         userFactory.getAppts(employeeApptObj)
             .then(function (appointmentsArray) {
-                $scope.availableTimes = [];
                 var employeeAvailability = setEmployeeAvailability(date);
                 if (employeeAvailability !== null) {
                     $scope.availableTimes = appointmentsFactory.createAvailableTimes(employeeAvailability, appointmentsArray, $scope.service.duration, $rootScope.currentUser._id);

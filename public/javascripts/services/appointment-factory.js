@@ -116,9 +116,6 @@ module.exports = function () {
                 'second': 0,
                 'milliseconds': 0
             });
-            if (currentDateTime.isBefore(moment())) {
-                timeObj.hide = true;
-            }
             var timeEnd = moment({
                 'date': moment(employeeDate).date(),
                 'year': moment(employeeDate).year(),
@@ -146,7 +143,7 @@ module.exports = function () {
                 'seconds': moment(employeeAvailability.dayEnd).second()
             });
             if (moment(timeEnd.format()).isSameOrBefore(moment(dayEnd.format())) && !moment(timeStart.format()).isSameOrAfter(moment(timeEnd).format())
-                && !moment(timeStart.format()).isSameOrAfter(moment(dayEnd.format()))) {
+                && !moment(timeStart.format()).isSameOrAfter(moment(dayEnd.format())) && !currentDateTime.isBefore(moment())) {
                 availableTimes.push(timeObj);
             }
         }

@@ -51,7 +51,8 @@
             <h4 ng-if="availableTimes.length >= 1 && currentUser._id === employee._id">Your Schedule</h4>
             <h5 class="text-muted" ng-if="availableTimes.length > 1">(Select a new time to re-schedule this
                 appointment)</h5>
-            <uib-alert ng-if="availableTimes.length === 0  && !dayMessage" type="danger">{{employee.firstName}} has no
+            <uib-alert ng-if="availableTimes.length === 0  && !dayMessage && !calculatingAppointments" type="danger">
+                {{employee.firstName}} has no
                 more availability for {{service.name}} on this day.
             </uib-alert>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.firstName}} is not available today.
