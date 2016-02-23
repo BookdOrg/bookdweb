@@ -326,7 +326,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         showCheckAll: false,
         showUncheckAll: false,
         smartButtonTextConverter: function (itemText, originalItem) {
-            return itemText;
+            return originalItem.firstName;
         }
     };
 
