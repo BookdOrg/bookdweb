@@ -8,7 +8,7 @@
         {{sseconds}} second{{secondsS}}
     </timer>
     <uib-alert type="danger" ng-if="showNoEmployee">Sorry, this associate can't accept re-schedules for this service.
-        Your currently scheduled appointment is still active however, if necessary please cancel and schedule with
+        However, your currently scheduled appointment is still active. If necessary please cancel and schedule with
         another associate.
     </uib-alert>
 </div>
@@ -52,9 +52,7 @@
             <h5 class="text-muted" ng-if="availableTimes.length > 1">(Select a new time to re-schedule this
                 appointment)</h5>
             <uib-alert ng-if="availableTimes.length === 0  && !dayMessage" type="danger">{{employee.firstName}} has no
-                more availability
-                for
-                this day.
+                more availability for {{service.name}} on this day.
             </uib-alert>
             <uib-alert ng-if="dayMessage" type="danger">{{employee.firstName}} is not available today.
             </uib-alert>

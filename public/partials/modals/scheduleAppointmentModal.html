@@ -77,7 +77,7 @@
                     </uib-alert>
                     <uib-alert ng-if="availableTimes.length === 0 && !dayMessage" type="danger">{{employee.name}} has no
                         more
-                        availability for this day.
+                        availability for for {{service.name}} on this day.
                     </uib-alert>
                     <div ng-show="!calculatingAppointments" class="col-xs-4 col-md-3"
                          ng-repeat="time in availableTimes track by $index">
