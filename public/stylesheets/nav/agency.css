@@ -111,7 +111,7 @@ h1, h2, h3 {
 }
 
 .navbar-default {
-    padding: 10px 0;
+    padding: 0px 0;
     background-color: rgba(34, 34, 34, .3);
     border-color: transparent
 }
@@ -195,7 +195,7 @@ h1, h2, h3 {
 
     .navbar-default.navbar-shrink {
         background-color: rgba(34, 34, 34, .9);
-        padding: 10px 0;
+        /*padding: 10px 0;*/
     }
 
     .navbar-default.navbar-shrink .nav li a {

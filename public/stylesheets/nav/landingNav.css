@@ -1,6 +1,6 @@
 .navbar-default .nav > li > a,
 .navbar-default .nav > li > a:focus {
-    padding-top: 19px;
+    padding-top: 15px;
     height: 50px;
     font-size: 14px;
     font-weight: 200;
@@ -15,7 +15,7 @@
 }
 
 .avatarPadding {
-    padding-top: 16px !important;
+    padding-top: 14px !important;
     /*padding-bottom: 20px !important;*/
 }
 
