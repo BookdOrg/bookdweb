@@ -75,7 +75,8 @@
                     <h4 ng-if="availableTimes.length >= 1">{{employee.name}}'s Available Times</h4>
                     <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
                     </uib-alert>
-                    <uib-alert ng-if="availableTimes.length === 0 && !dayMessage && !calculatingAppointments"
+                    <uib-alert
+                            ng-if="availableTimes.length === 0 && !dayMessage && !calculatingAppointments && !datePassed"
                                type="danger">{{employee.name}} has no
                         more availability for {{service.name}} on this day.
                     </uib-alert>
