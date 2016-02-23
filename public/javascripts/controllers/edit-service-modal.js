@@ -40,7 +40,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
         smartButtonTextConverter: function (itemText, originalItem) {
-            return itemText;
+            return originalItem.firstName;
         }
     };
     /**

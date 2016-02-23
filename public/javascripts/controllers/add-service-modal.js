@@ -19,7 +19,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business,
         externalIdProp: '_id',
         smartButtonMaxItems: 3,
         smartButtonTextConverter: function (itemText, originalItem) {
-            return itemText;
+            return originalItem.firstName;
         }
     };
     $scope.customTexts = {
