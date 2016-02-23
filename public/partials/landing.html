@@ -13,18 +13,17 @@
                 <div class="intro-lead-in">Book Appointments</div>
                 <div class="intro-lead-in">It's that simple</div>
                 <div class="row form-inline form-group">
-                    <div class="col-xs-12">
-                        <form name="landingQuery">
-                            <div class="col-xs-12">
-                            <span class="">
-                                <!--<i class="fa fa-search"></i>-->
+                    <form name="landingQuery">
+                        <div class="col-xs-12">
+                            <span class="left-inner-addon left-inner-addon-landing">
+                                <i class="fa fa-search hidden-xs"></i>
                                 <input class="form-control input-lg search" aria-describedby="search"
                                        ng-model="query.term"
                                        placeholder="Hair Salons" id="search" required>
                             </span>
-                            <span class="">
-                                <!--<i ng-show="!loadingLocation" class="fa fa-map-marker"></i>-->
-                                <!--<i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>-->
+                            <span class="left-inner-addon left-inner-addon-landing">
+                                <i ng-show="!loadingLocation" class="fa fa-map-marker hidden-xs"></i>
+                                <i ng-show="loadingLocation" class="fa fa-spinner fa-spin hidden-xs"></i>
                                 <input class="form-control input-lg search" aria-describedby="near"
                                        g-places-autocomplete
                                        options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
@@ -39,9 +38,8 @@
                                     <span ng-show="!fetchingQuery">Search</span>
                                 </button>
                             </span>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
