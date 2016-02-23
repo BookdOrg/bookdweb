@@ -253,6 +253,10 @@ ul.nav.navbar-nav.navbar-right {
     color: white;
 }
 
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: transparent;
+}
+
 .notification-bell > .dropdown-menu:after {
     position: absolute;
     top: -6px;
