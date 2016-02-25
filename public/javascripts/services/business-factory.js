@@ -365,6 +365,21 @@ module.exports = function ($http, auth, $q, utilService) {
     };
     /**
      *
+     *
+     *
+     */
+    o.createBusinessCustomer = function (customer, businessId) {
+        return $http.post('/business/customers/create?name=' + customer.name + '&email=' + customer.email
+            + '&mobile=' + customer.mobile + '&business=' + businessId, null, {
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
+        }, function (err) {
+            return err.data;
+        })
+    };
+    /**
+     *
      *  changeStatus - Updates the status of the businesses object, from
      *  pending to claimed.
      *  Params :

@@ -16,8 +16,41 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.countdown = 600;
     $scope.payments = payments;
     $scope.personal = personal;
+    $scope.customer = null;
+    $scope.newCustomer = null;
+    $scope.customerView = 'default';
+    $scope.loadingCustomers = false;
+    $scope.customerViewSwitch = function (view) {
+        $scope.customerView = view;
+    };
     var timeStarted = false;
-    $scope.activeTab = 'employees';
+    if (personal) {
+        $scope.activeTab = 'employees';
+    } else {
+        $scope.activeTab = 'customer';
+    }
+    $scope.createCustomer = function (customer) {
+        $scope.creatingCustomer = true;
+        //TODO register the new customer immediately, receive the ID. Add it to this appointment
+        businessFactory.createBusinessCustomer(customer, service.businessId)
+            .then(function (data) {
+                $scope.creatingCustomer = false;
+                $scope.customer = data;
+            }, function (err) {
+                $scope.creatingCustomer = false;
+                $scope.error = error;
+            })
+    };
+    $scope.searchCustomers = function (name) {
+        $scope.loadingCustomers = true;
+        //TODO search the business for this customer based on their name
+    };
+    $scope.setCustomer = function (customer) {
+        $scope.customer = customer;
+    };
+    $scope.clearCustomer = function () {
+        $scope.customer = null;
+    }
     $scope.changeTab = function (tab) {
         $scope.activeTab = tab;
     };
@@ -151,7 +184,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             employeeApptObj.customerId = $rootScope.currentUser._id;
             employeeApptObj.personal = true;
         } else {
-            employeeApptObj.customerId = null;
+            employeeApptObj.customerId = $scope.customer._id;
             employeeApptObj.personal = false;
         }
         $scope.availableTimes = [];
@@ -290,7 +323,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         if (personal) {
             customerId = $rootScope.currentUser._id;
         } else {
-            customerId = null;
+            customerId = $scope.customer._id;
         }
         //The actual appointment object that will be sent to the backend
         $scope.appointment = {

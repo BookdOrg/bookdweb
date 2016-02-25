@@ -803,6 +803,7 @@ router.post('/upload', auth, function (req, res, next) {
  **/
 router.post('/business/appointments/create', auth, function (req, res, next) {
     var appointment = new Appointment();
+    //console.log(req.payload);
     appointment.businessId = req.body.businessId;
     appointment.employee = req.body.employee;
 
@@ -908,6 +909,21 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
             if (appointment.customer) {
                 appointment.customer.hash = '';
             }
+            var bearer = req.get('Authorization');
+            var options = {
+                method: 'POST',
+                url: 'http://' + process.env.devhost + ':3002/business/customers/create?email=' +
+                appointment.customer.email + '&business=' + appointment.businessId,
+                headers: {
+                    'Authorization': bearer
+                }
+            };
+            request(options, function (err, response) {
+                if (err) {
+                    console.log(err);
+                }
+                //console.log(response);
+            });
             appointment.employee.hash = '';
             io.sockets.in(room).emit('update');
             res.status(200).json(appointment);
@@ -1484,6 +1500,81 @@ router.post('/business/add-employee', auth, function (req, res, next) {
             });
         });
     });
+});
+router.post('/business/customers/create', auth, function (req, res, next) {
+    var name, mobile;
+    if (req.query.name) {
+        name = req.query.name;
+    }
+    if (req.query.mobile) {
+        mobile = req.query.mobile;
+    }
+    var email = req.query.email;
+    var businessId = req.query.business;
+    async.waterfall([
+        function (done) {
+            User.findOne({'email': email}).exec(function (err, customer) {
+                if (err) {
+                    done(err, 'done');
+                }
+                if (!customer) {
+                    var user = new User();
+                    user.name = name;
+                    var firstLast = name.split(' ', 2);
+                    user.firstName = firstLast[0];
+                    user.lastName = firstLast[1];
+                    user.email = email;
+                    user.mobile = mobile;
+                    user.provider = 'business';
+                    var randomstring = Math.random().toString(36).slice(-8);
+                    user.setPassword(randomstring);
+                    user.save(function (err, createdUser) {
+                        if (err) {
+                            done(err, 'done');
+                        }
+                        done(err, createdUser)
+                    });
+                } else {
+                    done(err, customer);
+                }
+            })
+        },
+        function (customer, done) {
+            Business.findOne({'_id': businessId}).exec(function (err, business) {
+                if (err) {
+                    done(err, 'done');
+                }
+                business.customers.pushIfNotExist(customer, function (e) {
+                    return e.toString() == customer._id.toString();
+                });
+                business.save(function (err, business) {
+                    if (err) {
+                        done(err, 'done');
+                    }
+                    res.json(customer);
+                })
+            })
+        }
+    ], function (err) {
+        if (err) {
+            return next(err);
+        }
+    });
+});
+//router.get('/business/customers/search',auth,function(req,res,next){
+//    var name = req.body.name;
+//    query.elemMatch('customers',function(elem){
+//        elem.where()
+//    })
+//    Business.find().elemMatch('customers',{})
+//});
+
+Business.textSearch('Khalil', function (err, output) {
+    if (err) {
+        console.log(err);
+    }
+    console.log(err);
+    console.log("OUTPUT" + ouput);
 });
 router.post('/user/availability/update', auth, function (req, res, next) {
     var availabilityObj = req.body.availability;

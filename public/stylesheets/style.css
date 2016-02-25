@@ -405,6 +405,18 @@ img.fitContainer {
     width: 100%;
 }
 
+.well.employeeHover {
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0px;
+}
+
+.well.employeeHover img {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
 .well.employeeHover:hover {
     background-color: aliceblue;
 }

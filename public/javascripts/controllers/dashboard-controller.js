@@ -681,7 +681,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.openService = function (size, type, service) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: '/partials/modals/scheduleAppointmentModal.html',
+            templateUrl: '/partials/modals/dashboard-scheduleAppt.html',
             controller: 'scheduleAppointmentModalCtrl as ctrl',
             backdrop: 'static',
             keyboard: false,
