@@ -43,10 +43,18 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     };
     $scope.searchCustomers = function (name) {
         $scope.loadingCustomers = true;
+        businessFactory.searchBusinessCustomers(name, service.businessId)
+            .then(function (data) {
+                $scope.loadingCustomers = false;
+                $scope.customers = data;
+            }, function (err) {
+                $scope.loadingCustomers = false;
+                $scope.searchError = err;
+            });
         //TODO search the business for this customer based on their name
     };
     $scope.setCustomer = function (customer) {
-        $scope.customer = customer;
+        $scope.customer = angular.copy(customer);
     };
     $scope.clearCustomer = function () {
         $scope.customer = null;

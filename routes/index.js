@@ -1561,20 +1561,19 @@ router.post('/business/customers/create', auth, function (req, res, next) {
         }
     });
 });
-//router.get('/business/customers/search',auth,function(req,res,next){
-//    var name = req.body.name;
-//    query.elemMatch('customers',function(elem){
-//        elem.where()
-//    })
-//    Business.find().elemMatch('customers',{})
-//});
-
-Business.textSearch('Khalil', function (err, output) {
-    if (err) {
-        console.log(err);
-    }
-    console.log(err);
-    console.log("OUTPUT" + ouput);
+router.get('/business/customers/search', auth, function (req, res, next) {
+    Business.findOne({"_id": req.query.businessId}).select('customers').populate({
+        'path': "customers",
+        select: 'name _id firstName lastName providerId avatarVersion'
+    }).exec(function (err, results) {
+        var customers = [];
+        _.forEach(results.customers, function (customer, key) {
+            if (customer.name.toLowerCase().indexOf(req.query.search) !== -1) {
+                customers.push(customer);
+            }
+        });
+        res.json(customers);
+    })
 });
 router.post('/user/availability/update', auth, function (req, res, next) {
     var availabilityObj = req.body.availability;

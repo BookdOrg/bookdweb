@@ -380,6 +380,24 @@ module.exports = function ($http, auth, $q, utilService) {
     };
     /**
      *
+     *
+     *
+     */
+    o.searchBusinessCustomers = function (query, businessId) {
+        return $http.get('/business/customers/search', {
+            params: {
+                search: query,
+                businessId: businessId
+            },
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data;
+        }, function (err) {
+            return err.data;
+        });
+    }
+    /**
+     *
      *  changeStatus - Updates the status of the businesses object, from
      *  pending to claimed.
      *  Params :
