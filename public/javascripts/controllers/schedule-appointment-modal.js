@@ -17,12 +17,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.payments = payments;
     $scope.personal = personal;
     $scope.customer = null;
+    $scope.customers = null;
     $scope.newCustomer = null;
     $scope.customerView = 'default';
     $scope.loadingCustomers = false;
     $scope.customerViewSwitch = function (view) {
         $scope.customerView = view;
     };
+    $scope.dynamicPopover = {templateUrl: 'myPopoverTemplate.html'};
+
     var timeStarted = false;
     if (personal) {
         $scope.activeTab = 'employees';
@@ -42,17 +45,19 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
             })
     };
     $scope.searchCustomers = function (name) {
-        $scope.loadingCustomers = true;
-        businessFactory.searchBusinessCustomers(name, service.businessId)
-            .then(function (data) {
-                $scope.loadingCustomers = false;
-                utilService.getGooglePlusPhotos(data, 0);
-                $scope.customers = data;
-            }, function (err) {
-                $scope.loadingCustomers = false;
-                $scope.searchError = err;
-            });
-        //TODO search the business for this customer based on their name
+        if (name) {
+            $scope.loadingCustomers = true;
+            businessFactory.searchBusinessCustomers(name, service.businessId)
+                .then(function (data) {
+                    $scope.loadingCustomers = false;
+                    //utilService.getGooglePlusPhotos(data, 0);
+                    console.log(_.intersection($scope.customers, data));
+                    $scope.customers = data;
+                }, function (err) {
+                    $scope.loadingCustomers = false;
+                    $scope.searchError = err;
+                });
+        }
     };
     $scope.setCustomer = function (customer) {
         $scope.customer = angular.copy(customer);
