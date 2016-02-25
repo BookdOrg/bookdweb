@@ -46,6 +46,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         businessFactory.searchBusinessCustomers(name, service.businessId)
             .then(function (data) {
                 $scope.loadingCustomers = false;
+                utilService.getGooglePlusPhotos(data, 0);
                 $scope.customers = data;
             }, function (err) {
                 $scope.loadingCustomers = false;
