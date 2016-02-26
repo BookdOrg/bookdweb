@@ -316,8 +316,10 @@
                            value="{{listedCustomer.lastName}}">
                 </div>
                 <div class="form-group">
-                    <label class=" control-label" for="listedEmail">Email</label>
-                    <input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">
+                    <label class=" control-label">Email</label>
+
+                    <p class="form-control-static">{{listedCustomer.email}}</p>
+                    <!--<input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">-->
                 </div>
                 <div class="form-group">
                     <label class=" control-label" for="listedMobile">Mobile</label>
