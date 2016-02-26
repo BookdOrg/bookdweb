@@ -34,17 +34,18 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.activeTab = 'customer';
     }
     $scope.createCustomer = function (customer) {
-        $scope.creatingCustomer = true;
-        //TODO register the new customer immediately, receive the ID. Add it to this appointment
-        businessFactory.createBusinessCustomer(customer, service.businessId)
-            .then(function (data) {
-                $scope.customerCreated = true;
-                $scope.creatingCustomer = false;
-                $scope.customer = data;
-            }, function (err) {
-                $scope.creatingCustomer = false;
-                $scope.error = error;
-            })
+        if (customer) {
+            $scope.creatingCustomer = true;
+            businessFactory.createBusinessCustomer(customer, service.businessId)
+                .then(function (data) {
+                    $scope.customerCreated = true;
+                    $scope.creatingCustomer = false;
+                    $scope.customer = data;
+                }, function (err) {
+                    $scope.creatingCustomer = false;
+                    $scope.error = error;
+                })
+        }
     };
     $scope.searchCustomers = function (name) {
         if (name) {
