@@ -21,6 +21,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.newCustomer = null;
     $scope.customerView = 'default';
     $scope.loadingCustomers = false;
+    $scope.customerCreated = false;
     $scope.customerViewSwitch = function (view) {
         $scope.customerView = view;
     };
@@ -37,6 +38,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         //TODO register the new customer immediately, receive the ID. Add it to this appointment
         businessFactory.createBusinessCustomer(customer, service.businessId)
             .then(function (data) {
+                $scope.customerCreated = true;
                 $scope.creatingCustomer = false;
                 $scope.customer = data;
             }, function (err) {
@@ -63,8 +65,9 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.customer = angular.copy(customer);
     };
     $scope.clearCustomer = function () {
+        $scope.customerCreated = false;
         $scope.customer = null;
-    }
+    };
     $scope.changeTab = function (tab) {
         $scope.activeTab = tab;
     };

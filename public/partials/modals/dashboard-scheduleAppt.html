@@ -24,14 +24,7 @@
     <div class="tab-content">
         <div class="tab-pane fade in" ng-class="{active:activeTab === 'customer',fade:activeTab !== 'customer'}">
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
-                <div class="col-xs-6" ng-if="customerView !== 'search'">
-                    <button class="btn btn-lg btn-default" ng-click="customerViewSwitch('search')"
-                            style="margin-right:5px;width:100%">
-                        <i class="fa fa-search fa-3x text-primary"></i>
-                        <h4>Search Customers</h4>
-                    </button>
-                </div>
-                <div class="col-xs-6" ng-if="customerView ==='search'">
+                <div class="col-xs-6">
                     <div class="form-inline form-group">
                         <span class="left-inner-addon">
                             <i ng-show="!loadingCustomers" class="fa fa-search"></i>
@@ -48,7 +41,7 @@
                             <div ng-if="!loadingCustomers" ng-repeat="listedCustomer in customers track by $index">
                                 <form class="form-horizontal">
                                     <a href="#" ng-click="setCustomer(listedCustomer)"
-                                       uib-popover-template="dynamicPopover.templateUrl" popover-placement="right"
+                                       uib-popover-template="dynamicPopover.templateUrl" popover-placement="left"
                                        popover-append-to-body="true" popover-trigger="mouseenter"
                                        popover-title="{{listedCustomer.name}}">
                                         <div class="text-left">
@@ -84,26 +77,13 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-danger" ng-show="customer" ng-click="clearCustomer()">
-                        Clear
-                    </button>
-                    <a ng-show="customer" data-target="#employees" data-toggle="tab" ng-click="changeTab('employees')"
-                       class="btn btn-primary">Next</a>
                 </div>
-
-                <div class="col-xs-6" ng-if="customerView !== 'new'">
-                    <button class="btn btn-lg btn-default" ng-click="customerViewSwitch('new')"
-                            style="margin-left:5px;width:100%">
-                        <i class="fa fa-plus fa-3x text-primary"></i>
-                        <h4>New Customer</h4>
-                    </button>
-                </div>
-                <div class="col-xs-6" ng-if="customerView ==='new'">
+                <div class="col-xs-6">
                     <form name="newCustomerForm">
-                        <uib-alert ng-show="customer && customer.provider === 'business'" type="success">
+                        <uib-alert ng-show="customerCreated && customer.provider === 'business'" type="success">
                             {{customer.firstName}} - Added as a client
                         </uib-alert>
-                        <uib-alert ng-show="customer && customer.provider !== 'business'" type="success">
+                        <uib-alert ng-show="customerCreated && customer.provider !== 'business'" type="success">
                             {{customer.firstName}} is already registered with Bookd - Added as a client
                         </uib-alert>
                         <uib-alert ng-show="error" type="danger">{{error}}</uib-alert>
@@ -124,13 +104,14 @@
                         <span ng-show="!creatingCustomer">Create Customer</span>
                         <i class="fa fa-spinner fa-pulse" ng-show="creatingCustomer"></i>
                     </button>
-                    <button class="btn btn-danger" ng-show="customer" ng-click="clearCustomer()">
-                        Clear
-                    </button>
-                    <a ng-show="customer" data-target="#employees" data-toggle="tab" ng-click="changeTab('employees')"
-                       class="btn btn-primary">Next</a>
                 </div>
-
+            </div>
+            <div class="row text-center">
+                <button class="btn btn-danger" ng-show="customer" ng-click="clearCustomer()">
+                    Clear
+                </button>
+                <a ng-show="customer" data-target="#employees" data-toggle="tab" ng-click="changeTab('employees')"
+                   class="btn btn-primary">Next</a>
             </div>
         </div>
         <div class="tab-pane fade in" ng-class="{active:activeTab === 'employees',fade:activeTab !== 'employees'}"
