@@ -55,24 +55,24 @@
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="listedCustomer.provider === 'google_plus' && listedCustomer.photo"
                                                  ng-src="{{listedCustomer.photo}}"
-                                                 style="height:20px;width:20px;border-radisu:50%"/>
+                                                 style="height:20px;width:20px;border-radius:50%"/>
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="listedCustomer.provider === 'google_plus' && !listedCustomer.photo"
                                                  ng-src="{{cloudinaryDefaultPic}}"
-                                                 style="height:20px;width:20px;border-radisu:50%"/>
+                                                 style="height:20px;width:20px;border-radius:50%"/>
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="listedCustomer.provider === 'facebook'"
                                                  ng-src="{{facebookApi}}{{listedCustomer.providerId}}/picture?type=large"
-                                                 style="height:20px;width:20px;border-radisu:50%"/>
+                                                 style="height:20px;width:20px;border-radius:50%"/>
 
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="!listedCustomer.avatarVersion && listedCustomer.provider === 'bookd' || listedCustomer.provider === 'business'"
                                                  ng-src="{{cloudinaryDefaultPic}}"
-                                                 style="height:20px;width:20px;border-radisu:50%">
+                                                 style="height:20px;width:20px;border-radius:50%">
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="listedCustomer.avatarVersion && listedCustomer.provider === 'bookd'"
                                                  ng-src="{{cloudinaryBaseUrl}}{{listedCustomer.avatarVersion}}/profile/{{listedCustomer._id}}"
-                                                 style="height:20px;width:20px;border-radisu:50%">
+                                                 style="height:20px;width:20px;border-radius:50%">
                                             {{listedCustomer.name}}
                                             <span class="pull-right">
                                             <i class="fa fa-check text-success"
@@ -135,28 +135,30 @@
         </div>
         <div class="tab-pane fade in" ng-class="{active:activeTab === 'employees',fade:activeTab !== 'employees'}"
              id="employees">
+            <h3 class="text-center">Associate</h3>
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
-                <h3>Associate</h3>
-                <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
-                    <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees"
-                         ng-click="selectEmployee(employee);">
-                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
-                             ng-src="{{employee.photo}}"/>
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="employee.provider === 'google_plus' && !employee.photo"
-                             ng-src="{{cloudinaryDefaultPic}}"/>
-                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
-                             ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+                <div class="col-xs-10 col-xs-offset-2">
+                    <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
+                        <div class="col-xs-3 well employeeHover" ng-repeat="employee in service.employees"
+                             ng-click="selectEmployee(employee);">
+                            <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
+                                 ng-src="{{employee.photo}}"/>
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="employee.provider === 'google_plus' && !employee.photo"
+                                 ng-src="{{cloudinaryDefaultPic}}"/>
+                            <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
+                                 ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
-                             ng-src="{{cloudinaryDefaultPic}}">
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="employee.avatarVersion && employee.provider === 'bookd'"
-                             ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-                        <h5>{{employee.firstName}}</h5>
-                    </div>
-                </a>
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-src="{{cloudinaryDefaultPic}}">
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                            <h5>{{employee.firstName}}</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
             <div class="row text-center">
                 <a data-target="#customer" data-toggle="tab" class="btn btn-warning" ng-click="changeTab('customer')">
@@ -287,52 +289,52 @@
     </div>
 </div>
 <script type="text/ng-template" id="myPopoverTemplate.html">
-    <div class="row text-center">
-        <img class="fitContainer provider-photo-radius"
-             ng-if="listedCustomer.provider === 'google_plus' && listedCustomer.photo"
-             ng-src="{{listedCustomer.photo}}"
-             style="height:60px;width:60px;border-radisu:50%"/>
-        <img class="fitContainer provider-photo-radius"
-             ng-if="listedCustomer.provider === 'google_plus' && !listedCustomer.photo"
-             ng-src="{{cloudinaryDefaultPic}}"
-             style="height:60px;width:60px;border-radisu:50%"/>
-        <img class="fitContainer provider-photo-radius"
-             ng-if="listedCustomer.provider === 'facebook'"
-             ng-src="{{facebookApi}}{{listedCustomer.providerId}}/picture?type=large"
-             style="height:60px;width:60px;border-radisu:50%"/>
+    <div class="container-fluid">
+        <div class="row text-center">
+            <img class="fitContainer provider-photo-radius"
+                 ng-if="listedCustomer.provider === 'google_plus' && listedCustomer.photo"
+                 ng-src="{{listedCustomer.photo}}"
+                 style="height:60px;width:60px;border-radius:50%"/>
+            <img class="fitContainer provider-photo-radius"
+                 ng-if="listedCustomer.provider === 'google_plus' && !listedCustomer.photo"
+                 ng-src="{{cloudinaryDefaultPic}}"
+                 style="height:60px;width:60px;border-radius:50%"/>
+            <img class="fitContainer provider-photo-radius"
+                 ng-if="listedCustomer.provider === 'facebook'"
+                 ng-src="{{facebookApi}}{{listedCustomer.providerId}}/picture?type=large"
+                 style="height:60px;width:60px;border-radius:50%"/>
 
-        <img class="fitContainer provider-photo-radius"
-             ng-if="!listedCustomer.avatarVersion && listedCustomer.provider === 'bookd' || listedCustomer.provider === 'business'"
-             ng-src="{{cloudinaryDefaultPic}}"
-             style="height:60px;width:60px;border-radisu:50%">
-        <img class="fitContainer provider-photo-radius"
-             ng-if="listedCustomer.avatarVersion && listedCustomer.provider === 'bookd'"
-             ng-src="{{cloudinaryBaseUrl}}{{listedCustomer.avatarVersion}}/profile/{{listedCustomer._id}}"
-             style="height:60px;width:60px;border-radisu:50%">
-    </div>
-    <div class="row">
-        <form class="form-vertical">
-            <div class="form-group">
-                <label class="col-xs-4 control-label">Name</label>
-
-                <div class="col-xs-8">
-                    <p class="form-control-static">{{listedCustomer.name}}</p>
+            <img class="fitContainer provider-photo-radius"
+                 ng-if="!listedCustomer.avatarVersion && listedCustomer.provider === 'bookd' || listedCustomer.provider === 'business'"
+                 ng-src="{{cloudinaryDefaultPic}}"
+                 style="height:60px;width:60px;border-radius:50%">
+            <img class="fitContainer provider-photo-radius"
+                 ng-if="listedCustomer.avatarVersion && listedCustomer.provider === 'bookd'"
+                 ng-src="{{cloudinaryBaseUrl}}{{listedCustomer.avatarVersion}}/profile/{{listedCustomer._id}}"
+                 style="height:60px;width:60px;border-radius:50%">
+        </div>
+        <div class="row">
+            <form class="form-vertical">
+                <div class="form-group">
+                    <label class=" control-label" for="listedName">First Name</label>
+                    <input type="text" class="form-control" id="listedName" readonly
+                           value="{{listedCustomer.firstName}}">
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">Email</label>
-
-                <div class="col-xs-8">
-                    <p class="form-control-static">{{listedCustomer.email}}</p>
+                <div class="form-group">
+                    <label class=" control-label" for="listedLast">Last Name</label>
+                    <input type="text" class="form-control" id="listedLast" readonly
+                           value="{{listedCustomer.lastName}}">
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-4 control-label">Mobile</label>
-
-                <div class="col-xs-8">
-                    <p class="form-control-static">{{listedCustomer.mobile}}</p>
+                <div class="form-group">
+                    <label class=" control-label" for="listedEmail">Email</label>
+                    <input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">
                 </div>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class=" control-label" for="listedMobile">Mobile</label>
+                    <input type="text" class="form-control" id="listedMobile" readonly
+                           value="{{listedCustomer.mobile}}">
+                </div>
+            </form>
+        </div>
     </div>
 </script>

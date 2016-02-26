@@ -23,28 +23,30 @@
     <div class="tab-content">
         <div class="tab-pane fade in" ng-class="{active:activeTab === 'employees',fade:activeTab !== 'employees'}"
              id="employees">
+            <h3 class="text-center">Select an Associate</h3>
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
-                <h3>Select an Associate</h3>
-                <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
-                    <div class="col-md-3 well employeeHover" ng-repeat="employee in service.employees"
-                         ng-click="selectEmployee(employee)">
-                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
-                             ng-src="{{employee.photo}}"/>
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="employee.provider === 'google_plus' && !employee.photo"
-                             ng-src="{{cloudinaryDefaultPic}}"/>
-                        <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
-                             ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+                <div class="col-xs-10 col-xs-offset-2">
+                    <a data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
+                        <div class="col-xs-3 well employeeHover" ng-repeat="employee in service.employees"
+                             ng-click="selectEmployee(employee);">
+                            <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"
+                                 ng-src="{{employee.photo}}"/>
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="employee.provider === 'google_plus' && !employee.photo"
+                                 ng-src="{{cloudinaryDefaultPic}}"/>
+                            <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
+                                 ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
-                             ng-src="{{cloudinaryDefaultPic}}">
-                        <img class="fitContainer provider-photo-radius"
-                             ng-if="employee.avatarVersion && employee.provider === 'bookd'"
-                             ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
-                        <h5>{{employee.firstName}}</h5>
-                    </div>
-                </a>
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-src="{{cloudinaryDefaultPic}}">
+                            <img class="fitContainer provider-photo-radius"
+                                 ng-if="employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
+                            <h5>{{employee.firstName}}</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade in"
