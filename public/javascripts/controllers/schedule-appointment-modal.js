@@ -18,7 +18,11 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.personal = personal;
     $scope.customer = null;
     $scope.customers = null;
-    $scope.newCustomer = null;
+    $scope.newCustomer = {
+        name: null,
+        email: null,
+        mobile: null
+    };
     $scope.customerView = 'default';
     $scope.loadingCustomers = false;
     $scope.customerCreated = false;
@@ -48,18 +52,30 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         }
     };
     $scope.searchCustomers = function (name) {
-        if (name) {
-            $scope.loadingCustomers = true;
-            businessFactory.searchBusinessCustomers(name, service.businessId)
-                .then(function (data) {
-                    $scope.loadingCustomers = false;
-                    //utilService.getGooglePlusPhotos(data, 0);
-                    console.log(_.intersection($scope.customers, data));
-                    $scope.customers = data;
-                }, function (err) {
-                    $scope.loadingCustomers = false;
-                    $scope.searchError = err;
+        if (angular.isDefined(name)) {
+            if (name.length == 1) {
+                $scope.loadingCustomers = true;
+                businessFactory.searchBusinessCustomers(name, service.businessId)
+                    .then(function (data) {
+                        $scope.loadingCustomers = false;
+
+                        var intersectedData = _.intersection($scope.customers, data);
+                        console.log(intersectedData);
+                        //utilService.getGooglePlusPhotos(data, 0);
+                        $scope.customers = data;
+
+
+                    }, function (err) {
+                        $scope.loadingCustomers = false;
+                        $scope.searchError = err;
+                    });
+            } else {
+                _.forEach($scope.customers, function (customer, key) {
+                    if (angular.isDefined(customer) && customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+                        $scope.customers = _.pullAt($scope.customers, key)
+                    }
                 });
+            }
         }
     };
     $scope.setCustomer = function (customer) {

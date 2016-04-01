@@ -29,7 +29,6 @@
                     <div class="form-inline form-group">
                         <span class="left-inner-addon">
                             <i ng-show="!loadingCustomers" class="fa fa-search"></i>
-                            <i ng-show="loadingCustomers" class="fa fa-spinner fa-pulse"></i>
                             <input class="form-control input-md" aria-describedby="search"
                                    ng-model="customerQuery"
                                    placeholder="Search Customer" id="search" ng-keyup="searchCustomers(customerQuery)"
@@ -39,6 +38,9 @@
                     <div class="row">
                         <div class="col-xs-7 col-xs-offset-3 text-center"
                              style="max-height:300px; overflow-y:scroll;padding-left:0px;padding-right:30px;">
+                            <div ng-show="loadingCustomers">
+                                <i class="fa fa-spinner fa-pulse"> Loading...</i>
+                            </div>
                             <div ng-if="!loadingCustomers" ng-repeat="listedCustomer in customers track by $index">
                                 <form class="form-horizontal">
                                     <a href="#" ng-click="setCustomer(listedCustomer)"

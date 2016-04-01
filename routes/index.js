@@ -1502,42 +1502,55 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     });
 });
 router.post('/business/customers/create', auth, function (req, res, next) {
-    var name, mobile;
-    if (req.query.name) {
-        name = req.query.name;
-    }
-    if (req.query.mobile) {
-        mobile = req.query.mobile;
-    }
+    var name = req.query.name;
+    var mobile = req.query.mobile;
     var email = req.query.email;
     var businessId = req.query.business;
     async.waterfall([
         function (done) {
-            User.findOne({'email': email}).exec(function (err, customer) {
-                if (err) {
-                    done(err, 'done');
-                }
-                if (!customer) {
-                    var user = new User();
-                    user.name = name;
-                    var firstLast = name.split(' ', 2);
-                    user.firstName = firstLast[0];
-                    user.lastName = firstLast[1];
-                    user.email = email;
-                    user.mobile = mobile;
-                    user.provider = 'business';
-                    var randomstring = Math.random().toString(36).slice(-8);
-                    user.setPassword(randomstring);
-                    user.save(function (err, createdUser) {
-                        if (err) {
-                            done(err, 'done');
-                        }
-                        done(err, createdUser)
-                    });
-                } else {
-                    done(err, customer);
-                }
-            })
+            if (email !== 'null') {
+                User.findOne({'email': email}).exec(function (err, customer) {
+                    if (err) {
+                        done(err, 'done');
+                    }
+                    if (!customer) {
+                        var user = new User();
+                        user.name = name;
+                        var firstLast = name.split(' ', 2);
+                        user.firstName = firstLast[0];
+                        user.lastName = firstLast[1];
+                        user.email = email;
+                        user.mobile = mobile;
+                        user.provider = 'business';
+                        var randomstring = Math.random().toString(36).slice(-8);
+                        user.setPassword(randomstring);
+                        user.save(function (err, createdUser) {
+                            if (err) {
+                                done(err, 'done');
+                            }
+                            done(err, createdUser)
+                        });
+                    } else {
+                        done(err, customer);
+                    }
+                })
+            } else if (email == 'null' && name) {
+                var user = new User();
+                user.name = name;
+                var firstLast = name.split(' ', 2);
+                user.firstName = firstLast[0];
+                user.lastName = firstLast[1];
+                user.mobile = mobile;
+                user.provider = 'business';
+                var randomstring = Math.random().toString(36).slice(-8);
+                user.setPassword(randomstring);
+                user.save(function (err, createdUser) {
+                    if (err) {
+                        done(err, 'done');
+                    }
+                    done(err, createdUser)
+                });
+            }
         },
         function (customer, done) {
             Business.findOne({'_id': businessId}).exec(function (err, business) {

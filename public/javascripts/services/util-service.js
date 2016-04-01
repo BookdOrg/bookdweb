@@ -4,9 +4,9 @@
 module.exports = function (userFactory) {
     /**
      * Loops through all a businesses employees, makes a request to google to
-     * retrieve the profile picture for employee's who authenticated with google+
+     * retrieve the profile picture for users who authenticated with google+
      *
-     * @param employeeArray - array of employee objects
+     * @param employeeArray - array of user objects
      * @param index
      */
     function getGooglePlusPhotos(employeeArray, index) {
