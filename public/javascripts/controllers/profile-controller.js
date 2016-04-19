@@ -11,14 +11,14 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     userFactory.get($stateParams.id).then(function (data) {
         $scope.user = data.user;
         //Grab the google+ users profile photo
-        if (data.user.provider === 'google_plus') {
-            userFactory.getGooglePhoto(data.user.providerId)
-                .then(function (response) {
-                    if (!response.error) {
-                        $scope.user.photo = response.image.url.replace('sz=50', 'sz=200');
-                    }
-                });
-        }
+        //if (data.user.provider === 'google_plus') {
+        //    userFactory.getGooglePhoto(data.user.providerId)
+        //        .then(function (response) {
+        //            if (!response.error) {
+        //                $scope.user.photo = response.image.url.replace('sz=50', 'sz=200');
+        //            }
+        //        });
+        //}
     });
 
     $scope.facebookApi = facebookApi;

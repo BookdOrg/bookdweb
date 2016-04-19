@@ -7,7 +7,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.facebookApi = facebookApi;
     $scope.service = service;
 
-    utilService.getGooglePlusPhotos($scope.service.employees, 0);
+    //utilService.getGooglePlusPhotos($scope.service.employees, 0);
 
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();

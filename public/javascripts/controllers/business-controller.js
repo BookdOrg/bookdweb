@@ -1,7 +1,7 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
                            $controller, facebookApi, userFactory, Notification, utilService, business) {
     $scope.business = business;
-    utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
+    //utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
 
     $scope.employeeError = businessFactory.error;
     $scope.editMode = false;

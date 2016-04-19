@@ -54,17 +54,17 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
         userFactory.search(email).then(function (data) {
             $scope.searched = true;
             $scope.employee = data;
-            if (data && data.provider === 'google_plus') {
-                userFactory.getGooglePhoto(data.providerId)
-                    .then(function (response) {
-                        if (!response.error) {
-                            $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
-                        }
-                        $scope.searching = false;
-                    }, function (err) {
-                        $scope.searching = false;
-                    });
-            }
+            //if (data && data.provider === 'google_plus') {
+            //    userFactory.getGooglePhoto(data.providerId)
+            //        .then(function (response) {
+            //            if (!response.error) {
+            //                $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
+            //            }
+            //            $scope.searching = false;
+            //        }, function (err) {
+            //            $scope.searching = false;
+            //        });
+            //}
             $scope.searching = false;
         }, function (error) {
             $scope.searched = true;
