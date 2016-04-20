@@ -20,13 +20,13 @@
                 <img ng-if="employee.avatarVersion && employee.provider == 'bookd'"
                      ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
                      style="height:100px;width:100px;">
-                <img ng-if="employee.provider === 'google_plus' && !employee.photo && !searching"
-                     ng-src="{{cloudinaryDefaultPic}}"/>
+                <!--<img ng-if="employee.provider === 'google_plus' && !employee.photo && !searching"-->
+                <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
                 <img ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
                      ng-src="{{cloudinaryDefaultPic}}"
                      style="height:100px;width:100px;">
-                <img class="provider-photo-radius" ng-if="employee.provider === 'google_plus'"
-                     ng-src="{{employee.photo}}"/>
+                <!--<img class="provider-photo-radius" ng-if="employee.provider === 'google_plus'"-->
+                <!--ng-src="{{employee.photo}}"/>-->
                 <img class="provider-photo-radius" ng-if="employee.provider === 'facebook'"
                      ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 

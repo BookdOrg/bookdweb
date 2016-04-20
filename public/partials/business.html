@@ -143,12 +143,12 @@
                         <div class="media">
                             <div class="media-left media-middle">
                                 <a href="#">
-                                    <img class="associate-photo media-object"
-                                         ng-if="employee.provider === 'google_plus' && employee.photo"
-                                         ng-src="{{employee.photo}}"/>
-                                    <img class="associate-photo media-object"
-                                         ng-if="employee.provider === 'google_plus' && !employee.photo"
-                                         ng-src="{{cloudinaryDefaultPic}}"/>
+                                    <!--<img class="associate-photo media-object"-->
+                                    <!--ng-if="employee.provider === 'google_plus' && employee.photo"-->
+                                    <!--ng-src="{{employee.photo}}"/>-->
+                                    <!--<img class="associate-photo media-object"-->
+                                    <!--ng-if="employee.provider === 'google_plus' && !employee.photo"-->
+                                    <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
                                     <img class="associate-photo media-object"
                                          ng-if="employee.provider === 'facebook'"
                                          ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>

@@ -6,8 +6,8 @@
                      ng-src="{{cloudinaryDefaultPic}}"/>
                 <img ng-if="currentUser.avatarVersion && currentUser.provider === 'bookd'"
                      ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
-                <img class="provider-photo-radius" ng-if="currentUser.provider === 'google_plus'"
-                     ng-src="{{currentUser.providerInfo}}"/>
+                <!--<img class="provider-photo-radius" ng-if="currentUser.provider === 'google_plus'"-->
+                <!--ng-src="{{currentUser.providerInfo}}"/>-->
                 <img class="provider-photo-radius" ng-if="currentUser.provider === 'facebook'"
                      ng-src="{{currentUser.providerInfo}}"/>
             </div>
@@ -15,9 +15,9 @@
                 <img ng-if="!user.avatarVersion && user.provider =='bookd'" ng-src="{{cloudinaryDefaultPic}}"/>
                 <img ng-if="user.avatarVersion && user.provider == 'bookd'"
                      ng-src="{{cloudinaryBaseUrl}}{{user.avatarVersion}}/profile/{{user._id}}"/>
-                <img class="provider-photo-radius" ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>
-                <img class="provider-photo-radius" ng-if="user.provider === 'google_plus' && !user.photo"
-                     ng-src="{{cloudinaryDefaultPic}}"/>
+                <!--<img class="provider-photo-radius" ng-if="user.provider === 'google_plus'" ng-src="{{user.photo}}"/>-->
+                <!--<img class="provider-photo-radius" ng-if="user.provider === 'google_plus' && !user.photo"-->
+                <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
                 <img class="provider-photo-radius" ng-if="user.provider === 'facebook'"
                      ng-src="{{facebookApi}}{{user.providerId}}/picture?type=large"/>
             </div>
