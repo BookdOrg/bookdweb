@@ -2,11 +2,10 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
-                           userFactory, personal, payments, service, notificationFactory, facebookApi, utilService, appointmentsFactory) {
+                           userFactory, personal, payments, service, notificationFactory, facebookApi, utilService, appointmentsFactory, customers) {
 
     $scope.facebookApi = facebookApi;
     $scope.service = service;
-
     //utilService.getGooglePlusPhotos($scope.service.employees, 0);
 
     $scope.stripePrice = $scope.service.price * 100;
@@ -53,30 +52,14 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     };
     $scope.searchCustomers = function (name) {
         if (angular.isDefined(name)) {
-            if (name.length == 1) {
-                $scope.loadingCustomers = true;
-                businessFactory.searchBusinessCustomers(name, service.businessId)
-                    .then(function (data) {
-                        $scope.loadingCustomers = false;
-
-                        var intersectedData = _.intersection($scope.customers, data);
-                        console.log(intersectedData);
-                        //utilService.getGooglePlusPhotos(data, 0);
-                        $scope.customers = data;
-
-
-                    }, function (err) {
-                        $scope.loadingCustomers = false;
-                        $scope.searchError = err;
-                    });
-            } else {
-                _.forEach($scope.customers, function (customer, key) {
+            _.forEach(customers, function (customer, key) {
                     if (angular.isDefined(customer) && customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
-                        $scope.customers = _.pullAt($scope.customers, key)
+                        $scope.customers = _.pullAt(customers, key)
+                    } else {
+                        $scope.customer = null;
                     }
                 });
             }
-        }
     };
     $scope.setCustomer = function (customer) {
         $scope.customer = angular.copy(customer);

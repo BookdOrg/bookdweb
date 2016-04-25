@@ -159,6 +159,9 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
                 },
                 service: function () {
                     return service;
+                },
+                customers: function () {
+                    return null;
                 }
             }
         });

@@ -567,18 +567,21 @@ router.get('/business/dashboard', auth, function (req, res, next) {
     var updatedBusinesses = [];
     User.findOne({'_id': id}).select('_id name firstName lastName avatarVersion businesses').populate([{
         path: 'businesses',
-        select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount'
+        select: 'name services employees placesId dateCreated tier owner stripeId payments stripeAccount customers'
     }])
         .exec(function (error, user) {
             if (error) {
                 return next(error);
             }
             async.each(user.businesses, function (currBusiness, businessCallback) {
-                Business.findOne({'_id': currBusiness._id}).select('name services employees placesId dateCreated tier owner stripeId stripeAccount payments')
-                    .populate([{path: 'services', select: ''}, {
-                        path: 'employees',
-                        select: '_id name firstName lastName avatarVersion provider providerId availabilityArray'
-                    }]).exec(function (error, response) {
+                Business.findOne({'_id': currBusiness._id}).select('name services employees customers placesId dateCreated tier owner stripeId stripeAccount payments')
+                    .populate([{path: 'services', select: ''},
+                        {
+                            path: 'employees',
+                            select: '_id name firstName lastName avatarVersion provider providerId availabilityArray'
+                        },
+                        {path: 'customers', select: '_id email firstName lastName mobile name provider'}
+                    ]).exec(function (error, response) {
                         if (error) {
                             return businessCallback(error);
                         }

@@ -695,6 +695,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 },
                 service: function () {
                     return service;
+                },
+                customers: function () {
+                    return $scope.activeBusiness.business.customers;
                 }
             }
         });
