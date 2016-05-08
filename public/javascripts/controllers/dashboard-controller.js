@@ -726,6 +726,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                 }
                 uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
             }
+            businessFactory.getBusinessCustomers($scope.activeBusiness._id)
+                .then(function (customers) {
+                    $scope.activeBusiness.business.customers = customers;
+                });
+
         }, function () {
 
         });

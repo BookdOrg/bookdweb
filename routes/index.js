@@ -1577,18 +1577,15 @@ router.post('/business/customers/create', auth, function (req, res, next) {
         }
     });
 });
-router.get('/business/customers/search', auth, function (req, res, next) {
+router.get('/business/customers', auth, function (req, res, next) {
     Business.findOne({"_id": req.query.businessId}).select('customers').populate({
         'path': "customers",
         select: 'name _id firstName lastName providerId avatarVersion provider email mobile'
     }).exec(function (err, results) {
-        var customers = [];
-        _.forEach(results.customers, function (customer, key) {
-            if (customer.name.toLowerCase().indexOf(req.query.search.toLowerCase()) !== -1) {
-                customers.push(customer);
-            }
-        });
-        res.json(customers);
+        if (err) {
+            return next(err);
+        }
+        res.json(results);
     })
 });
 router.post('/user/availability/update', auth, function (req, res, next) {

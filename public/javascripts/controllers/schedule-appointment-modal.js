@@ -6,7 +6,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
 
     $scope.facebookApi = facebookApi;
     $scope.service = service;
-    //utilService.getGooglePlusPhotos($scope.service.employees, 0);
 
     $scope.stripePrice = $scope.service.price * 100;
     $scope.minDate = $scope.minDate ? null : moment();
@@ -16,7 +15,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     $scope.payments = payments;
     $scope.personal = personal;
     $scope.customer = null;
-    $scope.customers = null;
+    $scope.customers = customers;
     $scope.newCustomer = {
         name: null,
         email: null,
@@ -44,23 +43,26 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                     $scope.customerCreated = true;
                     $scope.creatingCustomer = false;
                     $scope.customer = data;
+                    $scope.customers.push(data);
                 }, function (err) {
                     $scope.creatingCustomer = false;
                     $scope.error = error;
                 })
         }
     };
-    $scope.searchCustomers = function (name) {
-        if (angular.isDefined(name)) {
-            _.forEach(customers, function (customer, key) {
-                    if (angular.isDefined(customer) && customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
-                        $scope.customers = _.pullAt(customers, key)
-                    } else {
-                        $scope.customer = null;
-                    }
-                });
-            }
-    };
+    //$scope.searchCustomers = function (name) {
+    //    if (angular.isDefined(name)) {
+    //        _.forEach(customers, function (customer, key) {
+    //                if (angular.isDefined(customer) && customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
+    //                    console.log("first here");
+    //                    $scope.customers.push(_.pullAt(customers, key));
+    //                } else {
+    //                    console.log("else");
+    //                    $scope.customers = [];
+    //                }
+    //            });
+    //        }
+    //};
     $scope.setCustomer = function (customer) {
         $scope.customer = angular.copy(customer);
     };

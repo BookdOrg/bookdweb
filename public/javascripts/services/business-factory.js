@@ -383,10 +383,9 @@ module.exports = function ($http, auth, $q, utilService) {
      *
      *
      */
-    o.searchBusinessCustomers = function (query, businessId) {
+    o.getBusinessCustomers = function (businessId) {
         return $http.get('/business/customers/search', {
             params: {
-                search: query,
                 businessId: businessId
             },
             headers: {Authorization: 'Bearer ' + auth.getToken()}

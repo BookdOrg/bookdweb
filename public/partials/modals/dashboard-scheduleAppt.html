@@ -31,7 +31,7 @@
                             <i ng-show="!loadingCustomers" class="fa fa-search"></i>
                             <input class="form-control input-md" aria-describedby="search"
                                    ng-model="customerQuery"
-                                   placeholder="Search Customer" id="search" ng-keyup="searchCustomers(customerQuery)"
+                                   placeholder="Search Customer" id="search"
                                    required>
                         </span>
                     </div>
@@ -41,7 +41,8 @@
                             <div ng-show="loadingCustomers">
                                 <i class="fa fa-spinner fa-pulse"> Loading...</i>
                             </div>
-                            <div ng-if="!loadingCustomers" ng-repeat="listedCustomer in customers track by $index">
+                            <div ng-if="!loadingCustomers"
+                                 ng-repeat="listedCustomer in customers | filter:customerQuery | orderBy:'name'">
                                 <form class="form-horizontal">
                                     <a href="#" ng-click="setCustomer(listedCustomer)"
                                        uib-popover-template="dynamicPopover.templateUrl" popover-placement="left"
