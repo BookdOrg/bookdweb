@@ -132,21 +132,16 @@
             <div class="row text-center" style="margin-left:10px;margin-right:10px;">
                 <div class="col-xs-10 col-xs-offset-2">
                     <a href="#" data-target="#schedule" data-toggle="tab" ng-click="activeTab ='schedule'">
-                        <div class="col-xs-3 well employeeHover" ng-repeat="employee in service.employees"
+                        <div class="col-xs-5 col-sm-3 well employeeHover" ng-repeat="employee in service.employees"
                              ng-click="selectEmployee(employee);">
-                            <!--<img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'google_plus'"-->
-                            <!--ng-src="{{employee.photo}}"/>-->
-                            <!--<img class="fitContainer provider-photo-radius"-->
-                            <!--ng-if="employee.provider === 'google_plus' && !employee.photo"-->
-                            <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
                             <img class="fitContainer provider-photo-radius" ng-if="employee.provider === 'facebook'"
                                  ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
                             <img class="fitContainer provider-photo-radius"
-                                 ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-if="!employee.avatarVersion && employee.provider === 'bookd' || employee.provider === 'business'"
                                  ng-src="{{cloudinaryDefaultPic}}">
                             <img class="fitContainer provider-photo-radius"
-                                 ng-if="employee.avatarVersion && employee.provider === 'bookd'"
+                                 ng-if="employee.avatarVersion && employee.provider === 'bookd' || employee.provider === 'business'"
                                  ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                             <h5>{{employee.firstName}}</h5>
                         </div>
