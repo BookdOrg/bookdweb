@@ -495,3 +495,40 @@
         </uib-tab>
     </uib-tabset>
 </div>
+<script type="text/ng-template" id="mydashPopoverTemplate.html">
+    <div class="container-fluid">
+        <div class="row">
+            <form class="form-vertical">
+                <div class="form-group text-center">
+                    <h5 class=" control-label" for="listedMobile">Status -
+                        <span ng-if="activeEvent.appointment.status == 'active'" class="text-success">Active</span>
+                        <span ng-if="activeEvent.appointment.status == 'pending'" class="text-warning">Pending</span>
+                        <span ng-if="activeEvent.appointment.status == 'canceled'" class="text-danger">Canceled</span>
+                    </h5>
+                </div>
+                <div class="form-group">
+                    <label class=" control-label" for="listedName">Customer Name</label>
+                    <input type="text" class="form-control input-sm" id="listedName" readonly
+                           value="{{activeEvent.appointment.customer.name}}">
+                </div>
+                <div class="form-group">
+                    <label class=" control-label" for="listedMobile">Customer Phone</label>
+                    <input type="text" class="form-control input-sm" id="listedMobile" readonly
+                           value="{{activeEvent.appointment.customer.mobile}}">
+                </div>
+                <div class="form-group">
+                    <label class=" control-label">Customer Email</label>
+
+                    <p class="form-control-static">{{activeEvent.appointment.customer.email}}</p>
+                    <!--<input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">-->
+                </div>
+                <div class="form-group">
+                    <label class=" control-label" for="listedName">Employee</label>
+                    <input type="text" class="form-control input-sm" id="employeeName" readonly
+                           value="{{activeEvent.appointment.employee.name}}">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</script>

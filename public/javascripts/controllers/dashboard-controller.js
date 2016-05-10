@@ -418,6 +418,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      * Events for the calendar
      *
      */
+    $scope.alertOnEventHover = function (event, jsEvent, view) {
+        $scope.activeEvent = event;
+    };
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         var personal = false;
@@ -473,14 +476,12 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     };
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
-        for (var employeeIndex = 0; employeeIndex < $scope.activeBusiness.business.employees.length; employeeIndex++) {
-            if ($scope.activeBusiness.business.employees[employeeIndex]._id == event.appointment.employee._id) {
-                var employeeName = $scope.activeBusiness.business.employees[employeeIndex].name;
-            }
-        }
         element.attr({
-            'uib-tooltip': employeeName,
-            'tooltip-append-to-body': true
+            'uib-popover-template': "'mydashPopoverTemplate.html'",
+            'popover-append-to-body': 'true',
+            'popover-placement': "left",
+            'popover-trigger': 'mouseenter',
+            'popover-title': 'Service - ' + event.title
         });
         $compile(element)($scope);
     };
@@ -602,6 +603,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender,
+            eventMouseover: $scope.alertOnEventHover,
             addEvent: $scope.addEvent
         }
     };
