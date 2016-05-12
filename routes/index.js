@@ -1585,7 +1585,7 @@ router.get('/business/customers', auth, function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json(results);
+        res.json(results.customers);
     })
 });
 router.post('/user/availability/update', auth, function (req, res, next) {

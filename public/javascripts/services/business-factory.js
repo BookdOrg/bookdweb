@@ -384,7 +384,7 @@ module.exports = function ($http, auth, $q, utilService) {
      *
      */
     o.getBusinessCustomers = function (businessId) {
-        return $http.get('/business/customers/search', {
+        return $http.get('/business/customers', {
             params: {
                 businessId: businessId
             },
