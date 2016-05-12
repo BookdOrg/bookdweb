@@ -726,7 +726,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     $scope.masterList[$scope.activeBusiness.business.name][event.appointment.employee].appointments = [];
                     $scope.masterList[$scope.activeBusiness.business.name][event.appointment.employee].appointments.push(event.appointment);
                 }
-                uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
+                //uiCalendarConfig.calendars['myCalendar1'].fullCalendar('renderEvent', event);
             }
             businessFactory.getBusinessCustomers($scope.activeBusiness.business._id)
                 .then(function (customers) {

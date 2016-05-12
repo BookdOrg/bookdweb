@@ -49,14 +49,6 @@
                                        popover-append-to-body="true" popover-trigger="mouseenter"
                                        popover-title="{{listedCustomer.name}}">
                                         <div class="text-left">
-                                            <!--<img class="fitContainer provider-photo-radius"-->
-                                            <!--ng-if="listedCustomer.provider === 'google_plus' && listedCustomer.photo"-->
-                                            <!--ng-src="{{listedCustomer.photo}}"-->
-                                            <!--style="height:20px;width:20px;border-radius:50%"/>-->
-                                            <!--<img class="fitContainer provider-photo-radius"-->
-                                            <!--ng-if="listedCustomer.provider === 'google_plus' && !listedCustomer.photo"-->
-                                            <!--ng-src="{{cloudinaryDefaultPic}}"-->
-                                            <!--style="height:20px;width:20px;border-radius:50%"/>-->
                                             <img class="fitContainer provider-photo-radius"
                                                  ng-if="listedCustomer.provider === 'facebook'"
                                                  ng-src="{{facebookApi}}{{listedCustomer.providerId}}/picture?type=large"
