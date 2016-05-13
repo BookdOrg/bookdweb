@@ -50,19 +50,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
                 })
         }
     };
-    //$scope.searchCustomers = function (name) {
-    //    if (angular.isDefined(name)) {
-    //        _.forEach(customers, function (customer, key) {
-    //                if (angular.isDefined(customer) && customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1) {
-    //                    console.log("first here");
-    //                    $scope.customers.push(_.pullAt(customers, key));
-    //                } else {
-    //                    console.log("else");
-    //                    $scope.customers = [];
-    //                }
-    //            });
-    //        }
-    //};
     $scope.setCustomer = function (customer) {
         $scope.customer = angular.copy(customer);
     };

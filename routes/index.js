@@ -580,7 +580,7 @@ router.get('/business/dashboard', auth, function (req, res, next) {
                             path: 'employees',
                             select: '_id name firstName lastName avatarVersion provider providerId availabilityArray'
                         },
-                        {path: 'customers', select: '_id email firstName lastName mobile name provider'}
+                        {path: 'customers', select: '_id email firstName lastName mobile name provider providerId'}
                     ]).exec(function (error, response) {
                         if (error) {
                             return businessCallback(error);
