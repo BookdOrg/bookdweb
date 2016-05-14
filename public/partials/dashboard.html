@@ -311,15 +311,115 @@
             <uib-tab-heading>
                 <i class="fa fa-user"></i> Customers
             </uib-tab-heading>
-            <div class="row dashboard-business-info">
-                <div class="col-xs-4">
-                    <button class="btn btn-lg btn-default"
-                            style="margin-right:5px;width:100%">
-                        <i class="fa fa-user fa-3x text-primary"></i>
-                        <h4>Customers</h4>
-                    </button>
+            <div class="container-fluid">
+                <div class="row dashboard-business-info">
+                    <div class="col-xs-4 text-center" style="height:100%;">
+                        <h3 class="page-header">Customers</h3>
+
+                        <div class="form-inline form-group">
+                            <span class="left-inner-addon">
+                                <i ng-show="!loadingCustomers" class="fa fa-search"></i>
+                                <input class="form-control input-md" style="border:none;-webkit-box-shadow:none;"
+                                       aria-describedby="search"
+                                       ng-model="customerQuery"
+                                       placeholder="Search.." id="search"
+                                       required>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-2 text-center"
+                                 style="max-height:600px; overflow-y:scroll;padding-top:5px;padding-left:0px;padding-right:30px;">
+                                <div ng-show="loadingCustomers">
+                                    <i class="fa fa-spinner fa-pulse"> Loading...</i>
+                                </div>
+                                <div ng-if="!loadingCustomers"
+                                     ng-repeat="listedCustomer in activeBusiness.business.customers | filter:customerQuery | orderBy:'name'">
+                                    <form class="form-horizontal">
+                                        <a href="#" ng-click="setCustomer(listedCustomer)"
+                                           uib-popover-template="dynamicPopover.templateUrl" popover-placement="left"
+                                           popover-append-to-body="true" popover-trigger="mouseenter"
+                                           popover-title="{{listedCustomer.name}}">
+                                            <div class="text-left">
+                                                <img class="fitContainer provider-photo-radius"
+                                                     ng-if="listedCustomer.provider === 'facebook'"
+                                                     ng-src="{{facebookApi}}{{listedCustomer.providerId}}/picture?type=large"
+                                                     style="height:20px;width:20px;border-radius:50%"/>
+
+                                                <img class="fitContainer provider-photo-radius"
+                                                     ng-if="!listedCustomer.avatarVersion && listedCustomer.provider === 'bookd' || listedCustomer.provider === 'business'"
+                                                     ng-src="{{cloudinaryDefaultPic}}"
+                                                     style="height:20px;width:20px;border-radius:50%">
+                                                <img class="fitContainer provider-photo-radius"
+                                                     ng-if="listedCustomer.avatarVersion && listedCustomer.provider === 'bookd'"
+                                                     ng-src="{{cloudinaryBaseUrl}}{{listedCustomer.avatarVersion}}/profile/{{listedCustomer._id}}"
+                                                     style="height:20px;width:20px;border-radius:50%">
+                                                {{listedCustomer.name}}
+                                            <span class="pull-right">
+                                            <i class="fa fa-check text-success"
+                                               ng-if="listedCustomer._id === customer._id"></i>
+                                        </span>
+                                            </div>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-8" style="height:100%;margin-top:40px;">
+                        <div class="row text-center">
+                            <div class="col-xs-3">
+                                <img class="fitContainer provider-photo-radius"
+                                     ng-if="customer.provider === 'google_plus' && customer.photo"
+                                     ng-src="{{customer.photo}}"
+                                     style="height:100px;width:100px;border-radius:50%"/>
+                                <img class="fitContainer provider-photo-radius"
+                                     ng-if="customer.provider === 'google_plus' && !customer.photo"
+                                     ng-src="{{cloudinaryDefaultPic}}"
+                                     style="height:100px;width:100px;border-radius:50%"/>
+                                <img class="fitContainer provider-photo-radius"
+                                     ng-if="customer.provider === 'facebook'"
+                                     ng-src="{{facebookApi}}{{customer.providerId}}/picture?type=large"
+                                     style="height:100px;width:100px;border-radius:50%"/>
+
+                                <img class="fitContainer provider-photo-radius"
+                                     ng-if="!customer.avatarVersion && customer.provider === 'bookd' || customer.provider === 'business'"
+                                     ng-src="{{cloudinaryDefaultPic}}"
+                                     style="height:100px;width:100px;border-radius:50%">
+                                <img class="fitContainer provider-photo-radius"
+                                     ng-if="customer.avatarVersion && customer.provider === 'bookd'"
+                                     ng-src="{{cloudinaryBaseUrl}}{{customer.avatarVersion}}/profile/{{customer._id}}"
+                                     style="height:100px;width:100px;border-radius:50%">
+                            </div>
+                            <div class="col-xs-5">
+                                <form class="form-vertical">
+                                    <div class="form-group">
+                                        <label class=" control-label" for="listedName">First Name</label>
+                                        <input type="text" class="form-control" id="listedName" readonly
+                                               value="{{customer.firstName}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label" for="listedLast">Last Name</label>
+                                        <input type="text" class="form-control" id="listedLast" readonly
+                                               value="{{customer.lastName}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label">Email</label>
+
+                                        <p class="form-control-static">{{customer.email}}</p>
+                                        <!--<input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" control-label" for="listedMobile">Mobile</label>
+                                        <input type="text" class="form-control" id="listedMobile" readonly
+                                               value="{{customer.mobile}}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </uib-tab>
         <!--
         #################################
@@ -329,7 +429,7 @@
         ##
         #################################
         -->
-        <uib-tab>
+        <uib-tab disable="true" class="disabled">
             <uib-tab-heading>
                 <i class="fa fa-book"></i> Appointments
             </uib-tab-heading>
@@ -503,7 +603,7 @@
                     <h5 class=" control-label" for="listedMobile">Status -
                         <span ng-if="activeEvent.appointment.status == 'active'" class="text-success">Active</span>
                         <span ng-if="activeEvent.appointment.status == 'pending'" class="text-warning">Pending</span>
-                        <span ng-if="activeEvent.appointment.status == 'canceled'" class="text-danger">Canceled</span>
+                        <span ng-if="activeEvent.appointment.status == 'paid'" class="text-success">Paid</span>
                     </h5>
                 </div>
                 <div class="form-group">

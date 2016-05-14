@@ -1,6 +1,7 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
-                           $uibModal, socketService, $rootScope, Notification,$interval,$timeout) {
+                           $uibModal, socketService, $rootScope, Notification, $interval, $timeout, facebookApi) {
     $scope.radioModel = 'Week';
+    $scope.facebookApi = facebookApi;
     /**
      * The business currently selected by the Bookd Associate
      * @type {{business: {}}}
@@ -19,6 +20,9 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     if (businessFactory.dashboard.length > -1) {
         $scope.businesses = businessFactory.dashboard;
         $scope.activeBusiness.business = $scope.businesses[0];
+        if ($scope.activeBusiness.business.customers.length > 0) {
+            $scope.customer = $scope.activeBusiness.business.customers[0];
+        }
         socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
         businessFactory.getStripeAccount($scope.activeBusiness.business.stripeId)
             .then(function (data) {
@@ -301,6 +305,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             }
         });
 
+    };
+    /**
+     *
+     * @param customer
+     */
+    $scope.setCustomer = function (customer) {
+        $scope.customer = angular.copy(customer);
     };
     /**
      * The default text that the select employee multi-select dropdown should show
