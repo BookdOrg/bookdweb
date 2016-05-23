@@ -371,49 +371,55 @@
                                 <img class="fitContainer provider-photo-radius"
                                      ng-if="customer.provider === 'google_plus' && customer.photo"
                                      ng-src="{{customer.photo}}"
-                                     style="height:100px;width:100px;border-radius:50%"/>
+                                     style="height:125px;width:125px;border-radius:50%"/>
                                 <img class="fitContainer provider-photo-radius"
                                      ng-if="customer.provider === 'google_plus' && !customer.photo"
                                      ng-src="{{cloudinaryDefaultPic}}"
-                                     style="height:100px;width:100px;border-radius:50%"/>
+                                     style="height:125px;width:125px;border-radius:50%"/>
                                 <img class="fitContainer provider-photo-radius"
                                      ng-if="customer.provider === 'facebook'"
                                      ng-src="{{facebookApi}}{{customer.providerId}}/picture?type=large"
-                                     style="height:100px;width:100px;border-radius:50%"/>
+                                     style="height:125px;width:125px;border-radius:50%"/>
 
                                 <img class="fitContainer provider-photo-radius"
                                      ng-if="!customer.avatarVersion && customer.provider === 'bookd' || customer.provider === 'business'"
                                      ng-src="{{cloudinaryDefaultPic}}"
-                                     style="height:100px;width:100px;border-radius:50%">
+                                     style="height:125px;width:125px;border-radius:50%">
                                 <img class="fitContainer provider-photo-radius"
                                      ng-if="customer.avatarVersion && customer.provider === 'bookd'"
                                      ng-src="{{cloudinaryBaseUrl}}{{customer.avatarVersion}}/profile/{{customer._id}}"
-                                     style="height:100px;width:100px;border-radius:50%">
+                                     style="height:125px;width:125px;border-radius:50%">
                             </div>
-                            <div class="col-xs-5">
-                                <form class="form-vertical">
-                                    <div class="form-group">
-                                        <label class=" control-label" for="listedName">First Name</label>
-                                        <input type="text" class="form-control" id="listedName" readonly
-                                               value="{{customer.firstName}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class=" control-label" for="listedLast">Last Name</label>
-                                        <input type="text" class="form-control" id="listedLast" readonly
-                                               value="{{customer.lastName}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class=" control-label">Email</label>
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <p>First Name</p>
 
-                                        <p class="form-control-static">{{customer.email}}</p>
-                                        <!--<input type="text" class="form-control" id="listedEmail" readonly value="{{listedCustomer.email}}">-->
+                                        <p>Last Name</p>
+
+                                        <p>Email</p>
+
+                                        <p>Phone</p>
                                     </div>
-                                    <div class="form-group">
-                                        <label class=" control-label" for="listedMobile">Mobile</label>
-                                        <input type="text" class="form-control" id="listedMobile" readonly
-                                               value="{{customer.mobile}}">
+                                    <div class="col-xs-3">
+                                        <p>{{customer.firstName}}</p>
+
+                                        <p>{{customer.lastName}}</p>
+
+                                        <p>{{customer.email}}</p>
+
+                                        <p>{{customer.mobile}}</p>
                                     </div>
-                                </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 text-center">
+                                <h3>Appointments</h3>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <h3 class="page-header">Noes</h3>
+                                <textarea class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -452,20 +458,20 @@
         ##
         #################################
         -->
-        <uib-tab disable="true" class="disabled">
-            <uib-tab-heading class="disabled">
-                <i class="fa fa-line-chart"></i> Reports
-            </uib-tab-heading>
-            <div class="row dashboard-business-info">
-                <div class="col-xs-4">
-                    <button class="btn btn-lg btn-default"
-                            style="margin-right:5px;width:100%">
-                        <i class="fa fa-line-chart fa-3x text-primary"></i>
-                        <h4>Reports</h4>
-                    </button>
-                </div>
-            </div>
-        </uib-tab>
+        <!--<uib-tab disable="true" class="disabled">-->
+        <!--<uib-tab-heading class="disabled">-->
+        <!--<i class="fa fa-line-chart"></i> Reports-->
+        <!--</uib-tab-heading>-->
+        <!--<div class="row dashboard-business-info">-->
+        <!--<div class="col-xs-4">-->
+        <!--<button class="btn btn-lg btn-default"-->
+        <!--style="margin-right:5px;width:100%">-->
+        <!--<i class="fa fa-line-chart fa-3x text-primary"></i>-->
+        <!--<h4>Reports</h4>-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</uib-tab>-->
         <!--
             #################################
             ##
