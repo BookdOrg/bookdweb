@@ -395,6 +395,20 @@ module.exports = function ($http, auth, $q, utilService) {
             return err.data;
         });
     };
+
+    o.getCustomerAppointments = function (customerId, businessId) {
+        return $http.get('/business/customer/appointments', {
+            params: {
+                customerId: customerId,
+                businessId: businessId
+            },
+            headers: {Authorization: 'Bearer ' + auth.getToken()}
+        }).then(function (data) {
+            return data.data
+        }, function (err) {
+            return err.data
+        })
+    }
     /**
      *
      *  changeStatus - Updates the status of the businesses object, from

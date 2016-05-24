@@ -557,6 +557,23 @@ router.post('/user/claimed-success', function (req, res, next) {
         });
     }
 });
+
+/**
+ *
+ *
+ *
+ */
+
+router.get('/business/customer/appointments', auth, function (req, res, next) {
+    var user = req.query.customerId;
+    var business = req.query.businessId;
+    Appointment.find({'customer': user, 'businessId': business}).exec(function (error, appointments) {
+        if (error) {
+            return next(error);
+        }
+        res.json(appointments);
+    })
+});
 /**
  *  Returns all Dashboard information
  *

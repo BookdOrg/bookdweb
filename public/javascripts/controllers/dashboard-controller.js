@@ -22,6 +22,10 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         $scope.activeBusiness.business = $scope.businesses[0];
         if ($scope.activeBusiness.business.customers.length > 0) {
             $scope.customer = $scope.activeBusiness.business.customers[0];
+            businessFactory.getCustomerAppointments($scope.customer._id, $scope.activeBusiness.business._id)
+                .then(function (results) {
+                    $scope.customer.appointments = results;
+                });
         }
         socketService.emit('joinDashboardRoom', $scope.activeBusiness.business._id);
         businessFactory.getStripeAccount($scope.activeBusiness.business.stripeId)
@@ -312,6 +316,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     $scope.setCustomer = function (customer) {
         $scope.customer = angular.copy(customer);
+        businessFactory.getCustomerAppointments(customer._id, $scope.activeBusiness.business._id)
+            .then(function (results) {
+                $scope.customer.appointments = results;
+            });
+
     };
     /**
      * The default text that the select employee multi-select dropdown should show
