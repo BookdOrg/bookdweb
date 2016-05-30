@@ -20,6 +20,7 @@ var UserSchema = new mongoose.Schema({
     associatePhotos: [],
     associateDescription: String,
     businesses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Business'}],
+    authorizedUsers: [],
     appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
     resetPasswordToken: String,
     resetPasswordExpires: Date

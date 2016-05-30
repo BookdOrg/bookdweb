@@ -1416,6 +1416,9 @@ router.post('/business/add-employee', auth, function (req, res, next) {
                 if (!employee.isAssociate) {
                     employee.isAssociate = true;
                 }
+                employee.authorizedUsers.pushIfNotExist(req.payload._id, function (e) {
+                    return e == req.payload._id;
+                });
                 var availability = [
                     {
                         day: 'Monday',
@@ -1669,6 +1672,11 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
                 User.findOne({"_id": employeeId}).exec(function (err, user) {
                     if (err) {
                         return next(err);
+                    }
+                    var authorizedIndex = user.authorizedUsers.indexOf(req.payload._id);
+                    console.log(authorizedIndex);
+                    if (authorizedIndex > -1) {
+                        user.authorizedUsers.splice(authorizedIndex, 1);
                     }
                     var availabilityIndex = _.findIndex(user.availabilityArray, {'businessId': businessId});
                     user.availabilityArray.splice(availabilityIndex, 1);
