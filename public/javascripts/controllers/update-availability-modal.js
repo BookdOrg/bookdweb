@@ -15,7 +15,9 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
         $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': id});
         $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     };
-    if (employee._id !== $rootScope.currentUser._id) {
+
+    var authorizedIndex = employee.authorizedUsers.indexOf($rootScope.currentUser._id);
+    if (employee._id !== $rootScope.currentUser._id && authorizedIndex === -1) {
         $scope.disableUpdate = true;
     }
     /**
