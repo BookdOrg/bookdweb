@@ -2,10 +2,21 @@
  * Created by khalilbrown on 2/17/16.
  */
 module.exports = function () {
+    /**
+     *
+     * @param employeeAvailability - The employee availability array with availability for all days and a deeper array with break times
+     * @param appointmentsArray - The array of appointments for both the employee and the user.
+     * @param duration - Duration of the selected service we are trying to schedule
+     * @param user - The id of the user we are scheduling for.
+     * @returns {Array}
+     */
     function createAvailableTimes(employeeAvailability, appointmentsArray, duration, user) {
         var availableTimes = [];
+        //The duration of the service in minutes.
         var minutes = moment.duration(parseInt(duration), 'minutes');
         var employeeDate = employeeAvailability.date.clone();
+        //We need to count from the start of the employee's day by the duration number of minutes as long as it's before the
+        //employee's end time.
         for (var m = employeeAvailability.dayStart; employeeAvailability.dayStart.isBefore(employeeAvailability.dayEnd); m.add(duration, 'minutes')) {
 
             var availableTimeStart = m.clone();
@@ -15,7 +26,7 @@ module.exports = function () {
             startPlusEnd.add(minutes);
             var availableTimeEnd = startPlusEnd.clone();
             var availableTimeRange = moment.range(availableTimeStart, availableTimeEnd);
-
+            //This object represents a block of time that we can possible return to the function caller
             var timeObj = {
                 time: availableTimeStart.format('hh:mm a'),
                 end: availableTimeEnd.format('hh:mm a'),
@@ -25,6 +36,12 @@ module.exports = function () {
                 hide: false,
                 user: user
             };
+            /**
+             *
+             * We loop though the array of break times for a given employee on the given day.
+             * If there are any intersections between the employee's break time and the current "available time"
+             * then we adjust our available time.
+             */
             _.forEach(employeeAvailability.gaps, function (gap) {
                 var gapStartHour = moment(gap.start, 'hh:mm a').hour();
                 var gapStartMinute = moment(gap.start, 'hh:mm a').minute();
@@ -52,7 +69,11 @@ module.exports = function () {
                     timeObj.end = adjustedEnd.format('hh:mm a');
                 }
             });
-
+            /**
+             *
+             *
+             * @param appointmentArray - The array of appointments for both the employee and the user
+             */
             function calculateAppointmentBlocks(appointmentArray) {
                 _.forEach(appointmentArray, function (appointment) {
                     calculateAppointment(appointmentArray, appointment, timeObj, m);
@@ -61,6 +82,16 @@ module.exports = function () {
             _.forEach(appointmentsArray, function (appointmentArray) {
                 calculateAppointmentBlocks(appointmentArray);
             });
+
+            /**
+             *
+             *
+             *
+             * @param appointmentArray - The array of appointments for both the employee and the user
+             * @param appointment - The current appoontment that we are looking at in the appointment array
+             * @param timeObj - The current block of time we are trying to create
+             * @param m - The moment object representing the employees start date
+             */
             function calculateAppointment(appointmentArray, appointment, timeObj, m) {
                 var apptStartHour = moment(appointment.start.time, 'hh:mm a').hour();
                 var apptStartMinute = moment(appointment.start.time, 'hh:mm a').minute();
