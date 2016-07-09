@@ -1282,7 +1282,12 @@ router.get('/business/search', function (req, res, next) {
         path: 'employees',
         select: '_id businessAppointments name firstName lastName avatarVersion provider providerId availabilityArray associateDescription authorizedUsers'
     }];
-    googleplaces.textSearch({query: query}, function (error, response) {
+
+    var parameters = {
+        query: query,
+        radius: 16000
+    };
+    googleplaces.textSearch(parameters, function (error, response) {
         if (error) {
             return next(error);
         }
