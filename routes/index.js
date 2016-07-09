@@ -2175,4 +2175,32 @@ router.post('/user/password/change', function (req, res, next) {
     });
 });
 
+/**
+ *
+ *
+ *
+ *
+ * Mobile Specific Routes
+ *
+ *
+ *
+ *
+ */
+
+router.get('/appointments-scroll', auth, function (req, res, next) {
+    var lastSeen = req.query.lastSeen;
+    var userId = req.payload._id;
+    var responseObj = {
+        docs: null,
+        lastSeen: null
+    };
+    Appointment.find({customer: userId}, {}, {skip: lastSeen, limit: 5}, function (err, results) {
+        if (err) {
+            return next(err);
+        }
+        responseObj.docs = results;
+        res.json(responseObj);
+    });
+});
+
 module.exports = router;
