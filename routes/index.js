@@ -479,8 +479,8 @@ router.post('/user/notification/viewed', auth, function (req, res, next) {
 router.get('/user/profile', auth, function (req, res, next) {
     var id = req.query.id;
     User.findOne({'_id': id})
-        .select('_id name firstName lastName provider email avatarVersion personalAppointments businessAppointments associatePhotos providerId associateDescription')
-        .populate({path: 'businessAppointments personalAppointments'}).exec(function (err, user) {
+        .select('_id name firstName lastName provider email avatarVersion appointments associatePhotos providerId associateDescription')
+        .populate({path: 'appointments'}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -706,7 +706,7 @@ router.post('/login', function (req, res, next) {
             }
         })(req, res, next);
     } else if (req.body.provider === 'facebook' || 'google_plus') {
-        User.findOne({'email': req.body.username}).select('_id name firstName lastName email firstName lastName availabilityArray businessAppointments personalAppointments businessOwner provider providerId notifications businesses isAssociate')
+        User.findOne({'email': req.body.username}).select('_id name firstName lastName email firstName lastName availabilityArray appointments businessOwner provider providerId notifications businesses isAssociate')
             .exec(function (err, user) {
             if (err) {
                 return next(err);
@@ -2189,7 +2189,11 @@ router.get('/appointments-scroll', auth, function (req, res, next) {
         docs: null,
         lastSeen: null
     };
-    Appointment.find({customer: userId}, {}, {skip: lastSeen, limit: 5}, function (err, results) {
+    Appointment.find({$or: [{customer: userId}, {employee: userId}]}, {}, {
+        skip: lastSeen,
+        limit: 5,
+        sort: {'start.full': -1}
+    }, function (err, results) {
         if (err) {
             return next(err);
         }
