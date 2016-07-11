@@ -1284,8 +1284,7 @@ router.get('/business/search', function (req, res, next) {
     }];
 
     var parameters = {
-        query: query,
-        radius: 16000
+        query: query
     };
     googleplaces.textSearch(parameters, function (error, response) {
         if (error) {
@@ -2188,7 +2187,7 @@ router.post('/user/password/change', function (req, res, next) {
  */
 
 router.get('/appointments-scroll', auth, function (req, res, next) {
-    var lastSeen = req.query.lastSeen;
+    var lastSeen = req.query.lastSeen || 0;
     var userId = req.payload._id;
     var responseObj = {
         docs: null,
