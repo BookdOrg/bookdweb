@@ -2193,17 +2193,25 @@ router.get('/appointments-scroll', auth, function (req, res, next) {
         docs: null,
         lastSeen: null
     };
-    Appointment.find({$or: [{customer: userId}, {employee: userId}]}, {}, {
-        skip: lastSeen,
-        limit: 5,
-        sort: {'start.full': -1}
-    }, function (err, results) {
+    User.findOne({_id: userId}).exec(function (err, user) {
         if (err) {
-            return next(err);
+            return next(err)
         }
-        responseObj.docs = results;
-        res.json(responseObj);
-    });
+        if (user.appointments.length > 0) {
+            Appointment.find({$or: [{customer: userId}, {employee: userId}]}, {}, {
+                skip: lastSeen,
+                limit: 5,
+                sort: {'start.full': -1}
+            }, function (err, results) {
+                if (err) {
+                    return next(err);
+                }
+                responseObj.docs = results;
+                res.json(responseObj);
+            });
+        }
+    })
+
 });
 
 module.exports = router;
