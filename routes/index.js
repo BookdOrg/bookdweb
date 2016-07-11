@@ -2187,7 +2187,7 @@ router.post('/user/password/change', function (req, res, next) {
  */
 
 router.get('/appointments-scroll', auth, function (req, res, next) {
-    var lastSeen = req.query.lastSeen || 0;
+    var lastSeen = parseInt(req.query.lastSeen);
     var userId = req.payload._id;
     var responseObj = {
         docs: null,
