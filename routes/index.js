@@ -2200,7 +2200,7 @@ router.get('/appointments-scroll', auth, function (req, res, next) {
         if (user.appointments.length > 0) {
             Appointment.find({$or: [{customer: userId}, {employee: userId}]}, {}, {
                 skip: lastSeen,
-                limit: 5,
+                limit: 10,
                 sort: {'start.full': -1}
             }, function (err, results) {
                 if (err) {
