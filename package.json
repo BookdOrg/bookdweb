@@ -12,6 +12,7 @@
     "angular-cloudinary": "^1.2.2",
     "angular-dropdown-multiselect": "^1.0.1",
     "angular-file-upload": "^2.2.0",
+    "angular-loading-bar": "^0.9.0",
     "angular-payments": "^1.0.7",
     "angular-socket-io": "^0.7.0",
     "angular-stripe-checkout": "4.0.0",

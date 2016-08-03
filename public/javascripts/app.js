@@ -26,7 +26,7 @@ require('angular-ui-validate');
 require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
-
+require('angular-loading-bar');
 var app = angular.module('cc', [
     require('angular-animate'),
     require('angular-touch'),
@@ -42,7 +42,8 @@ var app = angular.module('cc', [
     'ui-notification',
     'ui.router',
     'ui.validate',
-    'btford.socket-io'
+    'btford.socket-io',
+    'angular-loading-bar'
 ]);
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')

@@ -808,3 +808,11 @@ Hack so the table styles load before we're on the page
     background-color: rgb(92, 184, 92);
     color: white;
 }
+
+#loading-bar {
+    z-index: 999;
+}
+
+#loading-bar-spinner {
+    display: none !important;
+}
