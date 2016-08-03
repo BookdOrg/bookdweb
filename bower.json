@@ -1,6 +1,6 @@
 {
   "name": "bookd",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "authors": [
     "Khalil <khalilnafis@gmail.com>",
     "Jonathan Forscher <forscherjonathan@gmail.com>"
@@ -14,10 +14,13 @@
     "tests"
   ],
   "dependencies": {
-    "angular-google-places-autocomplete": "~0.2.7",
-    "ngGeolocation": "~0.0.5",
-    "angular-ui-calendar": "latest",
-    "angularjs-dropdown-multiselect": "~1.5.2",
-    "fullcalendar": "~2.6.1"
+    "angular-google-places-autocomplete": "0.2.7",
+    "ngGeolocation": "0.0.8",
+    "angular-ui-calendar": "1.0.2",
+    "angularjs-dropdown-multiselect": "1.5.2",
+    "fullcalendar": "2.7.1"
+  },
+  "resolutions": {
+    "angular": "^1.2.x"
   }
 }
