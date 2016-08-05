@@ -2,10 +2,12 @@ deployment:
   production:
     branch: master
     commands:
+      - npm rebuild
       - rsync -az ../bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
   staging:
     branch: development
     commands:
+      - npm rebuild
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
 
 machine:
@@ -15,9 +17,6 @@ machine:
 dependencies:
   cache_directories:
     - "bower_components"
-
-  override:
-    - npm install
 
 test:
   override:
