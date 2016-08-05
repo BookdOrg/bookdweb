@@ -49,15 +49,16 @@ gulp.task('browserifyProd', function () {
 });
 
 var bundlerOnce = browserify({
-  entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
-  debug: true // Gives us sourcemapping
+    entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
+    debug: true // Gives us sourcemapping
 });
 
-gulp.task('browserifyProdOnce', function () {
+gulp.task('browserifyProdOnce', function (done) {
   bundleProd();
 
-  bundlerOnce.on('time', function (time) {
+    bundlerOnce.on('end', function (time) {
     gutil.log('BrowserifyProdOnce', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
+        done();
   });
 });
 

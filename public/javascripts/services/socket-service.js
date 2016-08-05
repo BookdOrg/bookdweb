@@ -2,8 +2,8 @@
  * Created by: Khalil Brown
  *
  */
-module.exports = function (socketFactory) {
-    var myIoSocket = io.connect('//localhost:3001');
+module.exports = function (socketFactory, remoteSocketPort, remoteHost) {
+    var myIoSocket = io.connect(remoteHost + remoteSocketPort);
     var mySocket = socketFactory({
         ioSocket: myIoSocket
     });
