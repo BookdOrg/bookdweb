@@ -48,6 +48,14 @@ gulp.task('browserifyProd', function () {
     });
 });
 
+gulp.task('browserifyProdOnce', function () {
+  bundleProd();
+
+  bundler.on('time', function (time) {
+    gutil.log('BrowserifyProd', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
+  });
+});
+
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
 //gulp.task('processStyles', function() {
 //    return gulp.src(paths.css + '*.css')
