@@ -1,0 +1,9 @@
+deployment:
+  production:
+    branch: master
+    commands:
+      - rsync -avz bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
+  staging:
+    branch: development
+    commands:
+      - rsync -avz bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
