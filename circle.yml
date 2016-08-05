@@ -2,13 +2,11 @@ deployment:
   production:
     branch: master
     commands:
-      - npm rebuild
       - gulp browserifyProdOnce
       - rsync -az ../bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
   staging:
     branch: development
     commands:
-      - npm rebuild
       - gulp browserifyProdOnce
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
 
