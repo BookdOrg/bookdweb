@@ -3,9 +3,16 @@ deployment:
     branch: master
     commands:
       - rsync -az ../bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
-      - scripts/pm2-restart.sh
   staging:
     branch: development
     commands:
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
-      - scripts/pm2-restart.sh
+
+machine:
+  node:
+    version: 6.3.1
+
+dependencies:
+  cache_directories:
+    - "bower_components"
+    - "node_modules"
