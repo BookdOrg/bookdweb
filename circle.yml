@@ -7,3 +7,4 @@ deployment:
     branch: development
     commands:
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
+      - pm2 restart bookd
