@@ -15,4 +15,10 @@ machine:
 dependencies:
   cache_directories:
     - "bower_components"
-    - "node_modules"
+
+  pre:
+    - npm install -g npm
+
+test:
+  override:
+    - echo "test"
