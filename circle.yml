@@ -3,8 +3,9 @@ deployment:
     branch: master
     commands:
       - rsync -az ../bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
+      - scripts/pm2-restart.sh
   staging:
     branch: development
     commands:
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
-      - pm2 restart bookd
+      - scripts/pm2-restart.sh
