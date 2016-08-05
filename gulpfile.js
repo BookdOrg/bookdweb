@@ -54,12 +54,11 @@ var bundlerOnce = browserify({
 });
 
 gulp.task('browserifyProdOnce', function (done) {
-  bundleProd();
-
-    bundlerOnce.on('end', function (time) {
-    gutil.log('BrowserifyProdOnce', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
-        done();
-  });
+    bundleProdOnce()
+        .on('time', function (time) {
+            gutil.log('BrowserifyProdOnce', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
+        });
+    done();
 });
 
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
@@ -93,6 +92,18 @@ function bundleProd() {
         .pipe(gulp.dest(paths.dist));
 }
 
+function bundleProdOnce() {
+    return bundlerOnce.bundle()
+        .pipe(plumber({errorHandler: errorHandler}))
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here.
+        .pipe(ngAnnotate())
+        .pipe(uglify({mangle: false}))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.dist));
+}
 function errorHandler(err) {
     notifier.notify({message: 'Error: ' + err.message});
     gutil.log(gutil.colors.red('Error: ' + err.message));
