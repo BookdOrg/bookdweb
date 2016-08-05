@@ -340,7 +340,7 @@ app.config([
                 }
             });
         $urlRouterProvider.otherwise('/');
-    }]).run(function ($rootScope, auth, $templateCache, devHost, $geolocation, $http, $state, location, businessFactory,
+    }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
                       $controller, $uibModal, notificationFactory, socketService) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
