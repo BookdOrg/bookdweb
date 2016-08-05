@@ -18,9 +18,6 @@ dependencies:
   cache_directories:
     - "bower_components"
 
-  pre:
-    - npm install -g npm
-
 test:
   override:
     - echo "test"
