@@ -3,11 +3,13 @@ deployment:
     branch: master
     commands:
       - npm rebuild
+      - gulp
       - rsync -az ../bookdweb/ circleci@bookd.me:/home/circleci/bookdweb
   staging:
     branch: development
     commands:
       - npm rebuild
+      - gulp
       - rsync -az ../bookdweb/ circleci@dev.bookd.me:/home/circleci/bookdweb
 
 machine:
@@ -17,6 +19,9 @@ machine:
 dependencies:
   cache_directories:
     - "bower_components"
+
+  pre:
+    - npm install -g npm
 
 test:
   override:
