@@ -19,6 +19,9 @@ var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 var request = require('request');
+var raven = require('raven');
+var client = new raven.Client('https://74b457b102ee49a2af0e22c5774b3817:48b5cf57fac145da923fa75bb09c1790@app.getsentry.com/90849');
+client.patchGlobal();
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
@@ -28,17 +31,14 @@ var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 var server;
-if (process.env.NODE_ENV === 'development') {
-    server = require('http').createServer(app);
-} else {
-    var fs = require('fs');
-    var options = {
-        key: fs.readFileSync('/etc/ssl/private/domain.key'),
-        cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
-    };
-    server = require('https').createServer(options, app);
-}
+var fs = require('fs');
+var options = {
+  key: fs.readFileSync('/etc/ssl/private/domain.key'),
+  cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
+};
+server = require('https').createServer(options, app);
 var io = require('socket.io')(server);
+
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
