@@ -31,14 +31,17 @@ var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 var server;
-var fs = require('fs');
-var options = {
-  key: fs.readFileSync('/etc/ssl/private/domain.key'),
-  cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
-};
-server = require('https').createServer(options, app);
+if (process.env.NODE_ENV === 'development') {
+  server = require('http').createServer(app);
+} else {
+  var fs = require('fs');
+  var options = {
+    key: fs.readFileSync('/etc/ssl/private/domain.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
+  };
+  server = require('https').createServer(options, app);
+}
 var io = require('socket.io')(server);
-
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
