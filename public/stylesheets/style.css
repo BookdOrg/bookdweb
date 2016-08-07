@@ -14,12 +14,10 @@
     visibility: hidden;
 }
 
-.slider-container {
-    width: 100%;
-    max-height: 500px;
-}
-
 .slider-image {
+    width: 100%;
+    min-height: 525px;
+    max-height: 525px;
     object-fit: cover;
 }
 
