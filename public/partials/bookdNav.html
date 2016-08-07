@@ -87,7 +87,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li uib-dropdown class="hidden-lg hidden-md miniQuery-dropdown">
                         <a ng-href="" uib-dropdown-toggle><i class="fa fa-search"></i></a>
-                        <ul class="uib-dropdown-menu notifications">
+                        <ul class="dropdown-menu notifications">
                             <form name="miniQuery">
                                 <div class="text-center form-group" style="margin-top:20px;">
                                     <span class="left-inner-addon form-inline">
@@ -114,7 +114,6 @@
                                 </div>
                             </form>
                         </ul>
-
                     </li>
                     <li uib-dropdown ng-show="isLoggedIn()" class="notification-bell">
                         <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
@@ -124,7 +123,7 @@
                             </i>
                         </a>
 
-                        <div class="uib-dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
+                        <div class="dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
                              aria-labelledby="dLabel">
                             <div class="notification-heading" ng-if="currentUser.notifications.length > 0">
                                 <h4 class="menu-title">Notifications</h4>
@@ -180,7 +179,7 @@
                                  ng-src="{{currentUser.providerInfo}}"/>
                             {{currentUser.firstName}} <i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="uib-dropdown-menu">
+                        <ul class="dropdown-menu">
                             <li>
                                 <a ui-sref="search" ui-sref-active="active"
                                    ng-click="navbarCollapsed = !navbarCollapsed;">
