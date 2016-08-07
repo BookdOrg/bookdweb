@@ -25,7 +25,11 @@ var routes = require('./routes/index');
 
 var app = express();
 
-app.use(helmet());
+// Allow from a specific host:
+app.use(frameguard({
+  action: 'allow-from',
+  domain: 'https://www.google.com/'
+}));
 
 cloudinary.config({
     cloud_name: 'dvvtn4u9h',
