@@ -19,9 +19,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.service = data;
             //grab the employee details from the services list of employees based on the appointments employeeID
             if ($scope.dateObj.appointment.employee._id) {
-                $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
+              $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
             } else {
-                $scope.employee = _.findWhere($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
+              $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
             }
 
             //if there's no employee we set this flag to true

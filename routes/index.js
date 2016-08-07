@@ -150,7 +150,7 @@ io.on('connection', function (socket) {
      */
     socket.on('timeDestroyed', function (data) {
         if (data) {
-            roomData = _.without(roomData, _.findWhere(roomData, {'user': data.user}));
+          roomData = _.without(roomData, _.find(roomData, {'user': data.user}));
             io.sockets.in(data.roomId).emit('destroyOld', data);
         }
     });
@@ -160,9 +160,9 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('disconnect', function () {
-        roomData = _.without(roomData, _.findWhere(roomData, {'user': socketTimeData.user}));
+      roomData = _.without(roomData, _.find(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
-        clients = _.without(clients, _.findWhere(clients, {'id': socket.id}));
+      clients = _.without(clients, _.find(clients, {'id': socket.id}));
         socket.disconnect();
     });
     socket.on('joinCalendarRoom', function (id) {
@@ -200,7 +200,7 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptBooked', function (appt) {
-        var employeeSocket = _.findWhere(clients, {'customId': appt.employee._id});
+      var employeeSocket = _.find(clients, {'customId': appt.employee._id});
         socket.leave(appt.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -220,8 +220,8 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptUpdated', function (data) {
-        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee._id});
-        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer._id});
+      var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
+      var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -250,8 +250,8 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptCanceled', function (data) {
-        var employeeSocket = _.findWhere(clients, {'customId': data.appointment.employee._id});
-        var customerSocket = _.findWhere(clients, {'customId': data.appointment.customer._id});
+      var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
+      var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId);
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
@@ -277,7 +277,7 @@ io.on('connection', function (socket) {
      */
         //TODO debug this, find out why it's not working.
     socket.on('newNotifGenerated', function (data) {
-        var userSocket = _.findWhere(clients, {'customId': data.id});
+      var userSocket = _.find(clients, {'customId': data.id});
         if (userSocket) {
             var notification = new Notification();
             //Content of the notification.
@@ -548,7 +548,7 @@ router.post('/user/description/update', auth, function (req, res, next) {
     });
 });
 router.post('/user/claimed-success', function (req, res, next) {
-    var user = _.findWhere(clients, {'customId': req.query.user});
+  var user = _.find(clients, {'customId': req.query.user});
     if (user) {
         User.findOne({'_id': user.customId}).exec(function (error, activeUser) {
             if (error) {
@@ -1404,7 +1404,7 @@ router.post('/business/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var businessName = req.body.businessName;
-    var employeeSocketObj = _.findWhere(clients, {'customId': employeeId});
+  var employeeSocketObj = _.find(clients, {'customId': employeeId});
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         if (err) {
             return next(err);
@@ -1661,7 +1661,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
-    var employeeSocketObj = _.findWhere(clients, {'customId': employeeId});
+  var employeeSocketObj = _.find(clients, {'customId': employeeId});
     var removeEmployeeTemplateDir = path.join(__dirname, '../emailTemplates', 'remove-employee');
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {

@@ -867,7 +867,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         if (data.from !== $rootScope.currentUser._id) {
             var eventId;
             var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments;
-            employeeAppointments = _.without(employeeAppointments, _.findWhere(employeeAppointments, {'_id': data.appointment._id}));
+          employeeAppointments = _.without(employeeAppointments, _.find(employeeAppointments, {'_id': data.appointment._id}));
             $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments = employeeAppointments;
             for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {

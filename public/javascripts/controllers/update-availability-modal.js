@@ -4,7 +4,7 @@
 module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance, employee, $rootScope, $timeout, business) {
     $scope.employee = employee;
     if (business) {
-        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': business._id});
+      $scope.activeAvailability = _.find($scope.employee.availabilityArray, {'businessId': business._id});
         $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     } else {
         $scope.activeAvailability = $scope.employee.availabilityArray[0];
@@ -12,7 +12,7 @@ module.exports = function ($scope, $state, auth, userFactory, $uibModalInstance,
     }
 
     $scope.switchAvailability = function (id) {
-        $scope.activeAvailability = _.findWhere($scope.employee.availabilityArray, {'businessId': id});
+      $scope.activeAvailability = _.find($scope.employee.availabilityArray, {'businessId': id});
         $scope.activeAvailability.availability = formatTimes($scope.activeAvailability.availability);
     };
 
