@@ -5,7 +5,7 @@ window.io = require('socket.io-client');
 window.moment = require('moment');
 require('moment-range');
 window.humanizeDuration = require('humanize-duration');
-
+// var env = require('env');
 try {
     // try to use localStorage
     localStorage.test = 2;
@@ -48,7 +48,7 @@ var app = angular.module('cc', [
 ]);
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
-    .constant('remoteHost', 'dev.bookd.me')
+    .constant('remoteHost', 'localhost')
     .constant('remotePort', '3001')
     .constant('remoteSocketPort', ':8112') //DEV: :8112 LOCAL:  :3001
     .constant('facebookApi', 'https://graph.facebook.com/')
@@ -65,7 +65,7 @@ app.config([
     '$urlRouterProvider',
     '$locationProvider',
     'NotificationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider) {
+    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider, ENV) {
         NotificationProvider.setOptions({
             delay: 5000,
             startTop: 200,
@@ -75,6 +75,8 @@ app.config([
             positionX: 'center',
             positionY: 'top'
         });
+        // console.log(env);
+        console.log(ENV);
         $locationProvider.html5Mode(true);
         $stateProvider
             .state('landing', {

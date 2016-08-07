@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel cal-services-content">
                             <uib-accordion>
-                                <div uib-accordion-group is-open="statusOne.open">
+                                <div uib-accordion-group class="panel-default" is-open="statusOne.open">
                                     <uib-accordion-heading>
                                         Schedule Appointments
                                         <i class="pull-right glyphicon"
@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <div uib-accordion-group is-open="statusTwo.open">
+                                <div uib-accordion-group class="panel-default" is-open="statusTwo.open">
                                     <uib-accordion-heading>
                                         Calendar Key
                                         <i class="pull-right glyphicon"
@@ -107,7 +107,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <div uib-accordion-group is-open="statusThree.open">
+                                <div uib-accordion-group class="panel-default" is-open="statusThree.open">
                                     <uib-accordion-heading>
                                         Business Info
                                         <i class="pull-right glyphicon"
@@ -213,7 +213,7 @@
            -->
             <div class="col-xs-12 col-sm-6 dashboard-panel-body">
                 <uib-accordion>
-                    <div uib-accordion-group is-open="statusFour.open">
+                    <div uib-accordion-group class="panel-default" is-open="statusFour.open">
                         <uib-accordion-heading>
                             Associates
                             <i class="pull-right glyphicon"
@@ -259,7 +259,7 @@
             <div class="row dashboard-business-info">
                 <div class="col-xs-12 col-sm-6 dashboard-panel-body">
                     <uib-accordion class="accordion-height">
-                        <div uib-accordion-group is-open="statusFive.open">
+                        <div uib-accordion-group class="panel-default" is-open="statusFive.open">
                             <uib-accordion-heading>
                                 Services
                                 <i class="pull-right glyphicon"
@@ -400,7 +400,7 @@
 
                                         <p>Phone</p>
                                     </div>
-                                    <div class="col-xs-3">
+                                    <div class="col-xs-4">
                                         <p>{{customer.firstName}}</p>
 
                                         <p>{{customer.lastName}}</p>
@@ -498,7 +498,7 @@
             <div class="row dashboard-business-info">
                 <div class="col-xs-12">
                     <uib-accordion>
-                        <div uib-accordion-group is-open="statusSix.open">
+                        <div uib-accordion-group class="panel-default" is-open="statusSix.open">
                             <uib-accordion-heading>
                                 Account
                                 <i class="pull-right glyphicon"
@@ -512,14 +512,15 @@
                                     Banking Information</h2>
 
                                 <div class="col-xs-4 col-xs-offset-4">
-                                    <uib-alert type="danger" ng-if="activeBusiness.business.stripeError" role="alert">
+                                    <div uib-alert type="danger" ng-if="activeBusiness.business.stripeError"
+                                         role="alert">
                                         <h5>{{activeBusiness.business.stripeError}}</h5>
                                         <h5>If this problem persists, please contact us at contact@bookd.me for
                                             assistance.</h5>
-                                    </uib-alert>
-                                    <uib-alert type="success" ng-if="stripeUpdateSuccess" role="alert">
+                                    </div>
+                                    <div uib-alert type="success" ng-if="stripeUpdateSuccess" role="alert">
                                         Hurray! You've successfully updated payment information for your account.
-                                    </uib-alert>
+                                    </div>
                                 </div>
                                 <form name="bankForm" class="form-horizontal">
                                     <div class="col col-xs-6">

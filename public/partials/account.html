@@ -34,17 +34,17 @@
                                 <h3 ng-show="passwordChanged" class="email-success">
                                     Password changed successfully!
                                 </h3>
-                                <uib-alert class="text-center" type="danger"
-                                           ng-show="newPasswordForm.password.$error.minlength" role="alert">
+                                <div uib-alert class="text-center" type="danger"
+                                     ng-show="newPasswordForm.password.$error.minlength" role="alert">
                                     Your password must have more than 8 characters.
-                                </uib-alert>
-                                <uib-alert class="text-center" type="danger" ng-show="error" role="alert">
+                                </div>
+                                <div uib-alert class="text-center" type="danger" ng-show="error" role="alert">
                                     {{error}}
-                                </uib-alert>
-                                <uib-alert class="text-center" type="danger"
+                                </div>
+                                <div uib-alert class="text-center" type="danger"
                                            ng-show="newPasswordForm.passwordVerify.$error.validator" role="alert">
                                     Password do not match.
-                                </uib-alert>
+                                </div>
                             </div>
                         </div>
                         <h3>Account Information</h3>

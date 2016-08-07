@@ -20,10 +20,10 @@
             <div class="row">
                 <h1 class='text-center' style="margin-top:5px;">{{business.name}}</h1>
                 <h4 class="text-center">
-                    <uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
-                                on-hover="hoveringOver(value)" on-leave="overStar = null"
-                                titles="['one','two','three']">
-                    </uib-rating>
+                    <div uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
+                         on-hover="hoveringOver(value)" on-leave="overStar = null"
+                         titles="['one','two','three']">
+                    </div>
                 </h4>
                 <h4 ng-if="!business.rating">{{business.name}} has not been rated yet.</h4>
             </div>

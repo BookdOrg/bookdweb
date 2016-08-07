@@ -7,10 +7,11 @@
            finish-callback="timerFinished()">Appointment being held for: {{mminutes}} minute{{minutesS}},
         {{sseconds}} second{{secondsS}}
     </timer>
-    <uib-alert type="danger" ng-if="showNoEmployee">Sorry, this associate can't accept re-schedules for this service.
+    <div uib-alert type="danger" ng-if="showNoEmployee">Sorry, this associate can't accept re-schedules for this
+        service.
         However, your currently scheduled appointment is still active. If necessary please cancel and schedule with
         another associate.
-    </uib-alert>
+    </div>
 </div>
 <div class="modal-body">
     <div class="row">
@@ -18,8 +19,8 @@
             <h4>Select a Date to see Available Times</h4>
 
             <div style="display:inline-block; min-height:290px;">
-                <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false" class="well well-lg"
-                                custom-class="getDayClass(date, mode)" year-range="1"></uib-datepicker>
+                <div uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false" class="well well-lg"
+                     custom-class="getDayClass(date, mode)" year-range="1"></div>
             </div>
             <p>Original Appointment:</p>
 
@@ -60,13 +61,14 @@
             <h4 ng-if="availableTimes.length >= 1 && currentUser._id === employee._id">Your Schedule</h4>
             <h5 class="text-muted" ng-if="availableTimes.length > 1">(Select a new time to re-schedule this
                 appointment)</h5>
-            <uib-alert ng-if="availableTimes.length === 0  && !dayMessage && !calculatingAppointments && !datePassed"
-                       type="danger">
+            <div uib-alert
+                 ng-if="availableTimes.length === 0  && !dayMessage && !calculatingAppointments && !datePassed"
+                 type="danger">
                 {{employee.firstName}} has no
                 more availability for {{service.name}} on this day.
-            </uib-alert>
-            <uib-alert ng-if="dayMessage" type="danger">{{employee.firstName}} is not available today.
-            </uib-alert>
+            </div>
+            <div uib-alert ng-if="dayMessage" type="danger">{{employee.firstName}} is not available today.
+            </div>
             <div ng-show="!calculatingAppointments" class="col col-xs-4 col-md-3" ng-if="!datePassed"
                  ng-repeat="time in availableTimes track by $index">
                 <button ng-click="createAppointmentObj(time,$index)"
@@ -94,9 +96,10 @@
                 fulfilled and paid for, therefore it can no longer be updated. Thank you. </h4>
         </div>
         <div class="col col-md-6 text-center">
-            <uib-alert type="danger" ng-if="error">Sorry, looks like there was a problem: <br>{{error.message}}<br> You
+            <div uib-alert type="danger" ng-if="error">Sorry, looks like there was a problem: <br>{{error.message}}<br>
+                You
                 can accept another form of payment and update the status of this appointment manually by clicking 'Paid'
-            </uib-alert>
+            </div>
         </div>
         <br>
 
@@ -107,10 +110,10 @@
                 <textarea id="note" name="apptNote" ng-model="appointment.note" class="form-control"
                           required></textarea>
             </form>
-            <uib-alert type="danger"
-                       ng-show="noteForm.apptNote.$error.apptNote && noteForm.apptNote.$touched" role="alert" close="">
+            <div uib-alert type="danger"
+                 ng-show="noteForm.apptNote.$error.apptNote && noteForm.apptNote.$touched" role="alert" close="">
                 Please enter a note!
-            </uib-alert>
+            </div>
         </div>
     </div>
 </div>

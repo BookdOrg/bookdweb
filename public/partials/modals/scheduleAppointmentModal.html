@@ -52,8 +52,8 @@
                     <h4>Select a Date to see Available Times</h4>
 
                     <div style="display:inline-block; min-height:290px;">
-                        <uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false"
-                                        class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                        <div uib-datepicker ng-model="selectedDate" min-date="minDate" show-weeks="false"
+                             class="well well-sm" custom-class="getDayClass(date, mode)"></div>
                     </div>
                     <div class="col-xs-6 col-xs-push-3" ng-if="!personal">
                         <form name="externalCustomerForm" class="form-horizontal">
@@ -72,13 +72,13 @@
                 </div>
                 <div class="col col-md-6 text-center">
                     <h4 ng-if="availableTimes.length >= 1">{{employee.firstName}}'s Available Times</h4>
-                    <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
-                    </uib-alert>
-                    <uib-alert
+                    <div uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                    </div>
+                    <div uib-alert
                             ng-if="availableTimes.length === 0 && !dayMessage && !calculatingAppointments && !datePassed"
                                type="danger">{{employee.name}} has no
                         more availability for {{service.name}} on this day.
-                    </uib-alert>
+                    </div>
                     <div ng-show="!calculatingAppointments" class="col-xs-4 col-md-3"
                          ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)"

@@ -78,13 +78,15 @@
                     <div class="row">
                         <div class="col-xs-offset-1">
                             <form name="newCustomerForm" class="form-horizontal">
-                                <uib-alert ng-show="customerCreated && customer.provider === 'business'" type="success">
+                                <div uib-alert ng-show="customerCreated && customer.provider === 'business'"
+                                     type="success">
                                     {{customer.firstName}} - Added as a client
-                                </uib-alert>
-                                <uib-alert ng-show="customerCreated && customer.provider !== 'business'" type="success">
+                                </div>
+                                <div uib-alert ng-show="customerCreated && customer.provider !== 'business'"
+                                     type="success">
                                     {{customer.firstName}} is already registered with Bookd - Added as a client
-                                </uib-alert>
-                                <uib-alert ng-show="error" type="danger">{{error}}</uib-alert>
+                                </div>
+                                <div uib-alert ng-show="error" type="danger">{{error}}</div>
                                 <div class="form-group form-inline">
                                     <label for="firstName" class="col-xs-3">Name</label>
                                     <input class="form-control col-xs-6" id="firstName" type="text" placeholder="Name"
@@ -160,13 +162,13 @@
                 </div>
                 <div class="col col-md-6 text-center">
                     <h4 ng-if="availableTimes.length >= 1">{{employee.firstName}}'s Available Times</h4>
-                    <uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
-                    </uib-alert>
-                    <uib-alert
+                    <div uib-alert ng-show="dayMessage" type="danger">{{employee.name}} is not available today.
+                    </div>
+                    <div uib-alert
                             ng-if="availableTimes.length === 0 && !dayMessage && !calculatingAppointments && !datePassed"
                             type="danger">{{employee.name}} has no
                         more availability for {{service.name}} on this day.
-                    </uib-alert>
+                    </div>
                     <div ng-show="!calculatingAppointments" class="col-xs-4 col-md-3"
                          ng-repeat="time in availableTimes track by $index">
                         <button ng-click="createAppointmentObj(time,$index)"

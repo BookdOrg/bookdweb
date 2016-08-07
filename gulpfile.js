@@ -12,6 +12,8 @@ var browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
+    ngConstant = require('gulp-ng-constant'),
+    rename = require('gulp-rename'),
     watchify = require('watchify');
 
 // Define file path variables
@@ -59,7 +61,17 @@ gulp.task('browserifyProdOnce', function (done) {
         });
     done();
 });
-
+gulp.task('constants', function () {
+    var myConfig = require('./config.json');
+    var envConfig = myConfig[process.env.NODE_ENV];
+    return ngConstant({
+        constants: envConfig,
+        stream: true
+    })
+    // .pipe(uglify())
+        .pipe(rename('env.js'))
+        .pipe(gulp.dest('./public/javascripts/'));
+});
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
 //gulp.task('processStyles', function() {
 //    return gulp.src(paths.css + '*.css')

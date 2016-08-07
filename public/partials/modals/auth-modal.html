@@ -2,16 +2,16 @@
     <uib-tab heading="{{tabs[0].title}}" active="tabs[0].active" select="refreshErrors()">
         <div class="modal-body">
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
                     {{error}}
-                </uib-alert>
+                </div>
             </div>
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                           ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert"
-                           close="">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                     ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert"
+                     close="">
                     Please enter a valid email!
-                </uib-alert>
+                </div>
             </div>
             <div class="row">
                 <form name="loginForm" class="col-xs-offset-2 col-xs-8 css-form">
@@ -56,27 +56,27 @@
     <uib-tab heading="{{tabs[1].title}}" active="tabs[1].active" select="refreshErrors()">
         <div class="modal-body row">
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger" ng-show="error" role="alert">
                     {{error}}
-                </uib-alert>
+                </div>
             </div>
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                           ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                     ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
                 Please enter a valid email
-            </uib-alert>
+                </div>
             </div>
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                           ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                     ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
                     Your password must have more than 8 characters.
-                </uib-alert>
+                </div>
             </div>
             <div class="row">
-                <uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
-                           ng-show="signUpForm.passwordVerify.$error.validator" role="alert">
+                <div uib-alert class="col-xs-8 col-xs-offset-2 text-center" type="danger"
+                     ng-show="signUpForm.passwordVerify.$error.validator" role="alert">
                     Password do not match.
-                </uib-alert>
+                </div>
             </div>
             <div class="row">
                 <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
