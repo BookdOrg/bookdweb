@@ -27,6 +27,7 @@ require('fullcalendar');
 require('oauthio-web');
 require('angular-socket-io');
 require('angular-loading-bar');
+require('angularjs-dropdown-multiselect');
 var app = angular.module('cc', [
     require('angular-animate'),
     require('angular-touch'),

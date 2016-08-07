@@ -1,13 +1,13 @@
 <header>
-    <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-pause="true">
-        <uib-slide ng-repeat="slide in slides" active="slide.active" index="slide.id">
+    <div uib-carousel active="active" no-pause="true" interval="myInterval" no-wrap="noWrapSlides">
+        <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
             <img style="background: url({{slide.image}}) {{slide.style}} no-repeat; background-size: cover; display: block;
     height:70%;
     width:170%; -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     text-align: center;"/>
-        </uib-slide>
+        </div>
         <div class="carousel-caption">
             <div class="intro-text full-width">
                 <div class="intro-lead-in">Book Appointments</div>
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-    </uib-carousel>
+    </div>
 </header>
 <section id="services">
     <div class="container">

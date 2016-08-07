@@ -7,7 +7,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business,
 
     $scope.serviceEmployees = [];
     /**
-     * Defines the settings we want to use in the angular-dropdown-multiselect
+     * Defines the settings we want to use in the angularjs-dropdown-multiselect
      *
      * Documentation can be found here: http://dotansimha.github.io/angularjs-dropdown-multiselect/#/
      *
