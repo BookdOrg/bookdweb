@@ -47,10 +47,9 @@ var app = angular.module('cc', [
 ]);
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
-    .constant('localDevHost', 'localhost')
-    .constant('remoteHost', 'dev.bookd.me')
-    .constant('remotePort', '8112')
-    .constant('remoteSocketPort', ':8112') //DEV: :8112 LOCAL:  :3001
+    .constant('remoteHost', 'localhost')
+    .constant('remotePort', '3001')
+    .constant('remoteSocketPort', ':3001') //DEV: :8112 LOCAL:  :3001
     .constant('facebookApi', 'https://graph.facebook.com/')
     .constant('googleApi', 'https://www.googleapis.com/plus/v1/people/');
 
@@ -282,6 +281,9 @@ app.config([
                     'content': {
                         templateUrl: 'partials/terms.html'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.gotoTop('top-legal');
                 }
             })
             .state('privacy', {
@@ -294,6 +296,9 @@ app.config([
                     'content': {
                         templateUrl: 'partials/privacy.html'
                     }
+                },
+                onEnter: function ($rootScope) {
+                    $rootScope.gotoTop('top-legal');
                 }
             })
             .state('about', {
@@ -341,7 +346,7 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory, socketService) {
+                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location) {
     OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
     $rootScope.currentUser = auth.currentUser();
     $rootScope.cloudinaryBaseUrl = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,w_200/v';
@@ -391,22 +396,22 @@ app.config([
             $templateCache.remove(current.templateUrl);
         }
     });
-    //if ($state.current.name === 'landing') {
-    //    $rootScope.showLandingNav = true;
-    //} else {
-    //    $rootScope.showLandingNav = false;
-    //}
     $rootScope.$on('$stateChangeError', function (event, toState, toStateParams, fromState, fromStateParams, error) {
 
         if (error) {
-            console.log(error);
             $state.go('landing');
             var navViewModel = $rootScope.$new();
             $controller('NavCtrl', {$scope: navViewModel});
             navViewModel.open('md', 'landing');
         }
     });
-
+    $rootScope.$on('$viewContentLoaded', function (event, toState, toStateParams, fromState, fromStateParams, error) {
+        if ($location.$$path == '/privacy' || $location.$$path == '/terms') {
+            $rootScope.gotoTop('top-legal');
+        } else if (!error) {
+            $rootScope.gotoTop();
+        }
+    });
     //TODO Move this to a service!
     $rootScope.query = {
         location: null,
@@ -482,5 +487,18 @@ app.config([
                     $state.go('search');
                 }
             });
+    };
+    $rootScope.gotoTop = function (anchor) {
+        // set the location.hash to the id of
+        // the element you wish to scroll to.
+        if (!anchor) {
+            $location.hash('top');
+        } else {
+            $location.hash(anchor);
+        }
+
+
+        // call $anchorScroll()
+        $anchorScroll();
     };
 });
