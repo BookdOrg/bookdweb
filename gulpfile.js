@@ -8,7 +8,6 @@ var browserify = require('browserify'),
     gutil = require('gulp-util'),
     minifyCss = require('gulp-minify-css'),
     ngAnnotate = require('gulp-ng-annotate'),
-    notifier = require('node-notifier'),
     plumber = require('gulp-plumber'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -105,7 +104,6 @@ function bundleProdOnce() {
         .pipe(gulp.dest(paths.dist));
 }
 function errorHandler(err) {
-    notifier.notify({message: 'Error: ' + err.message});
     gutil.log(gutil.colors.red('Error: ' + err.message));
 }
 

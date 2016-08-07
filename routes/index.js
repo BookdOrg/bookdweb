@@ -731,7 +731,7 @@ router.post('/login', function (req, res, next) {
  **/
 router.post('/register', function (req, res) {
     var user = new User();
-    var welcomeTemplateDir = path.join(__dirname, '../templates', 'welcome');
+    var welcomeTemplateDir = path.join(__dirname, '../emailTemplates', 'welcome');
     if (req.body.provider === 'bookd') {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({message: 'Please fill out all fields'});
@@ -843,8 +843,8 @@ router.post('/business/appointments/create', auth, function (req, res, next) {
 
     appointment.status = 'active';
 
-    var firstApptTemplateDir = path.join(__dirname, '../templates', 'customer-first-appointment');
-    var genApptTemplateDir = path.join(__dirname, '../templates', 'customer-general-appointment');
+    var firstApptTemplateDir = path.join(__dirname, '../emailTemplates', 'customer-first-appointment');
+    var genApptTemplateDir = path.join(__dirname, '../emailTemplates', 'customer-general-appointment');
 
     var firstApptTemplate = new EmailTemplate(firstApptTemplateDir);
     var genApptTemplate = new EmailTemplate(genApptTemplateDir);
@@ -986,7 +986,7 @@ router.post('/business/appointments/update', auth, function (req, res, next) {
     var updatedAppointmentStart = req.body.start;
     var updatedAppointmentEnd = req.body.end;
     var updatedAppointmentId = req.body._id;
-    var rescheduleTemplateDir = path.join(__dirname, '../templates', 'employee-reschedule');
+    var rescheduleTemplateDir = path.join(__dirname, '../emailTemplates', 'employee-reschedule');
     var templateObj = {};
     if (req.body.customer && req.body.customer._id === req.payload._id || req.body.customer === req.payload._id) {
         Appointment.findOne({'_id': updatedAppointmentId}).populate([
@@ -1096,7 +1096,7 @@ router.post('/business/appointment/charge', auth, function (req, res, next) {
     var appointmentCard = req.body.card;
     var price = req.body.price;
     var businessId = req.body.businessId;
-    var successTemplateDir = path.join(__dirname, '../templates', 'customer-transaction-success');
+    var successTemplateDir = path.join(__dirname, '../emailTemplates', 'customer-transaction-success');
     var fee = (price * .05) + 30;
 
     var successTemplate = new EmailTemplate(successTemplateDir);
@@ -1197,13 +1197,13 @@ router.post('/business/appointments/cancel', auth, function (req, res, next) {
     var templateObj = {};
     switch (req.payload._id) {
         case customer:
-            templateDir = path.join(__dirname, '../templates', 'customer-cancel');
+            templateDir = path.join(__dirname, '../emailTemplates', 'customer-cancel');
             break;
         case employee:
-            templateDir = path.join(__dirname, '../templates', 'employee-cancel');
+            templateDir = path.join(__dirname, '../emailTemplates', 'employee-cancel');
             break;
         default:
-            templateDir = path.join(__dirname, '../templates', 'employee-cancel');
+            templateDir = path.join(__dirname, '../emailTemplates', 'employee-cancel');
     }
     if (customer !== null) {
         User.findOne({'_id': customer}).exec(function (err, user) {
@@ -1400,7 +1400,7 @@ router.get('/business/info', function (req, res, next) {
  * employeeId -
  **/
 router.post('/business/add-employee', auth, function (req, res, next) {
-    var addEmployeeTemplateDir = path.join(__dirname, '../templates', 'add-employee');
+    var addEmployeeTemplateDir = path.join(__dirname, '../emailTemplates', 'add-employee');
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var businessName = req.body.businessName;
@@ -1662,7 +1662,7 @@ router.post('/business/remove-employee', auth, function (req, res, next) {
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
     var employeeSocketObj = _.findWhere(clients, {'customId': employeeId});
-    var removeEmployeeTemplateDir = path.join(__dirname, '../templates', 'remove-employee');
+    var removeEmployeeTemplateDir = path.join(__dirname, '../emailTemplates', 'remove-employee');
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         if (err) {
@@ -1892,7 +1892,7 @@ router.post('/business/claim-request', auth, function (req, res, next) {
     business.tier = req.body.tier;
 
     Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
-        var businessRequestDir = path.join(__dirname, '../templates', 'business-request');
+        var businessRequestDir = path.join(__dirname, '../emailTemplates', 'business-request');
         if (err) {
             return next(err);
         }
@@ -1951,8 +1951,8 @@ router.get('/business/service-detail', auth, function (req, res, next) {
  *
  */
 router.post('/business/update-payments-account', auth, function (req, res, next) {
-    var bankingUpdatedSuccessDir = path.join(__dirname, '../templates', 'banking-updated-success');
-    //var bankingUpdatedFailureDir = path.join(__dirname, '../templates', 'banking-updated-failure');
+    var bankingUpdatedSuccessDir = path.join(__dirname, '../emailTemplates', 'banking-updated-success');
+    //var bankingUpdatedFailureDir = path.join(__dirname, '../emailTemplates', 'banking-updated-failure');
     var bankingUpdatedSuccessTemplate = new EmailTemplate(bankingUpdatedSuccessDir);
     var businessId = req.body.businessId;
     var bankInfo = req.body.bankAccount;
@@ -2094,7 +2094,7 @@ router.post('/user/password', function (req, res, next) {
             });
         },
         function (token, user, done) {
-            var resetPassDir = path.join(__dirname, '../templates', 'password-reset');
+            var resetPassDir = path.join(__dirname, '../emailTemplates', 'password-reset');
             var resetPasswordTemplate = new EmailTemplate(resetPassDir);
             var data = {
                 token: token,

@@ -18,9 +18,10 @@
     "ngGeolocation": "0.0.8",
     "angular-ui-calendar": "1.0.2",
     "angularjs-dropdown-multiselect": "1.5.2",
-    "fullcalendar": "2.7.1"
+    "fullcalendar": "2.9.1"
   },
   "resolutions": {
-    "angular": "^1.2.x"
+    "angular": "^1.2.x",
+    "fullcalendar": "~2.7.1"
   }
 }

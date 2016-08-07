@@ -9,6 +9,7 @@ module.exports = function ($scope, $controller) {
     };
     $scope.myInterval = 10000;
     $scope.noWrapSlides = false;
+    $scope.active = 0;
 
     $scope.slides = [
         {
