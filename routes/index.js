@@ -1285,9 +1285,14 @@ router.get('/business/search', function (req, res, next) {
         path: 'employees',
         select: '_id businessAppointments name firstName lastName avatarVersion provider providerId availabilityArray associateDescription authorizedUsers'
     }];
-
+    var formattedQuery;
+    if (typeof query.location === 'string') {
+        formattedQuery = query.term + ' ' + query.location;
+    } else {
+        formattedQuery = query.term + ' ' + query.location.vicinity;
+    }
     var parameters = {
-        query: query
+        query: formattedQuery
     };
     googleplaces.textSearch(parameters, function (error, response) {
         if (error) {
@@ -1333,6 +1338,10 @@ router.get('/business/search', function (req, res, next) {
         });
         // res.json(response);
     });
+
+    function propietorSearch(term, location) {
+        Business.findOne({"":})
+    }
 });
 
 /**
@@ -1614,6 +1623,109 @@ router.get('/business/customers', auth, function (req, res, next) {
         }
         res.json(results.customers);
     })
+});
+router.post('/user/associate-enable', auth, function (req, res, next) {
+    var id = req.payload._id;
+
+    User.findOne({"_id": id}).exec(function (err, user) {
+        if (!user.isPropietor) {
+            if (!user.stripeId) {
+                stripe.accounts.create({
+                    country: 'US',
+                    managed: true,
+                    business_name: user.name
+                }, function (err, response) {
+                    user.stripeId = response.id;
+                    user.stripeKeys = response.keys;
+                    user.save(function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        //res.json({success: 'success'});
+                    });
+                });
+            }
+            var business = new Business();
+            business.name = req.query.businessName;
+            business.save(function (err, business) {
+                if (err) {
+                    return next(err);
+                }
+            });
+            var availabilityIndex = _.findIndex(user.availabilityArray, {'businessId': 0})
+            if (!user.availabilityArray[availabilityIndex]) {
+                var availability = [
+                    {
+                        day: 'Monday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Tuesday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Wednesday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Thursday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Friday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Saturday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    },
+                    {
+                        day: 'Sunday',
+                        start: moment().hour(6).minute(0).format('hh:mm a'),
+                        end: moment().hour(19).minute(0).format('hh:mm a'),
+                        gaps: [],
+                        available: false
+                    }];
+                user.availabilityArray.push({
+                    'businessName': businessName,
+                    'businessId': businessId,
+                    'availability': availability
+                });
+            }
+            user.isPropietor = true;
+            user.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+            })
+        } else {
+            user.isPropietor = false;
+
+            user.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+            })
+        }
+    });
 });
 router.post('/user/availability/update', auth, function (req, res, next) {
     var availabilityObj = req.body.availability;

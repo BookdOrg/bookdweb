@@ -467,14 +467,7 @@ app.config([
     $rootScope.searched = false;
     $rootScope.search = function (query) {
         $rootScope.fetchingQuery = true;
-        var formattedQuery;
-        if (typeof query.location === 'string') {
-            formattedQuery = query.term + ' ' + query.location;
-        } else {
-            formattedQuery = query.term + ' ' + query.location.vicinity;
-        }
-
-        businessFactory.search(formattedQuery)
+        businessFactory.search(query)
             .then(function (data) {
                 $rootScope.searched = true;
                 $rootScope.fetchingQuery = false;

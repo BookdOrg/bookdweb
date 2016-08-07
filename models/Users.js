@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
     businessOwner: Boolean,
     hash: String,
     isAssociate: Boolean,
+    isPropietor: Boolean,
     isAdmin: Boolean,
     settings: Object,
     availabilityArray: [],
