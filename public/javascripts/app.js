@@ -28,6 +28,11 @@ require('oauthio-web');
 require('angular-socket-io');
 require('angular-loading-bar');
 require('angularjs-dropdown-multiselect');
+
+angular.module('ngEnvVars.config', []);
+
+// Constants
+require('./config.js');
 var app = angular.module('cc', [
     require('angular-animate'),
     require('angular-touch'),
@@ -44,7 +49,8 @@ var app = angular.module('cc', [
     'ui.router',
     'ui.validate',
     'btford.socket-io',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'ngEnvVars.config'
 ]);
 app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
     .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
@@ -65,7 +71,7 @@ app.config([
     '$urlRouterProvider',
     '$locationProvider',
     'NotificationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider, ENV) {
+    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider) {
         NotificationProvider.setOptions({
             delay: 5000,
             startTop: 200,
@@ -75,8 +81,6 @@ app.config([
             positionX: 'center',
             positionY: 'top'
         });
-        // console.log(env);
-        console.log(ENV);
         $locationProvider.html5Mode(true);
         $stateProvider
             .state('landing', {
@@ -349,11 +353,12 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location) {
-    OAuth.initialize('mPBNkFFrqBA1L6cT0C7og9-xdQM');
+                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location, ENV_VARS) {
+    OAuth.initialize(ENV_VARS.oAuthKey);
     $rootScope.currentUser = auth.currentUser();
-    $rootScope.cloudinaryBaseUrl = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,w_200/v';
-    $rootScope.cloudinaryDefaultPic = 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_200,w_200/v1432411957/profile/placeholder.jpg';
+    $rootScope.facebookApi = ENV_VARS.facebookApi;
+    $rootScope.cloudinaryBaseUrl = ENV_VARS.CLOUDINARY_BASE;
+    $rootScope.cloudinaryDefaultPic = ENV_VARS.CLOUDINARY_Default;
 
     if (auth.isLoggedIn()) {
         notificationFactory.getNotifications().then(

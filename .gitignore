@@ -3,4 +3,5 @@ public/stylesheets/dist
 node_modules/
 .idea/
 bower_components/
+angular-env-vars/.env
 .DS_Store

@@ -1,4 +1,4 @@
-module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, facebookApi, socketService) {
+module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploader, $state, $stateParams, socketService) {
     //Settings for the ratings bar
     $scope.hoveringOver = function (value) {
         $scope.overStar = value;
@@ -20,8 +20,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
         //        });
         //}
     });
-
-    $scope.facebookApi = facebookApi;
 
     $scope.$on('$destroy', function (event) {
         socketService.removeAllListeners();

@@ -1,7 +1,6 @@
 module.exports = function ($scope, $state, auth, userFactory, businessFactory, uiCalendarConfig, $compile,
-                           $uibModal, socketService, $rootScope, Notification, $interval, $timeout, facebookApi) {
+                           $uibModal, socketService, $rootScope, Notification, $interval, $timeout) {
     $scope.radioModel = 'Week';
-    $scope.facebookApi = facebookApi;
     /**
      * The business currently selected by the Bookd Associate
      * @type {{business: {}}}

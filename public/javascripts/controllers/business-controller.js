@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, $stateParams, businessFactory, location, $rootScope, $uibModal, NgMap,
-                           $controller, facebookApi, userFactory, Notification, utilService, business) {
+                           $controller, userFactory, Notification, utilService, business) {
     $scope.business = business;
     //utilService.getGooglePlusPhotos($scope.business.info.employees, 0);
 
@@ -8,7 +8,6 @@ module.exports = function ($scope, auth, $state, $stateParams, businessFactory, 
     $scope.animationsEnabled = true;
     $scope.selectedTab = true;
 
-    $scope.facebookApi = facebookApi;
 
     $scope.toggleEdit = function () {
         $scope.editMode = !$scope.editMode;

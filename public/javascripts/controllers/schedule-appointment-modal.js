@@ -2,9 +2,8 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, socketService, auth, $state, $rootScope,
-                           userFactory, personal, payments, service, notificationFactory, facebookApi, utilService, appointmentsFactory, customers) {
+                           userFactory, personal, payments, service, notificationFactory, utilService, appointmentsFactory, customers) {
 
-    $scope.facebookApi = facebookApi;
     $scope.service = service;
 
     $scope.stripePrice = $scope.service.price * 100;

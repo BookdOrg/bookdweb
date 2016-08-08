@@ -1,6 +1,7 @@
 /**
  * Created by jonfor on 11/24/15.
  */
+var ENV = process.env.NODE_ENV || 'development';
 var browserify = require('browserify'),
     buffer = require('vinyl-buffer'),
     concat = require('gulp-concat'),
@@ -12,8 +13,10 @@ var browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
-    ngConstant = require('gulp-ng-constant'),
-    rename = require('gulp-rename'),
+    ngConfig = require('gulp-ng-config'),
+    path = require('path'),
+    fs = require('fs'),
+    config = require('./config.js'),
     watchify = require('watchify');
 
 // Define file path variables
@@ -61,17 +64,11 @@ gulp.task('browserifyProdOnce', function (done) {
         });
     done();
 });
-gulp.task('constants', function () {
-    var myConfig = require('./config.json');
-    var envConfig = myConfig[process.env.NODE_ENV];
-    return ngConstant({
-        constants: envConfig,
-        stream: true
-    })
-    // .pipe(uglify())
-        .pipe(rename('env.js'))
-        .pipe(gulp.dest('./public/javascripts/'));
+
+gulp.task('ng-config', function () {
+    configure();
 });
+
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
 //gulp.task('processStyles', function() {
 //    return gulp.src(paths.css + '*.css')
@@ -81,7 +78,17 @@ gulp.task('constants', function () {
 //        .pipe(concat('app.min.css'))
 //        .pipe(gulp.dest(paths.cssDist));
 //});
-
+function configure() {
+    fs.writeFileSync('./config.json',
+        JSON.stringify(config[ENV]));
+    gulp.src('./config.json')
+        .pipe(
+            ngConfig('ngEnvVars.config', {
+                createModule: false
+            })
+        )
+        .pipe(gulp.dest('./public/javascripts'))
+}
 function bundle() {
     return bundler.bundle()
         .pipe(plumber({errorHandler: errorHandler}))
@@ -120,5 +127,6 @@ function errorHandler(err) {
 }
 
 gulp.task('default', [], function () {
+    gulp.start('ng-config')
     gulp.start('browserify');
 });

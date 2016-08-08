@@ -2,9 +2,8 @@
  * Created by Jonfor on 11/28/15.
  */
 module.exports = function ($scope, $uibModalInstance, businessFactory, userFactory, socketService, $http, businessInfo,
-                           notificationFactory, facebookApi) {
+                           notificationFactory) {
 
-    $scope.facebookApi = facebookApi;
     /**
      * Creates a new employee,
      *
