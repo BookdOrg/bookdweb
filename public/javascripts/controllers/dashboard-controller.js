@@ -101,6 +101,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     $scope.updatedStripeAccount = {};
     $scope.createPaymentsAccount = function (bankAccount, stripeAccount) {
         $scope.updatingPayments = true;
+        stripeAccount.type = bankAccount.type;
         var updateObj = {
             businessId: $scope.activeBusiness.business._id,
             bankAccount: bankAccount,
