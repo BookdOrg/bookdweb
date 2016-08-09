@@ -512,13 +512,13 @@
                                     Banking Information</h2>
 
                                 <div class="col-xs-4 col-xs-offset-4">
-                                    <div uib-alert type="danger" ng-if="activeBusiness.business.stripeError"
+                                    <div uib-alert class="alert-danger" ng-if="activeBusiness.business.stripeError"
                                          role="alert">
                                         <h5>{{activeBusiness.business.stripeError}}</h5>
                                         <h5>If this problem persists, please contact us at contact@bookd.me for
                                             assistance.</h5>
                                     </div>
-                                    <div uib-alert type="success" ng-if="stripeUpdateSuccess" role="alert">
+                                    <div uib-alert class="alert-success" ng-if="stripeUpdateSuccess" role="alert">
                                         Hurray! You've successfully updated payment information for your account.
                                     </div>
                                 </div>

@@ -34,15 +34,15 @@
                                 <h3 ng-show="passwordChanged" class="email-success">
                                     Password changed successfully!
                                 </h3>
-                                <div uib-alert class="text-center" type="danger"
+                                <div uib-alert class="text-center alert-danger"
                                      ng-show="newPasswordForm.password.$error.minlength" role="alert">
                                     Your password must have more than 8 characters.
                                 </div>
-                                <div uib-alert class="text-center" type="danger" ng-show="error" role="alert">
+                                <div uib-alert class="text-center alert-danger" ng-show="error" role="alert">
                                     {{error}}
                                 </div>
-                                <div uib-alert class="text-center" type="danger"
-                                           ng-show="newPasswordForm.passwordVerify.$error.validator" role="alert">
+                                <div uib-alert class="text-center alert-danger"
+                                     ng-show="newPasswordForm.passwordVerify.$error.validator" role="alert">
                                     Password do not match.
                                 </div>
                             </div>
