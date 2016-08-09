@@ -43,7 +43,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business,
          *
          * @type {*|Array}
          */
-        service.employees = _.pluck($scope.serviceEmployees, '_id');
+        service.employees = _.map($scope.serviceEmployees, '_id');
         if (service.employees.length == 0) {
             $scope.showServiceError = true;
             $timeout(function () {

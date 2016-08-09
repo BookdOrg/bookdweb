@@ -54,7 +54,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
         var minutes = moment.duration(hours).asMinutes();
         service.duration = minutes + service.minutes;
         //Set the services array of employees equal to the ones selected in the multi-select. Array of _id;s
-        service.employees = _.pluck($scope.serviceEmployees, '_id');
+        service.employees = _.map($scope.serviceEmployees, '_id');
         if (service.employees.length == 0) {
             $scope.showServiceError = true;
             $timeout(function () {

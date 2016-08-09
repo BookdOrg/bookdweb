@@ -5,3 +5,5 @@ node_modules/
 bower_components/
 angular-env-vars/.env
 .DS_Store
+/config.json
+/public/javascripts/config.js
