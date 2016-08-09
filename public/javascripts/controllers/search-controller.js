@@ -80,16 +80,11 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
     });
 
     $scope.showDetail = function (business) {
-        $scope.business = business;
-        if ($scope.map) {
-            $scope.map.showInfoWindow('info', business.id);
-        } else {
-            NgMap.getMap().then(function (map) {
-                $scope.map = map;
+        if ($(window).width() > 768) {
+            $scope.business = business;
+            if ($scope.map) {
                 $scope.map.showInfoWindow('info', business.id);
-            }, function (err) {
-                console.log(err);
-            });
+            }
         }
     };
 
