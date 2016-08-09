@@ -55,39 +55,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                 //handle error with err
             });
     };
-    //$scope.googleLogin = function () {
-    //    OAuth.popup('google_plus', {cache: true})
-    //        .done(function (result) {
-    //            //console.log(result);
-    //            result.get('plus/v1/people/me')
-    //                .done(function (response) {
-    //                    var user = {
-    //                        'username': response.emails[0].value,
-    //                        'provider': result.provider
-    //                    };
-    //                    var profilePicture = response.image.url.replace('sz=50', 'sz=200');
-    //                    auth.logIn(user, profilePicture)
-    //                        .then(function () {
-    //                            onlineData.user = $rootScope.currentUser._id;
-    //                            socketService.emit('online', onlineData);
-    //                            $state.go(state, {tier: tier});
-    //                            getNotifications();
-    //                            $uibModalInstance.close();
-    //                        }, function (error) {
-    //                            $scope.error = error.message;
-    //                            $window.localStorage.removeItem('oauthio_provider_google_plus');
-    //                        });
-    //                })
-    //                .fail(function (err) {
-    //                    //console.log(err);
-    //                    //handle error with err
-    //                });
-    //        })
-    //        .fail(function (err) {
-    //            //console.log(err);
-    //            //handle error with err
-    //        });
-    //};
     $scope.facebookSignup = function () {
         OAuth.popup('facebook', {cache: true})
             .done(function (result) {
@@ -124,42 +91,6 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
                 //console.log(err);
             });
     };
-    //$scope.googleSignup = function () {
-    //    OAuth.popup('google_plus', {cache: true})
-    //        .done(function (result) {
-    //            result.get('plus/v1/people/me')
-    //                .done(function (response) {
-    //                    var firstLast = response.displayName.split(' ', 2);
-    //                    var firstName = firstLast[0];
-    //                    var lastName = firstLast[1];
-    //                    var user = {
-    //                        'username': response.emails[0].value,
-    //                        'name': response.displayName,
-    //                        'firstName': firstName,
-    //                        'lastName': lastName,
-    //                        'provider': result.provider,
-    //                        'providerId': response.id
-    //                    };
-    //                    var profilePicture = response.image.url.replace('sz=50', 'sz=200');
-    //                    auth.register(user, profilePicture)
-    //                        .then(function () {
-    //                            onlineData.user = $rootScope.currentUser._id;
-    //                            socketService.emit('online', onlineData);
-    //                            $state.go(state, {tier: tier});
-    //                            $rootScope.currentUser.notifications = [];
-    //                            $uibModalInstance.close();
-    //                        }, function (error) {
-    //                            $scope.error = error.message;
-    //                        });
-    //                })
-    //                .fail(function (err) {
-    //                    //console.log(err);
-    //                });
-    //        })
-    //        .fail(function (err) {
-    //            //console.log(err);
-    //        });
-    //};
     /**
      * Register via Bookd
      */
