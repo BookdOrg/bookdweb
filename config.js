@@ -26,6 +26,4 @@ var environments = {
         remotePort: "8112"
     }
 };
-// environments.production.buildpack  = process.env.BUILDPACK_URL;
-
 module.exports = environments;

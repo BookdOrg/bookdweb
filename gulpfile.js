@@ -127,6 +127,6 @@ function errorHandler(err) {
 }
 
 gulp.task('default', [], function () {
-    gulp.start('ng-config')
+    gulp.start('ng-config');
     gulp.start('browserify');
 });
