@@ -15,8 +15,7 @@ passport.use(new LocalStrategy(
             if (!user.validPassword(password)) {
                 return done(null, false, {message: 'Incorrect password.'});
             }
-            user.hash = '';
-            user.salt = '';
+            user.hash = undefined;
             return done(null, user);
         });
     }
