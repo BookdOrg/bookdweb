@@ -1,6 +1,5 @@
 module.exports = function ($scope, businessFactory, $controller, $rootScope, NgMap, socketService, $state) {
 
-    var vm = this;
     $scope.businesses = businessFactory.businesses;
 
     $scope.hoveringOver = function (value) {
@@ -39,9 +38,9 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
             bounds.extend(latlng);
         }
         NgMap.getMap().then(function (map) {
-            vm.map = map;
-            vm.map.setCenter(bounds.getCenter());
-            vm.map.fitBounds(bounds);
+            $scope.map = map;
+            $scope.map.setCenter(bounds.getCenter());
+            $scope.map.fitBounds(bounds);
         });
         //console.log("$scope.positions", $scope.positions);
     };
@@ -82,17 +81,24 @@ module.exports = function ($scope, businessFactory, $controller, $rootScope, NgM
 
     $scope.showDetail = function (business) {
         $scope.business = business;
-        if (vm.map) {
-            vm.map.showInfoWindow('info', business.id);
+        if ($scope.map) {
+            $scope.map.showInfoWindow('info', business.id);
+        } else {
+            NgMap.getMap().then(function (map) {
+                $scope.map = map;
+                $scope.map.showInfoWindow('info', business.id);
+            }, function (err) {
+                console.log(err);
+            });
         }
     };
 
     $scope.showDetailClicked = function (e, business) {
         $scope.business = business;
-        vm.map.showInfoWindow('info', business.id);
+        $scope.map.showInfoWindow('info', business.id);
     };
 
     $scope.hideDetail = function () {
-        vm.map.hideInfoWindow('info');
+        $scope.map.hideInfoWindow('info');
     };
 };
