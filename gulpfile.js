@@ -7,7 +7,7 @@ var browserify = require('browserify'),
     concat = require('gulp-concat'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
-    minifyCss = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
     ngAnnotate = require('gulp-ng-annotate'),
     plumber = require('gulp-plumber'),
     source = require('vinyl-source-stream'),
@@ -25,7 +25,7 @@ var paths = {
     src: 'public/javascripts/',         // Source path
     dist: 'public/javascripts/dist/',   // Distribution path
     test: 'testSpecs/',                 // Test path
-    css: 'public/stylesheets/',         // Stylesheets path
+    css: 'public/stylesheets/**/*',         // Stylesheets path
     cssDist: 'public/stylesheets/dist'  // Stylesheets dist path
 };
 
@@ -70,14 +70,13 @@ gulp.task('ng-config', function () {
 });
 
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
-//gulp.task('processStyles', function() {
-//    return gulp.src(paths.css + '*.css')
-//        .pipe(sourcemaps.init({loadMaps: true}))
-//        .pipe(minifyCss())
-//        .pipe(sourcemaps.write())
-//        .pipe(concat('app.min.css'))
-//        .pipe(gulp.dest(paths.cssDist));
-//});
+gulp.task('minify-css', function () {
+    return gulp.src(paths.css)
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(cleanCSS())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.cssDist));
+});
 function configure() {
     fs.writeFileSync('./config.json',
         JSON.stringify(config[ENV]));
@@ -128,5 +127,6 @@ function errorHandler(err) {
 
 gulp.task('default', [], function () {
     gulp.start('ng-config');
+    gulp.start('minify-css');
     gulp.start('browserify');
 });
