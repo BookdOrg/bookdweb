@@ -500,7 +500,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             'uib-popover-template': "'mydashPopoverTemplate.html'",
             'popover-append-to-body': 'true',
             'popover-placement': "left",
-            'popover-trigger': 'mouseenter',
+            'popover-trigger': "'mouseenter'",
             'popover-title': 'Service - ' + event.title
         });
         $compile(element)($scope);
