@@ -1,3 +1,11 @@
+/*body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+*/
+/*html, body {*/
+/*height: 100%;*/
+/*}*/
 .carousel-indicators {
     visibility: hidden;
 }
@@ -73,13 +81,13 @@ body {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-.coverTitle h3 {
+.coverrTitle h3 {
     font-family: "Abel", Arial, sans-serif;
     font-weight: 400;
     color: white;
 }
 
-.coverTitle h1 {
+.coverrTitle h1 {
     font-family: "Abel", Arial, sans-serif;
     font-weight: 400;
     font-size: 50px;
