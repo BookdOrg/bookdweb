@@ -2053,7 +2053,7 @@ router.post('/business/contact', function (req, res, next) {
             body;
 
         subject = 'Business Inquiry';
-        body = '<br>' + name + '</br>' + '<br>' + message + '</br>' + '<br>' + phone + '</br>' + '<br>' + email + '</br>';
+      body = '</br>' + name + '</br>' + message + '</br>' + phone + '</br>' + email;
         var mailOptions = {
             from: 'Bookd <contact@bookd.me>', // sender address
             to: 'Bookd <contact@bookd.me>', // list of receivers
