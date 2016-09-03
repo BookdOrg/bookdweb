@@ -266,15 +266,28 @@ app.config([
                     }
                 }
             })
-          .state('business_register', {
-            url: '/business/register',
+          .state('apply_one', {
+            url: '/apply/1',
             views: {
               'nav': {
                 templateUrl: '/partials/bookdNav.html',
                 controller: 'NavCtrl'
               },
               'content': {
-                templateUrl: '/partials/businessRegister.html',
+                templateUrl: '/partials/businessRegisterOne.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
+          .state('apply_two', {
+            url: '/apply/2',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegisterTwo.html',
                 controller: 'businessRegisterCtrl'
               }
             }

@@ -147,13 +147,14 @@ module.exports = function ($scope, $state, auth, socketService, $rootScope) {
       'firstName': $scope.user.firstName,
       'lastName': $scope.user.lastName,
       'password': $scope.user.password,
+      'phone': phone,
       'provider': 'bookd'
     };
     auth.register(user)
       .then(function () {
         onlineData.user = $rootScope.currentUser._id;
         socketService.emit('online', onlineData);
-        $state.go('business_register');
+        $state.go('apply_one');
         $rootScope.currentUser.notifications = [];
       }, function (error) {
         $scope.error = error.message;

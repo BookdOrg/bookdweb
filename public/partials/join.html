@@ -47,6 +47,13 @@
             </div>
 
             <div class="form-group">
+                <label>Phone Number</label>
+                <input type="number" name="signUpPhone" class="form-control" placeholder="Phone Number"
+                       ng-model="user.phone" required
+                       ng-model-options="{ updateOn: 'default blur',debounce: {'default':1000} }">
+            </div>
+
+            <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="signUpPassword" class="form-control" placeholder="Password"
                        ng-model="user.password" ng-minlength="8" required
