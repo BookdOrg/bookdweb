@@ -184,8 +184,7 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/partner.html',
-                        controller: 'NavCtrl'
+                      templateUrl: '/partials/partner.html'
                     }
                 }
             })
@@ -256,9 +255,6 @@ app.config([
             })
             .state('join', {
                 url: '/join',
-                params: {
-                    tier: null
-                },
                 views: {
                     'nav': {
                         templateUrl: '/partials/bookdNav.html',
@@ -270,6 +266,19 @@ app.config([
                     }
                 }
             })
+          .state('business_register', {
+            url: '/business/register',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegister.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
             .state('terms', {
                 url: '/terms',
                 views: {

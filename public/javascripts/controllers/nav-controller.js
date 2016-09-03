@@ -13,7 +13,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     } else {
         $scope.forBusiness = false;
     }
-    //send a new authToken is the current user needs to be updated (Used for availability)
+  //send a new authToken if the current user needs to be updated (Used for availability)
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();
@@ -63,18 +63,18 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             }
         });
     };
-    /**
-     * Takes the user to the claim business page, first checks to see if they
-     * are authenticated. If they aren't we open the login modal, then take them to search
-     *
-     */
-    $scope.goToClaim = function (tier) {
-        if (!auth.isLoggedIn()) {
-            $scope.open('login', 'join', tier);
-        } else {
-            $state.go('join');
-        }
-    };
+  // /**
+  //  * Takes the user to the claim business page, first checks to see if they
+  //  * are authenticated. If they aren't we open the login modal, then take them to search
+  //  *
+  //  */
+  // $scope.goToClaim = function (tier) {
+  //     if (!auth.isLoggedIn()) {
+  //         $scope.open('login', 'join', tier);
+  //     } else {
+  //         $state.go('join');
+  //     }
+  // };
 
     /**
      * Tell the database that the notifications have been viewed.

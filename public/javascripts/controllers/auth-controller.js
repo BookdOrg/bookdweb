@@ -1,5 +1,5 @@
 module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, state, socketService, $rootScope,
-                           userFactory, notificationFactory, tier, $window) {
+                           userFactory, notificationFactory, tier) {
     $scope.user = {};
     $scope.tabs = [
         {
