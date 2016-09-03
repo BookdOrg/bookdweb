@@ -72,7 +72,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         if (!auth.isLoggedIn()) {
             $scope.open('login', 'join', tier);
         } else {
-            $state.go('join', {tier: tier});
+            $state.go('join');
         }
     };
 

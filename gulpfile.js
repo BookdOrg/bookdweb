@@ -23,9 +23,11 @@ var browserify = require('browserify'),
 var paths = {
     root: 'routes',                     // App root path
     src: 'public/javascripts/',         // Source path
+    publicSrc: 'public/',
     dist: 'public/javascripts/dist/',   // Distribution path
     test: 'testSpecs/',                 // Test path
     css: 'public/stylesheets/**/*',         // Stylesheets path
+    cssIgnore: '!public/stylesheets/**/*.min.css', //Stylesheets to ignore
     cssDist: 'public/stylesheets/dist'  // Stylesheets dist path
 };
 
@@ -71,12 +73,28 @@ gulp.task('ng-config', function () {
 
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
 gulp.task('minify-css', function () {
-    return gulp.src(paths.css)
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(cleanCSS())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.cssDist));
+    minifyCss();
+    bundler.on('update', minifyCss());
+    bundler.on('time', function (time) {
+        gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
+    });
 });
+gulp.task('minify-cssOnce', function () {
+    minifyCss();
+});
+function minifyCss(){
+    return gulp.src([paths.css,paths.cssIgnore,'!public/stylesheets/dist/**/*'])
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(cleanCSS({debug:true,rebase:true}, function(details){
+            console.log(details.name + ': ' + details.stats.originalSize);
+            console.log(details.name + ': ' + details.stats.minifiedSize);
+            console.log(details.name + ': ' + details.stats.efficiency);
+            console.log(details.name + ': ' + details.warnings);
+
+        }))
+        .pipe(sourcemaps.write(paths.cssDist))
+        .pipe(gulp.dest('./public/stylesheets/dist/'));
+}
 function configure() {
     fs.writeFileSync('./config.json',
         JSON.stringify(config[ENV]));
@@ -89,6 +107,7 @@ function configure() {
         .pipe(gulp.dest('./public/javascripts'))
 }
 function bundle() {
+    minifyCss();
     return bundler.bundle()
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(source('app.js'))
@@ -127,6 +146,6 @@ function errorHandler(err) {
 
 gulp.task('default', [], function () {
     gulp.start('ng-config');
-    gulp.start('minify-css');
+    // gulp.start('minify-css');
     gulp.start('browserify');
 });

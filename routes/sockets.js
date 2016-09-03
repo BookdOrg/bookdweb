@@ -1,4 +1,7 @@
-//Created by Khalil - 
+/**
+ * Created by khalilbrown on 9/3/16.
+ */
+//Created by Khalil -
 var express = require('express');
 var app = require('express')();
 var router = express.Router();
@@ -32,14 +35,14 @@ var Notification = mongoose.model('Notification');
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 var server;
 if (process.env.NODE_ENV === 'development') {
-  server = require('http').createServer(app);
+    server = require('http').createServer(app);
 } else {
-  var fs = require('fs');
-  var options = {
-    key: fs.readFileSync('/etc/ssl/private/domain.key'),
-    cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
-  };
-  server = require('https').createServer(options, app);
+    var fs = require('fs');
+    var options = {
+        key: fs.readFileSync('/etc/ssl/private/domain.key'),
+        cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
+    };
+    server = require('https').createServer(options, app);
 }
 var io = require('socket.io')(server);
 var wellknown = require('nodemailer-wellknown');
@@ -150,7 +153,7 @@ io.on('connection', function (socket) {
      */
     socket.on('timeDestroyed', function (data) {
         if (data) {
-          roomData = _.without(roomData, _.find(roomData, {'user': data.user}));
+            roomData = _.without(roomData, _.find(roomData, {'user': data.user}));
             io.sockets.in(data.roomId).emit('destroyOld', data);
         }
     });
@@ -160,9 +163,9 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('disconnect', function () {
-      roomData = _.without(roomData, _.find(roomData, {'user': socketTimeData.user}));
+        roomData = _.without(roomData, _.find(roomData, {'user': socketTimeData.user}));
         io.sockets.in(string).emit('destroyOld', socketTimeData);
-      clients = _.without(clients, _.find(clients, {'id': socket.id}));
+        clients = _.without(clients, _.find(clients, {'id': socket.id}));
         socket.disconnect();
     });
     socket.on('joinCalendarRoom', function (id) {
@@ -200,7 +203,7 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptBooked', function (appt) {
-      var employeeSocket = _.find(clients, {'customId': appt.employee._id});
+        var employeeSocket = _.find(clients, {'customId': appt.employee._id});
         socket.leave(appt.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -220,8 +223,8 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptUpdated', function (data) {
-      var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
-      var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
+        var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
+        var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId, function (err) {
             if (err) {
                 //console.log(err);
@@ -250,8 +253,8 @@ io.on('connection', function (socket) {
      *
      */
     socket.on('apptCanceled', function (data) {
-      var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
-      var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
+        var employeeSocket = _.find(clients, {'customId': data.appointment.employee._id});
+        var customerSocket = _.find(clients, {'customId': data.appointment.customer._id});
         socket.leave(data.roomId);
         io.sockets.in(data.roomId).emit('update');
         io.sockets.in(data.appointment.businessId).emit('canceledAppt', data);
@@ -275,9 +278,9 @@ io.on('connection', function (socket) {
      * When a new notification is created, send it to the appropriate user socket.
      *
      */
-        //TODO debug this, find out why it's not working.
+    //TODO debug this, find out why it's not working.
     socket.on('newNotifGenerated', function (data) {
-      var userSocket = _.find(clients, {'customId': data.id});
+        var userSocket = _.find(clients, {'customId': data.id});
         if (userSocket) {
             var notification = new Notification();
             //Content of the notification.

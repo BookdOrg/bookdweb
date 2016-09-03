@@ -49,7 +49,7 @@ h1, h2, h3 {
     background-color: #222
 }
 
-.section . btn-primary {
+.section .btn-primary {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
@@ -175,7 +175,8 @@ h1, h2, h3 {
 @media (min-width: 768px) {
     .navbar-default {
         background-color: rgba(34, 34, 34, .3);
-        border-bottom-color: rgba(34, 34, 34, .3) padding : 10 px 0;
+        border-bottom-color: rgba(34, 34, 34, .3);
+        /*padding : 10px 0;*/
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
         transition: padding .3s;

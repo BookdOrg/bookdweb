@@ -70,7 +70,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
             }
         },
         register: function (user, info) {
-            return $http.post('/register', user)
+            return $http.post('/auth/register', user)
                 .then(function (data) {
                     auth.saveUser(data.data.token, data.data.user);
                     if (info) {
@@ -84,7 +84,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                 });
         },
         logIn: function (user, info) {
-            return $http.post('/login', user)
+            return $http.post('/auth/login', user)
                 .then(function (data) {
                     auth.saveUser(data.data.token, data.data.user);
                     if (info) {

@@ -22,6 +22,10 @@ require('./models/Notification');
 require('./config/passport');
 
 var routes = require('./routes/index');
+var sockets = require('./routes/sockets');
+var userRoutes = require('./routes/user-routes');
+var businessRoutes = require('./routes/business-routes');
+var authRoutes = require('./routes/auth-routes');
 
 var app = express();
 
@@ -72,7 +76,10 @@ var allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', routes);
+app.use('/user',userRoutes);
+app.use('/business',businessRoutes);
+app.use('/auth',authRoutes);
+app.use('/socket',sockets);
 app.all('/*', function (req, res) {
     //TODO Find out why this works
     //Returns a 404 if a js or css file can't be found
