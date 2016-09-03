@@ -79,7 +79,8 @@ app.use(passport.session());
 app.use('/user',userRoutes);
 app.use('/business',businessRoutes);
 app.use('/auth',authRoutes);
-app.use('/socket',sockets);
+//TODO move sockets to the /sockets route
+app.use('/', sockets);
 app.all('/*', function (req, res) {
     //TODO Find out why this works
     //Returns a 404 if a js or css file can't be found

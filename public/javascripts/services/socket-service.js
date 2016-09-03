@@ -2,8 +2,8 @@
  * Created by: Khalil Brown
  *
  */
-module.exports = function (socketFactory, remoteSocketPort, remoteHost) {
-    var myIoSocket = io.connect(remoteHost + remoteSocketPort);
+module.exports = function (socketFactory, remotePort, remoteHost) {
+    var myIoSocket = io.connect(remoteHost + ':' + remotePort);
     var mySocket = socketFactory({
         ioSocket: myIoSocket
     });

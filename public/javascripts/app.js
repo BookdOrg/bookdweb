@@ -53,15 +53,6 @@ var app = angular.module('cc', [
     'ngEnvVars.config',
     'ui.mask'
 ]);
-app.constant('CLOUDINARY_BASE', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v')
-    .constant('CLOUDINARY_Default', 'https://res.cloudinary.com/dvvtn4u9h/image/upload/c_thumb,h_300,w_300/v1432411957/profile/placeholder.jpg')
-    .constant('remoteHost', 'dev.bookd.me')
-    .constant('remotePort', '3001')
-    .constant('remoteSocketPort', ':8112') //DEV: :8112 LOCAL:  :3001
-    .constant('facebookApi', 'https://graph.facebook.com/')
-    .constant('googleApi', 'https://www.googleapis.com/plus/v1/people/');
-
-
 require('./services');
 require('./controllers');
 require('./directives');
