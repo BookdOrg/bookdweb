@@ -1,0 +1,38 @@
+<div class="container-fluid text-center margin-base-vertical" ng-if="user.businessOwner">
+    <div class="row">
+        <div class="col-xs-12">
+            <p># of barbers in shop</p>
+            <label>1-5
+                <input type="radio" value="1-5" name="numBarbers">
+            </label>
+            <label>5-10
+                <input type="radio" value="5-10" name="numBarbers">
+            </label>
+            <label>10+
+                <input type="radio" value="10+" name="numBarbers">
+            </label>
+            <br/>
+            <button class="btn btn-gradient-success btn-lg"
+                    ng-click="partnerForm.$valid && claim(selectedQuery, currentUser._id)">Claim
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid text-center margin-base-vertical" ng-if="user.isAssociate">
+    <div class="row">
+        <div class="col-xs-12">
+            <p>How do you get paid</p>
+            <label>Rental
+                <input type="radio" value="rental" name="paymentType">
+            </label>
+            <label>Commission
+                <input type="radio" value="commission" name="paymentType">
+            </label>
+            <br/>
+            <button class="btn btn-gradient-success btn-lg"
+                    ng-click="partnerForm.$valid && claim(selectedQuery, currentUser._id)">Claim
+            </button>
+        </div>
+    </div>
+</div>

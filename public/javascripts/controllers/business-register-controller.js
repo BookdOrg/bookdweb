@@ -1,7 +1,7 @@
 /**
  * Created by Jonfor on 9/3/16.
  */
-module.exports = function ($scope, auth, businessFactory) {
+module.exports = function ($scope, auth, businessFactory, notificationFactory, $uibModal) {
   $scope.currPage = 1;
   $scope.user = {};
   $scope.finishPageOne = function (type) {
@@ -51,14 +51,55 @@ module.exports = function ($scope, auth, businessFactory) {
    * Submits a claim request for a business
    *
    * @param request - the selectedQuery object, google places business
+   * @param personToNotify
    */
-  $scope.claim = function (request) {
+  $scope.claim = function (request, personToNotify) {
     var claimRequest = {};
     claimRequest.phoneNumber = request.formatted_phone_number;
     claimRequest.address = request.formatted_address;
     claimRequest.now = moment().format('MMM Do YYYY, h:mm:ss a');
     claimRequest.placesId = request.place_id;
     claimRequest.name = request.name;
-    claimRequest.tier = $scope.tier;
+
+    businessFactory.claim(claimRequest)
+      .then(function (data) {
+          //TODO Move this string to somewhere we can access it globally!
+          if (data.status === 200) {
+            notificationFactory.addNotification(personToNotify,
+              'We have received your request to claim ' + request.name + '. You should hear back from us soon!', false)
+              .then(function () {
+
+              }, function (err) {
+                console.log(err);
+              });
+          }
+          $uibModal.open({
+            templateUrl: 'partials/modals/businessRequestModal.html',
+            controller: 'ModalInstanceCtrl',
+            resolve: {
+              message: function () {
+                return data;
+              },
+              info: function () {
+                return request;
+              }
+            }
+          });
+        },
+        function (error) {
+          $uibModal.open({
+            templateUrl: 'partials/modals/businessRequestModal.html',
+            controller: 'ModalInstanceCtrl',
+            resolve: {
+              message: function () {
+                return error;
+              },
+              info: function () {
+                return request;
+              }
+            }
+          });
+        }
+      );
   };
 };

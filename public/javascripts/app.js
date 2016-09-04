@@ -292,6 +292,19 @@ app.config([
               }
             }
           })
+          .state('apply_three', {
+            url: '/apply/3',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegisterThree.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
             .state('terms', {
                 url: '/terms',
                 views: {
