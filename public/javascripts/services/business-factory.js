@@ -38,7 +38,7 @@ module.exports = function ($http, auth, $q, utilService) {
         });
     };
     o.charge = function (appointment) {
-        return $http.post('/business/appointment/charge', appointment, {
+        return $http.post('/appointments/charge', appointment, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             return data.data;
@@ -47,7 +47,7 @@ module.exports = function ($http, auth, $q, utilService) {
         });
     };
     o.updateStatus = function (appointment) {
-        return $http.post('/business/appointment/status-update', appointment, {
+        return $http.post('/appointments/status-update', appointment, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (data) {
             return data.data;
@@ -70,7 +70,7 @@ module.exports = function ($http, auth, $q, utilService) {
      *  card -
      **/
     o.addAppointment = function (appt) {
-        return $http.post('/business/appointments/create', appt, {
+        return $http.post('/appointments/create', appt, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
             return response.data;
@@ -84,7 +84,7 @@ module.exports = function ($http, auth, $q, utilService) {
      *
      */
     o.updateAppointment = function (appt) {
-        return $http.post('/business/appointments/update', appt, {
+        return $http.post('/appointments/update', appt, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
             return response.data;
@@ -98,7 +98,7 @@ module.exports = function ($http, auth, $q, utilService) {
      *
      */
     o.cancelAppointment = function (appt) {
-        return $http.post('/business/appointments/cancel', appt, {
+        return $http.post('/appointments/cancel', appt, {
             headers: {Authorization: 'Bearer ' + auth.getToken()}
         }).then(function (response) {
 
@@ -114,7 +114,7 @@ module.exports = function ($http, auth, $q, utilService) {
      * @param monthYear
      */
     o.getAllAppointments = function (id, start, end) {
-        return $http.get('/business/appointments/all', {
+        return $http.get('/all', {
             params: {
                 id: id,
                 start: start,
@@ -397,7 +397,7 @@ module.exports = function ($http, auth, $q, utilService) {
     };
 
     o.getCustomerAppointments = function (customerId, businessId) {
-        return $http.get('/business/customer/appointments', {
+        return $http.get('/appointments/customer', {
             params: {
                 customerId: customerId,
                 businessId: businessId

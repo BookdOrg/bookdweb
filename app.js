@@ -26,6 +26,7 @@ var sockets = require('./routes/sockets');
 var userRoutes = require('./routes/user-routes');
 var businessRoutes = require('./routes/business-routes');
 var authRoutes = require('./routes/auth-routes');
+var apptRoutes = require('./routes/appointment-routes');
 
 var app = express();
 
@@ -79,6 +80,7 @@ app.use(passport.session());
 app.use('/user',userRoutes);
 app.use('/business',businessRoutes);
 app.use('/auth',authRoutes);
+app.use('/appointments', apptRoutes);
 //TODO move sockets to the /sockets route
 app.use('/', sockets);
 app.all('/*', function (req, res) {
