@@ -24,7 +24,8 @@ span.navbar-brand {
 /*}*/
 body {
     color: #445160;
-    margin-top: 150px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    margin-top: 75px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    padding-bottom: 90px;
 }
 
 /*.page-wrap:after{*/
@@ -43,7 +44,7 @@ body {
     font-family: "Avenir Next";
     text-transform: uppercase;
     font-size: 25pt;
-    font-weight: 350;
+    font-weight: 400;
 
 }
 
@@ -51,7 +52,7 @@ body {
     letter-spacing: 2px;
     font-family: "Avenir Next";
     font-size: 15pt;
-    font-weight: 150;
+    font-weight: 300;
 }
 
 .email-text {
@@ -64,10 +65,10 @@ body {
     font-size: 22pt;
 }
 
-.site-footer, .page-wrap:after {
-    height: 50px;
+/*.site-footer, .page-wrap:after {*/
+/*height: 50px;*/
     /*color: white;*/
-}
+/*}*/
 
 .customerSelection {
     padding-top: 3px;
