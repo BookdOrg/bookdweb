@@ -20,7 +20,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 var userTypes = {'barber': 'barber', 'shopOwner': 'shopOwner', 'client': 'client', 'other': 'other'};
-router.post('/sign-up', function (req, res) {
+router.post('/sign-up', function (req, res, next) {
     var email = req.param('email');
     var type = req.param('userType');
     var newUser = new BetaUser();
