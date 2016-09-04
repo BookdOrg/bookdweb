@@ -15,17 +15,14 @@ span.navbar-brand {
     border-bottom: 1px solid darkgrey;
 }
 
-.navbar-fixed-top {
+.navbar-static-top {
     border-bottom: 1px solid lightgrey;
 }
 
-/*html,body{*/
-/*height:100%;*/
-/*}*/
 body {
     color: #445160;
-    margin-top: 75px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    padding-bottom: 90px;
+    /*margin-top: 75px; !* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. *!*/
+    /*padding-bottom: 90px;*/
 }
 
 /*.page-wrap:after{*/
@@ -129,7 +126,8 @@ button:focus {
 }
 
 #footer {
-    position: fixed;
+    /*position: fixed;*/
+    margin-top: 60px;
     left: 0px;
     bottom: 0px;
     height: 70px;
