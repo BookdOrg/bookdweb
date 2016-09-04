@@ -1,0 +1,61 @@
+<section class="searchSection">
+    <div class="container">
+        <div class="row" ng-if="selectedQuery.name">
+            <div class="col col-xs-12 text-center">
+                <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
+                <img ng-if="!displayPhotos.length > 0" ng-src="{{selectedQuery.icon}}"/>
+                <br>
+                Name: {{selectedQuery.name}}
+                <br>Phone Number: {{selectedQuery.formatted_phone_number}}
+                <br>Address: {{selectedQuery.formatted_address}}
+                <br>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a>
+            </div>
+        </div>
+        <div class="row search-place-container ">
+            <form class="col-xs-6 form-horizontal" name="partnerForm">
+                <div class="form-group">
+                    <div class="col col-xs-10 col-xs-offset-1">
+                        <label for="search">Search:</label>
+                        <input class="form-control input-lg" id="search" g-places-autocomplete
+                               options="autocompleteOptions"
+                               ng-model="query" placeholder="Start typing your businesses name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col col-xs-10 col-xs-offset-1">
+                        <label for="businessName">Business Name:</label>
+                        <input class="form-control input-lg" id="businessName" ng-model="selectedQuery.name"
+                               placeholder="Salon 23" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col col-xs-5 col-xs-offset-1">
+                        <label for="email">Email:</label>
+                        <input class="form-control input-lg" type="email" id="email"
+                               placeholder="{{currentUser.email}}" ng-value="currentUser.email" disabled
+                               required>
+                    </div>
+                    <div class="col col-xs-5 ">
+                        <label for="phone">Phone Number:</label>
+                        <input class="form-control input-lg" id="phone" type="tel"
+                               ng-model="selectedQuery.formatted_phone_number" placeholder="(555)-555-5555" required>
+                    </div>
+                </div>
+                <button class="btn btn-gradient-success btn-lg col-xs-offset-5" ui-sref="apply_three">Next</button>
+                <h6 class="text-center text-muted">By claiming this business, you agree to our <a ng-href="/terms">Terms
+                    of
+                    Service</a> and the <a ng-href="https://stripe.com/connect/account-terms">Stripe Connected Account
+                    Agreement</a>.</h6>
+            </form>
+            <div class="col-xs-6" ng-if="selectedQuery.place_id">
+                <iframe
+                        width="100%"
+                        height="50%"
+                        frameborder="0" style="border:0"
+                        ng-src="{{ selectedQuery.place_id | staticMapsFilter }}" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+<div ui-view></div>

@@ -220,13 +220,15 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
     });
     //When a socket join the appointment room late, we send the list of availabletimes currently being held
     socketService.on('oldHold', function (data) {
-        for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-            if (data[dataIndex].user !== $scope.currentUser._id) {
-                calculateHold(data[dataIndex].data);
-            } else {
-                var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
-                if (indexToReplace !== -1) {
-                    $scope.availableTimes[indexToReplace].toggled = true;
+        if (data) {
+            for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
+                if (data[dataIndex].user !== $scope.currentUser._id) {
+                    calculateHold(data[dataIndex].data);
+                } else {
+                    var indexToReplace = parseInt(_.findKey($scope.availableTimes, {'time': data[dataIndex].data.time}));
+                    if (indexToReplace !== -1) {
+                        $scope.availableTimes[indexToReplace].toggled = true;
+                    }
                 }
             }
         }

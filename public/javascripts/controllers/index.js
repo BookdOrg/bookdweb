@@ -23,3 +23,4 @@ app.controller('updatedAvailabilityCtrl', require('./update-availability-modal')
 app.controller('removeServiceModalCtrl', require('./remove-service-modal'));
 app.controller('resetCtrl', require('./reset-controller'));
 app.controller('newPasswordCtrl', require('./new-password-controller'));
+app.controller('businessRegisterCtrl', require('./business-register-controller'));

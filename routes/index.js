@@ -114,7 +114,7 @@ io.on('connection', function (socket) {
         string = data.startDate.toString() + data.employeeId.toString();
         if (string) {
             socket.join(string);
-            var holdList = _.where(roomData, {id: string});
+            var holdList = _.find(roomData, {id: string});
             io.to(socket.id).emit('oldHold', holdList);
         } else {
             socket.emit('appointmentRoomReq');

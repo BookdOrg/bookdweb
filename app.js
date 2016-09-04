@@ -27,6 +27,7 @@ var userRoutes = require('./routes/user-routes');
 var businessRoutes = require('./routes/business-routes');
 var authRoutes = require('./routes/auth-routes');
 var betaRoutes = require('./routes/beta-routes');
+var apptRoutes = require('./routes/appointment-routes');
 var app = express();
 
 app.use(helmet({
@@ -80,6 +81,7 @@ app.use('/user',userRoutes);
 app.use('/business',businessRoutes);
 app.use('/auth',authRoutes);
 app.use('/beta', betaRoutes);
+app.use('/appointments', apptRoutes);
 //TODO move sockets to the /sockets route
 app.use('/', sockets);
 app.use('/application', function (req, res) {

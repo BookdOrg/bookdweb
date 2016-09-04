@@ -184,8 +184,8 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                        templateUrl: '/partials/partner.html',
-                        controller: 'NavCtrl'
+                      templateUrl: '/partials/partner.html',
+                      controller: 'NavCtrl'
                     }
                 }
             })
@@ -256,9 +256,6 @@ app.config([
             })
             .state('join', {
                 url: '/join',
-                params: {
-                    tier: null
-                },
                 views: {
                     'nav': {
                         templateUrl: '/partials/bookdNav.html',
@@ -270,6 +267,45 @@ app.config([
                     }
                 }
             })
+          .state('apply_one', {
+            url: '/apply/1',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegisterOne.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
+          .state('apply_two', {
+            url: '/apply/2',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegisterTwo.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
+          .state('apply_three', {
+            url: '/apply/3',
+            views: {
+              'nav': {
+                templateUrl: '/partials/bookdNav.html',
+                controller: 'NavCtrl'
+              },
+              'content': {
+                templateUrl: '/partials/businessRegisterThree.html',
+                controller: 'businessRegisterCtrl'
+              }
+            }
+          })
             .state('terms', {
                 url: '/terms',
                 views: {
