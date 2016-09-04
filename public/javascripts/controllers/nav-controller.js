@@ -76,6 +76,14 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
   //     }
   // };
 
+  $scope.join = function () {
+    if (auth.isLoggedIn()) {
+      $state.go('apply_one');
+    } else {
+      $state.go('join');
+    }
+  };
+
     /**
      * Tell the database that the notifications have been viewed.
      */

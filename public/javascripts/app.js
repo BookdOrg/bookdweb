@@ -184,7 +184,8 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                      templateUrl: '/partials/partner.html'
+                      templateUrl: '/partials/partner.html',
+                      controller: 'NavCtrl'
                     }
                 }
             })
