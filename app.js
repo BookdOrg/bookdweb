@@ -18,7 +18,7 @@ require('./models/Users');
 require('./models/Appointments');
 require('./models/Service');
 require('./models/Notification');
-
+require('./models/BetaUser');
 require('./config/passport');
 
 var routes = require('./routes/index');
@@ -26,7 +26,7 @@ var sockets = require('./routes/sockets');
 var userRoutes = require('./routes/user-routes');
 var businessRoutes = require('./routes/business-routes');
 var authRoutes = require('./routes/auth-routes');
-
+var betaRoutes = require('./routes/beta-routes');
 var app = express();
 
 app.use(helmet({
@@ -79,9 +79,10 @@ app.use(passport.session());
 app.use('/user',userRoutes);
 app.use('/business',businessRoutes);
 app.use('/auth',authRoutes);
+app.use('/beta', betaRoutes);
 //TODO move sockets to the /sockets route
 app.use('/', sockets);
-app.all('/*', function (req, res) {
+app.use('/application', function (req, res) {
     //TODO Find out why this works
     //Returns a 404 if a js or css file can't be found
     if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
@@ -90,7 +91,17 @@ app.all('/*', function (req, res) {
 
     res.render('index.ejs', {root: __dirname});
 });
-
+app.use('/', function (req, res) {
+    //Returns a 404 if a js or css file can't be found
+    if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
+        res.status(404);
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err)
+    } else {
+        res.render('landing.ejs', {root: __dirname});
+    }
+});
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

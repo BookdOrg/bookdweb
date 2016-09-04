@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="full" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BUZ</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <!--<![endif]&ndash;&gt;-->
+    <link href="/stylesheets/landing.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand" href="#">BUZ</span>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <!--<a href="#">About</a>-->
+                </li>
+                <li>
+                    <!--<a href="#">Services</a>-->
+                </li>
+                <li>
+                    <!--<a href="#">Contact</a>-->
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<!-- Put your page content here! -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-md-7">
+            <p class="welcome-text">Welcome</p>
+            <p class="sub-text">Thank you for your </p>
+            <p class="sub-text">interest in our beta program.</p>
+            <p class="paragraph-text">BUZ is the premiere mobile and web app that makes it simple to book your next
+                barber appointment. Our goal
+                is to streamline the barbershop experience and drive traffic to local barbers the most efficient way
+                possible. </p>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-xs-9 col-sm-8 col-md-6">
+            <form action="/beta/sign-up" method="POST">
+                <div class="inner-addon right-addon">
+                    <i class="fa fa-angle-right"></i>
+                    <input type="email" id="email" name="email"
+                           placeholder="Enter your email address to get updates on our public release."
+                           aria-describedby="fa fa-angle-right"/>
+
+                </div>
+                <div class="radio-toolbar">
+                    <p class="customerSelection">I am a(n)
+
+                        <input type="radio" id="barber" name="userType" value="barber">
+                        <label for="barber">Barber</label>
+
+
+                        <input type="radio" id="shopOwner" name="userType" value="shopOwner">
+                        <label for="shopOwner">Shop Owner</label>
+
+
+                        <input type="radio" id="client" name="userType" value="client">
+                        <label for="client">Client</label>
+
+
+                        <input type="radio" id="other" name="userType" value="other">
+                        <label for="other">Other</label>
+                    </p>
+                </div>
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-xs-9 col-sm-8 col-md-6">
+                        <button id="submitBtn" class="btn btn-lg" type="submit">Signup</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<!--<script src="js/jquery.js"></script>-->
+
+<!-- Bootstrap Core JavaScript -->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li><a ng-href="#"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li><a ng-href="#"><i class="fa fa-instagram"></i></a>
+                    </li>
+                    <li><a ng-href="#"><i class="fa fa-twitter"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-4">
+                <span class="copyright">Copyright &copy; BUZ 2016</span>
+            </div>
+            <div class="col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4">
+                <ul class="list-inline quicklinks">
+                    <li><a ui-sref="">About</a>
+                    </li>
+                    <li><a ui-sref="">Contact</a>
+                    </li>
+                    <li><a ui-sref="">Privacy</a>
+                    </li>
+                    <li><a ui-sref="">Terms</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

@@ -450,13 +450,7 @@ router.post('/password/change', function (req, res, next) {
 
 /**
  *
- *
- *
- *
  * Mobile Specific Routes
- *
- *
- *
  *
  */
 
