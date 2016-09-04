@@ -152,6 +152,7 @@ button:focus {
 
 label:hover, label:active, input:hover + label, input:active + label {
     color: #445160;
+    cursor: pointer;
 }
 
 .radio-toolbar input[type=radio]:checked + label {
