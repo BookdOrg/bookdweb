@@ -1,11 +1,20 @@
-/*body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face {
+    font-family: GothamRegular;
+    src: url(/public/fonts/GothamBook.woff);
 }
-*/
-/*html, body {*/
-/*height: 100%;*/
-/*}*/
+
+@font-face {
+    font-family: GothamBook;
+    src: url(/public/fonts/Gotham-Book.woff);
+}
+
+.buz-default-text {
+    letter-spacing: 2px;
+    font-family: "Avenir Next";
+    font-size: 40px;
+    text-transform: uppercase;
+    color: #445160;
+}
 .carousel-indicators {
     visibility: hidden;
 }
@@ -26,18 +35,18 @@ a {
 }
 
 h1 {
-    font-family: "Abel", Arial, sans-serif;
+    font-family: GothamRegular;
     font-weight: 400;
     font-size: 40px;
 }
 
 h2, h3, h4, h5, h6 {
-    font-family: "Abel", Arial, sans-serif;
+    font-family: GothamRegular;
     /*font-size: 40px;*/
 }
 
 body {
-    font-family: "Lucida Grande", Arial, sans-serif;
+    font-family: GothamRegular;
     /*font-weight: 400;*/
 }
 .disabled {
@@ -116,7 +125,7 @@ body {
 
 #landingBody {
     font-size: 16px;
-    font-family: "Open Sans", serif;
+    font-family: GothamRegular;
     position: relative;
     top: 35%;
     transform: translateY(-50%);
@@ -127,13 +136,13 @@ body {
 }
 
 .coverrTitle h3 {
-    font-family: "Abel", Arial, sans-serif;
+    font-family: GothamRegular;
     font-weight: 400;
     color: white;
 }
 
 .coverrTitle h1 {
-    font-family: "Abel", Arial, sans-serif;
+    font-family: GothamRegular;
     font-weight: 400;
     font-size: 50px;
     color: white;
@@ -355,7 +364,7 @@ aside {
 
 .section-heading {
     margin-top: 0;
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: GothamRegular;
 }
 
 .service-box {
@@ -374,7 +383,7 @@ aside {
 }
 
 .service-box h3 {
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: GothamRegular;
 }
 
 .call-to-action h2 {
@@ -454,7 +463,7 @@ header .intro-text {
 }
 
 header .intro-text .intro-lead-in {
-    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: GothamRegular;
     font-size: 25px;
     font-weight: 900;
     line-height: 30px;
@@ -463,7 +472,7 @@ header .intro-text .intro-lead-in {
 }
 
 header .intro-text .intro-heading {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: GothamRegular;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 50px;
@@ -485,7 +494,7 @@ header .intro-text .intro-heading {
     }
 
     header .intro-text .intro-lead-in {
-        font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: GothamRegular;
         font-size: 40px;
         font-weight: 900;
         line-height: 40px;
@@ -494,7 +503,7 @@ header .intro-text .intro-heading {
     }
 
     header .intro-text .intro-heading {
-        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: GothamRegular;
         text-transform: uppercase;
         font-weight: 700;
         font-size: 75px;
