@@ -19,10 +19,12 @@ span.navbar-brand {
     border-bottom: 1px solid lightgrey;
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
 body {
-    color: #445160;
-    /*margin-top: 75px; !* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. *!*/
-    /*padding-bottom: 90px;*/
+    margin-bottom: 70px;
 }
 
 /*.page-wrap:after{*/
@@ -125,21 +127,14 @@ button:focus {
     outline: none;
 }
 
-#footer {
-    /*position: fixed;*/
-    margin-top: 60px;
-    left: 0px;
-    bottom: 0px;
-    height: 70px;
-    width: 100%;
-}
-
-/* IE 6 */
-* html #footer {
+.footer {
     position: absolute;
-    top: expression((0-(footer.offsetHeight)+(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)+(ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop))+'px');
+    bottom: 0;
+    padding-top: 10px;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 70px;
 }
-
 .radio-toolbar input[type=radio] {
     display: none;
 }
