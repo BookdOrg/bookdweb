@@ -14,6 +14,7 @@ try {
     alert('Whoops, looks like you are in Privacy Mode\nSome of our features won\'t work in this mode\nPlease deactivate Privacy Mode and then reload the page.');
 }
 var angular = require('angular');
+require('angular-localforage');
 require('angular-file-upload');
 require('angular-stripe-checkout');
 require('angular-timer');
@@ -39,6 +40,7 @@ var app = angular.module('cc', [
     'angularjs-dropdown-multiselect',
     'angularFileUpload',
     'google.places',
+  'LocalForageModule',
     'ngGeolocation',
     'ngMap',
     'timer',
@@ -267,40 +269,43 @@ app.config([
                     }
                 }
             })
-          .state('apply_one', {
-            url: '/apply/1',
+          .state({
+            name: 'apply',
+            url: '/apply',
             views: {
               'nav': {
                 templateUrl: '/partials/bookdNav.html',
                 controller: 'NavCtrl'
               },
-              'content': {
+              'content@': {
                 templateUrl: '/partials/businessRegisterOne.html',
                 controller: 'businessRegisterCtrl'
               }
             }
           })
-          .state('apply_two', {
-            url: '/apply/2',
+          .state({
+            name: 'apply.apply_two',
+            url: '/2',
             views: {
               'nav': {
                 templateUrl: '/partials/bookdNav.html',
                 controller: 'NavCtrl'
               },
-              'content': {
+              'content@': {
                 templateUrl: '/partials/businessRegisterTwo.html',
                 controller: 'businessRegisterCtrl'
               }
             }
           })
-          .state('apply_three', {
-            url: '/apply/3',
+          .state({
+            name: 'apply.apply_three',
+            url: '/3',
             views: {
               'nav': {
                 templateUrl: '/partials/bookdNav.html',
                 controller: 'NavCtrl'
               },
-              'content': {
+              'content@': {
                 templateUrl: '/partials/businessRegisterThree.html',
                 controller: 'businessRegisterCtrl'
               }

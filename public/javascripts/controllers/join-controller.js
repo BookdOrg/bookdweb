@@ -154,7 +154,7 @@ module.exports = function ($scope, $state, auth, socketService, $rootScope) {
       .then(function () {
         onlineData.user = $rootScope.currentUser._id;
         socketService.emit('online', onlineData);
-        $state.go('apply_one');
+        $state.go('apply');
         $rootScope.currentUser.notifications = [];
       }, function (error) {
         $scope.error = error.message;

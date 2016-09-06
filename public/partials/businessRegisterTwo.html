@@ -41,7 +41,9 @@
                                ng-model="selectedQuery.formatted_phone_number" placeholder="(555)-555-5555" required>
                     </div>
                 </div>
-                <button class="btn btn-gradient-success btn-lg col-xs-offset-5" ui-sref="apply_three">Next</button>
+                <button class="btn btn-gradient-success btn-lg col-xs-offset-5" ui-sref="apply.apply_three"
+                        ng-click="finishPageTwo()">Next
+                </button>
                 <h6 class="text-center text-muted">By claiming this business, you agree to our <a ng-href="/terms">Terms
                     of
                     Service</a> and the <a ng-href="https://stripe.com/connect/account-terms">Stripe Connected Account
@@ -58,4 +60,3 @@
         </div>
     </div>
 </section>
-<div ui-view></div>

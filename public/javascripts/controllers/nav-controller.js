@@ -78,7 +78,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
 
   $scope.join = function () {
     if (auth.isLoggedIn()) {
-      $state.go('apply_one');
+      $state.go('apply');
     } else {
       $state.go('join');
     }

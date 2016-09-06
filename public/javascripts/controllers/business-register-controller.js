@@ -1,15 +1,29 @@
 /**
  * Created by Jonfor on 9/3/16.
  */
-module.exports = function ($scope, auth, businessFactory, notificationFactory, $uibModal) {
+module.exports = function ($scope, auth, businessFactory, notificationFactory, $uibModal, $localForage) {
   $scope.currPage = 1;
-  $scope.user = {};
+  $localForage.getItem('user').then(function (data) {
+    $scope.user = data || {};
+  });
+  $localForage.getItem('partnerForm').then(function (data) {
+    $scope.partnerForm = data || {};
+  });
   $scope.finishPageOne = function (type) {
     if (type.toLowerCase() === 'associate') {
       $scope.user.isAssociate = true;
     } else if (type.toLowerCase() === 'owner') {
       $scope.user.businessOwner = true;
     }
+    $localForage.setItem('user', $scope.user).then(function () {
+
+    });
+  };
+
+  $scope.finishPageTwo = function () {
+    $localForage.setItem('partnerForm', $scope.partnerForm).then(function () {
+
+    });
   };
 
   //Watch the query being entered into the places autocomplete field
