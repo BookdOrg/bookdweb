@@ -17,12 +17,12 @@ var environments = {
     },
     staging: {
         ENV_VARS: shared,
-        remoteHost: "dev.bookd.me",
+        remoteHost: "dev.buzapp.me",
         remotePort: "8112"
     },
     production: {
         ENV_VARS: shared,
-        remoteHost: "bookd.me",
+        remoteHost: "buzapp.me",
         remotePort: "8112"
     }
 };
