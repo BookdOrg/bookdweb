@@ -38,8 +38,8 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync('/etc/ssl/private/domain.key'),
-        cert: fs.readFileSync('/etc/ssl/certs/chained.pem')
+        key: fs.readFileSync('/etc/letsencrypt/live/buzapp.me/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/buzapp.me/fullchain.pem')
     };
     server = require('https').createServer(options, app);
 }
