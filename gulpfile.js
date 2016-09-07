@@ -86,10 +86,10 @@ function minifyCss(){
     return gulp.src([paths.css,paths.cssIgnore,'!public/stylesheets/dist/**/*'])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(cleanCSS({debug:true,rebase:true}, function(details){
-            console.log(details.name + ': ' + details.stats.originalSize);
-            console.log(details.name + ': ' + details.stats.minifiedSize);
-            console.log(details.name + ': ' + details.stats.efficiency);
-            console.log(details.name + ': ' + details.warnings);
+            // console.log(details.name + ': ' + details.stats.originalSize);
+            // console.log(details.name + ': ' + details.stats.minifiedSize);
+            // console.log(details.name + ': ' + details.stats.efficiency);
+            // console.log(details.name + ': ' + details.warnings);
 
         }))
         .pipe(sourcemaps.write(paths.cssDist))
