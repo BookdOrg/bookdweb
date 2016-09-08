@@ -1,15 +1,15 @@
 @font-face {
-    font-family: GothamRegular;
-    src: url(/public/fonts/GothamBook.woff);
+    font-family: 'Gotham';
+    /*src: url(/public/fonts/GothamBook.ttf);*/
 }
 
 @font-face {
-    font-family: GothamBook;
-    src: url(/public/fonts/Gotham-Book.woff);
+    font-family: 'Gotham Book';
+    /*src: url(/public/fonts/Gotham-Book.ttf);*/
 }
 
 span.navbar-brand {
-    font-family: GothamRegular;
+    font-family: 'Gotham';
     font-size: 35pt;
     color: #445160;
     border-bottom: 1px solid darkgrey;
