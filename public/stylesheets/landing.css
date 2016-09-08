@@ -1,15 +1,19 @@
 @font-face {
-    font-family: GothamRegular;
-    src: url(/public/fonts/GothamBook.woff);
+    font-family: 'Gotham';
+    /*src: url(/public/fonts/GothamBook.ttf);*/
 }
 
 @font-face {
-    font-family: GothamBook;
-    src: url(/public/fonts/Gotham-Book.woff);
+    font-family: 'Gotham Book';
+    /*src: url(/public/fonts/Gotham-Book.ttf);*/
 }
 
-span.navbar-brand {
-    font-family: GothamRegular;
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: 0px;
+}
+
+a.navbar-brand {
+    font-family: 'Gotham';
     font-size: 35pt;
     color: #445160;
     border-bottom: 1px solid darkgrey;
@@ -153,8 +157,18 @@ label:hover, label:active, input:hover + label, input:active + label {
     color: #445160;
 }
 
+.fa-twitter:before {
+    color: #445160;
+}
+
+.fa-instagram:before {
+    color: #445160;
+}
+
+.fa-facebook:before {
+    color: #445160;
+}
 #submitBtn {
-    background-color: #445160;
-    color: white;
+    background-color: transparent;
     font-family: "Avenir Next";
 }

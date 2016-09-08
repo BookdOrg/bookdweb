@@ -28,7 +28,7 @@
 <nav class="navbar navbar-static-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
+        <div id="landingHeader" class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -36,7 +36,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <span class="navbar-brand" href="#">BUZ</span>
+            <a class="navbar-brand" href="#"><img src="/images/Buz_Logotype.png" style="height:30px;width:90px;"/></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -58,7 +58,7 @@
 </nav>
 <!-- Put your page content here! -->
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top:50px;">
         <div class="col-xs-12 col-md-7">
             <p class="welcome-text">Welcome</p>
             <p class="sub-text">Thank you for your
@@ -67,21 +67,14 @@
                 barber appointment. Our goal
                 is to streamline the barbershop experience and drive traffic to local barbers in the most efficient way
                 possible. </p>
+            <p class="paragraph-text">Try us out today, for free.</p>
         </div>
     </div>
     <div class="row" style="margin-top:20px;">
         <div class="col-xs-12 col-sm-8 col-md-6">
             <form action="/beta/sign-up" method="POST">
-                <div class="inner-addon right-addon">
-                    <i class="fa fa-angle-right"></i>
-                    <input type="email" id="email" name="email"
-                           placeholder="Enter your email address for updates on our release."
-                           aria-describedby="fa fa-angle-right" required/>
-
-                </div>
                 <div class="radio-toolbar">
                     <p class="customerSelection">I am a(n)
-
                         <input type="radio" id="barber" name="userType" value="barber" required>
                         <label for="barber">Barber</label>
 
@@ -94,15 +87,28 @@
                         <label for="client">Client</label>
 
 
-                        <input type="radio" id="other" name="userType" value="other">
-                        <label for="other">Other</label>
+                        <!--<input type="radio" id="other" name="userType" value="other">-->
+                        <!--<label for="other">Other</label>-->
                     </p>
                 </div>
-                <div class="row" style="margin-top:20px;">
-                    <div class="col-xs-9 col-sm-8 col-md-6">
-                        <button id="submitBtn" class="btn btn-lg" type="submit">Sign up</button>
-                    </div>
+                <div class="input-group">
+                    <input type="email" id="email" name="email" placeholder="EMAIL" required>
+                    <span class="input-group-btn">
+                        <button id="submitBtn" class="btn" type="submit"><span
+                                    class="fa fa-angle-right fa-2x"></span></button>
+                      </span>
                 </div>
+                <!--<div class="inner-addon right-addon">-->
+                <!--<i class="fa fa-angle-right"></i>-->
+                <!--<input type="email" id="email" name="email"-->
+                <!--placeholder="EMAIL"-->
+                <!--aria-describedby="fa fa-angle-right" required/>-->
+                <!--</div>-->
+                <!--<div class="row" style="margin-top:20px;">-->
+                <!--<div class="col-xs-9 col-sm-8 col-md-6">-->
+                <!--<button id="submitBtn" class="btn btn-lg" type="submit">Sign up</button>-->
+                <!--</div>-->
+                <!--</div>-->
             </form>
         </div>
     </div>
@@ -123,7 +129,7 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-4  col-md-4">
-                <span class="copyright">Copyright &copy; BUZ 2016</span>
+                <span class="copyright">Copyright &copy; BUZ, Inc. All Rights Reserved.</span>
             </div>
             <div class="col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4">
                 <ul class="list-inline quicklinks">
