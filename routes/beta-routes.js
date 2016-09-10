@@ -33,5 +33,8 @@ router.post('/sign-up', function (req, res, next) {
     });
     res.render('signup-success.ejs', {root: __dirname});
 });
+router.get('/about', function (req, res, next) {
+    res.render('about.ejs', {root: __dirname});
+});
 
 module.exports = router;

@@ -21,6 +21,8 @@
     <!--<![endif]&ndash;&gt;-->
     <link href="/stylesheets/landing.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/bootstrap/js/tooltip.js"></script>
+    <script src="/bootstrap/js/popover.js"></script>
 </head>
 <body>
 
@@ -42,7 +44,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <!--<a href="#">About</a>-->
+                    <!--<a href="about.ejs">About</a>-->
                 </li>
                 <li>
                     <!--<a href="#">Services</a>-->
@@ -73,7 +75,8 @@
     <div class="row" style="margin-top:20px;">
         <div class="col-xs-12 col-sm-8 col-md-6">
             <form action="/beta/sign-up" method="POST">
-                <div class="radio-toolbar">
+                <div class="radio-toolbar" id="radio-toolbar" data-toggle="popover" data-trigger="focus"
+                     data-content="Please make a selection" data-placement="top">
                     <p class="customerSelection">I'm a
                         <input type="radio" id="barber" name="userType" value="barber" required>
                         <label for="barber">Barber</label>
@@ -133,7 +136,7 @@
             </div>
             <div class="col-xs-4 col-xs-offset-4 col-md-4 col-md-offset-4">
                 <ul class="list-inline quicklinks">
-                    <!--<li><a ui-sref="">About</a>-->
+                    <li><a href="/beta/about">About</a>
                     <!--</li>-->
                     <!--<li><a ui-sref="">Contact</a>-->
                     <!--</li>-->
@@ -146,5 +149,20 @@
         </div>
     </div>
 </footer>
+<script>
+    $(document).ready(function () {
+        $("#submitBtn").click(function () {
+            if (!$("input[name='userType']:checked").val()) {
+                $("#radio-toolbar").popover('show');
+                setTimeout(function () {
+                    $("#radio-toolbar").popover('hide')
+                }, 5000);
+            }
+            else {
+                $("#radio-toolbar").popover('hide');
+            }
+        })
+    })
+</script>
 </body>
 </html>
