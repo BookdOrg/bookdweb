@@ -39,8 +39,8 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync('/etc/letsencrypt/live/dev.buzapp.me/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/dev.buzapp.me/fullchain.pem')
+        key: fs.readFileSync(process.env.keyLoc),
+        cert: fs.readFileSync(process.env.certLoc)
     };
     server = require('https').createServer(options, app);
 }
