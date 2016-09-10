@@ -38,8 +38,8 @@ if (process.env.NODE_ENV === 'development') {
     var key = process.env.keyLoc;
     var cert = process.env.certLoc;
     var options = {
-        key: fs.readFileSync(key),
-        cert: fs.readFileSync(cert)
+        key: fs.readFileSync(key.toString()),
+        cert: fs.readFileSync(cert.toString())
   };
   server = require('https').createServer(options, app);
 }
