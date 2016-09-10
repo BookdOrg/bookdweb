@@ -144,7 +144,7 @@ module.exports = function ($http, $window, $rootScope, $state, $q, socketService
                 newPass: newPass
             };
 
-            return $http.post('user/password/change', data)
+            return $http.post('/user/password/change', data)
                 .then(function (data) {
                     console.log(data);
                 }, function (err) {

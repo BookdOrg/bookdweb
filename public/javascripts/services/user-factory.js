@@ -32,7 +32,7 @@ var userFactory = function ($http, auth, $q) {
      *   Upload a users profile picture
      **/
     o.postPicture = function () {
-        return $http.post('/upload', {
+        return $http.post('/user/upload', {
             headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
                 'Content-Type': 'application/x-www-form-urlencoded'

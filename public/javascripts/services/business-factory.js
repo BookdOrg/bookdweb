@@ -114,7 +114,7 @@ module.exports = function ($http, auth, $q, utilService) {
      * @param monthYear
      */
     o.getAllAppointments = function (id, start, end) {
-        return $http.get('/all', {
+        return $http.get('/appointments/all', {
             params: {
                 id: id,
                 start: start,
@@ -191,18 +191,6 @@ module.exports = function ($http, auth, $q, utilService) {
         });
     };
 
-    /**
-     *   Returns all categories that Bookd offers
-     *
-     **/
-
-    o.getCategories = function () {
-        return $http.get('/categories/all', {
-            headers: {Authorization: 'Bearer ' + auth.getToken()}
-        }).then(function (data) {
-            angular.copy(data.data, o.categories);
-        }, handleError);
-    };
     /**
      *   Submits a claim request to Bookd
      *  Parameters:
