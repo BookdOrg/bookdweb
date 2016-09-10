@@ -29,6 +29,7 @@ html {
 }
 body {
     margin-bottom: 70px;
+    color: #445160;
 }
 
 /*.page-wrap:after{*/
@@ -55,7 +56,7 @@ body {
     letter-spacing: 2px;
     font-family: "Avenir Next";
     font-size: 15pt;
-    font-weight: 300;
+    /*font-weight: 400;*/
 }
 
 .email-text {
@@ -151,24 +152,33 @@ button:focus {
 label:hover, label:active, input:hover + label, input:active + label {
     color: #445160;
     cursor: pointer;
+    border-bottom: 1px solid;
 }
 
 .radio-toolbar input[type=radio]:checked + label {
     color: #445160;
+    border-bottom: 1px solid;
 }
 
 .fa-twitter:before {
+    cursor: pointer;
     color: #445160;
 }
 
 .fa-instagram:before {
+    cursor: pointer;
     color: #445160;
 }
 
 .fa-facebook:before {
+    cursor: pointer;
     color: #445160;
 }
 #submitBtn {
     background-color: transparent;
     font-family: "Avenir Next";
+}
+
+span.copyright {
+    color: grey;
 }
