@@ -93,7 +93,7 @@ io.on('connection', function (socket) {
         });
     });
     socket.on('online', function () {
-        //socket.join(data.user);
+        // socket.join(data.user);
         //city = data.location.city;
         //state = data.location.state;
         //zip = data.location.zip;
@@ -117,7 +117,7 @@ io.on('connection', function (socket) {
         string = data.startDate.toString() + data.employeeId.toString();
         if (string) {
             socket.join(string);
-            var holdList = _.where(roomData, {id: string});
+            var holdList = _.find(roomData, {id: string});
             io.to(socket.id).emit('oldHold', holdList);
         } else {
             socket.emit('appointmentRoomReq');

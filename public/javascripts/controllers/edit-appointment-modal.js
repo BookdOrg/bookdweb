@@ -229,9 +229,11 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
     });
     //When a socket join the appointment room late, we send the list of available times currently being held
     socketService.on('oldHold', function (data) {
-        for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
-            if (data[dataIndex].user !== $scope.currentUser._id) {
-                calculateHold(data[dataIndex].data);
+        if (data) {
+            for (var dataIndex = 0; dataIndex < data.length; dataIndex++) {
+                if (data[dataIndex].user !== $scope.currentUser._id) {
+                    calculateHold(data[dataIndex].data);
+                }
             }
         }
     });

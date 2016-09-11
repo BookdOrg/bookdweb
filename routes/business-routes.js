@@ -43,7 +43,11 @@ if (process.env.NODE_ENV === 'development') {
     };
     server = require('https').createServer(options, app);
 }
-var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
+
+// server.listen(process.env.devsocketPort);
+
+// require('./sockets')(io);
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
@@ -390,9 +394,9 @@ router.post('/add-employee', auth, function (req, res, next) {
                     'businessId': businessId,
                     'availability': availability
                 });
-                if (employeeSocketObj) {
-                    io.to(employeeSocketObj.id).emit('update-user', employee);
-                }
+                // if (employeeSocketObj) {
+                //     io.to(employeeSocketObj.id).emit('update-user', employee);
+                // }
                 employee.save(function (err, user) {
                     if (err) {
                         return next(err);
@@ -545,7 +549,7 @@ router.post('/remove-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var serviceIds = req.body.serviceList;
-    var employeeSocketObj = _.find(clients, {'customId': employeeId});
+    // var employeeSocketObj = _.find(clients, {'customId': employeeId});
     var removeEmployeeTemplateDir = path.join(__dirname, '../emailTemplates', 'remove-employee');
     //find business that employee is being removed from
     Business.findOne({'_id': businessId}).exec(function (err, response) {
@@ -565,15 +569,14 @@ router.post('/remove-employee', auth, function (req, res, next) {
                         return next(err);
                     }
                     var authorizedIndex = user.authorizedUsers.indexOf(req.payload._id);
-                    console.log(authorizedIndex);
                     if (authorizedIndex > -1) {
                         user.authorizedUsers.splice(authorizedIndex, 1);
                     }
                     var availabilityIndex = _.findIndex(user.availabilityArray, {'businessId': businessId});
                     user.availabilityArray.splice(availabilityIndex, 1);
-                    if (employeeSocketObj) {
-                        io.to(employeeSocketObj.id).emit('update-user', user);
-                    }
+                    // if (employeeSocketObj) {
+                    //     io.to(employeeSocketObj.id).emit('update-user', user);
+                    // }
                     user.save(function (err) {
                         if (err) {
                             res.status(400).json(err);

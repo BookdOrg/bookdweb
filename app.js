@@ -21,7 +21,6 @@ require('./models/Notification');
 require('./models/BetaUser');
 require('./config/passport');
 
-var routes = require('./routes/index');
 var sockets = require('./routes/sockets');
 var userRoutes = require('./routes/user-routes');
 var businessRoutes = require('./routes/business-routes');
