@@ -8,8 +8,14 @@
  * @returns {Function}
  */
 module.exports = function ($sce) {
-    return function (placesId) {
-        return $sce.trustAsResourceUrl(
-            'https://www.google.com/maps/embed/v1/place?key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&q=place_id:' + placesId);
+    return function (query, type) {
+        if (type == 'places') {
+            return $sce.trustAsResourceUrl(
+                'https://www.google.com/maps/embed/v1/place?key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&q=place_id:' + query);
+        } else {
+            return $sce.trustAsResourceUrl(
+                'https://www.google.com/maps/embed/v1/place?key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&q=' + query);
+        }
+
     };
 };

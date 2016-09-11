@@ -5,25 +5,20 @@
                 <h1 class="text-center">BUZ Business Registration</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-xs-4 col-xs-offset-4 input-group">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input class="form-control input-lg" id="search" g-places-autocomplete options="autocompleteOptions"
-                       ng-model="query" placeholder="Start typing your businesses name.." required>
-            </div>
-        </div>
-        <div class="row" ng-if="selectedQuery.name">
-            <div class="col col-xs-12 text-center">
-                <h4>{{query.name}}</h4>
-                <h5><i class="fa fa-phone"></i> {{query.formatted_phone_number}}</h5>
-                <h5><i class="fa fa-map-marker"></i> {{query.formatted_address}}</h5>
-                <!--<h5>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a></h5>-->
-                <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
-                <img ng-if="!displayPhotos.length >0 " ng-src="{{query.icon}}"/>
-            </div>
-        </div>
         <div class="row search-place-container ">
             <form class="col-xs-6 form-horizontal" name="partnerForm">
+                <div class="form-group">
+                    <div class="col col-xs-10 col-xs-offset-1">
+                        <label>Account Type</label>
+                        <select class="form-control input-lg" ng-model="accountType"
+                                ng-change="accountSwitch(accountType)" required>
+                            <option value="">Select Type:</option>
+                            <option value="owner">Shop Owner - (I own or manage a shop)</option>
+                            <option value="shopEmployee">Employee - (I rent or pay commission at a shop )</option>
+                            <option value="individual">Individual - (I manage my own clientele)</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col col-xs-10 col-xs-offset-1">
                         <label for="businessName">Business Name:</label>
@@ -35,7 +30,7 @@
                     <div class="col col-xs-10 col-xs-offset-1">
                         <label for="phone">Address:</label>
                         <input class="form-control input-lg" id="address" type="text"
-                               ng-model="selectedQuery.formatted_address" required>
+                               ng-model="selectedQuery.formatted_address" ng-blur="updateQuery()" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -53,21 +48,21 @@
                 </div>
                 <div class="form-group">
                     <div class="col col-xs-5 col-xs-offset-1">
-                        <label>Account Type</label>
-                        <select class="form-control input-lg" ng-model="accountType" required>
-                            <option value="">Select Type:</option>
-                            <option value="owner">Shop Owner - (I own or manage a shop)</option>
-                            <option value="shopEmployee">Employee - (I rent or pay commission at a shop )</option>
-                            <option value="individual">Individual - (I manage my own clientele)</option>
-                        </select>
-                    </div>
-                    <div class="col col-xs-5">
                         <label>Subscription</label>
                         <select class="form-control input-lg" ng-model="tier" required>
                             <option value="">Select Plan</option>
                             <option value="0"> Beta - Free</option>
                             <!--<option value="1" disabled> Silver - $20.00/mo</option>-->
                             <!--<option value="2" disabled uib-tooltip="Coming soon.."> Gold - $x.xx/mo</option>-->
+                        </select>
+                    </div>
+                    <div ng-if="accountType == 'owner'" class="col-xs-5">
+                        <label>Shop Size</label>
+                        <select class="form-control input-lg" ng-model="shopSize" required>
+                            <option value="">How many chairs does your shop have?</option>
+                            <option value="small">1-5</option>
+                            <option value="medium">5-10</option>
+                            <option value="large">10+</option>
                         </select>
                     </div>
                 </div>
@@ -82,15 +77,6 @@
                             <option value="mixed">Mixed</option>
                         </select>
                     </div>
-                    <div ng-if="accountType == 'owner'" class="col-xs-5">
-                        <label>Shop Size</label>
-                        <select class="form-control input-lg" ng-model="shopSize" required>
-                            <option value="">How many chairs does your shop have?</option>
-                            <option value="small">1-5</option>
-                            <option value="medium">5-10</option>
-                            <option value="large">10+</option>
-                        </select>
-                    </div>
                 </div>
                 <button class="btn btn-gradient-success btn-lg col-xs-offset-5"
                         ng-click="partnerForm.$valid && claim(selectedQuery, currentUser._id)">Claim
@@ -100,13 +86,33 @@
                     Service</a> and the <a ng-href="https://stripe.com/connect/account-terms">Stripe Connected Account
                     Agreement</a>.</h6>
             </form>
-            <div class="col-xs-6" ng-if="selectedQuery.place_id">
-                <iframe
-                        width="100%"
-                        height="50%"
-                        frameborder="0" style="border:0"
-                        ng-src="{{ selectedQuery.place_id | staticMapsFilter }}" allowfullscreen>
-                </iframe>
+            <div class="col-xs-6">
+                <div class="row" ng-if="displayPhotos.length > 0"
+                     ng-show="accountType == 'owner' || accountType == 'shopEmployee'">
+                    <div class="col col-xs-12 text-center">
+                        <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
+                        <img ng-if="!displayPhotos.length >0 " ng-src="{{query.icon}}"/>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:10px;"
+                     ng-show="accountType == 'owner' || accountType == 'shopEmployee'">
+                    <div class="col col-xs-10 col-xs-offset-1 input-group">
+                        <span class="input-group-addon"
+                              uib-tooltip="Search for your shop to auto-fill the registration form"><i
+                                class="fa fa-search"></i></span>
+                        <input class="form-control input-lg" id="search" g-places-autocomplete
+                               options="autocompleteOptions"
+                               ng-model="query" placeholder="Let us help, search for your shop here.." required>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:10px;">
+                    <iframe
+                            width="100%"
+                            height="50%"
+                            frameborder="0" style="border:0"
+                            ng-src="{{ mapLocation | staticMapsFilter: 'individual' }}" allowfullscreen>
+                    </iframe>
+                </div>
             </div>
         </div>
     </div>
