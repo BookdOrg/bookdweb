@@ -10,11 +10,11 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         }
     ];
     $scope.contextMessage = false;
-
+    $scope.activeTab = 0;
     if (modalType === 'login') {
-        $scope.tabs[0].active = true;
+        $scope.activeTab = 0;
     } else if (modalType === 'signup') {
-        $scope.tabs[1].active = true;
+        $scope.activeTab = 1;
     }
     if (context == "businessRegister") {
         $scope.contextMessage = true;
