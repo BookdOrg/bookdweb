@@ -45,7 +45,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
      * @param state
      * @param selectedTier
      */
-    $scope.open = function (type, state, selectedTier) {
+    $scope.open = function (type, state, selectedTier, context) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: 'partials/modals/auth-modal.html',
@@ -59,22 +59,25 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
                 },
                 tier: function () {
                     return selectedTier;
+                },
+                context: function () {
+                    return context;
                 }
             }
         });
     };
-  // /**
-  //  * Takes the user to the claim business page, first checks to see if they
-  //  * are authenticated. If they aren't we open the login modal, then take them to search
-  //  *
-  //  */
-  // $scope.goToClaim = function (tier) {
-  //     if (!auth.isLoggedIn()) {
-  //         $scope.open('login', 'join', tier);
-  //     } else {
-  //         $state.go('join');
-  //     }
-  // };
+    /**
+     * Takes the user to the claim business page, first checks to see if they
+     * are authenticated. If they aren't we open the login modal, then take them to search
+     *
+     */
+    $scope.goToClaim = function (tier, context) {
+        if (!auth.isLoggedIn()) {
+            $scope.open('login', 'join', tier, context);
+        } else {
+            $state.go('join');
+        }
+    };
 
   $scope.join = function () {
     if (auth.isLoggedIn()) {

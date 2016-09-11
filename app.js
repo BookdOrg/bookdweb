@@ -83,8 +83,8 @@ app.use('/auth',authRoutes);
 app.use('/beta', betaRoutes);
 app.use('/appointments', apptRoutes);
 //TODO move sockets to the /sockets route
-app.use('/', sockets);
-app.use('/application', function (req, res) {
+// app.use('/', sockets);
+app.use('/', function (req, res) {
     //TODO Find out why this works
     //Returns a 404 if a js or css file can't be found
     if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
@@ -93,17 +93,17 @@ app.use('/application', function (req, res) {
 
     res.render('index.ejs', {root: __dirname});
 });
-app.use('/', function (req, res) {
-    //Returns a 404 if a js or css file can't be found
-    if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
-        res.status(404);
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err)
-    } else {
-        res.render('landing.ejs', {root: __dirname});
-    }
-});
+// app.use('/', function (req, res) {
+//     //Returns a 404 if a js or css file can't be found
+//     if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
+//         res.status(404);
+//         var err = new Error('Not Found');
+//         err.status = 404;
+//         next(err)
+//     } else {
+//         res.render('landing.ejs', {root: __dirname});
+//     }
+// });
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

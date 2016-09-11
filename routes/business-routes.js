@@ -312,7 +312,8 @@ router.post('/add-employee', auth, function (req, res, next) {
     var businessId = req.body.businessId;
     var employeeId = req.body.employeeId;
     var businessName = req.body.businessName;
-    var employeeSocketObj = _.find(clients, {'customId': employeeId});
+    //TODO re-enable sockets to work across multiple files REDIS
+    // var employeeSocketObj = _.find(clients, {'customId': employeeId});
     Business.findOne({'_id': businessId}).exec(function (err, response) {
         if (err) {
             return next(err);
@@ -773,6 +774,9 @@ router.post('/claim-request', auth, function (req, res, next) {
     business.pending = true;
     business.claimed = false;
     business.tier = req.body.tier;
+    business.shopSize = req.body.shopSize;
+    business.shopModel = req.body.shopModel;
+    business.accountType = req.body.accountType;
 
     Business.findOne({'placesId': req.body.placesId}).exec(function (err, response) {
         var businessRequestDir = path.join(__dirname, '../emailTemplates', 'business-request');

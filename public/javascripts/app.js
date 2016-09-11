@@ -381,7 +381,7 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location, ENV_VARS) {
+                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location, $anchorScroll, ENV_VARS) {
     OAuth.initialize(ENV_VARS.oAuthKey);
     $rootScope.currentUser = auth.currentUser();
     $rootScope.facebookApi = ENV_VARS.facebookApi;
@@ -528,9 +528,9 @@ app.config([
         // set the location.hash to the id of
         // the element you wish to scroll to.
         if (!anchor) {
-            $location.hash('top');
+            $anchorScroll('top');
         } else {
-            $location.hash(anchor);
+            $anchorScroll(anchor);
         }
 
 

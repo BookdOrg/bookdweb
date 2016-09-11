@@ -1,5 +1,5 @@
 module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, state, socketService, $rootScope,
-                           userFactory, notificationFactory, tier) {
+                           userFactory, notificationFactory, tier, context) {
     $scope.user = {};
     $scope.tabs = [
         {
@@ -9,11 +9,15 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
             title: 'Sign up'
         }
     ];
+    $scope.contextMessage = false;
 
     if (modalType === 'login') {
         $scope.tabs[0].active = true;
     } else if (modalType === 'signup') {
         $scope.tabs[1].active = true;
+    }
+    if (context == "businessRegister") {
+        $scope.contextMessage = true;
     }
     var onlineData = {
         user: '',

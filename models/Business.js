@@ -16,6 +16,9 @@ var BusinessSchema = new mongoose.Schema({
     claimed: Boolean,
     tier: Number,
     payments: Boolean,
+    accountType: String,
+    shopModel: String,
+    shopSize: String,
     stripeId: String,
     stripeKeys: Object,
     stripeAccount: Object

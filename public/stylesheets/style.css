@@ -1,12 +1,12 @@
-@font-face {
-    font-family: 'Gotham';
+/*@font-face {*/
+/*font-family: 'Gotham';*/
     /*src: url(/public/fonts/GothamBook.woff);*/
-}
+/*}*/
 
-@font-face {
-    font-family: 'Gotham Book';
+/*@font-face {*/
+/*font-family: 'Gotham Book';*/
     /*src: url(/public/fonts/Gotham-Book.woff);*/
-}
+/*}*/
 
 .buz-default-text {
     letter-spacing: 2px;
@@ -831,4 +831,16 @@ Hack so the table styles load before we're on the page
 
 #loading-bar-spinner {
     display: none !important;
+}
+
+.fb-blue:hover {
+    color: white;
+    background: #4267B2;
+    background-color: #4267B2;
+}
+
+.fb-blue {
+    color: white;
+    background: #4267B2;
+    background-color: #4267B2;
 }

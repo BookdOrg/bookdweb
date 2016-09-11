@@ -1,89 +1,113 @@
-<div class="container">
-    <div class="row">
-        <div class="page-header">
-            <h1 class="text-center">Bookd Business Registration</h1>
+<section class="searchSection">
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h1 class="text-center">BUZ Business Registration</h1>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div uib-alert class="col-xs-8 col-xs-offset-2 text-center alert-danger" ng-show="error" role="alert">
-            {{error}}
+        <div class="row">
+            <div class="col col-xs-4 col-xs-offset-4 input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input class="form-control input-lg" id="search" g-places-autocomplete options="autocompleteOptions"
+                       ng-model="query" placeholder="Start typing your businesses name.." required>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div uib-alert class="col-xs-8 col-xs-offset-2 text-center alert-danger"
-             ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
-            Please enter a valid email
+        <div class="row" ng-if="selectedQuery.name">
+            <div class="col col-xs-12 text-center">
+                <h4>{{query.name}}</h4>
+                <h5><i class="fa fa-phone"></i> {{query.formatted_phone_number}}</h5>
+                <h5><i class="fa fa-map-marker"></i> {{query.formatted_address}}</h5>
+                <!--<h5>Google Places Page: <a ng-href="{{selectedQuery.url}}">{{selectedQuery.url}}</a></h5>-->
+                <img ng-repeat="photo in displayPhotos" ng-src="{{photo}}"/>
+                <img ng-if="!displayPhotos.length >0 " ng-src="{{query.icon}}"/>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div uib-alert class="col-xs-8 col-xs-offset-2 text-center alert-danger"
-             ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
-            Your password must have more than 8 characters.
-        </div>
-    </div>
-    <div class="row">
-        <div uib-alert class="col-xs-8 col-xs-offset-2 text-center alert-danger"
-             ng-show="signUpForm.passwordVerify.$error.validator" role="alert">
-            Password do not match.
-        </div>
-    </div>
-    <div class="row">
-        <form name="signUpForm" class="col-xs-offset-2 col-xs-8 css-form">
-            <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName" required>
-            </div>
-
-            <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" ng-model="user.lastName" required>
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="signUpEmail" class="form-control" placeholder="Email"
-                       ng-model="user.email" required
-                       ng-model-options="{ updateOn: 'default blur',debounce: {'default':1000} }">
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="number" name="signUpPhone" class="form-control" placeholder="Phone Number"
-                       ng-model="user.phone" required
-                       ng-model-options="{ updateOn: 'default blur',debounce: {'default':1000} }">
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="signUpPassword" class="form-control" placeholder="Password"
-                       ng-model="user.password" ng-minlength="8" required
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default':500} }">
-            </div>
-            <div class="form-group">
-                <label for="passwordVerify">Confirm Password</label>
-                <input ng-model="passwordVerify" class="form-control" type="password" name="passwordVerify"
-                       id="passwordVerify" ng-minlength="8" required placeholder="Confirm password"
-                       ui-validate=" '$value==user.password' " ui-validate-watch=" 'user.password' "
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default':500} }"/>
-            </div>
-
-            <div class="form-group">
-                <button ng-click="signUpForm.$valid && register()" class="btn btn-gradient-primary col-xs-12"><i
-                        class="fa fa-user"></i> Sign Up
+        <div class="row search-place-container ">
+            <form class="col-xs-6 form-horizontal" name="partnerForm">
+                <div class="form-group">
+                    <div class="col col-xs-10 col-xs-offset-1">
+                        <label for="businessName">Business Name:</label>
+                        <input class="form-control input-lg" id="businessName" ng-model="selectedQuery.name"
+                               placeholder="Salon 23" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col col-xs-10 col-xs-offset-1">
+                        <label for="phone">Address:</label>
+                        <input class="form-control input-lg" id="address" type="text"
+                               ng-model="selectedQuery.formatted_address" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col col-xs-5 col-xs-offset-1">
+                        <label for="email">Email:</label>
+                        <input class="form-control input-lg" type="email" id="email"
+                               placeholder="{{currentUser.email}}" ng-value="currentUser.email" disabled
+                               required>
+                    </div>
+                    <div class="col col-xs-5 ">
+                        <label for="phone">Phone Number:</label>
+                        <input class="form-control input-lg" id="phone" type="tel"
+                               ng-model="selectedQuery.formatted_phone_number" placeholder="(555)-555-5555" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col col-xs-5 col-xs-offset-1">
+                        <label>Account Type</label>
+                        <select class="form-control input-lg" ng-model="accountType" required>
+                            <option value="">Select Type:</option>
+                            <option value="owner">Shop Owner - (I own or manage a shop)</option>
+                            <option value="shopEmployee">Employee - (I rent or pay commission at a shop )</option>
+                            <option value="individual">Individual - (I manage my own clientele)</option>
+                        </select>
+                    </div>
+                    <div class="col col-xs-5">
+                        <label>Subscription</label>
+                        <select class="form-control input-lg" ng-model="tier" required>
+                            <option value="">Select Plan</option>
+                            <option value="0"> Beta - Free</option>
+                            <!--<option value="1" disabled> Silver - $20.00/mo</option>-->
+                            <!--<option value="2" disabled uib-tooltip="Coming soon.."> Gold - $x.xx/mo</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div ng-if="accountType == 'shopEmployee' || accountType == 'owner'"
+                         class="col col-xs-5 col-xs-offset-1">
+                        <label>Chair Model</label>
+                        <select class="form-control input-lg" ng-model="shopModel" required>
+                            <option value="">Select Model:</option>
+                            <option value="rent">Rent</option>
+                            <option value="commission">Commission</option>
+                            <option value="mixed">Mixed</option>
+                        </select>
+                    </div>
+                    <div ng-if="accountType == 'owner'" class="col-xs-5">
+                        <label>Shop Size</label>
+                        <select class="form-control input-lg" ng-model="shopSize" required>
+                            <option value="">How many chairs does your shop have?</option>
+                            <option value="small">1-5</option>
+                            <option value="medium">5-10</option>
+                            <option value="large">10+</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-gradient-success btn-lg col-xs-offset-5"
+                        ng-click="partnerForm.$valid && claim(selectedQuery, currentUser._id)">Claim
                 </button>
+                <h6 class="text-center text-muted">By claiming this business, you agree to our <a ng-href="/terms">Terms
+                    of
+                    Service</a> and the <a ng-href="https://stripe.com/connect/account-terms">Stripe Connected Account
+                    Agreement</a>.</h6>
+            </form>
+            <div class="col-xs-6" ng-if="selectedQuery.place_id">
+                <iframe
+                        width="100%"
+                        height="50%"
+                        frameborder="0" style="border:0"
+                        ng-src="{{ selectedQuery.place_id | staticMapsFilter }}" allowfullscreen>
+                </iframe>
             </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <h4 class="text-center">or</h4>
         </div>
     </div>
-    <div class="row">
-        <div class="btn-group col-xs-offset-2 col-xs-8">
-            <button class="btn btn-primary col-xs-12" ng-click="facebookSignup()"><i
-                    class="fa fa-facebook-official fa-2x"></i> Facebook
-            </button>
-        </div>
-    </div>
-</div>
+</section>
