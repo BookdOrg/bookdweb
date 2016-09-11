@@ -555,9 +555,13 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         var responseArray = {};
         if(appointmentArray.length > 0){
             for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
-                responseArray[appointmentArray[appointmentArrayIndex].employee._id] = {};
-                responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments = [];
-                responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
+                if (responseArray[appointmentArray[appointmentArrayIndex].employee._id] && responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments) {
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
+                } else {
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id] = {};
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments = [];
+                    responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
+                }
             }
         }else{
             for(var employeeIndex = 0; employeeIndex<$scope.activeBusiness.business.employees.length;employeeIndex++){
