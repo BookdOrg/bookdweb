@@ -13,7 +13,6 @@ try {
     // there was an error so...
     alert('Whoops, looks like you are in Privacy Mode\nSome of our features won\'t work in this mode\nPlease deactivate Privacy Mode and then reload the page.');
 }
-alert('helllo');
 var angular = require('angular');
 require('angular-file-upload');
 require('angular-stripe-checkout');
