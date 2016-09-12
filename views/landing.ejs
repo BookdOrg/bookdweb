@@ -21,6 +21,7 @@
     <!--<![endif]&ndash;&gt;-->
     <link href="/stylesheets/landing.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -81,9 +82,10 @@
     </div>
     <div class="row" style="margin-top:20px;">
         <div class="col-xs-12 col-sm-8 col-md-6">
-            <form action="/beta/sign-up" method="POST">
+            <form id="form" action="/beta/sign-up" method="POST" novalidate>
                 <div class="radio-toolbar" id="radio-toolbar" data-toggle="popover" data-trigger="focus"
-                     data-content="Please make a selection" data-placement="top">
+                     data-content="Please make sure you select an account type and enter your email."
+                     data-placement="top">
                     <p class="customerSelection">I'm a:
                         <input type="radio" id="barber" name="userType" value="barber" required>
                         <label for="barber">Barber</label>
@@ -119,14 +121,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6 col-sm-4  col-md-4">
+            <div class="col-xs-12 col-sm-5 col-md-4">
                 <span class="copyright">Copyright &copy; BUZ, Inc. All Rights Reserved.</span>
             </div>
-            <div class="col-xs-5 col-xs-offset-1 col-sm-5 col-sm-offset-3 col-md-4 col-md-offset-4">
+            <div class="col-xs-12 col-sm-4 col-sm-offset-3 col-md-4 col-md-offset-4">
                 <ul class="list-inline quicklinks">
                     <li><a href="/beta/about" data-toggle="tooltip" title="test">About</a>
                     </li>
-                    <li><a style="font-size:15px;" href="mailto:hello@buzapp.me">&#128273; hello@buzapp.me</a>
+                    <li><a href="mailto:hello@buzapp.me">&#128273; hello@buzapp.me</a>
                     </li>
                     <!--<li><a ui-sref="">Privacy</a>-->
                     <!--</li>-->
@@ -139,8 +141,9 @@
 </footer>
 <script>
     $(document).ready(function () {
-        $("#submitBtn").click(function () {
-            if (!$("input[name='userType']:checked").val()) {
+        $("#submitBtn").click(function (e) {
+            e.preventDefault();
+            if (!$("input[name='userType']:checked").val() || !$("#email").val()) {
                 $("#radio-toolbar").popover('show');
                 setTimeout(function () {
                     $("#radio-toolbar").popover('hide')
@@ -148,6 +151,7 @@
             }
             else {
                 $("#radio-toolbar").popover('hide');
+                $("form").submit();
             }
         })
     })
