@@ -26,6 +26,7 @@ router.post('/sign-up', function (req, res, next) {
     var newUser = new BetaUser();
     newUser.email = email;
     newUser.type = type;
+    newUser.dateCreated = moment().format('MMM Do YYYY, h:mm:ss a');
     newUser.save(function (error, user) {
         if (error) {
             next(error);
