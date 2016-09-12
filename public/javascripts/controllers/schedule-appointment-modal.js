@@ -35,7 +35,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         $scope.activeTab = 'customer';
     }
     $scope.createCustomer = function (customer) {
-        if (customer) {
+        if (customer.name && customer.email) {
             $scope.creatingCustomer = true;
             businessFactory.createBusinessCustomer(customer, service.businessId)
                 .then(function (data) {
