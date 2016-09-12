@@ -56,7 +56,7 @@
                             <!--<option value="2" disabled uib-tooltip="Coming soon.."> Gold - $x.xx/mo</option>-->
                         </select>
                     </div>
-                    <div ng-if="accountType == 'owner'" class="col-xs-5">
+                    <div ng-show="accountType == 'owner'" class="col-xs-5">
                         <label>Shop Size</label>
                         <select class="form-control input-lg" ng-model="shopSize" required>
                             <option value="">How many chairs does your shop have?</option>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div ng-if="accountType == 'shopEmployee' || accountType == 'owner'"
+                    <div ng-show="accountType == 'shopEmployee' || accountType == 'owner'"
                          class="col col-xs-5 col-xs-offset-1">
                         <label>Chair Model</label>
                         <select class="form-control input-lg" ng-model="shopModel" required>
