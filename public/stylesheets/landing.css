@@ -8,15 +8,8 @@
     /*src: url(/public/fonts/Gotham-Book.ttf);*/
 }
 
-.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
-    margin-left: 0px;
-}
-
 a.navbar-brand {
-    font-family: 'Gotham';
-    font-size: 35pt;
-    color: #445160;
-    border-bottom: 1px solid darkgrey;
+    border-bottom: 2px solid darkgrey;
 }
 
 .navbar-static-top {
@@ -53,10 +46,10 @@ body {
 }
 
 .paragraph-text {
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     font-family: "Avenir Next";
     font-size: 15pt;
-    /*font-weight: 400;*/
+    color: #445160;
 }
 
 .email-text {
@@ -174,6 +167,11 @@ label:hover, label:active, input:hover + label, input:active + label {
     cursor: pointer;
     color: #445160;
 }
+
+.enter-arrow {
+    color: #445160;
+}
+
 #submitBtn {
     background-color: transparent;
     font-family: "Avenir Next";
@@ -185,8 +183,20 @@ span.copyright {
 
 .about-text {
     font-size: 16px;
+    line-height: 2.0;
 }
 
 a {
     color: #445160;
+}
+
+#success-logo {
+    height: 100px;
+    width: 100px;
+    margin-top: 2em;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
 }

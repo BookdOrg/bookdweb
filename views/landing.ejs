@@ -21,8 +21,6 @@
     <!--<![endif]&ndash;&gt;-->
     <link href="/stylesheets/landing.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="/bootstrap/js/tooltip.js"></script>
-    <script src="/bootstrap/js/popover.js"></script>
 </head>
 <body>
 
@@ -58,8 +56,12 @@
     </div>
     <!-- /.container -->
 </nav>
-<!-- Put your page content here! -->
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12 hidden-md hidden-lg">
+            <img src="/images/screens.png" style="height: 100%; width: 100%;" class="center-block">
+        </div>
+    </div>
     <div class="row" style="margin-top:50px;">
         <div class="col-xs-12 col-md-7">
             <p class="welcome-text">Welcome</p>
@@ -71,6 +73,9 @@
                 possible. </p>
             <p class="paragraph-text">Try us out today, for free.</p>
         </div>
+        <div class="col-md-5 hidden-sm hidden-xs">
+            <img src="/images/screens.png" style="height: 100%; width: 100%;" class="center-block">
+        </div>
     </div>
     <div class="row" style="margin-top:20px;">
         <div class="col-xs-12 col-sm-8 col-md-6">
@@ -80,38 +85,19 @@
                     <p class="customerSelection">I'm a
                         <input type="radio" id="barber" name="userType" value="barber" required>
                         <label for="barber">Barber</label>
-
-
                         <input type="radio" id="shopOwner" name="userType" value="shopOwner">
                         <label for="shopOwner">Shop Owner</label>
-
-
                         <input type="radio" id="client" name="userType" value="client">
                         <label for="client">Client</label>
-
-
-                        <!--<input type="radio" id="other" name="userType" value="other">-->
-                        <!--<label for="other">Other</label>-->
                     </p>
                 </div>
                 <div class="input-group">
                     <input type="email" id="email" name="email" placeholder="Enter your email address" required>
                     <span class="input-group-btn">
                         <button id="submitBtn" class="btn" type="submit"><span
-                                    class="fa fa-angle-right fa-2x"></span></button>
+                                    class="fa fa-angle-right fa-2x enter-arrow"></span></button>
                       </span>
                 </div>
-                <!--<div class="inner-addon right-addon">-->
-                <!--<i class="fa fa-angle-right"></i>-->
-                <!--<input type="email" id="email" name="email"-->
-                <!--placeholder="EMAIL"-->
-                <!--aria-describedby="fa fa-angle-right" required/>-->
-                <!--</div>-->
-                <!--<div class="row" style="margin-top:20px;">-->
-                <!--<div class="col-xs-9 col-sm-8 col-md-6">-->
-                <!--<button id="submitBtn" class="btn btn-lg" type="submit">Sign up</button>-->
-                <!--</div>-->
-                <!--</div>-->
             </form>
         </div>
     </div>
