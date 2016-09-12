@@ -132,6 +132,7 @@ router.post('/register', function (req, res) {
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.provider = req.body.provider;
+    user.dateCreated = moment().format('MMM Do YYYY, h:mm:ss a');
 
     user.save(function (err, user) {
         if (err) {

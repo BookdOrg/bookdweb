@@ -23,7 +23,8 @@ var UserSchema = new mongoose.Schema({
     authorizedUsers: [],
     appointments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Appointment'}],
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    dateCreated: String
 });
 
 UserSchema.methods.validPassword = function (password) {
