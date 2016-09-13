@@ -72,7 +72,7 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
 };
 server.listen(process.env.devsocketPort);
 var roomData = [];
-var clients = [];
+global.clients = [];
 
 io.on('connection', function (socket) {
     var string;
@@ -301,4 +301,5 @@ io.on('connection', function (socket) {
         }
     });
 });
-module.exports = router;
+module.exports.clients = clients;
+module.exports = io;

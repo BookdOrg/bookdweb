@@ -32,18 +32,8 @@ var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
-// var server;
-// if (process.env.NODE_ENV === 'development') {
-//     server = require('http').createServer(app);
-// } else {
-//     var fs = require('fs');
-//     var options = {
-//         key: fs.readFileSync(process.env.keyLoc),
-//         cert: fs.readFileSync(process.env.certLoc)
-//     };
-//     server = require('https').createServer(options, app);
-// }
-// var io = require('socket.io')(server);
+
+var io = require('./sockets');
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
@@ -190,7 +180,7 @@ router.get('/notifications', auth, function (req, res, next) {
 /**
  * Creates a new Notification and saves it to the database.
  */
-router.post('/notifications/create', auth, function (req, res, next) {
+router.post('/notifications/create', function (req, res, next) {
     var notification = new Notification();
     //Content of the notification.
     notification.content = req.body.content;
@@ -326,7 +316,7 @@ router.post('/claimed-success', function (req, res, next) {
                 return next(error);
             }
             activeUser.hash = '';
-            // io.to(user.id).emit('update-user', activeUser);
+            io.sockets.to(user.id).emit('update-user', activeUser);
             res.json({message: 'Success'});
         });
     }

@@ -32,18 +32,8 @@ var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
-// var server;
-// if (process.env.NODE_ENV === 'development') {
-//     server = require('http').createServer(app);
-// } else {
-//     var fs = require('fs');
-//     var options = {
-//         key: fs.readFileSync(process.env.keyLoc),
-//         cert: fs.readFileSync(process.env.certLoc)
-//     };
-//     server = require('https').createServer(options, app);
-// }
-// var io = require('socket.io')(server);
+
+var io = require('./sockets');
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
@@ -220,7 +210,7 @@ router.post('/create', auth, function (req, res, next) {
                 //console.log(response);
             });
             appointment.employee.hash = '';
-            // io.sockets.in(room).emit('update');
+            io.sockets.in(room).emit('update');
             res.status(200).json(appointment);
         }
     ], function (err) {

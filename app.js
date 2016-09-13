@@ -21,7 +21,7 @@ require('./models/Notification');
 require('./models/BetaUser');
 require('./config/passport');
 
-var sockets = require('./routes/sockets');
+var io = require('./routes/sockets');
 var userRoutes = require('./routes/user-routes');
 var businessRoutes = require('./routes/business-routes');
 var authRoutes = require('./routes/auth-routes');
@@ -82,14 +82,12 @@ app.use('/auth',authRoutes);
 app.use('/beta', betaRoutes);
 app.use('/appointments', apptRoutes);
 //TODO move sockets to the /sockets route
-app.use('/', sockets);
 app.use('/', function (req, res) {
     //TODO Find out why this works
     //Returns a 404 if a js or css file can't be found
     if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
         res.status(404);
     }
-
     res.render('index.ejs', {root: __dirname});
 });
 // app.use('/', function (req, res) {
