@@ -58,7 +58,7 @@
                     </div>
                     <div ng-show="accountType == 'owner'" class="col-xs-5">
                         <label>Shop Size</label>
-                        <select class="form-control input-lg" ng-model="shopSize" required>
+                        <select class="form-control input-lg" ng-model="shopSize" ng-required="accountType == 'owner'">
                             <option value="">How many chairs does your shop have?</option>
                             <option value="small">1-5</option>
                             <option value="medium">5-10</option>
@@ -70,7 +70,8 @@
                     <div ng-show="accountType == 'shopEmployee' || accountType == 'owner'"
                          class="col col-xs-5 col-xs-offset-1">
                         <label>Chair Model</label>
-                        <select class="form-control input-lg" ng-model="shopModel" required>
+                        <select class="form-control input-lg" ng-model="shopModel"
+                                ng-required="accountType == 'shopEmployee' || accountType == 'owner'">
                             <option value="">Select Model:</option>
                             <option value="rent">Rent</option>
                             <option value="commission">Commission</option>
