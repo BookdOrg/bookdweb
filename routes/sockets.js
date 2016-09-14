@@ -4,11 +4,9 @@
 //Created by Khalil -
 var express = require('express');
 var app = require('express')();
-var router = express.Router();
 var jwt = require('express-jwt');
 var passport = require('passport');
 var cloudinary = require('cloudinary');
-var Busboy = require('busboy');
 var async = require('async');
 var moment = require('moment');
 var crypto = require('crypto');
@@ -32,7 +30,6 @@ var Appointment = mongoose.model('Appointment');
 var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
-var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 var server;
 if (process.env.NODE_ENV === 'development') {
     server = require('http').createServer(app);

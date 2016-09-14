@@ -844,3 +844,12 @@ Hack so the table styles load before we're on the page
     background: #4267B2;
     background-color: #4267B2;
 }
+
+.search-place-container {
+    padding: 10px 0;
+}
+
+.searchSection {
+    background-color: white;
+    padding: 0 0;
+}
