@@ -233,7 +233,7 @@ router.post('/notification/viewed', auth, function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.status(200);
+            res.status(200).send('Success');
         });
 });
 
