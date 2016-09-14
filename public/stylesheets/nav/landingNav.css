@@ -15,43 +15,17 @@
 }
 
 .avatarPadding {
-    padding-top: 14px !important;
-    /*padding-bottom: 20px !important;*/
+    padding-top: 14px;
 }
 
 .dropdown-menu a {
     color: white;
 }
 
-.navbar-default.navbar-shrink .nav .droplinks li a {
-    color: black;
-}
-
-.navbar-default.navbar-shrink .nav .droplinks li a i {
-    color: black;
-}
-.navbar-default .navbar-header .navbar-brand {
-    color: white;
-}
-
-.navbar-default.navbar-shrink .navbar-header .navbar-brand:hover {
-    color: #f05f40;
-}
-
-.navbar-default.navbar-shrink .navbar-header .navbar-brand {
-    color: white;
-}
-
-.navbar-default.navbar-shrink .nav li a:hover {
-    color: #337ab7;
-}
 .partnerBox {
     border: 1px solid white;
 }
 
-.navbar-default.navbar-shrink .nav li > a > i > span {
-    color: white !important;
-}
 .landing-notification-bell > a:hover i {
     color: #337ab7;
 }
