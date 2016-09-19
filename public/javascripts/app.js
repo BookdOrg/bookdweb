@@ -93,7 +93,7 @@ app.config([
                 controller: 'SearchCtrl',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -106,7 +106,7 @@ app.config([
                 url: '/business/{businessid}',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -129,7 +129,7 @@ app.config([
                 url: '/user/:id/profile',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -154,7 +154,7 @@ app.config([
                 url: '/user/:id/account',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -193,7 +193,7 @@ app.config([
                 url: '/dashboard',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -221,7 +221,7 @@ app.config([
                 url: '/favorites',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -233,7 +233,7 @@ app.config([
                 url: '/calendar',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
@@ -258,7 +258,7 @@ app.config([
                 url: '/join',
                 views: {
                     'nav': {
-                        templateUrl: '/partials/bookdNav.html',
+                      templateUrl: '/partials/buzNav.html',
                         controller: 'NavCtrl'
                     },
                     'content': {
