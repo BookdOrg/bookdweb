@@ -238,7 +238,7 @@
 }
 
 .navbar-default .nav li > a > i > span {
-    color: white;
+    color: #445160;
 }
 
 #notificationNumber-app {
@@ -250,7 +250,7 @@
 }
 
 ul.nav.navbar-nav.navbar-right {
-    color: white;
+    color: #445160;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {

@@ -7,7 +7,7 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
-    color: white;
+    /*color: white;*/
 }
 
 .navbarAvatar {
@@ -25,32 +25,15 @@
     color: black;
 }
 
-.navbar-default.navbar-shrink .nav .droplinks li a {
-    color: black
-}
-
-.navbar-default.navbar-shrink .nav li a:hover {
-    color: #337ab7;
-}
-
-.navbar-default.navbar-shrink .nav li a:hover > i {
-    color: #337ab7;
-}
-.navbar-default.navbar-shrink .nav li {
-    border-color: white;
-}
 
 .navbar-default .navbar-header .navbar-brand {
     color: black;
 }
 
-.navbar-default.navbar-shrink .navbar-header .navbar-brand:hover {
-    color: #f05f40;
-}
+/*.navbar-default.navbar-shrink .navbar-header .navbar-brand:hover {*/
+/*color: #f05f40;*/
+/*}*/
 
-.navbar-default.navbar-shrink .navbar-header .navbar-brand {
-    color: white;
-}
 
 section#services {
     padding-top: 120px;
@@ -58,16 +41,4 @@ section#services {
 
 .dropdown-menu li > a > i {
     color: black;
-}
-
-.navbar-default .nav li > a > i > span {
-    color: white;
-}
-
-.navbar-default .navbar-shrink .nav li > a > i > span {
-    color: white !important;
-}
-
-.navbar-default.navbar-shrink .nav li > a > i {
-    color: white;
 }

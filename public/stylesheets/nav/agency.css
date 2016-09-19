@@ -8,7 +8,7 @@ body {
 }
 
 .text-primary {
-    color: #337ab7
+    color: #445160
 }
 
 p {
@@ -25,7 +25,7 @@ a, a:hover, a:focus, a:active, a.active {
 }
 
 a {
-    color: #337ab7
+    color: white;
 }
 
 a:hover, a:focus, a:active, a.active {
@@ -51,8 +51,8 @@ h1, h2, h3 {
 
 .section .btn-primary {
     color: #fff;
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: #445160;
+    border-color: #445160;
     font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     font-weight: 700
@@ -60,8 +60,8 @@ h1, h2, h3 {
 
 .section .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
     color: #fff;
-    background-color: #337ab7;
-    border-color: #337ab7
+    background-color: #445160;
+    border-color: #445160
 }
 
 .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
@@ -69,12 +69,12 @@ h1, h2, h3 {
 }
 
 .btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
-    background-color: #337ab7;
-    border-color: #337ab7
+    background-color: #445160;
+    border-color: #445160
 }
 
 .btn-primary .badge {
-    color: #337ab7;
+    color: #445160;
     background-color: #fff
 }
 
@@ -101,18 +101,18 @@ h1, h2, h3 {
 }
 
 .btn-xl.disabled, .btn-xl[disabled], fieldset[disabled] .btn-xl, .btn-xl.disabled:hover, .btn-xl[disabled]:hover, fieldset[disabled] .btn-xl:hover, .btn-xl.disabled:focus, .btn-xl[disabled]:focus, fieldset[disabled] .btn-xl:focus, .btn-xl.disabled:active, .btn-xl[disabled]:active, fieldset[disabled] .btn-xl:active, .btn-xl.disabled.active, .btn-xl[disabled].active, fieldset[disabled] .btn-xl.active {
-    background-color: #337ab7;
-    border-color: #337ab7
+    background-color: #445160;
+    border-color: #445160
 }
 
 .btn-xl .badge {
-    color: #337ab7;
+    color: #445160;
     background-color: #fff
 }
 
 .navbar-default {
     padding: 0px 0;
-    background-color: rgba(34, 34, 34, .3);
+    background-color: rgba(244, 244, 244, .3);
     border-color: transparent
 }
 
@@ -137,8 +137,8 @@ h1, h2, h3 {
 }
 
 .navbar-default .navbar-toggle {
-    background-color: #337ab7;
-    border-color: #337ab7
+    background-color: #445160;
+    border-color: #445160
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -146,7 +146,7 @@ h1, h2, h3 {
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #337ab7
+    background-color: #445160
 }
 
 .navbar-default .nav li a {
@@ -157,14 +157,14 @@ h1, h2, h3 {
 }
 
 .navbar-default .nav li a:hover, .navbar-default .nav li a:focus {
-    color: #337ab7;
+    color: #445160;
     outline: 0
 }
 
 .navbar-default .navbar-nav > .active > a {
     border-radius: 0;
     color: #fff;
-    background-color: #337ab7
+    background-color: #445160
 }
 
 .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
@@ -174,8 +174,8 @@ h1, h2, h3 {
 
 @media (min-width: 768px) {
     .navbar-default {
-        background-color: rgba(34, 34, 34, .3);
-        border-bottom-color: rgba(34, 34, 34, .3);
+        background-color: rgba(244, 244, 244, .3);
+        border-bottom-color: #f4f4f4;
         /*padding : 10px 0;*/
         -webkit-transition: padding .3s;
         -moz-transition: padding .3s;
@@ -194,19 +194,17 @@ h1, h2, h3 {
         border-radius: 3px
     }
 
-    .navbar-default.navbar-shrink {
-        background-color: rgba(34, 34, 34, .9);
+    /*.navbar-default.navbar-shrink {*/
+    /*background-color: rgba(34, 34, 34, .9);*/
         /*padding: 10px 0;*/
-    }
-
-    .navbar-default.navbar-shrink .nav li a {
-        color: white;
-    }
-
-    .navbar-default.navbar-shrink .navbar-brand {
-        color: white;
-        font-size: 1.5em
-    }
+    /*}*/
+    /*.navbar-default.navbar-shrink .nav li a {*/
+    /*color: white;*/
+    /*}*/
+    /*.navbar-default.navbar-shrink .navbar-brand {*/
+    /*color: white;*/
+    /*font-size: 1.5em*/
+    /*}*/
 }
 
 section {
@@ -377,7 +375,7 @@ section h3.section-subheading {
     height: 80px;
     position: absolute;
     z-index: 100;
-    background-color: #337ab7;
+    background-color: #445160;
     color: #fff;
     border-radius: 100%;
     border: 7px solid #f1f1f1;
@@ -566,7 +564,7 @@ section#contact .form-group textarea.form-control {
 }
 
 section#contact .form-control:focus {
-    border-color: #337ab7;
+    border-color: #445160;
     box-shadow: none
 }
 
@@ -642,7 +640,7 @@ ul.social-buttons li a {
 }
 
 ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li a:active {
-    background-color: #337ab7
+    background-color: #445160
 }
 
 .btn:focus, .btn:active, .btn.active, .btn:active:focus {
@@ -725,25 +723,25 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
     display: none
 }
 
-::-moz-selection {
-    text-shadow: none;
-    background: #337ab7
-}
+/*::-moz-selection {*/
+/*text-shadow: none;*/
+/*background: #445160*/
+/*}*/
 
-::selection {
-    text-shadow: none;
-    background: #337ab7
-}
+/*::selection {*/
+/*text-shadow: none;*/
+/*background: #445160*/
+/*}*/
 
-img::selection {
-    background: 0 0
-}
+/*img::selection {*/
+/*background: 0 0*/
+/*}*/
 
-img::-moz-selection {
-    background: 0 0
-}
+/*img::-moz-selection {*/
+/*background: 0 0*/
+/*}*/
 
-body {
-    webkit-tap-highlight-color: #337ab7
-}
+/*body {*/
+/*webkit-tap-highlight-color: #445160*/
+/*}*/
 
