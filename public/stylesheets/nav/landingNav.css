@@ -6,7 +6,7 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
-    color: white;
+    /*color: white;*/
 }
 .navbarAvatar {
     border-radius: 50%;
@@ -15,11 +15,8 @@
 }
 
 .avatarPadding {
-    padding-top: 14px;
-}
-
-.dropdown-menu a {
-    color: white;
+    padding-top: 14px !important;
+    /*padding-bottom: 20px !important;*/
 }
 
 .partnerBox {
@@ -27,7 +24,7 @@
 }
 
 .landing-notification-bell > a:hover i {
-    color: #337ab7;
+    color: #445160;
 }
 
 .landing-notification-bell .badge {
@@ -35,7 +32,7 @@
 }
 
 .landing-notification-bell a > i {
-    color: white;
+    color: #445160;
 }
 
 .landing-notification-bell > .dropdown-menu:after {

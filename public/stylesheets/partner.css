@@ -7,7 +7,6 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
-    color: white;
 }
 
 .navbarAvatar {
@@ -17,10 +16,14 @@
 }
 
 .avatarPadding {
-    padding-top: 16px
+    padding-top: 16px !important;
 }
 
 .dropdown-menu a {
+    color: black;
+}
+
+.navbar-default .navbar-header .navbar-brand {
     color: black;
 }
 
@@ -30,8 +33,4 @@ section#services {
 
 .dropdown-menu li > a > i {
     color: black;
-}
-
-.navbar-default .nav li > a > i > span {
-    color: white;
 }

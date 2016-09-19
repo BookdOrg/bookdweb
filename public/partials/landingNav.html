@@ -1,12 +1,8 @@
-<!-- Custom CSS -->
-<link ng-href="/stylesheets/nav/agency.css" rel="stylesheet">
-<link ng-href="/stylesheets/nav/landingNav.css" rel="stylesheet">
 <span id="top"></span>
-<!-- Navigation -->
-<nav class="navbar navbar-static-top" role="navigation">
+<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div id="landingHeader" class="navbar-header">
+        <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -14,10 +10,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
-                <img src="/images/buz-logo-only.png" style="height:45px;"/>
-            </a>
+            <a class="navbar-brand" ng-href="/" style="padding-top:2px;"><img src="/images/buz-logo-only.png"
+                                                                              height="45px"></a>
         </div>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse nav-container" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -170,5 +166,5 @@
         </div>
         <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container -->
+    <!-- /.container-fluid -->
 </nav>
