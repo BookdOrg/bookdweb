@@ -1,18 +1,12 @@
 <header>
     <div uib-carousel active="active" no-pause="true" interval="myInterval" no-wrap="noWrapSlides">
         <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
-            <!--<img style="background: url({{slide.image}}) {{slide.style}} no-repeat; background-size: cover; display: block;-->
-            <!--height:70%;-->
-            <!--width:170%; -webkit-background-size: cover;-->
-            <!-- -moz-background-size: cover;-->
-            <!-- -o-background-size: cover;-->
-            <!--text-align: center;"/>-->
             <img ng-src="{{slide.image}}" class="slider-image">
         </div>
         <div class="carousel-caption">
             <div class="intro-text full-width">
-                <div class="intro-lead-in">Book Appointments</div>
-                <div class="intro-lead-in">It's that simple</div>
+                <div class="intro-lead-in">WELCOME</div>
+                <div class="intro-lead-in">THANK YOU FOR YOUR INTEREST IN OUR BETA PROGRAM.</div>
                 <div class="row form-inline form-group">
                     <form name="landingQuery">
                             <span class="left-inner-addon left-inner-addon-landing">
