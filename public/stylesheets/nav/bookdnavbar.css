@@ -8,12 +8,12 @@
 }
 
 .navbar {
-    background-color: rgba(34, 34, 34, .05);
+    background-color: rgba(244, 244, 244, .3);
     margin-bottom: 0;
 }
 
 .navbar-default {
-    border-color: rgba(34, 34, 34, .05);
+    border-color: rgba(244, 244, 244, .3);
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
     background-color: rgba(34, 34, 34, .05);
     -webkit-transition: all .35s;
@@ -25,7 +25,7 @@
 #mainNav {
     border-bottom: 1px solid;
     border-bottom-color: lightgrey;
-    color: #f05f40;
+    color: #445160;
 }
 
 .navbar-default .navbar-header .navbar-brand {
@@ -74,12 +74,12 @@
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
-    color: #f05f40;
+    color: #445160;
     background-color: transparent;
 }
 @media (min-width: 768px) {
     .navbar-default {
-        background-color: rgba(34, 34, 34, .05);
+        background-color: rgba(244, 244, 244, .3);
         /*border-color: rgba(255, 255, 255, .3);*/
         /*background-color: transparent;*/
     }
@@ -90,7 +90,7 @@
     }
 
     .navbar-default .navbar-header .navbar-brand:hover {
-        color: #f05f40;
+        color: #445160;
     }
 
     .navbar-default .nav > li > a,
@@ -115,7 +115,7 @@
 
     .navbar-default.affix .navbar-header .navbar-brand:hover,
     .navbar-default.affix .navbar-header .navbar-brand:focus {
-        color: #f05f40;
+        color: #445160;
     }
 
     .navbar-default.affix .nav > li > a,
@@ -129,7 +129,7 @@
 
     .navbar-default .nav > li > a:hover,
     .navbar-default .nav > li > a:focus:hover {
-        color: #f05f40;
+        color: #445160;
     }
 
     .navbar-default .nav > li {
@@ -150,13 +150,13 @@
 }
 
 .navbar-default .navbar .nav > li > a:hover {
-    color: #f05f40;;
-    background-color: #f05f40;
+    color: #445160;;
+    background-color: #445160;
 }
 
 .navbar-default .navbar .nav .active > a, .navbar .nav .active > a:hover {
-    color: #f05f40;;
-    background-color: #f05f40;
+    color: #445160;;
+    background-color: #445160;
 }
 
 .navbar-default .navbar .nav li > a .caret, .tnav .navbar .nav li > a:hover .caret {
@@ -168,8 +168,8 @@
 }
 
 .navbar-default .navbar .nav > li.dropdown.open > a {
-    color: #f05f40;
-    background-color: #f05f40;
+    color: #445160;
+    background-color: #445160;
     border-color: black;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .notification-bell > a:hover i {
-    color: #f05f40;
+    color: #445160;
 }
 
 .notification-bell .badge {

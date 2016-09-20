@@ -1,5 +1,5 @@
 module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $uibModal, userFactory, socketService,
-                           notificationFactory) {
+                           notificationFactory, $interval) {
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.logOut = auth.logOut;
 
@@ -7,6 +7,37 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $rootScope.show = false;
     //animations for the modal
     $scope.animationEnabled = true;
+
+    $scope.myInterval = 10000;
+    $scope.noWrapSlides = false;
+    $scope.active = 0;
+    $scope.activeIndex = 0;
+    $scope.slides = [
+        {
+            image: '/images/masc.jpg',
+            id: 0,
+            style: 'center center'
+        }, {
+            image: '/images/fem.jpg',
+            id: 1,
+            style: 'center bottom'
+        }
+    ];
+    $scope.$watch('active', function (newVal, oldVal) {
+        $scope.activeIndex = newVal;
+    });
+    if ($state.current.name == 'partner') {
+        $scope.bool = false;
+    } else {
+        $scope.bool = true;
+    }
+    $interval(function () {
+        if ($state.current.name == 'partner') {
+            $scope.bool = false;
+        } else {
+            $scope.bool = !$scope.bool;
+        }
+    }, 10000);
     //Determines whether to show 'Book'd Partners' or Customers links
     if ($state.current.name === 'landing') {
         $scope.forBusiness = true;

@@ -75,6 +75,15 @@ app.config([
         });
         $locationProvider.html5Mode(true);
         $stateProvider
+            .state('nav', {
+                abstract: true,
+                views: {
+                    'nav': {
+                        templateUrl: '/partials/landingNav.html',
+                        controller: 'NavCtrl'
+                    }
+                }
+            })
             .state('landing', {
                 url: '/',
                 views: {
@@ -84,7 +93,7 @@ app.config([
                     },
                     'content': {
                         templateUrl: '/partials/landing.html',
-                        controller: 'LandingCtrl'
+                        controller: 'NavCtrl'
                     }
                 }
             })

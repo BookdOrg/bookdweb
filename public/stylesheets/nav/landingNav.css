@@ -8,6 +8,16 @@
     border-bottom: none;
     /*color: white;*/
 }
+
+.dark {
+    color: #445160 !important;
+    transition: color .25s ease-in-out;
+}
+
+.light {
+    color: white !important;
+    transition: color .25s ease-in-out;
+}
 .navbarAvatar {
     border-radius: 50%;
     height: 25px;

@@ -21,9 +21,11 @@ var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 var request = require('request');
-var raven = require('raven');
-var client = new raven.Client('https://74b457b102ee49a2af0e22c5774b3817:48b5cf57fac145da923fa75bb09c1790@app.getsentry.com/90849');
-client.patchGlobal();
+if (process.env.NODE_ENV === 'production') {
+    var raven = require('raven');
+    var client = new raven.Client('https://74b457b102ee49a2af0e22c5774b3817:48b5cf57fac145da923fa75bb09c1790@app.getsentry.com/90849');
+    client.patchGlobal();
+}
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');

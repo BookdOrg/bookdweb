@@ -333,12 +333,12 @@ p {
 }
 
 .sectionBtn {
-    background-color: #f05f40;
+    background-color: #445160;
     color: white;
 }
 
 .bg-primary {
-    background-color: #445160;
+    background-color: lightgray;
 }
 
 .bg-dark {
@@ -853,6 +853,6 @@ Hack so the table styles load before we're on the page
 }
 
 .searchSection {
-    background-color: white;
+    background-color: #eaeaea;
     padding: 0 0;
 }
