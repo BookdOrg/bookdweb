@@ -38,7 +38,7 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         } else {
             $scope.bool = !$scope.bool;
         }
-    }, 10000);
+    }, 11000);
     //Determines whether to show 'Book'd Partners' or Customers links
     // if ($state.current.name === 'landing') {
     //     $scope.forBusiness = true;
