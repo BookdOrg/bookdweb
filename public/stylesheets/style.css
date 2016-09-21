@@ -446,7 +446,7 @@ img.fitContainer {
 }
 
 header {
-    /*margin-top: 75px;*/
+    margin-top: -50px;
     /*background-image: url(../images/header-bg.jpg);*/
     /*background-position: center bottom;*/
     -webkit-background-size: cover;
@@ -482,7 +482,7 @@ header .intro-text .intro-heading {
 
 @media (min-width: 768px) {
     header {
-        margin-top: 0px;
+        margin-top: -50px;
     }
 
     header .carousel {
