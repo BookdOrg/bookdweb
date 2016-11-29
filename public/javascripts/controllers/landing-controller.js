@@ -16,10 +16,11 @@ module.exports = function ($scope, $controller) {
             image: '/images/masc.jpg',
             id: 0,
             style: 'center center'
-        }, {
-            image: '/images/fem.jpg',
-            id: 1,
-            style: 'center bottom'
         }
+        // {
+        //     image: '/images/fem.jpg',
+        //     id: 1,
+        //     style: 'center bottom'
+        // }
     ]
 };

@@ -6,7 +6,8 @@
     font-weight: 200;
     text-align: center;
     border-bottom: none;
-    /*color: white;*/
+    color: white;
+
 }
 
 .dark {
@@ -34,7 +35,7 @@
 }
 
 .landing-notification-bell > a:hover i {
-    color: #445160;
+    color: white;
 }
 
 .landing-notification-bell .badge {
@@ -42,7 +43,7 @@
 }
 
 .landing-notification-bell a > i {
-    color: #445160;
+    color: white;
 }
 
 .landing-notification-bell > .dropdown-menu:after {

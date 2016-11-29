@@ -17,28 +17,29 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
             image: '/images/masc.jpg',
             id: 0,
             style: 'center center'
-        }, {
-            image: '/images/fem.jpg',
-            id: 1,
-            style: 'center bottom'
         }
+        // , {
+        //     image: '/images/fem.jpg',
+        //     id: 1,
+        //     style: 'center bottom'
+        // }
     ];
-    $scope.$watch('active', function (newVal, oldVal) {
-        $scope.activeIndex = newVal;
-    });
+    // $scope.$watch('active', function (newVal, oldVal) {
+    //     $scope.activeIndex = newVal;
+    // });
     //TODO change this to check if the current name equals any of the values set here for the states.
-    if ($state.current.name == 'partner' || $state.current.name == 'new' || $state.current.name == 'terms' || $state.current.name == 'contact' || $state.current.name == 'reset' || $state.current.name == 'privacy') {
-        $scope.bool = false;
-    } else {
-        $scope.bool = true;
-    }
-    $interval(function () {
-        if ($state.current.name == 'partner') {
-            $scope.bool = false;
-        } else {
-            $scope.bool = !$scope.bool;
-        }
-    }, 11000);
+    // if ($state.current.name == 'partner' || $state.current.name == 'new' || $state.current.name == 'terms' || $state.current.name == 'contact' || $state.current.name == 'reset' || $state.current.name == 'privacy') {
+    //     $scope.bool = false;
+    // } else {
+    //     $scope.bool = true;
+    // }
+    // $interval(function () {
+    //     if ($state.current.name == 'partner') {
+    //         $scope.bool = false;
+    //     } else {
+    //         $scope.bool = !$scope.bool;
+    //     }
+    // }, 11000);
     //Determines whether to show 'Book'd Partners' or Customers links
     // if ($state.current.name === 'landing') {
     //     $scope.forBusiness = true;

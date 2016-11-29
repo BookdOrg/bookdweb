@@ -74,7 +74,7 @@
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
-    color: #445160;
+    color: #F57535;
     background-color: transparent;
 }
 @media (min-width: 768px) {
@@ -90,7 +90,7 @@
     }
 
     .navbar-default .navbar-header .navbar-brand:hover {
-        color: #445160;
+        color: #F57535;
     }
 
     .navbar-default .nav > li > a,
@@ -115,7 +115,7 @@
 
     .navbar-default.affix .navbar-header .navbar-brand:hover,
     .navbar-default.affix .navbar-header .navbar-brand:focus {
-        color: #445160;
+        color: #F57535;
     }
 
     .navbar-default.affix .nav > li > a,
@@ -129,7 +129,7 @@
 
     .navbar-default .nav > li > a:hover,
     .navbar-default .nav > li > a:focus:hover {
-        color: #445160;
+        color: #F57535;
     }
 
     .navbar-default .nav > li {
@@ -238,7 +238,7 @@
 }
 
 .navbar-default .nav li > a > i > span {
-    color: #445160;
+    color: white;
 }
 
 #notificationNumber-app {

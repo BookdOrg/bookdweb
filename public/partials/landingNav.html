@@ -13,8 +13,8 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" ng-href="/" style="padding-top:2px;"><img src="/images/buz-logo-only.png"
-                                                                              height="45px"></a>
+            <!--<a class="navbar-brand" ng-href="/" style="padding-top:2px;"><img src="/images/buz-logo-only.png"-->
+            <!--height="45px"></a>-->
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,10 +27,9 @@
                 <li uib-dropdown on-toggle="toggled(open)" ng-show="isLoggedIn()"
                     class="hidden-xs landing-notification-bell">
                     <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
-                    <a ng-href="#" ng-class="{dark:bool == false,light:bool == true}" uib-dropdown-toggle>
-                        <i ng-class="{dark:bool == false,light:bool == true}"
-                           class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
-                            <span id="notificationNumber-landing" ng-class="{dark:bool == false,light:bool == true}">{{currentUser.notifications | notificationFilter}}</span>
+                    <a ng-href="#" uib-dropdown-toggle>
+                        <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
+                            <span id="notificationNumber-landing">{{currentUser.notifications | notificationFilter}}</span>
                         </i>
                     </a>
 
@@ -77,9 +76,8 @@
                         </ul>
                     </div>
                 </li>
-                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs avatar"
-                    ng-class="{dark:bool == false,light:bool == true}">
-                    <a ng-href="" ng-class="{dark:active == 0,light:active == 1}" uib-dropdown-toggle
+                <li uib-dropdown ng-show="isLoggedIn()" class="hidden-xs avatar">
+                    <a ng-href="" uib-dropdown-toggle
                        class=" avatarPadding truncateTrunc">
                         <img class="navbarAvatar"
                              ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
@@ -91,8 +89,8 @@
                              ng-src="{{currentUser.providerInfo}}"/>
                         <img class="navbarAvatar" ng-if="currentUser.provider === 'facebook'"
                              ng-src="{{currentUser.providerInfo}}"/>
-                        <span ng-class="{dark:bool == false,light:bool == true}">{{currentUser.firstName}}</span> <i
-                            class="fa fa-caret-down" ng-class="{dark:bool == false,light:bool == true}"></i>
+                        <span>{{currentUser.firstName}}</span> <i
+                            class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu droplinks">
                         <li ng-hide="!isLoggedIn()">
@@ -159,11 +157,11 @@
                 </li>
                 <hr class="hidden-sm hidden-md hidden-lg">
                 <li ng-if="!isLoggedIn()">
-                    <a ng-click="checkStateandLogin('login')" ng-class="{dark:bool == false,light:bool == true}"><i
+                    <a ng-click="checkStateandLogin('login')"><i
                             class="fa fa-sign-in"></i>Log In</a>
                 </li>
                 <li ng-if="!isLoggedIn()">
-                    <a ng-click="checkStateandLogin('signup')" ng-class="{dark:bool == false,light:bool == true}"><i
+                    <a ng-click="checkStateandLogin('signup')"><i
                             class="fa fa-user"></i>Sign Up</a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">

@@ -8,7 +8,7 @@ body {
 }
 
 .text-primary {
-    color: #445160
+    color: #445160;
 }
 
 p {
@@ -157,7 +157,7 @@ h1, h2, h3 {
 }
 
 .navbar-default .nav li a:hover, .navbar-default .nav li a:focus {
-    color: #445160;
+    color: #F57535;
     outline: 0
 }
 
