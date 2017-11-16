@@ -2,25 +2,16 @@
  * Created by khalilbrown on 9/3/16.
  */
 var express = require('express');
-var app = require('express')();
 var router = express.Router();
 var jwt = require('express-jwt');
 var passport = require('passport');
-var cloudinary = require('cloudinary');
-var Busboy = require('busboy');
-var async = require('async');
 var moment = require('moment');
-var crypto = require('crypto');
 require('moment-range');
-var GooglePlaces = require('googleplaces');
-var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
-var request = require('request');
 if (process.env.NODE_ENV === 'production') {
     var raven = require('raven');
     var client = new raven.Client('https://74b457b102ee49a2af0e22c5774b3817:48b5cf57fac145da923fa75bb09c1790@app.getsentry.com/90849');
@@ -28,16 +19,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var User = mongoose.model('User');
-var Business = mongoose.model('Business');
-var Appointment = mongoose.model('Appointment');
-var Service = mongoose.model('Service');
-var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
-var io = require('./sockets');
 var wellknown = require('nodemailer-wellknown');
-var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
     service: 'Zoho',
@@ -99,7 +84,7 @@ router.post('/register', function (req, res) {
         }
         user.setPassword(req.body.password);
     }
-    //TODO how should we handle passwords when a user logs in with an oauth provider?
+    //TODO how should we handle passwords when a user logs in with an oauth provider? - Currently setting to random value. Can be overwitten by reset password
     if (req.body.provider === 'facebook' || req.body.provider === 'google_plus') {
         var randomstring = Math.random().toString(36).slice(-8);
         user.setPassword(randomstring);

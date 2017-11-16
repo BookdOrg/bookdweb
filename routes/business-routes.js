@@ -2,12 +2,8 @@
  * Created by khalilbrown on 9/3/16.
  */
 var express = require('express');
-var app = require('express')();
 var router = express.Router();
 var jwt = require('express-jwt');
-var passport = require('passport');
-var cloudinary = require('cloudinary');
-var Busboy = require('busboy');
 var async = require('async');
 var moment = require('moment');
 var crypto = require('crypto');
@@ -20,7 +16,7 @@ var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
-var request = require('request');
+// var request = require('request');
 if (process.env.NODE_ENV === 'production') {
     var raven = require('raven');
     var client = new raven.Client('https://74b457b102ee49a2af0e22c5774b3817:48b5cf57fac145da923fa75bb09c1790@app.getsentry.com/90849');
@@ -29,15 +25,11 @@ if (process.env.NODE_ENV === 'production') {
 
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
-var Appointment = mongoose.model('Appointment');
 var Service = mongoose.model('Service');
-var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
 var io = require('./sockets');
-var wellknown = require('nodemailer-wellknown');
-var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
     service: 'Zoho',
@@ -551,7 +543,7 @@ router.post('/remove-employee', auth, function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                User.findOne({"_id": employeeId}).exec(function (err, user) {
+                User.findOne({'_id': employeeId}).exec(function (err, user) {
                     if (err) {
                         return next(err);
                     }

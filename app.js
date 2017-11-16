@@ -98,7 +98,7 @@ app.use('/', function (req, res) {
     err.status = 404;
     next(err)
   } else {
-    res.render('landing.ejs', {root: __dirname});
+    res.render('index.ejs', {root: __dirname});
   }
 });
 /// catch 404 and forward to error handler

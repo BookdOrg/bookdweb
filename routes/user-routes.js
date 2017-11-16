@@ -2,24 +2,15 @@
  * Created by khalilbrown on 9/3/16.
  */
 var express = require('express');
-var app = require('express')();
 var router = express.Router();
 var jwt = require('express-jwt');
-var passport = require('passport');
 var cloudinary = require('cloudinary');
 var Busboy = require('busboy');
 var async = require('async');
 var moment = require('moment');
-var crypto = require('crypto');
 require('moment-range');
-var GooglePlaces = require('googleplaces');
-var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var stripe = require('stripe')(process.env.stripeDevSecret);
-var nodemailer = require('nodemailer');
-var EmailTemplate = require('email-templates').EmailTemplate;
-var path = require('path');
 var request = require('request');
 if (process.env.NODE_ENV === 'production') {
     var raven = require('raven');
@@ -28,24 +19,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var User = mongoose.model('User');
-var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
-var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
 var io = require('./sockets');
-var wellknown = require('nodemailer-wellknown');
-var config = wellknown('Zoho');
-// create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport({
-    service: 'Zoho',
-    auth: {
-        user: 'contact@bookd.me',
-        pass: process.env.emailPass
-    }
-});
 
 Array.prototype.inArray = function (comparer) {
     for (var i = 0; i < this.length; i++) {
@@ -72,7 +51,6 @@ router.get('/appointments', auth, function (req, res, next) {
     var customerId = req.query.customerId;
 
     var personal = req.query.personal;
-    var responseArray = [];
     async.waterfall([
         function (done) {
             Appointment.find({
@@ -283,7 +261,7 @@ router.post('/profile/update', auth, function (req, res, next) {
  * Parameters:
  * id - The id of the employee.
  **/
-router.get('/search', auth, function (req, res, next) {
+router.get('/search', auth, function (req, res) {
     var email = req.query.email;
     User.findOne({'email': email}).select('_id name firstName lastName avatarVersion provider providerId').exec(function (error, user) {
         if (error) {
@@ -324,7 +302,7 @@ router.post('/claimed-success', function (req, res, next) {
     }
 });
 
-router.get('/google-photo', function (req, res, next) {
+router.get('/google-photo', function (req, res) {
     var id = req.query.id;
     request('https://www.googleapis.com/plus/v1/people/' + id + '?fields=image&key=' + process.env.GOOGLE_PLACES_API_KEY, function (err, response) {
         if (err) {
@@ -422,7 +400,7 @@ router.post('/password/new', function (req, res, next) {
     });
 });
 
-router.post('/password/change', function (req, res, next) {
+router.post('/password/change', function (req, res) {
     User.findOne({
         _id: req.body.id
     }).exec(function (err, user) {
@@ -455,7 +433,7 @@ router.get('/appointments-scroll', auth, function (req, res, next) {
     };
     User.findOne({_id: userId}).exec(function (err, user) {
         if (err) {
-            return next(err)
+            return next(err);
         }
         if (user.appointments.length > 0) {
             Appointment.find({$or: [{customer: userId}, {employee: userId}]}, {}, {

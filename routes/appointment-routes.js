@@ -2,18 +2,11 @@
  * Created by khalilbrown on 9/4/16.
  */
 var express = require('express');
-var app = require('express')();
 var router = express.Router();
 var jwt = require('express-jwt');
-var passport = require('passport');
-var cloudinary = require('cloudinary');
-var Busboy = require('busboy');
 var async = require('async');
 var moment = require('moment');
-var crypto = require('crypto');
 require('moment-range');
-var GooglePlaces = require('googleplaces');
-var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
 var stripe = require('stripe')(process.env.stripeDevSecret);
@@ -30,14 +23,12 @@ if (process.env.NODE_ENV === 'production') {
 var User = mongoose.model('User');
 var Business = mongoose.model('Business');
 var Appointment = mongoose.model('Appointment');
-var Service = mongoose.model('Service');
-var Notification = mongoose.model('Notification');
+// var Service = mongoose.model('Service');
+// var Notification = mongoose.model('Notification');
 
 var auth = jwt({secret: process.env.jwtSecret, userProperty: 'payload'});
 
 var io = require('./sockets');
-var wellknown = require('nodemailer-wellknown');
-var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
     service: 'Zoho',
