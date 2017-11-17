@@ -9,7 +9,8 @@
 #Install NodeJS & MongoDB#
 ##OSX##
 * Node tutorial: http://blog.teamtreehouse.com/install-node-js-npm-mac
-* MongoDB tutorial: http://docs.mongodb.org/manual/tutorials/install-mongodb-on-os-x/
+* MongoDB tutorial: 
+*Server https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-16-04
 
 #Install and run Redis Server#
 *https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298
