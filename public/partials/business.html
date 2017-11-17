@@ -143,21 +143,21 @@
                          style="margin-bottom:20px; padding-left:0px;padding-right:0px;">
                         <div class="media">
                             <div class="media-left media-middle">
-                                <a href="#">
+                                <a ng-href="/user/{{employee._id}}/profile">
                                     <!--<img class="associate-photo media-object"-->
                                     <!--ng-if="employee.provider === 'google_plus' && employee.photo"-->
                                     <!--ng-src="{{employee.photo}}"/>-->
                                     <!--<img class="associate-photo media-object"-->
                                     <!--ng-if="employee.provider === 'google_plus' && !employee.photo"-->
                                     <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
-                                    <img class="associate-photo media-object"
+                                    <img class="associate-photo media-object img-thumbnail"
                                          ng-if="employee.provider === 'facebook'"
                                          ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                                    <img class="associate-photo media-object"
+                                    <img class="associate-photo media-object img-thumbnail"
                                          ng-if="!employee.avatarVersion && employee.provider === 'bookd'"
                                          ng-src="{{cloudinaryDefaultPic}}">
-                                    <img class="associate-photo media-object"
+                                    <img class="associate-photo media-object img-thumbnail"
                                          ng-if="employee.avatarVersion && employee.provider === 'bookd'"
                                          ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}">
                                 </a>

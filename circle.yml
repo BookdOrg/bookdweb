@@ -2,11 +2,11 @@ deployment:
   production:
     branch: master
     commands:
-      - rsync -az ../bookdweb/ circleci@buzapp.me:/home/circleci/bookdweb
+      - rsync -az ../bookdweb/ khalil@bookd.me.me:/home/bookdweb
   staging:
     branch: development
     commands:
-      - rsync -az ../bookdweb/ circleci@dev.buzapp.me:/home/circleci/bookdweb
+      - rsync -az ../bookdweb/ khalil@bookd.me:/home/bookdweb
 
 machine:
   node:

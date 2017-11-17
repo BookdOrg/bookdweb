@@ -193,8 +193,8 @@ app.config([
                         controller: 'NavCtrl'
                     },
                     'content': {
-                      templateUrl: '/partials/partner.html',
-                      controller: 'NavCtrl'
+                        templateUrl: '/partials/partner.html',
+                        controller: 'NavCtrl'
                     }
                 }
             })
@@ -351,7 +351,7 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory, socketService, $anchorScroll, $location, $anchorScroll, ENV_VARS) {
+                      $controller, $uibModal, notificationFactory, socketService, $location, $anchorScroll, ENV_VARS) {
     OAuth.initialize(ENV_VARS.oAuthKey);
     $rootScope.currentUser = auth.currentUser();
     $rootScope.facebookApi = ENV_VARS.facebookApi;
@@ -367,18 +367,18 @@ app.config([
                 console.log(err);
             }
         );
+    }
+    /**
+     *
+     * Send the ID of the currently authorized user
+     *
+     */
+    socketService.on('authorizationReq', function (data) {
+        if ($rootScope.currentUser) {
+            $rootScope.currentUser.socketId = data;
+            socketService.emit('authorizationRes', $rootScope.currentUser._id);
         }
-        /**
-         *
-         * Send the ID of the currently authorized user
-         *
-         */
-        socketService.on('authorizationReq', function (data) {
-            if ($rootScope.currentUser) {
-                $rootScope.currentUser.socketId = data;
-                socketService.emit('authorizationRes', $rootScope.currentUser._id);
-            }
-        });
+    });
 
     socketService.on('newNotif', function (data) {
         $rootScope.currentUser.notifications.unshift(data);
@@ -434,33 +434,33 @@ app.config([
         }).then(function (err) {
         })
     }
-        /**
-         *
-         * Watch for when the users location changes, make a call to the google maps api to
-         * get information about the users current location.
-         *
-         * Auto populate that information in the query location object, to be displayed in the navbar.
-         *
-         */
-        var getLocationInfo = function (position) {
-            $rootScope.loadingLocation = true;
-            $http.get('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
-                + position.coords.latitude + ','
-                + position.coords.longitude)
-                .then(function (data) {
-                    $rootScope.loadingLocation = false;
-                    if (data) {
-                        location.setPosition(data.data.results);
-                        $rootScope.currLocation = location.currPosition;
-                        $rootScope.query.location = $rootScope.currLocation.city;
+    /**
+     *
+     * Watch for when the users location changes, make a call to the google maps api to
+     * get information about the users current location.
+     *
+     * Auto populate that information in the query location object, to be displayed in the navbar.
+     *
+     */
+    var getLocationInfo = function (position) {
+        $rootScope.loadingLocation = true;
+        $http.get('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U&latlng='
+            + position.coords.latitude + ','
+            + position.coords.longitude)
+            .then(function (data) {
+                $rootScope.loadingLocation = false;
+                if (data) {
+                    location.setPosition(data.data.results);
+                    $rootScope.currLocation = location.currPosition;
+                    $rootScope.query.location = $rootScope.currLocation.city;
 
-                    }
-                }, function (error) {
-                    //TODO Google wants us to access this API from a server, not a client.
-                    console.log('If seeing this, probably CORS error with googleapis geocode');
-                    console.log(error);
-                });
-        };
+                }
+            }, function (error) {
+                //TODO Google wants us to access this API from a server, not a client.
+                console.log('If seeing this, probably CORS error with googleapis geocode');
+                console.log(error);
+            });
+    };
 
     /**
      *

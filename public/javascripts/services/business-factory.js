@@ -396,7 +396,7 @@ module.exports = function ($http, auth, $q, utilService) {
         }, function (err) {
             return err.data
         })
-    }
+    };
     /**
      *
      *  changeStatus - Updates the status of the businesses object, from
