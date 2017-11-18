@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 var io = require('socket.io')(server);
 var redis = require('socket.io-redis');
-io.adapter(redis({host: process.env.devHost, port: 6379}));
+io.adapter(redis({host: process.env.devhost, port: 6379}));
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
