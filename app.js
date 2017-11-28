@@ -35,9 +35,8 @@ app.use(helmet({
   }
 }));
 if (process.env.NODE_ENV === 'production') {
-	var raven = require('raven');
-	var client = new raven.Client('https://f3036b05fed14259931f21238616f989@sentry.io/249177');
-	client.patchGlobal();
+	var Raven = require('raven');
+	Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
 }
 cloudinary.config({
     cloud_name: 'dvvtn4u9h',
