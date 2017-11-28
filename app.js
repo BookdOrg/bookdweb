@@ -34,7 +34,11 @@ app.use(helmet({
     action: 'deny'
   }
 }));
-
+if (process.env.NODE_ENV === 'production') {
+	var raven = require('raven');
+	var client = new raven.Client('https://f3036b05fed14259931f21238616f989@sentry.io/249177');
+	client.patchGlobal();
+}
 cloudinary.config({
     cloud_name: 'dvvtn4u9h',
     api_key: '357545475786479',
