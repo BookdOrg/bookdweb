@@ -2,24 +2,24 @@
  * Created by khalilbrown on 9/3/16.
  */
 //Created by Khalil -
-var express = require('express');
+// var express = require('express');
 var app = require('express')();
-var jwt = require('express-jwt');
-var passport = require('passport');
-var cloudinary = require('cloudinary');
-var async = require('async');
+// var jwt = require('express-jwt');
+// var passport = require('passport');
+// var cloudinary = require('cloudinary');
+// var async = require('async');
 var moment = require('moment');
-var crypto = require('crypto');
+// var crypto = require('crypto');
 require('moment-range');
-var GooglePlaces = require('googleplaces');
-var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
+// var GooglePlaces = require('googleplaces');
+// var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var stripe = require('stripe')(process.env.stripeDevSecret);
+// var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
-var EmailTemplate = require('email-templates').EmailTemplate;
-var path = require('path');
-var request = require('request');
+// var EmailTemplate = require('email-templates').EmailTemplate;
+// var path = require('path');
+// var request = require('request');
 if (process.env.NODE_ENV === 'production') {
     var raven = require('raven');
     var client = new raven.Client('https://f3036b05fed14259931f21238616f989@sentry.io/249177');
