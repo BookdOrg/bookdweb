@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === 'development') {
         console.log(e);
     }
 }
-// var io = require('socket.io').listen(server);
+var io = require('socket.io');
 var redis = require('socket.io-redis');
 io.adapter(redis({host: process.env.devhost, port: 6379}));
 console.log(io);
