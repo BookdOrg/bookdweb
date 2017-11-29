@@ -68,7 +68,7 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
         this.push(element);
     }
 };
-server.listen(process.env.devlocalPort);
+server.listen(process.env.devsocketPort);
 console.log(server.listening);
 var roomData = [];
 global.clients = [];
