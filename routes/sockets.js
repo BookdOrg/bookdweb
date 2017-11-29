@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
     };
     server = require('https').createServer(options, app);
 }
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 // var redis = require('socket.io-redis');
 // io.adapter(redis({host: process.env.devhost, port: 6379}));
 var wellknown = require('nodemailer-wellknown');
@@ -67,7 +67,7 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
         this.push(element);
     }
 };
-server.listen(process.env.devsocketPort);
+// server.listen(process.env.devsocketPort);
 var roomData = [];
 global.clients = [];
 
