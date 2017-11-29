@@ -3,7 +3,7 @@
  *
  */
 module.exports = function (socketFactory, remotePort, remoteHost) {
-    var myIoSocket = io.connect(remoteHost + ':' + remotePort);
+    var myIoSocket = io.connect(remoteHost + ':' + remotePort, {secure:true});
     var mySocket = socketFactory({
         ioSocket: myIoSocket
     });
