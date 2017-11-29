@@ -36,8 +36,8 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync(process.env.keyLoc),
-        cert: fs.readFileSync(process.env.certLoc)
+        key: fs.readFileSync(process.env.keyLoc).toString(),
+        cert: fs.readFileSync(process.env.certLoc).toString()
     };
     server = require('https').createServer(options, app);
 }
