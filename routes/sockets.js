@@ -39,7 +39,11 @@ if (process.env.NODE_ENV === 'development') {
         key: fs.readFileSync(process.env.keyLoc).toString(),
         cert: fs.readFileSync(process.env.certLoc).toString()
     };
-    server = require('https').createServer(options, app);
+    try {
+        server = require('https').createServer(options, app);
+    } catch (e) {
+        console.log(e);
+    }
 }
 var io = require('socket.io').listen(server);
 // var redis = require('socket.io-redis');
