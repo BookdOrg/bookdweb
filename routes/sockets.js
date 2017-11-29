@@ -36,21 +36,15 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync(process.env.keyLoc).toString(),
-        cert: fs.readFileSync(process.env.certLoc).toString()
+        key: fs.readFileSync(process.env.keyLoc),
+        cert: fs.readFileSync(process.env.certLoc)
     };
-    try {
-        server = require('https').createServer(options, app);
-        console.log(server.listening)
-    } catch (e) {
-        console.log(e);
-    }
+    server = require('https').createServer(options, app);
+    console.log(server.listening)
 }
-var io = require('socket.io');
+var io = require('socket.io')(server);
 var redis = require('socket.io-redis');
 io.adapter(redis({host: process.env.devhost, port: 6379}));
-console.log(io);
-console.log(server.listening);
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
@@ -74,7 +68,8 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
         this.push(element);
     }
 };
-// server.listen(process.env.devsocketPort);
+server.listen(process.env.devlocalPort);
+console.log(server.listening);
 var roomData = [];
 global.clients = [];
 
