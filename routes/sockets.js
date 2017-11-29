@@ -41,13 +41,16 @@ if (process.env.NODE_ENV === 'development') {
     };
     try {
         server = require('https').createServer(options, app);
+        console.log(server.listening)
     } catch (e) {
         console.log(e);
     }
 }
-var io = require('socket.io').listen(server);
-// var redis = require('socket.io-redis');
-// io.adapter(redis({host: process.env.devhost, port: 6379}));
+// var io = require('socket.io').listen(server);
+var redis = require('socket.io-redis');
+io.adapter(redis({host: process.env.devhost, port: 6379}));
+console.log(io);
+console.log(server.listening);
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
