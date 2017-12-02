@@ -31,7 +31,7 @@ var Service = mongoose.model('Service');
 var Notification = mongoose.model('Notification');
 
 var server;
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
     server = require('http').createServer(app);
 } else {
     var fs = require('fs');
