@@ -124,7 +124,7 @@ function bundleProd() {
         // Add transformation tasks to the pipeline here.
         .pipe(ngAnnotate())
         .pipe(uglify({mangle: false}))
-        .pipe(sourcemaps.write('./'))
+        // .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dist));
 }
 
@@ -133,7 +133,7 @@ function bundleProdOnce() {
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(source('app.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
+        // .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
         .pipe(ngAnnotate())
         .pipe(uglify({mangle: false}))

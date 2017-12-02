@@ -36,8 +36,8 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync(process.env.keyLoc),
-        cert: fs.readFileSync(process.env.certLoc)
+        key: fs.readFileSync(process.env.keyLoc).toString(),
+        cert: fs.readFileSync(process.env.certLoc).toString()
     };
     server = require('https').createServer(options, app);
     console.log(server.listening)
@@ -69,7 +69,12 @@ Array.prototype.pushIfNotExist = function (element, comparer) {
     }
 };
 server.listen(process.env.devsocketPort);
-console.log(server.listening);
+server.on('listening', function () {
+    console.log("server running")
+});
+server.on('error', function (err) {
+    console.log("error: " + err);
+});
 var roomData = [];
 global.clients = [];
 
