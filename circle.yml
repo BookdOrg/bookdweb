@@ -2,7 +2,7 @@ deployment:
   production:
     branch: master
     commands:
-      - rsync -az ../bookdweb/ khalil@bookd.me.me:/home/khalil/bookdweb
+      - rsync -az ../bookdweb/ khalil@bookd.me:/home/khalil/bookdweb
   staging:
     branch: development
     commands:
