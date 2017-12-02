@@ -60,10 +60,10 @@
     "raven": "^2.2.1",
     "request": "2.74.0",
     "serve-favicon": "2.3.0",
-    "socket.io": "1.4.8",
-    "socket.io-client": "1.4.8",
-    "socket.io-emitter": "^1.1.0",
-    "socket.io-redis": "^1.1.1",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "socket.io-emitter": "^3.1.1",
+    "socket.io-redis": "^5.2.0",
     "stripe": "4.9.0"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "gulp-plumber": "1.1.0",
     "gulp-sourcemaps": "1.6.0",
     "gulp-uglify": "2.0.0",
-    "gulp-util": "3.0.7",
+    "gulp-util": "^3.0.8",
     "nodemon": "1.10.0",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
