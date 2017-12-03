@@ -125,7 +125,8 @@
                             </i>
                         </a>
 
-                        <div class="dropdown-menu notifications" ng-click="$event.stopPropagation()" role="menu"
+                        <div class="dropdown-menu notifications box-shadow" ng-click="$event.stopPropagation()"
+                             role="menu"
                              aria-labelledby="dLabel">
                             <div class="notification-heading" ng-if="currentUser.notifications.length > 0">
                                 <h4 class="menu-title">Notifications</h4>
@@ -181,7 +182,7 @@
                                  ng-src="{{currentUser.providerInfo}}"/>
                             {{currentUser.firstName}} <i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu box-shadow">
                             <li>
                                 <a ui-sref="search" ui-sref-active="active"
                                    ng-click="navbarCollapsed = !navbarCollapsed;">

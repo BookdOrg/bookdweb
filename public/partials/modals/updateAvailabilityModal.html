@@ -25,6 +25,7 @@
                 <div class="form-group">
                     <uib-accordion>
                         <div uib-accordion-group ng-repeat="day in activeAvailability.availability track by $index"
+                             class="box-shadow"
                              is-open="status.open">
                             <uib-accordion-heading>
                                 <i ng-if="day.available" uib-tooltip="Available"

@@ -3,16 +3,16 @@
         <h3 class=" text-center">
             <div class="col-xs-1" ng-if="businesses.length > 1" style="padding-bottom:10px;">
                 <div class="btn-group-lg switch-business-dropdown" uib-dropdown>
-                    <button id="single-button" type="button" class="btn btn-default btn-md" uib-dropdown-toggle>
+                    <button id="single-button" type="button" class="btn btn-default btn-md box-shadow"
+                            uib-dropdown-toggle>
                         {{activeBusiness.business.name}} <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                    <ul class="dropdown-menu box-shadow" role="menu" aria-labelledby="single-button">
                         <li role="menuitem" ng-repeat="business in businesses" ng-click="switchBusiness(business)">
-                            <a
-                                    ng-href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
+                            <a ng-href="#"><i class="fa fa-home"></i> {{business.name}}</a></li>
                     </ul>
+                </div>
             </div>
-        </div>
             {{activeBusiness.business.name}}
         </h3>
     </div>
@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel cal-services-content">
                             <uib-accordion>
-                                <div uib-accordion-group class="panel-default" is-open="statusOne.open">
+                                <div uib-accordion-group class="panel-default box-shadow" is-open="statusOne.open">
                                     <uib-accordion-heading>
                                         Schedule Appointments
                                         <i class="pull-right glyphicon"
@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <div uib-accordion-group class="panel-default" is-open="statusTwo.open">
+                                <div uib-accordion-group class="panel-default box-shadow" is-open="statusTwo.open">
                                     <uib-accordion-heading>
                                         Calendar Key
                                         <i class="pull-right glyphicon"
@@ -107,7 +107,7 @@
                     <div class="row">
                         <div class="col-xs-12 dashboard-panel dashboard-panel-body">
                             <uib-accordion>
-                                <div uib-accordion-group class="panel-default" is-open="statusThree.open">
+                                <div uib-accordion-group class="panel-default box-shadow" is-open="statusThree.open">
                                     <uib-accordion-heading>
                                         Business Info
                                         <i class="pull-right glyphicon"

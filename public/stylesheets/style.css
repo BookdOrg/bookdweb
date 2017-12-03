@@ -780,12 +780,21 @@ Hack so the table styles load before we're on the page
     transform: translate(-50%, -50%);
 }
 
+.modal-content {
+    background: rgba(0, 0, 0, 0) linear-gradient(rgb(255, 255, 255), rgb(242, 246, 249)) repeat scroll 0 0 / auto padding-box border-box;
+    box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
+
+}
 .box-shadow {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
 }
 
 .gradient-modal-background {
     background: rgba(0, 0, 0, 0) linear-gradient(rgb(255, 255, 255), rgb(242, 246, 249)) repeat scroll 0 0 / auto padding-box border-box;
+}
+
+#employeeDropdown > div > button {
+    box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
 }
 #reset-container {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
