@@ -10,7 +10,7 @@
                 <div class="intro-lead-in">It's that simple
                 </div>
                 <div class="row form-inline form-group">
-                    <form name="landingQuery">
+                    <form name="landingQuery" class="hidden-xs">
                             <span class="left-inner-addon left-inner-addon-landing">
                                 <i class="fa fa-search hidden-xs"></i>
                                 <input class="form-control input-lg search" aria-describedby="search"
@@ -25,16 +25,28 @@
                                        options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
                                        required>
                                 </span>
-                        <span>
-                                <button class="btn btn-lg sectionBtn search"
-                                        ng-click="landingQuery.$valid && search(query)"
-                                        type="submit">
-                                    <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
-                                       ng-class="{'fa-pulse' : fetchingQuery}"></i>
-                                    <span ng-show="!fetchingQuery">Search</span>
-                                </button>
-                            </span>
                     </form>
+                    <form name="landingQuery" class="visible-xs">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                            <input class="form-control input-lg search" aria-describedby="basic-addon1"
+                                   ng-model="query.term"
+                                   placeholder="Hair Salons" id="search" required></div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lg fa-map-marker"
+                                                                                 style="width:13px; height:14px"></i></span>
+                            <input class="form-control input-lg search" aria-describedby="basic-addon1"
+                                   g-places-autocomplete
+                                   options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
+                                   required></div>
+                    </form>
+                    <button class="btn btn-lg sectionBtn search"
+                            ng-click="landingQuery.$valid && search(query)"
+                            type="submit">
+                        <i style="color:white;" ng-show="fetchingQuery" class="fa fa-spinner"
+                           ng-class="{'fa-pulse' : fetchingQuery}"></i>
+                        <span ng-show="!fetchingQuery">Search</span>
+                    </button>
                 </div>
             </div>
         </div>
