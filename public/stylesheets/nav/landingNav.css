@@ -10,6 +10,9 @@
 
 }
 
+.text-black {
+    color: black !important;
+}
 .dark {
     color: #445160 !important;
     transition: color .25s ease-in-out;
