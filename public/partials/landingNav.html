@@ -164,16 +164,20 @@
                 </li>
                 <hr class="hidden-sm hidden-md hidden-lg">
                 <li ng-if="!isLoggedIn()">
-                    <a ng-click="checkStateandLogin('login')"><i
+                    <a ng-click="checkStateandLogin('login')" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}"><i
                             class="fa fa-sign-in"></i>Log In</a>
                 </li>
                 <li ng-if="!isLoggedIn()">
-                    <a ng-click="checkStateandLogin('signup')"><i
+                    <a ng-click="checkStateandLogin('signup')" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}"><i
                             class="fa fa-user"></i>Sign Up</a>
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="logOut()">
-                        <i class="fa fa-sign-out"></i> Log Out
+                        <i class="fa fa-sign-out" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}"></i>
+                        Log Out
                     </a>
                 </li>
             </ul>
