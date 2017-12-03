@@ -220,8 +220,8 @@ span.tab-space {
 
 .reviewBox {
     padding: 10px;
-    border-radius: 5%;
-    background-color: #f7f7f7;
+    /*border-radius: 5%;*/
+    /*background-color: #f7f7f7;*/
     min-height: 150px;
     max-height: 150px;
     overflow-y: scroll;
