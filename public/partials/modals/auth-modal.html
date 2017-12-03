@@ -7,20 +7,21 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger" type="danger" ng-show="error"
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger" type="danger"
+                     ng-show="error"
                      role="alert">
                     {{error}}
                 </div>
             </div>
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger" type="danger"
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger" type="danger"
                      ng-show="loginForm.loginEmail.$error.email && loginForm.email.$touched" role="alert"
                      close="">
                     Please enter a valid email!
                 </div>
             </div>
             <div class="row">
-                <form name="loginForm" class="col-xs-offset-3 col-xs-6 css-form">
+                <form name="loginForm" class="col-xs-12 col-sm-6 col-sm-offset-3 css-form">
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" name="loginEmail" class="form-control" placeholder="Email"
@@ -40,12 +41,12 @@
                 </form>
             </div>
             <div class="row">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <h4 class="text-center">or</h4>
                 </div>
             </div>
             <div class="row">
-                <div class="btn-group col-xs-offset-3 col-xs-6">
+                <div class="btn-group col-xs-12 col-sm-6 col-sm-offset-3">
                     <button class="btn fb-blue col-xs-12" ng-click="facebookLogin()"><i
                             class="fa fa-facebook-official fa-2x"></i> Continue with Facebook
                     </button>
@@ -60,32 +61,33 @@
         </div>
     </uib-tab>
     <uib-tab heading="{{tabs[1].title}}" index="1" select="refreshErrors()">
-        <div class="modal-body row">
+        <div class="modal-body">
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger" ng-show="error" role="alert">
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger" ng-show="error"
+                     role="alert">
                     {{error}}
                 </div>
             </div>
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger"
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger"
                      ng-show="signUpForm.signUpEmail.$error.email" role="alert" close="">
                 Please enter a valid email
                 </div>
             </div>
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger"
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger"
                      ng-show="signUpForm.signUpPassword.$error.minlength" role="alert" close="">
                     Your password must have more than 8 characters.
                 </div>
             </div>
             <div class="row">
-                <div uib-alert class="col-xs-6 col-xs-offset-3 text-center alert-danger"
+                <div uib-alert class="col-xs-12 col-sm-6 col-sm-offset-3 text-center alert-danger"
                      ng-show="signUpForm.passwordVerify.$error.validator" role="alert">
                     Password do not match.
                 </div>
             </div>
             <div class="row">
-                <form name="signUpForm" class="col-xs-offset-3 col-xs-6 css-form">
+                <form name="signUpForm" class="col-xs-12 col-sm-6 col-sm-offset-3 css-form">
                 <div class="form-group">
                     <label>First Name</label>
                     <input type="text" class="form-control" placeholder="First Name" ng-model="user.firstName" required>
@@ -125,12 +127,12 @@
             </form>
             </div>
             <div class="row">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <h4 class="text-center">or</h4>
             </div>
             </div>
             <div class="row">
-                <div class="btn-group col-xs-offset-3 col-xs-6">
+                <div class="btn-group col-xs-12 col-sm-6 col-sm-offset-3">
                     <button class="btn fb-blue col-xs-12" ng-click="facebookSignup()"><i
                             class="fa fa-facebook-official fa-2x text-left"></i> Continue with Facebook
                     </button>
@@ -138,7 +140,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-offset-3 col-xs-6 text-center">
+                <div class="col-md-offset-3 col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <h5 class="text-muted">Creating an account means you are okay with Bookd's <a href="/terms">Terms of
                         Use</a> and <a href="/privacy">Privacy Policy.</a></a></h5>
                 </div>
