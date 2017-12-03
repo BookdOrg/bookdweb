@@ -12,7 +12,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
+            <a class="navbar-brand" ng-href="/" style="padding-top:10px;" ng-if="$resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'">
+                <img src="/images/bookd_icon.png" width="33" height="33" class="d-inline-block align-top" alt="">
+            </a>
             <!--<a class="navbar-brand" ng-href="/" style="padding-top:2px;"><img src="/images/buz-logo-only.png"-->
             <!--height="45px"></a>-->
         </div>
@@ -28,8 +31,10 @@
                     class="hidden-xs landing-notification-bell">
                     <!--https://stackoverflow.com/questions/15316363/how-to-display-length-of-filtered-ng-repeat-data-->
                     <a ng-href="#" uib-dropdown-toggle>
-                        <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}">
-                            <span id="notificationNumber-landing">{{currentUser.notifications | notificationFilter}}</span>
+                        <i class="fa fa-bell badge {{currentUser.notifications | newNotificationFilter}}" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}">
+                            <span id="notificationNumber-landing" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}">{{currentUser.notifications | notificationFilter}}</span>
                         </i>
                     </a>
 
@@ -89,7 +94,9 @@
                              ng-src="{{currentUser.providerInfo}}"/>
                         <img class="navbarAvatar" ng-if="currentUser.provider === 'facebook'"
                              ng-src="{{currentUser.providerInfo}}"/>
-                        <span>{{currentUser.firstName}}</span> <i
+                        <span ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                            ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact'}">{{currentUser.firstName}}</span>
+                        <i
                             class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu droplinks">
