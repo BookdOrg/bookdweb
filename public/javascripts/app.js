@@ -412,7 +412,7 @@ app.config([
         }
     });
     $rootScope.$on('$viewContentLoaded', function (event, toState, toStateParams, fromState, fromStateParams, error) {
-        if ($location.$$path == '/privacy' || $location.$$path == '/terms') {
+        if ($location.$$path === '/privacy' || $location.$$path === '/terms') {
             $rootScope.gotoTop('top-legal');
         } else if (!error) {
             $rootScope.gotoTop();
