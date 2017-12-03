@@ -1,14 +1,13 @@
 <div class="container-fluid" style="background-color:white;">
     <div class="row">
         <div class="col col-xs-12 col-sm-5 searchResults">
-            <div class="page-header hidden-xs">
+            <div class="page-header hidden-xs" ng-class="{'hidden':businesses.length>0}">
                 <p class="text-center text-muted" ng-if="businesses.length === 0 && !searched">Go Ahead, Search for
                     Businesses!</p>
 
-                <p class="text-center text-muted" ng-if="businesses.length === 0 && searched">Sorry, no results for that
-                    business/service.</p>
-
-                <p class="text-center text-muted" ng-if="businesses.length > 0">Results</p>
+                <p class="text-center text-muted" ng-if="businesses.length === 0 && searched">:( We tried, but came up
+                    empty. Try another search!</p>
+                <!--<p class="text-center text-muted" ng-if="businesses.length > 0">Results</p>-->
             </div>
             <div class="row page-header hidden-sm hidden-md hidden-lg" style="margin-top:10px;">
                 <form name="navQuery" class="form-inline">
@@ -48,24 +47,26 @@
                 <p class="text-center text-muted" ng-if="businesses.length > 0">Results</p>
             </div>
             <div class="list-group">
-            <div class="list-group-item" ng-repeat="business in businesses track by $index" ng-mouseover="showDetail(business)">
-                <a href="#">
+                <a href="#" class="list-group-item" ng-repeat="business in businesses track by $index"
+                   ng-mouseover="showDetail(business)">
                     <div class="row" ng-click="selectBusiness(business)">
                         <div class="col-md-12 text-center">
                             <div class="media">
                                 <div class="media-left media-middle">
-                                    <!--<img class="media-object thumbnail" ng-if="business.photos[0] == 'undefined'" ng-src="{{business.icon}}"-->
-                                         <!--uib-tooltip="Photos coming soon..." tooltip-placement="right"-->
-                                         <!--style="border-radius:20%">-->
                                     <span ng-if="business.photos.length > 1" ng-repeat="photo in business.photos | limitTo: 1">
-                                    <img class="media-object thumbnail" ng-if="photo.photo_reference" ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=150&minheight=150&maxheight=150&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
-                                    <img class="media-object thumbnail" ng-if="!photo.photo_reference" ng-src="{{business.icon}}">
-                            </span>
+                                        <img class="media-object thumbnail" ng-if="photo.photo_reference"
+                                             ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=150&minheight=150&maxheight=150&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                                        <img class="media-object thumbnail" ng-if="!photo.photo_reference"
+                                             ng-src="{{business.icon}}">
+                                    </span>
                                 </div>
                                 <div class="media-body">
                                     <h3>{{business.name}}</h3>
                                     <div ng-if="business.rating">
-                                        Rating: {{business.rating}}
+                                        <span uib-rating ng-model="business.rating" max="max" read-only="isReadonly"
+                                              titles="['one','two','three','four','five']"
+                                              aria-labelledby="default-rating"></span>
+                                        <h3 class="label text-primary">{{business.rating}}</h3>
                                     </div>
                                     <span ng-if="!business.rating">This Business has not been rated yet.</span>
                                     <div>
@@ -74,10 +75,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </a>
-            </div>
             </div>
             <div>
                 <p class="text-center" ng-if="businesses.length > 0" class="text-center">{{businesses.length}}
