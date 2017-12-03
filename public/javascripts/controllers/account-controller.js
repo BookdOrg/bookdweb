@@ -147,7 +147,6 @@ module.exports = function ($scope, auth, userFactory, $location, $sce, FileUploa
     };
 
     $scope.changePassword = function () {
-        console.log('Here');
         auth.changePassword($scope.currPass, $scope.newPass)
             .then(function (data) {
                 $scope.passwordChanged = true;
