@@ -201,13 +201,15 @@
             </div>
             <div class="row" style="margin-top:20px;">
                 <div class="col-xs-12 col-sm-4 " ng-repeat="review in business.reviews track by $index">
-                    <div class="reviewBox">
-                        <img ng-src="{{review.user.image_url}}" style="border-radius:20%">
-                        <br>User: <span><a ng-href="{{review.author_url}}">{{review.author_name}}</a></span>
-                        <br>
-                        Rating: {{review.rating}}
-                        <br>
-                        {{review.text}}
+                    <div class="reviewBox media">
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{review.profile_photo_url}}">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading"><a ng-href="{{review.author_url}}">{{review.author_name}}</a></h4>
+                            <p>Rating: {{review.rating}}</p>
+                            <p>{{review.text}}</p>
+                        </div>
                     </div>
                     <hr class="full">
                 </div>
