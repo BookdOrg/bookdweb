@@ -16,7 +16,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     } else if (modalType === 'signup') {
         $scope.activeTab = 1;
     }
-    if (context == "businessRegister") {
+	if (context === "businessRegister") {
         $scope.contextMessage = true;
     }
     var onlineData = {
