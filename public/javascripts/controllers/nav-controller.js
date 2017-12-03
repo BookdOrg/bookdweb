@@ -12,6 +12,13 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $scope.noWrapSlides = false;
     $scope.active = 0;
     $scope.activeIndex = 0;
+	$scope.slides = [
+		{
+			image: '/images/masc.jpg',
+			id: 0,
+			style: 'center center'
+		}
+	];
   //send a new authToken if the current user needs to be updated (Used for availability)
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
