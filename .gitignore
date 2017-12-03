@@ -7,3 +7,5 @@ angular-env-vars/.env
 .DS_Store
 /config.json
 /public/javascripts/config.js
+npm-debug.log
+core
