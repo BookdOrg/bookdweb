@@ -9,6 +9,7 @@
                 <div class="form-group col-md-6">
                     <label for="serviceName">Service Title:</label>
                     <input type="text" class="form-control" id="serviceName" name="serviceName" ng-model="service.name"
+                           maxlength="30"
                            required>
                 </div>
                 <div class="form-group col-md-6">
@@ -49,9 +50,13 @@
             </div>
             <div class="row col-xs-offset-1">
                 <div class="form-group col-md-10">
-                    <label for="serviceDescription">Description:</label>
-                    <textarea class="form-control" id="serviceDescription" ng-model="service.description"
-                              required></textarea>
+                    <label for="serviceDescription">Description: <span
+                            ng-class="{'text-success':textLength > 20,'text-danger':textLength <= 20}"
+                            uib-tooltip="Characters remaining..">{{textLength}}</span></label>
+                    <textarea class="form-control" id="serviceDescription" name="serviceDescription" data-ng-trim="true"
+                              ng-model="service.description" ng-maxlength="140" maxlength="140"
+                              ng-change="updateCharCount(service.description)"
+                              ng-required="true" required></textarea>
                 </div>
             </div>
         </div>

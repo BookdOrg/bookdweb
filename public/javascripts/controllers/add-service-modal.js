@@ -65,4 +65,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, business,
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+
+    $scope.updateCharCount = function (text) {
+        $scope.textLength = 140 - text.length;
+    };
 };
