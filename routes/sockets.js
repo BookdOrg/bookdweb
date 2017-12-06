@@ -2,24 +2,12 @@
  * Created by khalilbrown on 9/3/16.
  */
 //Created by Khalil -
-// var express = require('express');
 var app = require('express')();
-// var jwt = require('express-jwt');
-// var passport = require('passport');
-// var cloudinary = require('cloudinary');
-// var async = require('async');
 var moment = require('moment');
-// var crypto = require('crypto');
 require('moment-range');
-// var GooglePlaces = require('googleplaces');
-// var googleplaces = new GooglePlaces(process.env.GOOGLE_PLACES_API_KEY, process.env.GOOGLE_PLACES_OUTPUT_FORMAT);
 var mongoose = require('mongoose');
 var _ = require('lodash');
-// var stripe = require('stripe')(process.env.stripeDevSecret);
 var nodemailer = require('nodemailer');
-// var EmailTemplate = require('email-templates').EmailTemplate;
-// var path = require('path');
-// var request = require('request');
 if (process.env.NODE_ENV === 'production') {
     var Raven = require('raven');
     Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
@@ -42,8 +30,8 @@ if (process.env.NODE_ENV === 'development') {
     server = require('https').createServer(options, app);
 }
 var io = require('socket.io')(server);
-var redis = require('socket.io-redis');
-io.adapter(redis({host: process.env.devhost, port: 6379}));
+// var redis = require('socket.io-redis');
+// io.adapter(redis({host: process.env.devhost, port: 6379}));
 var wellknown = require('nodemailer-wellknown');
 var config = wellknown('Zoho');
 // create reusable transporter object using SMTP transport
