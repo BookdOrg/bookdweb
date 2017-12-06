@@ -30,13 +30,13 @@ var apptRoutes = require('./routes/appointment-routes');
 var app = express();
 
 app.use(helmet({
-  frameguard: {
-    action: 'deny'
-  }
+    frameguard: {
+        action: 'deny'
+    }
 }));
 if (process.env.NODE_ENV === 'production') {
-	var Raven = require('raven');
-	Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
+    var Raven = require('raven');
+    Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
 }
 cloudinary.config({
     cloud_name: 'dvvtn4u9h',
@@ -79,9 +79,9 @@ var allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/user',userRoutes);
-app.use('/business',businessRoutes);
-app.use('/auth',authRoutes);
+app.use('/user', userRoutes);
+app.use('/business', businessRoutes);
+app.use('/auth', authRoutes);
 app.use('/beta', betaRoutes);
 app.use('/appointments', apptRoutes);
 //TODO move sockets to the /sockets route
@@ -94,15 +94,15 @@ app.use('/appointments', apptRoutes);
 //     res.render('index.ejs', {root: __dirname});
 // });
 app.use('/', function (req, res) {
-  //Returns a 404 if a js or css file can't be found
-  if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
-    res.status(404);
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err)
-  } else {
-    res.render('index.ejs', {root: __dirname});
-  }
+    //Returns a 404 if a js or css file can't be found
+    if (req.path.indexOf('.js') > -1 || req.path.indexOf('.css') > -1) {
+        res.status(404);
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err)
+    } else {
+        res.render('index.ejs', {root: __dirname});
+    }
 });
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {

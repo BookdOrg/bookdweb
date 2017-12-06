@@ -428,9 +428,9 @@ module.exports = function ($http, auth, $q, utilService) {
         // server (or what not handles properly - ex. server error), then we
         // may have to normalize it on our end, as best we can.
         if (!angular.isObject(response.data) || !response.data.message) {
-            return ( $q.reject('An unknown error occurred.') );
+            return ($q.reject('An unknown error occurred.'));
         }
         // Otherwise, use expected error message.
-        return ( $q.reject(response.data.message) );
+        return ($q.reject(response.data.message));
     }
 };

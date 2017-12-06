@@ -53,7 +53,8 @@
                         <div class="col-md-12 text-center">
                             <div class="media">
                                 <div class="media-left media-middle">
-                                    <span ng-if="business.photos.length > 1" ng-repeat="photo in business.photos | limitTo: 1">
+                                    <span ng-if="business.photos.length > 1"
+                                          ng-repeat="photo in business.photos | limitTo: 1">
                                         <img class="media-object thumbnail" ng-if="photo.photo_reference"
                                              ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=150&minheight=150&maxheight=150&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                                         <img class="media-object thumbnail" ng-if="!photo.photo_reference"

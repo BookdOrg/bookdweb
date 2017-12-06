@@ -13,8 +13,8 @@ var nodemailer = require('nodemailer');
 var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 if (process.env.NODE_ENV === 'production') {
-	var Raven = require('raven');
-	Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
+    var Raven = require('raven');
+    Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
 }
 
 var User = mongoose.model('User');

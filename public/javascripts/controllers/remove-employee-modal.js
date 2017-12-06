@@ -45,7 +45,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, employee,
 
         //TODO Move this string to somewhere we can access it globally!
         notificationFactory.addNotification(employee._id,
-                'You are no longer an employee of ' + business.name + '.', 'alert', true)
+            'You are no longer an employee of ' + business.name + '.', 'alert', true)
             .then(function () {
 
             }, function (err) {

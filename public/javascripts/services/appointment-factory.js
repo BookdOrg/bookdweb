@@ -69,6 +69,7 @@ module.exports = function () {
                     timeObj.end = adjustedEnd.format('hh:mm a');
                 }
             });
+
             /**
              *
              *
@@ -79,6 +80,7 @@ module.exports = function () {
                     calculateAppointment(appointmentArray, appointment, timeObj, m);
                 });
             }
+
             _.forEach(appointmentsArray, function (appointmentArray) {
                 calculateAppointmentBlocks(appointmentArray);
             });
@@ -138,6 +140,7 @@ module.exports = function () {
                     timeObj.end = availableTimeAdjustedEnd.format('hh:mm a');
                 }
             }
+
             var currentDateTime = moment().set({
                 'year': moment(employeeDate).year(),
                 'month': moment(employeeDate).month(),

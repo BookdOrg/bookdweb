@@ -1,11 +1,11 @@
 /*@font-face {*/
 /*font-family: 'Gotham';*/
-    /*src: url(/public/fonts/GothamBook.woff);*/
+/*src: url(/public/fonts/GothamBook.woff);*/
 /*}*/
 
 /*@font-face {*/
 /*font-family: 'Gotham Book';*/
-    /*src: url(/public/fonts/Gotham-Book.woff);*/
+/*src: url(/public/fonts/Gotham-Book.woff);*/
 /*}*/
 Avenir Next
 .buz-default-text {
@@ -15,6 +15,7 @@ Avenir Next
     text-transform: uppercase;
     color: #445160;
 }
+
 .carousel-indicators {
     visibility: hidden;
 }
@@ -49,6 +50,7 @@ body {
     font-family: 'Gotham';
     /*font-weight: 400;*/
 }
+
 .disabled {
     opacity: .5;
     cursor: not-allowed;
@@ -433,6 +435,7 @@ img.fitContainer {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+
 .well.employeeHover:hover {
     background-color: aliceblue;
 }
@@ -488,6 +491,7 @@ header .intro-text .intro-heading {
     header .carousel {
         height: auto;
     }
+
     header .intro-text {
         padding-top: 170px;
         padding-bottom: 200px
@@ -553,6 +557,7 @@ header .intro-text .intro-heading {
 .btn.focus, .btn:focus, .btn:hover {
     color: white;
 }
+
 .btn-gradient-blue {
     color: white;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#445160+0,7db9e8+100 */
@@ -785,6 +790,7 @@ Hack so the table styles load before we're on the page
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
 
 }
+
 .box-shadow {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
 }
@@ -796,6 +802,7 @@ Hack so the table styles load before we're on the page
 #employeeDropdown > div > button {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
 }
+
 #reset-container {
     box-shadow: rgba(14, 41, 57, 0.117647) 0px 0px 0px 1px, rgba(14, 41, 57, 0.439216) 0px 2px 5px 0px, rgba(14, 41, 57, 0.14902) 0px -1px 2px 0px inset;
     min-height: 250px;

@@ -172,6 +172,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, socketSer
         }
 
     };
+
     /**
      *
      * @param date - the date selected on the calendar

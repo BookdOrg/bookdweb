@@ -246,7 +246,7 @@ module.exports = function ($scope, $state, auth, userFactory, $compile, uiCalend
      * @param view
      * @param element
      */
-        //TODO cache the appointments and only make the calls as needed
+    //TODO cache the appointments and only make the calls as needed
     $scope.monthYearArray = {};
     $scope.getEvents = function (start, end, timezone, callback) {
         var calStart = moment(start).format('YYYY-MM-DD');

@@ -291,7 +291,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      * @param size - the size of the modal
      */
-    $scope.openAvailabilityModal = function (size,employee) {
+    $scope.openAvailabilityModal = function (size, employee) {
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: '/partials/modals/updateAvailabilityModal.html',
@@ -299,8 +299,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
             backdrop: 'static',
             keyboard: false,
             size: size,
-            resolve:{
-                employee:function(){
+            resolve: {
+                employee: function () {
                     return employee;
                 },
                 business: function () {
@@ -553,7 +553,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      */
     var createMasterEntry = function (appointmentArray) {
         var responseArray = {};
-        if(appointmentArray.length > 0){
+        if (appointmentArray.length > 0) {
             for (var appointmentArrayIndex = 0; appointmentArrayIndex < appointmentArray.length; appointmentArrayIndex++) {
                 if (responseArray[appointmentArray[appointmentArrayIndex].employee._id] && responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments) {
                     responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
@@ -563,8 +563,8 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
                     responseArray[appointmentArray[appointmentArrayIndex].employee._id].appointments.push(appointmentArray[appointmentArrayIndex]);
                 }
             }
-        }else{
-            for(var employeeIndex = 0; employeeIndex<$scope.activeBusiness.business.employees.length;employeeIndex++){
+        } else {
+            for (var employeeIndex = 0; employeeIndex < $scope.activeBusiness.business.employees.length; employeeIndex++) {
                 responseArray[$scope.activeBusiness.business.employees[employeeIndex]._id] = {};
                 responseArray[$scope.activeBusiness.business.employees[employeeIndex]._id].appointments = [];
             }
@@ -683,7 +683,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
     /* add custom event*/
     $scope.addEvent = function (appointment) {
         var event = {
-            _id:appointment._id,
+            _id: appointment._id,
             title: appointment.title,
             start: appointment.start.full,
             end: appointment.end.full,
@@ -844,18 +844,18 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
      *
      */
     socketService.on('newAppt', function (appointment) {
-            $scope.addEvent(appointment);
-            Notification.success({message: 'New appointment booked!'});
-            if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
-                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
-            } else {
-                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id] = {};
-                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments = [];
-                $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
-            }
+        $scope.addEvent(appointment);
+        Notification.success({message: 'New appointment booked!'});
+        if ($scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id]) {
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
+        } else {
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id] = {};
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments = [];
+            $scope.masterList[$scope.activeBusiness.business.name][appointment.employee._id].appointments.push(appointment);
+        }
 
-            $scope.lastUpdatedView = moment().calendar();
-            $scope.lastUpdated = moment();
+        $scope.lastUpdatedView = moment().calendar();
+        $scope.lastUpdated = moment();
     });
     /**
      *
@@ -867,7 +867,7 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
         if (data.from !== $rootScope.currentUser._id) {
             var eventId;
             var employeeAppointments = $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments;
-          employeeAppointments = _.without(employeeAppointments, _.find(employeeAppointments, {'_id': data.appointment._id}));
+            employeeAppointments = _.without(employeeAppointments, _.find(employeeAppointments, {'_id': data.appointment._id}));
             $scope.masterList[$scope.activeBusiness.business.name][data.appointment.employee._id].appointments = employeeAppointments;
             for (var eventIndex = 0; eventIndex < $scope.events.length; eventIndex++) {
                 if ($scope.events[eventIndex].appointment._id === data.appointment._id) {

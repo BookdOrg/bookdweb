@@ -22,8 +22,8 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
         };
 
         notificationFactory.addNotification(newEmployee.employeeId,
-                'You have been added to ' + businessInfo.name +
-                ' as an employee!', 'alert', true)
+            'You have been added to ' + businessInfo.name +
+            ' as an employee!', 'alert', true)
             .then(function () {
 
             }, function (err) {

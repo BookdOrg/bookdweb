@@ -12,14 +12,14 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
     $scope.noWrapSlides = false;
     $scope.active = 0;
     $scope.activeIndex = 0;
-	$scope.slides = [
-		{
-			image: '/images/masc.jpg',
-			id: 0,
-			style: 'center center'
-		}
-	];
-  //send a new authToken if the current user needs to be updated (Used for availability)
+    $scope.slides = [
+        {
+            image: '/images/masc.jpg',
+            id: 0,
+            style: 'center center'
+        }
+    ];
+    //send a new authToken if the current user needs to be updated (Used for availability)
     socketService.on('clientUpdate', function (data) {
         auth.saveToken(data.token);
         $rootScope.currentUser = auth.currentUser();
@@ -85,13 +85,13 @@ module.exports = function ($scope, auth, $state, businessFactory, $rootScope, $u
         }
     };
 
-  $scope.join = function () {
-    if (auth.isLoggedIn()) {
-      $state.go('apply_one');
-    } else {
-      $state.go('join');
-    }
-  };
+    $scope.join = function () {
+        if (auth.isLoggedIn()) {
+            $state.go('apply_one');
+        } else {
+            $state.go('join');
+        }
+    };
 
     /**
      * Tell the database that the notifications have been viewed.

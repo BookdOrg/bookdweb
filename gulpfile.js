@@ -82,10 +82,11 @@ gulp.task('minify-css', function () {
 gulp.task('minify-cssOnce', function () {
     minifyCss();
 });
-function minifyCss(){
-    return gulp.src([paths.css,paths.cssIgnore,'!public/stylesheets/dist/**/*'])
+
+function minifyCss() {
+    return gulp.src([paths.css, paths.cssIgnore, '!public/stylesheets/dist/**/*'])
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(cleanCSS({debug:true,rebase:true}, function(details){
+        .pipe(cleanCSS({debug: true, rebase: true}, function (details) {
             // console.log(details.name + ': ' + details.stats.originalSize);
             // console.log(details.name + ': ' + details.stats.minifiedSize);
             // console.log(details.name + ': ' + details.stats.efficiency);
@@ -95,6 +96,7 @@ function minifyCss(){
         .pipe(sourcemaps.write(paths.cssDist))
         .pipe(gulp.dest('./public/stylesheets/dist/'));
 }
+
 function configure() {
     fs.writeFileSync('./config.json',
         JSON.stringify(config[ENV]));
@@ -106,6 +108,7 @@ function configure() {
         )
         .pipe(gulp.dest('./public/javascripts'))
 }
+
 function bundle() {
     minifyCss();
     return bundler.bundle()
@@ -140,6 +143,7 @@ function bundleProdOnce() {
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dist));
 }
+
 function errorHandler(err) {
     gutil.log(gutil.colors.red('Error: ' + err.message));
 }

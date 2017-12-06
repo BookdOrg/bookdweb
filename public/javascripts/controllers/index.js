@@ -1,4 +1,3 @@
-
 var app = require('angular').module('cc');
 
 app.controller('AccountCtrl', require('./account-controller'));

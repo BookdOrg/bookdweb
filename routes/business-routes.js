@@ -18,8 +18,8 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 // var request = require('request');
 if (process.env.NODE_ENV === 'production') {
-	var Raven = require('raven');
-	Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
+    var Raven = require('raven');
+    Raven.config('https://f3036b05fed14259931f21238616f989:af33b643f270480297fd163281854868@sentry.io/249177').install();
 }
 
 var User = mongoose.model('User');
@@ -881,6 +881,7 @@ router.post('/update-payments-account', auth, function (req, res, next) {
                 });
             }
         });
+
         function sendEmail(bankingTemplateObj) {
             User.findOne({"_id": req.payload._id}).exec(function (error, user) {
                 bankingTemplateObj.user = user.name;
@@ -916,6 +917,7 @@ router.post('/contact', function (req, res, next) {
     } else {
         res.json(400);
     }
+
     function sendEmail(name, phone, email, message) {
         var subject,
             body;

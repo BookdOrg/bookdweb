@@ -19,9 +19,9 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             $scope.service = data;
             //grab the employee details from the services list of employees based on the appointments employeeID
             if ($scope.dateObj.appointment.employee._id) {
-              $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
+                $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee._id});
             } else {
-              $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
+                $scope.employee = _.find($scope.service.employees, {_id: $scope.dateObj.appointment.employee});
             }
 
             //if there's no employee we set this flag to true
@@ -144,6 +144,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
             return employeeAvailability;
         }
     };
+
     /**
      *
      * @param date - the date selected on the calendar
@@ -217,6 +218,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 }
             });
     }
+
     socketService.on('newRoomAppt', function (appointment) {
         if (appointment) {
             getAvailableTimes($scope.selectedDate, data.appointment.employee._id);
@@ -562,6 +564,7 @@ module.exports = function ($scope, $uibModalInstance, data, businessFactory, use
                 });
         }
     }
+
     $scope.$on('$destroy', function (event) {
         if ($scope.selectedDate) {
             var roomId = $scope.newRoomDate.toString() + $scope.employee._id;
