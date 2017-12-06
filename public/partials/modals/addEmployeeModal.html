@@ -2,42 +2,43 @@
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true"><i class="fa fa-times"></i></button>
     <h3 class="modal-title text-center">New Employee</h3>
 </div>
-<form name="addEmployeeForm">
-    <div class="modal-body">
-        <div class="row form-inline employee-search">
-            <div class="form-group col-md-12">
-                <label for="employeeId">Employee Email:</label>
-                <input class="form-control" type="email" id="employeeId" ng-model="id" required>
-                <button class="btn btn-gradient-success" ng-click="addEmployeeForm.$valid && findEmployee(id)"
-                        type="submit">
-                    Search
-                </button>
-                <i class="fa fa-spinner fa-pulse fa-2x" ng-show="searching"></i>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-12" ng-if="employee">
-                <img ng-if="employee.avatarVersion && employee.provider == 'bookd'"
-                     ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
-                     style="height:100px;width:100px;">
-                <!--<img ng-if="employee.provider === 'google_plus' && !employee.photo && !searching"-->
-                <!--ng-src="{{cloudinaryDefaultPic}}"/>-->
-                <img ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
-                     ng-src="{{cloudinaryDefaultPic}}"
-                     style="height:100px;width:100px;">
-                <!--<img class="provider-photo-radius" ng-if="employee.provider === 'google_plus'"-->
-                <!--ng-src="{{employee.photo}}"/>-->
-                <img class="provider-photo-radius" ng-if="employee.provider === 'facebook'"
-                     ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
+<div class="row">
+    <div class="modal-body text-center">
+        <div class="col-xs-12" ng-if="employee">
+            <img class="thumbnail associate-photo center-block"
+                 ng-if="employee.avatarVersion && employee.provider == 'bookd'"
+                 ng-src="{{cloudinaryBaseUrl}}{{employee.avatarVersion}}/profile/{{employee._id}}"
+                 style="height:100px;width:100px;">
+            <img class="thumbnail  associate-photo center-block"
+                 ng-if="!employee.avatarVersion && employee.provider == 'bookd'"
+                 ng-src="{{cloudinaryDefaultPic}}"
+                 style="height:100px;width:100px;">
+            <img class="thumbnail associate-photo center-block" ng-if="employee.provider === 'facebook'"
+                 ng-src="{{facebookApi}}{{employee.providerId}}/picture?type=large"/>
 
-                <p>{{employee.name}}</p>
-            </div>
-            <div class="col-md-12" ng-if="!employee && searched">
-                <p>No employee with that email found.</p>
-            </div>
+            <p>{{employee.name}}</p>
         </div>
+        <div class="col-xs-6 col-xs-offset-3" ng-if="!employee && searched">
+            <p class="bg-danger"> No employee with that email found <i class="fa fa-exclamation text-danger"
+                                                                       aria-hidden="true"></i></p>
+        </div>
+        <form name="addEmployeeForm">
+            <div class="row form-inline employee-search">
+                <div class="form-group col-xs-12 center-block">
+                    <label for="employeeId">Employee Email:</label>
+                    <input class="form-control" type="email" id="employeeId" ng-model="id" required>
+                    <button class="btn btn-gradient-success" ng-click="addEmployeeForm.$valid && findEmployee(id)"
+                            ng-show="!searching"
+                            type="submit">
+                        Search
+                    </button>
+                    <i class="fa fa-spinner fa-pulse fa-lg" ng-show="searching"></i>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>
+
 <div class="modal-footer">
     <button class="btn btn-gradient-primary" ng-disabled="!employee"
             ng-click="create(employee._id)"

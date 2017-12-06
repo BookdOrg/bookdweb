@@ -37,10 +37,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
                 $uibModalInstance.close(businessInfo._id);
             });
     };
-    //TODO come back to integrating profile pictures
-    //OAuth.callback('facebook','',function(data){
-    //    console.log(data)
-    //})
 
     /**
      * Called when adding a new employee to a business.
@@ -50,20 +46,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, userFacto
     $scope.findEmployee = function (email) {
         $scope.searched = false;
         $scope.searching = true;
+        delete $scope.employee;
         userFactory.search(email).then(function (data) {
             $scope.searched = true;
             $scope.employee = data;
-            //if (data && data.provider === 'google_plus') {
-            //    userFactory.getGooglePhoto(data.providerId)
-            //        .then(function (response) {
-            //            if (!response.error) {
-            //                $scope.employee.photo = response.image.url.replace('sz=50', 'sz=200');
-            //            }
-            //            $scope.searching = false;
-            //        }, function (err) {
-            //            $scope.searching = false;
-            //        });
-            //}
             $scope.searching = false;
         }, function (error) {
             $scope.searched = true;

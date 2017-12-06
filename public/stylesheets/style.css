@@ -872,3 +872,8 @@ Hack so the table styles load before we're on the page
     background-color: #eaeaea;
     padding: 0 0;
 }
+
+.associate-photo {
+    height: 175px;
+    width: 175px;
+}
