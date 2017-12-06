@@ -1,114 +1,313 @@
 <div class="container-fluid">
     <div class="page-header">
         <div class="row">
-            <div class="col-xs-4 col-md-2 col-md-offset-1">
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">General</a>
-                    <a href="#" class="list-group-item">Security and Login</a>
-                    <a href="#" class="list-group-item">Morbi leo risus</a>
-                    <a href="#" class="list-group-item">Associate Settings</a>
-                    <a href="#" class="list-group-item">Vestibulum at eros</a>
-                </div>
+            <div class="col-xs-4 col-sm-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a href="#home" data-toggle="tab">General</a></li>
+                    <li role="presentation"><a href="#profile" data-toggle="tab">Profile</a></li>
+                    <li role="presentation"><a href="#password" data-toggle="tab">Password</a></li>
+                    <li role="presentation"><a href="#settings" data-toggle="tab">Associate</a></li>
+                </ul>
             </div>
-            <div class="col-xs-8 col-md-8">
-                <!--
-                     Start Profile Panel Block
-                -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">General</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row text-center">
-                            <div class="form-group col-sm-5 col-xs-12">
-                                <h3>{{currentUser.name}}</h3>
-                                <img class="provider-photo-radius thumbnail img-responsive"
-                                     ng-if="currentUser.provider === 'google_plus'"
-                                     ng-src="{{currentUser.providerInfo}}"/>
-                                <img class="provider-photo-radius thumbnail img-responsive"
-                                     ng-if="currentUser.provider === 'facebook'"
-                                     ng-src="{{currentUser.providerInfo}}"/>
+            <div class="col-xs-8 col-sm-10">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">General</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object thumbnail associate-photo"
+                                                 ng-if="currentUser.provider === 'google_plus'"
+                                                 ng-src="{{currentUser.providerInfo}}"/>
+                                            <img class="media-object thumbnail associate-photo"
+                                                 ng-if="currentUser.provider === 'facebook'"
+                                                 ng-src="{{currentUser.providerInfo}}"/>
 
-                                <div ng-if="currentUser.provider === 'bookd' " nv-file-drop="" uploader="uploader"
-                                     removeAfterUpload="true">
-                                    <div nv-file-over="" uploader="uploader"
-                                         style="border-style:dashed;border-width:5px;"
-                                         over-class="dropZoneHover" class="well my-drop-zone text-center">
-                                        <img class="img-responsive"
-                                             ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
-                                             ng-src="{{cloudinaryDefaultPic}}"/>
-                                        <img class="img-responsive"
-                                             ng-if="currentUser.avatarVersion && currentUser.provider === 'bookd'"
-                                             ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
-                                        <div class="text-center" style="margin-top:10px;">Drag Drop Your Photo</div>
-                                        <div>OR</div>
-                                        <input class="form-control" type="file" nv-file-select uploader="uploader"
-                                               removeAfterUpload="true">
+                                            <div ng-if="currentUser.provider === 'bookd' " nv-file-drop=""
+                                                 uploader="uploader"
+                                                 removeAfterUpload="true">
+                                                <div nv-file-over="" uploader="uploader"
+                                                     style="border-style:dashed;border-width:5px;"
+                                                     over-class="dropZoneHover" class="well my-drop-zone text-center">
+                                                    <img class="media-object thumbnail associate-photo"
+                                                         ng-if="!currentUser.avatarVersion && currentUser.provider === 'bookd'"
+                                                         ng-src="{{cloudinaryDefaultPic}}"/>
+                                                    <img class="media-object thumbnail associate-photo"
+                                                         ng-if="currentUser.avatarVersion && currentUser.provider === 'bookd'"
+                                                         ng-src="{{cloudinaryBaseUrl}}{{currentUser.avatarVersion}}/profile/{{currentUser._id}}"/>
+                                                    <div class="text-center" style="margin-top:10px;">Drag Drop Your
+                                                        Photo
+                                                    </div>
+                                                    <div>OR</div>
+                                                    <input class="form-control" type="file" nv-file-select
+                                                           uploader="uploader"
+                                                           removeAfterUpload="true">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <form name="newPasswordForm" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="newEmail"
+                                                       class="col-xs-12 col-sm-2 control-label">First
+                                                    Name</label>
+                                                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
+                                                    <input type="email" class="form-control" id="firstName" disabled
+                                                           placeholder="{{currentUser.firstName}}"
+                                                           value="{{currentUser.firstName}}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newEmail"
+                                                       class="col-xs-12 col-sm-2 control-label">Last
+                                                    Name</label>
+                                                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
+                                                    <input type="email" class="form-control" id="lastName" disabled
+                                                           placeholder="{{currentUser.lastName}}"
+                                                           value="{{currentUser.lastName}}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newEmail"
+                                                       class="col-xs-12 col-sm-2 control-label">Email
+                                                    Address</label>
+                                                <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
+                                                    <input type="email" class="form-control" id="newEmail" disabled
+                                                           placeholder="{{currentUser.email}}"
+                                                           value="{{currentUser.email}}">
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form style="margin-top:30px;">
+                                            <div ng-show="showLoader" class="row">
+                                                <div class="col-md-6">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="50%">Name</th>
+                                                            <th ng-show="uploader.isHTML5">Size</th>
+                                                            <th ng-show="uploader.isHTML5">Progress</th>
+                                                            <th>Status</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="item in uploader.queue">
+                                                            <td>
+                                                                <!-- <strong>{{ item.file.name }}</strong> -->
+                                                                <!-- <div ng-thumb="{ file: item.file, width: 100 }"></div> -->
+                                                                <div ng-show="uploader.isHTML5"
+                                                                     ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                                <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                                            </td>
+                                                            <td ng-show="uploader.isHTML5" nowrap>{{
+                                                                item.file.size/1024/1024|number:2
+                                                                }} MB
+                                                            </td>
+                                                            <td ng-show="uploader.isHTML5">
+                                                                <div class="progress" style="margin-bottom: 0;">
+                                                                    <div class="progress-bar" role="progressbar"
+                                                                         ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                            <span ng-show="item.isSuccess"><i
+                                                    class="glyphicon glyphicon-ok"></i></span>
+                                                                <span ng-show="item.isCancel"><i
+                                                                        class="glyphicon glyphicon-ban-circle"></i></span>
+                                                                <span ng-show="item.isError"><i
+                                                                        class="glyphicon glyphicon-remove"></i></span>
+                                                            </td>
+                                                            <td nowrap>
+                                                                <button type="button"
+                                                                        class="btn btn-gradient-success btn-xs"
+                                                                        ng-click="item.upload()"
+                                                                        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                    <span class="glyphicon glyphicon-upload"></span>
+                                                                    Upload
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="btn btn-gradient-warning btn-xs"
+                                                                        ng-click="item.cancel()"
+                                                                        ng-disabled="!item.isUploading">
+                                                                    <span class="glyphicon glyphicon-ban-circle"></span>
+                                                                    Cancel
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="btn btn-gradient-danger btn-xs"
+                                                                        ng-click="item.remove()">
+                                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                                    Remove
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-7">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h3 ng-show="passwordChanged" class="email-success">
-                                            Password changed successfully!
-                                        </h3>
-                                        <div uib-alert class="text-center alert-danger"
-                                             ng-show="newPasswordForm.password.$error.minlength" role="alert">
-                                            Your password must have more than 8 characters.
-                                        </div>
-                                        <div uib-alert class="text-center alert-danger" ng-show="error" role="alert">
-                                            {{error}}
-                                        </div>
-                                        <div uib-alert class="text-center alert-danger"
-                                             ng-show="newPasswordForm.passwordVerify.$error.validator" role="alert">
-                                            Password do not match.
+                        </div>
+                    </div>
+                    <!--
+                     END Profile Panel Block
+                    -->
+                    <div class="tab-pane" id="profile">
+                        <div class="panel panel-default" ng-show="currentUser.isAssociate">
+                            <div class="panel-heading">
+                                Associate Panel
+                            </div>
+                            <div class="panel-body">
+                                <div class="row text-center">
+                                    <div class="col-xs-12 col-sm-6">
+                                        <form class="form-inline">
+                                            <label for="associateDisplayEmail" class="control-label col-sm-6">Associate
+                                                Email:</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="associateDisplayEmail"
+                                                       name="associateDisplayEmail" type="text"
+                                                       value="{{currentUser.email}}"
+                                                       disabled>
+                                            </div>
+                                        </form>
+
+                                        <!--<div class="col-xs-12 col-sm-8 text-center">-->
+                                        <!--<div class="col col-xs-2" ng-repeat="photo in photos">-->
+                                        <!--<img ng-src="{{photo.images.standard_resolution.url}}"-->
+                                        <!--style="height:100px;width:100px;"/>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="text-center">-->
+                                        <!--<button class="btn btn-gradient-primary" disabled ng-click="authorizeInstagram()"><i-->
+                                        <!--class="fa fa-instagram fa-2x"></i> Authorize Instagram-->
+                                        <!--</button>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="row text-center" ng-show="currentUser.availabilityArray.length >0">
+                                    <div class="col-xs-12 col-sm-6">
+                                        <label class="control-label col-sm-6">Set Weekly
+                                            Availability:</label>
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-gradient-success"
+                                                    ng-click="openAvailabilityModal('lg')">
+                                                Availability <i class="fa fa-hourglass"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <h3>Account Information</h3>
+                                <div class="row text-center">
+                                    <div class="col-xs-12 col-sm-6">
+                                        <div class="row" style="margin-top:20px;">
+                                            <form name="updateDescForm" class="form-inline">
+                                                <label for="associateDescription" class="control-label col-sm-6">Associate
+                                                    Description:</label>
 
+                                                <div class="form-group text-center col-sm-6">
+                                                <textarea id="associateDescription"
+                                                          ng-model="currentUser.associateDescription"
+                                                          class="form-control" cols="40" rows="5" required></textarea>
+
+                                                    <div style="margin-top:20px;">
+                                                        <button class="btn btn-gradient-primary pull-left"
+                                                                ng-click="updateDescForm.$valid && updateDescription(currentUser.associateDescription)">
+                                                            <span ng-if="!updatingDescription">Update Description</span>
+                                                            <span ng-if="updatingDescription"><i
+                                                                    class="fa fa-spinner fa-pulse"></i></span>
+                                                        </button>
+                                                        <i class="fa fa-check text-success pull-right fa-2x"
+                                                           ng-if="descriptionUpdated"></i>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="password">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Password</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <h3 ng-show="passwordChanged" class="email-success">
+                                        Password changed successfully!
+                                    </h3>
+                                    <div uib-alert class="text-center alert-danger"
+                                         ng-show="newPasswordForm.password.$error.minlength" role="alert">
+                                        Your password must have more than 8 characters.
+                                    </div>
+                                    <div uib-alert class="text-center alert-danger" ng-show="error" role="alert">
+                                        {{error}}
+                                    </div>
+                                    <div uib-alert class="text-center alert-danger"
+                                         ng-show="newPasswordForm.passwordVerify.$error.validator" role="alert">
+                                        Passwords do not match.
+                                    </div>
+                                </div>
                                 <form name="newPasswordForm" class="form-horizontal">
                                     <div class="form-group">
-                                        <label for="newEmail" class="col-sm-4 control-label">Email Address</label>
-                                        <div class="col-sm-8">
+                                        <label for="newEmail"
+                                               class="col-xs-12 col-sm-4 col-sm-offset-1 control-label">Email
+                                            Address</label>
+                                        <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
                                             <input type="email" class="form-control" id="newEmail" disabled
-                                                   placeholder="{{currentUser.email}}" value="{{currentUser.email}}">
+                                                   placeholder="{{currentUser.email}}"
+                                                   value="{{currentUser.email}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="currentPassword" class="col-sm-4 control-label">Current
+                                        <label for="currentPassword"
+                                               class="col-xs-12 col-sm-4 col-sm-offset-1 control-label">Current
                                             password</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
                                             <input type="password" class="form-control" id="currentPassword"
                                                    ng-model="currPass"
                                                    placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="newPass" class="col-sm-4 control-label">New password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" class="form-control" id="newPass" ng-minlength="8"
+                                        <label for="newPass"
+                                               class="col-xs-12 col-sm-4 col-sm-offset-1 control-label">New
+                                            password</label>
+                                        <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
+                                            <input type="password" class="form-control" id="newPass"
+                                                   ng-minlength="8"
                                                    ng-model="newPass" name="newPass"
                                                    ng-model-options="{ updateOn: 'default blur', debounce: {'default':1000} }"
                                                    placeholder="New password" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="passwordVerify" class="col-sm-4 control-label">Confirm new
+                                        <label for="passwordVerify"
+                                               class="col-xs-12 col-sm-4 col-sm-offset-1 control-label">Confirm
+                                            new
                                             password</label>
 
-                                        <div class="col-sm-8">
+                                        <div class="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-0">
                                             <input type="password" class="form-control" id="passwordVerify"
                                                    ng-minlength="8"
                                                    name="passwordVerify"
-                                                   ui-validate=" '$value==newPass' " ui-validate-watch=" 'newPass' "
-                                                   placeholder="Confirm new password" required ng-model="passwordVerify"
+                                                   ui-validate=" '$value==newPass' "
+                                                   ui-validate-watch=" 'newPass' "
+                                                   placeholder="Confirm new password" required
+                                                   ng-model="passwordVerify"
                                                    ng-model-options="{ updateOn: 'default blur', debounce: {'default':1000} }">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-offset-4 col-sm-4 text-center">
+                                        <div class="col-xs-offset-1 col-xs-10 text-center">
                                             <button ng-click="newPasswordForm.$valid && changePassword()"
                                                     type="submit" class="btn btn-gradient-primary">Update
                                             </button>
@@ -117,148 +316,11 @@
                                 </form>
                             </div>
                         </div>
-                        <form style="margin-top:30px;">
-                            <div ng-show="showLoader" class="row">
-                                <div class="col-md-6">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th width="50%">Name</th>
-                                            <th ng-show="uploader.isHTML5">Size</th>
-                                            <th ng-show="uploader.isHTML5">Progress</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="item in uploader.queue">
-                                            <td>
-                                                <!-- <strong>{{ item.file.name }}</strong> -->
-                                                <!-- <div ng-thumb="{ file: item.file, width: 100 }"></div> -->
-                                                <div ng-show="uploader.isHTML5"
-                                                     ng-thumb="{ file: item._file, height: 100 }"></div>
-                                                <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
-                                            </td>
-                                            <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2
-                                                }} MB
-                                            </td>
-                                            <td ng-show="uploader.isHTML5">
-                                                <div class="progress" style="margin-bottom: 0;">
-                                                    <div class="progress-bar" role="progressbar"
-                                                         ng-style="{ 'width': item.progress + '%' }"></div>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <span ng-show="item.isSuccess"><i
-                                                        class="glyphicon glyphicon-ok"></i></span>
-                                                <span ng-show="item.isCancel"><i
-                                                        class="glyphicon glyphicon-ban-circle"></i></span>
-                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                                            </td>
-                                            <td nowrap>
-                                                <button type="button" class="btn btn-gradient-success btn-xs"
-                                                        ng-click="item.upload()"
-                                                        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                    <span class="glyphicon glyphicon-upload"></span> Upload
-                                                </button>
-                                                <button type="button" class="btn btn-gradient-warning btn-xs"
-                                                        ng-click="item.cancel()" ng-disabled="!item.isUploading">
-                                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                                </button>
-                                                <button type="button" class="btn btn-gradient-danger btn-xs"
-                                                        ng-click="item.remove()">
-                                                    <span class="glyphicon glyphicon-trash"></span> Remove
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </form>
+                    </div>
+                    <div class="tab-pane" id="settings">
 
                     </div>
                 </div>
-                <!--
-                     END Profile Panel Block
-                -->
-                <!--
-                     START Associate Panel Block
-                -->
-                <div class="panel panel-default" ng-show="currentUser.isAssociate">
-                    <div class="panel-heading">
-                        Associate Panel
-                    </div>
-                    <div class="panel-body">
-                        <div class="row text-center">
-                            <div class="col-xs-12 col-sm-6">
-                                <form class="form-inline">
-                                    <label for="associateDisplayEmail" class="control-label col-sm-6">Associate
-                                        Email:</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" id="associateDisplayEmail"
-                                               name="associateDisplayEmail" type="text" value="{{currentUser.email}}"
-                                               disabled>
-                                    </div>
-                                </form>
-
-                                <!--<div class="col-xs-12 col-sm-8 text-center">-->
-                                <!--<div class="col col-xs-2" ng-repeat="photo in photos">-->
-                                <!--<img ng-src="{{photo.images.standard_resolution.url}}"-->
-                                <!--style="height:100px;width:100px;"/>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="text-center">-->
-                                <!--<button class="btn btn-gradient-primary" disabled ng-click="authorizeInstagram()"><i-->
-                                <!--class="fa fa-instagram fa-2x"></i> Authorize Instagram-->
-                                <!--</button>-->
-                                <!--</div>-->
-                            </div>
-                        </div>
-                        <div class="row text-center" ng-show="currentUser.availabilityArray.length >0">
-                            <div class="col-xs-12 col-sm-6">
-                                <label class="control-label col-sm-6">Set Weekly
-                                    Availability:</label>
-                                <div class="col-sm-6">
-                                    <button class="btn btn-gradient-success"
-                                            ng-click="openAvailabilityModal('lg')">
-                                        Availability <i class="fa fa-hourglass"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-xs-12 col-sm-6">
-                                <div class="row" style="margin-top:20px;">
-                                    <form name="updateDescForm" class="form-inline">
-                                        <label for="associateDescription" class="control-label col-sm-6">Associate
-                                            Description:</label>
-
-                                        <div class="form-group text-center col-sm-6">
-                                                <textarea id="associateDescription"
-                                                          ng-model="currentUser.associateDescription"
-                                                          class="form-control" cols="40" rows="5" required></textarea>
-
-                                            <div style="margin-top:20px;">
-                                                <button class="btn btn-gradient-primary pull-left"
-                                                        ng-click="updateDescForm.$valid && updateDescription(currentUser.associateDescription)">
-                                                    <span ng-if="!updatingDescription">Update Description</span>
-                                                    <span ng-if="updatingDescription"><i
-                                                            class="fa fa-spinner fa-pulse"></i></span>
-                                                </button>
-                                                <i class="fa fa-check text-success pull-right fa-2x"
-                                                   ng-if="descriptionUpdated"></i>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--
-                     END Associate Panel Block
-                -->
             </div>
         </div>
     </div>
