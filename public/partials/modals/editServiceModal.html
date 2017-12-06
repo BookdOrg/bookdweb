@@ -53,9 +53,13 @@
             </div>
             <div class="row col-xs-offset-1">
                 <div class="form-group col-md-10">
-                    <label for="serviceDescription">Description:</label>
+                    <label for="editServiceDescription">Description: <span
+                            ng-class="{'text-success':textLength > 20,'text-danger':textLength <= 20}"
+                            uib-tooltip="Characters remaining..">{{textLength}}</span></label>
                     <textarea class="form-control" id="editServiceDescription" name="serviceDescription"
-                              ng-model="editService.description" required></textarea>
+                              ng-model="editService.description" ng-maxlength="140" maxlength="140"
+                              ng-change="updateCharCount(editService.description)"
+                              ng-required="true" required></textarea>
                 </div>
             </div>
         </div>

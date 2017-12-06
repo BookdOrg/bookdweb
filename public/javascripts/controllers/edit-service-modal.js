@@ -4,6 +4,7 @@
 module.exports = function ($scope, $uibModalInstance, businessFactory, service, business, serviceIndex, $timeout) {
 
     $scope.editService = service;
+    $scope.textLength = 140 - service.description.length;
     $scope.business = business;
 
     $scope.serviceEmployees = [];
@@ -15,8 +16,6 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
     /**
      *
      * Create the serviceEmployees array we're going to use as the model for the multi-select
-     *
-     * What's going on with the condition on line 23? lol
      *
      */
     for (var employeeIndex = 0; employeeIndex < business.employees.length; employeeIndex++) {
@@ -55,7 +54,7 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
         service.duration = minutes + service.minutes;
         //Set the services array of employees equal to the ones selected in the multi-select. Array of _id;s
         service.employees = _.map($scope.serviceEmployees, '_id');
-        if (service.employees.length == 0) {
+        if (service.employees.length === 0) {
             $scope.showServiceError = true;
             $timeout(function () {
                 $scope.showServiceError = false;
@@ -67,6 +66,10 @@ module.exports = function ($scope, $uibModalInstance, businessFactory, service, 
                 business.services[serviceIndex] = data;
                 $uibModalInstance.close();
             });
+    };
+
+    $scope.updateCharCount = function (text) {
+        $scope.textLength = 140 - text.length;
     };
 
     $scope.cancel = function () {
