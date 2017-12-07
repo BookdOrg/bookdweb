@@ -18,12 +18,12 @@ var environments = {
     staging: {
         ENV_VARS: shared,
         remoteHost: "bookd.me",
-        remotePort: null
+        remotePort: "8113"
     },
     production: {
         ENV_VARS: shared,
         remoteHost: "bookd.me",
-        remotePort: null
+        remotePort: "8113"
     }
 };
 module.exports = environments;
