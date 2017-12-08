@@ -9,12 +9,12 @@
 <div class="container-fluid">
     <div class="row" style="margin-top:20px; margin-bottom:20px; margin-left:10px; margin-right:10px;">
         <div class="col-xs-12 col-sm-12 col-md-3 text-center">
-            <img ng-if="!business.photos" ng-src="{{business.icon}}"
+            <img ng-if="!business.photos.length" ng-src="{{business.icon}}"
                  uib-tooltip="Photos coming soon..."
                  tooltip-placement="right" style="border-radius:5%"></image>
-            <span ng-if="business.photos.length >1">
-                            <img class="provider-photo-radius"
-                                 ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=300&maxwidth=300&minheight=300&maxheight=300&photoreference={{business.photos[0].photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+            <span ng-if="business.photos.length > 1">
+                            <img class="thumbnail center-block" style="height:175px; width:175px;"
+                                 ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=175&maxwidth=175&minheight=175&maxheight=175&photoreference={{business.photos[0].photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                         </span>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 text-center">

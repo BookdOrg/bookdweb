@@ -55,8 +55,9 @@
                                 <div class="media-left media-middle">
                                     <span ng-if="business.photos.length > 1"
                                           ng-repeat="photo in business.photos | limitTo: 1">
-                                        <img class="media-object thumbnail" ng-if="photo.photo_reference"
-                                             ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=150&maxwidth=150&minheight=150&maxheight=150&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
+                                        <img class="media-object thumbnail" style="height:81px; width:81px;"
+                                             ng-if="photo.photo_reference"
+                                             ng-src="https://maps.googleapis.com/maps/api/place/photo?minwidth=100&maxwidth=100&minheight=100&maxheight=100&photoreference={{photo.photo_reference}}&key=AIzaSyAK1BOzJxHB8pOFmPFufYdcVdAuLr_6z2U">
                                         <img class="media-object thumbnail" ng-if="!photo.photo_reference"
                                              ng-src="{{business.icon}}">
                                     </span>
