@@ -364,7 +364,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-8" style="height:100%;margin-top:40px;">
+                    <div class="col-xs-12 col-sm-8" style="height:100%;margin-top:40px;"
+                         ng-show="activeBusiness.business.customers.length == 0">
+                        <div class="row text-center">
+                            <h3>Please add customers to use this dashboard.</h3>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8" style="height:100%;margin-top:40px;"
+                         ng-show="activeBusiness.business.customers.length > 0">
                         <div class="row text-center">
                             <div class="col-xs-12">
                                 <img class="fitContainer provider-photo-radius"
