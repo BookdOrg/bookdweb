@@ -11,3 +11,4 @@ app.factory('utilService', require('./util-service'));
 app.factory('userFactory', require('./user-factory'));
 app.factory('notificationFactory', require('./notification-factory'));
 app.factory('appointmentsFactory', require('./appointment-factory'));
+app.factory('facebookService', require('./fb-factory'));

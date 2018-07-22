@@ -24,7 +24,6 @@ require('ngmap');
 require('angular-ui-bootstrap');
 require('angular-ui-validate');
 require('fullcalendar');
-require('oauthio-web');
 require('angular-socket-io');
 require('angular-loading-bar');
 require('angularjs-dropdown-multiselect');
@@ -351,9 +350,15 @@ app.config([
             });
         $urlRouterProvider.otherwise('/');
     }]).run(function ($rootScope, auth, $templateCache, remoteHost, $geolocation, $http, $state, location, businessFactory,
-                      $controller, $uibModal, notificationFactory, socketService, $location, $anchorScroll, ENV_VARS) {
-    OAuth.initialize(ENV_VARS.oAuthKey);
-    $rootScope.currentUser = auth.currentUser();
+                      $controller, $uibModal, notificationFactory, socketService, $location, $anchorScroll, facebookService, ENV_VARS) {
+	FB.init({
+		appId: '1652611575018107',
+		status: true,
+		cookie: true,
+		xfbml: true,
+		version: 'v3.0'
+	});
+	$rootScope.currentUser = auth.currentUser();
     $rootScope.facebookApi = ENV_VARS.facebookApi;
     $rootScope.cloudinaryBaseUrl = ENV_VARS.CLOUDINARY_BASE;
     $rootScope.cloudinaryDefaultPic = ENV_VARS.CLOUDINARY_Default;

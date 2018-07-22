@@ -17,6 +17,7 @@ var browserify = require('browserify'),
     path = require('path'),
     fs = require('fs'),
     config = require('./config.js'),
+	errorify = require('errorify'),
     watchify = require('watchify');
 
 // Define file path variables
@@ -54,16 +55,19 @@ gulp.task('browserifyProd', function () {
     });
 });
 
-var bundlerOnce = browserify({
+let bundlerOnce = browserify({
     entries: paths.src + 'app.js', // Only need initial file, browserify finds the deps
     debug: true // Gives us sourcemapping
 });
-
+bundlerOnce.plugin(errorify);
 gulp.task('browserifyProdOnce', function (done) {
     bundleProdOnce()
         .on('time', function (time) {
             gutil.log('BrowserifyProdOnce', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
-        });
+        })
+	    .on('error', function (err) {
+		    gutil.log(gutil.colors.red('[Error]'), err.toString());
+	    });
     done();
 });
 
@@ -139,8 +143,12 @@ function bundleProdOnce() {
         // .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
         .pipe(ngAnnotate())
-        .pipe(uglify({mangle: false}))
-        .pipe(sourcemaps.write('./'))
+	    .pipe(uglify({mangle: false})
+		    .on('error', function (err) {
+			    gutil.log(gutil.colors.red('[Error]'), err.toString());
+			    this.emit('end');
+		    }))
+	    // .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dist));
 }
 
