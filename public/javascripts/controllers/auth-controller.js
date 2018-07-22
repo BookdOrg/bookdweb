@@ -19,7 +19,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     if (context === "businessRegister") {
         $scope.contextMessage = true;
     }
-	let onlineData = {
+	var onlineData = {
         user: '',
         location: {}
     };
@@ -31,11 +31,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     $scope.facebookLogin = function () {
 	    facebookService.checkFaceBookLoginStatus()
 		    .then(function (response) {
-				    if (response.authResponse)
-					    let user = {
-						    username: response.email,
-						    provider: 'facebook'
-					    };
+				    var user = {
+					    'username': response.email,
+					    'provider': 'facebook'
+				    };
 				    auth.logIn(user, response.picture.data.url)
 					    .then(function () {
 						    onlineData.user = $rootScope.currentUser._id;
@@ -54,10 +53,10 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
     $scope.facebookSignup = function () {
 	    facebookService.checkFaceBookLoginStatus()
 		    .then(function (response) {
-				    let firstLast = response.name.split(' ', 2);
-				    let firstName = firstLast[0];
-				    let lastName = firstLast[1];
-				    let user = {
+				    var firstLast = response.name.split(' ', 2);
+				    var firstName = firstLast[0];
+				    var lastName = firstLast[1];
+				    var user = {
 					    'username': response.email,
 					    'name': response.name,
 					    'firstName': firstName,
@@ -85,7 +84,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
      * Register via Bookd
      */
     $scope.register = function () {
-	    let user = {
+	    var user = {
             'username': $scope.user.email,
             'name': $scope.user.firstName + ' ' + $scope.user.lastName,
             'firstName': $scope.user.firstName,
@@ -108,7 +107,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
      * Login via Bookd
      */
     $scope.logIn = function () {
-	    let user = {
+	    var user = {
             'username': $scope.user.email,
             'password': $scope.user.password,
             'provider': 'bookd'
@@ -129,7 +128,7 @@ module.exports = function ($scope, $state, auth, $uibModalInstance, modalType, s
         $uibModalInstance.dismiss('close');
     };
 
-	let getNotifications = function () {
+	var getNotifications = function () {
         notificationFactory.getNotifications().then(
             function (data) {
                 $rootScope.currentUser.notifications = data;

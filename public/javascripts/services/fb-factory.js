@@ -1,7 +1,7 @@
 module.exports = function ($q) {
 	var fbFactory = {
 		login: function () {
-			let deferred = $q.defer();
+			var deferred = $q.defer();
 			FB.login(function (response) {
 				if (response.authResponse) {
 					FB.api('/me?', {
@@ -23,7 +23,7 @@ module.exports = function ($q) {
 			});
 		},
 		checkFaceBookLoginStatus: function () {
-			let deferred = $q.defer();
+			var deferred = $q.defer();
 			var _self = this;
 			FB.getLoginStatus(function (response) {
 				if (response.status === 'connected') {
@@ -35,7 +35,7 @@ module.exports = function ($q) {
 
 					// var uid = response.authResponse.userID;
 					// var accessToken = response.authResponse.accessToken;
-					let user = _self.getMe();
+					var user = _self.getMe();
 					deferred.resolve(user);
 				} else if (response.status === 'authorization_expired') {
 					// The user has signed into your application with
@@ -45,28 +45,28 @@ module.exports = function ($q) {
 					// to avoid duplicate account creation, but you should
 					// collect a user gesture (e.g. click/touch) to launch the
 					// login dialog so popup blocking is not triggered.
-					let error = "Whoops, you've previously logged in with Facebook but we need to re-authorize! Please click the Login with Facebook button!";
+					var error = "Whoops, you've previously logged in with Facebook but we need to re-authorize! Please click the Login with Facebook button!";
 					deferred.reject(error);
 				} else if (response.status === 'not_authorized') {
 					// The user hasn't authorized your application.  They
 					// must click the Login button, or you must call FB.login
 					// in response to a user gesture, to launch a login dialog.
-					let user = _self.login();
+					var user = _self.login();
 					deferred.resolve(user);
 				} else {
 					// The user isn't logged in to Facebook. You can launch a
 					// login dialog with a user gesture, but the user may have
 					// to log in to Facebook before authorizing your application.
-					// let error = "You're not signed in to Facebook! Please click the Login with Facebook button!";
+					// var error = "You're not signed in to Facebook! Please click the Login with Facebook button!";
 					// deferred.reject(error);
-					let user = _self.login();
+					var user = _self.login();
 					deferred.resolve(user);
 				}
 			});
 			return deferred.promise;
 		},
 		getMe: function () {
-			let deferred = $q.defer();
+			var deferred = $q.defer();
 			FB.api('/me', {
 				fields: 'id,name,picture.type(large),email'
 			}, function (response) {
