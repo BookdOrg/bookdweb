@@ -62,8 +62,9 @@ app.config([
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
+	'$qProvider',
     'NotificationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider) {
+	function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider, $qProvider) {
         NotificationProvider.setOptions({
             delay: 5000,
             startTop: 200,
@@ -73,6 +74,7 @@ app.config([
             positionX: 'center',
             positionY: 'top'
         });
+		$qProvider.errorOnUnhandledRejections(false);
         $locationProvider.html5Mode(true);
         $stateProvider
             .state('nav', {
