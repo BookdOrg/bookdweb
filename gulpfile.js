@@ -4,7 +4,7 @@
 var ENV = process.env.NODE_ENV || 'development';
 var browserify = require('browserify'),
     buffer = require('vinyl-buffer'),
-    concat = require('gulp-concat'),
+    concatCss = require('gulp-concat-css'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     cleanCSS = require('gulp-clean-css'),
@@ -29,7 +29,20 @@ var paths = {
     test: 'testSpecs/',                 // Test path
     css: 'public/stylesheets/**/*',         // Stylesheets path
     cssIgnore: '!public/stylesheets/**/*.min.css', //Stylesheets to ignore
-    cssDist: 'public/stylesheets/dist'  // Stylesheets dist path
+	cssNav: 'public/stylesheets/nav/bookdnavbar.css',
+	landingNav: 'public/stylesheets/nav/landingNav.css',
+	agencyCss: 'public/stylesheets/nav/agency.css',
+    cssDist: 'public/stylesheets/dist/',  // Stylesheets dist path
+    fullCal:'node_modules/fullcalendar/dist/fullcalendar.css',
+    fullCalPrint: 'node_modules/fullcalendar/dist/fullcalendar.print.css',
+    fontAwesome:'node_modules/font-awesome/css/font-awesome.css',
+    bootStrap:'node_modules/bootstrap/dist/css/bootstrap.css',
+    angularUI:'node_modules/angular-ui-notification/dist/angular-ui-notification.css',
+    angularPlaces:'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.css',
+	angularUICal:'node_modules/angular-ui-calendar/src/calendar.js',
+	googlePlaces:'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.js',
+	geolocation: 'bower_components/ngGeolocation/ngGeolocation.js'
+
 };
 
 var bundler = watchify(browserify({
@@ -53,6 +66,7 @@ gulp.task('browserifyProd', function () {
     bundler.on('time', function (time) {
         gutil.log('BrowserifyProd', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
     });
+    minifyCssProd();
 });
 
 let bundlerOnce = browserify({
@@ -68,7 +82,6 @@ gulp.task('browserifyProdOnce', function (done) {
 	    .on('error', function (err) {
 		    gutil.log(gutil.colors.red('[Error]'), err.toString());
 	    });
-    done();
 });
 
 gulp.task('ng-config', function () {
@@ -77,30 +90,78 @@ gulp.task('ng-config', function () {
 
 //TODO Get this working. Rules seem to cascade incorrectly when concat and minified.
 gulp.task('minify-css', function () {
-    minifyCss();
-    bundler.on('update', minifyCss());
-    bundler.on('time', function (time) {
-        gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
-    });
+    minifyCss()
+        .on('time', function (time) {
+            gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
+        });
+    minifyNavCss()
+	    .on('update', function(time){
+		    gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
+	    });
 });
-gulp.task('minify-cssOnce', function () {
-    minifyCss();
+gulp.task('minify-css-prod', function () {
+	minifyCssProd()
+		.on('time', function (time) {
+			gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
+		});
+	minifyNavCssProd()
+		.on('update', function(time){
+			gutil.log('Minify-CSS', 'minifying', gutil.colors.cyan(time + ' ms'));
+		});
 });
 
 function minifyCss() {
-    return gulp.src([paths.css, paths.cssIgnore, '!public/stylesheets/dist/**/*'])
+    return gulp.src([paths.bootStrap, paths.agencyCss, paths.css, paths.fontAwesome, paths.fullCal, paths.angularUI, paths.angularPlaces])
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(cleanCSS({debug: true, rebase: true}, function (details) {
-            // console.log(details.name + ': ' + details.stats.originalSize);
-            // console.log(details.name + ': ' + details.stats.minifiedSize);
-            // console.log(details.name + ': ' + details.stats.efficiency);
-            // console.log(details.name + ': ' + details.warnings);
+	    .pipe(concatCss('bundle.css', {newLine: ""}))
+        .pipe(cleanCSS({debug: false, rebase: true}, function (details) {
+            console.log(details.name + ': ' + details.stats.originalSize);
+            console.log(details.name + ': ' + details.stats.minifiedSize);
+            console.log(details.name + ': ' + details.stats.efficiency);
+            console.log(details.name + ': ' + details.warnings);
 
         }))
-        .pipe(sourcemaps.write(paths.cssDist))
-        .pipe(gulp.dest('./public/stylesheets/dist/'));
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.cssDist));
 }
+function minifyNavCss(){
+	return gulp.src([paths.agencyCss,paths.landingNav, paths.cssNav])
+		.pipe(sourcemaps.init({loadMaps:false}))
+		.pipe(cleanCSS({debug: true, rebase: true}, function(details){
+			console.log(details.name + ': ' + details.stats.originalSize);
+			console.log(details.name + ': ' + details.stats.minifiedSize);
+			console.log(details.name + ': ' + details.stats.efficiency);
+			console.log(details.name + ': ' + details.warnings);
+		}))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest(paths.cssDist));
+}
+function minifyCssProd() {
+	return gulp.src([paths.bootStrap, paths.agencyCss, paths.css, paths.fontAwesome, paths.fullCal, paths.angularUI, paths.angularPlaces])
+		.pipe(sourcemaps.init({loadMaps: true}))
+		.pipe(concatCss('bundle.css', {newLine: ""}))
+		.pipe(cleanCSS({debug: false, rebase: true}, function (details) {
+			console.log(details.name + ': ' + details.stats.originalSize);
+			console.log(details.name + ': ' + details.stats.minifiedSize);
+			console.log(details.name + ': ' + details.stats.efficiency);
+			console.log(details.name + ': ' + details.warnings);
 
+		}))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest(paths.cssDist));
+}
+function minifyNavCssProd(){
+	return gulp.src([paths.agencyCss,paths.landingNav, paths.cssNav])
+		.pipe(sourcemaps.init({loadMaps:false}))
+		.pipe(cleanCSS({debug: true, rebase: true}, function(details){
+			console.log(details.name + ': ' + details.stats.originalSize);
+			console.log(details.name + ': ' + details.stats.minifiedSize);
+			console.log(details.name + ': ' + details.stats.efficiency);
+			console.log(details.name + ': ' + details.warnings);
+		}))
+		// .pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest(paths.cssDist));
+}
 function configure() {
     fs.writeFileSync('./config.json',
         JSON.stringify(config[ENV]));
@@ -114,7 +175,6 @@ function configure() {
 }
 
 function bundle() {
-    minifyCss();
     return bundler.bundle()
         .pipe(plumber({errorHandler: errorHandler}))
         .pipe(source('app.js'))
@@ -158,6 +218,6 @@ function errorHandler(err) {
 
 gulp.task('default', [], function () {
     gulp.start('ng-config');
-    // gulp.start('minify-css');
+    gulp.start('minify-css');
     gulp.start('browserify');
 });

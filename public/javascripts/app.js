@@ -22,6 +22,7 @@ require('angular-ui-router');
 require('bootstrap');
 require('ngmap');
 require('angular-ui-bootstrap');
+require('angular-ui-calendar');
 require('angular-ui-validate');
 require('fullcalendar');
 require('angular-socket-io');

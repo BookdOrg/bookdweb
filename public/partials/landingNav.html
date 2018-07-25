@@ -1,6 +1,6 @@
 <!-- Custom CSS -->
-<link ng-href="/stylesheets/nav/agency.css" rel="stylesheet">
-<link ng-href="/stylesheets/nav/landingNav.css" rel="stylesheet">
+<link ng-href="/stylesheets/dist/agency.css" rel="stylesheet">
+<link ng-href="/stylesheets/dist/landingNav.css" rel="stylesheet">
 <span id="top"></span>
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -111,13 +111,13 @@
                                 <i class="fa fa-thumb-tack"></i> Appointments
                             </a>
                         </li>
-                        <li>
-                            <a ng-if="isLoggedIn() && currentUser.isAssociate"
-                               ng-click="navbarCollapsed = !navbarCollapsed;"
-                               ui-sref="user({id:currentUser._id})">
-                                <i class="fa fa-user"></i> Profile
-                            </a>
-                        </li>
+                        <!--<li>-->
+                            <!--<a ng-if="isLoggedIn() && currentUser.isAssociate"-->
+                               <!--ng-click="navbarCollapsed = !navbarCollapsed;"-->
+                               <!--ui-sref="user({id:currentUser._id})">-->
+                                <!--<i class="fa fa-user"></i> Profile-->
+                            <!--</a>-->
+                        <!--</li>-->
                         <li>
                             <a ng-if="currentUser.businessOwner" ui-sref="dashboard">
                                 <i class="fa fa-tachometer"></i> Manage
@@ -147,12 +147,12 @@
                         <i class="fa fa-thumb-tack"></i> Appointments
                     </a>
                 </li>
-                <li ng-if="isLoggedIn() && currentUser.isAssociate" class="hidden-sm hidden-md hidden-lg">
-                    <a ng-click="navbarCollapsed = !navbarCollapsed;"
-                       ui-sref="user({id:currentUser._id})">
-                        <i class="fa fa-user"></i> Profile
-                    </a>
-                </li>
+                <!--<li ng-if="isLoggedIn() && currentUser.isAssociate" class="hidden-sm hidden-md hidden-lg">-->
+                    <!--<a ng-click="navbarCollapsed = !navbarCollapsed;"-->
+                       <!--ui-sref="user({id:currentUser._id})">-->
+                        <!--<i class="fa fa-user"></i> Profile-->
+                    <!--</a>-->
+                <!--</li>-->
                 <li ng-if="currentUser.businessOwner" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="navbarCollapsed = !navbarCollapsed;" ui-sref="dashboard">
                         <i class="fa fa-tachometer"></i> Manage
