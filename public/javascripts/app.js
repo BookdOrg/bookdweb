@@ -64,7 +64,7 @@ app.config([
     '$locationProvider',
 	'$qProvider',
     'NotificationProvider',
-	function ($stateProvider, $urlRouterProvider, $locationProvider, NotificationProvider, $qProvider) {
+	function ($stateProvider, $urlRouterProvider, $locationProvider, $qProvider, NotificationProvider) {
         NotificationProvider.setOptions({
             delay: 5000,
             startTop: 200,
