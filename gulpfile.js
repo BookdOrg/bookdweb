@@ -14,6 +14,7 @@ var browserify = require('browserify'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
     ngConfig = require('gulp-ng-config'),
+	imagemin = require('gulp-imagemin'),
     path = require('path'),
     fs = require('fs'),
     config = require('./config.js'),
@@ -66,7 +67,7 @@ gulp.task('browserifyProd', function () {
     bundler.on('time', function (time) {
         gutil.log('BrowserifyProd', 'rebundling took ', gutil.colors.cyan(time + ' ms'));
     });
-    minifyCssProd();
+	minImages();
 });
 
 let bundlerOnce = browserify({
@@ -82,6 +83,7 @@ gulp.task('browserifyProdOnce', function (done) {
 	    .on('error', function (err) {
 		    gutil.log(gutil.colors.red('[Error]'), err.toString());
 	    });
+	minImages();
 });
 
 gulp.task('ng-config', function () {
@@ -212,6 +214,22 @@ function bundleProdOnce() {
         .pipe(gulp.dest(paths.dist));
 }
 
+function minImages() {
+	return gulp.src('public/images/**/*')
+		.pipe(imagemin([
+			imagemin.optipng({
+				optimizationLevel: 5,
+				interlaced: true,
+				progressive: true
+			}),
+			imagemin.jpegtran({
+				optimizationLevel: 5,
+				interlaced: true,
+				progressive: true
+			}),
+		], {verbose: true}))
+		.pipe(gulp.dest('public/images/dist/'))
+}
 function errorHandler(err) {
     gutil.log(gutil.colors.red('Error: ' + err.message));
 }
