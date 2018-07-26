@@ -1,6 +1,6 @@
 # README #
 
-[![Build Status](https://circleci.com/gh/BookdOrg/bookdweb/tree/development.png)](https://circleci.com/gh/BookdOrg/bookdweb/tree/development)
+[![Build Status](https://circleci.com/gh/BookdOrg/bookdweb/tree/development.png)](https://circleci.com/gh/BookdOrg/bookdweb/tree/development.png)
 
 ##Hip Chat##
 * https://bookd.hipchat.com/chat
