@@ -1,7 +1,7 @@
 # README #
 
 ##Build Status##
-https://circleci.com/gh/:inafis/:repo.png?circle-token=:circle-token
+[![CircleCI](https://circleci.com/gh/BookdOrg/bookdweb/tree/development.svg?style=svg)](https://circleci.com/gh/BookdOrg/bookdweb/tree/development)
 
 ##Hip Chat##
 * https://bookd.hipchat.com/chat
