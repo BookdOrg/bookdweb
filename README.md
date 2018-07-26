@@ -1,6 +1,7 @@
 # README #
 
 ##Build Status##
+
 [![CircleCI](https://circleci.com/gh/BookdOrg/bookdweb/tree/development.svg?style=svg)](https://circleci.com/gh/BookdOrg/bookdweb/tree/development)
 
 ##Hip Chat##
