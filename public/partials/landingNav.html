@@ -131,7 +131,7 @@
                         <hr>
                         <li>
                             <a ng-click="logOut()">
-                                <i class="fa fa-sign-out"></i> Log Out
+                                <i class="fas fa-sign-out-alt"></i> Log Out
                             </a>
                         </li>
                     </ul>
@@ -167,7 +167,7 @@
                 <li ng-if="!isLoggedIn()">
                     <a ng-click="checkStateandLogin('login')" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
                             ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact' || $resolve.$$state.self.name == 'reset'}"><i
-                            class="fa fa-sign-in"></i>Log In</a>
+                            class="fas fa-sign-in-alt"></i>Log In</a>
                 </li>
                 <li ng-if="!isLoggedIn()">
                     <a ng-click="checkStateandLogin('signup')" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
@@ -176,7 +176,7 @@
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="logOut()">
-                        <i class="fa fa-sign-out" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
+                        <i class="fas fa-sign-out-alt" ng-class="{'text-black': $resolve.$$state.self.name == 'partner' ||  $resolve.$$state.self.name == 'privacy'
                             ||  $resolve.$$state.self.name == 'terms' ||  $resolve.$$state.self.name == 'contact' || $resolve.$$state.self.name == 'reset'}"></i>
                         Log Out
                     </a>

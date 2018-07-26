@@ -68,7 +68,7 @@
                 <hr>
                 <li class="hidden-sm hidden-md hidden-lg" ng-if="!isLoggedIn()">
                     <a ng-click="checkStateandLogin('login')">
-                        <i class="fa fa-sign-in"></i>Log In
+                        <i class="fas fa-sign-in-alt"></i>Log In
                     </a>
                 </li>
                 <li class="hidden-sm hidden-md hidden-lg" ng-if="!isLoggedIn()">
@@ -78,7 +78,7 @@
                 </li>
                 <li ng-if="isLoggedIn()" class="hidden-sm hidden-md hidden-lg">
                     <a ng-click="logOut();navbarCollapsed = !navbarCollapsed">
-                        <i class="fa fa-sign-out"></i> Log Out
+                        <i class="fas fa-sign-out-alt"></i> Log Out
                     </a>
                 </li>
             </ul>
@@ -213,14 +213,14 @@
                             <hr>
                             <li>
                                 <a ng-click="logOut()">
-                                    <i class="fa fa-sign-out"></i> Log Out
+                                    <i class="fas fa-sign-out-alt"></i> Log Out
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li ng-if="!isLoggedIn()">
                         <a ng-click="checkStateandLogin('login')">
-                            <i class="fa fa-sign-in"></i>Log In
+                            <i class="fas fa-sign-in-alt"></i>Log In
                         </a>
                     </li>
                     <li ng-if="!isLoggedIn()">
