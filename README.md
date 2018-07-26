@@ -1,7 +1,7 @@
 # README #
 
 ##Build Status##
-* To be determined
+https://circleci.com/gh/:inafis/:repo.png?circle-token=:circle-token
 
 ##Hip Chat##
 * https://bookd.hipchat.com/chat
