@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group left-inner-addon">
-                            <i ng-show="!loadingLocation" class="fa fa-map-marker"></i>
+                            <i ng-show="!loadingLocation" class="fas fa-map-marker-alt"></i>
                             <i ng-show="loadingLocation" class="fa fa-spinner fa-spin"></i>
                             <input class="form-control input-md" aria-describedby="near" g-places-autocomplete
                                    options="autocompleteOptions" ng-model="query.location" placeholder="Near.."
@@ -73,7 +73,7 @@
                                     <!--</div>-->
                                     <!--<span ng-if="!business.rating">This Business has not been rated yet.</span>-->
                                     <div>
-                                        <i class="fa fa-map-marker"></i> {{business.formatted_address}}
+                                        <i class="fas fa-map-marker-alt"></i> {{business.formatted_address}}
                                     </div>
                                 </div>
                             </div>
