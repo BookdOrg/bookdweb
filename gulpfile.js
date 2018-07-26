@@ -36,7 +36,7 @@ var paths = {
     cssDist: 'public/stylesheets/dist/',  // Stylesheets dist path
     fullCal:'node_modules/fullcalendar/dist/fullcalendar.css',
     fullCalPrint: 'node_modules/fullcalendar/dist/fullcalendar.print.css',
-    fontAwesome:'node_modules/font-awesome/css/font-awesome.css',
+	fontAwesome: 'node_modules/@fortawesome/fontawesome-free/css/all.css',
     bootStrap:'node_modules/bootstrap/dist/css/bootstrap.css',
     angularUI:'node_modules/angular-ui-notification/dist/angular-ui-notification.css',
     angularPlaces:'bower_components/angular-google-places-autocomplete/dist/autocomplete.min.css',

@@ -20,17 +20,18 @@
         <div class="col-xs-12 col-sm-12 col-md-6 text-center">
             <div class="row">
                 <h1 class='text-center' style="margin-top:5px;">{{business.name}}</h1>
-                <h4 class="text-center">
-                    <div uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"
-                         on-hover="hoveringOver(value)" on-leave="overStar = null"
-                         titles="['one','two','three']">
-                    </div>
-                </h4>
-                <h4 ng-if="!business.rating">{{business.name}} has not been rated yet.</h4>
+                <!--<h4 class="text-center">-->
+                <!--<div uib-rating class="text-warning" ng-model="business.rating" max="max" readonly="isReadonly"-->
+                <!--on-hover="hoveringOver(value)" on-leave="overStar = null"-->
+                <!--titles="['one','two','three']">-->
+                <!--</div>-->
+                <!--</h4>-->
+                <!--<h4 ng-if="!business.rating">{{business.name}} has not been rated yet.</h4>-->
             </div>
             <div class="row hidden-xs hidden-sm">
                 <div class="col-md-6 col-md-pull-0 text-right">
-                    <h5><a ng-href="{{business.url}}" target="_blank"><i class="fa fa-google-plus"></i> Google Plus Page</a>
+                    <h5><a ng-href="{{business.url}}" target="_blank"><i class="fab fa-google-plus-g"></i> Google Plus
+                        Page</a>
                     </h5>
                     <h5><a ng-href="{{business.website}}" target="_blank"> <i class="fa fa-globe"></i> Visit
                         {{business.name}}'s Website</a></h5>
@@ -81,7 +82,7 @@
     <uib-tabset justified="true">
         <uib-tab>
             <uib-tab-heading>
-                <i class="fa fa-calendar"></i> Services
+                <i class="fas fa-list-alt"></i> Services
             </uib-tab-heading>
             <div class="row services-associates-block">
                 <!--
@@ -186,7 +187,7 @@
      -->
         <uib-tab>
             <uib-tab-heading>
-                <i class="fa fa-commenting"></i> Reviews
+                <i class="fas fa-comment-dots"></i> Reviews
             </uib-tab-heading>
             <div class="row">
                 <div class="col-xs-12">

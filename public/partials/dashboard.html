@@ -46,7 +46,7 @@
                                     <uib-accordion-heading>
                                         Schedule Appointments
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusOne.open, 'glyphicon-chevron-right': !statusOne.open}"></i>
+                                           ng-class="{'fas fa-chevron-down': statusOne.open, 'fas fa-chevron-right': !statusOne.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 dashboard-panel-list cal-dashboard-panel-content">
                                         <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
@@ -85,7 +85,7 @@
                                     <uib-accordion-heading>
                                         Calendar Key
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusTwo.open, 'glyphicon-chevron-right': !statusTwo.open}"></i>
+                                           ng-class="{'fas fa-chevron-down': statusTwo.open, 'fas fa-chevron-right': !statusTwo.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 text-left">
                                         <li style="color:#3a87ad;">Active</li>
@@ -111,7 +111,7 @@
                                     <uib-accordion-heading>
                                         Business Info
                                         <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': statusThree.open, 'glyphicon-chevron-right': !statusThree.open}"></i>
+                                           ng-class="{'fas fa-chevron-down': statusThree.open, 'fas fa-chevron-right': !statusThree.open}"></i>
                                     </uib-accordion-heading>
                                     <div class="col-xs-12 text-center">
                                         <h4>{{activeBusiness.business.name}}</h4>
@@ -199,7 +199,7 @@
         -->
         <uib-tab select="switchTab('manage')">
             <uib-tab-heading>
-                <i class="fa fa-tachometer"></i> Manage
+                <i class="fas fa-chart-line"></i> Manage
             </uib-tab-heading>
             <!--
                #################################
@@ -216,7 +216,7 @@
                             <uib-accordion-heading>
                                 Associates
                                 <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusFour.open, 'glyphicon-chevron-right': !statusFour.open}"></i>
+                                   ng-class="{'fas fa-chevron-down': statusFour.open, 'fas fa-chevron-right': !statusFour.open}"></i>
                             </uib-accordion-heading>
                             <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
                                 <div class="text-center" ng-if="activeBusiness.business.employees.length == 0">
@@ -261,7 +261,7 @@
                             <uib-accordion-heading>
                                 Services
                                 <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusFive.open, 'glyphicon-chevron-right': !statusFive.open}"></i>
+                                   ng-class="{'fas fa-chevron-down': statusFive.open, 'fas fa-chevron-right': !statusFive.open}"></i>
                             </uib-accordion-heading>
                             <div class="col-xs-12 dashboard-panel-list dashboard-panel-content">
                                 <div class="text-center" ng-if="activeBusiness.business.services.length == 0">
@@ -507,7 +507,7 @@
                             <uib-accordion-heading>
                                 Account
                                 <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-chevron-down': statusSix.open, 'glyphicon-chevron-right': !statusSix.open}"></i>
+                                   ng-class="{'fas fa-chevron-down': statusSix.open, 'fas fa-chevron-right': !statusSix.open}"></i>
                             </uib-accordion-heading>
                             <div class="row text-center">
                                 <h2 ng-if="activeBusiness.business.stripeAccount.bank_accounts.total_count === 0">Start
