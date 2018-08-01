@@ -13,7 +13,7 @@ module.exports = function ($scope, $controller) {
 
     $scope.slides = [
         {
-            image: '/images/masc.jpg',
+	        image: '/images/dist/masc.jpg',
             id: 0,
             style: 'center center'
         }

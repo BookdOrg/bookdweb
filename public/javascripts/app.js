@@ -96,7 +96,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/landing.html',
                         controller: 'NavCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('search', {
@@ -110,7 +113,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/search.html',
                         controller: 'SearchCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('business', {
@@ -123,7 +129,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/business.html',
                         controller: 'businessCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 resolve: {
                     business: ['$stateParams', 'businessFactory', function ($stateParams, businessFactory) {
@@ -146,7 +155,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/profile.html',
                         controller: 'ProfileCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 resolve: {
                     isAuthenticated: function ($state, $q, auth) {
@@ -197,7 +209,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/partner.html',
                         controller: 'NavCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('dashboard', {
@@ -210,7 +225,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/dashboard.html',
                         controller: 'dashboardCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 resolve: {
                     businesses: ['businessFactory', function (businessFactory) {
@@ -237,7 +255,10 @@ app.config([
                     },
                     'content': {
                         templateUrl: '/partials/favorites.html'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('calendar', {
@@ -250,7 +271,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/calendar.html',
                         controller: 'calendarCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 resolve: {
                     isAuthenticated: function ($state, $q, auth) {
@@ -275,7 +299,10 @@ app.config([
                     'content': {
                         templateUrl: '/partials/join.html',
                         controller: 'joinCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('terms', {
@@ -287,7 +314,10 @@ app.config([
                     },
                     'content': {
                         templateUrl: 'partials/terms.html'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.gotoTop('top-legal');
@@ -302,7 +332,10 @@ app.config([
                     },
                     'content': {
                         templateUrl: 'partials/privacy.html'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 },
                 onEnter: function ($rootScope) {
                     $rootScope.gotoTop('top-legal');
@@ -322,7 +355,11 @@ app.config([
                     'content': {
                         templateUrl: 'partials/contact.html',
                         controller: 'NavCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
+
                 }
             })
             .state('reset', {
@@ -335,7 +372,10 @@ app.config([
                     'content': {
                         templateUrl: 'partials/reset.html',
                         controller: 'resetCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             })
             .state('new', {
@@ -348,7 +388,10 @@ app.config([
                     'content': {
                         templateUrl: 'partials/newPassword.html',
                         controller: 'newPasswordCtrl'
-                    }
+                    },
+	                'footer': {
+		                templateUrl: '/partials/footer.html'
+	                }
                 }
             });
         $urlRouterProvider.otherwise('/');

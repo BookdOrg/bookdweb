@@ -112,6 +112,13 @@ gulp.task('minify-css-prod', function () {
 		});
 });
 
+gulp.task('minify-images', function () {
+	minImages()
+		.on('update', function (time) {
+			gutil.log('Minify-Images', 'minifying', gutil.colors.cyan(time + ' ms'));
+		});
+});
+
 function minifyCss() {
     return gulp.src([paths.bootStrap, paths.agencyCss, paths.css, paths.fontAwesome, paths.fullCal, paths.angularUI, paths.angularPlaces])
         .pipe(sourcemaps.init({loadMaps: true}))
@@ -215,7 +222,7 @@ function bundleProdOnce() {
 }
 
 function minImages() {
-	return gulp.src('public/images/**/*')
+	return gulp.src('./public/images/*')
 		.pipe(imagemin([
 			imagemin.optipng({
 				optimizationLevel: 5,
@@ -228,7 +235,7 @@ function minImages() {
 				progressive: true
 			}),
 		], {verbose: true}))
-		.pipe(gulp.dest('public/images/dist/'))
+		.pipe(gulp.dest('./public/images/dist/'))
 }
 function errorHandler(err) {
     gutil.log(gutil.colors.red('Error: ' + err.message));

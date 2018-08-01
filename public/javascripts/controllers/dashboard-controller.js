@@ -662,11 +662,11 @@ module.exports = function ($scope, $state, auth, userFactory, businessFactory, u
          */
         modalInstance.result.then(function (date) {
             if (date && date.appointment !== 'canceled') {
-                if (date.appointment.status == 'paid') {
+	            if (date.appointment.status === 'paid') {
                     date.backgroundColor = '#2a4';
                     date.borderColor = '#2a4';
                 }
-                if (date.appointment.status == 'pending') {
+	            if (date.appointment.status === 'pending') {
                     date.backgroundColor = '#f00';
                     date.borderColor = '#f00';
                 }

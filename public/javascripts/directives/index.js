@@ -4,3 +4,4 @@
 var app = require('angular').module('cc');
 
 app.directive('thumb-directive', require('./thumb-directive'));
+app.directive('bookd-footer', require('./footer'));
