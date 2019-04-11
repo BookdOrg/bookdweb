@@ -27,11 +27,11 @@ export NODE_ENV=development
 
 export devhost=localhost
 
-export devcloudinarySecret=oPwyFfDS9Zhprx3NibKbFoFanjw
+export devcloudinarySecret=Ask
 
 export devlocalPort=3002
 
-export GOOGLE_PLACES_API_KEY=AIzaSyB-hJk0rUSYf1V_Yf_XXxdOJPpeTiodFTo
+export GOOGLE_PLACES_API_KEY=Ask
 
 export GOOGLE_PLACES_OUTPUT_FORMAT=json
 
